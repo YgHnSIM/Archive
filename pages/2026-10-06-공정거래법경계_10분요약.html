@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>10분 요약: 노무제공자의 노동조합 활동과 공정거래법의 경계</title>
+<meta name="description" content="이태현 「노무제공자의 노동조합 활동에 대한 공정거래법 적용의 경계」(『노동법학』 제98호, 2026. 6.)를 다룬 심화 분석 글의 10분 요약과 다섯 가지 기준 셀프 체크.">
+<style>
+:root{
+  --bg:#f6f7f9; --card:#ffffff; --ink:#1d232b; --muted:#5a6573; --line:#e2e6eb;
+  --accent:#1f5fbf; --accent-soft:#e8f0fc;
+  --protect:#17699a; --protect-soft:#e3f2fa;
+  --apply:#b4530a; --apply-soft:#fdf0e3;
+  --vague:#5b5f97; --vague-soft:#eeeefa;
+  --radius:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR","Segoe UI",Roboto,sans-serif;
+  font-size:16px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible,input:focus-visible+span{outline:3px solid #8db4f0;outline-offset:2px}
+.skip{position:absolute;left:-999px;top:0}
+.skip:focus{left:8px;top:8px;background:#fff;padding:6px 10px;z-index:10}
+.layout{max-width:1120px;margin:0 auto;padding:12px 14px 48px}
+@media(min-width:1024px){
+  .layout{display:grid;grid-template-columns:230px minmax(0,1fr);gap:28px;padding:24px 24px 64px}
+}
+/* TOC */
+.toc-desktop{display:none}
+@media(min-width:1024px){
+  .toc-desktop{display:block;position:sticky;top:20px;align-self:start;font-size:13.5px;line-height:1.5;
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px 14px 10px}
+  .toc-mobile{display:none}
+}
+.toc-desktop h2{font-size:12px;letter-spacing:.06em;color:var(--muted);margin:0 0 8px;font-weight:700}
+.toc-desktop ol,.toc-mobile ol{list-style:none;margin:0;padding:0}
+.toc-desktop li a{display:block;padding:5px 8px;border-radius:8px;color:var(--ink);text-decoration:none}
+.toc-desktop li a:hover{background:var(--accent-soft)}
+.toc-desktop li a.active{background:var(--accent-soft);color:var(--accent);font-weight:700}
+.toc-desktop .orig{display:block;margin-top:10px;padding-top:10px;border-top:1px solid var(--line);font-size:12.5px}
+.toc-mobile{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);margin:12px 0;font-size:15px}
+.toc-mobile summary{cursor:pointer;padding:10px 14px;font-weight:700;list-style:none}
+.toc-mobile summary::-webkit-details-marker{display:none}
+.toc-mobile summary::after{content:" ▾";color:var(--muted)}
+.toc-mobile ol{padding:0 14px 10px;counter-reset:t}
+.toc-mobile li a{display:block;padding:7px 0;border-top:1px solid var(--line);text-decoration:none;color:var(--ink)}
+/* hero */
+.hero{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px 18px}
+.kicker{display:inline-block;font-size:12.5px;font-weight:700;color:var(--accent);background:var(--accent-soft);padding:3px 10px;border-radius:999px}
+h1{font-size:1.5rem;line-height:1.35;margin:10px 0 8px;letter-spacing:-.01em}
+@media(min-width:600px){h1{font-size:1.9rem}}
+.paper{color:var(--muted);font-size:14.5px;margin:0 0 14px}
+.cta{display:flex;align-items:center;justify-content:center;gap:8px;text-align:center;
+  background:var(--accent);color:#fff;text-decoration:none;font-weight:700;padding:13px 16px;border-radius:12px;font-size:16px}
+.cta:hover{background:#174d9c}
+.cta small{font-weight:500;opacity:.9}
+.hero .meta{font-size:13px;color:var(--muted);margin-top:10px}
+/* sections */
+section.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px 18px;margin-top:16px;scroll-margin-top:12px}
+@media(min-width:600px){section.card,.hero{padding:26px 28px}}
+h2.sec{font-size:1.25rem;line-height:1.4;margin:0 0 4px}
+h2.sec .num{display:inline-block;min-width:1.7em;height:1.7em;line-height:1.7em;text-align:center;border-radius:50%;background:var(--ink);color:#fff;font-size:.8em;margin-right:6px;vertical-align:.08em}
+.src{display:inline-block;font-size:13px;margin:0 0 12px;text-decoration:none;border:1px solid var(--line);padding:3px 10px;border-radius:999px;color:var(--accent);background:#fbfcfe}
+.src:hover{border-color:var(--accent)}
+h3{font-size:1.05rem;margin:18px 0 6px}
+p{margin:8px 0}
+.muted{color:var(--muted)}
+.small{font-size:14px}
+.tag{display:inline-block;font-size:11.5px;font-weight:700;padding:1px 7px;border-radius:6px;background:#eef0f3;color:#4a5562;vertical-align:.1em;margin-left:2px;white-space:nowrap}
+blockquote{margin:12px 0;padding:10px 14px;border-left:4px solid var(--accent);background:var(--accent-soft);border-radius:0 10px 10px 0;font-size:15px}
+blockquote cite{display:block;font-style:normal;color:var(--muted);font-size:13px;margin-top:4px}
+/* thesis */
+.thesis{list-style:none;margin:6px 0 0;padding:0;counter-reset:th}
+.thesis li{counter-increment:th;position:relative;padding:12px 12px 12px 48px;border:1px solid var(--line);border-radius:12px;margin:10px 0;background:#fcfdfe}
+.thesis li::before{content:counter(th);position:absolute;left:12px;top:12px;width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;font-weight:700;text-align:center;line-height:26px;font-size:14px}
+.thesis strong{display:block}
+/* glossary */
+.gloss{display:grid;grid-template-columns:1fr;gap:8px;margin-top:10px}
+@media(min-width:700px){.gloss{grid-template-columns:1fr 1fr}}
+.gloss div{border:1px solid var(--line);border-radius:10px;padding:9px 12px;font-size:14.5px;line-height:1.6}
+.gloss b{display:block;font-size:14.5px}
+/* timeline */
+.tl{list-style:none;margin:10px 0 0;padding:0 0 0 18px;border-left:3px solid var(--line)}
+.tl li{position:relative;margin:0 0 16px;padding-left:10px}
+.tl li::before{content:"";position:absolute;left:-27px;top:6px;width:15px;height:15px;border-radius:50%;background:#fff;border:3px solid var(--accent)}
+.tl li.ctx::before{border-color:#a7b0bb}
+.tl .date{font-weight:800;font-size:14.5px;color:var(--accent)}
+.tl li.ctx .date{color:var(--muted)}
+.tl .case{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13.5px;background:#eef2f7;padding:1px 6px;border-radius:6px;white-space:nowrap}
+.tl .box{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-top:4px;background:#fcfdfe}
+.tl .box p{margin:4px 0;font-size:15px}
+.res{display:inline-block;font-size:12.5px;font-weight:700;border-radius:6px;padding:1px 7px;margin:2px 4px 2px 0}
+.res.ok{background:var(--apply-soft);color:var(--apply)}
+.res.cancel{background:var(--protect-soft);color:var(--protect)}
+.res.up{background:#f1f2f4;color:#4a5562}
+.note{font-size:14px;color:var(--muted);background:#f8f9fb;border:1px dashed #cfd5dc;border-radius:10px;padding:9px 12px;margin-top:10px}
+/* flow */
+.flow{display:grid;gap:8px;margin:10px 0 14px;padding:0;list-style:none;counter-reset:fl}
+.flow li{counter-increment:fl;border:1px solid var(--line);border-radius:10px;padding:9px 12px 9px 40px;position:relative;font-size:15px;line-height:1.6}
+.flow li::before{content:counter(fl);position:absolute;left:12px;top:9px;font-weight:800;color:var(--accent)}
+/* self-check */
+.disclaimer{border:2px solid #e6b45a;background:#fff8e8;border-radius:12px;padding:10px 14px;font-size:14.5px;margin:6px 0 14px}
+.disclaimer b{color:#8a5a00}
+fieldset.crit{border:1px solid var(--line);border-radius:12px;margin:0 0 12px;padding:12px 12px 8px;background:#fcfdfe}
+fieldset.crit legend{font-weight:800;padding:0 6px;font-size:16px}
+fieldset.crit legend .pg{font-weight:500;color:var(--muted);font-size:12.5px;margin-left:4px}
+.q{font-size:14.5px;margin:0 0 8px;color:#38424e}
+.opt{display:block;position:relative;margin:6px 0;cursor:pointer}
+.opt input{position:absolute;opacity:0;width:1px;height:1px}
+.opt span{display:block;border:1.5px solid var(--line);border-radius:10px;padding:9px 12px 9px 38px;font-size:14.5px;line-height:1.55;background:#fff;position:relative;transition:background .15s,border-color .15s}
+.opt span::before{content:"";position:absolute;left:12px;top:12px;width:16px;height:16px;border-radius:50%;border:2px solid #9aa4b0;background:#fff}
+.opt span em{font-style:normal;font-size:11.5px;font-weight:800;display:inline-block;padding:0 6px;border-radius:5px;margin-right:6px;vertical-align:.1em}
+.opt.p span em{background:var(--protect-soft);color:var(--protect)}
+.opt.a span em{background:var(--apply-soft);color:var(--apply)}
+.opt.u span em{background:var(--vague-soft);color:var(--vague)}
+.opt input:checked+span{border-color:currentColor}
+.opt.p input:checked+span{background:var(--protect-soft);border-color:var(--protect)}
+.opt.a input:checked+span{background:var(--apply-soft);border-color:var(--apply)}
+.opt.u input:checked+span{background:var(--vague-soft);border-color:var(--vague)}
+.opt input:checked+span::before{border-color:#fff;box-shadow:0 0 0 2px var(--ink);background:var(--ink)}
+.crit .hint{font-size:13px;color:var(--muted);margin:6px 2px 4px}
+.result{border-radius:14px;border:2px solid var(--line);background:#fff;padding:12px 14px;margin-top:10px}
+.mini{position:sticky;bottom:8px;z-index:3;display:flex;align-items:center;gap:10px;border-radius:12px;border:2px solid var(--line);background:#fff;padding:8px 12px;box-shadow:0 6px 20px rgba(20,30,50,.14);margin-top:6px;text-decoration:none;color:var(--ink)}
+.mini .mt{flex:1;min-width:0}
+.mini b{display:block;font-size:14.5px;line-height:1.35}
+.mini small{display:block;font-size:12px;color:var(--muted)}
+.mini .meter{margin:4px 0 0;height:7px}
+.mini .go{font-size:12.5px;color:var(--accent);white-space:nowrap}
+.mini.protect{border-color:var(--protect);background:var(--protect-soft)} .mini.protect b{color:var(--protect)}
+.mini.apply{border-color:var(--apply);background:var(--apply-soft)} .mini.apply b{color:var(--apply)}
+.mini.vague{border-color:var(--vague);background:var(--vague-soft)} .mini.vague b{color:var(--vague)}
+.result.protect{border-color:var(--protect);background:var(--protect-soft)}
+.result.apply{border-color:var(--apply);background:var(--apply-soft)}
+.result.vague{border-color:var(--vague);background:var(--vague-soft)}
+.result .lean{font-size:17px;font-weight:800;margin:0}
+.result.protect .lean{color:var(--protect)}
+.result.apply .lean{color:var(--apply)}
+.result.vague .lean{color:var(--vague)}
+.result .counts{font-size:13px;color:var(--muted);margin:2px 0 6px}
+.meter{display:flex;height:10px;border-radius:99px;overflow:hidden;background:#e9ecf0;margin:6px 0}
+.meter{display:flex}.meter i{display:block;height:100%;transition:width .2s}
+.meter .mp{background:var(--protect)} .meter .mu{background:#a9add6} .meter .ma{background:var(--apply)}
+.result .expl{font-size:14.5px;margin:6px 0 0}
+.result .flags{font-size:13.5px;margin:6px 0 0;padding-left:18px}
+.result details{font-size:13.5px;margin-top:6px}
+.btnrow{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+button.reset{font:inherit;font-size:14px;border:1px solid var(--line);background:#fff;border-radius:10px;padding:7px 14px;cursor:pointer}
+/* tables */
+.tbl{width:100%;border-collapse:collapse;font-size:14.5px;line-height:1.6;margin-top:8px}
+.tbl th,.tbl td{border:1px solid var(--line);padding:9px 10px;vertical-align:top;text-align:left}
+.tbl thead th{background:#f1f4f8;font-size:14px}
+.tbl tbody th{background:#fafbfc;font-weight:700;white-space:nowrap}
+.tbl td.pr{background:#f6fbfe}
+.tbl td.ap{background:#fffaf4}
+.tbl .ref{display:block;font-size:12.5px;color:var(--muted);margin-top:2px}
+@media(max-width:700px){
+  .stack thead{position:absolute;left:-9999px}
+  .stack,.stack tbody,.stack tr,.stack th,.stack td{display:block;width:100%}
+  .stack tr{border:1px solid var(--line);border-radius:12px;margin:0 0 12px;overflow:hidden}
+  .stack th,.stack td{border:0;border-top:1px solid var(--line)}
+  .stack tbody th{border-top:0;background:#eef2f7;white-space:normal}
+  .stack td::before{content:attr(data-label);display:block;font-size:12px;font-weight:800;color:var(--muted);margin-bottom:2px}
+  .stack td.pr::before{color:var(--protect)}
+  .stack td.ap::before{color:var(--apply)}
+}
+.legend-pa{display:flex;gap:10px;flex-wrap:wrap;font-size:13px;margin:6px 0 0}
+.legend-pa span{padding:1px 8px;border-radius:6px}
+ul.tight{margin:6px 0;padding-left:20px}
+ul.tight li{margin:4px 0}
+.two{display:grid;gap:12px}
+@media(min-width:760px){.two{grid-template-columns:1fr 1fr}}
+.panel{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:#fcfdfe}
+.panel h3{margin-top:0}
+footer{margin-top:20px;font-size:13px;color:var(--muted);padding:0 4px}
+.totop{display:inline-block;margin-top:8px}
+@media print{.toc-desktop,.toc-mobile,.mini{position:static;box-shadow:none}}
+</style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">본문으로 건너뛰기</a>
+<div class="layout">
+
+<nav class="toc-desktop" aria-label="목차">
+  <h2>목차</h2>
+  <ol>
+    <li><a href="#thesis">1. 핵심 3줄</a></li>
+    <li><a href="#timeline">2. 사건 타임라인</a></li>
+    <li><a href="#selfcheck">3. 다섯 기준 셀프 체크</a></li>
+    <li><a href="#compare">4. 보호 vs 적용</a></li>
+    <li><a href="#abroad">5. 미국·캐나다·유럽</a></li>
+    <li><a href="#y2026">6. 2026년과 제도 과제</a></li>
+    <li><a href="#limits">7. 한계와 오류</a></li>
+  </ol>
+  <a class="orig" href="https://yghnsim.github.io/Pages/union_activity_antitrust_boundary.html">원문 전체 보기 (약 123분) ↗</a>
+</nav>
+
+<main id="main">
+  <header class="hero">
+    <span class="kicker">10분 요약 · 원문 약 123분 분량</span>
+    <h1>노무제공자의 노동조합 활동, 공정거래법은 어디까지?</h1>
+    <p class="paper">원문: 「경쟁을 없애는 것이 목적인 단체: 노무제공자의 노동조합 활동과 공정거래법의 경계 심화 분석」(Pages 노동법 해설, 2026-10-02). 원문이 분석한 논문은 이태현 「노무제공자의 노동조합 활동에 대한 공정거래법 적용의 경계」, 『노동법학』 제98호, 한국노동법학회, 2026. 6., 169-250쪽입니다.</p>
+    <a class="cta" href="https://yghnsim.github.io/Pages/union_activity_antitrust_boundary.html">원문 전체 읽기 <small>(12장 · 약 123분)</small> ↗</a>
+    <p class="meta">이 페이지는 원문을 짧게 줄인 요약본입니다. 괄호 안 쪽수는 『노동법학』 제98호의 쪽수입니다. <span class="tag">보충</span> 표시는 원문 글쓴이가 논문 밖 자료(판결문, 보도 등)로 덧붙인 내용입니다. 각 절의 "원문 N장" 링크를 누르면 해당 장으로 바로 갑니다.</p>
+  </header>
+
+  <details class="toc-mobile">
+    <summary>목차 (7개 절)</summary>
+    <ol>
+      <li><a href="#thesis">1. 핵심 3줄</a></li>
+      <li><a href="#timeline">2. 사건 타임라인</a></li>
+      <li><a href="#selfcheck">3. 다섯 기준 셀프 체크</a></li>
+      <li><a href="#compare">4. 보호되는 활동 vs 그래도 적용되는 경우</a></li>
+      <li><a href="#abroad">5. 미국·캐나다·유럽 비교</a></li>
+      <li><a href="#y2026">6. 2026년의 움직임과 제도 과제</a></li>
+      <li><a href="#limits">7. 논문의 한계와 오류</a></li>
+    </ol>
+  </details>
+
+  <!-- 1 -->
+  <section class="card" id="thesis">
+    <h2 class="sec"><span class="num">1</span>핵심 3줄</h2>
+    <a class="src" href="https://yghnsim.github.io/Pages/union_activity_antitrust_boundary.html#1-테제-경쟁을-없애려는-단체를-경쟁법으로-잴-수-있는가">원문 1장 테제 ↗</a>
+    <ol class="thesis">
+      <li><strong>공정거래법은 노동조합 활동이 '사업자적 행위'일 때만 적용됩니다.</strong>
+        사업자적 행위란 경쟁과 거래에서 우위를 차지해 이윤을 최대로 늘리려는 행위입니다. 상대방을 시장에서 밀어내려는 성격을 띱니다(206-207쪽, 210쪽).</li>
+      <li><strong>그 경계선은 '종속성'입니다.</strong>
+        특정 상대방에게 매여 그의 불이익을 통해서만 자기 몫을 늘릴 수 있는 처지라면 노동법의 영역입니다. 사용자와 손잡거나 소비자를 상대로 시장에서 이기려 하면 경쟁법의 영역입니다.</li>
+      <li><strong>논문은 공정거래법이 절대 적용되지 않는다고 말하지 않습니다.</strong>
+        사용자와 손잡고 경쟁사업자를 몰아내거나, 소비자를 상대로 판매가격을 함께 올리는 경우에는 적용된다고 봅니다. 논문이 겨냥하는 것은 "담합의 겉모습"만 보고 경쟁법을 들이대는 판단 방식입니다.</li>
+    </ol>
+    <blockquote>"경제질서에서는 사업자들 사이 경쟁 보호의 원리가 작동하지만, 종속적인 위치의 근로자들 사이에서는 경쟁 제한의 원리가 작동하는데, 노동법과 경쟁법의 경계선상에는 노동법의 출발인 종속성이 위치하고 있는 것이다"
+      <cite>논문 209쪽 · <a href="https://yghnsim.github.io/Pages/union_activity_antitrust_boundary.html#45-경계선-위의-종속성">원문 4.5 ↗</a></cite></blockquote>
+
+    <h3>용어 쉽게 보기</h3>
+    <div class="gloss">
+      <div><b>노무제공자</b>근로계약 형식과 상관없이 남에게 노무를 제공하는 사람. 예: 굴착기를 소유하고 현장에서 직접 운전하는 사람, 화물차주, 택배기사.</div>
+      <div><b>노동3권</b>헌법 제33조 제1항이 보장하는 단결권·단체교섭권·단체행동권. 노조를 만들고, 교섭하고, 파업 등을 할 권리.</div>
+      <div><b>공정거래법</b>사업자들이 가격을 함께 정하거나 경쟁자를 배제하는 것을 금지하는 법. 헌법상 근거는 제119조 제2항.</div>
+      <div><b>겸유</b>한 사람이 두 지위를 함께 가진 상태. 여기서는 노동조합법상 근로자이면서 공정거래법상 사업자인 경우.</div>
+      <div><b>시정명령·과징금</b>공정거래위원회(공정위)의 제재. 과징금은 행정상 금전 제재이고, 형벌인 벌금이 아닙니다.</div>
+      <div><b>제116조 '정당한 행위'</b>"이 법은 사업자 또는 사업자단체가 다른 법령에 따라 하는 정당한 행위에 대해서는 적용하지 아니한다." (2020년 전부개정 전에는 제58조)</div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="card" id="timeline">
+    <h2 class="sec"><span class="num">2</span>사건 타임라인</h2>
+    <a class="src" href="https://yghnsim.github.io/Pages/union_activity_antitrust_boundary.html#24-네-개의-서울고등법원-판결">원문 2.4 네 개의 서울고등법원 판결 ↗</a>
+    <p>사건의 주인공은 건설 현장에 노무를 제공하는 <b>건설기계대여업자들의 노동조합</b>입니다. 이들은 적정 임대료를 함께 정하고, 일감을 고루 나누고, 현장에 조합원 장비를 써 달라고 요구했습니다. 공정위는 이를 사업자단체의 금지행위로 보고 시정명령과 과징금을 내렸습니다. 노동조합은 취소소송을 냈습니다.</p>
+    <ol class="tl">
+      <li class="ctx"><span class="date">배경: 1953년과 1980년</span>
+        <div class="small">구 노동조합법 1953. 3. 8., 근로기준법 1953. 5. 10. 제정. 공정거래법은 약 30년 뒤인 1980. 12. 31. 제정. 논문은 공정거래법 제정 때 노동법과의 충돌을 고려했다는 자료를 찾기 어려웠다고 적습니다(171쪽). <a href="https://yghnsim.github.io/Pages/union_activity_antitrust_boundary.html#22-귀류법-공정위의-논리를-끝까지-밀고-가면">원문 2.2 ↗</a></div></li>
+      <li class="ctx"><span class="date">공정위 처분</span>
+        <div class="small">공정위는 노동조합의 활동을 사업자단체의 금지행위로 보고 시정명령과 과징금을 내렸습니다. 이런 활동은 겉으로 보면 담합(제40조), 불공정거래행위(제45조), 사업자단체 금지행위(제51조)와 닮았기 때문입니다(173쪽 표). 처분 날짜는 원문에 따로 나오지 않습니다. 울산 사건의 과징금 4,300만 원은 2024. 3. 14. 보도로 확인됩니다<span class="tag">보충</span>.</div></li>
+      <li><span class="date">2024. 12. 12.</span> <span class="case">2023누38440</span>
+        <div class="box">
+          <p><b>행위:</b> 수급사업자에게 비조합원(경쟁 노동조합 소속) 장비와의 거래를 끊으라고 장비 운행 중단·현장 집회로 압박.</p>
+          <p><b>판단:</b> 근로조건 유지·개선이 목적이면 공정거래법이 적용되지 않지만, 상대방과 비조합원 사이의 계약관계는 근로조건과 무관한 '거래조건'이라 적용. 노동조합법 제45조 제2항 절차도 거치지 않아 정당한 쟁의행위가 아님.</p>
+          <p><span class="res ok">시정명령 적법</span><span class="res cancel">과징금 1억 원 취소 (재량권 일탈·남용)</span><span class="tag">보충</span></p>
+          <p><span class="res up">상고: 대법원 2025두30042</span></p>
+        </div></li>
+      <li><span class="date">2025. 11. 19.</span> <span class="case">2023누44810</span> <span class="small muted">부산·경남</span>
+        <div class="box">
+          <p><b>행위:</b> ① 일감 분배 규칙을 어기고 여러 현장을 확보한 조합원에게 철수 요구 후 제명. ② 시공사의 수급사업자에게 비조합원 장비와의 거래 중단을 요구하며 집회·장비 운행 중단·레미콘 운송 중단.</p>
+          <p><b>판단:</b> ①은 단결권에 따른 내부통제로 구법 제58조의 정당한 행위. 공정거래법 적용 배제. ②는 노동3권 행사의 영역을 벗어난 부당한 거래거절 강요. 노동조합과 사업자단체의 지위를 겸유한다고도 판단<span class="tag">보충</span>.</p>
+          <p><span class="res cancel">①의 시정명령 취소</span><span class="res ok">②의 시정명령 적법</span><span class="res ok">과징금 1억 6,900만 원 적법</span><span class="tag">보충</span></p>
+          <p><span class="res up">상고: 대법원 2025두35891</span></p>
+        </div></li>
+      <li><span class="date">2026. 1. 22.</span> <span class="case">2024누39570</span> <span class="small muted">울산</span>
+        <div class="box">
+          <p><b>행위:</b> 울산 지역 건설기계 노동조합의 적정임대료 결정, 배차 관련 요구, 건설사에 대한 비조합원 거래 중단 요구.</p>
+          <p><b>판단:</b> 적정임대료 결정과 조합원 징계는 정당한 노동조합 활동.</p>
+          <p><span class="res cancel">시정명령과 과징금(4,300만 원) 모두 취소</span><span class="tag">보충</span></p>
+          <p><span class="res up">상고: 대법원 2026두30442</span></p>
+        </div></li>
+      <li><span class="date">2026. 1. 22.</span> <span class="case">2023누43176</span> <span class="small muted">울릉</span>
+        <div class="box">
+          <p><b>행위:</b> 울릉 지역 노동조합의 임대단가 인상 결정 등.</p>
+          <p><span class="res cancel">시정명령 모두 취소</span><span class="tag">보충</span></p>
+          <p><span class="res up">상고: 논문은 "대법원 2025두30042"로 적음</span> <span class="small muted">첫 번째 사건과 번호가 같아 옮겨 적기 오류로 보입니다. 원문도 올바른 번호를 확인하지 못했습니다.</span></p>
+        </div></li>
+      <li class="ctx"><span class="date">현재</span>
+        <div class="small">네 판결 모두 상고되어 대법원에 계속 중입니다(174쪽 각주 10).</div></li>
+    </ol>
+    <div class="note">
+      <b>읽을 때 주의.</b> 논문 본문은 앞의 두 판결의 판단 요지만 소개하고, 네 판결의 결과를 하나하나 적지는 않습니다. 과징금 액수와 취소 범위는 원문 글쓴이가 판결문과 보도로 확인한 <span class="tag">보충</span> 내용입니다. 2026년 1월의 두 판결은 적정임대료 결정이 교섭 상대방인 건설업자에게만 의미가 있고 조합원을 구속하지 않는다는 점 등을 들었습니다. 다만 "노동조합이라는 이유만으로" 공정거래법 적용을 전면 배제해야 한다는 주장은 받아들이지 않았습니다.
+    </div>
+    <p class="small">한 줄 정리: 법원은 대체로 <b>안쪽의 제한</b>(조합원 통제, 임대료 결정)은 보호하고, <b>바깥쪽의 제한</b>(비조합원과의 거래를 끊게 하는 압박)에는 공정거래법을 적용했습니다. 논문은 이 구분이 유지되기 어렵다고 봅니다(232쪽). <a href="https://yghnsim.github.io/Pages/union_activity_antitrust_boundary.html#25-두-가지-유형-안쪽의-제한과-바깥쪽의-제한">원문 2.5 ↗</a></p>
+  </section>
+
+  <!-- 3 -->
+  <section class="card" id="selfcheck">
+    <h2 class="sec"><span class="num">3</span>다섯 기준 셀프 체크</h2>
+    <a class="src" href="https://yghnsim.github.io/Pages/union_activity_antitrust_boundary.html#51-원칙과-그-구체화">원문 5.1 다섯 가지 판단 기준 ↗</a>
+    <div class="disclaimer" role="note"><b>학습용 도구입니다.</b> 이 체크는 논문이 제시한 판단 틀을 요약해 체험해 보는 학습 보조 도구입니다. 법률 자문이 아니며, 실제 사건의 결과를 예측하지 않습니다. 법원과 공정위는 이 틀과 다르게 판단할 수 있고, 네 판결은 아직 대법원에 계속 중입니다. 실제 사안은 전문가와 상의하세요.</div>
+    <p>논문의 판단 순서는 이렇습니다(209-217쪽).</p>
+    <ol class="flow">
+      <li>사용자의 불이익을 매개로 근로조건 향상을 꾀하는가? 그렇다면 노동3권의 보호영역이고 공정거래법은 적용되지 않습니다. 노동조합법 위반이 있어도 마찬가지입니다.</li>
+      <li>사용자와 결합한 경쟁사업자 배제, 상품시장의 가격·수량 직접 통제 같은 <b>사업자적 행위의 징표</b>가 있는가? 그렇다면 공정거래법이 적용될 수 있습니다.</li>
+      <li>모호하면 아래 다섯 기준으로 검토합니다. <b>그래도 모호하면 적용이 불가피한 경우에만</b> 적용합니다.</li>
+    </ol>
+    <p class="small muted">각 기준에서 상황에 가장 가까운 것을 하나 고르세요. 선택지는 원문 5.1 표의 '보호 쪽으로 기우는 사정'과 '적용 쪽으로 기우는 사정'에서 가져왔습니다.</p>
+
+    <form id="sc" autocomplete="off" onsubmit="return false">
+      <fieldset class="crit" data-key="c1">
+        <legend>① 관련성 <span class="pg">210-211쪽</span></legend>
+        <p class="q">경쟁을 막는 효과가 근로조건 향상과 현실적·시기적·방법론적으로 의미 있게 이어지나요?</p>
+        <label class="opt p"><input type="radio" name="c1" value="p"><span><em>보호 쪽</em>현 조합원의 임금·근로시간 같은 좁은 뜻의 근로조건에 관한 것이다.</span></label>
+        <label class="opt p"><input type="radio" name="c1" value="p"><span><em>보호 쪽</em>조합원 채용과 시기적으로 밀접한 범위에서 비조합원과의 거래거절을 요구했다.</span></label>
+        <label class="opt p"><input type="radio" name="c1" value="p"><span><em>보호 쪽</em>경쟁 제한이 불가피했고 다른 수단이 없었다.</span></label>
+        <label class="opt a"><input type="radio" name="c1" value="a"><span><em>적용 쪽</em>조합원 채용과 무관하게 거래거절을 요구하며 경쟁을 제한했다.</span></label>
+        <label class="opt u"><input type="radio" name="c1" value="u"><span><em>모르겠음</em>어느 쪽인지 분명하지 않다.</span></label>
+      </fieldset>
+
+      <fieldset class="crit" data-key="c2">
+        <legend>② 상품시장 <span class="pg">211-212쪽</span></legend>
+        <p class="q">종속성을 극복하는 데서 그치지 않고, 상품시장에서 사업자끼리의 경쟁을 직접 제한하나요?</p>
+        <label class="opt p"><input type="radio" name="c2" value="p"><span><em>보호 쪽</em>근로조건 차이 때문에 생기는 사업자 간 경쟁을 없애는 데 그친다.</span></label>
+        <label class="opt a"><input type="radio" name="c2" value="a" data-flag="market"><span><em>적용 쪽</em>여러 사업장의 노무제공자들이 물건이나 서비스의 수량·운반을 통제해 가격을 통제한다.</span></label>
+        <label class="opt a"><input type="radio" name="c2" value="a" data-flag="employer"><span><em>적용 쪽</em>노동조합이 사용자와 결합하거나 사용자의 이익을 위해 움직인다.</span></label>
+        <label class="opt u"><input type="radio" name="c2" value="u"><span><em>모르겠음</em>어느 쪽인지 분명하지 않다.</span></label>
+        <p class="hint">논문도 상품 가격과 근로조건이 얽힌 경우에는 판단이 쉽지 않다고 인정합니다. 예: 캐나다 Winnipeg Bread 사례(212쪽).</p>
+      </fieldset>
+
+      <fieldset class="crit" data-key="c3">
+        <legend>③ 거래관계 <span class="pg">212-213쪽</span></legend>
+        <p class="q">사업자를 중심으로 한 거래관계나 경쟁관계에서 경쟁과 관련된 행위인가요?</p>
+        <label class="opt p"><input type="radio" name="c3" value="p"><span><em>보호 쪽</em>근로자 사이나 소비자 사이의 경쟁·거래를 제한한 것이고, 사업자 간 경쟁 제한으로 볼 수 있는 경우는 아니다.</span></label>
+        <label class="opt a"><input type="radio" name="c3" value="a"><span><em>적용 쪽</em>사업자적 행위이면서 사업자 중심의 거래·경쟁관계에서 경쟁을 제한한다.</span></label>
+        <label class="opt u"><input type="radio" name="c3" value="u"><span><em>모르겠음</em>어느 쪽인지 분명하지 않다.</span></label>
+      </fieldset>
+
+      <fieldset class="crit" data-key="c4">
+        <legend>④ 불이익의 귀속 <span class="pg">213-215쪽</span></legend>
+        <p class="q">그 행위로 생긴 불이익을 누가, 얼마나 떠안나요?</p>
+        <label class="opt p"><input type="radio" name="c4" value="p"><span><em>보호 쪽</em>요구와 실력행사가 사용자를 상대로만 이루어졌고, 사용자가 스스로 결단해 경쟁 노동조합과의 거래를 끊었다. 효과는 간접적이다.</span></label>
+        <label class="opt a"><input type="radio" name="c4" value="a" data-flag="third"><span><em>적용 쪽</em>단체교섭에 응할 지위에 있지 않은 제3자가 단체행동의 불이익을 떠안았다.</span></label>
+        <label class="opt u"><input type="radio" name="c4" value="u"><span><em>모르겠음</em>어느 쪽인지 분명하지 않다.</span></label>
+        <p class="hint">논문은 제3자 피해의 범위를 "일률적으로 정하기 어렵다"고 봅니다. 누군가 피해를 입었다는 것만으로는 적용 근거가 되지 않습니다. 공정거래법은 '경쟁자'가 아니라 '경쟁 그 자체'를 보호하기 때문입니다(215쪽).</p>
+      </fieldset>
+
+      <fieldset class="crit" data-key="c5">
+        <legend>⑤ 동기 <span class="pg">215-216쪽</span></legend>
+        <p class="q">속마음(내심의 목적)이 분명하지 않을 때, 겉으로 드러난 모습은 어떤가요?</p>
+        <label class="opt p"><input type="radio" name="c5" value="p"><span><em>보호 쪽</em>아래와 같은 남용의 겉모습이 없다. (논문: 모호한 기준으로 적용을 넓히면 노동3권 행사가 위축된다)</span></label>
+        <label class="opt a"><input type="radio" name="c5" value="a"><span><em>적용 쪽</em>교섭을 합리적 이유 없이 거절하거나 사회통념상 받아들이기 어려운 과도한 주장을 하는 등 남용의 외관이 있고, 상대방을 해치려는 뜻(해의)을 인정할 수 있다.</span></label>
+        <label class="opt u"><input type="radio" name="c5" value="u"><span><em>모르겠음</em>어느 쪽인지 분명하지 않다.</span></label>
+      </fieldset>
+
+      <a class="mini" id="mini" href="#result" aria-hidden="true" tabindex="-1">
+        <span class="mt"><b id="leanMini">기준을 하나씩 골라 보세요</b><small id="countsMini">0 / 5 선택</small>
+        <span class="meter"><i class="mp" style="width:0"></i><i class="mu" style="width:0"></i><i class="ma" style="width:0"></i></span></span>
+        <span class="go">결과 보기 ↓</span>
+      </a>
+      <div class="result" id="result" aria-live="polite">
+        <p class="lean" id="lean">기준을 하나씩 골라 보세요</p>
+        <p class="counts" id="counts">0 / 5 선택</p>
+        <div class="meter" aria-hidden="true"><i class="mp" style="width:0"></i><i class="mu" style="width:0"></i><i class="ma" style="width:0"></i></div>
+        <p class="expl" id="expl">선택할 때마다 결과가 바뀝니다.</p>
+        <ul class="flags" id="flags" hidden></ul>
+        <details>
+          <summary>점수는 어떻게 계산하나요?</summary>
+          <p>보호 쪽 선택 수(P), 적용 쪽 선택 수(A), 모르겠음(U)을 셉니다. 모르겠음이 3개 이상이면 <b>모호함</b>. 그 밖에는 A가 P보다 2개 이상 많으면 <b>공정거래법 적용 쪽</b>, P가 A보다 2개 이상 많으면 <b>노동3권 보호 쪽</b>, 차이가 1개 이하이면 <b>모호함</b>입니다. 다섯 기준을 모두 고르기 전에는 "임시 결과"로 표시합니다.</p>
+          <p>이 계산 방식은 이 요약 페이지가 정한 단순한 규칙입니다. 논문은 기준끼리 다른 방향을 가리킬 때 어떻게 저울질할지 말하지 않습니다(원문 11.2). 그래서 기준마다 같은 무게를 주었습니다.</p>
+        </details>
+        <div class="btnrow"><button type="button" class="reset" id="resetBtn">다시 하기</button></div>
+      </div>
+    </form>
+    <p class="small" style="margin-top:12px"><a href="https://yghnsim.github.io/Pages/union_activity_antitrust_boundary.html#52-모호하면-공정거래법은-물러선다">원문 5.2 모호하면 공정거래법은 물러선다 ↗</a></p>
+  </section>
+
+  <!-- 4 -->
+  <section class="card" id="compare">
+    <h2 class="sec"><span class="num">4</span>보호되는 활동 vs 그래도 적용되는 경우</h2>
+    <a class="src" href="https://yghnsim.github.io/Pages/union_activity_antitrust_boundary.html#6-보호되는-활동-내부-통제에서-채용-요구까지">원문 6장 ↗</a>
+    <a class="src" href="https://yghnsim.github.io/Pages/union_activity_antitrust_boundary.html#7-그래도-공정거래법이-적용되는-경우">원문 7장 ↗</a>
+    <p>6장의 출발점: 노동3권의 보호영역은 노동조합법상 적법성보다 넓습니다. 노동조합법을 어겼더라도 사업자적 행위가 아니면 공정거래법을 적용해서는 안 됩니다. 노동조합법 위반에는 노동조합법의 제재가 있습니다(219-220쪽). 7장의 전제: 노동조합 활동이 사업자적 행위가 되는 경우는 "매우 드물다"(237쪽 각주 125).</p>
+    <div class="legend-pa"><span style="background:var(--protect-soft);color:var(--protect)">보호: 공정거래법 적용 안 됨</span><span style="background:var(--apply-soft);color:var(--apply)">적용: 공정거래법 적용 가능</span></div>
+    <table class="tbl stack">
+      <thead><tr><th scope="col">상황</th><th scope="col">보호되는 활동 (6장)</th><th scope="col">그래도 공정거래법이 적용되는 경우 (7장)</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">보수·가격</th>
+          <td class="pr" data-label="보호 (6장)">노무제공자들이 보수를 함께 정하고 사용자에게 교섭을 요구. 겉으로는 가격 담합(제40조)이지만 보수는 전통적인 근로조건입니다.<span class="ref">6.3 · 222쪽</span></td>
+          <td class="ap" data-label="적용 (7장)">사용자를 거치지 않고 소비자를 상대로 판매가격을 함께 올림. 예: 노동조합법상 근로자로 인정될 수 있는 가맹점주들의 판매가격 공동 인상.<span class="ref">7.1 · 238-239쪽</span></td></tr>
+        <tr><th scope="row">조합원 통제</th>
+          <td class="pr" data-label="보호 (6장)">일감 분배 규칙과 최저보수를 정하고 어긴 조합원을 징계. 노조 안의 경쟁을 막지 않으면 노조가 기능할 수 없습니다. 2023누44810 판결도 같은 결론.<span class="ref">6.2 · 221-222쪽</span></td>
+          <td class="ap" data-label="적용 (7장)">논문은 내부 통제를 적용 유형으로 들지 않습니다.<span class="ref">7장</span></td></tr>
+        <tr><th scope="row">채용·일감</th>
+          <td class="pr" data-label="보호 (6장)">조합원 채용 요구, 조합원에게만 일감을 달라는 요구(논문이 넓은 뜻으로 쓰는 '클로즈드숍')와 이를 관철하는 실력행사. 그 과정에서 비조합원이 간접적·반사적으로 일감을 잃는 경우도 포함.<span class="ref">6.3, 7.2 · 222-226쪽, 242-243쪽</span></td>
+          <td class="ap" data-label="적용 (7장)">노동조합과 사용자가 조합원만 쓰기로 하는 데 그치지 않고, 노동조합도 다른 사용자와의 거래를 거절해 시장을 닫아 버림.<span class="ref">7.2 · 242쪽</span></td></tr>
+        <tr><th scope="row">경쟁 노무제공자</th>
+          <td class="pr" data-label="보호 (6장·7장)">경쟁 노무제공자를 직접 막더라도 효과가 노동시장, 그리고 '특정 사용자에 대한 관계'에 그치면 공정거래법이 금지하는 행위로 보기 어렵습니다. 위법하면 손해배상·가처분으로 다툽니다.<span class="ref">7.2 · 240-241쪽</span></td>
+          <td class="ap" data-label="적용 (7장)">특정 사용자와의 관계를 넘어 시장에서 다른 노무제공자를 배제하려고 실력을 행사.<span class="ref">7.2 · 241쪽</span></td></tr>
+        <tr><th scope="row">사업자 상대</th>
+          <td class="pr" data-label="보호 (6장)">노조가 조직된 하청업체로 발주하라는 요구, 미조직 현장을 조직할 기회 요구. 근로조건 차이에 따른 사업자 간 경쟁을 없애는 범위 안이라면 대상이 아닙니다.<span class="ref">6.3 · 227-228쪽</span></td>
+          <td class="ap" data-label="적용 (7장)">사용자와 손잡고 사용자의 경쟁사업자를 상대로 실력행사. 또는 경쟁사업자를 압박해 사용자 이윤을 늘리고 그 몫을 나눔.<span class="ref">7.1 · 238쪽</span></td></tr>
+        <tr><th scope="row">노조의 지위</th>
+          <td class="pr" data-label="보호 (6장)">노동조합법 위반이 곧 공정거래법 적용은 아닙니다. 사업자적 행위가 아닌 한 적용하지 않습니다.<span class="ref">6.1 · 219-220쪽</span></td>
+          <td class="ap" data-label="적용 (7장)">노동조합 자체가 사업자인 경우. 예: 근로자공급사업을 하는 항운노조가 경쟁 노조의 사업을 방해한 사건(대법원 2023. 7. 13. 선고 2022두62888 판결).<span class="ref">7.2 · 241-242쪽</span></td></tr>
+        <tr><th scope="row">회색지대</th>
+          <td class="pr" data-label="논문의 입장" colspan="2">사용자의 <b>거래처</b>를 상대로 한 보이콧은 판단이 어렵습니다. 활동의 필요성·불가피성과 경쟁 제한에 미치는 영향을 비교형량해야 하고, 제재가 필요하다면 가급적 노동조합법으로 규제하는 것이 타당하다고 봅니다.<span class="ref">7.1 · 239-240쪽</span></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 5 -->
+  <section class="card" id="abroad">
+    <h2 class="sec"><span class="num">5</span>미국·캐나다·유럽 비교</h2>
+    <a class="src" href="https://yghnsim.github.io/Pages/union_activity_antitrust_boundary.html#84-비교-한눈에">원문 8.4 비교 한눈에 ↗</a>
+    <p class="small muted">EU 부분은 논문이 직접 다루지 않아 원문 글쓴이가 덧붙인 <span class="tag">보충</span> 내용입니다. 캐나다는 논문이 Winnipeg Bread 사례 하나만 소개합니다.</p>
+    <table class="tbl stack">
+      <thead><tr><th scope="col">지역</th><th scope="col">노조 활동을 경쟁법 밖에 두는 근거</th><th scope="col">선을 넘는 경우</th><th scope="col">건설업·자영 노무제공자</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">미국</th>
+          <td data-label="근거">클레이턴법(1914) 제6조 "인간의 노동은 상품이나 거래 물품이 아니다", 제20조, 노리스-라과디아법(1932). Hutcheson(1941): 노조가 스스로의 이익을 위해 행동하고 비노동단체와 결합하지 않으면 면제.</td>
+          <td data-label="선을 넘는 경우">사용자와 결합한 시장 독점(Allen Bradley, 1945<span class="tag">보충</span>). 차등 근로조건을 줄이는 정도를 넘는 반경쟁적 효과(Connell, 1975).</td>
+          <td data-label="건설업·자영">NLRA 제8조(e) 단서·제8조(f)의 건설업 특례(1959): 채용 전 협약, 7일 뒤 가입 조건, 고용사무소 협약 등. NLRA의 근로자 정의는 독립계약자를 제외<span class="tag">보충</span>.</td></tr>
+        <tr><th scope="row">캐나다</th>
+          <td data-label="근거">논문은 제도 전반을 다루지 않습니다.</td>
+          <td data-label="선을 넘는 경우">Winnipeg Bread: 가정 배달 빵 판매원들이 수수료가 줄자 슈퍼마켓 공급 거부 파업에 참여. 당국(Combines Commissioner)은 소매 빵값 경쟁을 없애려는 것으로 보아 위법 판단.</td>
+          <td data-label="건설업·자영">아서스(1965)의 평: 상품 가격과 거기 딸린 서비스 비용을 떼어 놓기 어렵다(212쪽 각주 87).</td></tr>
+        <tr><th scope="row">EU <span class="tag">보충</span></th>
+          <td data-label="근거">Albany(C-67/96, 1999): 근로조건 개선을 위한 단체협약은 경쟁법(EU 기능조약 제101조) 대상이 아님. 단체교섭·단체행동권은 EU 기본권헌장 제28조가 보장.</td>
+          <td data-label="선을 넘는 경우">근로조건이 아닌 소비자 가격 등 소비자에게 부과되는 조건의 결정.</td>
+          <td data-label="건설업·자영">FNV Kunsten(C-413/13, 2014): '위장 자영업자'만 예외. 2022년 지침: 경제적 의존(한 상대방에게서 노무 관련 소득 50% 이상), 근로자와 나란히 같은 일, 디지털 플랫폼 노동의 세 범주. 건설업 특례는 해당 없음.</td></tr>
+        <tr><th scope="row">한국</th>
+          <td data-label="근거">명시적 면제 규정 없음. 공정거래법 제116조(정당한 행위)와 헌법 제33조의 해석에 의존. 그래서 논문은 헌법 조항 사이의 관계에서 출발합니다(236쪽).</td>
+          <td data-label="선을 넘는 경우">논문: 사용자와 결합한 경쟁사업자 배제, 소비자 가격 담합, 시장 봉쇄, 노조 자체가 사업자인 경우. 법원: 비조합원 거래거절 강요에 적용(2023누38440·2023누44810).</td>
+          <td data-label="건설업·자영">건설업 특례 없음. 논문은 도입 필요성을 강조. 노동조합법상 근로자로 인정되면 노동3권 주체이고, 공정거래법상 사업자 지위를 겸유할 수 있음.</td></tr>
+      </tbody>
+    </table>
+    <p class="small">공통의 선: 노동시장 안의 경쟁 제한은 보호하고, 사용자와 결합하거나 상품시장(소비자 가격)을 직접 제한하면 보호하지 않습니다. 원문은 논문의 기준이 이 선들과 "대체로 맞아떨어진다"고 평가합니다(원문 11.1). <a href="https://yghnsim.github.io/Pages/union_activity_antitrust_boundary.html#8-바다-건너의-답-미국캐나다유럽">원문 8장 전체 ↗</a></p>
+  </section>
+
+  <!-- 6 -->
+  <section class="card" id="y2026">
+    <h2 class="sec"><span class="num">6</span>2026년의 움직임과 제도 과제</h2>
+    <a class="src" href="https://yghnsim.github.io/Pages/union_activity_antitrust_boundary.html#9-해석을-넘어-제도의-과제와-2026년의-움직임">원문 9장 ↗</a>
+    <div class="two">
+      <div class="panel">
+        <h3>논문의 결론: 해석만으로는 부족하다</h3>
+        <ul class="tight">
+          <li>공정거래법을 적용하지 않는다는 해석이 서도, 노무제공자 사이에 경쟁이 있는 한 근로조건 향상은 구조적 한계에 부딪힙니다(243-244쪽).</li>
+          <li>건설업처럼 일감 경쟁이 치열한 산업에 제도적 장치가 시급하지만 "안타깝게도 이에 대한 논의는 없는 상황"(244쪽). 미국 건설업 특례를 참고한 <b>현장 특성을 반영한 단체교섭법제</b>가 필요하다고 봅니다.</li>
+          <li>공정위가 노동조합법상 근로자를 적용 대상에서 빼는 방향을 검토한다는 보도(한겨레 2026. 2. 9.)에 대해: 원론적으로 타당하지만 근본 해결책은 아니라고 평가. 덤핑 경쟁은 그대로이기 때문입니다(230-231쪽).</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>논문 이후의 움직임 <span class="tag">보충</span></h3>
+        <ul class="tight">
+          <li><b>2026. 3. 10.</b> 개정 노동조합법 시행. 근로조건을 실질적·구체적으로 지배·결정하는 자를 사용자에 포함. 근로자 정의(제2조 제1호)는 그대로.</li>
+          <li><b>2026. 6. 30.</b> 공정위 '을의 협상력 강화를 위한 제도 개편방안' 국무회의 보고. 신고한 노조, 법원·노동위원회가 인정한 단체, 산재보험법상 18개 직종 노무제공자의 단체행동을 공정거래법 조사·제재 대상에서 빼는 방향. 연내 법 개정 추진.</li>
+          <li><b>2026. 9. 10.</b> 강준현 의원 대표발의 공정거래법 개정안. 제118조의2를 신설해 노조와 조합원, 노무제공자 등의 행위를 적용 대상에서 제외하는 내용으로 보도. 2026년 10월 초 기준 발의 단계.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="small"><b>남는 문제.</b> 정부안과 법안은 <b>신분</b>을 기준으로 한 적용 제외입니다. 논문은 <b>행위</b>의 성격을 묻습니다. 제외 범위 밖의 노무제공자나 경계 사례에서는 여전히 논문의 기준이 필요합니다. 또 공정거래법 제재가 사라져도 일감을 둘러싼 덤핑 경쟁은 남습니다. <a href="https://yghnsim.github.io/Pages/union_activity_antitrust_boundary.html#92-2026년의-움직임">원문 9.2 ↗</a></p>
+  </section>
+
+  <!-- 7 -->
+  <section class="card" id="limits">
+    <h2 class="sec"><span class="num">7</span>논문의 한계와 오류</h2>
+    <a class="src" href="https://yghnsim.github.io/Pages/union_activity_antitrust_boundary.html#11-평가-논문이-바로-세운-것과-남긴-것">원문 11장 ↗</a>
+    <div class="two">
+      <div class="panel">
+        <h3>논문이 스스로 인정한 한계</h3>
+        <ul class="tight">
+          <li>조합원의 일감이 비조합원의 일감보다 우월하다고 볼 수 없다(224쪽).</li>
+          <li>제3자가 피해를 감수해야 하는 범위는 일률적으로 정하기 어렵다(215쪽).</li>
+          <li>사용자 거래처에 대한 보이콧은 판단이 어렵다(239-240쪽).</li>
+          <li>해석론만으로는 노무제공자 일반의 근로조건이 오르지 않는다(243-244쪽).</li>
+          <li>제116조 '정당성'의 구체적 해석은 다음 연구로 미룬다(183쪽).</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>원문이 지적한 남은 문제 <a class="small" href="https://yghnsim.github.io/Pages/union_activity_antitrust_boundary.html#112-남긴-것">11.2 ↗</a></h3>
+        <ul class="tight">
+          <li>'사업자적 행위'는 여전히 추상적. 기준끼리 엇갈릴 때 저울질 방법이 없다.</li>
+          <li>실무 도구인 제116조와의 연결 고리가 비어 있다.</li>
+          <li>비조합원 피해를 '간접적·반사적'으로 보는 논거는 사실관계에 따라 흔들린다. 예: 2023누44810에서 다른 현장 레미콘 운송 43일 중단<span class="tag">보충</span>.</li>
+          <li>겸유를 가정으로 두고 출발해, 사업자 개념과의 긴장을 정면으로 다루지 않는다.</li>
+          <li>2026년 입법 움직임은 신분 기준이라 논문의 행위 기준과 방향이 다르다.</li>
+        </ul>
+      </div>
+    </div>
+    <h3>원문이 찾은 오류와 불일치 <a class="small" href="https://yghnsim.github.io/Pages/union_activity_antitrust_boundary.html#113-논문의-오류와-불일치">11.3 ↗</a></h3>
+    <ul class="tight small">
+      <li><b>174쪽 각주 10:</b> 2023누43176의 상고 번호를 "대법원 2025두30042"로 적음. 2023누38440의 번호와 같다.</li>
+      <li><b>190쪽:</b> 근로조건 법정주의 근거를 "헌법 제32조 제1항"으로 적음. 다른 곳처럼 제3항이 맞다.</li>
+      <li><b>215쪽:</b> "넓게 … 좁게, 반대로 … 넓게 … 좁게"로 대구가 깨짐. 뒤 절은 '좁게 인정하면 넓게'여야 한다.</li>
+      <li><b>221쪽 각주 97:</b> 제목은 공정위 고시인데 내용은 공정거래법 제51조 조문.</li>
+      <li><b>229쪽:</b> 배타적 고용사무소 협약이 "비건설 산업에서 금지"라고 씀. 미국 판례(Local 357, 1961)와 맞지 않고 227쪽 서술과도 어긋난다.</li>
+      <li><b>210쪽:</b> "다른 조합원과의 거래거절"은 문맥상 '비조합원'으로 읽힌다.</li>
+      <li><b>그 밖:</b> 클로즈드숍의 넓은 용법(222-223쪽), 영문 철자 오기(234-236쪽), 서지 표기 불일치(171쪽 각주 5, 229쪽 각주 111).</li>
+    </ul>
+    <p class="small muted">원문은 대부분 논지에 영향을 주지 않는 서술상의 문제라고 봅니다. 인용할 때는 바로잡아 읽기를 권합니다.</p>
+  </section>
+
+  <footer>
+    <p>이 페이지는 원문 「경쟁을 없애는 것이 목적인 단체: 노무제공자의 노동조합 활동과 공정거래법의 경계 심화 분석」의 내용만으로 만든 요약입니다. 사실관계, 숫자, 날짜, 사건번호는 원문에 적힌 대로 옮겼습니다. 법률 자문이 아닙니다.</p>
+    <p><a href="https://yghnsim.github.io/Pages/union_activity_antitrust_boundary.html">원문 전체 읽기 ↗</a> · <a href="https://yghnsim.github.io/Pages/union_activity_antitrust_boundary.html#10-한눈에-보기-쟁점별-정리">원문 10장 쟁점별 정리표 ↗</a> · <a href="https://yghnsim.github.io/Pages/union_activity_antitrust_boundary.html#출처">원문 출처 목록 ↗</a></p>
+    <a class="totop" href="#main">↑ 맨 위로</a>
+  </footer>
+</main>
+</div>
+
+<script>
+(function(){
+  var form=document.getElementById('sc');
+  var keys=['c1','c2','c3','c4','c5'];
+  var el=function(id){return document.getElementById(id)};
+  var TEXT={
+    none:{cls:'',lean:'기준을 하나씩 골라 보세요',expl:'선택할 때마다 결과가 바뀝니다.'},
+    protect:{cls:'protect',lean:'노동3권 보호 쪽으로 기웁니다',
+      expl:'논문의 틀로 보면 사용자의 불이익을 매개로 근로조건 향상을 꾀하는 활동에 가깝습니다. 이 경우 논문은 공정거래법을 적용하지 않는다고 봅니다. 제재가 필요하면 노동조합법으로, 피해는 손해배상·가처분으로 다룹니다(217쪽, 241쪽 각주 127).'},
+    apply:{cls:'apply',lean:'공정거래법 적용 쪽으로 기웁니다',
+      expl:'\'사업자적 행위\'의 징표가 여럿 보입니다. 논문도 사업자적 행위에는 공정거래법 적용을 인정합니다(7장). 다만 논문은 노동조합 활동이 사업자적 행위가 되는 경우는 "매우 드물다"고 전제합니다(237쪽 각주 125).'},
+    vague:{cls:'vague',lean:'모호함: 적용이 불가피한 경우에만 적용',
+      expl:'논문의 원칙: 기준 충족 여부가 모호하면 곧바로 공정거래법을 적용하지 않습니다. "공정거래법을 적용하지 않으면 공정거래법의 취지가 몰각되는 경우와 같이 공정거래법 적용이 불가피한 경우에 한하여" 적용합니다(216-217쪽). 즉 모호하면 공정거래법은 물러섭니다.'}
+  };
+  var FLAGS={
+    employer:'②에서 고른 "사용자와 결합" 상황은 논문이 적용이 불가피하다고 본 대표 유형(사용자와 결합한 경쟁사업자 배제, 7.1)과 맞닿아 있습니다.',
+    market:'②에서 고른 "수량·운반 통제로 가격 통제"는 상품시장을 직접 제한하는 사업자적 행위의 징표입니다(211-212쪽).',
+    third:'④의 제3자 피해: 논문은 범위를 일률적으로 정하기 어렵다고 보고, 피해만으로 적용 근거가 되지는 않는다고 봅니다(215쪽).'
+  };
+  function compute(){
+    var P=0,A=0,U=0,flags=[];
+    keys.forEach(function(k){
+      var c=form.querySelector('input[name="'+k+'"]:checked');
+      if(!c) return;
+      if(c.value==='p')P++; else if(c.value==='a')A++; else U++;
+      if(c.dataset.flag) flags.push(FLAGS[c.dataset.flag]);
+    });
+    var n=P+A+U, state;
+    if(n===0) state='none';
+    else if(U>=3) state='vague';
+    else if(A-P>=2) state='apply';
+    else if(P-A>=2) state='protect';
+    else state='vague';
+    return {P:P,A:A,U:U,n:n,state:state,flags:flags};
+  }
+  function render(){
+    var r=compute(), t=TEXT[r.state], box=el('result');
+    box.className='result'+(t.cls?' '+t.cls:'');
+    box.dataset.state=r.state;
+    var lean=(r.n>0&&r.n<5?'임시 결과: ':'')+t.lean;
+    var counts=r.n+' / 5 선택 · 보호 쪽 '+r.P+' · 적용 쪽 '+r.A+' · 모르겠음 '+r.U;
+    el('lean').textContent=lean; el('leanMini').textContent=lean;
+    el('counts').textContent=counts; el('countsMini').textContent=r.n+'/5 · 보호 '+r.P+' · 적용 '+r.A+' · 모름 '+r.U;
+    var mini=el('mini'); mini.className='mini'+(t.cls?' '+t.cls:'');
+    [].forEach.call(document.querySelectorAll('#sc .mp'),function(i){i.style.width=(r.P*20)+'%'});
+    [].forEach.call(document.querySelectorAll('#sc .mu'),function(i){i.style.width=(r.U*20)+'%'});
+    [].forEach.call(document.querySelectorAll('#sc .ma'),function(i){i.style.width=(r.A*20)+'%'});
+    el('expl').textContent=t.expl+(r.n>0?' (학습용 요약이며 실제 결과의 예측이 아닙니다.)':'');
+    var f=el('flags'); f.innerHTML='';
+    r.flags.forEach(function(s){var li=document.createElement('li');li.textContent=s;f.appendChild(li)});
+    f.hidden=r.flags.length===0;
+  }
+  form.addEventListener('change',render);
+  el('resetBtn').addEventListener('click',function(){form.reset();render();});
+  render();
+
+  // TOC active state (desktop)
+  var links=[].slice.call(document.querySelectorAll('.toc-desktop li a'));
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting){
+          links.forEach(function(a){a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id)});
+        }
+      });
+    },{rootMargin:'-20% 0px -70% 0px'});
+    links.forEach(function(a){var s=document.querySelector(a.getAttribute('href')); if(s) io.observe(s);});
+  }
+  // close mobile TOC after click
+  [].forEach.call(document.querySelectorAll('.toc-mobile a'),function(a){
+    a.addEventListener('click',function(){a.closest('details').open=false});
+  });
+})();
+</script>
+</body>
+</html>
