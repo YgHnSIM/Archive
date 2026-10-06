@@ -48,6 +48,29 @@ python3 add_page.py /경로/요약.html \
 - `--dry-run`: 실제로 복사하지 않고 결과만 미리 봅니다.
 - 추가하면 `catalog.json`이 갱신되고 `catalog.js`가 자동으로 다시 만들어집니다.
 
+## 페이지 교체 (`--replace`) — 같은 id·같은 주소 유지
+
+검수본 등으로 내용을 바꿀 때 씁니다. 공개 주소(`pages/…html`)와 id가 그대로라 기존 링크가 깨지지 않습니다.
+
+```bash
+python3 add_page.py --replace 20261006-02 /경로/새버전.html \
+  --summary "새 요약" [--title …] [--tags …] [--date …] [--source-url …] [--commit]
+```
+
+- 원본은 읽기만 합니다. 임시 파일에서 복사·검증·보정을 모두 마친 뒤 보관본을 한 번에 바꿔치기합니다(중간에 실패하면 기존 보관본 유지).
+- 다시 실행하는 것:
+  - 모바일 보정 (viewport·CSS)
+  - 공통 머리띠·꼬리말·CSS (`--restyle`)
+  - 형식 검사
+  - 390/360px 모바일 검사
+- 카탈로그 갱신:
+  - `source_sha256`(내용 해시)와 `source_name` 갱신
+  - `updated`(교체 시각) 추가
+  - 지정한 필드만 바뀌고 `added`는 유지
+- **이전 보관본의 `archive-fix` 블록은 옮기지 않습니다.** 예전 페이지에 맞춘 보정이었기 때문입니다. `--check-style` 결과를 보고 필요할 때만 새로 넣으세요.
+- 이미 보관된 것과 내용이 같으면 거부합니다(다른 항목과 같아도 거부). 그래도 하려면 `--force`.
+- `--dry-run`으로 미리 보기.
+
 ## 그 밖의 명령
 
 ```bash
@@ -149,6 +172,7 @@ python3 add_page.py --fix-mobile all   # 예전에 추가한 페이지에 보정
   "source_sha256": "…",
   "source_path_sha256": "…",
   "source_url": "https://… (선택)",
+  "updated": "2026-10-06T13:32:00+09:00",  // (--replace 했을 때만)
   "tokens": false            // (선택) 공통 토큰을 빼고 싶을 때만
 }
 ```

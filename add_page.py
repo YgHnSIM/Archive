@@ -11,6 +11,7 @@
   python3 add_page.py --restyle [id|all]     # 공통 머리띠·꼬리말·공통 CSS 주입/갱신 (STYLE_GUIDE.md)
   python3 add_page.py --check-style [id|all] # 형식 표준 검사
   python3 add_page.py --edit <id> --source-url URL [--title ..] [--tags ..] [--tokens on|off]
+  python3 add_page.py --replace <id> <새 source.html> [--summary ..]  # 같은 id·같은 파일명으로 교체
   ... --commit [--no-push]                   # 작업 후 git commit (+ push)
 """
 import argparse
@@ -332,8 +333,8 @@ def restyle_text(text, entry):
     return t, notes
 
 
-def restyle_page(entry):
-    path = os.path.join(ROOT, entry["file"])
+def restyle_page(entry, path=None):
+    path = path or os.path.join(ROOT, entry["file"])
     with open(path, encoding="utf-8", errors="surrogateescape", newline="") as f:
         old = f.read()
     if not re.search(r"<body\b", old, re.I) or not re.search(r"</head\s*>", old, re.I):
@@ -793,6 +794,90 @@ def cmd_edit(a):
         git_commit(f"항목 수정: {e['title']} ({e['id']})", push=not a.no_push)
 
 
+def cmd_replace(a):
+    """같은 id·같은 파일명(URL)을 유지한 채 보관본을 새 원본으로 교체하고 파이프라인을 다시 돌린다."""
+    if not a.source:
+        die("교체할 새 원본 경로가 필요합니다: --replace <id> <source.html>")
+    src = os.path.abspath(a.source)
+    if not os.path.isfile(src):
+        die(f"원본 파일이 없습니다: {src}")
+    entries = load_catalog()
+    e = select_entries(entries, a.replace)[0]
+    digest = sha256(src)
+    if e.get("source_sha256") == digest and not a.force:
+        die("보관본과 같은 원본입니다 (내용 해시 동일). 그래도 다시 돌리려면 --force.", 2)
+    for o in entries:
+        if o is not e and o.get("source_sha256") == digest and not a.force:
+            die(f"다른 항목과 같은 내용입니다 → {o['id']} ({o['title']}). 그래도 하려면 --force.", 2)
+    dest = os.path.join(ROOT, e["file"])
+    old_fix = False
+    if os.path.isfile(dest):
+        with open(dest, encoding="utf-8", errors="replace") as f:
+            old_fix = FIX_MARK in f.read()
+
+    # 카탈로그 값 갱신 (주어진 것만)
+    if a.title:
+        e["title"] = nfc(a.title).strip()
+    if a.summary:
+        e["summary"] = nfc(a.summary).strip()
+    if a.tags:
+        e["tags"] = parse_tags(a.tags)
+    if a.date:
+        if not DATE_RE.match(a.date):
+            die("--date 형식은 YYYY-MM-DD 입니다.")
+        e["date"] = a.date
+    if a.source_url is not None:
+        if a.source_url.strip():
+            e["source_url"] = a.source_url.strip()
+        else:
+            e.pop("source_url", None)
+    if a.tokens:
+        if a.tokens == "off":
+            e["tokens"] = False
+        else:
+            e.pop("tokens", None)
+
+    if a.dry_run:
+        print(f"[dry-run] {src} → {e['file']} (id {e['id']} 유지)")
+        return
+
+    # 임시 파일에서 복사·검증·보정을 마친 뒤 한 번에 바꿔치기 (중간 실패 시 기존 보관본 유지)
+    fd, tmp = tempfile.mkstemp(dir=os.path.dirname(dest), prefix=".tmp-replace-", suffix=".html")
+    os.close(fd)
+    try:
+        shutil.copyfile(src, tmp)  # 원본은 읽기만 함
+        if sha256(tmp) != digest:
+            die("복사본 검증(sha256) 실패")
+        notes = [] if a.no_mobile else apply_mobile(tmp)
+        style_notes = [] if a.no_restyle else restyle_page(e, tmp)
+        os.chmod(tmp, 0o644)
+        os.replace(tmp, dest)
+    finally:
+        if os.path.exists(tmp):
+            os.unlink(tmp)
+
+    e["source_name"] = os.path.basename(src)
+    e["source_sha256"] = digest
+    e["source_path_sha256"] = path_hash(src)
+    e["updated"] = now_kst().isoformat(timespec="seconds")
+    save_catalog(entries)
+    print(f"교체됨: {e['id']}  {e['title']}  (파일·URL 유지: {e['file']})")
+    print(f"  모바일 보정: {', '.join(notes) or ('건너뜀' if a.no_mobile else '이미 적용됨')}")
+    print(f"  공통 형식: {', '.join(style_notes) or ('건너뜀' if a.no_restyle else '변경 없음')}")
+    if old_fix:
+        print("  참고: 이전 보관본의 archive-fix 블록은 옮기지 않았습니다. 필요하면 --check-style 결과를 보고 새로 넣으세요.")
+    if not a.no_restyle:
+        req, rec = style_lint(e)
+        for r in req:
+            print(f"  형식 필수 ✗ {r}")
+        for r in rec:
+            print(f"  형식 권장 · {r}")
+    if not a.no_check:
+        mobile_check([dest])
+    if a.commit:
+        git_commit(f"페이지 교체: {e['title']} ({e['id']})", push=not a.no_push)
+
+
 def cmd_check(a):
     paths = [os.path.join(ROOT, e["file"]) for e in select_entries(load_catalog(), a.check)]
     if a.check in (None, "all"):
@@ -828,6 +913,8 @@ def main():
     p.add_argument("--restyle", nargs="?", const="all", metavar="ID|all", help="공통 형식 주입/갱신")
     p.add_argument("--check-style", nargs="?", const="all", metavar="ID|all", help="형식 표준 검사 (+모바일 검사)")
     p.add_argument("--edit", metavar="ID", help="카탈로그 항목 수정 후 공통 형식 갱신")
+    p.add_argument("--replace", metavar="ID",
+                   help="같은 id·파일명으로 보관본 교체: --replace <id> <새 source.html> [--summary ..]")
     p.add_argument("--commit", action="store_true",
                    help="작업 후 git add/commit, 원격(origin)이 있으면 push (추가·수정·삭제·재생성·보정)")
     p.add_argument("--no-push", action="store_true", help="--commit 시 push는 하지 않음")
@@ -847,6 +934,8 @@ def main():
         sys.exit(cmd_check_style(a))
     if a.edit:
         return cmd_edit(a)
+    if a.replace:
+        return cmd_replace(a)
     if a.check:
         sys.exit(cmd_check(a))
     if not a.source:
