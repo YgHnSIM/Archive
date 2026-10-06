@@ -106,7 +106,6 @@ footer code{font-size:12px;display:inline-block;word-break:normal;overflow-wrap:
     <button type="button" class="btn" id="resetBtn">필터 초기화</button>
   </div>
 
-  <footer>새 페이지 추가<br><code>python3 add_page.py 파일.html --title … --summary … --tags …</code></footer>
 </div>
 
 <script src="catalog.js"></script>
@@ -159,7 +158,7 @@ footer code{font-size:12px;display:inline-block;word-break:normal;overflow-wrap:
     $("status").textContent = "";
     $("empty").hidden = false;
     $("emptyTitle").textContent = "카탈로그를 불러오지 못했습니다";
-    $("emptyMsg").textContent = "catalog.js 파일이 있는지 확인하고 python3 add_page.py --rebuild 를 실행하세요.";
+    $("emptyMsg").textContent = "목록을 불러오지 못했어요. 잠시 후 다시 열어 주세요.";
     $("resetBtn").hidden = true;
     return;
   }
@@ -245,7 +244,7 @@ footer code{font-size:12px;display:inline-block;word-break:normal;overflow-wrap:
     empty.hidden = r.items.length !== 0;
     if (DATA.length === 0){
       $("emptyTitle").textContent = "아직 보관된 페이지가 없습니다";
-      $("emptyMsg").textContent = "python3 add_page.py 로 첫 페이지를 추가해 보세요.";
+      $("emptyMsg").textContent = "아직 등록된 문서가 없어요.";
       $("resetBtn").hidden = true;
     }
   }
