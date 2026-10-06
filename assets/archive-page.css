@@ -1,0 +1,42 @@
+/* 요약 아카이브 공통 머리띠·꼬리말 (add_page.py --restyle 로 각 페이지에 연결)
+   - .arc-* 클래스만 사용하고 페이지 변수에 의존하지 않으므로 어느 페이지에서도 똑같이 보입니다.
+   - 기준: 첫 페이지(좋은추상화_정리) 의 색·글꼴 */
+.arc-band,.arc-foot{
+  --arc-bg:#f3efe6; --arc-ink:#1f2328; --arc-muted:#5b6470; --arc-line:#e6e1d6;
+  --arc-accent:#c8553d; --arc-accent-soft:#fbeee9; --arc-link:#4a6b8a; --arc-chip:#ebe5d8;
+  --arc-max:1180px;
+  display:block;background:var(--arc-bg);color:var(--arc-ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR","Malgun Gothic","Gothic A1",system-ui,sans-serif;
+  font-size:14px;line-height:1.5;letter-spacing:normal;text-align:left;word-break:keep-all;overflow-wrap:break-word;
+  -webkit-font-smoothing:antialiased;position:relative;z-index:1;margin:0;
+}
+.arc-band *,.arc-foot *{box-sizing:border-box;font-family:inherit;letter-spacing:normal;text-transform:none}
+.arc-band{border-bottom:1px solid var(--arc-line)}
+.arc-foot{border-top:1px solid var(--arc-line);margin-top:0;clear:both}
+.arc-inner{max-width:var(--arc-max);margin:0 auto;padding:6px max(20px,env(safe-area-inset-right)) 6px max(20px,env(safe-area-inset-left));
+  display:flex;flex-wrap:wrap;align-items:center;gap:4px 14px}
+.arc-band a,.arc-foot a{color:var(--arc-link);text-decoration:none;border-radius:6px}
+.arc-band a:hover,.arc-foot a:hover{text-decoration:underline}
+.arc-band a:focus-visible,.arc-foot a:focus-visible{outline:2px solid var(--arc-link);outline-offset:2px}
+.arc-back{display:inline-flex;align-items:center;min-height:40px;font-weight:700;color:var(--arc-ink)!important;white-space:nowrap}
+.arc-back b{color:var(--arc-accent);font-weight:800;margin-right:6px}
+.arc-crumb{flex:1 1 200px;min-width:0;color:var(--arc-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.arc-crumb::before{content:"/";margin-right:10px;color:#b9b2a3}
+.arc-meta{display:inline-flex;flex-wrap:wrap;align-items:center;gap:6px 8px;margin-left:auto;color:var(--arc-muted)}
+.arc-meta time{font-variant-numeric:tabular-nums;white-space:nowrap}
+.arc-tag{display:inline-flex;align-items:center;min-height:28px;padding:0 10px;border-radius:999px;background:var(--arc-chip);
+  color:#3b424b!important;font-size:13px;white-space:nowrap}
+.arc-tag:hover{text-decoration:none!important;background:var(--arc-accent-soft);color:var(--arc-accent)!important}
+.arc-src{display:inline-flex;align-items:center;min-height:28px;padding:0 10px;border-radius:999px;border:1px solid var(--arc-line);
+  background:#fff;font-weight:600;white-space:nowrap}
+.arc-foot .arc-inner{padding-top:18px;padding-bottom:max(26px,env(safe-area-inset-bottom));display:grid;gap:6px}
+.arc-foot-label{font-size:12px;font-weight:800;letter-spacing:.06em;color:var(--arc-accent)}
+.arc-foot-title{font-size:16px;font-weight:800;line-height:1.4}
+.arc-foot-meta{color:var(--arc-muted);display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center}
+.arc-foot-nav{display:flex;flex-wrap:wrap;gap:4px 18px;margin-top:4px}
+.arc-foot-nav a{display:inline-flex;align-items:center;min-height:40px;font-weight:700}
+@media (max-width:640px){
+  .arc-crumb{display:none}
+  .arc-meta{margin-left:0;width:100%;padding-bottom:4px}
+}
+@media print{.arc-band,.arc-foot-nav{display:none}}

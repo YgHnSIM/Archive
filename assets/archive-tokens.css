@@ -1,0 +1,21 @@
+/* 요약 아카이브 공통 기본 토큰 — 첫 페이지(좋은추상화_정리)에서 뽑은 값.
+   페이지 자체 <style> 뒤에 연결되어, 같은 이름의 CSS 변수와 body 기본 글꼴만 맞춥니다.
+   레이아웃·구성요소 모양은 건드리지 않습니다. 의미 색(보호/적용 등 페이지 고유 변수)은 그대로 둡니다.
+   빼고 싶으면: python3 add_page.py --edit <id> --tokens off */
+:root{
+  --bg:#faf8f3;          /* 바탕: 따뜻한 미색 */
+  --ink:#1f2328;         /* 본문 글자 */
+  --muted:#5b6470;       /* 보조 글자 */
+  --line:#e6e1d6;        /* 구분선·테두리 */
+  --accent:#c8553d;      /* 강조색: 테라코타 */
+  --accent-soft:#fbeee9; /* 강조 바탕 */
+  --radius:14px;
+  --arc-link:#4a6b8a;    /* 링크: 청회색 */
+}
+body{
+  background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR","Malgun Gothic","Gothic A1",system-ui,sans-serif;
+  font-size:17px;line-height:1.75;word-break:keep-all;overflow-wrap:break-word;-webkit-font-smoothing:antialiased;
+}
+a{color:var(--arc-link)}
+@media (max-width:640px){ body{font-size:16px} }

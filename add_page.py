@@ -8,6 +8,9 @@
   python3 add_page.py --remove <id> [--delete-file]
   python3 add_page.py --check [id|all]       # 모바일(390/360px) 가로 넘침·글자 크기 검사
   python3 add_page.py --fix-mobile [id|all]  # 기존 페이지에 모바일 보정 주입
+  python3 add_page.py --restyle [id|all]     # 공통 머리띠·꼬리말·공통 CSS 주입/갱신 (STYLE_GUIDE.md)
+  python3 add_page.py --check-style [id|all] # 형식 표준 검사
+  python3 add_page.py --edit <id> --source-url URL [--title ..] [--tags ..] [--tokens on|off]
   ... --commit [--no-push]                   # 작업 후 git commit (+ push)
 """
 import argparse
@@ -201,6 +204,216 @@ def mobile_check(paths, widths=CHECK_WIDTHS):
     return problems
 
 
+# ---------------------------------------------------------------- 공통 형식 (STYLE_GUIDE.md)
+import html as _html
+
+ASSET_PAGE_CSS = "assets/archive-page.css"
+ASSET_TOKENS_CSS = "assets/archive-tokens.css"
+HEAD_START, HEAD_END = "<!-- archive-head:start", "<!-- archive-head:end -->"
+HDR_START, HDR_END = "<!-- archive-header:start", "<!-- archive-header:end -->"
+FTR_START, FTR_END = "<!-- archive-footer:start", "<!-- archive-footer:end -->"
+FIX_MARK = "<!-- archive-fix"
+AUTO_NOTE = "(자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->"
+
+
+def esc(s):
+    return _html.escape(str(s or ""), quote=True)
+
+
+def kdate(d):
+    m = re.match(r"^(\d{4})-(\d{2})-(\d{2})$", d or "")
+    return f"{m.group(1)}년 {int(m.group(2))}월 {int(m.group(3))}일" if m else (d or "")
+
+
+def rel_root(entry):
+    depth = entry["file"].count("/")
+    return "../" * depth
+
+
+def tag_links(entry, up):
+    from urllib.parse import quote
+    return "".join(
+        f'<a class="arc-tag" href="{up}index.html#tags={quote(t, safe="")}">#{esc(t)}</a>'
+        for t in entry.get("tags", []))
+
+
+def render_head(entry):
+    up = rel_root(entry)
+    links = [f'<link rel="stylesheet" href="{up}{ASSET_PAGE_CSS}">']
+    if entry.get("tokens", True):
+        links.append(f'<link rel="stylesheet" href="{up}{ASSET_TOKENS_CSS}">')
+    return f"{HEAD_START} {AUTO_NOTE}\n" + "\n".join(links) + f"\n{HEAD_END}\n"
+
+
+def render_header(entry):
+    up = rel_root(entry)
+    src = entry.get("source_url")
+    src_html = f'<a class="arc-src" href="{esc(src)}" rel="noopener">원문 ↗</a>' if src else ""
+    return (
+        f"{HDR_START} {AUTO_NOTE}\n"
+        f'<div class="arc-band" role="navigation" aria-label="요약 아카이브"><div class="arc-inner">'
+        f'<a class="arc-back" href="{up}index.html"><b>←</b>요약 아카이브</a>'
+        f'<span class="arc-crumb">{esc(entry["title"])}</span>'
+        f'<span class="arc-meta"><time datetime="{esc(entry["date"])}">{kdate(entry["date"])}</time>'
+        f'{tag_links(entry, up)}{src_html}</span>'
+        f"</div></div>\n{HDR_END}\n"
+    )
+
+
+def render_footer(entry):
+    up = rel_root(entry)
+    src = entry.get("source_url")
+    src_html = f' · <a href="{esc(src)}" rel="noopener">원문 ↗</a>' if src else ""
+    return (
+        f"\n{FTR_START} {AUTO_NOTE}\n"
+        f'<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner">'
+        f'<div class="arc-foot-label">요약 아카이브</div>'
+        f'<div class="arc-foot-title">{esc(entry["title"])}</div>'
+        f'<div class="arc-foot-meta"><time datetime="{esc(entry["date"])}">{kdate(entry["date"])}</time>'
+        f'{tag_links(entry, up)}{src_html}</div>'
+        f'<div class="arc-foot-nav"><a href="{up}index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div>'
+        f"</div></div>\n{FTR_END}\n"
+    )
+
+
+def _replace_block(text, start, end, new):
+    """start~end 표식 블록을 new 로 교체. 없으면 None."""
+    i = text.find(start)
+    if i < 0:
+        return None
+    j = text.find(end, i)
+    if j < 0:
+        return None
+    j += len(end)
+    if text[j:j + 1] == "\n":
+        j += 1
+    return text[:i] + new + text[j:]
+
+
+def restyle_text(text, entry):
+    notes = []
+    # 1) 공통 CSS 링크: 페이지 자체 스타일 뒤, archive-fix 블록 앞
+    head = render_head(entry)
+    t = _replace_block(text, HEAD_START, HEAD_END, head)
+    if t is None:
+        k = text.find(FIX_MARK)
+        if k < 0:
+            k = re.search(r"</head\s*>", text, re.I).start()
+        t = text[:k] + head + text[k:]
+        notes.append("공통 CSS 연결")
+    elif t != text:
+        notes.append("공통 CSS 연결 갱신")
+    text = t
+    # 2) 머리띠: <body> 바로 뒤 (맨 앞이 '본문 바로가기' 링크면 그 뒤)
+    hdr = render_header(entry)
+    t = _replace_block(text, HDR_START, HDR_END, hdr)
+    if t is None:
+        m = re.search(r"<body\b[^>]*>\s*", text, re.I)
+        pos = m.end()
+        skip = re.match(r"<a\b[^>]*href=[\"']#[^>]*>.*?</a>\s*", text[pos:], re.I | re.S)
+        if skip:
+            pos += skip.end()
+        t = text[:pos] + hdr + text[pos:]
+        notes.append("머리띠 추가")
+    elif t != text:
+        notes.append("머리띠 갱신")
+    text = t
+    # 3) 꼬리말: </body> 바로 앞
+    ftr = render_footer(entry)
+    t = _replace_block(text, "\n" + FTR_START, FTR_END, ftr)
+    if t is None:
+        t = _replace_block(text, FTR_START, FTR_END, ftr.lstrip("\n"))
+    if t is None:
+        k = text.lower().rfind("</body")
+        t = text[:k] + ftr + text[k:]
+        notes.append("꼬리말 추가")
+    elif t != text:
+        notes.append("꼬리말 갱신")
+    return t, notes
+
+
+def restyle_page(entry):
+    path = os.path.join(ROOT, entry["file"])
+    with open(path, encoding="utf-8", errors="surrogateescape", newline="") as f:
+        old = f.read()
+    if not re.search(r"<body\b", old, re.I) or not re.search(r"</head\s*>", old, re.I):
+        warn(f"{entry['file']}: <head>/<body> 구조가 없어 공통 형식을 넣지 못했습니다.")
+        return []
+    new, notes = restyle_text(old, entry)
+    if new != old:
+        atomic_write(path, new, errors="surrogateescape")
+    for a in (ASSET_PAGE_CSS, ASSET_TOKENS_CSS):
+        if not os.path.isfile(os.path.join(ROOT, a)):
+            warn(f"공통 파일이 없습니다: {a}")
+    return notes
+
+
+def strip_archive_blocks(text):
+    """검사용: 아카이브가 넣은 블록을 빼고 원래 페이지 부분만 남김."""
+    for a, b in ((HEAD_START, HEAD_END), (HDR_START, HDR_END), (FTR_START, FTR_END)):
+        while True:
+            t = _replace_block(text, a, b, "")
+            if t is None or t == text:
+                break
+            text = t
+    text = re.sub(r"<!-- archive-[\w-]+.*?-->\s*<style id=\"archive-[\w-]+\">.*?</style>", "", text, flags=re.S)
+    return text
+
+
+def style_lint(entry):
+    """(필수 위반 목록, 권장 미충족 목록)"""
+    path = os.path.join(ROOT, entry["file"])
+    with open(path, encoding="utf-8", errors="replace") as f:
+        text = f.read()
+    req, rec = [], []
+    if not re.search(r"<html\b[^>]*\blang=[\"']?ko", text, re.I):
+        req.append('<html lang="ko"> 없음')
+    if not re.search(r"<meta\b[^>]*charset=[\"']?utf-8", text, re.I):
+        req.append("<meta charset=\"utf-8\"> 없음")
+    if not re.search(r"<meta\b[^>]*name=[\"']?viewport[^>]*width=device-width", text, re.I):
+        req.append("viewport(width=device-width) 없음")
+    m = re.search(r"<title[^>]*>(.*?)</title>", text, re.I | re.S)
+    if not m or not m.group(1).strip():
+        req.append("<title> 비어 있음")
+    own = strip_archive_blocks(text)
+    n_h1 = len(re.findall(r"<h1[\s>]", own, re.I))
+    if n_h1 != 1:
+        req.append(f"<h1> 이 {n_h1}개 (정확히 1개여야 함)")
+    for start, end, name, fn in ((HEAD_START, HEAD_END, "공통 CSS 연결", render_head),
+                                 (HDR_START, HDR_END, "공통 머리띠", render_header),
+                                 (FTR_START, FTR_END, "공통 꼬리말", render_footer)):
+        i = text.find(start)
+        if i < 0:
+            req.append(f"{name} 없음 → --restyle")
+            continue
+        block = text[i:text.find(end, i) + len(end)]
+        if block.strip() != fn(entry).strip():
+            req.append(f"{name}이(가) 카탈로그와 다름 → --restyle")
+    if MOBILE_MARK not in text:
+        req.append("모바일 보정 CSS 없음 → --fix-mobile")
+    ext = re.findall(r"<(?:script|img|iframe|video|audio|source|embed)\b[^>]*\bsrc=[\"']?(https?:)?//", own, re.I)
+    ext += re.findall(r"<link\b(?=[^>]*rel=[\"']?(?:stylesheet|preload|icon|modulepreload))[^>]*href=[\"']?(https?:)?//", own, re.I)
+    ext += re.findall(r"(?:@import|url\()\s*[\"']?(https?:)?//", own, re.I)
+    if ext:
+        req.append(f"외부 리소스 {len(ext)}개 (CDN·웹폰트·외부 이미지 금지, 오프라인 동작 필수)")
+    # 권장
+    if not re.search(r"<meta\b[^>]*name=[\"']?description", text, re.I):
+        rec.append("<meta name=\"description\"> 권장")
+    css = " ".join(re.findall(r"<style[^>]*>(.*?)</style>", own, re.S | re.I))
+    missing = [v for v in ("--bg", "--ink", "--accent") if not re.search(re.escape(v) + r"\s*:", css)]
+    if missing:
+        rec.append(f"CSS 변수 {', '.join(missing)} 를 쓰면 공통 토큰이 자동 적용됨")
+    small = [float(x) for x in re.findall(r"font-size\s*:\s*(\d+(?:\.\d+)?)px", css)]
+    tiny = [x for x in small if x < 12]
+    if tiny:
+        rec.append(f"12px 미만 font-size 선언 {len(tiny)}개 (꼬리표·라벨 외에는 피하기)")
+    if len(re.findall(r"<h2[\s>]", own, re.I)) >= 4 and not re.search(r"<nav\b|class=[\"'][^\"']*toc", own, re.I):
+        rec.append("절이 4개 이상이면 목차(nav) 권장")
+    if not entry.get("source_url") and not re.search(r"출처|원문", own):
+        rec.append("출처 표기(본문 끝 '출처' 문단 또는 --source-url) 권장")
+    return req, rec
+
+
 # ---------------------------------------------------------------- 카탈로그
 def migrate(e):
     """예전 형식(원본 절대경로 'source')을 공개용 형식으로 바꾼다."""
@@ -282,7 +495,7 @@ def git_commit(message, push=True):
         if git("rev-parse", "--is-inside-work-tree", check=False).returncode != 0:
             warn("git 저장소가 아니어서 --commit 을 건너뜁니다.")
             return 1
-        git("add", "-A", "--", "pages", "catalog.json", "catalog.js")
+        git("add", "-A", "--", "pages", "catalog.json", "catalog.js", "assets")
         if git("diff", "--cached", "--quiet", check=False).returncode == 0:
             print("git: 커밋할 변경 사항 없음")
             return 0
@@ -443,13 +656,25 @@ def cmd_add(a):
         "source_sha256": digest,
         "source_path_sha256": phash,
     }
+    if a.source_url:
+        entry["source_url"] = a.source_url.strip()
+    if a.tokens == "off":
+        entry["tokens"] = False
+    style_notes = [] if a.no_restyle else restyle_page(entry)
     entries.append(entry)
     save_catalog(entries)
     print(f"추가됨: {entry['id']}  {title}")
     print(f"  파일: {entry['file']}")
     print(f"  태그: {', '.join(tags) or '(없음)'}  날짜: {date}")
     print(f"  모바일 보정: {', '.join(notes) if notes else ('건너뜀 (--no-mobile)' if a.no_mobile else '이미 적용됨')}")
+    print(f"  공통 형식: {', '.join(style_notes) if style_notes else ('건너뜀 (--no-restyle)' if a.no_restyle else '변경 없음')}")
     print(f"  총 {len(entries)}개 항목, catalog.js 재생성 완료")
+    if not a.no_restyle:
+        req, rec = style_lint(entry)
+        for r in req:
+            print(f"  형식 필수 ✗ {r}")
+        for r in rec:
+            print(f"  형식 권장 · {r}")
     if not a.no_check:
         mobile_check([dest])
     if a.commit:
@@ -506,6 +731,68 @@ def cmd_fix_mobile(a):
         git_commit("모바일 보정 적용 (--fix-mobile)", push=not a.no_push)
 
 
+def cmd_restyle(a):
+    for e in select_entries(load_catalog(), a.restyle):
+        notes = restyle_page(e)
+        print(f"{e['id']}  {e['file']}: {', '.join(notes) if notes else '변경 없음'}")
+    if a.commit:
+        git_commit("공통 형식 적용 (--restyle)", push=not a.no_push)
+
+
+def cmd_check_style(a):
+    entries = select_entries(load_catalog(), a.check_style)
+    bad = 0
+    for e in entries:
+        req, rec = style_lint(e)
+        mark = "✓" if not req else "✗"
+        print(f"{mark} {e['id']}  {e['file']}")
+        for r in req:
+            print(f"    필수 ✗ {r}")
+        for r in rec:
+            print(f"    권장 · {r}")
+        bad += bool(req)
+    if not a.no_check:
+        n = mobile_check([os.path.join(ROOT, e["file"]) for e in entries])
+        bad += n or 0
+    print("형식 검사 통과" if not bad else f"필수 항목 위반 {bad}건")
+    return 1 if bad else 0
+
+
+def cmd_edit(a):
+    entries = load_catalog()
+    e = select_entries(entries, a.edit)[0]
+    changed = []
+    if a.title:
+        e["title"] = nfc(a.title).strip(); changed.append("title")
+    if a.summary:
+        e["summary"] = nfc(a.summary).strip(); changed.append("summary")
+    if a.tags:
+        e["tags"] = parse_tags(a.tags); changed.append("tags")
+    if a.date:
+        if not DATE_RE.match(a.date):
+            die("--date 형식은 YYYY-MM-DD 입니다.")
+        e["date"] = a.date; changed.append("date")
+    if a.source_url is not None:
+        if a.source_url.strip():
+            e["source_url"] = a.source_url.strip()
+        else:
+            e.pop("source_url", None)
+        changed.append("source_url")
+    if a.tokens:
+        if a.tokens == "off":
+            e["tokens"] = False
+        else:
+            e.pop("tokens", None)
+        changed.append("tokens")
+    if not changed:
+        die("바꿀 항목이 없습니다 (--title/--summary/--tags/--date/--source-url/--tokens).")
+    save_catalog(entries)
+    notes = restyle_page(e)
+    print(f"수정: {e['id']}  ({', '.join(changed)})  공통 형식: {', '.join(notes) or '변경 없음'}")
+    if a.commit:
+        git_commit(f"항목 수정: {e['title']} ({e['id']})", push=not a.no_push)
+
+
 def cmd_check(a):
     paths = [os.path.join(ROOT, e["file"]) for e in select_entries(load_catalog(), a.check)]
     if a.check in (None, "all"):
@@ -535,8 +822,14 @@ def main():
     p.add_argument("--delete-file", action="store_true", help="--remove 시 pages/ 복사본도 삭제")
     p.add_argument("--check", nargs="?", const="all", metavar="ID|all", help="모바일 검사 (기본 all)")
     p.add_argument("--fix-mobile", nargs="?", const="all", metavar="ID|all", help="기존 페이지에 모바일 보정 주입")
+    p.add_argument("--source-url", help="원문 주소 (머리띠·꼬리말에 '원문 ↗' 링크). --edit 에서 빈 문자열이면 삭제")
+    p.add_argument("--tokens", choices=("on", "off"), help="공통 기본 토큰(archive-tokens.css) 적용 여부 (기본 on)")
+    p.add_argument("--no-restyle", action="store_true", help="추가 시 공통 머리띠·꼬리말·CSS를 넣지 않음")
+    p.add_argument("--restyle", nargs="?", const="all", metavar="ID|all", help="공통 형식 주입/갱신")
+    p.add_argument("--check-style", nargs="?", const="all", metavar="ID|all", help="형식 표준 검사 (+모바일 검사)")
+    p.add_argument("--edit", metavar="ID", help="카탈로그 항목 수정 후 공통 형식 갱신")
     p.add_argument("--commit", action="store_true",
-                   help="작업 후 git add/commit, 원격(origin)이 있으면 push (추가·--rebuild·--remove·--fix-mobile)")
+                   help="작업 후 git add/commit, 원격(origin)이 있으면 push (추가·수정·삭제·재생성·보정)")
     p.add_argument("--no-push", action="store_true", help="--commit 시 push는 하지 않음")
     a = p.parse_args()
 
@@ -548,6 +841,12 @@ def main():
         return cmd_remove(a)
     if a.fix_mobile:
         return cmd_fix_mobile(a)
+    if a.restyle:
+        return cmd_restyle(a)
+    if a.check_style:
+        sys.exit(cmd_check_style(a))
+    if a.edit:
+        return cmd_edit(a)
     if a.check:
         sys.exit(cmd_check(a))
     if not a.source:

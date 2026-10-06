@@ -16,7 +16,8 @@ window.ARCHIVE_CATALOG = [
     "added": "2026-10-06T13:10:55+09:00",
     "source_name": "공정거래법경계_10분요약.html",
     "source_sha256": "97bb91bd1de24726f1817f5dd061c0d24bab44f8f015376b6d16ddff6446da8f",
-    "source_path_sha256": "1b50cb029eb4a5e3bffd0593f290ac212cb3718837a62b7fd6debc7b3cdb8daf"
+    "source_path_sha256": "1b50cb029eb4a5e3bffd0593f290ac212cb3718837a62b7fd6debc7b3cdb8daf",
+    "source_url": "https://yghnsim.github.io/Pages/union_activity_antitrust_boundary.html"
   },
   {
     "id": "20261006-01",
