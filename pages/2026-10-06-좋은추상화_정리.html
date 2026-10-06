@@ -170,6 +170,27 @@ footer{max-width:1180px;margin:0 auto;padding:24px 20px 50px;color:var(--muted);
 }
 @media print{nav.toc,#progress,#totop{display:none}.layout{grid-template-columns:1fr}}
 </style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<!-- archive-mobile-fix: 이 페이지 전용 모바일 가독성 보정 (본문 내용 변경 없음) -->
+<style id="archive-mobile-fix">
+@media (max-width:640px){
+  figure.slide figcaption, figure.slide figcaption li, .sec-head p.sub,
+  .gloss .g-card p, .cmp-col, .cmp-col li, .speaker li{font-size:16px}
+  .gloss .g-card a.jump{display:inline-flex;align-items:center;min-height:44px;font-size:15px}
+}
+</style>
 </head>
 <body>
 <div id="progress" aria-hidden="true"></div>

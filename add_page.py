@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
-"""요약 페이지 아카이브 관리 도구 (python3 표준 라이브러리만 사용).
+"""요약 페이지 아카이브 관리 도구 (python3 표준 라이브러리만 사용, 모바일 검사만 Playwright 선택 사용).
 
 사용 예:
   python3 add_page.py <source.html> --title "제목" --summary "요약" --tags AI,소프트웨어 [--date 2026-10-06]
-  python3 add_page.py --rebuild          # catalog.json 손으로 고친 뒤 catalog.js 재생성
-  python3 add_page.py --list             # 항목 목록
+  python3 add_page.py --rebuild              # catalog.json 손으로 고친 뒤 catalog.js 재생성
+  python3 add_page.py --list                 # 항목 목록
   python3 add_page.py --remove <id> [--delete-file]
-  ... --commit [--no-push]               # 작업 후 git commit (+ push)
+  python3 add_page.py --check [id|all]       # 모바일(390/360px) 가로 넘침·글자 크기 검사
+  python3 add_page.py --fix-mobile [id|all]  # 기존 페이지에 모바일 보정 주입
+  ... --commit [--no-push]                   # 작업 후 git commit (+ push)
 """
 import argparse
 import datetime as dt
@@ -30,6 +32,26 @@ PAGES_DIR = os.path.join(ROOT, "pages")
 CATALOG_JSON = os.path.join(ROOT, "catalog.json")
 CATALOG_JS = os.path.join(ROOT, "catalog.js")
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+CHECK_WIDTHS = (390, 360)
+
+# ---------------------------------------------------------------- 모바일 보정
+MOBILE_MARK = "archive-mobile-css"
+VIEWPORT_TAG = '<meta name="viewport" content="width=device-width, initial-scale=1">'
+# :where() 로 감싸 명시도 0 → 원래 페이지 규칙과 충돌하면 항상 원래 규칙이 이김 (빈틈만 메움)
+MOBILE_CSS = f"""<!-- {MOBILE_MARK} v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="{MOBILE_MARK}">
+:where(html){{-webkit-text-size-adjust:100%;text-size-adjust:100%}}
+:where(img,video,canvas,iframe,embed,object,svg){{max-width:100%}}
+:where(img,video){{height:auto}}
+@media (max-width:640px){{
+  :where(body){{overflow-wrap:break-word}}
+  :where(pre){{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}}
+  :where(table){{display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}}
+  :where(code,kbd,samp){{overflow-wrap:anywhere}}
+  :where(input,select,textarea){{font-size:16px}}
+}}
+</style>
+"""
 
 
 def die(msg, code=1):
@@ -57,11 +79,16 @@ def sha256(path):
     return h.hexdigest()
 
 
-def atomic_write(path, text):
+def path_hash(path):
+    """원본 경로 자체는 공개 저장소에 남기지 않고 해시만 보관 (중복 감지용)."""
+    return hashlib.sha256(nfc(os.path.abspath(path)).encode("utf-8")).hexdigest()
+
+
+def atomic_write(path, text, encoding="utf-8", errors="strict"):
     d = os.path.dirname(path)
     fd, tmp = tempfile.mkstemp(dir=d, prefix=".tmp-", suffix=os.path.basename(path))
     try:
-        with os.fdopen(fd, "w", encoding="utf-8", newline="\n") as f:
+        with os.fdopen(fd, "w", encoding=encoding, errors=errors, newline="") as f:
             f.write(text)
         os.chmod(tmp, 0o644)
         os.replace(tmp, path)
@@ -69,6 +96,119 @@ def atomic_write(path, text):
         if os.path.exists(tmp):
             os.unlink(tmp)
         raise
+
+
+def inject_mobile(text):
+    """(새 텍스트, 변경 내용 목록). 이미 주입된 경우 다시 넣지 않는다."""
+    notes = []
+    vp = re.search(r"<meta\b[^>]*\bname\s*=\s*[\"']?viewport\b[^>]*>", text, re.I)
+    if vp is None:
+        m = (re.search(r"<meta\b[^>]*\bcharset\b[^>]*>", text, re.I)
+             or re.search(r"<head\b[^>]*>", text, re.I))
+        if m:
+            text = text[:m.end()] + "\n" + VIEWPORT_TAG + text[m.end():]
+        else:
+            m = re.search(r"<html\b[^>]*>", text, re.I)
+            pos = m.end() if m else 0
+            text = text[:pos] + "\n<head>" + VIEWPORT_TAG + "</head>\n" + text[pos:]
+        notes.append("viewport meta 추가")
+    elif not re.search(r"width\s*=\s*device-width", vp.group(0), re.I):
+        text = text[:vp.start()] + VIEWPORT_TAG + text[vp.end():]
+        notes.append(f"viewport 교체 (기존: {vp.group(0)})")
+    if MOBILE_MARK not in text:
+        m = re.search(r"</head\s*>", text, re.I)
+        if m:  # 페이지 자체 스타일 뒤에 둠
+            text = text[:m.start()] + MOBILE_CSS + text[m.start():]
+        else:
+            vp = re.search(r"<meta\b[^>]*\bname\s*=\s*[\"']?viewport\b[^>]*>", text, re.I)
+            text = text[:vp.end()] + "\n" + MOBILE_CSS + text[vp.end():]
+        notes.append("모바일 보정 CSS 추가")
+    return text, notes
+
+
+def apply_mobile(path):
+    with open(path, encoding="utf-8", errors="surrogateescape", newline="") as f:
+        old = f.read()
+    new, notes = inject_mobile(old)
+    if new != old:
+        atomic_write(path, new, errors="surrogateescape")
+    return notes
+
+
+def mobile_check(paths, widths=CHECK_WIDTHS):
+    """Playwright 가 있으면 각 페이지를 모바일 폭으로 열어 검사. 문제 수 반환, 불가하면 None."""
+    try:
+        from playwright.sync_api import sync_playwright
+    except ImportError:
+        warn("Playwright 가 없어 모바일 검사를 건너뜁니다 (pip install playwright).")
+        return None
+    js = r"""() => {
+      const vw = document.documentElement.clientWidth, bad = [];
+      for (const el of document.body.querySelectorAll('*')) {
+        const r = el.getBoundingClientRect(); if (!r.width) continue;
+        if (r.right <= vw + 1 && r.left >= -1) continue;
+        const st = getComputedStyle(el); if (st.position === 'fixed' || st.visibility === 'hidden') continue;
+        let p = el.parentElement, ok = false;
+        while (p && p !== document.body) {
+          if (/(auto|scroll|hidden|clip)/.test(getComputedStyle(p).overflowX)) {
+            const pr = p.getBoundingClientRect(); if (pr.right <= vw + 1 && pr.left >= -1) { ok = true; break; } }
+          p = p.parentElement; }
+        if (!ok) bad.push(el.tagName.toLowerCase() + (el.className && typeof el.className === 'string' ? '.' + el.className.trim().split(/\s+/)[0] : ''));
+      }
+      const vp = document.querySelector('meta[name=viewport]');
+      return {scrollW: document.documentElement.scrollWidth, vw,
+              viewport: vp ? vp.content : null,
+              font: parseFloat(getComputedStyle(document.body).fontSize), bad: [...new Set(bad)].slice(0, 8)};
+    }"""
+    exe = next((p for p in ("/usr/bin/google-chrome", "/usr/bin/chromium", "/usr/bin/chromium-browser")
+                if os.path.exists(p)), None)
+    problems = 0
+    try:
+        with sync_playwright() as pw:
+            try:
+                b = pw.chromium.launch(args=["--no-sandbox"])
+            except Exception:
+                if not exe:
+                    raise
+                b = pw.chromium.launch(executable_path=exe, args=["--no-sandbox"])
+            for path in paths:
+                for w in widths:
+                    ctx = b.new_context(viewport={"width": w, "height": 800}, is_mobile=True, has_touch=True)
+                    pg = ctx.new_page()
+                    pg.goto("file://" + os.path.abspath(path))
+                    pg.wait_for_timeout(300)
+                    r = pg.evaluate(js)
+                    ctx.close()
+                    issues = []
+                    if not r["viewport"] or "device-width" not in r["viewport"]:
+                        issues.append("viewport 없음")
+                    if r["scrollW"] > w:
+                        issues.append(f"가로 넘침 {r['scrollW']}px")
+                    if r["bad"]:
+                        issues.append("화면 밖 요소: " + ", ".join(r["bad"]))
+                    if r["font"] < 16:
+                        issues.append(f"본문 글자 {r['font']}px (<16px)")
+                    name = os.path.relpath(path, ROOT)
+                    if issues:
+                        problems += 1
+                        print(f"  모바일 {w}px ✗ {name}: " + "; ".join(issues))
+                    else:
+                        print(f"  모바일 {w}px ✓ {name} (본문 {r['font']:g}px, 넘침 없음)")
+            b.close()
+    except Exception as e:
+        warn(f"모바일 검사 실행 실패: {e}")
+        return None
+    return problems
+
+
+# ---------------------------------------------------------------- 카탈로그
+def migrate(e):
+    """예전 형식(원본 절대경로 'source')을 공개용 형식으로 바꾼다."""
+    if "source" in e:
+        src = e.pop("source")
+        e.setdefault("source_name", os.path.basename(src))
+        e.setdefault("source_path_sha256", path_hash(src))
+    return e
 
 
 def load_catalog():
@@ -81,7 +221,7 @@ def load_catalog():
         die(f"catalog.json 파싱 실패: {e}")
     if not isinstance(data, list):
         die("catalog.json 최상위는 배열(list)이어야 합니다.")
-    return data
+    return [migrate(e) if isinstance(e, dict) else e for e in data]
 
 
 def sort_key(e):
@@ -89,11 +229,10 @@ def sort_key(e):
 
 
 def validate(entries):
-    """문제 목록(문자열)을 돌려준다. 빈 리스트면 정상."""
     problems = []
     ids = set()
     for i, e in enumerate(entries):
-        where = f"항목 #{i + 1} ({e.get('id', '?')})"
+        where = f"항목 #{i + 1} ({e.get('id', '?') if isinstance(e, dict) else '?'})"
         if not isinstance(e, dict):
             problems.append(f"{where}: 객체가 아님")
             continue
@@ -115,8 +254,7 @@ def validate(entries):
 
 def save_catalog(entries):
     entries.sort(key=sort_key, reverse=True)
-    text = json.dumps(entries, ensure_ascii=False, indent=2) + "\n"
-    atomic_write(CATALOG_JSON, text)
+    atomic_write(CATALOG_JSON, json.dumps(entries, ensure_ascii=False, indent=2) + "\n")
     build_js(entries)
 
 
@@ -124,13 +262,10 @@ def build_js(entries=None):
     if entries is None:
         entries = load_catalog()
     payload = json.dumps(entries, ensure_ascii=False, indent=2)
-    # <script> 안에서 안전하도록 '</' 와 줄 구분 문자를 이스케이프
     payload = payload.replace("</", "<\\/").replace("\u2028", "\\u2028").replace("\u2029", "\\u2029")
-    stamp = now_kst().isoformat(timespec="seconds")
     js = (
         "/* 자동 생성 파일 — 직접 수정하지 마세요. catalog.json을 고친 뒤\n"
-        "   `python3 add_page.py --rebuild` 를 실행하면 다시 만들어집니다.\n"
-        f"   생성 시각: {stamp} */\n"
+        "   `python3 add_page.py --rebuild` 를 실행하면 다시 만들어집니다. */\n"
         f"window.ARCHIVE_CATALOG = {payload};\n"
     )
     atomic_write(CATALOG_JS, js)
@@ -141,8 +276,7 @@ def git_commit(message, push=True):
     import subprocess
 
     def git(*args, check=True):
-        return subprocess.run(["git", "-C", ROOT, *args], check=check, text=True,
-                              capture_output=True)
+        return subprocess.run(["git", "-C", ROOT, *args], check=check, text=True, capture_output=True)
 
     try:
         if git("rev-parse", "--is-inside-work-tree", check=False).returncode != 0:
@@ -158,7 +292,7 @@ def git_commit(message, push=True):
         if push and git("remote", check=False).stdout.strip():
             r = git("push", check=False)
             if r.returncode == 0:
-                print("git: push 완료")
+                print("git: push 완료 (GitHub Pages 반영까지 1~2분)")
             else:
                 warn("git push 실패 (커밋은 로컬에 남아 있음):\n" + (r.stderr or r.stdout).strip())
                 return 1
@@ -174,8 +308,7 @@ def git_commit(message, push=True):
 def slugify(stem):
     stem = nfc(stem).strip()
     stem = re.sub(r"\s+", "-", stem)
-    # 한글·영문·숫자·_·- 만 남김 (파일명/URL 안전)
-    stem = re.sub(r"[^\w\-]", "", stem, flags=re.UNICODE)
+    stem = re.sub(r"[^\w\-]", "", stem, flags=re.UNICODE)  # 한글·영문·숫자·_·- 만
     stem = re.sub(r"-{2,}", "-", stem).strip("-_")
     return stem[:80] or "page"
 
@@ -200,10 +333,8 @@ def new_id(entries, date):
 
 
 def parse_tags(s):
-    if not s:
-        return []
     out = []
-    for t in re.split(r"[,，、]", s):
+    for t in re.split(r"[,，、]", s or ""):
         t = nfc(t).strip()
         if t and t not in out:
             out.append(t)
@@ -223,6 +354,16 @@ def html_title(path):
     return None
 
 
+def select_entries(entries, which):
+    if which in (None, "all"):
+        return entries
+    hit = [e for e in entries if e.get("id") == which]
+    if not hit:
+        die(f"id를 찾을 수 없습니다: {which}  (--list 로 확인)")
+    return hit
+
+
+# ---------------------------------------------------------------- 명령
 def cmd_add(a):
     src = os.path.abspath(a.source)
     if not os.path.isfile(src):
@@ -247,7 +388,6 @@ def cmd_add(a):
     tags = parse_tags(a.tags)
 
     entries = load_catalog()
-    # 대소문자만 다른 기존 태그가 있으면 기존 표기로 통일 (예: ai → AI)
     known = {}
     for e in entries:
         for t in e.get("tags", []):
@@ -258,12 +398,13 @@ def cmd_add(a):
             warn(f"태그 '{t}' → 기존 표기 '{k}' 로 통일")
             tags[i] = k
     tags = list(dict.fromkeys(tags))
-    digest = sha256(src)
+
+    digest, phash = sha256(src), path_hash(src)
     dups = []
     for e in entries:
         if e.get("source_sha256") == digest:
             dups.append(f"같은 내용의 파일이 이미 있음 → {e['id']} ({e['title']})")
-        elif e.get("source") == src:
+        elif e.get("source_path_sha256") == phash:
             dups.append(f"같은 원본 경로가 이미 등록됨 → {e['id']} ({e['title']})")
         if nfc(e.get("title", "")).casefold() == title.casefold():
             dups.append(f"같은 제목이 이미 있음 → {e['id']}")
@@ -274,7 +415,6 @@ def cmd_add(a):
             die("중복으로 판단되어 추가하지 않았습니다. 그래도 추가하려면 --force 를 붙이세요.", 2)
 
     stem = slugify(a.name if a.name else os.path.splitext(os.path.basename(src))[0])
-    # 원본 파일명이 이미 날짜로 시작하면 날짜를 두 번 붙이지 않음
     stem = re.sub(r"^\d{4}-\d{2}-\d{2}-?", "", stem) or "page"
     fname = unique_filename(date, stem, ext)
     dest = os.path.join(PAGES_DIR, fname)
@@ -289,6 +429,7 @@ def cmd_add(a):
         os.unlink(dest)
         die("복사본 검증(sha256) 실패")
     os.chmod(dest, 0o644)
+    notes = [] if a.no_mobile else apply_mobile(dest)  # 복사본에만 적용
 
     entry = {
         "id": new_id(entries, date),
@@ -298,25 +439,28 @@ def cmd_add(a):
         "date": date,
         "file": f"pages/{fname}",
         "added": now_kst().isoformat(timespec="seconds"),
-        "source": src,
+        "source_name": os.path.basename(src),
         "source_sha256": digest,
+        "source_path_sha256": phash,
     }
     entries.append(entry)
     save_catalog(entries)
     print(f"추가됨: {entry['id']}  {title}")
     print(f"  파일: {entry['file']}")
     print(f"  태그: {', '.join(tags) or '(없음)'}  날짜: {date}")
+    print(f"  모바일 보정: {', '.join(notes) if notes else ('건너뜀 (--no-mobile)' if a.no_mobile else '이미 적용됨')}")
     print(f"  총 {len(entries)}개 항목, catalog.js 재생성 완료")
+    if not a.no_check:
+        mobile_check([dest])
     if a.commit:
         git_commit(f"페이지 추가: {title} ({entry['id']})", push=not a.no_push)
 
 
-def cmd_rebuild(_a):
+def cmd_rebuild(a):
     entries = load_catalog()
     problems = validate(entries)
     for p in problems:
         warn(p)
-    # 등록되지 않은 pages/ 파일 알림
     known = {e.get("file") for e in entries}
     if os.path.isdir(PAGES_DIR):
         for n in sorted(os.listdir(PAGES_DIR)):
@@ -324,8 +468,8 @@ def cmd_rebuild(_a):
                 warn(f"catalog.json에 없는 파일: pages/{n}")
     save_catalog(entries)
     print(f"catalog.js 재생성 완료 ({len(entries)}개 항목{', 문제 ' + str(len(problems)) + '건' if problems else ''})")
-    if _a.commit:
-        git_commit("카탈로그 재생성 (--rebuild)", push=not _a.no_push)
+    if a.commit:
+        git_commit("카탈로그 재생성 (--rebuild)", push=not a.no_push)
     return 1 if problems else 0
 
 
@@ -339,10 +483,7 @@ def cmd_list(_a):
 
 def cmd_remove(a):
     entries = load_catalog()
-    hit = [e for e in entries if e.get("id") == a.remove]
-    if not hit:
-        die(f"id를 찾을 수 없습니다: {a.remove}  (--list 로 확인)")
-    e = hit[0]
+    e = select_entries(entries, a.remove)[0]
     entries = [x for x in entries if x is not e]
     save_catalog(entries)
     print(f"카탈로그에서 제거: {e['id']}  {e['title']}")
@@ -357,6 +498,25 @@ def cmd_remove(a):
         git_commit(f"페이지 제거: {e['title']} ({e['id']})", push=not a.no_push)
 
 
+def cmd_fix_mobile(a):
+    for e in select_entries(load_catalog(), a.fix_mobile):
+        notes = apply_mobile(os.path.join(ROOT, e["file"]))
+        print(f"{e['id']}  {e['file']}: {', '.join(notes) if notes else '이미 적용됨'}")
+    if a.commit:
+        git_commit("모바일 보정 적용 (--fix-mobile)", push=not a.no_push)
+
+
+def cmd_check(a):
+    paths = [os.path.join(ROOT, e["file"]) for e in select_entries(load_catalog(), a.check)]
+    if a.check in (None, "all"):
+        paths.append(os.path.join(ROOT, "index.html"))
+    n = mobile_check(paths)
+    if n is None:
+        return 2
+    print("모바일 검사 통과" if n == 0 else f"모바일 문제 {n}건")
+    return 1 if n else 0
+
+
 def main():
     p = argparse.ArgumentParser(description="HTML 요약 페이지 아카이브 도구")
     p.add_argument("source", nargs="?", help="추가할 HTML 파일 경로 (원본은 수정하지 않음)")
@@ -367,12 +527,16 @@ def main():
     p.add_argument("--name", help="pages/ 안 파일명(확장자 제외). 기본: 원본 파일명")
     p.add_argument("--force", action="store_true", help="중복 경고를 무시하고 추가")
     p.add_argument("--dry-run", action="store_true", help="복사/기록 없이 결과만 출력")
+    p.add_argument("--no-mobile", action="store_true", help="복사본에 모바일 보정(viewport·CSS)을 넣지 않음")
+    p.add_argument("--no-check", action="store_true", help="추가 후 모바일 검사(Playwright)를 생략")
     p.add_argument("--rebuild", action="store_true", help="catalog.json 검증 후 catalog.js 재생성")
     p.add_argument("--list", action="store_true", help="항목 목록 출력")
     p.add_argument("--remove", metavar="ID", help="카탈로그에서 항목 제거")
     p.add_argument("--delete-file", action="store_true", help="--remove 시 pages/ 복사본도 삭제")
+    p.add_argument("--check", nargs="?", const="all", metavar="ID|all", help="모바일 검사 (기본 all)")
+    p.add_argument("--fix-mobile", nargs="?", const="all", metavar="ID|all", help="기존 페이지에 모바일 보정 주입")
     p.add_argument("--commit", action="store_true",
-                   help="작업 후 git add/commit, 원격(origin)이 있으면 push까지 (추가·--rebuild·--remove)")
+                   help="작업 후 git add/commit, 원격(origin)이 있으면 push (추가·--rebuild·--remove·--fix-mobile)")
     p.add_argument("--no-push", action="store_true", help="--commit 시 push는 하지 않음")
     a = p.parse_args()
 
@@ -382,6 +546,10 @@ def main():
         return cmd_list(a)
     if a.remove:
         return cmd_remove(a)
+    if a.fix_mobile:
+        return cmd_fix_mobile(a)
+    if a.check:
+        sys.exit(cmd_check(a))
     if not a.source:
         p.print_help()
         sys.exit(1)

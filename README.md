@@ -1,7 +1,10 @@
 # 요약 아카이브
 
-다른 어시스턴트가 만든 한국어 HTML 요약 페이지를 한곳에 모아 두는 **오프라인 정적 아카이브**입니다.
-외부 CDN·폰트·스크립트를 쓰지 않아 인터넷 없이도, `index.html`을 더블클릭(`file://`)해도 그대로 동작합니다.
+다른 어시스턴트가 만든 한국어 HTML 요약 페이지를 한곳에 모아 두는 **정적 아카이브**입니다.
+
+- 공개 사이트: **https://yghnsim.github.io/Archive/** (GitHub Pages, `main` 브랜치 루트에서 자동 배포)
+- 외부 CDN·폰트·스크립트를 쓰지 않아 인터넷 없이도, `index.html`을 더블클릭(`file://`)해도 그대로 동작합니다.
+- 모든 페이지는 모바일(360~390px 폭)에서 가로 스크롤 없이 읽히도록 보정·검사합니다.
 
 ## 구성
 
@@ -11,6 +14,7 @@ archive/
 ├── catalog.json    항목 메타데이터 — 원본 데이터(source of truth)
 ├── catalog.js      catalog.json에서 자동 생성 (index.html이 <script>로 읽음, 직접 수정 금지)
 ├── add_page.py     추가/재생성/삭제 도구 (python3 표준 라이브러리만 사용)
+├── .nojekyll       GitHub Pages가 Jekyll 처리를 하지 않도록 (한글 파일명 그대로 제공)
 ├── pages/          보관된 HTML 페이지 복사본
 └── preview/        미리보기 스크린샷
 ```
@@ -29,6 +33,7 @@ python3 add_page.py /경로/요약.html \
 ```
 
 - 원본 파일은 **복사만** 하고 절대 수정하지 않습니다. 복사 후 sha256으로 검증합니다.
+- 복사본에는 **모바일 보정**이 자동으로 들어갑니다 (아래 "모바일 최적화" 참고). 끄려면 `--no-mobile`.
 - 저장 이름: `pages/<날짜>-<원본파일명>.html` (같은 이름이 있으면 `-2`, `-3` …). `--name 이름`으로 바꿀 수 있습니다.
 - `--date` 생략 시 오늘(Asia/Seoul), `--title` 생략 시 HTML `<title>`을 씁니다.
 - 태그는 쉼표로 구분합니다. 대소문자만 다른 기존 태그가 있으면 기존 표기로 맞춥니다 (`ai` → `AI`).
@@ -55,8 +60,37 @@ python3 add_page.py /경로/요약.html --title "제목" --summary "요약" --ta
 python3 add_page.py /경로/요약.html --title "제목" --commit --no-push   # 커밋만, push는 나중에
 ```
 
-push가 실패해도 커밋은 로컬에 남아 있으니 나중에 `git push`로 올리면 됩니다.
+push하면 1~2분 뒤 공개 사이트에 반영됩니다. push가 실패해도 커밋은 로컬에 남아 있으니 나중에 `git push`로 올리면 됩니다.
 `index.html`·`README.md`·`add_page.py` 자체를 고쳤을 때는 평소처럼 직접 `git commit` 하세요.
+
+### 모바일 최적화
+
+페이지를 추가하면 `pages/` 안의 **복사본에만** 다음을 자동으로 넣습니다 (본문 내용은 건드리지 않음).
+
+1. `<meta name="viewport" content="width=device-width, initial-scale=1">` — 없으면 추가, `width=device-width`가 아니면 교체
+2. `<!-- archive-mobile-css v1 -->` 주석이 붙은 작은 `<style id="archive-mobile-css">` 블록 — `</head>` 바로 앞
+   - 이미지·영상·SVG·iframe `max-width:100%`
+   - 640px 이하에서 표(`table`)와 코드 블록(`pre`)은 자기 상자 안에서 가로 스크롤, 긴 단어·URL 줄바꿈
+   - 모든 규칙을 `:where()`로 감싸 명시도 0 → 원래 페이지 스타일과 겹치면 **항상 원래 스타일이 우선** (데스크톱 화면은 그대로)
+   - 주석 표식이 있으면 다시 넣지 않으므로 여러 번 실행해도 안전
+
+추가 직후 Playwright가 설치되어 있으면 390px·360px 폭으로 열어 **가로 넘침, 화면 밖 요소, viewport, 본문 글자 크기(16px 이상)** 를 검사합니다 (`--no-check`로 생략). Playwright가 없으면 경고만 내고 넘어갑니다.
+
+```bash
+python3 add_page.py --check            # 전체 페이지 + index.html 모바일 검사
+python3 add_page.py --check 20261006-01
+python3 add_page.py --fix-mobile all   # 예전에 추가한 페이지에 보정 주입
+```
+
+자동 보정으로 부족한 페이지(작은 글씨, 좁은 버튼 등)는 해당 복사본 `</head>` 앞에 `<!-- archive-mobile-fix -->` 블록을 손으로 추가합니다.
+예: `pages/2026-10-06-좋은추상화_정리.html`에는 캡션·목록 글자를 16px로, 용어 카드의 "바로가기" 링크 터치 영역을 44px로 키우는 블록이 들어 있습니다.
+
+> Playwright 설치: `pip install --user playwright` (브라우저는 `/usr/bin/google-chrome` 등 시스템 Chrome을 자동으로 사용, 없으면 `python3 -m playwright install chromium`)
+
+### 공개 저장소와 개인정보
+
+`catalog.json`/`catalog.js`는 공개 사이트에 그대로 올라가므로 원본의 **전체 경로는 저장하지 않습니다.**
+파일명(`source_name`)과 내용 해시(`source_sha256`), 경로 해시(`source_path_sha256`)만 남기며, 중복 감지는 이 해시들로 합니다.
 
 `--rebuild`는 필수 필드, 날짜 형식, id 중복, 파일 존재 여부를 검사하고, `pages/`에 있지만 카탈로그에 없는 파일도 알려 줍니다.
 
@@ -71,8 +105,9 @@ push가 실패해도 커밋은 로컬에 남아 있으니 나중에 `git push`�
   "date": "2026-10-06",
   "file": "pages/2026-10-06-좋은추상화_정리.html",
   "added": "2026-10-06T12:40:32+09:00",
-  "source": "/workspace/abstraction/좋은추상화_정리.html",
-  "source_sha256": "…"
+  "source_name": "좋은추상화_정리.html",
+  "source_sha256": "…",
+  "source_path_sha256": "…"
 }
 ```
 
