@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta name="robots" content="noindex,nofollow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>금품청산 및 임금 전액지급 원칙 위반 등에 관한 신고서 (재신고 v4)</title>
+<style>
+  @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+  @page {
+    size: A4 portrait;
+    margin: 18mm 16mm 18mm 16mm;
+    @bottom-center {
+      content: "- " counter(page) " -";
+      font-family: 'Pretendard', sans-serif;
+      font-size: 9pt;
+      color: #64748b;
+    }
+  }
+
+  * {
+    box-sizing: border-box;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Malgun Gothic", "맑은 고딕", helvetica, sans-serif;
+    font-size: 10.5pt;
+    line-height: 1.75;
+    color: #1e293b;
+    background-color: #f8fafc;
+    margin: 0;
+    padding: 24px 0;
+    word-break: keep-all;
+    word-wrap: break-word;
+    letter-spacing: -0.02em;
+  }
+
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 48px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    border-radius: 6px;
+  }
+
+  @media print {
+    body {
+      background-color: #ffffff;
+      padding: 0;
+    }
+    .container {
+      max-width: 100%;
+      padding: 0;
+      box-shadow: none;
+      border-radius: 0;
+    }
+    .page-break {
+      page-break-before: always;
+    }
+    .no-print {
+      display: none !important;
+    }
+  }
+
+  h1 {
+    font-size: 18pt;
+    font-weight: 800;
+    text-align: center;
+    color: #0f172a;
+    margin-top: 0;
+    margin-bottom: 24px;
+    padding-bottom: 14px;
+    border-bottom: 2.5px solid #0f172a;
+    letter-spacing: -0.03em;
+  }
+
+  .party-box {
+    background-color: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-left: 5px solid #1e3a8a;
+    border-radius: 4px;
+    padding: 14px 20px;
+    margin-bottom: 24px;
+    font-size: 10.5pt;
+  }
+
+  .party-row {
+    display: flex;
+    margin: 5px 0;
+    align-items: baseline;
+  }
+
+  .party-label {
+    width: 95px;
+    font-weight: 700;
+    color: #334155;
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+  }
+
+  .party-value {
+    flex: 1;
+    color: #0f172a;
+  }
+
+  .party-sub {
+    font-size: 9.5pt;
+    color: #475569;
+    margin-top: 2px;
+    padding-left: 12px;
+  }
+
+  h2 {
+    font-size: 13pt;
+    font-weight: 700;
+    color: #0f172a;
+    margin-top: 30px;
+    margin-bottom: 12px;
+    padding-left: 10px;
+    border-left: 4px solid #2563eb;
+    letter-spacing: -0.02em;
+  }
+
+  h3 {
+    font-size: 11pt;
+    font-weight: 700;
+    color: #1e3a8a;
+    margin-top: 20px;
+    margin-bottom: 8px;
+  }
+
+  h4 {
+    font-size: 10.5pt;
+    font-weight: 700;
+    color: #334155;
+    margin-top: 14px;
+    margin-bottom: 6px;
+  }
+
+  p {
+    margin: 7px 0;
+    text-align: justify;
+  }
+
+  ul, ol {
+    margin: 7px 0;
+    padding-left: 20px;
+  }
+
+  li {
+    margin-bottom: 5px;
+    text-align: justify;
+  }
+
+  .callout-box {
+    background-color: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    padding: 12px 18px;
+    margin: 12px 0;
+    font-size: 10pt;
+  }
+
+  .callout-box p {
+    margin: 5px 0;
+  }
+
+  blockquote {
+    margin: 10px 0;
+    padding: 10px 16px;
+    background-color: #f1f5f9;
+    border-left: 3.5px solid #3b82f6;
+    color: #1e293b;
+    font-size: 10pt;
+    line-height: 1.7;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .rebuttal-box {
+    background-color: #f0f7ff;
+    border: 1px solid #bfdbfe;
+    border-left: 4.5px solid #2563eb;
+    padding: 14px 18px;
+    margin: 14px 0;
+    border-radius: 0 4px 4px 0;
+    page-break-inside: avoid;
+  }
+
+  .rebuttal-title {
+    font-size: 11pt;
+    font-weight: 700;
+    color: #1d4ed8;
+    margin-bottom: 8px;
+  }
+
+  .rebuttal-box p {
+    margin: 6px 0;
+  }
+
+  .rebuttal-box ul {
+    margin: 6px 0;
+    padding-left: 18px;
+  }
+
+  .rebuttal-box li {
+    margin-bottom: 4px;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 2px 7px;
+    font-size: 8.5pt;
+    font-weight: 700;
+    border-radius: 3px;
+    background-color: #dbeafe;
+    color: #1e40af;
+    margin-right: 5px;
+  }
+
+  .badge-danger {
+    background-color: #fee2e2;
+    color: #991b1b;
+  }
+
+  .placeholder {
+    color: #dc2626;
+    background-color: #fef2f2;
+    padding: 1px 4px;
+    border-radius: 2px;
+    font-weight: 600;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0;
+    font-size: 9.5pt;
+  }
+
+  th, td {
+    border: 1px solid #cbd5e1;
+    padding: 7px 9px;
+    vertical-align: middle;
+  }
+
+  th {
+    background-color: #f1f5f9;
+    color: #0f172a;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .text-center { text-align: center; }
+  .text-right { text-align: right; }
+  .text-left { text-align: left; }
+
+  .num-neg {
+    color: #dc2626;
+    font-weight: 700;
+  }
+
+  .sum-row {
+    background-color: #f8fafc;
+    font-weight: 700;
+  }
+
+  .footer-sign {
+    margin-top: 40px;
+    text-align: center;
+    border-top: 1px solid #cbd5e1;
+    padding-top: 24px;
+    page-break-inside: avoid;
+  }
+
+  .footer-date {
+    font-size: 12pt;
+    font-weight: 700;
+    color: #334155;
+    margin-bottom: 12px;
+  }
+
+  .footer-person {
+    font-size: 13pt;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 22px;
+    line-height: 1.5;
+  }
+
+  .footer-to {
+    font-size: 14pt;
+    font-weight: 800;
+    color: #1e3a8a;
+    letter-spacing: 0.04em;
+  }
+
+  .footer-ref {
+    font-size: 11pt;
+    font-weight: 600;
+    color: #475569;
+    margin-top: 4px;
+  }
+
+  .memo-box {
+    margin-top: 48px;
+    padding: 20px 24px;
+    background-color: #fffbeb;
+    border: 1.5px dashed #f59e0b;
+    border-radius: 6px;
+    font-size: 9.5pt;
+    color: #78350f;
+    page-break-before: always;
+  }
+
+  .memo-header {
+    font-size: 12pt;
+    font-weight: 800;
+    color: #b45309;
+    margin-top: 0;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #fde68a;
+  }
+
+  .memo-box h3 {
+    font-size: 10.5pt;
+    color: #92400e;
+    margin-top: 14px;
+    margin-bottom: 6px;
+  }
+
+  .memo-box ul {
+    margin: 5px 0;
+    padding-left: 20px;
+  }
+
+  .memo-box li {
+    margin-bottom: 4px;
+  }
+</style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<!-- archive-fix -->
+<style id="archive-fix">
+@media screen and (max-width:640px){
+  body{font-size:16px;padding:0;letter-spacing:-0.01em}
+  .container{padding:22px 16px;border-radius:0;box-shadow:none}
+  h1{font-size:22px;line-height:1.4}
+  h2{font-size:19px}
+  h3{font-size:17px}
+  h4{font-size:16px}
+  p,li{text-align:left}
+  .party-box,.callout-box,blockquote{font-size:16px;padding:12px 14px}
+  .party-row{flex-direction:column}
+  .party-label{width:auto}
+  .party-sub{font-size:14px;padding-left:0}
+  .rebuttal-title{font-size:17px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <h1>금품청산 및 임금 전액지급 원칙 위반 등에 관한 신고서 (재신고)</h1>
+
+  <div class="party-box">
+    <div class="party-row">
+      <div class="party-label">신 고 인</div>
+      <div class="party-value"><strong>김○덕 외 16명</strong> (별지 1 신고인 명단 기재와 같음)</div>
+    </div>
+    <div class="party-sub">
+      • 신고인 대표 : 김○덕 (연락처 : <span class="placeholder">【기재】</span>)<br>
+      • 신고인들은 2024. 2. 29. (재)우체국물류지원단에서 퇴직한 근로자들입니다.
+    </div>
+
+    <div class="party-row" style="margin-top: 10px;">
+      <div class="party-label">피신고인</div>
+      <div class="party-value"><strong>(재)우체국물류지원단</strong> (대표자 이사장 <span class="placeholder">【성명】</span>)</div>
+    </div>
+    <div class="party-sub">
+      • 주소 : 서울특별시 광진구 자양로 76(자양동)
+    </div>
+
+    <div class="party-row" style="margin-top: 10px;">
+      <div class="party-label">근 무 지</div>
+      <div class="party-value">(재)우체국물류지원단 서서울 물류사업소 (2024. 2. 폐국) <span class="placeholder">【소재지 기재】</span></div>
+    </div>
+
+    <div class="party-row" style="margin-top: 10px;">
+      <div class="party-label">관련법조</div>
+      <div class="party-value">
+        근로기준법 제36조, 제43조 제1항, 제60조, 제109조<br>
+        노동조합 및 노동관계조정법 제92조 제2호 가목·나목
+      </div>
+    </div>
+  </div>
+
+  <h2>제1. 신고 취지</h2>
+  <ol>
+    <li>
+      피신고인은 2024. 2. 29. 퇴직한 신고인들에게 취업규칙 제20조 제4항 제2호에 따라 <strong>2023. 12. 16. 발생한 연차유급휴가 중 퇴직 시까지 사용하지 못한 일수에 대한 연차휴가수당</strong>을 퇴직일부터 14일 이내에 지급하지 않았습니다(근로기준법 제36조).
+    </li>
+    <li>
+      피신고인은 신고인들의 동의 없이, 신고인들이 연차휴가를 '초과 사용'하였다는 이유로 <strong>2024년 2월분 임금에서 1인당 1일~13일분(약 수만 원~1백만 원 가량), 17명 합계 74일분의 금액을 공제</strong>하고 나머지만 지급하였습니다(근로기준법 제43조 제1항, 제36조).
+    </li>
+    <li>
+      위 각 행위는 연차유급휴가에 관하여 취업규칙 제20조를 따르도록 정한 단체협약 제42조와, 임금 공제 사유를 정한 단체협약 제53조에도 위반됩니다(노동조합 및 노동관계조정법 제92조 제2호 가목·나목).
+    </li>
+    <li>
+      이에 신고인들은 피신고인이 아래 금액을 지급하도록 <strong>시정지시</strong>해 주실 것을 요청합니다. 피신고인이 이행하지 않으면 법에 따라 처리하여 <strong>검찰에 송치</strong>해 주시기 바랍니다.
+      <ul>
+        <li>① 2024년 2월분 임금에서 공제한 금액 전액</li>
+        <li>② 2023. 12. 16.자 발생 연차휴가 중 미사용 일수에 대한 연차휴가수당</li>
+        <li>③ 위 ①, ②에 대한 2024. 3. 15.부터 다 갚는 날까지 연 20%의 지연이자(근로기준법 제37조)</li>
+      </ul>
+    </li>
+    <li>
+      신고인 중 누구도 종전 신고사건 또는 그 이후에 <strong>피신고인의 처벌을 원하지 않는다는 의사를 표시한 사실이 없습니다.</strong>
+    </li>
+  </ol>
+
+  <h2>제2. 사실관계</h2>
+
+  <h3>가. 근로관계의 종료 경위</h3>
+  <ol>
+    <li>신고인들은 피신고인 소속 서서울 물류사업소에서 근무하던 근로자들입니다.</li>
+    <li>
+      우정사업본부의 소포사업 및 사업장 재편에 따라 서서울 물류사업소가 폐국되었습니다. 이에 신고인들은 <strong>2024. 2. 29. 피신고인에서 퇴직</strong>하였고, 이후 우정사업본부와 <strong>새로 근로계약을 체결</strong>하여 공무직 근로자로 채용되었습니다.
+    </li>
+    <li>
+      따라서 신고인들과 피신고인 사이의 근로관계는 2024. 2. 29. 종료되었고, 피신고인은 근로기준법 제36조에 따라 퇴직일부터 14일 이내에 신고인들에게 지급할 모든 금품을 청산할 의무가 있었습니다.
+    </li>
+  </ol>
+
+  <h3>나. 피신고인의 연차휴가 관련 규정</h3>
+  <div class="callout-box">
+    <p><strong>단체협약 제42조 (연차 유급휴가)</strong><br>
+    연차유급휴가에 대하여는 "지원단" 취업규칙 제20조, 제20조의2, 제20조의3과 관련법령을 따른다.</p>
+
+    <p><strong>단체협약 제53조 (임금의 공제금)</strong><br>
+    "지원단"은 조합원의 임금 중에서 다음 각 호에 대하여는 임금에서 공제할 수 있다.<br>
+    1. 근로소득세, 주민세 &nbsp; 2. 부과금 &nbsp; 3. 노동조합비 및 노동조합에서 의결한 각종 징수금<br>
+    4. 차용금 및 가불금 &nbsp; 5. 저축 및 상조회비 &nbsp; 6. 보험료 &nbsp; 7. 법원의 채권압류 및 추심명령<br>
+    8. 기타 "지원단"과 "조합"이 합의한 사항<br>
+    9. <strong>과오지급한 급여환수금 등 &lt;2023. 12. 28. 신설&gt;</strong></p>
+
+    <p><strong>취업규칙 제20조 (연차 휴가)</strong><br>
+    ① 이사장은 1년간 8할 이상 출근한 직원에게 15일의 유급휴가를 주어야 한다.<br>
+    ② 이사장은 계속근로연수가 1년 미만인 직원 또는 1년간 8할 미만 출근한 직원에 대하여는 1월간 개근 시 1일의 유급휴가를 부여한다.<br>
+    ③ 이사장은 3년 이상 계속근로한 직원에 대하여는 최초 1년을 초과하는 계속근로연수 2년에 대하여 제1항의 휴가에 1일을 가산한 유급휴가를 준다. 이 경우 가산휴가를 포함한 총 휴가일수는 25일을 한도로 한다.<br>
+    ④ <strong>연차휴가 계산기간은 다음과 같다.</strong><br>
+    &nbsp;&nbsp;1. 1년 미만자에 대한 연차휴가: 전월 16일부터 당월 15일까지<br>
+    &nbsp;&nbsp;2. 1년 이상자 연차휴가: <strong>전년 12월 16일부터 당년 12월 15일까지</strong></p>
+  </div>
+  <p>
+    취업규칙과 단체협약 어디에도 <strong>"퇴직 시 입사일 기준으로 연차휴가를 다시 산정한다"</strong>거나 <strong>"초과 사용한 연차휴가에 해당하는 금액을 퇴직 시 임금에서 환수한다"</strong>는 규정은 없습니다.
+  </p>
+
+  <h3>다. 실제 운용</h3>
+  <ol>
+    <li>
+      피신고인은 취업규칙 제20조 제4항 제2호에 따라 1년 이상 근속한 직원 전원에게 <strong>매년 12월 16일</strong>, 직전 계산기간(전년 12. 16.~당년 12. 15.)의 출근율에 따라 연차휴가를 일률적으로 부여하였습니다.
+    </li>
+    <li>
+      입사 후 처음 맞는 12월 16일에도, 입사일부터 그날까지 1년이 되지 않은 직원에게 15일의 연차휴가를 부여하였습니다.
+    </li>
+    <li>
+      매년 1월 중순경 직전 계산기간의 연차휴가 사용 내역을 정산하여, 남은 일수에 대해서는 미사용 연차휴가수당을 지급하였습니다. 부여된 일수를 초과하여 사용한 경우에는 그 해에 결근으로 처리하여 임금에서 감액하였습니다. 이렇게 각 연도의 연차휴가 법률관계는 <strong>해마다 정산되어 종결</strong>되었습니다.
+    </li>
+  </ol>
+
+  <h3>라. 2023. 12. 16.자 연차휴가의 발생</h3>
+  <ol>
+    <li>
+      신고인들은 2022. 12. 16.부터 2023. 12. 15.까지의 계산기간 동안 8할 이상 출근하였고, 그 다음 날인 2023. 12. 16. 피신고인에 재직 중이었습니다.
+    </li>
+    <li>
+      따라서 신고인들에게는 2023. 12. 16. 취업규칙 제20조 제1항, 제3항에 따른 연차휴가(15일에 근속 가산일수를 더한 일수, 최대 25일)가 발생하였습니다. 피신고인도 이를 연차관리시스템에 부여하고 그 사용을 승인하였습니다. <span class="placeholder">【연차관리시스템 화면 등 증빙 확인】</span>
+    </li>
+    <li>
+      <span class="placeholder">【확인 후 기재 또는 삭제】</span> 피신고인은 2023. 12. 16. 이전에 이미 서서울 물류사업소의 폐국과 신고인들의 퇴직 일정을 알고 있었습니다(○○. ○. ○.자 공문 등). 그런데도 위와 같이 연차휴가를 부여하였습니다.
+    </li>
+  </ol>
+
+  <h3>마. 퇴직 시 피신고인의 처리</h3>
+  <ol>
+    <li>
+      피신고인은 신고인들이 퇴직하자 위 운용과 달리 각 신고인의 <strong>입사일을 기준으로 퇴직일부터 거꾸로 계산하여</strong> 연차휴가를 다시 산정하였습니다. 이 결과는 피신고인이 작성한 「퇴직자 및 부천집 희망 인원 연차 내역」(갑 제3호증)에 나타나 있습니다.
+    </li>
+    <li>
+      이 내역표에서 신고인 17명의 '잔여일수'는 모두 음수(−1일~−13일, 합계 −74일)로 기재되어 있습니다. 피신고인은 그 일수에 해당하는 금액을 2024년 2월분 임금에서 공제하였습니다(갑 제4호증 급여명세서).
+    </li>
+    <li>
+      공제된 74일은 다음 두 부분으로 구성됩니다(별지 2 참조).
+    </li>
+  </ol>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 22%;">구분</th>
+        <th>내용</th>
+        <th style="width: 15%;">해당자</th>
+        <th style="width: 15%;">일수</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="text-center"><strong>ⓐ 과거분 소급 환수</strong></td>
+        <td>'부여일수'를 음수로 기재한 부분. 과거 연도(입사 첫해 부여분 등)를 입사일 기준으로 다시 계산하여 그 차이를 공제한 것</td>
+        <td class="text-center">15명</td>
+        <td class="text-right num-neg">54일</td>
+      </tr>
+      <tr>
+        <td class="text-center"><strong>ⓑ 당해분 사용 부인</strong></td>
+        <td>2023. 12. 16.자로 발생한 연차휴가를 실제로 사용하였는데, 입사일 기준으로 비례 산정한 일수를 넘었다는 이유로 무급 처리한 것</td>
+        <td class="text-center">8명</td>
+        <td class="text-right num-neg">20일</td>
+      </tr>
+      <tr class="sum-row">
+        <td colspan="2" class="text-center">합 계</td>
+        <td class="text-center">17명</td>
+        <td class="text-right num-neg">74일</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ol start="4">
+    <li>
+      피신고인은 2023. 12. 16.자로 발생한 연차휴가 중 퇴직 시까지 사용하지 못한 일수에 대해서도 연차휴가수당을 지급하지 않았습니다.
+    </li>
+    <li>
+      피신고인은 위 공제의 법적 근거, 각 공제일수가 어느 연도에 발생한 것인지, 그 금액을 어떻게 산정하였는지를 구체적으로 밝히지 않았습니다. 피신고인이 제시한 자료는 입사일 기준이 아닌 회계연도 기준 사용 내역이었고, 일부 기간의 월별 사용 내역도 빠져 있었습니다. 신고인들은 위 공제에 동의한 사실이 없습니다.
+    </li>
+  </ol>
+
+  <h3>바. 종전 신고와 그 경과</h3>
+  <ol>
+    <li>
+      우체국물류지원단 물류노동조합은 2024. <span class="placeholder">【○. ○.】</span> 같은 내용으로 귀 지청에 신고하였습니다(사건번호 <span class="placeholder">【기재】</span>). 담당 근로감독관이 노사 간 자율 해결을 권고하여 신고가 취하되었고, 사건은 종결되었습니다.
+    </li>
+    <li>
+      그러나 피신고인은 그 이후 지급을 위한 협의에 응하지 않았고, 지금까지 체불 상태가 계속되고 있습니다.
+    </li>
+    <li>
+      종전 신고는 신고인들 본인이 아니라 노동조합 명의로 이루어졌습니다. 신고인 중 누구도 처벌을 원하지 않는다는 의사를 표시한 사실이 없습니다.
+    </li>
+  </ol>
+
+  <h2>제3. 재신고 사유: 새로운 사정의 발생</h2>
+  <p>
+    종전 신고가 종결된 이후, 이 사건과 <strong>쟁점이 같은 사건</strong>에서 다음 판결이 선고되어 확정되었습니다.
+  </p>
+  <ul>
+    <li>
+      <strong>의정부지방법원 2026. 2. 5. 선고 2024나226635 판결:</strong> 회계연도 기준으로 연차휴가를 부여해 온 회사가, 입사월일 전에 퇴직한 근로자에게 "입사일 기준으로 1년을 채우지 못했으므로 퇴직연도 연차휴가는 발생하지 않았다"고 주장한 사건입니다. 법원은 회사의 주장을 배척하고 미사용 연차휴가수당 전액과 연 20%의 지연손해금을 지급하라고 판결하였습니다.
+    </li>
+    <li>
+      <strong>대법원 2026. 6. 25. 선고 2026다202306 판결:</strong> 위 사건은 소액사건입니다. 대법원은 피고의 상고이유가 소액사건심판법 제3조가 정한 상고이유(대법원 판례에 상반되는 판단을 한 경우 등)에 해당하지 않는다고 보아 상고를 기각하였고, 이로써 위 원심판결이 <strong>확정</strong>되었습니다.
+    </li>
+  </ul>
+  <p>
+    위 판결의 회사 주장은 이 사건 피신고인의 주장과 실질적으로 같습니다. 반면 이 사건 취업규칙은 위 사건의 취업규칙보다 문언이 더 명확합니다(제4. 다. 참조). 이에 신고인들은 새로운 사정을 근거로 다시 판단해 주실 것을 요청합니다.
+  </p>
+
+  <h2>제4. 위반사항 1: 미사용 연차휴가수당 미지급 (근로기준법 제36조, 노조법 제92조 제2호 나목)</h2>
+
+  <h3>가. 대법원 판례의 법리</h3>
+  <ol>
+    <li>
+      <strong>연차휴가는 전년도 1년간 근로의 대가로서 그 근로를 마친 다음 날 발생합니다.</strong><br>
+      대법원은 연차휴가가 1년간의 근로에 대한 대가로서, 다른 특별한 정함이 없는 한 전년도 1년간의 근로를 마친 다음 날 발생한다고 판시하여 왔습니다(대법원 2018. 6. 28. 선고 2016다48297 판결, 대법원 2021. 10. 14. 선고 2021다227100 판결 등). 최근에도 연차휴가권과 그 미사용수당 청구권은 휴가가 부여되는 해가 아니라 <strong>그 전년도 1년간의 근로에 대한 대가</strong>라는 점을 다시 확인하였습니다(대법원 2024. 12. 12. 선고 2023도5476 판결).
+    </li>
+    <li>
+      <strong>사업장 일률 기준일 제도는 적법합니다.</strong><br>
+      위 확정판결은 대법원 판례를 인용하여 다음과 같이 판시하였습니다.
+      <blockquote>
+        "여기서 1년간의 계속근로는 원칙적으로 그 근로자가 근로를 개시한 날로부터 기산하여야 할 것이나, 사용자가 사업장 내의 모든 근로자에 대한 연차휴가를 일률적으로 시행하기 위하여 단체협약이나 취업규칙으로 연차휴가권 발생의 기준이 되는 시점을 정하고 이를 기준으로 계속근로기간과 출근일수를 산정하더라도, 그 기준일 이전의 1년 이내에 채용된 근로자에 대하여 잔여기간을 출근한 것으로 보고 1년간 계속근로한 것으로 취급하여 연차휴가를 실시한다면 근로자에 대하여 불리하지 아니한 것으로서 적법하다고 보아야 할 것이다(대법원 2000. 12. 22. 선고 99다10806 판결, 대법원 2018. 6. 28. 선고 2016다48297 판결 등 참조)."
+      </blockquote>
+    </li>
+    <li>
+      <strong>이미 발생한 연차휴가는 퇴직으로 사라지지 않고 수당청구권으로 바뀝니다.</strong><br>
+      근로자가 연차휴가권을 취득한 뒤 이를 사용하지 못한 채 퇴직하여 더 이상 휴가를 사용할 수 없게 되면, 사용하지 못한 일수에 상응하는 연차휴가수당을 청구할 수 있습니다(대법원 2005. 5. 27. 선고 2003다48549, 48556 판결 등).
+    </li>
+  </ol>
+
+  <h3>나. 이 사건 취업규칙의 해석: 2023. 12. 16. 연차휴가 발생</h3>
+  <ol>
+    <li>
+      <strong>해석 원칙</strong><br>
+      확정판결은 취업규칙 해석에 관한 대법원 판례를 다음과 같이 인용하였습니다.
+      <blockquote>
+        "취업규칙은 원칙적으로 그 객관적인 의미에 따라 해석하여야 하고, 문언의 객관적 의미를 벗어나는 해석은 신중하고 엄격하여야 한다(대법원 2003. 3. 14. 선고 2002다69631 판결, 대법원 2016. 1. 28. 선고 2014두12765 판결 등 참조)."
+      </blockquote>
+      이 사건 취업규칙 제20조는 단체협약 제42조를 통해 단체협약의 내용이 되었습니다. 단체협약 같은 처분문서는 그 명문 규정을 근로자에게 불리하게 바꾸어 해석할 수 없습니다(대법원 2011. 10. 13. 선고 2009다102452 판결 등).
+    </li>
+    <li>
+      <strong>문언 해석</strong><br>
+      취업규칙 제20조 제4항 제2호는 1년 이상 근속자의 "연차휴가 계산기간"을 <strong>"전년 12월 16일부터 당년 12월 15일까지"</strong>로 정하고 있습니다. 연차휴가의 '계산'이란 제1항의 "1년간 8할 이상 출근" 여부와 제3항의 근속 가산일수를 따지는 것입니다. 따라서 이 조항은 <strong>연차휴가 발생의 기준이 되는 계속근로기간과 출근율 산정기간 자체</strong>를 정한 것입니다.
+    </li>
+    <li>
+      <strong>체계적 해석</strong><br>
+      같은 항 제1호는 1년 미만자의 계산기간을 "전월 16일부터 당월 15일까지"로 정합니다. 이는 제2항의 "1월간 개근" 여부를 판단하는 기간일 수밖에 없습니다. 같은 항 안에서 같은 용어인 "계산기간"을 제1호에서는 개근 산정기간으로, 제2호에서는 단순한 부여 시점이나 사용기간으로 달리 읽을 근거가 없습니다.
+    </li>
+    <li>
+      <strong>확정판결과의 비교</strong><br>
+      확정판결의 취업규칙은 "연차유급휴가는 회계연도를 기준으로 부여한다"라고만 정하고 있었습니다. 그런데도 법원은 다음과 같이 판단하였습니다.
+      <blockquote>
+        "위 조항의 문언상 연차유급휴가의 부여시점 뿐만 아니라 부여의 기준이 되는 계속근로기간 또한 회계연도를 기준으로 할 것을 정한 것이라고 해석할 여지가 충분하다. 그럼에도 불구하고 피고의 주장처럼 위 조항이 연차유급휴가의 부여시점만을 회계연도로 정한 것이라고 해석하는 경우 위 조항의 문언에 반하여 근로자에게 불이익하게 해석하게 되는 결과가 초래된다."
+      </blockquote>
+      이 사건 취업규칙은 '부여' 시점이 아니라 <strong>'계산기간'을 날짜로 명시</strong>하고 있으므로, 위 사건보다 해석의 여지가 더 적습니다.
+    </li>
+    <li>
+      <strong>소결</strong><br>
+      신고인들은 계산기간(2022. 12. 16.~2023. 12. 15.)의 근로를 마치고 그 다음 날인 2023. 12. 16.에 재직 중이었습니다. 따라서 2023. 12. 16. 취업규칙 제20조 제1항, 제3항에 따른 연차휴가가 발생하였습니다. 이는 위 대법원 법리(전년도 1년 근로를 마친 다음 날 발생)에도 그대로 부합합니다.
+    </li>
+  </ol>
+
+  <h3>다. 확정판결의 판단 근거를 이 사건에 대입한 결과</h3>
+  <p>
+    확정판결은 회사의 '입사일 기준' 주장을 배척하면서 세 가지 근거를 들었습니다. 세 근거 모두 이 사건에 그대로 또는 더 강하게 적용됩니다.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 48%;">확정판결의 근거</th>
+        <th style="width: 52%;">이 사건</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>(가)</strong> 취업규칙 문언상 계속근로기간도 회계연도를 기준으로 정한 것으로 보아야 함</td>
+        <td>이 사건 취업규칙은 계산기간을 날짜로 명시하고 있어 더욱 명확함 (위 나. 참조)</td>
+      </tr>
+      <tr>
+        <td>
+          <strong>(나)</strong> "퇴사자 중 입사월일 이전에 퇴사한 근로자는 퇴사연도에 사용한 휴가일만큼 피고에게 근로를 덜 제공한 것이 되어 원칙적으로 해당 기간만큼의 임금상당액을 사용자에게 반환하여야 한다. 그런데 피고의 취업규칙 등에서는 위와 같은 퇴사자의 연차유급휴가 사용과 관련한 금전 정산과 관련하여 아무런 규정이 없다."
+        </td>
+        <td>
+          피신고인의 취업규칙·단체협약에도 퇴직 시 금전 정산 규정이 없음. 그런데도 피신고인은 <strong>규정 없이 실제로 임금에서 공제</strong>까지 하였음
+        </td>
+      </tr>
+      <tr>
+        <td><strong>(다)</strong> 회사가 정년퇴직 예정자의 퇴직일을 미리 알면서도 1. 1. 기준으로 연차휴가를 부여하였음</td>
+        <td>
+          피신고인도 2023. 12. 16. 신고인들에게 연차휴가를 부여하고 사용을 승인하였음 <span class="placeholder">【폐국 인지 시점 확인 시 보강】</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>라. 고용노동부 행정해석</h3>
+  <p>
+    고용노동부는 다음과 같은 취지로 해석하여 왔습니다(임금근로시간정책팀-489, 2008. 2. 28. 등).
+  </p>
+  <ul>
+    <li>회계연도 기준으로 연차휴가를 부여하는 사업장에서는, 퇴직 시 입사일 기준으로 산정한 일수보다 근로자에게 불리하지 않아야 합니다.</li>
+    <li>회계연도 기준이 근로자에게 더 유리한 경우에는, 취업규칙이나 단체협약에 "퇴직 시 입사일 기준으로 재정산한다"는 <strong>별도 규정이 없는 한</strong> 다시 산정하여 삭감할 수 없습니다.</li>
+  </ul>
+  <p>피신고인의 취업규칙과 단체협약에는 그러한 규정이 없습니다.</p>
+
+  <h3>마. 소결</h3>
+  <p>
+    피신고인은 2023. 12. 16. 발생한 연차휴가 중 신고인들이 퇴직 시까지 사용하지 못한 일수에 대한 연차휴가수당을 퇴직일부터 14일 이내에 지급하지 않았습니다. 이는 근로기준법 제36조 위반입니다. 연차휴가에 관하여 취업규칙 제20조를 따르도록 정한 단체협약 제42조를 위반한 것이기도 합니다(노조법 제92조 제2호 나목).
+  </p>
+
+  <h2>제5. 위반사항 2: 임금의 일방 공제 (근로기준법 제43조 제1항, 제36조, 노조법 제92조 제2호 가목)</h2>
+
+  <h3>가. 공제할 채권 자체가 존재하지 않습니다</h3>
+  <ol>
+    <li>
+      <strong>ⓑ 당해분 20일:</strong> 신고인들이 사용한 연차휴가는 2023. 12. 16. 취업규칙에 따라 적법하게 발생한 휴가입니다. 신고인들은 피신고인의 승인을 받아 그 휴가를 사용하였습니다. 적법하게 사용한 유급휴가에 대하여 피신고인이 반환을 구할 근거는 없습니다.
+    </li>
+    <li>
+      <strong>ⓐ 과거분 54일:</strong> 입사 후 처음 맞는 12월 16일에 부여된 연차휴가는, 위 대법원 판례가 적법하다고 본 바로 그 방식에 따른 것입니다. 즉 "기준일 이전의 1년 이내에 채용된 근로자에 대하여 잔여기간을 출근한 것으로 보고 1년간 계속근로한 것으로 취급하여 연차휴가를 실시"하는 방식입니다. 이는 일률 기준일 제도가 적법하기 위한 전제이며, 근로자에게 지급된 정당한 근로조건입니다. 게다가 각 연도의 연차휴가는 해마다 정산(미사용수당 지급, 초과분 결근 처리)되어 종결되었습니다. 피신고인이 퇴직 시점에 이르러 이미 종결된 과거 연도를 입사일 기준으로 다시 계산하여 '초과 사용'으로 바꿀 근거는 없습니다.
+    </li>
+    <li>
+      <strong>예비적 주장:</strong> 설령 입사 첫해 부여분에 취업규칙상 근거가 없다고 보더라도 결론은 같습니다. 피신고인은 그 사정을 알면서 해마다 이를 부여하고 정산을 마쳤습니다. 따라서 이는 채무 없음을 알고 한 변제로서 반환을 청구할 수 없습니다(민법 제742조). 또한 장기간 유지한 운용을 퇴직 시점에 뒤집는 것은 신의성실의 원칙에도 반합니다.
+    </li>
+  </ol>
+
+  <h3>나. 근로기준법 제43조 제1항 단서 및 단체협약 제53조 제9호는 적용되지 않습니다</h3>
+  <p>
+    피신고인은 "단체협약에 특별한 규정이 있는 경우" 임금의 일부를 공제할 수 있다는 근로기준법 제43조 제1항 단서와 단체협약 제53조 제9호("과오지급한 급여환수금 등")를 근거로 들 것으로 예상됩니다. 그러나 다음 이유로 이 주장은 성립하지 않습니다.
+  </p>
+  <ol>
+    <li>
+      <strong>제9호는 공제 방법을 정한 조항일 뿐, 채권을 만들어 내지 않습니다.</strong><br>
+      제53조는 이미 존재하는 채권을 임금에서 공제할 수 있도록 허용하는 조항입니다. 공제할 채권이 존재하는지는 연차휴가의 발생 근거인 취업규칙 제20조에 따라 판단해야 합니다. 그런데 제9호가 신설된 2023. 12. 28. 이후에도 단체협약 제42조는 연차휴가에 관하여 여전히 취업규칙 제20조를 따르도록 정하고 있습니다. 위 가.에서 본 것처럼 공제할 채권은 존재하지 않습니다.
+    </li>
+    <li>
+      <strong>고용노동부가 말하는 '별도 규정'에 해당하지 않습니다.</strong><br>
+      고용노동부 행정해석이 퇴직 시 재정산을 허용하는 근거로 드는 '별도 규정'은 "퇴직 시 입사일 기준으로 연차휴가를 다시 산정한다"는 <strong>연차휴가 산정기준에 관한 규정</strong>입니다. 공제 항목을 나열한 제53조 제9호는 이에 해당하지 않습니다.
+    </li>
+    <li>
+      <strong>'과오지급'의 객관적 의미에 해당하지 않습니다.</strong><br>
+      '과오지급한 급여'란 계산 착오 등으로 법률상 원인 없이 잘못 지급된 급여를 말합니다. 취업규칙에 따라 부여되고 사용자의 승인을 받아 사용한 유급휴가에 대한 임금은 과오지급이 아닙니다.
+    </li>
+    <li>
+      <strong>예외 조항은 엄격하게 해석해야 합니다.</strong><br>
+      근로기준법 제43조 제1항 단서는 임금 전액지급 원칙의 예외입니다. 따라서 그 근거가 되는 단체협약 조항도 엄격하게 해석해야 합니다. "등"이라는 포괄적 문언을 근거로, 노사 간에 권리의 존부 자체가 다투어지는 연차휴가 문제에까지 공제를 넓히는 것은 허용될 수 없습니다(대법원 2011. 10. 13. 선고 2009다102452 판결 취지).
+    </li>
+    <li>
+      <span class="placeholder">【교섭 경위 확인 후 기재】</span> 제9호를 신설할 때 퇴직자의 연차휴가 재정산이나 환수에 관하여 노사 간에 논의되거나 합의된 사실이 없습니다.
+    </li>
+  </ol>
+
+  <h3>다. 상계의 요건도 갖추지 못하였습니다</h3>
+  <ol>
+    <li>
+      <strong>동의에 의한 상계가 아닙니다.</strong><br>
+      사용자가 근로자의 동의를 얻어 임금채권과 상계하려면, 그 동의가 근로자의 자유로운 의사에 터 잡은 것이라고 인정할 만한 합리적인 이유가 객관적으로 존재해야 합니다. 그 판단은 엄격하고 신중해야 합니다(대법원 2001. 10. 23. 선고 2001다25184 판결). 신고인들은 공제에 동의한 사실이 없습니다.
+    </li>
+    <li>
+      <strong>조정적 상계에도 해당하지 않습니다.</strong><br>
+      대법원은 계산 착오 등으로 임금을 초과 지급한 경우에 한정하여, 엄격한 요건을 갖추면 예외적으로 상계를 허용합니다. 그 요건은 초과 지급 시기와 상계 시기가 임금 정산·조정의 실질을 잃지 않을 만큼 가깝고, 미리 예고되며, 그 액수와 방법이 근로자의 경제생활 안정을 해치지 않는 것입니다(대법원 1995. 12. 21. 선고 94다26721 전원합의체 판결). 이 사건 공제는 이 요건을 갖추지 못하였습니다.
+      <ul>
+        <li>이 사건 공제는 계산 착오에 따른 초과 지급을 바로잡은 것이 아닙니다.</li>
+        <li>ⓐ 과거분은 수년 전 이미 정산이 끝난 연도의 것으로, 시간적 근접성이 전혀 없습니다.</li>
+        <li>사전에 근거와 금액을 예고하지도 않았습니다.</li>
+      </ul>
+    </li>
+    <li>
+      <strong>예비적 주장: 1/2 한도를 넘었다면 위법합니다.</strong><br>
+      허용되는 상계라 하더라도 민사집행법 제246조 제1항에 따른 압류금지 범위(임금의 1/2)를 넘는 부분은 상계할 수 없습니다(민법 제497조, 대법원 2010. 5. 20. 선고 2007다90760 전원합의체 판결 참조). <span class="placeholder">【급여명세서 확인 후, 1/2 초과 공제자가 있으면 해당자 기재】</span>
+    </li>
+  </ol>
+
+  <h3>라. 피신고인의 산정 자체도 오류가 있습니다</h3>
+  <p>
+    설령 피신고인의 '입사일 기준' 주장을 전제로 하더라도, 그 산정에는 다음과 같은 오류가 있습니다.
+  </p>
+  <ol>
+    <li>피신고인은 입사일 기준이 아닌 회계연도 기준 사용 내역을 제시하였고, 일부 기간의 월별 사용 내역은 빠져 있습니다.</li>
+    <li>근로기준법 제60조 제2항(계속근로기간 1년 미만 근로자의 월 단위 연차휴가)에 따라 법률상 당연히 발생하는 휴가가 반영되었는지 확인되지 않습니다.</li>
+    <li>환수 대상 휴가의 발생 연도별로 통상임금이 다른데도, 이를 구분하지 않고 퇴직 시점의 임금을 기준으로 산정한 것으로 보입니다.</li>
+    <li>피신고인 스스로 내역표에 "연차 내역은 추후 최종 정산시, 변동될 수 있습니다"라고 기재하여, 공제 근거가 확정되지 않은 상태였음을 인정하고 있습니다.</li>
+  </ol>
+
+  <h3>마. 소결</h3>
+  <p>
+    피신고인은 법령이나 단체협약에 근거 없이 신고인들의 2024년 2월분 임금 중 74일분을 공제하였습니다. 이는 근로기준법 제43조 제1항(전액지급 원칙)과 제36조(금품청산) 위반입니다. 단체협약 제53조가 정한 공제 사유 외의 공제이므로 노조법 제92조 제2호 가목에도 해당합니다.
+  </p>
+
+  <h2>제6. 예상되는 반론에 대한 검토</h2>
+
+  <div class="rebuttal-box">
+    <div class="rebuttal-title">[반론 1] "12. 16.에 연차휴가가 생긴다면, 12월 말에 퇴직하는 사람도 15일 이상의 수당을 받게 되어 불합리하다"</div>
+    <ul>
+      <li>연차휴가는 퇴직 직전 며칠의 근로에 대한 대가가 아니라 <strong>직전 계산기간 1년 동안의 근로에 대한 대가</strong>입니다(대법원 2023도5476). 12월 말 퇴직자도 직전 1년의 근로를 마쳤습니다.</li>
+      <li>확정판결의 원고도 1. 1.에 26일의 연차휴가가 부여된 뒤 같은 해 4. 21.에 퇴직하였습니다. 법원은 미사용 16.75일 전부에 대한 수당을 인정하였습니다.</li>
+      <li>일률 기준일 제도에서 퇴직 시점에 따라 결과가 달라지는 것은 사용자가 스스로 택한 제도의 결과입니다. 사용자가 이를 바꾸려면 장래를 향하여 적법한 절차로 취업규칙을 변경해야 합니다. 이미 발생한 권리를 퇴직 시점에 소급하여 부정할 수는 없습니다.</li>
+    </ul>
+  </div>
+
+  <div class="rebuttal-box">
+    <div class="rebuttal-title">[반론 2] "대법원 2016다48297 판결 등에 따르면 1년 근로를 마치기 전에 퇴직하면 연차휴가가 발생하지 않는다"</div>
+    <ul>
+      <li>그 법리는 "전년도 1년간의 근로를 마친 다음 날" 연차휴가가 발생한다는 것입니다. 여기서 '1년간'의 기산점을 단체협약이나 취업규칙으로 정할 수 있다는 점은 위 판결이 인용된 확정판결에서 본 바와 같습니다.</li>
+      <li>신고인들은 취업규칙이 정한 계산기간(2022. 12. 16.~2023. 12. 15.)의 근로를 마친 <strong>다음 날 재직 중</strong>이었습니다. 따라서 위 법리에 따르더라도 2023. 12. 16. 연차휴가가 발생합니다.</li>
+    </ul>
+  </div>
+
+  <div class="rebuttal-box">
+    <div class="rebuttal-title">[반론 3] "입사 첫해에 부여한 연차휴가는 미리 준 것(선급)이므로 퇴직 시 회수할 수 있다"</div>
+    <ul>
+      <li>제5. 가. 2)에서 본 것처럼, 이는 대법원이 적법하다고 본 '출근 간주' 방식에 따른 정당한 부여입니다.</li>
+      <li>퇴직 시 회수한다는 규정도, 그런 고지도 없었습니다. 각 연도는 해마다 정산되어 종결되었습니다.</li>
+    </ul>
+  </div>
+
+  <div class="rebuttal-box">
+    <div class="rebuttal-title">[반론 4] "종전부터 퇴직자는 입사일 기준으로 정산해 왔고 근로자들도 이를 알았으므로, 지금 청구하는 것은 신의칙에 반한다"</div>
+    <p>확정판결은 같은 주장을 다음과 같이 배척하였습니다.</p>
+    <blockquote>
+      "그러나 설령 피고가 피고 주장과 같은 연차휴가수당 계산방법을 적용하여 장기간 근로자들에게 연차휴가수당을 지급하지 않아왔고, 원고가 이를 알고 있었다고 인정하더라도, 이와 같은 사실만으로 원고의 이 사건 청구가 신의칙에 반한다고 볼 수 없다."
+    </blockquote>
+  </div>
+
+  <div class="rebuttal-box">
+    <div class="rebuttal-title">[반론 5] "취업규칙 제20조 제4항의 '계산기간'은 휴가를 사용하거나 정산하는 기간일 뿐이다"</div>
+    <ul>
+      <li>제4. 나. 2), 3)에서 본 것처럼, 같은 항 제1호의 "계산기간"은 월 개근 여부를 판단하는 기간입니다. 따라서 제2호의 "계산기간"도 출근율 산정기간으로 해석해야 합니다.</li>
+      <li>설령 해석이 나뉜다 하더라도, 근로자에게 불리한 해석은 허용되지 않습니다(위 확정판결, 대법원 2009다102452).</li>
+    </ul>
+  </div>
+
+  <div class="rebuttal-box">
+    <div class="rebuttal-title">[반론 6] "임금 존부를 다투는 것이 적절한 경우이므로 지연이자가 적용되지 않는다" (근로기준법 시행령 제18조 제3호)</div>
+    <ul>
+      <li>이 사건 쟁점은 같은 구조의 사건에서 이미 판결로 확정되었습니다. 또한 이 사건 취업규칙은 그 사건보다 문언이 더 명확합니다.</li>
+      <li>피신고인이 종전 신고 이후에도 지급을 거부해 온 이상, 법원이나 노동위원회에서 다투는 것이 적절하다고 인정될 사정은 없습니다.</li>
+    </ul>
+  </div>
+
+  <h2>제7. 소멸시효 및 신속 처리 요청</h2>
+  <ol>
+    <li>
+      신고인들의 미사용 연차휴가수당 청구권과 공제된 임금채권의 소멸시효는 3년입니다(근로기준법 제49조). 그 시효는 <strong>2027. 2. 말경 완성될 예정</strong>입니다. 기산점은 연차휴가수당은 퇴직 시, 공제된 임금은 그 정기지급일입니다.
+    </li>
+    <li>
+      신고인들이 권리를 실효적으로 구제받을 수 있도록 신속하게 조사하여 주실 것을 요청합니다. 아울러 조사 결과에 따라 신고인별로 <strong>「체불임금등·사업주 확인서」를 발급</strong>하여 주시기 바랍니다.
+    </li>
+  </ol>
+
+  <h2>제8. 결론</h2>
+  <p>피신고인 (재)우체국물류지원단은 다음과 같이 법을 위반하였습니다.</p>
+  <ol>
+    <li>
+      취업규칙 제20조 제4항 제2호에 따라 2023. 12. 16. 발생한 연차휴가를 퇴직 시점에 입사일 기준으로 부정하였습니다. 그 결과 미사용 일수에 대한 연차휴가수당을 지급하지 않았습니다(근로기준법 제36조, 노조법 제92조 제2호 나목).
+    </li>
+    <li>
+      법령이나 단체협약에 근거 없이 신고인 17명의 2024년 2월분 임금에서 합계 74일분을 공제하였습니다(근로기준법 제43조 제1항·제36조, 노조법 제92조 제2호 가목).
+    </li>
+  </ol>
+  <p>이에 신고인들은 다음 사항을 요청합니다.</p>
+  <ul>
+    <li>피신고인에게 별지 2 기재 ① 공제액과 ② 미사용 연차휴가수당, 그리고 이에 대한 지연이자를 지급하도록 <strong>시정지시</strong>하여 주십시오.</li>
+    <li>피신고인이 이행하지 않으면 피신고인 법인과 그 대표자 및 행위자를 근로기준법 제109조, 제115조와 노조법 제92조, 제94조에 따라 <strong>입건하여 검찰에 송치</strong>하여 주십시오.</li>
+  </ul>
+
+  <div class="footer-sign">
+    <div class="footer-date">2026. 10. &nbsp; .</div>
+    <div class="footer-person">
+      신고인 김○덕 외 16명<br>
+      <span style="font-size: 10.5pt; font-weight: 600; color: #475569;">(별지 1 기재 신고인들의 서명·날인)</span>
+    </div>
+    <div class="footer-to">서울지방고용노동청 서울남부지청장 귀하</div>
+    <div class="footer-ref">(참조 : 근로개선지도2과)</div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <h2>별지 1. 신고인 명단</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 8%;">연번</th>
+        <th style="width: 18%;">성명</th>
+        <th style="width: 14%;">근무조</th>
+        <th style="width: 20%;">입사일</th>
+        <th style="width: 24%;">연락처</th>
+        <th style="width: 16%;">서명</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="text-center">1</td>
+        <td class="text-center"><strong>김○덕 (대표)</strong></td>
+        <td class="text-center">야근</td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="text-center">2</td>
+        <td class="text-center">이○주</td>
+        <td class="text-center">중근</td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="text-center">3</td>
+        <td class="text-center">최○주</td>
+        <td class="text-center">중근</td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="text-center">4</td>
+        <td class="text-center">한○아</td>
+        <td class="text-center">중근</td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="text-center">5</td>
+        <td class="text-center">김○철</td>
+        <td class="text-center">야근</td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="text-center">6</td>
+        <td class="text-center">이○진</td>
+        <td class="text-center">야근</td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="text-center">7</td>
+        <td class="text-center">김○훈</td>
+        <td class="text-center">야근</td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="text-center">8</td>
+        <td class="text-center">김○수</td>
+        <td class="text-center">야근</td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="text-center">9</td>
+        <td class="text-center">강○용</td>
+        <td class="text-center">야근</td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="text-center">10</td>
+        <td class="text-center">안○억</td>
+        <td class="text-center">야근</td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="text-center">11</td>
+        <td class="text-center">김○진</td>
+        <td class="text-center">야근</td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="text-center">12</td>
+        <td class="text-center">윤○현</td>
+        <td class="text-center">야근</td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="text-center">13</td>
+        <td class="text-center">김○준</td>
+        <td class="text-center">야근</td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="text-center">14</td>
+        <td class="text-center">김○길</td>
+        <td class="text-center">야근</td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="text-center">15</td>
+        <td class="text-center">김○광</td>
+        <td class="text-center">야근</td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="text-center">16</td>
+        <td class="text-center">이○하</td>
+        <td class="text-center">야근</td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="text-center">17</td>
+        <td class="text-center">이○종</td>
+        <td class="text-center">중야근</td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="page-break"></div>
+
+  <h2>별지 2. 신고인별 피해 산정표</h2>
+  <div class="callout-box" style="font-size: 9pt; margin-bottom: 10px;">
+    • 출처 : 피신고인 작성 「퇴직자 및 부천집 희망 인원 연차 내역」(갑 제3호증)<br>
+    • <strong>A</strong> = 2023. 12. 16.자 정당 발생일수 (취업규칙 제20조 제1항·제3항: 15일 + 근속가산, 최대 25일)<br>
+    • <strong>① 공제액</strong> = 공제일수 × 1일 통상임금 &nbsp;|&nbsp; <strong>② 미사용수당</strong> = (A − 사용일수) × 1일 통상임금
+  </div>
+
+  <table style="font-size: 8.5pt;">
+    <thead>
+      <tr>
+        <th rowspan="2" style="width: 4%;">연번</th>
+        <th rowspan="2" style="width: 8%;">성명</th>
+        <th colspan="3">사측 연차 내역</th>
+        <th colspan="2">공제일수 분해</th>
+        <th colspan="2">정당 연차 내역</th>
+        <th rowspan="2" style="width: 9%;">1일<br>통상임금</th>
+        <th colspan="3">청구 금액</th>
+      </tr>
+      <tr>
+        <th style="width: 6%;">사측<br>부여</th>
+        <th style="width: 5%;">사용</th>
+        <th style="width: 7%;">잔여<br>(공제)</th>
+        <th style="width: 6%;">ⓐ과거분<br>환수</th>
+        <th style="width: 6%;">ⓑ당해분<br>부인</th>
+        <th style="width: 8%;">A 정당<br>발생일수</th>
+        <th style="width: 7%;">미사용<br>(A−사용)</th>
+        <th style="width: 10%;">① 공제액<br>반환</th>
+        <th style="width: 10%;">② 미사용<br>수당</th>
+        <th style="width: 14%;">합계<br>(①+②)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="text-center">1</td>
+        <td class="text-center"><strong>김○덕</strong></td>
+        <td class="text-right num-neg">−8</td>
+        <td class="text-right">5</td>
+        <td class="text-right num-neg">−13</td>
+        <td class="text-right">8</td>
+        <td class="text-right">5</td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+      </tr>
+      <tr>
+        <td class="text-center">2</td>
+        <td class="text-center">이○주</td>
+        <td class="text-right num-neg">−5</td>
+        <td class="text-right">0</td>
+        <td class="text-right num-neg">−5</td>
+        <td class="text-right">5</td>
+        <td class="text-right">0</td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+      </tr>
+      <tr>
+        <td class="text-center">3</td>
+        <td class="text-center">최○주</td>
+        <td class="text-right num-neg">−1</td>
+        <td class="text-right">0</td>
+        <td class="text-right num-neg">−1</td>
+        <td class="text-right">1</td>
+        <td class="text-right">0</td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+      </tr>
+      <tr>
+        <td class="text-center">4</td>
+        <td class="text-center">한○아</td>
+        <td class="text-right num-neg">−8</td>
+        <td class="text-right">0</td>
+        <td class="text-right num-neg">−8</td>
+        <td class="text-right">8</td>
+        <td class="text-right">0</td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+      </tr>
+      <tr>
+        <td class="text-center">5</td>
+        <td class="text-center">김○철</td>
+        <td class="text-right num-neg">−3</td>
+        <td class="text-right">0</td>
+        <td class="text-right num-neg">−3</td>
+        <td class="text-right">3</td>
+        <td class="text-right">0</td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+      </tr>
+      <tr>
+        <td class="text-center">6</td>
+        <td class="text-center">이○진</td>
+        <td class="text-right num-neg">−5</td>
+        <td class="text-right">0</td>
+        <td class="text-right num-neg">−5</td>
+        <td class="text-right">5</td>
+        <td class="text-right">0</td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+      </tr>
+      <tr>
+        <td class="text-center">7</td>
+        <td class="text-center">김○훈</td>
+        <td class="text-right">0</td>
+        <td class="text-right">1</td>
+        <td class="text-right num-neg">−1</td>
+        <td class="text-right">0</td>
+        <td class="text-right">1</td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+      </tr>
+      <tr>
+        <td class="text-center">8</td>
+        <td class="text-center">김○수</td>
+        <td class="text-right num-neg">−4</td>
+        <td class="text-right">3</td>
+        <td class="text-right num-neg">−7</td>
+        <td class="text-right">4</td>
+        <td class="text-right">3</td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+      </tr>
+      <tr>
+        <td class="text-center">9</td>
+        <td class="text-center">강○용</td>
+        <td class="text-right num-neg">−2</td>
+        <td class="text-right">1</td>
+        <td class="text-right num-neg">−3</td>
+        <td class="text-right">2</td>
+        <td class="text-right">1</td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+      </tr>
+      <tr>
+        <td class="text-center">10</td>
+        <td class="text-center">안○억</td>
+        <td class="text-right num-neg">−1</td>
+        <td class="text-right">0</td>
+        <td class="text-right num-neg">−1</td>
+        <td class="text-right">1</td>
+        <td class="text-right">0</td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+      </tr>
+      <tr>
+        <td class="text-center">11</td>
+        <td class="text-center">김○진</td>
+        <td class="text-right num-neg">−7</td>
+        <td class="text-right">5</td>
+        <td class="text-right num-neg">−12</td>
+        <td class="text-right">7</td>
+        <td class="text-right">5</td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+      </tr>
+      <tr>
+        <td class="text-center">12</td>
+        <td class="text-center">윤○현</td>
+        <td class="text-right num-neg">−3</td>
+        <td class="text-right">0</td>
+        <td class="text-right num-neg">−3</td>
+        <td class="text-right">3</td>
+        <td class="text-right">0</td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+      </tr>
+      <tr>
+        <td class="text-center">13</td>
+        <td class="text-center">김○준</td>
+        <td class="text-right num-neg">−2</td>
+        <td class="text-right">1</td>
+        <td class="text-right num-neg">−3</td>
+        <td class="text-right">2</td>
+        <td class="text-right">1</td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+      </tr>
+      <tr>
+        <td class="text-center">14</td>
+        <td class="text-center">김○길</td>
+        <td class="text-right num-neg">−2</td>
+        <td class="text-right">0</td>
+        <td class="text-right num-neg">−2</td>
+        <td class="text-right">2</td>
+        <td class="text-right">0</td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+      </tr>
+      <tr>
+        <td class="text-center">15</td>
+        <td class="text-center">김○광</td>
+        <td class="text-right num-neg">−2</td>
+        <td class="text-right">3</td>
+        <td class="text-right num-neg">−5</td>
+        <td class="text-right">2</td>
+        <td class="text-right">3</td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+      </tr>
+      <tr>
+        <td class="text-center">16</td>
+        <td class="text-center">이○하</td>
+        <td class="text-right">2</td>
+        <td class="text-right">3</td>
+        <td class="text-right num-neg">−1</td>
+        <td class="text-right">0</td>
+        <td class="text-right">1</td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+      </tr>
+      <tr>
+        <td class="text-center">17</td>
+        <td class="text-center">이○종</td>
+        <td class="text-right num-neg">−1</td>
+        <td class="text-right">0</td>
+        <td class="text-right num-neg">−1</td>
+        <td class="text-right">1</td>
+        <td class="text-right">0</td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-center"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+      </tr>
+      <tr class="sum-row">
+        <td colspan="2" class="text-center">합 계</td>
+        <td class="text-center">-</td>
+        <td class="text-right">22</td>
+        <td class="text-right num-neg">−74</td>
+        <td class="text-right">54</td>
+        <td class="text-right">20</td>
+        <td class="text-center">-</td>
+        <td class="text-center">-</td>
+        <td class="text-center">-</td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+        <td class="text-right"><span class="placeholder">【 】</span></td>
+      </tr>
+    </tbody>
+  </table>
+  <p style="font-size: 8.5pt; color: #64748b; margin-top: 4px;">
+    ※ 실제 공제액은 2024년 2월분 급여명세서(갑 제4호증)를 기준으로 확정합니다.
+  </p>
+
+  <h2>증거 목록</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 18%;">호증 번호</th>
+        <th>증 거 명</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="text-center"><strong>갑 제1호증</strong></td>
+        <td>단체협약 (제42조, 제53조) 및 2023. 12. 28.자 개정 합의서</td>
+      </tr>
+      <tr>
+        <td class="text-center"><strong>갑 제2호증</strong></td>
+        <td>취업규칙 (제20조)</td>
+      </tr>
+      <tr>
+        <td class="text-center"><strong>갑 제3호증</strong></td>
+        <td>피신고인 작성 「퇴직자 및 부천집 희망 인원 연차 내역」</td>
+      </tr>
+      <tr>
+        <td class="text-center"><strong>갑 제4호증</strong></td>
+        <td>신고인별 2024년 2월분 급여명세서</td>
+      </tr>
+      <tr>
+        <td class="text-center"><strong>갑 제5호증</strong></td>
+        <td>연차관리시스템 2023. 12. 16.자 연차 부여 내역</td>
+      </tr>
+      <tr>
+        <td class="text-center"><strong>갑 제6호증</strong></td>
+        <td>신고인별 퇴직 관련 자료 (퇴직금 정산 내역, 우정사업본부 근로계약서)</td>
+      </tr>
+      <tr>
+        <td class="text-center"><strong>갑 제7호증</strong></td>
+        <td>의정부지방법원 2026. 2. 5. 선고 2024나226635 판결</td>
+      </tr>
+      <tr>
+        <td class="text-center"><strong>갑 제8호증</strong></td>
+        <td>대법원 2026. 6. 25. 선고 2026다202306 판결</td>
+      </tr>
+      <tr>
+        <td class="text-center"><strong>갑 제9호증</strong></td>
+        <td>고용노동부 행정해석 (임금근로시간정책팀-489, 2008. 2. 28.)</td>
+      </tr>
+      <tr>
+        <td class="text-center"><strong>갑 제10호증</strong></td>
+        <td>종전 신고서 및 처리결과 통지</td>
+      </tr>
+      <tr>
+        <td class="text-center"><strong>갑 제11호증</strong></td>
+        <td><span class="placeholder">【해당 시】</span> 폐국 일정 관련 공문</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="memo-box no-print">
+    <div class="memo-header">⚠️ [작성자 메모: 노동관서 제출 전 반드시 삭제 또는 인쇄 제외]</div>
+    
+    <h3>A. 기재가 필요한 【 】 항목</h3>
+    <ul>
+      <li>1. 피신고인 이사장 성명, 서서울 물류사업소 소재지, 신고인 대표 연락처</li>
+      <li>2. 종전 신고일과 사건번호</li>
+      <li>
+        3. 별지 1의 입사일·연락처, 별지 2의 A(정당 발생일수)·1일 통상임금·금액<br>
+        - A는 입사일로 근속연수를 계산해 15 + ⌊(근속연수 − 1) / 2⌋ (최대 25)로 산정합니다.<br>
+        - 근속연수는 2023. 12. 15. 기준입니다.
+      </li>
+      <li>4. 1일 통상임금 산정 기준: 취업규칙상 연차수당이 통상임금 기준인지 평균임금 기준인지 확인 필요</li>
+    </ul>
+
+    <h3>B. 사실 확인 후 유지 또는 삭제할 문장</h3>
+    <ul>
+      <li>1. 제2. 라. 2) "연차관리시스템에 부여하고 사용을 승인": 시스템 화면 확보</li>
+      <li>2. 제2. 라. 3) 폐국 인지 시점: 확인되지 않으면 문단 전체와 제4. 다. 표 (다) 부분의 괄호를 삭제</li>
+      <li>3. 제2. 바. 2) "협의에 응하지 않았다": 사실 범위 확인</li>
+      <li>4. 제5. 나. 5) 제9호 교섭 경위: 물류노조에 회의록이나 확인서 요청</li>
+      <li>5. 제5. 다. 3) 1/2 초과 공제자: 해당자가 없으면 '예비적 주장' 문단 삭제</li>
+      <li>6. 신고인 중 공제에 동의하는 서류(정산서 등)에 서명한 사람이 있는지 확인</li>
+    </ul>
+
+    <h3>C. 인용 검증 (원문 대조 완료 여부)</h3>
+    <ul>
+      <li>☑ 의정부지법 2024나226635: 본문 인용문 모두 판결문 원문과 일치</li>
+      <li>☑ 대법원 2026다202306: 소액사건 상고기각 취지만 기재</li>
+      <li>☑ 대법원 2023도5476: 선고일 2024. 12. 12.로 정정</li>
+      <li>☐ 대법원 2003다48549, 48556 / 2009다102452 / 2001다25184 / 94다26721 / 2007다90760: 판결 요지 원문 대조 권장 (본문은 인용부호 없이 취지로만 기재함)</li>
+      <li>☐ 임금근로시간정책팀-489: 원문 사본 확보 (갑 제9호증)</li>
+    </ul>
+
+    <h3>D. 병행 조치 (시효)</h3>
+    <ul>
+      <li>
+        노동청 신고는 민사 소멸시효를 중단시키지 않습니다. <strong>2027. 2. 말 전에</strong> 다음 조치를 해야 합니다.<br>
+        - 내용증명으로 최고한 뒤 6개월 이내에 지급명령이나 소액소송을 제기<br>
+        - 체불확인서를 발급받으면 대한법률구조공단 무료 소송 지원을 연계
+      </li>
+      <li>단체협약 당사자인 물류노동조합이 노조법 위반 부분을 공동으로 신고하거나 확인서를 내 주면 입증에 유리합니다.</li>
+    </ul>
+  </div>
+
+</div>
+</body>
+</html>
