@@ -1,0 +1,392 @@
+#!/usr/bin/env python3
+"""요약 페이지 아카이브 관리 도구 (python3 표준 라이브러리만 사용).
+
+사용 예:
+  python3 add_page.py <source.html> --title "제목" --summary "요약" --tags AI,소프트웨어 [--date 2026-10-06]
+  python3 add_page.py --rebuild          # catalog.json 손으로 고친 뒤 catalog.js 재생성
+  python3 add_page.py --list             # 항목 목록
+  python3 add_page.py --remove <id> [--delete-file]
+  ... --commit [--no-push]               # 작업 후 git commit (+ push)
+"""
+import argparse
+import datetime as dt
+import hashlib
+import json
+import os
+import re
+import shutil
+import sys
+import tempfile
+import unicodedata
+
+try:
+    from zoneinfo import ZoneInfo
+    KST = ZoneInfo("Asia/Seoul")
+except Exception:  # tzdata 없는 환경 대비
+    KST = dt.timezone(dt.timedelta(hours=9), "KST")
+
+ROOT = os.path.dirname(os.path.abspath(__file__))
+PAGES_DIR = os.path.join(ROOT, "pages")
+CATALOG_JSON = os.path.join(ROOT, "catalog.json")
+CATALOG_JS = os.path.join(ROOT, "catalog.js")
+DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+
+
+def die(msg, code=1):
+    print(f"오류: {msg}", file=sys.stderr)
+    sys.exit(code)
+
+
+def warn(msg):
+    print(f"경고: {msg}", file=sys.stderr)
+
+
+def nfc(s):
+    return unicodedata.normalize("NFC", s)
+
+
+def now_kst():
+    return dt.datetime.now(KST)
+
+
+def sha256(path):
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        for chunk in iter(lambda: f.read(1 << 20), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def atomic_write(path, text):
+    d = os.path.dirname(path)
+    fd, tmp = tempfile.mkstemp(dir=d, prefix=".tmp-", suffix=os.path.basename(path))
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8", newline="\n") as f:
+            f.write(text)
+        os.chmod(tmp, 0o644)
+        os.replace(tmp, path)
+    except BaseException:
+        if os.path.exists(tmp):
+            os.unlink(tmp)
+        raise
+
+
+def load_catalog():
+    if not os.path.exists(CATALOG_JSON):
+        return []
+    try:
+        with open(CATALOG_JSON, encoding="utf-8") as f:
+            data = json.load(f)
+    except json.JSONDecodeError as e:
+        die(f"catalog.json 파싱 실패: {e}")
+    if not isinstance(data, list):
+        die("catalog.json 최상위는 배열(list)이어야 합니다.")
+    return data
+
+
+def sort_key(e):
+    return (e.get("date", ""), e.get("added", ""))
+
+
+def validate(entries):
+    """문제 목록(문자열)을 돌려준다. 빈 리스트면 정상."""
+    problems = []
+    ids = set()
+    for i, e in enumerate(entries):
+        where = f"항목 #{i + 1} ({e.get('id', '?')})"
+        if not isinstance(e, dict):
+            problems.append(f"{where}: 객체가 아님")
+            continue
+        for k in ("id", "title", "summary", "tags", "date", "file"):
+            if k not in e:
+                problems.append(f"{where}: '{k}' 필드 없음")
+        if e.get("id") in ids:
+            problems.append(f"{where}: id 중복")
+        ids.add(e.get("id"))
+        if not isinstance(e.get("tags", []), list):
+            problems.append(f"{where}: tags는 배열이어야 함")
+        if "date" in e and not DATE_RE.match(str(e["date"])):
+            problems.append(f"{where}: date 형식은 YYYY-MM-DD")
+        f = e.get("file")
+        if f and not os.path.isfile(os.path.join(ROOT, f)):
+            problems.append(f"{where}: 파일 없음 → {f}")
+    return problems
+
+
+def save_catalog(entries):
+    entries.sort(key=sort_key, reverse=True)
+    text = json.dumps(entries, ensure_ascii=False, indent=2) + "\n"
+    atomic_write(CATALOG_JSON, text)
+    build_js(entries)
+
+
+def build_js(entries=None):
+    if entries is None:
+        entries = load_catalog()
+    payload = json.dumps(entries, ensure_ascii=False, indent=2)
+    # <script> 안에서 안전하도록 '</' 와 줄 구분 문자를 이스케이프
+    payload = payload.replace("</", "<\\/").replace("\u2028", "\\u2028").replace("\u2029", "\\u2029")
+    stamp = now_kst().isoformat(timespec="seconds")
+    js = (
+        "/* 자동 생성 파일 — 직접 수정하지 마세요. catalog.json을 고친 뒤\n"
+        "   `python3 add_page.py --rebuild` 를 실행하면 다시 만들어집니다.\n"
+        f"   생성 시각: {stamp} */\n"
+        f"window.ARCHIVE_CATALOG = {payload};\n"
+    )
+    atomic_write(CATALOG_JS, js)
+
+
+def git_commit(message, push=True):
+    """아카이브 폴더가 git 저장소일 때 변경분을 커밋하고(원격이 있으면) push."""
+    import subprocess
+
+    def git(*args, check=True):
+        return subprocess.run(["git", "-C", ROOT, *args], check=check, text=True,
+                              capture_output=True)
+
+    try:
+        if git("rev-parse", "--is-inside-work-tree", check=False).returncode != 0:
+            warn("git 저장소가 아니어서 --commit 을 건너뜁니다.")
+            return 1
+        git("add", "-A", "--", "pages", "catalog.json", "catalog.js")
+        if git("diff", "--cached", "--quiet", check=False).returncode == 0:
+            print("git: 커밋할 변경 사항 없음")
+            return 0
+        git("commit", "-m", message)
+        h = git("rev-parse", "--short", "HEAD").stdout.strip()
+        print(f"git: 커밋 {h}  {message}")
+        if push and git("remote", check=False).stdout.strip():
+            r = git("push", check=False)
+            if r.returncode == 0:
+                print("git: push 완료")
+            else:
+                warn("git push 실패 (커밋은 로컬에 남아 있음):\n" + (r.stderr or r.stdout).strip())
+                return 1
+        return 0
+    except FileNotFoundError:
+        warn("git 명령을 찾을 수 없습니다.")
+        return 1
+    except subprocess.CalledProcessError as e:
+        warn(f"git 오류: {(e.stderr or e.stdout or '').strip()}")
+        return 1
+
+
+def slugify(stem):
+    stem = nfc(stem).strip()
+    stem = re.sub(r"\s+", "-", stem)
+    # 한글·영문·숫자·_·- 만 남김 (파일명/URL 안전)
+    stem = re.sub(r"[^\w\-]", "", stem, flags=re.UNICODE)
+    stem = re.sub(r"-{2,}", "-", stem).strip("-_")
+    return stem[:80] or "page"
+
+
+def unique_filename(date, stem, ext):
+    base = f"{date}-{stem}"
+    name = f"{base}{ext}"
+    n = 2
+    while os.path.exists(os.path.join(PAGES_DIR, name)):
+        name = f"{base}-{n}{ext}"
+        n += 1
+    return name
+
+
+def new_id(entries, date):
+    prefix = date.replace("-", "")
+    used = {e.get("id") for e in entries}
+    n = 1
+    while f"{prefix}-{n:02d}" in used:
+        n += 1
+    return f"{prefix}-{n:02d}"
+
+
+def parse_tags(s):
+    if not s:
+        return []
+    out = []
+    for t in re.split(r"[,，、]", s):
+        t = nfc(t).strip()
+        if t and t not in out:
+            out.append(t)
+    return out
+
+
+def html_title(path):
+    try:
+        with open(path, encoding="utf-8", errors="replace") as f:
+            head = f.read(200_000)
+        m = re.search(r"<title[^>]*>(.*?)</title>", head, re.I | re.S)
+        if m:
+            import html
+            return html.unescape(re.sub(r"\s+", " ", m.group(1))).strip()
+    except OSError:
+        pass
+    return None
+
+
+def cmd_add(a):
+    src = os.path.abspath(a.source)
+    if not os.path.isfile(src):
+        die(f"원본 파일이 없습니다: {src}")
+    ext = os.path.splitext(src)[1].lower()
+    if ext not in (".html", ".htm"):
+        warn(f"HTML 파일이 아닌 것 같습니다 ({ext or '확장자 없음'}). 계속 진행합니다.")
+        ext = ext or ".html"
+
+    date = a.date or now_kst().date().isoformat()
+    if not DATE_RE.match(date):
+        die("--date 형식은 YYYY-MM-DD 입니다.")
+    try:
+        dt.date.fromisoformat(date)
+    except ValueError:
+        die(f"유효하지 않은 날짜: {date}")
+
+    title = nfc(a.title or html_title(src) or os.path.splitext(os.path.basename(src))[0]).strip()
+    if not a.title:
+        warn(f"--title 이 없어 HTML <title>/파일명에서 가져왔습니다: {title}")
+    summary = nfc(a.summary or "").strip()
+    tags = parse_tags(a.tags)
+
+    entries = load_catalog()
+    # 대소문자만 다른 기존 태그가 있으면 기존 표기로 통일 (예: ai → AI)
+    known = {}
+    for e in entries:
+        for t in e.get("tags", []):
+            known.setdefault(t.casefold(), t)
+    for i, t in enumerate(tags):
+        k = known.get(t.casefold())
+        if k and k != t:
+            warn(f"태그 '{t}' → 기존 표기 '{k}' 로 통일")
+            tags[i] = k
+    tags = list(dict.fromkeys(tags))
+    digest = sha256(src)
+    dups = []
+    for e in entries:
+        if e.get("source_sha256") == digest:
+            dups.append(f"같은 내용의 파일이 이미 있음 → {e['id']} ({e['title']})")
+        elif e.get("source") == src:
+            dups.append(f"같은 원본 경로가 이미 등록됨 → {e['id']} ({e['title']})")
+        if nfc(e.get("title", "")).casefold() == title.casefold():
+            dups.append(f"같은 제목이 이미 있음 → {e['id']}")
+    if dups:
+        for d in dups:
+            print(("경고: " if a.force else "중복: ") + d, file=sys.stderr)
+        if not a.force:
+            die("중복으로 판단되어 추가하지 않았습니다. 그래도 추가하려면 --force 를 붙이세요.", 2)
+
+    stem = slugify(a.name if a.name else os.path.splitext(os.path.basename(src))[0])
+    # 원본 파일명이 이미 날짜로 시작하면 날짜를 두 번 붙이지 않음
+    stem = re.sub(r"^\d{4}-\d{2}-\d{2}-?", "", stem) or "page"
+    fname = unique_filename(date, stem, ext)
+    dest = os.path.join(PAGES_DIR, fname)
+
+    if a.dry_run:
+        print(f"[dry-run] {src} → pages/{fname}")
+        return
+
+    os.makedirs(PAGES_DIR, exist_ok=True)
+    shutil.copy2(src, dest)  # 원본은 읽기만 함
+    if sha256(dest) != digest:
+        os.unlink(dest)
+        die("복사본 검증(sha256) 실패")
+    os.chmod(dest, 0o644)
+
+    entry = {
+        "id": new_id(entries, date),
+        "title": title,
+        "summary": summary,
+        "tags": tags,
+        "date": date,
+        "file": f"pages/{fname}",
+        "added": now_kst().isoformat(timespec="seconds"),
+        "source": src,
+        "source_sha256": digest,
+    }
+    entries.append(entry)
+    save_catalog(entries)
+    print(f"추가됨: {entry['id']}  {title}")
+    print(f"  파일: {entry['file']}")
+    print(f"  태그: {', '.join(tags) or '(없음)'}  날짜: {date}")
+    print(f"  총 {len(entries)}개 항목, catalog.js 재생성 완료")
+    if a.commit:
+        git_commit(f"페이지 추가: {title} ({entry['id']})", push=not a.no_push)
+
+
+def cmd_rebuild(_a):
+    entries = load_catalog()
+    problems = validate(entries)
+    for p in problems:
+        warn(p)
+    # 등록되지 않은 pages/ 파일 알림
+    known = {e.get("file") for e in entries}
+    if os.path.isdir(PAGES_DIR):
+        for n in sorted(os.listdir(PAGES_DIR)):
+            if n.lower().endswith((".html", ".htm")) and f"pages/{n}" not in known:
+                warn(f"catalog.json에 없는 파일: pages/{n}")
+    save_catalog(entries)
+    print(f"catalog.js 재생성 완료 ({len(entries)}개 항목{', 문제 ' + str(len(problems)) + '건' if problems else ''})")
+    if _a.commit:
+        git_commit("카탈로그 재생성 (--rebuild)", push=not _a.no_push)
+    return 1 if problems else 0
+
+
+def cmd_list(_a):
+    entries = sorted(load_catalog(), key=sort_key, reverse=True)
+    if not entries:
+        print("(비어 있음)")
+    for e in entries:
+        print(f"{e['id']}  {e['date']}  {e['title']}  [{', '.join(e.get('tags', []))}]  {e['file']}")
+
+
+def cmd_remove(a):
+    entries = load_catalog()
+    hit = [e for e in entries if e.get("id") == a.remove]
+    if not hit:
+        die(f"id를 찾을 수 없습니다: {a.remove}  (--list 로 확인)")
+    e = hit[0]
+    entries = [x for x in entries if x is not e]
+    save_catalog(entries)
+    print(f"카탈로그에서 제거: {e['id']}  {e['title']}")
+    path = os.path.join(ROOT, e["file"])
+    if a.delete_file:
+        if os.path.isfile(path):
+            os.unlink(path)
+            print(f"  복사본 삭제: {e['file']}")
+    else:
+        print(f"  복사본은 남겨둠: {e['file']}  (함께 지우려면 --delete-file)")
+    if a.commit:
+        git_commit(f"페이지 제거: {e['title']} ({e['id']})", push=not a.no_push)
+
+
+def main():
+    p = argparse.ArgumentParser(description="HTML 요약 페이지 아카이브 도구")
+    p.add_argument("source", nargs="?", help="추가할 HTML 파일 경로 (원본은 수정하지 않음)")
+    p.add_argument("--title", help="제목 (없으면 HTML <title> 사용)")
+    p.add_argument("--summary", default="", help="한두 줄 요약")
+    p.add_argument("--tags", default="", help="쉼표로 구분한 태그, 예: AI,소프트웨어,강연")
+    p.add_argument("--date", help="YYYY-MM-DD (기본: 오늘, Asia/Seoul)")
+    p.add_argument("--name", help="pages/ 안 파일명(확장자 제외). 기본: 원본 파일명")
+    p.add_argument("--force", action="store_true", help="중복 경고를 무시하고 추가")
+    p.add_argument("--dry-run", action="store_true", help="복사/기록 없이 결과만 출력")
+    p.add_argument("--rebuild", action="store_true", help="catalog.json 검증 후 catalog.js 재생성")
+    p.add_argument("--list", action="store_true", help="항목 목록 출력")
+    p.add_argument("--remove", metavar="ID", help="카탈로그에서 항목 제거")
+    p.add_argument("--delete-file", action="store_true", help="--remove 시 pages/ 복사본도 삭제")
+    p.add_argument("--commit", action="store_true",
+                   help="작업 후 git add/commit, 원격(origin)이 있으면 push까지 (추가·--rebuild·--remove)")
+    p.add_argument("--no-push", action="store_true", help="--commit 시 push는 하지 않음")
+    a = p.parse_args()
+
+    if a.rebuild:
+        sys.exit(cmd_rebuild(a))
+    if a.list:
+        return cmd_list(a)
+    if a.remove:
+        return cmd_remove(a)
+    if not a.source:
+        p.print_help()
+        sys.exit(1)
+    cmd_add(a)
+
+
+if __name__ == "__main__":
+    main()
