@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>10분 요약: 누가 내 일을 정하는가, 알고리즘 통제와 타인결정성</title>
+<meta name="description" content="「누가 내 일을 정하는가: 알고리즘이 통제하는 노동과 타인결정성 심화 분석」의 10분 요약. 종속성의 계보와 한계, 알고리즘 통제, 법원·통계의 대응, 타인결정성, 근로자 정의 개정안과 근로자 추정을 정리했습니다.">
+<style>
+:root{
+  --bg:#faf8f3; --paper:#ffffff; --ink:#1f2328; --muted:#5b6470; --line:#e6e1d6;
+  --accent:#c8553d; --accent-soft:#fbeee9; --link:#4a6b8a;
+  --radius:14px;
+  /* 페이지 고유 의미 색 */
+  --old:#6a5f4b; --old-soft:#f3efe6;
+  --algo:#a2452f; --algo-soft:#fbeee9;
+  --new:#3d5f80; --new-soft:#eaf0f6;
+  --sup:#55598f; --sup-soft:#efeff8;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR","Malgun Gothic","Gothic A1",system-ui,sans-serif;
+  font-size:17px;line-height:1.75;word-break:keep-all;overflow-wrap:break-word}
+@media(max-width:640px){body{font-size:16px}}
+a{color:var(--link)}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #9bb5cf;outline-offset:2px}
+.skip{position:absolute;left:0;top:0;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+.skip:focus{width:auto;height:auto;clip:auto;clip-path:none;left:8px;top:8px;background:#fff;padding:6px 10px;z-index:10}
+.layout{max-width:1180px;margin:0 auto;padding:12px 14px 48px}
+@media(min-width:1024px){.layout{display:grid;grid-template-columns:240px minmax(0,1fr);gap:32px;padding:28px 24px 64px}}
+main{min-width:0}
+
+/* 목차 */
+nav.toc{display:none}
+@media(min-width:1024px){
+  nav.toc{display:block;position:sticky;top:20px;align-self:start;max-height:calc(100vh - 40px);overflow:auto}
+  nav.toc-m{display:none}
+}
+nav.toc .toc-t{font-size:13px;color:var(--muted);letter-spacing:.06em;margin:0 0 10px;font-weight:700}
+nav.toc ol,nav.toc-m ol{list-style:none;margin:0;padding:0}
+nav.toc li a{display:flex;gap:8px;align-items:baseline;text-decoration:none;color:var(--muted);font-size:15px;line-height:1.45;padding:7px 10px;border-radius:8px;border-left:3px solid transparent}
+nav.toc li a .n{font-weight:700;font-size:13px;color:#8a919b;min-width:18px}
+nav.toc li a:hover{background:#f0ece3;color:var(--ink)}
+nav.toc li a.active{background:var(--paper);color:var(--ink);border-left-color:var(--accent);font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+nav.toc li a.active .n{color:var(--accent)}
+nav.toc .orig{display:block;margin-top:12px;padding:10px;border-top:1px solid var(--line);font-size:14px}
+nav.toc-m{margin:14px 0 0}
+nav.toc-m details{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius)}
+nav.toc-m summary{cursor:pointer;padding:10px 14px;font-weight:700;list-style:none}
+nav.toc-m summary::-webkit-details-marker{display:none}
+nav.toc-m summary::after{content:" ▾";color:var(--muted)}
+nav.toc-m ol{padding:0 14px 8px}
+nav.toc-m li a{display:block;padding:8px 0;border-top:1px solid var(--line);text-decoration:none;color:var(--ink)}
+
+/* 머리 */
+.hero{padding:22px 4px 6px}
+.eyebrow{display:inline-block;font-size:13px;font-weight:700;letter-spacing:.04em;color:var(--accent);background:var(--accent-soft);padding:4px 10px;border-radius:999px}
+h1{font-size:clamp(28px,4.4vw,44px);line-height:1.25;margin:14px 0 12px;letter-spacing:-.02em}
+.lead{font-size:18px;color:var(--muted);margin:0 0 18px}
+@media(max-width:640px){.lead{font-size:17px}}
+.info{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.info p{margin:0 0 12px;font-size:16px}
+.cta{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;text-align:center;
+  background:var(--accent);color:#fff;text-decoration:none;font-weight:700;padding:13px 16px;border-radius:12px;font-size:17px}
+.cta:hover{background:#ad4430}
+.cta small{font-weight:500;font-size:14px;opacity:.95}
+.info .meta{font-size:14px;color:var(--muted);margin:12px 0 0}
+
+/* 절 */
+section.sec{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:20px 18px;margin-top:18px;scroll-margin-top:12px}
+@media(min-width:640px){section.sec{padding:28px 30px}}
+.sec-head{display:flex;gap:14px;align-items:flex-start;margin-bottom:10px}
+.sec-num{flex:none;width:36px;height:36px;border-radius:12px;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:800;font-size:16px;margin-top:3px}
+h2{font-size:clamp(23px,3vw,30px);line-height:1.3;margin:0;letter-spacing:-.015em}
+.sub{margin:4px 0 0;color:var(--muted);font-size:15px;line-height:1.5}
+.srcs{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 12px}
+.src{display:inline-block;font-size:14px;text-decoration:none;border:1px solid var(--line);padding:3px 11px;border-radius:999px;color:var(--link);background:#fdfcf9}
+.src:hover{border-color:var(--link)}
+h3{font-size:19px;line-height:1.4;margin:22px 0 6px}
+p{margin:8px 0}
+.muted{color:var(--muted)}
+.tag{display:inline-block;font-size:13px;font-weight:700;line-height:1.5;padding:0 7px;border-radius:6px;background:var(--sup-soft);color:var(--sup);vertical-align:.08em;margin-left:3px;white-space:nowrap}
+.tag.int{background:#efebe2;color:#4f5763}
+blockquote{margin:16px 0;padding:14px 18px;background:#fdfcf9;border-left:5px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;font-size:16.5px;line-height:1.7}
+blockquote cite{display:block;font-style:normal;color:var(--muted);font-size:14px;margin-top:6px}
+.callout{background:#f4f1ea;border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:14px 0;font-size:16px}
+.callout b.t{display:block;margin-bottom:2px}
+.callout.sup{background:var(--sup-soft);border-color:#d9daee}
+ul.tight{margin:6px 0;padding-left:20px}
+ul.tight li{margin:5px 0}
+
+/* 핵심 3줄 */
+.thesis{list-style:none;margin:6px 0 0;padding:0;counter-reset:th}
+.thesis li{counter-increment:th;position:relative;padding:12px 14px 12px 50px;border:1px solid var(--line);border-radius:12px;margin:10px 0;background:#fdfcf9}
+.thesis li::before{content:counter(th);position:absolute;left:14px;top:14px;width:26px;height:26px;border-radius:8px;background:var(--ink);color:#fff;font-weight:700;text-align:center;line-height:26px;font-size:14px}
+.thesis strong{display:block}
+
+/* 6단계 */
+.steps{display:grid;grid-template-columns:1fr;gap:6px;margin:10px 0 0;padding:0;list-style:none}
+@media(min-width:760px){.steps{grid-template-columns:1fr 1fr}}
+.steps li{display:flex;gap:10px;align-items:baseline;border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:16px;line-height:1.6}
+.steps b{flex:none;font-size:14px;color:var(--accent);min-width:58px}
+.steps a{font-size:14px;white-space:nowrap}
+
+/* 용어 */
+.terms{display:grid;grid-template-columns:1fr;gap:8px;margin-top:10px}
+@media(min-width:760px){.terms{grid-template-columns:1fr 1fr}}
+.terms details{border:1px solid var(--line);border-radius:10px;background:#fdfcf9}
+.terms summary{cursor:pointer;padding:9px 12px;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:8px}
+.terms summary::-webkit-details-marker{display:none}
+.terms summary::after{content:"＋";color:var(--muted);font-weight:400}
+.terms details[open] summary::after{content:"－"}
+.terms details p{margin:0;padding:0 12px 10px;font-size:16px;line-height:1.65}
+.terms .en{font-weight:400;color:var(--muted);font-size:14px}
+
+/* 타임라인 */
+.tl{list-style:none;margin:12px 0 0;padding:0 0 0 18px;border-left:3px solid var(--line)}
+.tl li{position:relative;margin:0 0 16px;padding-left:10px}
+.tl li::before{content:"";position:absolute;left:-27px;top:7px;width:15px;height:15px;border-radius:50%;background:#fff;border:3px solid var(--ink)}
+.tl li.ctx::before{border-color:#b3ab9b}
+.tl .date{font-weight:800;font-size:16px}
+.case,.tl .case{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;background:#efebe2;padding:1px 6px;border-radius:6px;white-space:nowrap}
+.tl .txt{font-size:16px;margin:2px 0 0}
+.three{display:grid;grid-template-columns:1fr;gap:8px;margin:12px 0}
+@media(min-width:760px){.three{grid-template-columns:repeat(3,1fr)}}
+.three div{border:1px solid var(--line);border-radius:12px;padding:10px 14px;background:#fdfcf9;font-size:16px;line-height:1.6}
+.three div b{display:block;font-size:17px}
+.three div .yr{display:inline-block;font-size:13px;font-weight:800;color:#fff;background:var(--ink);border-radius:6px;padding:0 7px;margin-bottom:4px}
+
+/* 카드 */
+.cards{display:grid;grid-template-columns:1fr;gap:10px;margin:10px 0}
+@media(min-width:800px){.cards{grid-template-columns:repeat(3,1fr)}}
+.card{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:#fdfcf9;font-size:16px;line-height:1.65}
+.card b.h{display:block;font-size:17px;margin-bottom:2px}
+.card .k{display:inline-block;font-size:13px;font-weight:800;border-radius:6px;padding:0 7px;margin-bottom:4px;background:var(--algo-soft);color:var(--algo)}
+.card.n .k{background:var(--new-soft);color:var(--new)}
+.card.o .k{background:var(--old-soft);color:var(--old)}
+.two{display:grid;gap:12px}
+@media(min-width:800px){.two{grid-template-columns:1fr 1fr}}
+.panel{border:1px solid var(--line);border-radius:12px;padding:12px 16px;background:#fdfcf9}
+.panel h3{margin-top:4px}
+.panel p,.panel li{font-size:16px}
+
+/* 도식 */
+figure.dia{margin:16px 0;padding:14px;border:1px solid var(--line);border-radius:var(--radius);background:#fdfcf9}
+figure.dia svg{display:block;width:100%;max-width:440px;height:auto;margin:0 auto}
+@media(max-width:640px){figure.dia{padding:10px 6px}}
+figure.dia figcaption{font-size:14px;color:var(--muted);margin-top:8px;text-align:center;line-height:1.55}
+
+/* 배달 기사 토글 */
+.seg{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 0}
+.seg button{font:inherit;font-size:15px;font-weight:700;flex:1 1 140px;border:1.5px solid var(--line);background:#fff;color:var(--muted);border-radius:10px;padding:9px 12px;cursor:pointer}
+.seg button[aria-pressed="true"].o{border-color:var(--old);background:var(--old-soft);color:var(--old)}
+.seg button[aria-pressed="true"].n{border-color:var(--new);background:var(--new-soft);color:var(--new)}
+.lens{border:1.5px solid var(--line);border-radius:12px;padding:12px 16px;margin-top:8px;font-size:16px}
+.lens.o{border-color:var(--old);background:var(--old-soft)}
+.lens.n{border-color:var(--new);background:var(--new-soft)}
+.lens ul{margin:6px 0;padding-left:20px}
+.lens p.v{font-weight:800;margin:8px 0 0}
+
+/* 표 */
+.tbl{width:100%;border-collapse:collapse;font-size:16px;line-height:1.6;margin-top:10px}
+.tbl th,.tbl td{border:1px solid var(--line);padding:10px 11px;vertical-align:top;text-align:left}
+.tbl thead th{background:#f4f1ea;font-size:15px}
+.tbl tbody th{background:#fbf9f4;font-weight:700}
+.tbl td.nw{background:#f5f8fb}
+@media(max-width:760px){
+  .stack thead{position:absolute;left:0;top:0;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+  .stack,.stack tbody,.stack tr,.stack th,.stack td{display:block;width:100%}
+  .stack tr{border:1px solid var(--line);border-radius:12px;margin:0 0 12px;overflow:hidden}
+  .stack th,.stack td{border:0;border-top:1px solid var(--line)}
+  .stack tbody th{border-top:0;background:#f4f1ea}
+  .stack td::before{content:attr(data-label);display:block;font-size:13.5px;font-weight:800;color:var(--muted);margin-bottom:2px}
+  .stack td.nw::before{color:var(--new)}
+}
+
+/* 추정 흐름 */
+.flow{list-style:none;margin:12px 0;padding:0;display:grid;gap:8px}
+@media(min-width:800px){.flow{grid-template-columns:repeat(3,1fr)}}
+.flow li{border:1.5px solid var(--line);border-radius:12px;padding:10px 14px;background:#fff;font-size:16px;line-height:1.6;position:relative}
+.flow li b{display:block;font-size:16px}
+.flow li.s1{border-color:#b9a98c}
+.flow li.s2{border-color:var(--new);background:var(--new-soft)}
+.flow li.s3{border-color:var(--algo);background:var(--algo-soft)}
+.flow .who{display:inline-block;font-size:13px;font-weight:800;color:var(--muted)}
+
+/* 오해 카드 */
+.myths{display:grid;grid-template-columns:1fr;gap:10px;margin-top:10px}
+@media(min-width:800px){.myths{grid-template-columns:1fr 1fr}}
+.myth{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:#fdfcf9}
+.myth .say{font-weight:700;margin:0;font-size:16.5px}
+.myth .say::before{content:"흔한 말 ";font-size:13px;font-weight:800;color:var(--algo);background:var(--algo-soft);border-radius:6px;padding:0 6px;margin-right:4px;vertical-align:.08em}
+.myth button{font:inherit;font-size:15px;margin-top:8px;border:1px solid var(--line);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link)}
+.myth .ans{margin:8px 0 0;padding:8px 10px;border-radius:8px;background:var(--new-soft);font-size:16px}
+.myth .ans .ref{display:block;font-size:13.5px;color:var(--muted);margin-top:2px}
+.mcount{font-size:15px;color:var(--muted);margin:10px 0 0}
+button.reset{font:inherit;font-size:15px;border:1px solid var(--line);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;margin-left:6px}
+
+.sources{margin-top:18px;padding:18px;border-top:1px solid var(--line)}
+.sources h2{font-size:20px}
+.sources p{font-size:16px}
+.totop{display:inline-block;margin-top:6px;font-size:15px}
+</style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
+</head>
+<body>
+<a class="skip" href="#main">본문으로 건너뛰기</a>
+<!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="요약 아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>요약 아카이브</a><span class="arc-crumb">누가 내 일을 정하는가: 알고리즘 통제와 타인결정성 (10분 요약)</span><span class="arc-meta"><time datetime="2026-10-09">2026년 10월 9일</time><a class="arc-tag" href="../index.html#tags=%EB%85%B8%EB%8F%99%EB%B2%95">#노동법</a><a class="arc-tag" href="../index.html#tags=%EA%B7%BC%EB%A1%9C%EC%9E%90%EC%84%B1">#근로자성</a><a class="arc-tag" href="../index.html#tags=%ED%83%80%EC%9D%B8%EA%B2%B0%EC%A0%95%EC%84%B1">#타인결정성</a><a class="arc-tag" href="../index.html#tags=%ED%94%8C%EB%9E%AB%ED%8F%BC%EB%85%B8%EB%8F%99">#플랫폼노동</a><a class="arc-tag" href="../index.html#tags=%EA%B7%BC%EB%A1%9C%EC%9E%90%EC%B6%94%EC%A0%95">#근로자추정</a><a class="arc-src" href="https://yghnsim.github.io/Pages/algorithmic_control_heteronomy.html" rel="noopener">원문 ↗</a></span></div></div>
+<!-- archive-header:end -->
+<div class="layout">
+
+<nav class="toc" aria-label="목차">
+  <p class="toc-t">목차</p>
+  <ol>
+    <li><a href="#thesis"><span class="n">1</span><span>핵심 3줄</span></a></li>
+    <li><a href="#lineage"><span class="n">2</span><span>'종속'은 어디서 왔나</span></a></li>
+    <li><a href="#cracks"><span class="n">3</span><span>안에서부터 흔들리는 기준</span></a></li>
+    <li><a href="#algo"><span class="n">4</span><span>알고리즘이 일을 정하는 법</span></a></li>
+    <li><a href="#courts"><span class="n">5</span><span>법원과 통계의 대응</span></a></li>
+    <li><a href="#fremd"><span class="n">6</span><span>타인결정성</span></a></li>
+    <li><a href="#bill"><span class="n">7</span><span>개정안과 근로자 추정</span></a></li>
+    <li><a href="#myths"><span class="n">8</span><span>흔한 말 바로잡기</span></a></li>
+    <li><a href="#eval"><span class="n">9</span><span>평가와 맺음</span></a></li>
+    <li><a href="#sources"><span class="n">·</span><span>출처</span></a></li>
+  </ol>
+  <a class="orig" href="https://yghnsim.github.io/Pages/algorithmic_control_heteronomy.html">원문 전체 보기 (약 83분) ↗</a>
+</nav>
+
+<main id="main">
+  <header class="hero">
+    <span class="eyebrow">10분 요약 · 원문 약 83분 분량</span>
+    <h1>누가 내 일을 정하는가: 알고리즘 통제와 타인결정성</h1>
+    <p class="lead">배달 기사에게 출근하라는 사람도, 작업반장도 없습니다. 그런데 어떤 주문을 얼마에 받을지, 몇 분 안에 가야 하는지는 그가 정하지 않습니다. 원문은 근로자성 판단의 질문을 '지휘·감독을 받았나'에서 '누가 정하는가'로 옮기자는 논문의 제안을 따라갑니다. 그 논지를 10분 분량으로 정리했습니다.</p>
+    <div class="info">
+      <p>원문: 「누가 내 일을 정하는가: 알고리즘이 통제하는 노동과 타인결정성 심화 분석」(Pages 노동법 해설, 2026-10-02). 원문의 뼈대는 박은정·백승호·이승윤 「노동보호법제 적용을 위한 "종속성" 연구」, 『노동법학』 제98호, 한국노동법학회, 2026. 6., 57-126쪽입니다. 원문은 논문의 입장을 따르되 필요한 곳에서 거리를 둡니다.</p>
+      <a class="cta" href="https://yghnsim.github.io/Pages/algorithmic_control_heteronomy.html">원문 전체 읽기 <small>(11장 · 약 83분)</small> ↗</a>
+      <p class="meta"><span class="tag">보충</span>은 원문 글쓴이가 논문 밖의 법령·판례·외국 제도로 덧붙인 내용입니다. 괄호 안 쪽수는 논문의 쪽수입니다. 다루는 범위는 근로기준법 중심의 개별적 노동보호법제이고, 노동조합법상 근로자는 다루지 않습니다.</p>
+    </div>
+  </header>
+
+  <nav class="toc-m" aria-label="목차">
+    <details>
+      <summary>목차 (9개 절)</summary>
+      <ol>
+        <li><a href="#thesis">1. 핵심 3줄</a></li>
+        <li><a href="#lineage">2. '종속'은 어디서 왔나</a></li>
+        <li><a href="#cracks">3. 안에서부터 흔들리는 기준</a></li>
+        <li><a href="#algo">4. 알고리즘이 일을 정하는 법</a></li>
+        <li><a href="#courts">5. 법원과 통계의 대응</a></li>
+        <li><a href="#fremd">6. 타인결정성: 누가 정하는가</a></li>
+        <li><a href="#bill">7. 근로자 정의 개정안과 근로자 추정</a></li>
+        <li><a href="#myths">8. 흔한 말 바로잡기</a></li>
+        <li><a href="#eval">9. 평가와 맺음</a></li>
+        <li><a href="#sources">출처</a></li>
+      </ol>
+    </details>
+  </nav>
+
+  <!-- 1 -->
+  <section class="sec" id="thesis">
+    <div class="sec-head"><div class="sec-num">1</div><div><h2>핵심 3줄</h2><p class="sub">원문의 논지를 세 문장으로</p></div></div>
+    <div class="srcs"><a class="src" href="https://yghnsim.github.io/Pages/algorithmic_control_heteronomy.html#1-테제-지휘감독이-사라진-자리에서-무엇을-물을-것인가">원문 1장 테제 ↗</a></div>
+    <ol class="thesis">
+      <li><strong>'종속'은 근로기준법 법문에 없는 말입니다.</strong>
+        판례가 해석으로 덧붙였고, 지휘·감독, 근무시간·장소의 구속, 전속성 같은 외형적 징표로 확인해 왔습니다. 그 징표들은 공장 노동자의 모습을 본뜬 것입니다.</li>
+      <li><strong>알고리즘은 명령 없이 일을 정합니다.</strong>
+        업무 배정, 보수, 접속 시간, 평가를 플랫폼이 정합니다. 통제는 없어진 것이 아니라 보이지 않게 되었습니다. 징표만 대 보면 "통제는 있는데 지휘·감독은 없다"는 기묘한 결론이 나옵니다.</li>
+      <li><strong>그래서 논문은 질문을 '누가 정하는가'로 옮기자고 합니다.</strong>
+        노무의 방법·조건·결과를 실질적으로 누가 정하는지를 묻는 타인결정성을 중심에 두고, 근로자 정의를 다시 쓰고 추정 규정을 두자는 제안입니다. 논문은 이를 완결된 테스트가 아니라 시론적 개념틀, 후속 논의의 출발점이라고 부릅니다.</li>
+    </ol>
+    <div class="callout"><b class="t">종속성을 버리자는 말이 아닙니다</b>논문은 종속성의 핵심인 인격적 자율성의 훼손이 여전히 보호의 근거 가운데 하나로 기능할 수 있다고 봅니다. 문제 삼는 것은 그 핵심을 외형적 징표로 우회해 확인해 온 판단 구조입니다.</div>
+
+    <h3>원문의 논지 6단계</h3>
+    <ol class="steps">
+      <li><b>① 출발</b><span>'종속'은 판례가 덧붙인 개념이다. <a href="#lineage">2절</a></span></li>
+      <li><b>② 균열</b><span>종속성 판단은 내적 모순을 안고 있다. <a href="#cracks">3절</a></span></li>
+      <li><b>③ 변형</b><span>알고리즘 통제는 보이지 않게 되었다. <a href="#algo">4절</a></span></li>
+      <li><b>④ 대응</b><span>법원은 넓혀 적용했고, 통계는 원리를 바꿨다. <a href="#courts">5절</a></span></li>
+      <li><b>⑤ 전환</b><span>초점을 '누가 정하는가'로 옮긴다. <a href="#fremd">6절</a></span></li>
+      <li><b>⑥ 입법</b><span>근로자 정의를 다시 쓰고 추정을 둔다. <a href="#bill">7절</a></span></li>
+    </ol>
+
+    <h3>용어 펼쳐 보기</h3>
+    <div class="terms">
+      <details><summary><span>종속성 · 종속적 관계</span></summary><p>근로자인지 가리려고 판례가 쓰는 해석 기준입니다. 법문에는 없습니다. 법원은 여러 징표를 하나씩 채울 요건이 아니라 "종합적으로 고려"할 사정으로 다룹니다.</p></details>
+      <details><summary><span>인격적 종속성 <span class="en">persönliche Abhängigkeit</span></span></summary><p>독일 판례의 근로자 기준입니다. 지시에 묶여 일하는지를 봅니다. 진츠하이머의 정식에서 곧바로 나온 것이 아니라 그 뒤 판례와 학설이 다듬은 개념입니다.</p></details>
+      <details><summary><span>타인결정성 <span class="en">Fremdbestimmung</span></span></summary><p>노무의 내용·조건·방식·보수가 노무제공자 자신이 아니라 타인에 의해 실질적으로 결정되는 성질입니다. 타인에는 사용자뿐 아니라 그가 설계·운영하는 알고리즘·플랫폼 구조·평점 시스템 같은 "비인격적 결정 기제"가 포함됩니다.</p></details>
+      <details><summary><span>노무제공자 · 노무수령자</span></summary><p>노무제공자는 계약 형식을 묻지 않고 일하는 사람 일반을 가리키는 논문의 용어입니다. 노무수령자는 "노무를 제공받는 자"로, 개정안이 추정의 상대방으로 쓰는 말입니다.</p></details>
+      <details><summary><span>확장·유추와 재구성</span></summary><p>확장·유추는 기존 기준을 그대로 두고 새 사실에 넓혀 적용하는 것입니다. 재구성은 기준 자체를 다시 쓰는 것입니다. 논문은 독일 크라우드워커 판결을 앞의 것으로 보고, 원문은 한국 타다 판결도 그렇게 읽습니다.</p></details>
+      <details><summary><span>근로자 추정</span></summary><p>일정한 전제사실이 인정되면 근로자로 보고, 상대방이 반증해야 그 추정이 깨지는 입증 구조입니다. 자동으로 근로자가 되는 장치는 아닙니다.</p></details>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="sec" id="lineage">
+    <div class="sec-head"><div class="sec-num">2</div><div><h2>'종속'은 어디서 왔나</h2><p class="sub">법문에 없는 말이 근로자 개념의 중심이 되기까지</p></div></div>
+    <div class="srcs"><a class="src" href="https://yghnsim.github.io/Pages/algorithmic_control_heteronomy.html#2-법문에-없는-말-종속성은-어떻게-근로자-개념의-중심이-되었나">원문 2장 ↗</a></div>
+    <blockquote>"직업의 종류와 관계없이 임금을 목적으로 사업이나 사업장에 근로를 제공하는 사람"
+      <cite>근로기준법 제2조 제1항 제1호의 근로자 정의. 1953년 제정법 제14조에서 표현만 다듬어졌고, '종속'도 '지휘·감독'도 없습니다.</cite></blockquote>
+    <h3>한국: 판례가 덧붙인 '종속적 관계'</h3>
+    <ol class="tl">
+      <li class="ctx"><span class="date">1972</span> <span class="case">72도334</span><p class="txt">택시운전기사 사건. 대법원은 별다른 기준 없이 정의 규정을 인용했습니다.</p></li>
+      <li><span class="date">1980. 12. 9.</span> <span class="case">79다2147</span><p class="txt">철도하역 근로자 사건. '종속'이라는 단어가 처음 나타납니다.</p></li>
+      <li><span class="date">1989. 7. 11.</span> <span class="case">88다카21296</span><p class="txt">전공의 사건. 병원과 전공의 사이에 "실질적인 사용종속관계"가 있다고 보았습니다.</p></li>
+      <li><span class="date">1994. 12. 9.</span> <span class="case">94다22859</span><p class="txt">종속적 관계의 내용을 처음 풀어 쓴 판결입니다. 계약 형식이 아니라 실질을 보라고 하면서 업무 내용의 결정, 취업규칙 적용, 지휘·감독, 근무시간·장소의 구속, 대체성과 도구 소유, 고정급·원천징수, 계속성, 전속성 같은 사정을 늘어놓았습니다.</p></li>
+      <li><span class="date">2006. 12. 7.</span> <span class="case">2004다29736</span><p class="txt">학원강사 사건. '구체적·개별적' 지휘·감독을 '상당한' 지휘·감독으로 낮췄습니다. 고정급, 원천징수, 사회보장제도상 지위는 사용자가 "임의로 정할 여지가 크기 때문에" 그것만으로 근로자성을 쉽게 부정해서는 안 된다고 했습니다. 지금도 표준 문장으로 쓰입니다.</p></li>
+    </ol>
+    <h3>세 나라의 경로</h3>
+    <div class="three">
+      <div><span class="yr">독일 1975</span><b>인격적 종속성</b>1920년대부터 인격적 종속성이 중심에 섰고, 다요소 판단 틀은 1975년 연방노동법원(BAG)의 오케스트라 단원 사건이 기점입니다. 2017. 4. 1. 시행 민법 제611a조로 성문화되었습니다.</div>
+      <div><span class="yr">일본 1985</span><b>사용종속성</b>노동기준법 연구회 보고서가 수락·거절의 자유, 지휘·감독, 시간·장소 구속, 대체 가능성을 중심 요소로 정형화했습니다.</div>
+      <div><span class="yr">한국 1994</span><b>종속적 관계</b>94다22859 판결. 일본 구조와 많이 닮았지만, 직접 들여온 결과인지는 논문도 "단정하기는 어렵다"고 봅니다.</div>
+    </div>
+    <p>뿌리에는 임금노동이 타인을 위해 타인의 지배 아래 하는 '타인노동'이라는 인식이 있습니다. 휴고 진츠하이머(Hugo Sinzheimer)는 종속노동을 "타인의 처분권 하에 있는 노동"으로 이해했습니다. 핵심은 누가 결정하느냐입니다. 독일 민법 제611a조도 근로계약을 "지시에 구속되고 타인이 결정하는 노동을 인격적 종속 아래" 제공하는 계약으로 정의합니다. 이 말은 6절에서 다시 나옵니다.</p>
+    <div class="callout"><b class="t">눈여겨볼 두 가지</b>첫째, 종속성은 입법자가 아니라 법원이 만든 기준이라 그 내용과 근거가 법문에서 직접 나오지 않습니다. 둘째, 판례는 처음부터 형식보다 실질을 보겠다고 했습니다. 문제는 그 실질을 어떤 징표로 확인하느냐입니다. 흔히 종속성을 19세기 공장 시대의 기준이라고 하지만, 지금의 판단 틀은 대체로 20세기 후반의 산물입니다. 다만 그 틀이 상정한 노동은 여전히 공장이었습니다.</div>
+  </section>
+
+  <!-- 3 -->
+  <section class="sec" id="cracks">
+    <div class="sec-head"><div class="sec-num">3</div><div><h2>안에서부터 흔들리는 기준</h2><p class="sub">플랫폼 이전부터 있던 세 가지 모순</p></div></div>
+    <div class="srcs"><a class="src" href="https://yghnsim.github.io/Pages/algorithmic_control_heteronomy.html#3-종속성-판단이-안에서부터-흔들리는-이유">원문 3장 ↗</a></div>
+    <p>94다22859 판결의 지표 목록은 사실상 공장 노동자의 초상화입니다. 한 사용자에게 전속되어 정해진 시간과 장소에서 감독자의 지시를 받고, 회사 도구로 일하고, 고정된 임금을 받는 사람입니다. 논문은 문제가 플랫폼 이전부터 판단 구조 안에 있었고, 플랫폼은 그것을 가장 선명하게 드러냈을 뿐이라고 봅니다.</p>
+    <div class="cards">
+      <div class="card o"><span class="k">모순 1</span><b class="h">순환</b>"종속적이기 때문에 근로자이고, 근로자이기 때문에 종속적이다." 왜, 어떤 종속을 보호해야 하는지는 이 안에서 답해지지 않습니다.</div>
+      <div class="card o"><span class="k">모순 2</span><b class="h">정도와 결론의 어긋남</b>종속은 많고 적음이 있는데 결론은 근로자이거나 아니거나 둘 중 하나입니다. 선을 어디에 긋는지는 법문에도 판례에도 없습니다.</div>
+      <div class="card o"><span class="k">모순 3</span><b class="h">지표의 충돌</b>시간은 자유로운데 보수는 일방적으로 정해지는 사람에게 어느 지표가 무거운지 판례는 말하지 않습니다. '상당한' 지휘·감독이 얼마만큼인지도 열려 있습니다.</div>
+    </div>
+    <h3>보호의 필요조건도 충분조건도 아닐 수 있다</h3>
+    <p>한 거래처에 소득 대부분을 의존하는 1인 사업자, 여러 플랫폼을 오가며 낮은 단가로 일하는 사람은 인격적 종속이 약해 보여도 경제적으로 매우 취약합니다. 반대로 지시를 받으며 일해도 높은 소득과 교섭력을 가진 전문직이 있습니다. 여기에 실무적 약점 두 가지가 겹칩니다.</p>
+    <ul class="tight">
+      <li><b>외형은 꾸밀 수 있습니다.</b> 계약서 명칭, 고정급, 원천징수, 사회보험 가입은 사용자가 정할 수 있습니다.</li>
+      <li><b>사용자가 한 명이라는 전제.</b> 플랫폼에서는 앱 운영사, 장비 회사, 계약서상 협력업체, 고객에게 사용자 역할이 흩어집니다. 여러 플랫폼에 동시에 등록하면 전속성과 계속성은 오히려 근로자성을 부정하는 쪽으로 기웁니다.</li>
+    </ul>
+  </section>
+
+  <!-- 4 -->
+  <section class="sec" id="algo">
+    <div class="sec-head"><div class="sec-num">4</div><div><h2>알고리즘이 일을 정하는 법</h2><p class="sub">명령 없는 통제와 제조된 동의</p></div></div>
+    <div class="srcs"><a class="src" href="https://yghnsim.github.io/Pages/algorithmic_control_heteronomy.html#4-알고리즘은-어떻게-일을-정하는가">원문 4장 ↗</a></div>
+    <p>플랫폼 노동자는 접속할지, 일을 받을지 스스로 고르는 것처럼 보입니다. 그러나 논문은 알고리즘이 <b>업무 배정, 보수 결정, 접속 시간 관리, 평점·평가에 따른 불이익 부과</b>로 선택과 행동을 구조적으로 제약한다고 봅니다. 구체적인 불이익은 플랫폼마다 다르지만, 평가가 다음 일의 기회와 보수로 되돌아오는 구조는 같습니다.</p>
+
+    <figure class="dia">
+      <svg viewBox="0 0 320 650" role="img" aria-labelledby="dtitle ddesc" font-family="inherit">
+        <title id="dtitle">명령이 사라진 자리: 통제의 형식은 바뀌고 결정하는 타인은 남는다</title>
+        <desc id="ddesc">공장형 통제의 네 요소가 알고리즘 통제의 네 기제로 바뀌고, 타인결정성은 방법, 조건, 결과 귀속을 누가 정하는지 묻는다.</desc>
+        <defs><marker id="ah" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#5b6470"/></marker></defs>
+        <rect x="1" y="1" width="318" height="138" rx="14" fill="#f3efe6" stroke="#b9a98c"/>
+        <text x="16" y="28" font-size="17" font-weight="800" fill="#6a5f4b">① 공장형 통제</text>
+        <g font-size="16" fill="#1f2328" text-anchor="middle">
+          <rect x="14" y="44" width="142" height="36" rx="9" fill="#fff" stroke="#e6e1d6"/><text x="85" y="67">직접 명령</text>
+          <rect x="164" y="44" width="142" height="36" rx="9" fill="#fff" stroke="#e6e1d6"/><text x="235" y="67">보이는 감독자</text>
+          <rect x="14" y="88" width="142" height="36" rx="9" fill="#fff" stroke="#e6e1d6"/><text x="85" y="111">계약·취업규칙</text>
+          <rect x="164" y="88" width="142" height="36" rx="9" fill="#fff" stroke="#e6e1d6"/><text x="235" y="111">시간·장소 구속</text>
+        </g>
+        <line x1="36" y1="144" x2="36" y2="204" stroke="#5b6470" stroke-width="2" marker-end="url(#ah)"/>
+        <g font-size="16" fill="#5b6470">
+          <text x="58" y="160">명령 → 코드화된 규칙</text>
+          <text x="58" y="181">감독자 → 분산된 네트워크</text>
+          <text x="58" y="202">계약 → 이용약관에 의한 규율</text>
+        </g>
+        <rect x="1" y="214" width="318" height="138" rx="14" fill="#fbeee9" stroke="#c8553d"/>
+        <text x="16" y="241" font-size="17" font-weight="800" fill="#a2452f">② 알고리즘 통제</text>
+        <g font-size="16" fill="#1f2328" text-anchor="middle">
+          <rect x="14" y="257" width="142" height="36" rx="9" fill="#fff" stroke="#e8c9bf"/><text x="85" y="280">업무 배정</text>
+          <rect x="164" y="257" width="142" height="36" rx="9" fill="#fff" stroke="#e8c9bf"/><text x="235" y="280">보수 결정</text>
+          <rect x="14" y="301" width="142" height="36" rx="9" fill="#fff" stroke="#e8c9bf"/><text x="85" y="324">접속 시간 관리</text>
+          <rect x="164" y="301" width="142" height="36" rx="9" fill="#fff" stroke="#e8c9bf"/><text x="235" y="324">평점·평가 불이익</text>
+        </g>
+        <line x1="36" y1="357" x2="36" y2="408" stroke="#5b6470" stroke-width="2" marker-end="url(#ah)"/>
+        <g font-size="16" fill="#5b6470">
+          <text x="58" y="379">판단의 초점을 옮긴다</text>
+          <text x="58" y="399">외형적 징표 → 누가 정하는가</text>
+        </g>
+        <rect x="1" y="416" width="318" height="174" rx="14" fill="#eaf0f6" stroke="#4a6b8a"/>
+        <text x="16" y="443" font-size="17" font-weight="800" fill="#3d5f80">③ 타인결정성으로 묻기</text>
+        <g font-size="16" fill="#1f2328">
+          <rect x="14" y="458" width="292" height="36" rx="9" fill="#fff" stroke="#c9d6e3"/><text x="28" y="481">노무 수행 방법은 누가 정하나</text>
+          <rect x="14" y="500" width="292" height="36" rx="9" fill="#fff" stroke="#c9d6e3"/><text x="28" y="523">노무제공 조건은 누가 정하나</text>
+          <rect x="14" y="542" width="292" height="36" rx="9" fill="#fff" stroke="#c9d6e3"/><text x="28" y="565">결과는 누구의 사업에 귀속되나</text>
+        </g>
+        <g font-size="16" font-weight="700" fill="#c8553d" text-anchor="middle">
+          <text x="160" y="620">"구조 뒤에는 반드시</text>
+          <text x="160" y="642">그 구조를 만든 타인이 있다"</text>
+        </g>
+      </svg>
+      <figcaption>원문 4장 도식을 간추린 것. ③의 세 질문은 따로 채울 요건이 아니라 서로 연결된 검토 측면이며, 지시든 알고리즘이든 수단은 묻지 않습니다.</figcaption>
+    </figure>
+
+    <h3>제조된 동의, 그리고 세 가지 질적 차이</h3>
+    <p>논문은 사회학자 마이클 부라워이(Michael Burawoy)의 '제조된 동의'를 끌어옵니다. 1970년대 미국 공장 노동자들은 강제가 아니라 게임에 참여했기 때문에 스스로 노동 강도를 끌어올렸습니다. 논문은 공장의 관리자가 하던 그 일을 이제 알고리즘이 한다고 보며, 세 가지가 질적으로 다르다고 말합니다.</p>
+    <div class="cards">
+      <div class="card"><span class="k">차이 1</span><b class="h">통제 주체가 보이지 않는다</b>누구에게 항의해야 하는지, 왜 오늘 일이 줄었는지 물을 상대가 없습니다.</div>
+      <div class="card"><span class="k">차이 2</span><b class="h">동의가 더 깊이 내면화된다</b>알고리즘이 개인에게 직접 작용하고 고객 별점이 실시간 평가가 됩니다. 자기 자신과의 관계 속에서 자기착취가 이루어집니다.</div>
+      <div class="card"><span class="k">차이 3</span><b class="h">노동이 잘게 쪼개진다</b>작업이 너무 작아 "진정한 고용"으로 인식되지 않지만, 플랫폼에 대한 의존은 오히려 강해집니다.</div>
+    </div>
+    <div class="callout sup"><b class="t">원문의 보충: 공장의 게임은 누가 만들었나 <span class="tag">보충</span></b>부라워이의 회고(2021)로 읽으면 기준 작업량과 단가는 경영이 정했지만, 할당량 채우기를 '메이킹 아웃' 게임으로 바꾼 것은 노동자들이었고 동료들이 규칙을 단속했습니다. 그 바탕에는 노동조합 협약의 고충처리 절차가 있었습니다. 원문은 그래서 대비가 더 날카로워진다고 봅니다. 알고리즘의 게임에서는 규칙을 쓰는 쪽도 고치는 쪽도 플랫폼입니다.</div>
+  </section>
+
+  <!-- 5 -->
+  <section class="sec" id="courts">
+    <div class="sec-head"><div class="sec-num">5</div><div><h2>법원과 통계의 대응</h2><p class="sub">법원은 넓혀 적용했고, 통계는 원리를 바꿨다</p></div></div>
+    <div class="srcs"><a class="src" href="https://yghnsim.github.io/Pages/algorithmic_control_heteronomy.html#5-법원은-어디까지-따라왔나">원문 5장 ↗</a><a class="src" href="https://yghnsim.github.io/Pages/algorithmic_control_heteronomy.html#6-통계가-먼저-다시-그린-지도">원문 6장 ↗</a></div>
+    <div class="two">
+      <div class="panel">
+        <h3>독일 연방노동법원 크라우드워커 판결</h3>
+        <p><span class="case">2020. 12. 1. 9 AZR 102/20</span></p>
+        <p>논문은 앱을 통한 통제를 인격적 종속의 징표로 본 점을 높이 사면서도, "기존 인격적 종속성 법리를 플랫폼 노동 맥락에 확장·유추 적용한 것에 가깝고, 종속성 기준 자체를 재구성한 것이라고 보기는 어렵다"고 평가합니다.</p>
+        <p><span class="tag">보충</span> 원고는 매장의 상품 진열 상태를 촬영하는 마이크로잡을 11개월 동안 2,978건 처리했습니다. 법원은 등급과 인센티브 체계가 일을 조종했다고 보아 근로관계를 인정했습니다. 그러나 소송 중 플랫폼이 한 예비적 해고는 유효하다고 보아 상고는 대부분 기각되었습니다. 근로자성은 인정받았지만 일자리는 되찾지 못했습니다.</p>
+      </div>
+      <div class="panel">
+        <h3>한국 대법원 타다 판결 <span class="tag">보충</span></h3>
+        <p><span class="case">2024. 7. 25. 2024두32973</span></p>
+        <p>논문에서 다루지 않은 판결입니다. 협력업체와 프리랜서 계약을 맺은 운전기사를 쏘카의 근로자로 본 원심을 수긍했습니다. 플랫폼 노동은 "알고리즘이나 복수의 사업참여자가 관여하는 노무관리의 특성을 고려하여 위 요소들을 적정하게 적용하여야 한다"고 밝혔습니다.</p>
+        <p>원문 글쓴이는 이 판결도 기준을 바꾼 것이 아니라 적용을 조정한 것으로 봅니다. 논문이 독일 판결에 내린 진단을 한국 판결에 옮겨 본 원문의 해석입니다.</p>
+      </div>
+    </div>
+    <h3>넓혀 적용하는 방식의 세 가지 비용</h3>
+    <ul class="tight">
+      <li><b>예측하기 어렵습니다.</b> 노무제공자는 소송을 끝까지 가 보기 전에는 자신이 근로자인지 알 수 없습니다.</li>
+      <li><b>입증 부담이 그대로입니다.</b> 알고리즘의 작동 방식은 플랫폼이 아는데, 입증은 노무제공자가 해야 합니다.</li>
+      <li><b>이름과 내용이 어긋납니다.</b> '인격적 종속'은 사람이 사람에게 지시하는 장면을 떠올리게 하는데, 법원이 실제로 확인한 것은 구조에 의한 결정입니다.</li>
+    </ul>
+    <h3>통계가 먼저 다시 그린 지도: ICSE-18</h3>
+    <p>1993년 ICSE-93은 임금근로와 자영을 한 수직선 위에 놓는 구조여서 회색지대를 잘 잡지 못했습니다. 2018년 제20차 국제노동통계인회의(ICLS)가 채택한 ICSE-18은 <b>권한의 유형</b>과 <b>경제적 위험의 유형</b>이라는 두 축을 세우고, 범주를 10개로 늘리면서 '종속적 계약자(dependent contractors)'를 새로 만들었습니다. 상업적 계약을 맺지만 일의 조직, 소득, 시장 접근을 다른 경제단위에 의존하는 사람입니다.</p>
+    <p class="muted">원문은 결의문 원문상 권한 계층(A)과 위험 계층(R)에 같은 우선순위가 있고, 종속/독립이 최상위에 오는 것은 A 계층이라고 보충합니다<span class="tag">보충</span>. 또 통계 분류는 법적 보호의 기준이 아니며, 논문은 이를 법에 대한 "시사점"으로만 다룹니다.</p>
+  </section>
+
+  <!-- 6 -->
+  <section class="sec" id="fremd">
+    <div class="sec-head"><div class="sec-num">6</div><div><h2>타인결정성: 누가 정하는가</h2><p class="sub">발견되는 사실에서 규범적 개념으로</p></div></div>
+    <div class="srcs"><a class="src" href="https://yghnsim.github.io/Pages/algorithmic_control_heteronomy.html#7-재구성인가-새-기준인가-타인결정성">원문 7장 ↗</a></div>
+    <h3>먼저 검토한 세 대안이 멈춘 곳</h3>
+    <ul class="tight">
+      <li><b>목적론적 접근</b>(방크의 경영위험 인수, 다비도프의 보호 필요성): 왜 보호하는지를 정면으로 묻지만 기준이 추상적이라 법관 판단에 크게 기댑니다. 보충적 기준으로만 인정합니다.</li>
+      <li><b>제3범주 신설</b>: 받아들이지 않습니다. 근로자로 보호받아야 할 사람이 중간 범주로 밀려날 위험, 경계가 둘로 늘어나는 문제, 보호 체계의 파편화 때문입니다.</li>
+      <li><b>사업편입성설</b>: 편입의 경계가 분명하지 않고, 누가 결정권을 갖고 누가 위험을 지는지 같은 권력관계를 직접 분석하지 않습니다.</li>
+    </ul>
+    <p>논문은 더 근본적인 원인을 종속성을 판단 이전에 존재하는 "발견되는 사실"로 전제해 온 인식틀에서 찾습니다. 종속성을 규범적 개념으로 보면, 어떤 결정 구조 아래 놓인 사람에게 보호가 필요한지를 법이 정하게 됩니다. 논문은 두 방향을 양자택일이 아닌 스펙트럼으로 제시하고, "두 방향 모두 완결된 해답이 아니라" 출발점이라고 말합니다.</p>
+    <div class="two">
+      <div class="panel">
+        <h3>방향 ① 틀은 유지하고 재구성</h3>
+        <ul class="tight">
+          <li>판단 단위: 양자 관계 → 노무제공 구조</li>
+          <li>판단 내용: 인격적 종속 → 실질적 자율성의 박탈</li>
+          <li>지표: 각 징표를 원래의 규범적 의미에 다시 연결 (예: 접속 시간에 따른 배차 우선순위도 근무시간 지정과 같은 의미로 읽기). 논문은 이것을 가장 현실적인 방향으로 봅니다.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>방향 ② 새 기준: 타인결정성</h3>
+        <ul class="tight">
+          <li><b>방법</b>: 업무의 내용·절차·방식을 누가 정하나</li>
+          <li><b>조건</b>: 보수, 시간·장소, 계약 내용과 변경이 교섭의 결과인가, 일방적으로 정해졌나</li>
+          <li><b>결과</b>: 노무의 결과가 누구의 사업을 위해 기능하고 이익은 누구에게 가나</li>
+        </ul>
+        <p class="muted">셋은 따로 채울 요건이 아니라 서로 연결된 검토 측면입니다.</p>
+      </div>
+    </div>
+    <p>논문은 타인결정성이 "전혀 새로운 것은 아니다"라고 먼저 밝힙니다. 진츠하이머의 '타인의 처분권', 독일 민법 제611a조의 '타인이 결정하는 노동'에 이미 들어 있던 핵심을, 외형적 징표로 우회하지 말고 직접 묻자는 것입니다. 이 관점은 <b>양방향</b>으로 작동합니다. 형식상 고용계약이 있어도 스스로 방식과 조건을 정하는 사람에게는 타인결정성이 약하게 나타날 수 있습니다.</p>
+    <div class="callout"><b class="t">알고리즘은 사용자가 될 수 없습니다</b>"플랫폼 알고리즘도, 수수료율도, 업무 배분 방식도 결국은 플랫폼 사업자라는 타인이 설계하고 운영하는 것이다. 구조 뒤에는 반드시 그 구조를 만든 타인이 있다." 알고리즘은 결정의 수단이지 주체가 아니고 법인격도 없습니다. 법적 책임은 알고리즘을 설계·운영해 이익을 얻는 사업자에게 돌아갑니다.</div>
+
+    <h3>배달 기사를 두 언어로 물어보기</h3>
+    <p class="muted">원문 맺음(11장)의 장면입니다. 버튼을 눌러 질문을 바꿔 보세요.</p>
+    <div class="seg" role="group" aria-label="질문 방식 선택">
+      <button type="button" class="o" id="lensO" aria-pressed="true" aria-controls="lensBox">종속성의 언어</button>
+      <button type="button" class="n" id="lensN" aria-pressed="false" aria-controls="lensBox">타인결정성의 언어</button>
+    </div>
+    <div class="lens o" id="lensBox" aria-live="polite">
+      <div id="lensOText">
+        <ul>
+          <li>출근 명령도 감독자도 없다 → 지휘·감독이 약하다</li>
+          <li>여러 앱을 쓴다 → 전속성도 약하다</li>
+        </ul>
+        <p class="v">징표만 보면 근로자라는 결론에서 멀어집니다.</p>
+      </div>
+      <div id="lensNText" hidden>
+        <ul>
+          <li>어떤 주문을 얼마에 받을지 누가 정하나</li>
+          <li>어떤 방식으로 수행할지 누가 정하나</li>
+          <li>그 결과가 누구의 사업을 위해 쓰이나</li>
+        </ul>
+        <p class="v">"답이 플랫폼이라면, 명령이 없다는 사실은 결론을 바꾸지 못한다."</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section class="sec" id="bill">
+    <div class="sec-head"><div class="sec-num">7</div><div><h2>근로자 정의 개정안과 근로자 추정</h2><p class="sub">해석만으로는 부족하다는 결론</p></div></div>
+    <div class="srcs"><a class="src" href="https://yghnsim.github.io/Pages/algorithmic_control_heteronomy.html#8-근로자-정의를-다시-쓰기-개정안과-근로자-추정">원문 8장 ↗</a></div>
+    <p>논문은 근로기준법 제2조 제1항 제1호를 고치는 것을 가장 본질적인 대안으로 봅니다. 기준을 입법자가 민주적으로 정하고, 계약 형식을 꾸며 보호를 피하는 시도에 법문으로 맞설 수 있기 때문입니다.</p>
+    <blockquote>"근로자"란 직업의 종류와 관계없이 타인을 위하여 노동하고 그 대가로 보수를 받는 사람을 말한다. 계약의 형식이나 명칭을 불문하고, 노무제공의 방법·시간·장소·내용에 관한 본질적 사항이 노무수령자 또는 그가 설정·운영하는 규칙·기준·지침·알고리즘·시스템 등에 의하여 계속적·실질적으로 결정되거나 통제되는 경우에는 이 법에서 정한 근로자로 추정한다. 계약의 형식이나 명칭은 위 판단에 영향을 미치지 아니한다.
+      <cite>논문의 개정안(116쪽)</cite></blockquote>
+    <table class="tbl stack">
+      <thead><tr><th scope="col">요소</th><th scope="col">현행 규정과 판례</th><th scope="col">논문의 개정안</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">대가</th><td data-label="현행">임금을 목적으로</td><td class="nw" data-label="개정안">그 대가로 보수를 받는</td></tr>
+        <tr><th scope="row">장소</th><td data-label="현행">사업이나 사업장에</td><td class="nw" data-label="개정안">표현 없음</td></tr>
+        <tr><th scope="row">노동의 성격</th><td data-label="현행">법문에 없음</td><td class="nw" data-label="개정안">타인을 위하여 노동하고</td></tr>
+        <tr><th scope="row">판단 기준</th><td data-label="현행">법문에 없음. 판례가 '종속적 관계'를 덧붙이고 징표를 종합 고려</td><td class="nw" data-label="개정안">본질적 사항이 노무수령자나 그의 규칙·알고리즘 등에 의해 계속적·실질적으로 결정·통제되는지</td></tr>
+        <tr><th scope="row">입증</th><td data-label="현행">노무제공자가 종속성을 입증</td><td class="nw" data-label="개정안">요건이 인정되면 근로자로 추정, 노무수령자가 독립사업자임을 입증</td></tr>
+        <tr><th scope="row">실질 우선</th><td data-label="현행">판례 법리</td><td class="nw" data-label="개정안">법문으로 명문화</td></tr>
+      </tbody>
+    </table>
+    <p>개정안이 법문에서 지우는 말은 '임금'과 '사업이나 사업장'입니다. '종속'은 처음부터 법문에 없었으니 지울 대상이 아닙니다. 사용자 정의는 그대로 두고, 추정의 상대방을 '노무수령자'라고 부릅니다. 원문은 결론부와 초록의 문구가 116쪽과 조금 다르다고 짚고, 조문 형태인 116쪽을 기준으로 삼습니다.</p>
+
+    <h3>추정이 하는 일과 하지 못하는 일</h3>
+    <ol class="flow">
+      <li class="s1"><span class="who">노무제공자</span><b>① 전제사실을 보인다</b>본질적 사항이 노무수령자나 그의 규칙·알고리즘 등에 의해 계속적·실질적으로 결정되거나 통제된다.</li>
+      <li class="s2"><span class="who">법</span><b>② 근로자로 추정</b>계약의 형식이나 명칭은 판단에 영향이 없다.</li>
+      <li class="s3"><span class="who">노무수령자</span><b>③ 반증</b>노무제공자가 독립사업자임을 입증해야 추정이 깨진다.</li>
+    </ol>
+    <ul class="tight">
+      <li>전제사실을 보이는 데 필요한 정보도 상당 부분 플랫폼에 있어서, 정보의 비대칭은 줄어들 뿐 사라지지 않습니다.</li>
+      <li>무엇을 입증해야 추정이 번복되는지는 아직 정해져 있지 않습니다.</li>
+      <li>논문은 추정이 "근본적인 대안이라고 하기는 어렵다"면서도 보호 공백을 바로 메운다는 점에서 "실천적 의미가 크다"고 봅니다. 남는 문제로 '노무제공'의 범위, 번복의 입증 기준, 추정 기준을 법문에 둘지, 사용자 개념의 재구성을 듭니다(117쪽).</li>
+    </ul>
+
+    <h3>다른 나라와 한국의 입법 논의 <span class="tag">보충</span></h3>
+    <div class="cards">
+      <div class="card n"><span class="k">스페인 2021</span><b class="h">라이더법</b>알고리즘 관리로 "직접적, 간접적 또는 묵시적으로" 통제하면 배달 종사자를 노동법 적용 대상으로 추정합니다. 반증 가능하고 배달 분야에 한정됩니다.</div>
+      <div class="card n"><span class="k">EU 2024/2831</span><b class="h">플랫폼노동지침 제5조</b>지휘와 통제를 나타내는 사실이 있으면 고용관계로 추정합니다. 국내법 전환 기한은 2026년 12월 2일이고, 추정은 그 이후 기간에만 적용됩니다.</div>
+      <div class="card n"><span class="k">한국 2026</span><b class="h">국회 법안들</b>근로자 추정 법안이 여럿 발의되었고, 고용노동부는 2026년 8월 연내 입법 과제로 제시했습니다. 원문이 확인한 두 법안은 '직접 노무 제공'이라는 넓은 사실로 추정을 일으키고 번복 단계에 무게를 둡니다. 2026년 10월 현재 어떤 문언이 될지는 정해지지 않았습니다.</div>
+    </div>
+    <p>스페인 조항과 논문의 개정안은 둘 다 명령이 아니라 결정의 구조를 추정의 문턱으로 삼습니다. 다만 개정안은 업종과 매체를 가리지 않고 근로자 정의 자체를 고칩니다. 원문은 그만큼 범위가 분명해지지만, 선을 어디에 긋느냐의 문제가 '계속적·실질적'이라는 말의 해석으로 옮겨 갈 수 있다고 봅니다.</p>
+  </section>
+
+  <!-- 8 -->
+  <section class="sec" id="myths">
+    <div class="sec-head"><div class="sec-num">8</div><div><h2>흔한 말 바로잡기</h2><p class="sub">간추린 설명을 실제 법과 논문에 비춰 보기</p></div></div>
+    <div class="srcs"><a class="src" href="https://yghnsim.github.io/Pages/algorithmic_control_heteronomy.html#9-한눈에-보기-간추린-설명과-실제-법">원문 9장 정리표 ↗</a></div>
+    <p>원문 9장의 표에서 골랐습니다. 왼쪽 말이 완전히 틀렸다기보다, 조건을 붙여야 정확해진다는 뜻입니다. 먼저 어디가 부정확한지 떠올려 본 뒤 눌러 보세요.</p>
+    <div class="myths" id="mythList">
+      <div class="myth"><p class="say">근로기준법은 근로자를 종속적 관계에서 일하는 사람으로 정의한다.</p><button type="button" aria-expanded="false">실제는?</button><p class="ans" hidden>법문은 "임금을 목적으로 사업이나 사업장에 근로를 제공하는 사람"뿐입니다. '종속적 관계'는 판례가 덧붙였고, 94다22859 판결이 처음 내용을 풀어 썼습니다.<span class="ref">원문 2.1</span></p></div>
+      <div class="myth"><p class="say">진츠하이머가 인격적 종속성을 정식화했다.</p><button type="button" aria-expanded="false">실제는?</button><p class="ans" hidden>진츠하이머의 정식은 '타인의 처분권 하에 있는 노동'입니다. 인격적 종속성은 그 뒤 판례와 학설이 다듬었습니다.<span class="ref">원문 2.2</span></p></div>
+      <div class="myth"><p class="say">독일 연방노동법원이 크라우드워커의 손을 들어 주었다.</p><button type="button" aria-expanded="false">실제는?</button><p class="ans" hidden>근로자성은 인정했지만 예비적 해고가 유효하다고 보아 상고는 대부분 기각되었습니다(보충). 논문은 기존 법리의 확장·유추로 평가합니다.<span class="ref">원문 5.1</span></p></div>
+      <div class="myth"><p class="say">타인결정성은 전혀 새로운 혁명적 기준이다.</p><button type="button" aria-expanded="false">실제는?</button><p class="ans" hidden>논문은 "전혀 새로운 것은 아니다"라고 밝히며 진츠하이머와 독일 판례의 '타인이 결정하는 노동'에 뿌리를 둡니다. 스스로 시론적 개념틀이라고 부릅니다.<span class="ref">원문 7.4</span></p></div>
+      <div class="myth"><p class="say">알고리즘을 법적 사용자로 보자는 것이다.</p><button type="button" aria-expanded="false">실제는?</button><p class="ans" hidden>알고리즘은 법적 주체가 아닙니다. 추정의 상대방은 노무수령자이고, "구조 뒤에는 반드시 그 구조를 만든 타인이 있다".<span class="ref">원문 7.5</span></p></div>
+      <div class="myth"><p class="say">개정안은 '종속'이라는 낡은 말을 법문에서 지운다.</p><button type="button" aria-expanded="false">실제는?</button><p class="ans" hidden>'종속'은 원래 법문에 없습니다. 개정안이 바꾸는 말은 '임금'(→ '보수')과 '사업이나 사업장'이고, 추정 문장이 새로 들어갑니다.<span class="ref">원문 8.2</span></p></div>
+      <div class="myth"><p class="say">추정되면 무조건 근로자가 된다.</p><button type="button" aria-expanded="false">실제는?</button><p class="ans" hidden>계속적·실질적 결정·통제라는 전제사실을 먼저 보여야 하고, 노무수령자는 반증으로 추정을 깰 수 있습니다. 정보의 비대칭도 일부 남습니다.<span class="ref">원문 8.3</span></p></div>
+      <div class="myth"><p class="say">EU에서는 이미 플랫폼 종사자가 근로자로 추정된다.</p><button type="button" aria-expanded="false">실제는?</button><p class="ans" hidden>지침의 국내법 전환 기한은 2026년 12월 2일이고, 추정은 그 이후 기간에만 적용됩니다(보충).<span class="ref">원문 8.4</span></p></div>
+    </div>
+    <p class="mcount"><span id="mcount">0</span> / 8 확인 <button type="button" class="reset" id="mreset">다시 접기</button></p>
+  </section>
+
+  <!-- 9 -->
+  <section class="sec" id="eval">
+    <div class="sec-head"><div class="sec-num">9</div><div><h2>평가와 맺음</h2><p class="sub">타인결정성이 열어 주는 것과 남기는 것</p></div></div>
+    <div class="srcs"><a class="src" href="https://yghnsim.github.io/Pages/algorithmic_control_heteronomy.html#10-평가-타인결정성이-열어-주는-것과-남기는-것">원문 10장 ↗</a><a class="src" href="https://yghnsim.github.io/Pages/algorithmic_control_heteronomy.html#11-맺음-누가-정하는가를-묻는-법">원문 11장 ↗</a></div>
+    <div class="two">
+      <div class="panel">
+        <h3>열어 주는 것</h3>
+        <ul class="tight">
+          <li><b>이름과 내용의 일치.</b> 두 판결은 이미 사실상 '누가 정했는가'를 물었습니다. 법원이 하는 일에 맞는 이름을 붙이자는 것입니다.</li>
+          <li><b>연속성.</b> 진츠하이머에서 독일 민법 제611a조로 이어지는 계보 위에 있어 법적 안정성을 덜 흔듭니다.</li>
+          <li><b>양방향성.</b> 보호를 넓히는 구호가 아니라 판단을 결정 구조에 묶어 두는 방법입니다.</li>
+          <li><b>책임 주체의 소환.</b> 기술 탓에서 멈추지 않고 기계 뒤의 설계자와 운영자를 정면에 놓습니다.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>남기는 것</h3>
+        <ul class="tight">
+          <li><b>경계.</b> 대기업 약관을 따르는 하청업체, 본사 매뉴얼을 따르는 가맹점주도 많은 것을 스스로 정하지 못합니다. 거래조건의 제시와 노동조건의 지배를 무엇으로 가를지는 아직 답이 없습니다.</li>
+          <li><b>경제적 종속.</b> 스스로 결정하지만 한 거래처에 소득을 의존하는 사람의 취약성은 직접 잡지 못할 수 있습니다.</li>
+          <li><b>사용자성.</b> 계약 상대방, 운영자, 설계자, 이익 귀속 주체가 다를 때 누구에게 무엇을 입증하게 할지가 남습니다.</li>
+          <li><b>집단적 노사관계.</b> 노동조합법상 근로자에서의 의미는 별도 검토가 필요합니다.</li>
+        </ul>
+      </div>
+    </div>
+    <p>원문은 이 한계들이 논문의 약점이라기보다 논문이 스스로 그어 둔 경계라고 봅니다. 타인결정성을 판단 기준으로 다듬는 일은 판례와 입법과 후속 연구의 몫으로 남아 있습니다.</p>
+    <blockquote>공장의 시대에는 그 결정이 감독자의 지시와 출근부의 형태로 눈에 보였기 때문에, 법은 지시와 출근부를 찾는 것으로 충분했다. 알고리즘의 시대에 결정은 코드와 평점과 약관 속으로 들어갔다. 법이 여전히 지시와 출근부만 찾는다면 보호의 대상은 그대로인데 보호의 입구만 좁아진다.
+      <cite>원문 11장 맺음</cite></blockquote>
+    <p>원문의 마지막 문장은 근로자 추정 입법 논의가 입증 책임을 어디에 둘지에 그치지 않고 무엇을 근로자의 표지로 삼을지까지 묻는다면, 이 시론이 제 몫을 한 셈이라고 맺습니다.</p>
+  </section>
+
+  <section class="sources" id="sources">
+    <h2>출처</h2>
+    <p>이 페이지는 원문 「누가 내 일을 정하는가: 알고리즘이 통제하는 노동과 타인결정성 심화 분석」(Pages 노동법 해설, 2026-10-02)을 바탕으로 정리했습니다. 원문이 기본 자료로 삼은 논문은 박은정·백승호·이승윤 「노동보호법제 적용을 위한 "종속성" 연구」, 『노동법학』 제98호, 한국노동법학회, 2026. 6., 57-126쪽입니다. 판결 번호, 날짜, 숫자, 인용문은 원문에 적힌 대로 옮겼고, 원문에 없는 내용은 넣지 않았습니다. 원문 글쓴이가 논문 밖 자료로 덧붙인 내용은 <span class="tag">보충</span>으로 표시했습니다. 법률 자문이 아닙니다.</p>
+    <p><a href="https://yghnsim.github.io/Pages/algorithmic_control_heteronomy.html">원문 전체 읽기 ↗</a> · <a href="https://yghnsim.github.io/Pages/algorithmic_control_heteronomy.html#9-한눈에-보기-간추린-설명과-실제-법">원문 9장 정리표 ↗</a> · <a href="https://yghnsim.github.io/Pages/algorithmic_control_heteronomy.html#출처">원문 출처 목록 ↗</a></p>
+    <a class="totop" href="#main">↑ 맨 위로</a>
+  </section>
+</main>
+</div>
+
+<script>
+(function(){
+  var el=function(id){return document.getElementById(id)};
+  /* 배달 기사 토글 */
+  var bO=el('lensO'),bN=el('lensN'),box=el('lensBox');
+  function setLens(n){
+    bO.setAttribute('aria-pressed',n?'false':'true');
+    bN.setAttribute('aria-pressed',n?'true':'false');
+    el('lensOText').hidden=!!n; el('lensNText').hidden=!n;
+    box.className='lens '+(n?'n':'o');
+  }
+  bO.addEventListener('click',function(){setLens(false)});
+  bN.addEventListener('click',function(){setLens(true)});
+
+  /* 흔한 말 카드 */
+  var myths=[].slice.call(document.querySelectorAll('#mythList .myth'));
+  function count(){el('mcount').textContent=myths.filter(function(m){return m.dataset.seen==='1'}).length;}
+  myths.forEach(function(m){
+    var b=m.querySelector('button'),a=m.querySelector('.ans');
+    b.addEventListener('click',function(){
+      var open=a.hidden; a.hidden=!open;
+      b.setAttribute('aria-expanded',open?'true':'false');
+      b.textContent=open?'접기':'실제는?';
+      if(open){m.dataset.seen='1';count();}
+    });
+  });
+  el('mreset').addEventListener('click',function(){
+    myths.forEach(function(m){var b=m.querySelector('button');m.querySelector('.ans').hidden=true;b.setAttribute('aria-expanded','false');b.textContent='실제는?';m.dataset.seen='';});
+    count();
+  });
+
+  /* 목차 강조 */
+  var links=[].slice.call(document.querySelectorAll('nav.toc li a'));
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting){links.forEach(function(a){a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id)});}
+      });
+    },{rootMargin:'-20% 0px -70% 0px'});
+    links.forEach(function(a){var s=document.querySelector(a.getAttribute('href')); if(s) io.observe(s);});
+  }
+  [].forEach.call(document.querySelectorAll('nav.toc-m a'),function(a){
+    a.addEventListener('click',function(){a.closest('details').open=false});
+  });
+})();
+</script>
+
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">요약 아카이브</div><div class="arc-foot-title">누가 내 일을 정하는가: 알고리즘 통제와 타인결정성 (10분 요약)</div><div class="arc-foot-meta"><time datetime="2026-10-09">2026년 10월 9일</time><a class="arc-tag" href="../index.html#tags=%EB%85%B8%EB%8F%99%EB%B2%95">#노동법</a><a class="arc-tag" href="../index.html#tags=%EA%B7%BC%EB%A1%9C%EC%9E%90%EC%84%B1">#근로자성</a><a class="arc-tag" href="../index.html#tags=%ED%83%80%EC%9D%B8%EA%B2%B0%EC%A0%95%EC%84%B1">#타인결정성</a><a class="arc-tag" href="../index.html#tags=%ED%94%8C%EB%9E%AB%ED%8F%BC%EB%85%B8%EB%8F%99">#플랫폼노동</a><a class="arc-tag" href="../index.html#tags=%EA%B7%BC%EB%A1%9C%EC%9E%90%EC%B6%94%EC%A0%95">#근로자추정</a> · <a href="https://yghnsim.github.io/Pages/algorithmic_control_heteronomy.html" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body>
+</html>
