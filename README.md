@@ -146,7 +146,7 @@ python3 add_page.py --fix-mobile all   # 예전에 추가한 페이지에 보정
 ```
 
 자동 보정으로 부족한 페이지(작은 글씨, 좁은 버튼 등)는 해당 복사본 `</head>` 앞에 `<!-- archive-fix -->` 블록을 손으로 추가합니다.
-예: `pages/2026-10-06-좋은추상화_정리.html`에는 캡션·목록 글자를 16px로, 용어 카드의 "바로가기" 링크 터치 영역을 44px로 키우는 블록이 들어 있습니다.
+예: `pages/2026-10-06-좋은추상화.html`에는 캡션·목록 글자를 16px로, 용어 카드의 "바로가기" 링크 터치 영역을 44px로 키우는 블록이 들어 있습니다.
 
 > Playwright 설치: `pip install --user playwright` (브라우저는 `/usr/bin/google-chrome` 등 시스템 Chrome을 자동으로 사용, 없으면 `python3 -m playwright install chromium`)
 
@@ -166,7 +166,7 @@ python3 add_page.py --fix-mobile all   # 예전에 추가한 페이지에 보정
   "summary": "…",
   "tags": ["AI", "소프트웨어", "강연"],
   "date": "2026-10-06",
-  "file": "pages/2026-10-06-좋은추상화_정리.html",
+  "file": "pages/2026-10-06-좋은추상화.html",
   "added": "2026-10-06T12:40:32+09:00",
   "source_name": "좋은추상화_정리.html",
   "source_sha256": "…",
