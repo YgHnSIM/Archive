@@ -2,25 +2,6 @@
    `python3 add_page.py --rebuild` 를 실행하면 다시 만들어집니다. */
 window.ARCHIVE_CATALOG = [
   {
-    "id": "20261011-02",
-    "title": "수백이 수백만을 무너뜨린 비대칭 붕괴: 슬라이드로 읽는 스페인 정복",
-    "summary": "슬라이드 15장을 대담 원문과 나란히 읽으며 두 제국의 붕괴를 정리하고, 슬라이드와 원문이 어긋나는 곳을 짚은 정리",
-    "tags": [
-      "역사",
-      "스페인정복",
-      "아즈텍",
-      "잉카",
-      "슬라이드"
-    ],
-    "date": "2026-10-11",
-    "file": "pages/2026-10-11-스페인정복_슬라이드.html",
-    "added": "2026-10-11T00:57:37+09:00",
-    "source_name": "스페인정복.html",
-    "source_sha256": "07ccfa6512865f4d9b49b38b8f737ce1db4ce95df9305f0b3694112c8302c6b5",
-    "source_path_sha256": "a7d88b15b7bdbdd53e8902cb1ecc490732ebfda5b4405b47edee9d873310e7df",
-    "source_url": "https://yghnsim.github.io/Pages/how_did_spanish_soldiers_topple_two_empires.html"
-  },
-  {
     "id": "20261011-01",
     "title": "수백 명은 어떻게 두 제국을 무너뜨렸나: 스페인의 아즈텍·잉카 정복 정리",
     "summary": "드와르케시 파텔·사이 셰퍼드 대담 해설 정리: 네 가지 동역학, 두 제국 비교, 은의 역설, AI 테이크오버 경고",
