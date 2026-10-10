@@ -2,6 +2,24 @@
    `python3 add_page.py --rebuild` 를 실행하면 다시 만들어집니다. */
 window.ARCHIVE_CATALOG = [
   {
+    "id": "20261011-02",
+    "title": "커피 한 잔에 1시간 42분: 카공족 손익분기점과 위력 업무방해죄",
+    "summary": "손익분기점 102분, 형법 제314조 제1항 구성요건과 판례, 시설관리권, 7대 상생 원칙 정리",
+    "tags": [
+      "형법",
+      "업무방해죄",
+      "카공족",
+      "자영업경제학"
+    ],
+    "date": "2026-10-11",
+    "file": "pages/2026-10-11-카공족.html",
+    "added": "2026-10-11T02:46:21+09:00",
+    "source_name": "카공족.html",
+    "source_sha256": "4bbbfb6cb5f989f3cdcad97299e1a4f6f4a5617237a7f4e0ef577eeae057abb3",
+    "source_path_sha256": "436b0e7abc9e342e829ef967168b7e6d68f95e7d8acc00ebffeb0c34ade3e28a",
+    "source_url": "https://yghnsim.github.io/Pages/cagongjok_breakeven_obstruction_of_business.html"
+  },
+  {
     "id": "20261011-01",
     "title": "수백 명은 어떻게 두 제국을 무너뜨렸나: 스페인의 아즈텍·잉카 정복 정리",
     "summary": "드와르케시 파텔·사이 셰퍼드 대담 해설 정리: 네 가지 동역학, 두 제국 비교, 은의 역설, AI 테이크오버 경고",
