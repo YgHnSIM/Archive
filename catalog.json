@@ -1,24 +1,5 @@
 [
   {
-    "id": "20261010-02",
-    "title": "어떻게 수백 명이 두 제국을 무너뜨렸나: 스페인의 아메리카 정복",
-    "summary": "파텔과 셰퍼드의 대담을 레드팀이 16개 쟁점으로 판정한 감사 문서 정리. 동맹군, 계승 내전, 전염병, 수리 모델, AI 유비를 다룸",
-    "tags": [
-      "역사",
-      "스페인정복",
-      "아즈텍·잉카",
-      "레드팀",
-      "AI유비"
-    ],
-    "date": "2026-10-10",
-    "file": "pages/2026-10-10-스페인정복.html",
-    "added": "2026-10-10T23:17:37+09:00",
-    "source_name": "스페인정복_레드팀_정리.html",
-    "source_sha256": "1398ff64d94fb0269241fcc9d0f414b1418e9bcdfb2fee869356f4b79b26bb46",
-    "source_path_sha256": "5cc1463cd0b5e57e8da7d3f040a15724b534e9f898fee409d820223cb29f60a0",
-    "source_url": "https://yghnsim.github.io/Pages/spanish_conquest_two_empires_red_team.html"
-  },
-  {
     "id": "20261010-01",
     "title": "구조체는 어디서 왔나: 더글러스 로스의 Plex와 역인덱싱",
     "summary": "구조체의 기원을 로스의 Plex에서 찾는 원문과, 그 주장 8개를 판정한 도시에를 함께 읽고 어긋나는 곳을 짚은 정리",
