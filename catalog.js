@@ -2,6 +2,24 @@
    `python3 add_page.py --rebuild` 를 실행하면 다시 만들어집니다. */
 window.ARCHIVE_CATALOG = [
   {
+    "id": "20261010-01",
+    "title": "구조체는 어디서 왔나: 더글러스 로스의 Plex와 역인덱싱",
+    "summary": "구조체의 기원을 로스의 Plex에서 찾는 원문과, 그 주장 8개를 판정한 도시에를 함께 읽고 어긋나는 곳을 짚은 정리",
+    "tags": [
+      "컴퓨터과학사",
+      "자료구조",
+      "메모리모델",
+      "구조체"
+    ],
+    "date": "2026-10-10",
+    "file": "pages/2026-10-10-Plex_구조체기원_정리.html",
+    "added": "2026-10-10T17:39:54+09:00",
+    "source_name": "Plex_구조체기원_정리.html",
+    "source_sha256": "89633040c504e802da887d4a2da6996564c5e0e0fd4c460a540b911020841c19",
+    "source_path_sha256": "d980485275c8f5d61145c554b8966f37d0cb3f1784eead8227ab119d197a7d09",
+    "source_url": "https://yghnsim.github.io/Pages/douglas_ross_plex_struct_origin.html"
+  },
+  {
     "id": "20261009-01",
     "title": "누가 내 일을 정하는가: 알고리즘 통제와 타인결정성 (10분 요약)",
     "summary": "알고리즘이 명령 없이 일을 정하는 시대에 근로자성 판단의 초점을 '누가 정하는가'(타인결정성)로 옮기자는 논의와 근로자 정의 개정안·추정 규정을 10분 분량으로 정리",
