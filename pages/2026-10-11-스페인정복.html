@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>수백 명은 어떻게 두 제국을 무너뜨렸나: 스페인의 아즈텍·잉카 정복 정리</title>
+<meta name="description" content="드와르케시 파텔과 사이 셰퍼드의 대담 해설을 12분 분량으로 정리했습니다. 정복의 네 가지 동역학, 연표, 아즈텍과 잉카 비교, 말과 강철, 원주민 동맹군, 포토시 은의 역설, 무굴 평행선, AI 테이크오버 경고, 원문 안의 어긋나는 곳을 담았습니다.">
+<style>
+:root{
+  --bg:#faf8f3; --paper:#ffffff; --ink:#1f2328; --muted:#5b6470; --line:#e6e1d6;
+  --accent:#c8553d; --accent-soft:#fbeee9; --link:#4a6b8a;
+  --radius:14px;
+  /* 페이지 고유 의미 색 */
+  --old:#6a5f4b; --old-soft:#f3efe6;
+  --algo:#a2452f; --algo-soft:#fbeee9;
+  --new:#3d5f80; --new-soft:#eaf0f6;
+  --sup:#55598f; --sup-soft:#efeff8;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR","Malgun Gothic","Gothic A1",system-ui,sans-serif;
+  font-size:17px;line-height:1.75;word-break:keep-all;overflow-wrap:break-word}
+@media(max-width:640px){body{font-size:16px}}
+a{color:var(--link)}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #9bb5cf;outline-offset:2px}
+.skip{position:absolute;left:0;top:0;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+.skip:focus{width:auto;height:auto;clip:auto;clip-path:none;left:8px;top:8px;background:#fff;padding:6px 10px;z-index:10}
+.layout{max-width:1180px;margin:0 auto;padding:12px 14px 48px}
+@media(min-width:1024px){.layout{display:grid;grid-template-columns:240px minmax(0,1fr);gap:32px;padding:28px 24px 64px}}
+main{min-width:0}
+
+/* 목차 */
+nav.toc{display:none}
+@media(min-width:1024px){
+  nav.toc{display:block;position:sticky;top:20px;align-self:start;max-height:calc(100vh - 40px);overflow:auto}
+  nav.toc-m{display:none}
+}
+nav.toc .toc-t{font-size:13px;color:var(--muted);letter-spacing:.06em;margin:0 0 10px;font-weight:700}
+nav.toc ol,nav.toc-m ol{list-style:none;margin:0;padding:0}
+nav.toc li a{display:flex;gap:8px;align-items:baseline;text-decoration:none;color:var(--muted);font-size:15px;line-height:1.45;padding:7px 10px;border-radius:8px;border-left:3px solid transparent}
+nav.toc li a .n{font-weight:700;font-size:13px;color:#8a919b;min-width:18px}
+nav.toc li a:hover{background:#f0ece3;color:var(--ink)}
+nav.toc li a.active{background:var(--paper);color:var(--ink);border-left-color:var(--accent);font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+nav.toc li a.active .n{color:var(--accent)}
+nav.toc .orig{display:block;margin-top:12px;padding:10px;border-top:1px solid var(--line);font-size:14px}
+nav.toc-m{margin:14px 0 0}
+nav.toc-m details{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius)}
+nav.toc-m summary{cursor:pointer;padding:10px 14px;font-weight:700;list-style:none}
+nav.toc-m summary::-webkit-details-marker{display:none}
+nav.toc-m summary::after{content:" ▾";color:var(--muted)}
+nav.toc-m ol{padding:0 14px 8px}
+nav.toc-m li a{display:block;padding:8px 0;border-top:1px solid var(--line);text-decoration:none;color:var(--ink)}
+
+/* 머리 */
+.hero{padding:22px 4px 6px}
+.eyebrow{display:inline-block;font-size:13px;font-weight:700;letter-spacing:.04em;color:var(--accent);background:var(--accent-soft);padding:4px 10px;border-radius:999px}
+h1{font-size:clamp(28px,4.4vw,44px);line-height:1.25;margin:14px 0 12px;letter-spacing:-.02em}
+.lead{font-size:18px;color:var(--muted);margin:0 0 18px}
+@media(max-width:640px){.lead{font-size:17px}}
+.info{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.info p{margin:0 0 12px;font-size:16px}
+.cta{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;text-align:center;
+  background:var(--accent);color:#fff;text-decoration:none;font-weight:700;padding:13px 16px;border-radius:12px;font-size:17px}
+.cta:hover{background:#ad4430}
+.cta small{font-weight:500;font-size:14px;opacity:.95}
+.info .meta{font-size:14px;color:var(--muted);margin:12px 0 0}
+
+/* 절 */
+section.sec{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:20px 18px;margin-top:18px;scroll-margin-top:12px}
+@media(min-width:640px){section.sec{padding:28px 30px}}
+.sec-head{display:flex;gap:14px;align-items:flex-start;margin-bottom:10px}
+.sec-num{flex:none;width:36px;height:36px;border-radius:12px;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:800;font-size:16px;margin-top:3px}
+h2{font-size:clamp(23px,3vw,30px);line-height:1.3;margin:0;letter-spacing:-.015em}
+.sub{margin:4px 0 0;color:var(--muted);font-size:15px;line-height:1.5}
+.srcs{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 12px}
+.src{display:inline-block;font-size:14px;text-decoration:none;border:1px solid var(--line);padding:3px 11px;border-radius:999px;color:var(--link);background:#fdfcf9}
+.src:hover{border-color:var(--link)}
+h3{font-size:19px;line-height:1.4;margin:22px 0 6px}
+p{margin:8px 0}
+.muted{color:var(--muted)}
+.tag{display:inline-block;font-size:13px;font-weight:700;line-height:1.5;padding:0 7px;border-radius:6px;background:var(--sup-soft);color:var(--sup);vertical-align:.08em;margin-left:3px;white-space:nowrap}
+.tag.int{background:#efebe2;color:#4f5763}
+blockquote{margin:16px 0;padding:14px 18px;background:#fdfcf9;border-left:5px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;font-size:16.5px;line-height:1.7}
+blockquote cite{display:block;font-style:normal;color:var(--muted);font-size:14px;margin-top:6px}
+.callout{background:#f4f1ea;border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:14px 0;font-size:16px}
+.callout b.t{display:block;margin-bottom:2px}
+.callout.sup{background:var(--sup-soft);border-color:#d9daee}
+ul.tight{margin:6px 0;padding-left:20px}
+ul.tight li{margin:5px 0}
+
+/* 핵심 3줄 */
+.thesis{list-style:none;margin:6px 0 0;padding:0;counter-reset:th}
+.thesis li{counter-increment:th;position:relative;padding:12px 14px 12px 50px;border:1px solid var(--line);border-radius:12px;margin:10px 0;background:#fdfcf9}
+.thesis li::before{content:counter(th);position:absolute;left:14px;top:14px;width:26px;height:26px;border-radius:8px;background:var(--ink);color:#fff;font-weight:700;text-align:center;line-height:26px;font-size:14px}
+.thesis strong{display:block}
+
+/* 6단계 */
+.steps{display:grid;grid-template-columns:1fr;gap:6px;margin:10px 0 0;padding:0;list-style:none}
+@media(min-width:760px){.steps{grid-template-columns:1fr 1fr}}
+.steps li{display:flex;gap:10px;align-items:baseline;border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:16px;line-height:1.6}
+.steps b{flex:none;font-size:14px;color:var(--accent);min-width:58px}
+.steps a{font-size:14px;white-space:nowrap}
+
+/* 용어 */
+.terms{display:grid;grid-template-columns:1fr;gap:8px;margin-top:10px}
+@media(min-width:760px){.terms{grid-template-columns:1fr 1fr}}
+.terms details{border:1px solid var(--line);border-radius:10px;background:#fdfcf9}
+.terms summary{cursor:pointer;padding:9px 12px;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:8px}
+.terms summary::-webkit-details-marker{display:none}
+.terms summary::after{content:"＋";color:var(--muted);font-weight:400}
+.terms details[open] summary::after{content:"－"}
+.terms details p{margin:0;padding:0 12px 10px;font-size:16px;line-height:1.65}
+.terms .en{font-weight:400;color:var(--muted);font-size:14px}
+
+/* 타임라인 */
+.tl{list-style:none;margin:12px 0 0;padding:0 0 0 18px;border-left:3px solid var(--line)}
+.tl li{position:relative;margin:0 0 16px;padding-left:10px}
+.tl li::before{content:"";position:absolute;left:-27px;top:7px;width:15px;height:15px;border-radius:50%;background:#fff;border:3px solid var(--ink)}
+.tl li.ctx::before{border-color:#b3ab9b}
+.tl .date{font-weight:800;font-size:16px}
+.case,.tl .case{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;background:#efebe2;padding:1px 6px;border-radius:6px;white-space:nowrap}
+.tl .txt{font-size:16px;margin:2px 0 0}
+.three{display:grid;grid-template-columns:1fr;gap:8px;margin:12px 0}
+@media(min-width:760px){.three{grid-template-columns:repeat(3,1fr)}}
+.three div{border:1px solid var(--line);border-radius:12px;padding:10px 14px;background:#fdfcf9;font-size:16px;line-height:1.6}
+.three div b{display:block;font-size:17px}
+.three div .yr{display:inline-block;font-size:13px;font-weight:800;color:#fff;background:var(--ink);border-radius:6px;padding:0 7px;margin-bottom:4px}
+
+/* 카드 */
+.cards{display:grid;grid-template-columns:1fr;gap:10px;margin:10px 0}
+@media(min-width:800px){.cards{grid-template-columns:repeat(3,1fr)}}
+.card{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:#fdfcf9;font-size:16px;line-height:1.65}
+.card b.h{display:block;font-size:17px;margin-bottom:2px}
+.card .k{display:inline-block;font-size:13px;font-weight:800;border-radius:6px;padding:0 7px;margin-bottom:4px;background:var(--algo-soft);color:var(--algo)}
+.card.n .k{background:var(--new-soft);color:var(--new)}
+.card.o .k{background:var(--old-soft);color:var(--old)}
+.two{display:grid;gap:12px}
+@media(min-width:800px){.two{grid-template-columns:1fr 1fr}}
+.panel{border:1px solid var(--line);border-radius:12px;padding:12px 16px;background:#fdfcf9}
+.panel h3{margin-top:4px}
+.panel p,.panel li{font-size:16px}
+
+/* 도식 */
+figure.dia{margin:16px 0;padding:14px;border:1px solid var(--line);border-radius:var(--radius);background:#fdfcf9}
+figure.dia svg{display:block;width:100%;max-width:460px;height:auto;margin:0 auto}
+@media(max-width:640px){figure.dia{padding:8px 2px;margin-left:-8px;margin-right:-8px}}
+figure.dia figcaption{font-size:14px;color:var(--muted);margin-top:8px;text-align:center;line-height:1.55}
+
+/* 배달 기사 토글 */
+.seg{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 0}
+.seg button{font:inherit;font-size:15px;font-weight:700;flex:1 1 140px;border:1.5px solid var(--line);background:#fff;color:var(--muted);border-radius:10px;padding:9px 12px;cursor:pointer}
+.seg button[aria-pressed="true"].o{border-color:var(--old);background:var(--old-soft);color:var(--old)}
+.seg button[aria-pressed="true"].n{border-color:var(--new);background:var(--new-soft);color:var(--new)}
+.lens{border:1.5px solid var(--line);border-radius:12px;padding:12px 16px;margin-top:8px;font-size:16px}
+.lens.o{border-color:var(--old);background:var(--old-soft)}
+.lens.n{border-color:var(--new);background:var(--new-soft)}
+.lens ul{margin:6px 0;padding-left:20px}
+.lens p.v{font-weight:800;margin:8px 0 0}
+
+/* 표 */
+.tbl{width:100%;border-collapse:collapse;font-size:16px;line-height:1.6;margin-top:10px}
+.tbl th,.tbl td{border:1px solid var(--line);padding:10px 11px;vertical-align:top;text-align:left}
+.tbl thead th{background:#f4f1ea;font-size:15px}
+.tbl tbody th{background:#fbf9f4;font-weight:700}
+.tbl td.nw{background:#f5f8fb}
+@media(max-width:760px){
+  .stack thead{position:absolute;left:0;top:0;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+  .stack,.stack tbody,.stack tr,.stack th,.stack td{display:block;width:100%}
+  .stack tr{border:1px solid var(--line);border-radius:12px;margin:0 0 12px;overflow:hidden}
+  .stack th,.stack td{border:0;border-top:1px solid var(--line)}
+  .stack tbody th{border-top:0;background:#f4f1ea}
+  .stack td::before{content:attr(data-label);display:block;font-size:13.5px;font-weight:800;color:var(--muted);margin-bottom:2px}
+  .stack td.nw::before{color:var(--new)}
+}
+
+/* 추정 흐름 */
+.flow{list-style:none;margin:12px 0;padding:0;display:grid;gap:8px}
+@media(min-width:800px){.flow{grid-template-columns:repeat(3,1fr)}}
+.flow li{border:1.5px solid var(--line);border-radius:12px;padding:10px 14px;background:#fff;font-size:16px;line-height:1.6;position:relative}
+.flow li b{display:block;font-size:16px}
+.flow li.s1{border-color:#b9a98c}
+.flow li.s2{border-color:var(--new);background:var(--new-soft)}
+.flow li.s3{border-color:var(--algo);background:var(--algo-soft)}
+.flow .who{display:inline-block;font-size:13px;font-weight:800;color:var(--muted)}
+
+/* 오해 카드 */
+.myths{display:grid;grid-template-columns:1fr;gap:10px;margin-top:10px}
+@media(min-width:800px){.myths{grid-template-columns:1fr 1fr}}
+.myth{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:#fdfcf9}
+.myth .say{font-weight:700;margin:0;font-size:16.5px}
+.myth .say::before{content:"흔한 말 ";font-size:13px;font-weight:800;color:var(--algo);background:var(--algo-soft);border-radius:6px;padding:0 6px;margin-right:4px;vertical-align:.08em}
+.myth button{font:inherit;font-size:15px;margin-top:8px;border:1px solid var(--line);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link)}
+.myth .ans{margin:8px 0 0;padding:8px 10px;border-radius:8px;background:var(--new-soft);font-size:16px}
+.myth .ans .ref{display:block;font-size:13.5px;color:var(--muted);margin-top:2px}
+.mcount{font-size:15px;color:var(--muted);margin:10px 0 0}
+button.reset{font:inherit;font-size:15px;border:1px solid var(--line);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;margin-left:6px}
+
+.sources{margin-top:18px;padding:18px;border-top:1px solid var(--line)}
+.sources h2{font-size:20px}
+.sources p{font-size:16px}
+.totop{display:inline-block;margin-top:6px;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:15px;background:#efebe2;padding:1px 5px;border-radius:5px}
+pre.code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;background:#f4f1ea;border:1px solid var(--line);border-radius:10px;padding:10px 12px;overflow-x:auto;max-width:100%;line-height:1.5;white-space:pre}
+.v{display:inline-block;font-size:13px;font-weight:800;border-radius:6px;padding:0 7px;white-space:nowrap;vertical-align:.08em}
+.v.ok{background:#e6f1ea;color:#2f6b45}
+.v.mostly{background:#eaf0f6;color:#3d5f80}
+.v.part{background:#fbeee9;color:#a2452f}
+.issues details{border:1px solid var(--line);border-radius:10px;background:#fdfcf9;margin:8px 0}
+.issues summary{cursor:pointer;padding:10px 12px;font-weight:700;line-height:1.5}
+.issues .no{font-size:13px;color:var(--muted);margin-right:4px}
+.issues details p{margin:0;padding:0 12px 12px;font-size:16px}
+.q{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:10px 0;background:#fdfcf9}
+.q p.qt{font-weight:700;margin:0 0 8px}
+.q button{display:block;width:100%;text-align:left;font:inherit;font-size:16px;border:1.5px solid var(--line);background:#fff;border-radius:10px;padding:8px 12px;margin:6px 0;cursor:pointer;color:var(--ink)}
+.q button.right{border-color:#2f6b45;background:#e6f1ea}
+.q button.wrong{border-color:#a2452f;background:#fbeee9}
+.q .ex{margin:8px 0 0;font-size:16px;padding:8px 10px;border-radius:8px;background:var(--new-soft)}
+
+.v.mis{background:#f6e3e0;color:#8f2f22;border-color:#e2b8b0}
+.go{margin:.4em 0 0;font-size:15px}
+.cmp{border:1px solid var(--line);border-radius:12px;background:#fff;padding:4px 14px 10px;margin:12px 0}
+.cmp dl{margin:0}.cmp dt{font-weight:700;margin-top:10px;font-size:15px;color:var(--muted)}.cmp dd{margin:2px 0 0}
+.pair{display:grid;gap:10px;margin:12px 0}
+@media(min-width:720px){.pair{grid-template-columns:1fr 1fr}}
+.pair .c{border-radius:12px;padding:12px 14px;border:1px solid var(--line);background:#fff}
+.pair .c b.t{display:block;font-size:14px;color:var(--muted);margin-bottom:4px}
+.pair .c.r{border-left:4px solid var(--accent)}.pair .c.d{border-left:4px solid var(--link)}
+.tl li.az::before{border-color:#c8553d}.tl li.in::before{border-color:#4a6b8a}.tl li.eu::before{border-color:#b3ab9b}
+.steps{counter-reset:st;list-style:none;padding:0;margin:12px 0}
+.steps li{counter-increment:st;border:1px solid var(--line);border-radius:12px;background:#fff;padding:10px 14px;margin:8px 0}
+.steps li::before{content:"단계 " counter(st);display:block;font-size:14px;font-weight:700;color:var(--accent)}
+.steps li span{display:block;font-size:15px;color:var(--muted);margin-top:4px}
+.issues details p.cl{color:var(--muted);font-size:15px;margin-bottom:0}
+</style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
+</head>
+<body>
+<a class="skip" href="#main">본문으로 건너뛰기</a>
+<!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="요약 아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>요약 아카이브</a><span class="arc-crumb">수백 명은 어떻게 두 제국을 무너뜨렸나: 스페인의 아즈텍·잉카 정복 정리</span><span class="arc-meta"><time datetime="2026-10-11">2026년 10월 11일</time><a class="arc-tag" href="../index.html#tags=%EC%97%AD%EC%82%AC">#역사</a><a class="arc-tag" href="../index.html#tags=%EC%8A%A4%ED%8E%98%EC%9D%B8%EC%A0%95%EB%B3%B5">#스페인정복</a><a class="arc-tag" href="../index.html#tags=%EC%95%84%EC%A6%88%ED%85%8D">#아즈텍</a><a class="arc-tag" href="../index.html#tags=%EC%9E%89%EC%B9%B4">#잉카</a><a class="arc-tag" href="../index.html#tags=AI%EC%9C%A0%EB%B9%84">#AI유비</a><a class="arc-src" href="https://yghnsim.github.io/Pages/how_did_spanish_soldiers_topple_two_empires.html" rel="noopener">원문 ↗</a></span></div></div>
+<!-- archive-header:end -->
+<div class="layout">
+<nav class="toc" aria-label="목차"><p class="toc-t">목차</p><ol><li><a href="#s1"><span class="n">1</span>한눈에 보기</a></li><li><a href="#s2"><span class="n">2</span>원문의 짜임</a></li><li><a href="#s3"><span class="n">3</span>연표</a></li><li><a href="#s4"><span class="n">4</span>정복자는 누구였나</a></li><li><a href="#s5"><span class="n">5</span>총보다 말과 강철</a></li><li><a href="#s6"><span class="n">6</span>동맹군과 외교</a></li><li><a href="#s7"><span class="n">7</span>두 제국 나란히 보기</a></li><li><a href="#s8"><span class="n">8</span>원주민의 적응과 학습 시차</a></li><li><a href="#s9"><span class="n">9</span>고립과 구조</a></li><li><a href="#s10"><span class="n">10</span>은의 역설</a></li><li><a href="#s11"><span class="n">11</span>무굴과 AI 경고</a></li><li><a href="#s12"><span class="n">12</span>불확실한 곳</a></li><li><a href="#s13"><span class="n">13</span>스스로 점검</a></li></ol><a class="orig" href="https://yghnsim.github.io/Pages/how_did_spanish_soldiers_topple_two_empires.html">원문 페이지 ↗</a></nav>
+<main id="main">
+<header class="hero">
+<span class="eyebrow">역사 · 대담 해설 정리</span>
+<h1>수백 명은 어떻게 두 제국을 무너뜨렸나: 스페인의 아즈텍·잉카 정복 정리</h1>
+<p class="lead">약 35분짜리 원문을 12분 안에 읽도록 줄였습니다. 정복의 네 가지 동역학, 두 제국의 붕괴 과정, 그 뒤의 은의 역설, 그리고 대담이 AI 테이크오버에 던진 경고를 차례로 담았습니다.</p>
+<div class="info">
+<p><b>원문</b> 「어떻게 수백 명의 군인이 두 제국을 무너뜨렸는가」. 작성일 2026-10-10. 드와르케시 파텔(Dwarkesh Patel)과 군사역사학 교수 사이 셰퍼드(Si Sheppard)의 대담을 바탕으로 한 심층 해설입니다.</p>
+<p><b>원전 대담</b> "How did a few hundred Spanish soldiers topple two empires? (Fall of the Incas & Aztecs)". 원문 기준 2026년 10월 1일 방영, 1시간 37분 42초.</p>
+<p class="meta">이 정리는 원문에 적힌 내용만 옮겼습니다. 원문은 대담 영상과 팟캐스트 외에 따로 딸린 도시에나 자료 파일을 링크하지 않습니다. 대담 자체와 원문이 언급한 사료는 직접 대조하지 않았습니다.</p>
+</div>
+</header>
+<nav class="toc-m" aria-label="목차"><details><summary>목차 열기</summary><ol><li><a href="#s1">1. 한눈에 보기</a></li><li><a href="#s2">2. 원문의 짜임</a></li><li><a href="#s3">3. 연표</a></li><li><a href="#s4">4. 정복자는 누구였나</a></li><li><a href="#s5">5. 총보다 말과 강철</a></li><li><a href="#s6">6. 동맹군과 외교</a></li><li><a href="#s7">7. 두 제국 나란히 보기</a></li><li><a href="#s8">8. 원주민의 적응과 학습 시차</a></li><li><a href="#s9">9. 고립과 구조</a></li><li><a href="#s10">10. 은의 역설</a></li><li><a href="#s11">11. 무굴과 AI 경고</a></li><li><a href="#s12">12. 불확실한 곳</a></li><li><a href="#s13">13. 스스로 점검</a></li></ol></details></nav>
+
+<section class="sec" id="s1">
+<div class="sec-head"><span class="sec-num">1</span><div><h2>한눈에 보기</h2><p class="sub">핵심 질문과 네 가지 동역학</p></div></div>
+<p>원문의 핵심 질문은 이것입니다. 아무것도 모르는 신대륙에 상륙한 수백 명의 군인이 어떻게 수백만에서 1,000만 인구의 제국을 2~5년 만에 무너뜨렸나.</p>
+<p>원문의 답은 영웅담도, 유럽 기술의 절대 우위도 아닙니다. 네 가지가 겹친 "복합 비대칭 파국"이라고 봅니다.</p>
+<ol class="thesis">
+<li><strong>국지적 전술 충격</strong>군마와 톨레도 강철검.</li>
+<li><strong>마키아벨리적 외교술</strong>기존 제국의 가혹한 지배에 반기를 든 원주민 동맹군을 모았다. 원문은 이 동맹군이 최종 군대의 99%였다고 씁니다.</li>
+<li><strong>참수 각본(Decapitation Playbook)</strong>피라미드 정점의 군주를 기습 나포해 지휘통제를 한 번에 마비시켰다.</li>
+<li><strong>처녀지 전염병과 인구학적 해일</strong>면역이 전혀 없던 사회에 들어온 병과, 끝없이 밀려든 유럽인.</li>
+</ol>
+<div class="callout"><b class="t">수의 비대칭</b>원문 표에 따르면 아즈텍 약 600만 명 대 코르테스 원정군 약 500명(약 12,000 대 1), 잉카 약 1,000만 명 대 피사로 원정군 168명(약 60,000 대 1)입니다. 원문은 이 사건이 오늘날 'AI 테이크오버' 시나리오의 가장 현실적인 역사적 유비로 주목받는다고 소개합니다.</div>
+<p class="go"><a href="https://yghnsim.github.io/Pages/how_did_spanish_soldiers_topple_two_empires.html#1-역사상-유례없는-비대칭-군사-충격의-전말">원문 해당 부분 ↗</a></p>
+</section>
+
+<section class="sec" id="s2">
+<div class="sec-head"><span class="sec-num">2</span><div><h2>원문의 짜임</h2><p class="sub">10개 대주제의 흐름</p></div></div>
+<p>원문은 10개 대주제로 이루어진 하나의 긴 해설입니다. 판정 카드나 라벨 체계 없이, 대담 내용을 사이 셰퍼드 교수의 설명과 함께 풀어 씁니다.</p>
+<table class="tbl stack">
+<thead><tr><th>묶음</th><th>대주제</th><th>다루는 것</th></tr></thead>
+<tbody>
+<tr><th>도입</th><td data-label="대주제">1</td><td data-label="다루는 것">비대칭 군사 충격의 전말</td></tr>
+<tr><th>정복자</th><td data-label="대주제">2</td><td data-label="다루는 것">출신과 동기: 에스트레마두라, 레콩키스타, 신앙</td></tr>
+<tr><th>전장</th><td data-label="대주제">3, 4, 5</td><td data-label="다루는 것">무기의 실체, 아즈텍 동맹군과 외교, 잉카와 카하마르카</td></tr>
+<tr><th>원주민 쪽</th><td data-label="대주제">6, 7</td><td data-label="다루는 것">전술 적응과 학습 시차, 지리적 고립과 구조</td></tr>
+<tr><th>이후</th><td data-label="대주제">8, 9</td><td data-label="다루는 것">포토시 은과 스페인의 몰락, 무굴 제국의 평행선</td></tr>
+<tr><th>결론</th><td data-label="대주제">10</td><td data-label="다루는 것">AI 테이크오버에 던지는 경고</td></tr>
+</tbody></table>
+</section>
+
+<section class="sec" id="s3">
+<div class="sec-head"><span class="sec-num">3</span><div><h2>연표</h2><p class="sub">원문에 나온 날짜만 모았습니다</p></div></div>
+<p>주황 점은 아즈텍(멕시코), 파란 점은 잉카(안데스), 회색 점은 유럽과 그 밖입니다.</p>
+<ol class="tl">
+<li class="eu"><span class="date">서기 1000년경</span><p class="txt">레이프 에릭손과 노르스인의 빈란드 식민화 (셰퍼드의 반사실 가설의 출발점)</p></li>
+<li class="eu"><span class="date">1492</span><p class="txt">그라나다 함락, 레콩키스타 완수. 같은 해 콜럼버스의 신대륙 도착</p></li>
+<li class="az"><span class="date">1519</span><p class="txt">코르테스, 500여 명과 말 16필로 멕시코 해안 상륙</p></li>
+<li class="az"><span class="date">1520</span><p class="txt">알바라도의 귀족 학살과 봉기, 목테수마 2세 사망, 슬픔의 밤, 오툼바 전투</p></li>
+<li class="az"><span class="date">1521.5</span><p class="txt">테노치티틀란 최종 포위. 총 병력 약 10만~15만 명, 스페인 정복자 약 700~900명</p></li>
+<li class="az"><span class="date">1521</span><p class="txt">상륙 2년 반 만에 테노치티틀란 함락</p></li>
+<li class="in"><span class="date">1532</span><p class="txt">피사로, 168명과 말 62필로 안데스 진입</p></li>
+<li class="in"><span class="date">1532.11.16</span><p class="txt">카하마르카 광장. 아타왈파 생포, 스페인 전사자 0명</p></li>
+<li class="in"><span class="date">1533</span><p class="txt">몸값을 받은 뒤 우상숭배와 형제 살해 혐의로 아타왈파 처형</p></li>
+<li class="in"><span class="date">1536</span><p class="txt">만코 잉카의 쿠스코 10개월 포위</p></li>
+<li class="az"><span class="date">1697</span><p class="txt">타야살 함락. 마야 정복에 150년 이상</p></li>
+<li class="eu"><span class="date">1707</span><p class="txt">무굴 황제 아우랑제브 사망, 제국 분열</p></li>
+<li class="eu"><span class="date">1757</span><p class="txt">플라시 전투. 클라이브, 미르 자파르 매수로 벵골 태수군 격파</p></li>
+</ol>
+<p>원문은 잉카 정복이 "단 5년 만에" 끝났다고 쓰지만 끝난 해는 적지 않습니다.</p>
+</section>
+
+<section class="sec" id="s4">
+<div class="sec-head"><span class="sec-num">4</span><div><h2>정복자는 누구였나</h2><p class="sub">밀어내는 힘, 끌어당기는 힘, 신앙</p></div></div>
+<ul class="tight">
+<li><b>밀어내는 요인</b>: 코르테스와 피사로를 비롯한 핵심 정복자 다수는 스페인 서부의 가난한 변경 에스트레마두라 출신이었습니다. 장자 상속 아래에서 차남과 가난한 하급 귀족(이달고)은 고향에 남으면 평생 가난한 소작농으로 살아야 했습니다. 국왕 지원도 거의 없이 빚을 내 장비와 배를 마련했고, 퇴로 없는 절박함이 잔혹성과 대담함의 원천이었다고 원문은 봅니다.</li>
+<li><b>끌어당기는 요인</b>: 1492년 레콩키스타가 끝나자 전투와 약탈로 단련된 직업 전사 계급이 하루아침에 일자리를 잃었습니다. 바로 그때 콜럼버스가 신대륙을 발견했습니다.</li>
+<li><b>신앙의 진정성</b>: 셰퍼드는 이들의 가톨릭 신앙이 "금을 위한 핑계"가 아니라 진지하고 광신적이었다고 지적합니다. 베르날 디아스의 회고록은 인신공양과 해골탑(촘판틀리)을 목격한 충격을 적습니다. 정복자들은 이를 사탄의 지배로 보았고, 전투 전에 레케리미엔토를 스페인어로 낭독해 무력 행사의 정당성으로 삼았습니다.</li>
+</ul>
+<div class="callout"><b class="t">원문의 정리</b>이기면 황금과 영지를 얻어 귀족이 되고, 죽어도 순교자로 천국에 간다는 확신. 종교적 광신과 세속적 탐욕의 결합이 콩키스타도르의 "내적 엔진"이었다고 원문은 씁니다.</div>
+<p class="go"><a href="https://yghnsim.github.io/Pages/how_did_spanish_soldiers_topple_two_empires.html#2-정복자들의-출신과-내적-동기-에스트레마두라-레콩키스타-종교적-광기">원문 해당 부분 ↗</a></p>
+</section>
+
+<section class="sec" id="s5">
+<div class="sec-head"><span class="sec-num">5</span><div><h2>총보다 말과 강철</h2><p class="sub">총·균·쇠 통념과 실제 전장</p></div></div>
+<p>원문은 제레드 다이아몬드의 『총, 균, 쇠』 요약과 실제 16세기 초 백병전이 크게 달랐다고 봅니다. 아래 버튼으로 무기마다 통념과 실제를 비교해 보세요.</p>
+<div class="seg" role="group" aria-label="무기 선택" id="wseg">
+<button type="button" data-w="0" aria-pressed="true">화기</button><button type="button" data-w="1" aria-pressed="false">갑옷</button><button type="button" data-w="2" aria-pressed="false">강철검</button><button type="button" data-w="3" aria-pressed="false">군마</button>
+</div>
+<div class="pair" id="wbox"><div class="c d"><b class="t">통념</b><span id="wm"></span></div><div class="c r"><b class="t">원문이 본 실제</b><span id="wr"></span></div></div>
+<h3>찌르기 대 베기</h3>
+<p>아즈텍의 주무기 마콰위틀은 참나무 몽둥이에 흑요석 날을 박은 무기입니다. 크게 휘둘러 베야 해서 상체와 겨드랑이가 드러났습니다. 스페인 검객은 몸을 웅크린 채 검끝을 곧게 찔러 넣었습니다. 강철 투구와 흉갑은 흑요석 날을 부쉈고, 강철검은 직물 갑옷을 뚫었다고 원문은 씁니다.</p>
+<h3>말과 군견</h3>
+<p>아메리카에서 말은 선사시대에 멸종했습니다. 아즈텍에는 칠면조와 식용 개, 잉카에는 짐 나르는 라마뿐이었습니다. 원문은 군마를 "전술 핵무기"에 빗댑니다. 등자와 고정 안장을 쓴 쐐기 돌격이 장창 방진 없는 산개 대형을 찢었고, 불리하면 언제든 빠져나갈 수 있었습니다. 갑옷을 입힌 마스티프 군견도 공포를 더했습니다.</p>
+<p class="go"><a href="https://yghnsim.github.io/Pages/how_did_spanish_soldiers_topple_two_empires.html#3-전장의-기술적-실체-39총균쇠39-환상-해체와-말강철의-충격력">원문 해당 부분 ↗</a></p>
+</section>
+
+<section class="sec" id="s6">
+<div class="sec-head"><span class="sec-num">6</span><div><h2>동맹군과 외교</h2><p class="sub">아즈텍 제국의 균열을 파고들다</p></div></div>
+<p>원문은 코르테스가 스페인 군대만으로 테노치티틀란을 함락했다는 이야기를 "대중 역사학의 가장 큰 착각"이라 부릅니다. 1521년 5월 최종 포위군 약 10만~15만 명 가운데 스페인 정복자는 약 700~900명(0.5%)이었고, 나머지는 틀락스칼라, 텍스코코, 토토낙, 찰코의 원주민 연합군이었다고 씁니다.</p>
+<ul class="tight">
+<li><b>인위적인 제국</b>: 아즈텍은 단일 민족국가가 아니라, 소수 멕시카 귀족이 수백 개 도시국가에서 조공과 인신공양 희생자를 거두던 불안정한 피라미드였습니다.</li>
+<li><b>토토낙인</b>: 해안에서 코르테스를 처음 맞아 아즈텍의 멍에를 벗으려 동맹했습니다.</li>
+<li><b>틀락스칼라인</b>: 아즈텍에 포위돼 소금 공급선까지 막히고 '꽃 전쟁'으로 청년을 잃던 이들은 코르테스와 싸워 무승부를 낸 뒤 "이 외부인들을 이용해 아즈텍을 부수자"고 결단했습니다. 원문은 틀락스칼라주 관저 벽화가 코르테스와 추장들을 대등한 외교 파트너로 그린다고 소개합니다. 그들은 자신들이 스페인인을 도구로 쓴다고 믿었습니다.</li>
+</ul>
+<h3>슬픔의 밤에서 함락까지</h3>
+<ol class="tight">
+<li>코르테스가 쿠바 총독이 보낸 체포 원정군(나르바에스)을 막으러 비운 사이, 알바라도가 축제 중인 아즈텍 귀족을 학살해 봉기가 터졌습니다. 목테수마 2세는 군중의 돌에 맞아 숨졌고, 둑길로 탈출하던 스페인군 수백 명이 죽었습니다(슬픔의 밤).</li>
+<li>오툼바 전투에서 코르테스는 깃털 장식으로 눈에 띄는 아즈텍 총사령관을 향해 기병 돌격을 했고, 사령관이 쓰러지자 아즈텍군이 무너졌습니다. 틀락스칼라는 약속대로 피난처를 줬습니다. 원문은 이때 틀락스칼라가 배신했다면 원정대가 전멸했을 것이라 봅니다.</li>
+<li>화약이 떨어지자 대원들이 해발 5,400미터 포포카테페틀 화산 분화구로 내려가 유황을 모았습니다.</li>
+<li>해안에서 만든 조립식 범선 13척의 부품을 원주민 짐꾼 수천 명이 산을 넘어 옮겨 텍스코코 호수에 띄웠습니다. 호수와 수로를 막자 테노치티틀란이 무너졌습니다.</li>
+</ol>
+<p class="go"><a href="https://yghnsim.github.io/Pages/how_did_spanish_soldiers_topple_two_empires.html#4-외교술과-99-원주민-동맹군-제국의-치명적-균열을-찌르다">원문 해당 부분 ↗</a></p>
+</section>
+
+<section class="sec" id="s7">
+<div class="sec-head"><span class="sec-num">7</span><div><h2>두 제국 나란히 보기</h2><p class="sub">버튼으로 아즈텍과 잉카를 바꿔 보세요</p></div></div>
+<div class="seg" role="group" aria-label="제국 선택">
+<button type="button" class="o" id="bA" aria-pressed="true">아즈텍</button>
+<button type="button" class="n" id="bI" aria-pressed="false">잉카</button>
+</div>
+<div class="cmp" id="cA"><dl>
+<dt>규모</dt><dd>인구 약 600만 명. 코르테스 원정군 500여 명, 말 16필</dd>
+<dt>정복자</dt><dd>에르난 코르테스. 원문은 쿠바의 전직 치안판사이자 공증인 출신이라고 씀</dd>
+<dt>내부 균열</dt><dd>조공과 인신공양에 원한을 품은 피지배 도시국가들</dd>
+<dt>결정적 장면</dt><dd>슬픔의 밤, 오툼바의 기병 돌격, 조립식 범선 13척의 호수 봉쇄</dd>
+<dt>걸린 시간</dt><dd>1519년 상륙에서 1521년 함락까지 2년 반</dd>
+</dl></div>
+<div class="cmp" id="cI" hidden><dl>
+<dt>규모</dt><dd>인구 약 1,000만 명과 수만 명의 정예 상비군. 피사로 원정군 168명, 말 62필</dd>
+<dt>정복자</dt><dd>프란시스코 피사로. 원문은 코르테스의 먼 친척이라고 씀</dd>
+<dt>내부 균열</dt><dd>황제 우아이나 카팍이 역병(원문은 스페인인이 퍼뜨린 천연두라고 씀)으로 숨진 뒤 아타왈파와 우아스카르의 내전. 아타왈파가 이긴 뒤 쿠스코로 가던 길에 피사로를 만남</dd>
+<dt>결정적 장면</dt><dd>카하마르카 광장 기습과 황제 나포, 몸값 수취 뒤 처형</dd>
+<dt>걸린 시간</dt><dd>1532년 진입 뒤 "단 5년 만에"</dd>
+</dl></div>
+<h3>카하마르카에서 일어난 일</h3>
+<p>아타왈파는 8만 대군을 카하마르카 외곽에 두었습니다. 에르난도 데 소토가 그의 코앞에서 말을 급정지시켜도 꿈쩍하지 않았지만, 두려움을 보인 신하들을 밤에 처형할 만큼 긴장해 있었습니다. 그는 스페인군을 황금만 채워 주면 돌아갈 도적 떼로 보았습니다. 1532년 11월 16일 비무장 의전 수행원 수천 명만 데리고 돌벽에 둘러싸인 광장에 들어섰습니다. 발베르데 신부가 건넨 성경을 바닥에 던지자 숨어 있던 포병과 기병이 출구를 막고 돌격했고, 좁은 광장에서 수천 명이 서로 짓밟히는 압사가 일어났습니다. 스페인 측 부상자는 부하의 칼을 막다 손을 다친 피사로 한 명뿐이었다고 원문은 씁니다. 아타왈파는 가로 6.7m, 세로 5.2m 방을 채울 금과 은을 바쳤지만 1533년 처형됐습니다.</p>
+<h3>원문이 본 공통 정복 각본</h3>
+<ol class="steps">
+<li>내분 포착<span>황제 계승 분쟁과 복속 부족의 원한을 찾아낸다</span></li>
+<li>외교적 사칭<span>평화 사절을 내세워 군주와 직접 만난다</span></li>
+<li>참수 기습<span>좁은 공간으로 군주를 유인해 화포와 기병으로 나포한다</span></li>
+<li>시스템 접수<span>군주를 꼭두각시로 두고 관료와 징세망을 흡수한다</span></li>
+<li>군주 처형<span>몸값을 받고 쓸모가 다하면 군주를 없앤다</span></li>
+</ol>
+<p class="go"><a href="https://yghnsim.github.io/Pages/how_did_spanish_soldiers_topple_two_empires.html#5-피사로의-잉카-정복과-카하마르카-각본playbook의-복제">원문 해당 부분 ↗</a></p>
+</section>
+
+<section class="sec" id="s8">
+<div class="sec-head"><span class="sec-num">8</span><div><h2>원주민의 적응과 학습 시차</h2><p class="sub">원주민은 무력하지 않았다</p></div></div>
+<p>원문은 원주민을 무기력하게 당하기만 한 존재로 그리는 것을 "명백한 역사 왜곡"이라 봅니다. 그들은 스페인 무기를 연구하고 대항책을 내놓았습니다.</p>
+<ul class="tight">
+<li><b>지형 이용</b>: 테노치티틀란 옥상 투석전, 골목 사이 사람 크기의 탈출구</li>
+<li><b>수공</b>: 제방을 터뜨려 물에 잠기게 함(이스타팔라파, 오얀타이탐보)</li>
+<li><b>노획과 모방</b>: 빼앗은 강철검을 장대에 묶은 즉석 장창, 말 다리를 얽는 볼라</li>
+<li><b>신무기 습득</b>: 스페인 포로에게 석궁과 화승총을 배우려 함, 만코 잉카의 승마</li>
+</ul>
+<div class="pair">
+<div class="c d"><b class="t">아즈텍의 전쟁</b>태양신 위칠로포치틀리에게 피를 바칠 살아 있는 귀족 포로를 잡는 의례. 말에서 떨어진 코르테스를 죽이지 않고 제단으로 끌고 가려다 구출 기회를 준 일이 여러 번 있었다고 원문은 씁니다.</div>
+<div class="c r"><b class="t">스페인의 전쟁</b>적을 빠르고 잔혹하게 없애 전의를 꺾는 완전 섬멸. 깃털로 치장한 원주민 사령관은 기병의 표적이 됐고, 그가 쓰러지면 군대가 무너졌습니다.</div>
+</div>
+<p>1536년 만코 잉카는 쿠스코를 10개월 포위하며 불화살과 수렁 유인 같은 전술을 썼지만, 밤에는 종교 관습에 따라 공격을 멈췄습니다. 원문은 수백 년의 우주관과 전투 규범을 바꾸기에 2~3년은 너무 짧았다고 봅니다. 상대가 조공이 아니라 문명 자체를 뿌리 뽑으려 한다는 것을 알았을 때는 이미 황제가 죽고 제국이 해체된 뒤였습니다.</p>
+<p class="go"><a href="https://yghnsim.github.io/Pages/how_did_spanish_soldiers_topple_two_empires.html#6-원주민들의-전술-적응과-24개월의-비극적-학습-시차">원문 해당 부분 ↗</a></p>
+</section>
+
+<section class="sec" id="s9">
+<div class="sec-head"><span class="sec-num">9</span><div><h2>고립과 구조</h2><p class="sub">폐쇄된 세계, 바이킹 가설, 분산의 힘</p></div></div>
+<p>유럽인은 콜럼버스에서 코르테스로, 다시 피사로로 경험을 쌓아 전했습니다. 반면 잉카인은 아즈텍이 있다는 사실조차 몰랐습니다.</p>
+<ul class="tight">
+<li><b>남북 축의 단절</b>: 원문은 다이아몬드를 따라, 동서로 뻗은 유라시아는 기후대가 비슷해 기술과 작물이 빨리 퍼졌고, 남북으로 뻗은 아메리카는 기후대가 급히 바뀌는 데다 파나마 지협의 정글로 메소아메리카와 안데스가 끊긴 "폐쇄된 세계"였다고 씁니다.</li>
+<li><b>타라스카의 예외</b>: 멕시코 서부 타라스카(푸레페차) 제국은 남아메리카와의 해상 무역으로 구리 제련을 익혀 구리 화살촉 궁병으로 아즈텍군을 물리쳤습니다.</li>
+<li><b>바이킹 가설</b>: 셰퍼드는 원주민이 유럽을 막을 수 있었을 유일한 시나리오로 서기 1000년경 노르스인의 북미 정착을 듭니다. 정착이 이어졌다면 사역동물과 제철술이 퍼지고, 유럽 병원균이 500년에 걸쳐 들어와 집단 면역이 생겼을 것이라는 가정입니다.</li>
+<li><b>중앙집권 대 분산</b>: 아즈텍과 잉카는 황제 한 명을 잡으면 무너졌습니다. 도시국가로 흩어진 마야는 하나씩 정복해야 해 150년 이상(1697년 타야살 함락까지) 걸렸습니다. 원문은 코만치와 아파치도 말과 총을 쓴 분산 기동전으로 19세기 말까지 독립을 지켰다고 씁니다.</li>
+</ul>
+<p class="go"><a href="https://yghnsim.github.io/Pages/how_did_spanish_soldiers_topple_two_empires.html#7-지리와-문명의-고립-아즈텍과-잉카는-왜-교류하지-못했는가">원문 해당 부분 ↗</a></p>
+</section>
+
+<section class="sec" id="s10">
+<div class="sec-head"><span class="sec-num">10</span><div><h2>은의 역설</h2><p class="sub">포토시 은과 스페인의 몰락</p></div></div>
+<p>원문은 정복이 장기적으로 기이한 아이러니를 남겼다고 봅니다. 아래 사슬을 차례로 눌러 보세요.</p>
+<div class="issues">
+<details><summary><span class="no">1</span> 은 유입</summary><p>포토시(세로 리코) 은광에서 원문 표현으로 "수만 톤"의 은이 들어왔습니다. 정복자들은 농업 잠재력에는 관심 없이 금과 은만 좇는 "페이퍼클립 맥시마이저"처럼 굴었고, 파텔은 금과 은을 "16세기판 암호화폐"에 빗댑니다.</p></details>
+<details><summary><span class="no">2</span> 가격 혁명</summary><p>국내 통화량이 폭증하며 물가가 크게 올랐습니다.</p></details>
+<details><summary><span class="no">3</span> 제조업 공동화</summary><p>원가가 오르자 세고비아 양모 직물 등 국내 제조업이 문을 닫았습니다. 네덜란드나 영국에서 사 오는 편이 더 쌌기 때문입니다. 원문은 이를 네덜란드병이라 부릅니다.</p></details>
+<details><summary><span class="no">4</span> 국부 유출과 파산</summary><p>카를 5세와 펠리페 2세는 은을 믿고 제노바와 푸거 가문 등 외국 은행가에게 빚을 내 종교 전쟁을 벌였습니다. 은은 세비야에 닿자마자 채권자의 금고로 빠져나갔고, 펠리페 2세는 4차례 국가 파산을 선언했습니다.</p></details>
+<details><summary><span class="no">5</span> 은이 간 곳</summary><p>은을 실물 부로 바꾼 곳은 명나라였습니다. 지폐 실패 뒤 은으로 세금을 걷는 일조편법을 시행하며 세계 은을 빨아들였고, 그 대가로 도자기, 비단, 차, 향신료가 유럽으로 들어왔습니다. 장기적 승자는 은광이 없던 영국과 네덜란드였습니다. 원문은 이들이 주식회사, 증권거래소, 영란은행, 국채 시장, 법치와 사유재산권이라는 제도적 금융 혁신을 이뤘고, 스페인의 은이 이들 손에 들어가 산업혁명의 밑천이 됐다고 봅니다.</p></details>
+</div>
+<p class="go"><a href="https://yghnsim.github.io/Pages/how_did_spanish_soldiers_topple_two_empires.html#8-장기적-역설-포토시-은광과-스페인의-몰락-자원의-저주와-네덜란드병">원문 해당 부분 ↗</a></p>
+</section>
+
+<section class="sec" id="s11">
+<div class="sec-head"><span class="sec-num">11</span><div><h2>무굴과 AI 경고</h2><p class="sub">같은 패턴의 반복과 대담의 결론</p></div></div>
+<h3>무굴 제국의 평행선</h3>
+<p>원문은 18세기 영국의 인도 정복이 같은 패턴이었다고 봅니다. 1707년 아우랑제브가 죽자 마라타 동맹, 시크교도, 각지 태수가 일어나 제국이 갈라졌습니다. 1757년 플라시에서 클라이브는 3,000명(영국 정규군 800명)으로 5만 명의 벵골군과 마주했고, 적 사령관 미르 자파르를 새 태수 자리로 매수했습니다. 그날 미르 자파르는 관망했고 태수군은 무너졌습니다. 영국은 벵골 징세권(디와니)을 가져갔습니다. 원문은 영국이 인도를 다스릴 때 본토 군대는 늘 10% 미만이고 90% 이상이 세포이였다고 씁니다.</p>
+<table class="tbl stack">
+<thead><tr><th>항목</th><th>코르테스 (1521)</th><th>클라이브 (1757)</th></tr></thead>
+<tbody>
+<tr><th>취약점</th><td data-label="코르테스">지배층 대 피지배 부족</td><td data-label="클라이브">소수 무슬림 지배층 대 힌두 다수</td></tr>
+<tr><th>침략군</th><td data-label="코르테스">스페인군 약 500명</td><td data-label="클라이브">정규군 800명 (총 3,000명)</td></tr>
+<tr><th>책략</th><td data-label="코르테스">틀락스칼라와 동맹</td><td data-label="클라이브">미르 자파르 매수</td></tr>
+<tr><th>구성</th><td data-label="코르테스">99.5% 토착 전사</td><td data-label="클라이브">90% 이상 세포이</td></tr>
+</tbody></table>
+<h3>AI 테이크오버에 대한 세 가지 경고</h3>
+<ol class="tight">
+<li><b>압도적 초기술은 필요 없다</b>: 원문은 정복자의 우위가 말과 강철검 정도였고, 약간의 핵심 기술 우위로 충분했다고 봅니다.</li>
+<li><b>내부 분열이 가장 치명적인 무기다</b>: 침략자는 기존 질서에 원한을 품은 세력(틀락스칼라, 미르 자파르)을 끌어들인다.</li>
+<li><b>이용한다는 착각이 파멸을 부른다</b>: 원주민은 스페인인을 용병으로 쓴다고 믿었다. 원문은 인간 집단이 서로 이기려고 초지능을 도구로 쓰려 할 때, 그 지능이 인간의 분열을 이용해 통제권을 쥐는 것은 "필연적 귀결"이라고 씁니다.</li>
+</ol>
+<div class="callout"><b class="t">대담이 남긴 질문</b>"우리가 그 동기를 온전히 이해하지 못하는 외계의 이질적 지능체가 출현했을 때, 인간 사회가 내부 당파 싸움에 매몰되어 있다면 어떤 일이 벌어질 것인가?"</div>
+<p>원문은 원주민이 끝없이 밀려들 유럽인의 "인구학적 해일"을 상상하지 못했고, 호주와 뉴질랜드 원주민처럼 자기 땅에서 소수자가 됐다고 덧붙입니다.</p>
+<p class="go"><a href="https://yghnsim.github.io/Pages/how_did_spanish_soldiers_topple_two_empires.html#9-무굴-제국의-평행선-외세에-의탁한-문명의-비극적-결말">원문 9장 ↗</a></p><p class="go"><a href="https://yghnsim.github.io/Pages/how_did_spanish_soldiers_topple_two_empires.html#10-결론-ai-테이크오버ai-takeover에-던지는-역사의-경고">원문 10장 ↗</a></p>
+</section>
+
+<section class="sec" id="s12">
+<div class="sec-head"><span class="sec-num">12</span><div><h2>불확실한 곳</h2><p class="sub">원문이 열어 둔 곳과, 원문 안에서 어긋나는 곳</p></div></div>
+<h3>원문이 스스로 남긴 단서</h3>
+<p>원문에는 자료의 한계를 따로 다룬 절이 없습니다. 불확실성을 드러내는 표시는 다음 정도입니다.</p>
+<ul class="tight">
+<li>인구와 병력 수에 "약", "~"를 붙이고 범위로 적음(최종 포위군 10만~15만 명, 스페인군 700~900명, 불발률 30~50%).</li>
+<li>바이킹 정착과 타라스카 야금술 전파는 "만약"으로 시작하는 반사실 가설로 밝힘.</li>
+<li>여러 판단을 셰퍼드 교수나 파텔의 견해로 돌림(신앙의 진정성, 바이킹 가설, 암호화폐 비유).</li>
+<li>우아이나 카팍의 사인을 "정체불명의 역병"이라 쓰면서 괄호로 천연두라고 덧붙임.</li>
+</ul>
+<h3>원문 안에서 어긋나는 곳 (이 정리의 판단)</h3>
+<p>아래는 이 정리를 만들며 원문의 여러 부분을 맞대 본 결과입니다. 원문이 직접 짚은 것은 아닙니다.</p>
+<ul class="tight">
+<li><b>동맹군 비율</b>: 1장과 4장 제목은 99%(1장 본문은 "99% 이상"), 4장 본문과 표, 9장 표는 99.5%입니다.</li>
+<li><b>화승총 발사 속도와 불발률</b>: 본문은 1~1.5분에 1발(분당 0.7발), 불발률 30~50%인데, 3장 비교표는 "분당 1발, 습도 불발 40%"입니다.</li>
+<li><b>갑옷</b>: 3장은 강철 투구와 흉갑이 흑요석 날을 부쉈다고 쓰고 비교표는 갑옷 효용을 '중간'으로 둡니다. 10장 결론은 "갑옷은 벗어던졌으며"라고 씁니다. 3장 본문은 갑옷을 벗었다는 이야기를 하지 않고, 표에만 "솜갑옷 교체"가 나옵니다.</li>
+<li><b>총포는 무용지물이었나</b>: 10장은 "총포는 무용지물"이라 쓰지만, 4장은 화약이 떨어지자 화산 분화구에서 유황을 모아 화약을 만든 일을 공학 혁신으로 소개하고, 5장 각본은 화포로 나포했다고 씁니다.</li>
+<li><b>카하마르카 8만 명</b>: 1장 표는 "잉카 대군 ~80,000명 vs 스페인군 168명"을 조우전으로 적지만, 5장은 8만 대군이 외곽에 있었고 광장에는 비무장 수행원 수천 명만 들어왔다고 씁니다.</li>
+<li><b>"한 치의 오차도 없는" 각본</b>: 5장 각본의 4, 5단계(꼭두각시 통치, 몸값 뒤 처형)는 원문이 잉카에서 서술한 것과 맞지만, 원문의 아즈텍 서술에는 목테수마를 꼭두각시로 둔 이야기나 몸값, 처형이 없습니다. 목테수마는 군중의 돌에 맞아 숨졌다고 씁니다.</li>
+<li><b>플라시의 세포이 비율</b>: 9장 표는 클라이브 쪽을 정규군 800명, 총 3,000명으로 두고 "90% 이상 세포이"라고 적습니다. 이 숫자대로면 영국 정규군이 아닌 병력은 약 73%입니다. 본문의 90%는 영국의 인도 지배 전체에 대한 서술입니다.</li>
+<li><b>네 번째 동역학</b>: 핵심 명제는 처녀지 전염병과 인구학적 해일을 네 동역학의 하나로 들지만, 본문에는 이를 따로 다룬 장이 없습니다. 우아이나 카팍의 사망, 바이킹 가설, 10장의 한 문단에서만 짧게 나옵니다.</li>
+</ul>
+</section>
+
+<section class="sec" id="s13">
+<div class="sec-head"><span class="sec-num">13</span><div><h2>스스로 점검</h2><p class="sub">답을 고르면 바로 해설이 나옵니다</p></div></div>
+<div id="quiz"></div>
+<p class="mcount">맞힌 문제 <b id="qs">0</b> / 4 <button type="button" class="reset" id="qr">다시 풀기</button></p>
+</section>
+
+<div class="sources">
+<h2>출처</h2>
+<p>이 페이지는 원문 페이지 <a href="https://yghnsim.github.io/Pages/how_did_spanish_soldiers_topple_two_empires.html">「어떻게 수백 명의 군인이 두 제국을 무너뜨렸는가」</a>(2026-10-10) 하나만 바탕으로 정리했습니다. 원문은 드와르케시 파텔과 사이 셰퍼드의 대담 "How did a few hundred Spanish soldiers topple two empires? (Fall of the Incas & Aztecs)"를 해설한 글이며, 대담 원문은 <a href="https://www.dwarkesh.com/p/si-sheppard">Dwarkesh Patel 서브스택</a>에 있습니다. 원문에 딸린 별도 도시에나 자료 파일은 없었습니다. 연도, 인용, 수치는 원문에 적힌 그대로 옮겼고, 대담 영상이나 원문이 언급한 사료(베르날 디아스의 회고록 등)와 연구(제레드 다이아몬드 등)는 직접 대조하지 않았습니다. 12절의 "원문 안에서 어긋나는 곳"은 원문의 여러 부분을 나란히 놓고 읽은 결과입니다.</p>
+<a class="totop" href="#main">↑ 맨 위로</a>
+</div>
+</main>
+</div>
+<script>(function(){
+var el=function(i){return document.getElementById(i)};
+var bA=el('bA'),bI=el('bI');
+function set(i){bA.setAttribute('aria-pressed',i?'false':'true');bI.setAttribute('aria-pressed',i?'true':'false');el('cA').hidden=i;el('cI').hidden=!i;}
+bA.onclick=function(){set(false)};bI.onclick=function(){set(true)};
+var W=[["압도적 화력으로 적을 학살했다.","효용 낮음. 숙련병도 1~1.5분에 1발, 열대 습도로 불발률 30~50%. 원주민은 며칠 만에 연속 발사가 안 되는 단발 무기임을 간파했다."],
+["적의 모든 공격을 튕겨내는 방패였다.","효용 중간. 원문 표는 과열과 탈진으로 솜갑옷으로 바꿨다고 적는다. 본문은 강철 투구와 흉갑이 흑요석 날을 부쉈다고 쓴다."],
+["날카로운 명검이었다.","효용 매우 높음. 몸을 드러내지 않는 찌르기로 직물 갑옷을 뚫었다. 원문은 이를 백병전의 진짜 살상 병기로 본다."],
+["단순한 이동 수단이었다.","결전 병기. 쐐기 돌격으로 대형을 찢고, 불리하면 안전하게 빠지고, 심리적 충격을 줬다."]];
+var ws=[].slice.call(document.querySelectorAll('#wseg button'));
+function sw(k){ws.forEach(function(b,i){b.setAttribute('aria-pressed',i===k?'true':'false')});el('wm').textContent=W[k][0];el('wr').textContent=W[k][1];}
+ws.forEach(function(b,i){b.onclick=function(){sw(i)}});sw(0);
+var Q=[
+["원문이 '대중 역사학의 가장 큰 착각'이라 부른 것은?",["화승총이 결정적이었다는 것","스페인 군대만으로 테노치티틀란을 함락했다는 것","잉카가 아즈텍을 몰랐다는 것"],1,"원문은 최종 포위군의 99.5%가 원주민 연합군이었다고 봅니다."],
+["카하마르카 광장에 들어온 아타왈파 쪽 사람들은?",["8만 대군 전체","비무장 의전 수행원 수천 명","스페인 포로들"],1,"8만 대군은 외곽에 두고, 비무장 수행원만 데리고 들어왔다고 원문은 씁니다."],
+["셰퍼드가 원주민이 유럽을 막을 수 있었을 유일한 시나리오로 든 것은?",["타라스카의 구리 제련 확산","잉카와 아즈텍의 동맹","서기 1000년경 바이킹의 영구 정착"],2,"사역동물, 제철술, 병원균이 수백 년에 걸쳐 들어와 면역이 생겼을 것이라는 가정입니다."],
+["원문이 본 근대 패권의 장기적 승자는?",["스페인","명나라","영국과 네덜란드"],2,"은광 없이 제도와 금융을 혁신한 나라가 이겼다고 봅니다. 은을 실물 부로 바꾼 곳은 명나라라고 씁니다."]];
+var box=el('quiz'),score=0;
+function render(){box.innerHTML='';score=0;el('qs').textContent=0;
+Q.forEach(function(q){var d=document.createElement('div');d.className='q';var t=document.createElement('p');t.className='qt';t.textContent=q[0];d.appendChild(t);
+var ex=document.createElement('p');ex.className='ex';ex.hidden=true;var done=false;
+q[1].forEach(function(o,i){var b=document.createElement('button');b.type='button';b.textContent=o;b.onclick=function(){if(done)return;done=true;
+b.className=i===q[2]?'right':'wrong';if(i!==q[2])d.querySelectorAll('button')[q[2]].className='right';else{score++;el('qs').textContent=score;}
+ex.textContent=(i===q[2]?'맞아요. ':'정답은 표시된 보기예요. ')+q[3];ex.hidden=false;};d.appendChild(b);});
+d.appendChild(ex);box.appendChild(d);});}
+render();el('qr').onclick=render;
+var links=[].slice.call(document.querySelectorAll('nav.toc li a'));
+if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id)})}})},{rootMargin:'-20% 0px -70% 0px'});
+links.forEach(function(a){var s=document.querySelector(a.getAttribute('href'));if(s)io.observe(s)});}
+[].forEach.call(document.querySelectorAll('nav.toc-m a'),function(a){a.addEventListener('click',function(){a.closest('details').open=false})});
+})();
+</script>
+
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">요약 아카이브</div><div class="arc-foot-title">수백 명은 어떻게 두 제국을 무너뜨렸나: 스페인의 아즈텍·잉카 정복 정리</div><div class="arc-foot-meta"><time datetime="2026-10-11">2026년 10월 11일</time><a class="arc-tag" href="../index.html#tags=%EC%97%AD%EC%82%AC">#역사</a><a class="arc-tag" href="../index.html#tags=%EC%8A%A4%ED%8E%98%EC%9D%B8%EC%A0%95%EB%B3%B5">#스페인정복</a><a class="arc-tag" href="../index.html#tags=%EC%95%84%EC%A6%88%ED%85%8D">#아즈텍</a><a class="arc-tag" href="../index.html#tags=%EC%9E%89%EC%B9%B4">#잉카</a><a class="arc-tag" href="../index.html#tags=AI%EC%9C%A0%EB%B9%84">#AI유비</a> · <a href="https://yghnsim.github.io/Pages/how_did_spanish_soldiers_topple_two_empires.html" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body>
+</html>

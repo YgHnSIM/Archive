@@ -2,6 +2,25 @@
    `python3 add_page.py --rebuild` 를 실행하면 다시 만들어집니다. */
 window.ARCHIVE_CATALOG = [
   {
+    "id": "20261011-01",
+    "title": "수백 명은 어떻게 두 제국을 무너뜨렸나: 스페인의 아즈텍·잉카 정복 정리",
+    "summary": "드와르케시 파텔·사이 셰퍼드 대담 해설 정리: 네 가지 동역학, 두 제국 비교, 은의 역설, AI 테이크오버 경고",
+    "tags": [
+      "역사",
+      "스페인정복",
+      "아즈텍",
+      "잉카",
+      "AI유비"
+    ],
+    "date": "2026-10-11",
+    "file": "pages/2026-10-11-스페인정복.html",
+    "added": "2026-10-11T00:41:17+09:00",
+    "source_name": "스페인정복.html",
+    "source_sha256": "b12788a71934ad0346fbf09632506828e121131cef0bd3f2ebdfa98b3e777694",
+    "source_path_sha256": "29ac1a1be83eab16900a422f8004defb3335a4ebde6dd9a372d7e6f6ee29d060",
+    "source_url": "https://yghnsim.github.io/Pages/how_did_spanish_soldiers_topple_two_empires.html"
+  },
+  {
     "id": "20261010-01",
     "title": "구조체는 어디서 왔나: 더글러스 로스의 Plex와 역인덱싱",
     "summary": "구조체의 기원을 로스의 Plex에서 찾는 원문과, 그 주장 8개를 판정한 도시에를 함께 읽고 어긋나는 곳을 짚은 정리",
