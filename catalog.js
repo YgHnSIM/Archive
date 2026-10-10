@@ -2,6 +2,24 @@
    `python3 add_page.py --rebuild` 를 실행하면 다시 만들어집니다. */
 window.ARCHIVE_CATALOG = [
   {
+    "id": "20261011-02",
+    "title": "페르시아만의 지각변동: 두 단색 서사를 넘어선 지정학 정리",
+    "summary": "가자 전쟁 이후 페르시아만을 서방과 저항 진영 두 서사로 나눠 원문의 판정, 요격탄 생산 병목, 페트로달러 만료설, 양국 체제 약점, 걸프의 3각 헤징을 정리",
+    "tags": [
+      "지정학",
+      "페르시아만",
+      "중동",
+      "국제정치경제"
+    ],
+    "date": "2026-10-11",
+    "file": "pages/2026-10-11-페르시아만.html",
+    "added": "2026-10-11T01:36:52+09:00",
+    "source_name": "페르시아만.html",
+    "source_sha256": "fd606bb52c4a77a49d55af8702fa0eb143856480c6e1d322f983a22c230dfc6e",
+    "source_path_sha256": "1274caf3d104638c476af0dd2d5a8c962b87e2405bd443a315c2d4ebad1936e8",
+    "source_url": "https://yghnsim.github.io/Pages/persian_gulf_tectonic_shifts_red_team.html"
+  },
+  {
     "id": "20261011-01",
     "title": "수백 명은 어떻게 두 제국을 무너뜨렸나: 스페인의 아즈텍·잉카 정복 정리",
     "summary": "드와르케시 파텔·사이 셰퍼드 대담 해설 정리: 네 가지 동역학, 두 제국 비교, 은의 역설, AI 테이크오버 경고",
