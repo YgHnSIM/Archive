@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>법을 안고 세에 처한다: 『한비자』의 법·술·세와 현실주의 통치학 정리</title>
+<meta name="description" content="김효성 논문을 뼈대로 한 『한비자』 법철학 해설을 10분 분량으로 정리했습니다. 노자 철학의 현실주의적 개조, 상앙·신불해·신도에서 온 법·술·세와 한비의 종합, 진의 흥망과 양유음법, 마키아벨리 비교, 현대 법치주의에서 본 빛과 그림자를 담았습니다.">
+<style>
+:root{
+  --bg:#faf8f3; --paper:#ffffff; --ink:#1f2328; --muted:#5b6470; --line:#e6e1d6;
+  --accent:#c8553d; --accent-soft:#fbeee9; --link:#4a6b8a;
+  --radius:14px;
+  /* 페이지 고유 의미 색 */
+  --old:#6a5f4b; --old-soft:#f3efe6;
+  --algo:#a2452f; --algo-soft:#fbeee9;
+  --new:#3d5f80; --new-soft:#eaf0f6;
+  --sup:#55598f; --sup-soft:#efeff8;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR","Malgun Gothic","Gothic A1",system-ui,sans-serif;
+  font-size:17px;line-height:1.75;word-break:keep-all;overflow-wrap:break-word}
+@media(max-width:640px){body{font-size:16px}}
+a{color:var(--link)}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #9bb5cf;outline-offset:2px}
+.skip{position:absolute;left:0;top:0;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+.skip:focus{width:auto;height:auto;clip:auto;clip-path:none;left:8px;top:8px;background:#fff;padding:6px 10px;z-index:10}
+.layout{max-width:1180px;margin:0 auto;padding:12px 14px 48px}
+@media(min-width:1024px){.layout{display:grid;grid-template-columns:240px minmax(0,1fr);gap:32px;padding:28px 24px 64px}}
+main{min-width:0}
+
+/* 목차 */
+nav.toc{display:none}
+@media(min-width:1024px){
+  nav.toc{display:block;position:sticky;top:20px;align-self:start;max-height:calc(100vh - 40px);overflow:auto}
+  nav.toc-m{display:none}
+}
+nav.toc .toc-t{font-size:13px;color:var(--muted);letter-spacing:.06em;margin:0 0 10px;font-weight:700}
+nav.toc ol,nav.toc-m ol{list-style:none;margin:0;padding:0}
+nav.toc li a{display:flex;gap:8px;align-items:baseline;text-decoration:none;color:var(--muted);font-size:15px;line-height:1.45;padding:7px 10px;border-radius:8px;border-left:3px solid transparent}
+nav.toc li a .n{font-weight:700;font-size:13px;color:#8a919b;min-width:18px}
+nav.toc li a:hover{background:#f0ece3;color:var(--ink)}
+nav.toc li a.active{background:var(--paper);color:var(--ink);border-left-color:var(--accent);font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+nav.toc li a.active .n{color:var(--accent)}
+nav.toc .orig{display:block;margin-top:12px;padding:10px;border-top:1px solid var(--line);font-size:14px}
+nav.toc-m{margin:14px 0 0}
+nav.toc-m details{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius)}
+nav.toc-m summary{cursor:pointer;padding:10px 14px;font-weight:700;list-style:none}
+nav.toc-m summary::-webkit-details-marker{display:none}
+nav.toc-m summary::after{content:" ▾";color:var(--muted)}
+nav.toc-m ol{padding:0 14px 8px}
+nav.toc-m li a{display:block;padding:8px 0;border-top:1px solid var(--line);text-decoration:none;color:var(--ink)}
+
+/* 머리 */
+.hero{padding:22px 4px 6px}
+.eyebrow{display:inline-block;font-size:13px;font-weight:700;letter-spacing:.04em;color:var(--accent);background:var(--accent-soft);padding:4px 10px;border-radius:999px}
+h1{font-size:clamp(28px,4.4vw,44px);line-height:1.25;margin:14px 0 12px;letter-spacing:-.02em}
+.lead{font-size:18px;color:var(--muted);margin:0 0 18px}
+@media(max-width:640px){.lead{font-size:17px}}
+.info{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.info p{margin:0 0 12px;font-size:16px}
+.cta{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;text-align:center;
+  background:var(--accent);color:#fff;text-decoration:none;font-weight:700;padding:13px 16px;border-radius:12px;font-size:17px}
+.cta:hover{background:#ad4430}
+.cta small{font-weight:500;font-size:14px;opacity:.95}
+.info .meta{font-size:14px;color:var(--muted);margin:12px 0 0}
+
+/* 절 */
+section.sec{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:20px 18px;margin-top:18px;scroll-margin-top:12px}
+@media(min-width:640px){section.sec{padding:28px 30px}}
+.sec-head{display:flex;gap:14px;align-items:flex-start;margin-bottom:10px}
+.sec-num{flex:none;width:36px;height:36px;border-radius:12px;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:800;font-size:16px;margin-top:3px}
+h2{font-size:clamp(23px,3vw,30px);line-height:1.3;margin:0;letter-spacing:-.015em}
+.sub{margin:4px 0 0;color:var(--muted);font-size:15px;line-height:1.5}
+.srcs{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 12px}
+.src{display:inline-block;font-size:14px;text-decoration:none;border:1px solid var(--line);padding:3px 11px;border-radius:999px;color:var(--link);background:#fdfcf9}
+.src:hover{border-color:var(--link)}
+h3{font-size:19px;line-height:1.4;margin:22px 0 6px}
+p{margin:8px 0}
+.muted{color:var(--muted)}
+.tag{display:inline-block;font-size:13px;font-weight:700;line-height:1.5;padding:0 7px;border-radius:6px;background:var(--sup-soft);color:var(--sup);vertical-align:.08em;margin-left:3px;white-space:nowrap}
+.tag.int{background:#efebe2;color:#4f5763}
+blockquote{margin:16px 0;padding:14px 18px;background:#fdfcf9;border-left:5px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;font-size:16.5px;line-height:1.7}
+blockquote cite{display:block;font-style:normal;color:var(--muted);font-size:14px;margin-top:6px}
+.callout{background:#f4f1ea;border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:14px 0;font-size:16px}
+.callout b.t{display:block;margin-bottom:2px}
+.callout.sup{background:var(--sup-soft);border-color:#d9daee}
+ul.tight{margin:6px 0;padding-left:20px}
+ul.tight li{margin:5px 0}
+
+/* 핵심 3줄 */
+.thesis{list-style:none;margin:6px 0 0;padding:0;counter-reset:th}
+.thesis li{counter-increment:th;position:relative;padding:12px 14px 12px 50px;border:1px solid var(--line);border-radius:12px;margin:10px 0;background:#fdfcf9}
+.thesis li::before{content:counter(th);position:absolute;left:14px;top:14px;width:26px;height:26px;border-radius:8px;background:var(--ink);color:#fff;font-weight:700;text-align:center;line-height:26px;font-size:14px}
+.thesis strong{display:block}
+
+/* 6단계 */
+.steps{display:grid;grid-template-columns:1fr;gap:6px;margin:10px 0 0;padding:0;list-style:none}
+@media(min-width:760px){.steps{grid-template-columns:1fr 1fr}}
+.steps li{display:flex;gap:10px;align-items:baseline;border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:16px;line-height:1.6}
+.steps b{flex:none;font-size:14px;color:var(--accent);min-width:58px}
+.steps a{font-size:14px;white-space:nowrap}
+
+/* 용어 */
+.terms{display:grid;grid-template-columns:1fr;gap:8px;margin-top:10px}
+@media(min-width:760px){.terms{grid-template-columns:1fr 1fr}}
+.terms details{border:1px solid var(--line);border-radius:10px;background:#fdfcf9}
+.terms summary{cursor:pointer;padding:9px 12px;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:8px}
+.terms summary::-webkit-details-marker{display:none}
+.terms summary::after{content:"＋";color:var(--muted);font-weight:400}
+.terms details[open] summary::after{content:"－"}
+.terms details p{margin:0;padding:0 12px 10px;font-size:16px;line-height:1.65}
+.terms .en{font-weight:400;color:var(--muted);font-size:14px}
+
+/* 타임라인 */
+.tl{list-style:none;margin:12px 0 0;padding:0 0 0 18px;border-left:3px solid var(--line)}
+.tl li{position:relative;margin:0 0 16px;padding-left:10px}
+.tl li::before{content:"";position:absolute;left:-27px;top:7px;width:15px;height:15px;border-radius:50%;background:#fff;border:3px solid var(--ink)}
+.tl li.ctx::before{border-color:#b3ab9b}
+.tl .date{font-weight:800;font-size:16px}
+.case,.tl .case{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;background:#efebe2;padding:1px 6px;border-radius:6px;white-space:nowrap}
+.tl .txt{font-size:16px;margin:2px 0 0}
+.three{display:grid;grid-template-columns:1fr;gap:8px;margin:12px 0}
+@media(min-width:760px){.three{grid-template-columns:repeat(3,1fr)}}
+.three div{border:1px solid var(--line);border-radius:12px;padding:10px 14px;background:#fdfcf9;font-size:16px;line-height:1.6}
+.three div b{display:block;font-size:17px}
+.three div .yr{display:inline-block;font-size:13px;font-weight:800;color:#fff;background:var(--ink);border-radius:6px;padding:0 7px;margin-bottom:4px}
+
+/* 카드 */
+.cards{display:grid;grid-template-columns:1fr;gap:10px;margin:10px 0}
+@media(min-width:800px){.cards{grid-template-columns:repeat(3,1fr)}}
+.card{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:#fdfcf9;font-size:16px;line-height:1.65}
+.card b.h{display:block;font-size:17px;margin-bottom:2px}
+.card .k{display:inline-block;font-size:13px;font-weight:800;border-radius:6px;padding:0 7px;margin-bottom:4px;background:var(--algo-soft);color:var(--algo)}
+.card.n .k{background:var(--new-soft);color:var(--new)}
+.card.o .k{background:var(--old-soft);color:var(--old)}
+.two{display:grid;gap:12px}
+@media(min-width:800px){.two{grid-template-columns:1fr 1fr}}
+.panel{border:1px solid var(--line);border-radius:12px;padding:12px 16px;background:#fdfcf9}
+.panel h3{margin-top:4px}
+.panel p,.panel li{font-size:16px}
+
+/* 도식 */
+figure.dia{margin:16px 0;padding:14px;border:1px solid var(--line);border-radius:var(--radius);background:#fdfcf9}
+figure.dia svg{display:block;width:100%;max-width:460px;height:auto;margin:0 auto}
+@media(max-width:640px){figure.dia{padding:8px 2px;margin-left:-8px;margin-right:-8px}}
+figure.dia figcaption{font-size:14px;color:var(--muted);margin-top:8px;text-align:center;line-height:1.55}
+
+/* 배달 기사 토글 */
+.seg{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 0}
+.seg button{font:inherit;font-size:15px;font-weight:700;flex:1 1 140px;border:1.5px solid var(--line);background:#fff;color:var(--muted);border-radius:10px;padding:9px 12px;cursor:pointer}
+.seg button[aria-pressed="true"].o{border-color:var(--old);background:var(--old-soft);color:var(--old)}
+.seg button[aria-pressed="true"].n{border-color:var(--new);background:var(--new-soft);color:var(--new)}
+.lens{border:1.5px solid var(--line);border-radius:12px;padding:12px 16px;margin-top:8px;font-size:16px}
+.lens.o{border-color:var(--old);background:var(--old-soft)}
+.lens.n{border-color:var(--new);background:var(--new-soft)}
+.lens ul{margin:6px 0;padding-left:20px}
+.lens p.v{font-weight:800;margin:8px 0 0}
+
+/* 표 */
+.tbl{width:100%;border-collapse:collapse;font-size:16px;line-height:1.6;margin-top:10px}
+.tbl th,.tbl td{border:1px solid var(--line);padding:10px 11px;vertical-align:top;text-align:left}
+.tbl thead th{background:#f4f1ea;font-size:15px}
+.tbl tbody th{background:#fbf9f4;font-weight:700}
+.tbl td.nw{background:#f5f8fb}
+@media(max-width:760px){
+  .stack thead{position:absolute;left:0;top:0;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+  .stack,.stack tbody,.stack tr,.stack th,.stack td{display:block;width:100%}
+  .stack tr{border:1px solid var(--line);border-radius:12px;margin:0 0 12px;overflow:hidden}
+  .stack th,.stack td{border:0;border-top:1px solid var(--line)}
+  .stack tbody th{border-top:0;background:#f4f1ea}
+  .stack td::before{content:attr(data-label);display:block;font-size:13.5px;font-weight:800;color:var(--muted);margin-bottom:2px}
+  .stack td.nw::before{color:var(--new)}
+}
+
+/* 추정 흐름 */
+.flow{list-style:none;margin:12px 0;padding:0;display:grid;gap:8px}
+@media(min-width:800px){.flow{grid-template-columns:repeat(3,1fr)}}
+.flow li{border:1.5px solid var(--line);border-radius:12px;padding:10px 14px;background:#fff;font-size:16px;line-height:1.6;position:relative}
+.flow li b{display:block;font-size:16px}
+.flow li.s1{border-color:#b9a98c}
+.flow li.s2{border-color:var(--new);background:var(--new-soft)}
+.flow li.s3{border-color:var(--algo);background:var(--algo-soft)}
+.flow .who{display:inline-block;font-size:13px;font-weight:800;color:var(--muted)}
+
+/* 오해 카드 */
+.myths{display:grid;grid-template-columns:1fr;gap:10px;margin-top:10px}
+@media(min-width:800px){.myths{grid-template-columns:1fr 1fr}}
+.myth{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:#fdfcf9}
+.myth .say{font-weight:700;margin:0;font-size:16.5px}
+.myth .say::before{content:"흔한 말 ";font-size:13px;font-weight:800;color:var(--algo);background:var(--algo-soft);border-radius:6px;padding:0 6px;margin-right:4px;vertical-align:.08em}
+.myth button{font:inherit;font-size:15px;margin-top:8px;border:1px solid var(--line);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link)}
+.myth .ans{margin:8px 0 0;padding:8px 10px;border-radius:8px;background:var(--new-soft);font-size:16px}
+.myth .ans .ref{display:block;font-size:13.5px;color:var(--muted);margin-top:2px}
+.mcount{font-size:15px;color:var(--muted);margin:10px 0 0}
+button.reset{font:inherit;font-size:15px;border:1px solid var(--line);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;margin-left:6px}
+
+.sources{margin-top:18px;padding:18px;border-top:1px solid var(--line)}
+.sources h2{font-size:20px}
+.sources p{font-size:16px}
+.totop{display:inline-block;margin-top:6px;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:15px;background:#efebe2;padding:1px 5px;border-radius:5px}
+pre.code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;background:#f4f1ea;border:1px solid var(--line);border-radius:10px;padding:10px 12px;overflow-x:auto;max-width:100%;line-height:1.5;white-space:pre}
+.v{display:inline-block;font-size:13px;font-weight:800;border-radius:6px;padding:0 7px;white-space:nowrap;vertical-align:.08em}
+.v.ok{background:#e6f1ea;color:#2f6b45}
+.v.mostly{background:#eaf0f6;color:#3d5f80}
+.v.part{background:#fbeee9;color:#a2452f}
+.issues details{border:1px solid var(--line);border-radius:10px;background:#fdfcf9;margin:8px 0}
+.issues summary{cursor:pointer;padding:10px 12px;font-weight:700;line-height:1.5}
+.issues .no{font-size:13px;color:var(--muted);margin-right:4px}
+.issues details p{margin:0;padding:0 12px 12px;font-size:16px}
+.q{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:10px 0;background:#fdfcf9}
+.q p.qt{font-weight:700;margin:0 0 8px}
+.q button{display:block;width:100%;text-align:left;font:inherit;font-size:16px;border:1.5px solid var(--line);background:#fff;border-radius:10px;padding:8px 12px;margin:6px 0;cursor:pointer;color:var(--ink)}
+.q button.right{border-color:#2f6b45;background:#e6f1ea}
+.q button.wrong{border-color:#a2452f;background:#fbeee9}
+.q .ex{margin:8px 0 0;font-size:16px;padding:8px 10px;border-radius:8px;background:var(--new-soft)}
+
+.go{margin:.4em 0 0;font-size:15px}
+.issues ul{margin:.4em 0;padding-left:1.2em}.issues li{font-size:15px;margin:.3em 0}
+.fss{border:1px solid var(--line);border-radius:12px;background:#fff;padding:12px 14px;margin:14px 0}
+.fss .tb{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.fss .tb button{font:inherit;font-size:15px;padding:6px 12px;border:1px solid var(--line);border-radius:999px;background:#faf8f3;color:#1f2328;cursor:pointer}
+.fss .tb button[aria-selected=true]{background:#4a6b8a;border-color:#4a6b8a;color:#fff}
+.fss dl{margin:0}.fss dt{font-weight:700;font-size:15px;color:#5b6470;margin-top:8px}.fss dd{margin:2px 0 0}
+.fss [hidden]{display:none}
+</style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
+</head>
+<body>
+<a class="skip" href="#main">본문으로 건너뛰기</a>
+<!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="요약 아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>요약 아카이브</a><span class="arc-crumb">법을 안고 세에 처한다: 『한비자』의 법·술·세</span><span class="arc-meta"><time datetime="2026-10-11">2026년 10월 11일</time><a class="arc-tag" href="../index.html#tags=%EB%8F%99%EC%96%91%EC%B2%A0%ED%95%99">#동양철학</a><a class="arc-tag" href="../index.html#tags=%EB%B2%95%EA%B0%80">#법가</a><a class="arc-tag" href="../index.html#tags=%ED%95%9C%EB%B9%84%EC%9E%90">#한비자</a><a class="arc-tag" href="../index.html#tags=%EB%B2%95%EC%B2%A0%ED%95%99">#법철학</a><a class="arc-src" href="https://yghnsim.github.io/Pages/hanfeizi_legalist_philosophy_fa_shu_shi.html" rel="noopener">원문 ↗</a></span></div></div>
+<!-- archive-header:end -->
+<div class="layout">
+<nav class="toc" aria-label="목차"><p class="toc-t">목차</p><ol><li><a href="#s1"><span class="n">1</span>한눈에 보기</a></li><li><a href="#s2"><span class="n">2</span>난세와 한비의 생애</a></li><li><a href="#s3"><span class="n">3</span>노자를 뒤집다: 세 갈래</a></li><li><a href="#s4"><span class="n">4</span>법·술·세의 뿌리</a></li><li><a href="#s5"><span class="n">5</span>한비의 종합</a></li><li><a href="#s6"><span class="n">6</span>진의 통일과 15년 만의 멸망</a></li><li><a href="#s7"><span class="n">7</span>마키아벨리와 견주면</a></li><li><a href="#s8"><span class="n">8</span>오늘의 빛과 그림자</a></li><li><a href="#s9"><span class="n">9</span>결론</a></li><li><a href="#s10"><span class="n">10</span>읽으며 걸린 곳</a></li></ol><a class="orig" href="https://yghnsim.github.io/Pages/hanfeizi_legalist_philosophy_fa_shu_shi.html">원문 페이지 ↗</a></nav>
+<main id="main">
+<header class="hero">
+<span class="eyebrow">동양철학 · 법철학 정리</span>
+<h1>법을 안고 세에 처한다: 『한비자』의 법·술·세와 현실주의 통치학 정리</h1>
+<p class="lead">약 62분짜리 원문을 10분 남짓에 읽도록 줄였습니다. 뼈대는 김효성 박사의 『사법행정』 2019년 5월호 논문입니다. 원문에 나온 사실과 인용만 썼고, 인용문은 원문 그대로 옮겼습니다.</p>
+</header>
+<nav class="toc-m" aria-label="목차"><details><summary>목차</summary><ol><li><a href="#s1">1. 한눈에 보기</a></li><li><a href="#s2">2. 난세와 한비의 생애</a></li><li><a href="#s3">3. 노자를 뒤집다: 세 갈래</a></li><li><a href="#s4">4. 법·술·세의 뿌리</a></li><li><a href="#s5">5. 한비의 종합</a></li><li><a href="#s6">6. 진의 통일과 15년 만의 멸망</a></li><li><a href="#s7">7. 마키아벨리와 견주면</a></li><li><a href="#s8">8. 오늘의 빛과 그림자</a></li><li><a href="#s9">9. 결론</a></li><li><a href="#s10">10. 읽으며 걸린 곳</a></li></ol></details></nav>
+
+<section class="sec" id="s1">
+<div class="sec-head"><span class="sec-num">1</span><div><h2>한눈에 보기</h2><p class="sub">원문의 네 가지 질문</p></div></div>
+<p>한비(韓非, 기원전 약 280~233)는 한(韓)나라 왕족 출신 공자입니다. 그가 남긴 55편의 글은 진(秦)나라 통일의 설계도가 되었지만, 그 제국은 15년 만에 무너졌습니다. 원문은 이 역설에서 출발해 네 가지를 묻습니다.</p>
+<ol class="thesis">
+<li><strong>철학적 기초.</strong> 한비는 노자의 '무위(無爲)'와 '도(道)'를 어떻게 현실주의 이해관계학과 '리(理)·참험(參驗)'의 검증 철학으로 바꾸었는가.</li>
+<li><strong>법·술·세.</strong> 상앙의 법, 신불해의 술, 신도의 세를 어떻게 하나의 통치 체계로 묶었는가.</li>
+<li><strong>진의 멸망.</strong> 도덕과 인정을 배제한 체제는 왜 자멸했고, 한(漢)은 왜 '양유음법(陽儒陰法)'으로 타협했는가.</li>
+<li><strong>현대 법치.</strong> '법을 통한 지배(Rule by Law)'의 유산 속에서 '법불아귀(法不阿貴)'는 오늘 무엇을 가르치는가.</li>
+</ol>
+<div class="callout"><b class="t">한 줄 요지</b>원문의 결론은 이렇습니다. 유가의 덕이 나침반이라면 한비자의 법은 수레바퀴이고, 그 시스템이 가 닿을 곳은 군주 1인의 권력이 아니라 만인의 자유와 존엄이어야 합니다.</div>
+</section>
+
+<section class="sec" id="s2">
+<div class="sec-head"><span class="sec-num">2</span><div><h2>난세와 한비의 생애</h2><p class="sub">유가가 답하지 못한 시대</p></div></div>
+<p>춘추전국시대(기원전 770~221)는 주나라 봉건 질서가 무너진 하극상과 전쟁의 시대였습니다. 유가는 덕치(德治)와 예치(禮治)를 말했지만, 원문은 이것이 국가 기구를 움직이고 간신을 통제할 실질적 장치를 주지 못했다고 봅니다. 그래서 명문화된 법률, 엄격한 상벌, 효율적인 관료 행정을 내세운 법가가 등장했습니다.</p>
+<p>사마천의 『사기』 「노자 한비열전」에 따르면 한비는 말을 심하게 더듬었지만 문장으로 논변하는 능력은 당대 최고였습니다. 한나라 왕 안(安)에게 변법 상소를 여러 번 올렸으나 묵살되자 「고분(孤憤)」, 「오두(五蠹)」, 「설란(說難)」, 「내외저설(內外儲說)」 등 55편을 썼습니다.</p>
+<p>진왕 영정은 「고분」과 「오두」를 읽고 이렇게 말했다고 원문은 전합니다.</p>
+<blockquote>"이 사람을 한 번 만나 이야기를 나눌 수 있다면 죽어도 여한이 없겠다."</blockquote>
+<p>기원전 234년 진이 한을 침공하자 한왕은 한비를 강화 사신으로 보냈습니다. 순자(荀子) 문하의 동문이자 진의 승상이던 이사(李斯)는 요가(姚賈) 등과 함께 그를 참소했습니다.</p>
+<blockquote>"한비는 한나라의 왕족입니다. 지금 대왕께서 제후들을 병합하려 하시는데, 한비는 종국에는 한나라를 위하지 진나라를 위하지 않을 것입니다. 그를 오래 머물게 하다가 돌려보내는 것은 스스로 후환을 남기는 일입니다."</blockquote>
+<p>한비는 옥에 갇혔고, 이사가 보낸 독약을 마시고 기원전 233년에 죽었습니다. 진왕은 뒤늦게 사면령을 내렸으나 이미 늦었습니다.</p>
+<p class="go"><a href="https://yghnsim.github.io/Pages/hanfeizi_legalist_philosophy_fa_shu_shi.html#1-춘추전국의-종말과-한비의-비극적-생애">원문 해당 부분 ↗</a></p>
+</section>
+
+<section class="sec" id="s3">
+<div class="sec-head"><span class="sec-num">3</span><div><h2>노자를 뒤집다: 세 갈래</h2><p class="sub">「해로(解老)」·「유로(喻老)」에서 시작한 개조</p></div></div>
+<p>원문은 한비자를 '가혹한 형벌의 기술서'로만 보는 것은 오해라고 말합니다. 한비는 노자를 주석하면서 그 철학을 권력투쟁에 맞게 고쳤고, 김효성(2019)은 이를 세 가지로 정리합니다.</p>
+<table class="tbl stack">
+<thead><tr><th>축</th><th>노자</th><th>한비</th></tr></thead>
+<tbody>
+<tr><th>1</th><td data-label="노자">초연하고 방관적인 무위자연</td><td data-label="한비">인간은 이익(利)을 좇고 손해(害)를 피하는 존재라는 냉혹한 이해관계 계산</td></tr>
+<tr><th>2</th><td data-label="노자">규정할 수 없는 우주의 근원 '도(道)'</td><td data-label="한비">사물의 구체적 법칙 '리(理)'와 비교·대조하는 검증 '참험(參驗)'</td></tr>
+<tr><th>3</th><td data-label="노자">소국과민(小國寡民)과 부쟁(不爭)</td><td data-label="한비">실제 효용(實效用)이 유일한 기준, 대립 세력은 공존할 수 없음(不併用)</td></tr>
+</tbody></table>
+<h3>첫째, 모든 관계는 계산이다</h3>
+<p>한비는 가족애조차 손익계산으로 봅니다. 원문이 드는 대표 인용입니다.</p>
+<blockquote>"의사가 환자의 상처 난 곳을 열심히 빨아서 입안에 피를 머금으면서까지 치료하는 것은 결코 환자와 뜨거운 정이 있어서가 아니다. 단지 그렇게 해야만 이익을 얻을 수 있기 때문이다. 수레를 만드는 사람이 다른 사람들이 부귀해지기를 바란다면, 관을 만드는 장인은 사람들이 빨리 죽기를 바랄 것이다. 그러나 수레를 만드는 사람이 어질고 관 만드는 목수가 잔인해서가 아니다. 다른 사람이 죽지 않으면 관을 사가는 사람이 없기 때문이다. 목수의 본의는 결코 다른 사람을 증오하는 것이 아니라, 그의 이익이 다른 사람의 사망에 달려 있기 때문이다."<cite>『한비자』 「비내(備內)」</cite></blockquote>
+<p>원문은 이 밖에 부모와 자식(「육반(六反)」), 지주와 고용 농부(「외저설좌상(外儲說左上)」)의 예도 듭니다. 결론은 군주가 신하의 충성에 기대는 것은 자살행위이고, 상벌제도를 세워 공포할 뿐이라는 것입니다(「간겁시신(姦劫弑臣)」).</p>
+<h3>둘째, 리와 참험</h3>
+<blockquote>"무릇 리(理)라는 것은 모나거나 둥근 것, 짧거나 긴 것, 거칠거나 미세한 것, 단단하거나 무른 것의 분별이다. 그러므로 리가 확정된 후에야 사물은 말할 수 있게 된다. ... 오직 도와 이에 따라 일을 하는 자는 이루지 못할 것이 없다."<cite>『한비자』 「해로(解老)」</cite></blockquote>
+<p>마음을 비우는 허정(虛靜)도 뜻이 바뀝니다. 노자에게는 자연과의 합일이었지만, 한비에게는 군주가 감정을 숨겨 약점을 잡히지 않고 사태를 꿰뚫어 보기 위한 것입니다. 그리고 말과 실제 결과를 대조하는 참험을 내세웁니다. "실제 내용과 검증 없이 그렇게 하려는 것은 어리석음이다."(「현학(顯學)」)</p>
+<h3>셋째, 표적 없는 화살</h3>
+<p>한비는 "흰 말은 말이 아니다" 같은 명가(名家)의 개념 논쟁을 경멸했습니다. 「문변(問辯)」에서 그는 실제 효용을 기준으로 삼지 않은 말은 "표적 없이 날아가는 화살과 같이 공담일 뿐"이라고 합니다. 송나라 부자의 우화도 같은 맥락입니다. 담장이 무너지자 아들과 이웃이 똑같이 "도둑을 조심하라"고 했는데, 주인은 아들은 똑똑하다 하고 이웃은 도둑으로 의심했습니다. 원문은 이를 지식을 이해관계 속에서 어떻게 처리하느냐가 본질이라는 뜻으로 읽습니다.</p>
+<p class="go"><a href="https://yghnsim.github.io/Pages/hanfeizi_legalist_philosophy_fa_shu_shi.html#2-한비자의-철학사상-노자의-현실-권력학적-전복">원문 해당 부분 ↗</a></p>
+</section>
+
+<section class="sec" id="s4">
+<div class="sec-head"><span class="sec-num">4</span><div><h2>법·술·세의 뿌리</h2><p class="sub">전기 법가 세 사람</p></div></div>
+<p>한비 이전의 법가는 통치의 한 요소만 강조했습니다. 아래에서 하나씩 눌러 비교해 보세요.</p>
+<div class="fss"><div class="tb" role="tablist" aria-label="법·술·세 비교"><button type="button" role="tab" aria-selected="true" data-k="fa">法 법</button><button type="button" role="tab" aria-selected="false" data-k="shu">術 술</button><button type="button" role="tab" aria-selected="false" data-k="shi">勢 세</button></div><dl role="tabpanel" data-p="fa"><dt>기원</dt><dd>상앙(商鞅)</dd><dt>대상</dt><dd>일반 백성과 만민</dd><dt>본질</dt><dd>군주가 제정하여 백성에게 널리 반포하는 명문화된 성문 규범</dd><dt>핵심 원리</dt><dd>공포(以法爲敎, 以吏爲師), 신분을 가리지 않는 통일성과 공평성(法不阿貴), 엄격한 형벌에 기댄 강제성</dd><dt>한비가 본 맹점</dt><dd>술이 없어 간신을 통제하지 못했고, 진 효공 사후 귀족들의 모함으로 자신이 만든 거열형에 처해졌습니다.</dd></dl><dl role="tabpanel" data-p="shu" hidden><dt>기원</dt><dd>신불해(申不害)</dd><dt>대상</dt><dd>신하와 관료</dd><dt>본질</dt><dd>군주가 가슴속에 은밀히 감추어 두고 관료를 통제·조종하는 통치 기술</dd><dt>핵심 원리</dt><dd>허정(虛靜)으로 호불호를 숨김, 순명책실(循名責實)로 직책과 실적을 대조, 상과 벌이라는 두 자루(二柄)를 군주가 독점</dd><dt>한비가 본 맹점</dt><dd>통일적으로 적용되는 성문 법이 없어 한나라 법망이 누더기가 되었고, 군주가 바뀌자 혼란에 빠졌습니다.</dd></dl><dl role="tabpanel" data-p="shi" hidden><dt>기원</dt><dd>신도(愼到)</dd><dt>대상</dt><dd>권력의 기반 자체</dd><dt>본질</dt><dd>통치의 핵심은 덕망이나 지혜가 아니라 통치자가 차지한 자리와 권력</dd><dt>핵심 원리</dt><dd>용과 구름의 비유. 세가 없으면 법은 종이쪽지, 술은 공허한 재주가 됩니다</dd><dt>한비가 본 맹점</dt><dd>법에 근거하지 않은 권력은 걸주(桀紂) 같은 폭군을 낳습니다. 그래서 법을 안고 세에 처해야(抱法處勢) 합니다.</dd></dl></div>
+<p><b>상앙</b>(기원전 약 390~338)은 진 효공을 도와 20여 년간 변법을 단행했습니다. 오가연좌제, 농전(農戰) 체제, 적의 목을 벤 공에 따라서만 관직을 주는 군공수작제, 군현제와 도량형 통일이 그 내용입니다.</p>
+<p><b>신불해</b>(기원전 약 385~337)는 한나라 소후(昭侯) 때 15년간 재상을 지냈습니다. 군주는 아무것도 모르는 척 감정을 숨겨야 신하가 본심을 드러낸다고 보았고, 직책(名)과 실적(實)을 대조해 책임을 묻는 순명책실을 세웠습니다.</p>
+<p><b>신도</b>(기원전 약 390~315)는 조나라 출신으로, 통치의 핵심을 자리와 권력에서 찾았습니다. 「난세(難勢)」에 인용된 그의 말입니다.</p>
+<blockquote>"날아다니는 용은 구름을 타고, 뛰어다니는 뱀은 안개 속에서 노닌다. 그러나 구름이 걷히고 안개가 개이면, 용과 뱀은 지렁이나 개미 같은 존재가 되고 만다. 이것은 그들이 타고 있던 구름과 안개를 잃었기 때문이다. 현명한 사람이 못난 사람에게 굽히는 것은 권세가 가볍고 지위가 낮기 때문이며, 못났으면서도 현명한 사람을 굴복시킬 수 있는 것은 권세가 무겁고 지위가 높기 때문이다. 성인 요(堯) 임금이 보통 사람이었다면 두 사람도 다스릴 수 없었을 것이지만, 폭군 걸(桀) 임금은 천자가 되었기 때문에 천하를 어지럽힐 수 있었다. 나는 이로써 권세와 지위는 의지할 만한 것이지만, 현명함과 슬기로움은 부러워할 만한 것이 못 된다는 점을 알았다."<cite>『한비자』 「난세(難勢)」</cite></blockquote>
+<p class="go"><a href="https://yghnsim.github.io/Pages/hanfeizi_legalist_philosophy_fa_shu_shi.html#31-상앙의-법-백성의-행위-기준">원문 해당 부분 ↗</a></p>
+</section>
+
+<section class="sec" id="s5">
+<div class="sec-head"><span class="sec-num">5</span><div><h2>한비의 종합</h2><p class="sub">抱法處勢: 세 요소가 서로를 받친다</p></div></div>
+<p>한비는 세 사람의 맹점을 서로 메우는 방식으로 묶었습니다. 원문의 정리는 이렇습니다.</p>
+<div class="callout"><b class="t">원문의 요약</b>세(권력)가 없으면 법과 술이 작동하지 않고, 법이 없으면 권력은 폭정이 되며, 술이 없으면 군주는 농락당한다.</div>
+<table class="tbl stack">
+<thead><tr><th>요소</th><th>작동 원리</th></tr></thead>
+<tbody>
+<tr><th>법</th><td data-label="작동 원리">누구나 알도록 공포합니다. "형벌은 대부에게 올라가지 않고 예는 서민에게 내려가지 않는다"는 신분 규범을 폐지하고 만인에게 평등하게 적용합니다. 엄격한 형벌로 뒷받침합니다.</td></tr>
+<tr><th>술</th><td data-label="작동 원리">호불호를 드러내지 않습니다. 권한을 넘어도(월권죄), 책임을 다하지 못해도(불충죄) 벌하고, 말과 결과가 일치할 때만 상을 줍니다. 상(德)과 벌(刑) 두 자루는 신하에게 하나라도 넘기면 군주가 허수아비가 됩니다.</td></tr>
+<tr><th>세</th><td data-label="작동 원리">권력이 없으면 법은 종이쪽지입니다. 그러나 법을 무시한 권력은 폭군이 되므로, 권력은 법의 테두리 안에서 시스템으로 행사되어야 합니다.</td></tr>
+</tbody></table>
+<p class="go"><a href="https://yghnsim.github.io/Pages/hanfeizi_legalist_philosophy_fa_shu_shi.html#34-한비의-종합-법술세-삼위일체-아키텍처">원문 해당 부분 ↗</a></p>
+</section>
+
+<section class="sec" id="s6">
+<div class="sec-head"><span class="sec-num">6</span><div><h2>진의 통일과 15년 만의 멸망</h2><p class="sub">통일의 엔진이 자멸의 원인이 되다</p></div></div>
+<p>진은 세습 귀족을 해체하고, 농업과 군사에 자원을 집중하고, 36군 체제로 중앙집권을 이루었습니다. 기원전 221년 6국을 병합해 첫 통일 제국을 세웠습니다. 그러나 기원전 206년, 통일 15년 만에 멸망했습니다. 김효성(2019)은 그 원인을 법가 철학 자체의 결함과 도구적 이성의 폭주에서 찾고, 네 가지를 듭니다.</p>
+<ol class="tight">
+<li><b>인간성과 도덕의 부정.</b> 백성은 법을 존중한 것이 아니라 공포에 떨었을 뿐입니다.</li>
+<li><b>극단적 엄벌주의.</b> 진승과 오광은 농민 900명을 이끌고 가다 큰비로 기일을 맞출 수 없게 되었습니다. 기일을 어기면 사형이었기에 반란 외에 길이 없었습니다.</li>
+<li><b>무리한 토목공사.</b> 만리장성, 아방궁, 여산릉이 민생을 무너뜨렸습니다.</li>
+<li><b>군주 1인 의존.</b> 진시황 사후 호해와 환관 조고(趙高)가 이사를 죽이고 권력을 농단했지만 이를 견제할 장치가 없었습니다.</li>
+</ol>
+<p>뒤를 이은 한(漢)은 "법가만으로는 제국을 유지할 수 없다"는 교훈을 얻었지만, 관료제와 법률이라는 법가의 하드웨어도 버릴 수 없었습니다. 그 절충이 겉으로는 유가의 인의와 효제를, 속으로는 법가의 통치 기술을 쓰는 양유음법(또는 왕패병용 王覇並用)입니다. 한무제 때 동중서의 건의로 유교가 국교화된 뒤에도 법가는 유가의 외피 속에서 2,000년간 제국의 뼈대가 되었다고 원문은 봅니다.</p>
+<p class="go"><a href="https://yghnsim.github.io/Pages/hanfeizi_legalist_philosophy_fa_shu_shi.html#4-진나라의-통일과-15년-만의-조기-멸망-도구적-이성의-파국">원문 해당 부분 ↗</a></p>
+</section>
+
+<section class="sec" id="s7">
+<div class="sec-head"><span class="sec-num">7</span><div><h2>마키아벨리와 견주면</h2><p class="sub">같은 출발점, 다른 해법</p></div></div>
+<table class="tbl stack">
+<thead><tr><th>항목</th><th>한비자 (기원전 3세기)</th><th>마키아벨리 (16세기)</th></tr></thead>
+<tbody>
+<tr><th>인간관</th><td data-label="한비자">이익 추구와 손해 회피</td><td data-label="마키아벨리">배은망덕하고 변덕스러우며 탐욕스러움</td></tr>
+<tr><th>군주의 덕목</th><td data-label="한비자">허정무위, 감정 은폐</td><td data-label="마키아벨리">비르투(Virtù), 포르투나 극복</td></tr>
+<tr><th>비유</th><td data-label="한비자">용과 뱀, 표적을 맞추는 화살</td><td data-label="마키아벨리">여우와 사자</td></tr>
+<tr><th>핵심 수단</th><td data-label="한비자">법·술·세의 객관적 시스템</td><td data-label="마키아벨리">군주의 카리스마와 결단력, 시민 군대</td></tr>
+</tbody></table>
+<p>둘 다 당위가 아니라 "인간이 현실에서 실제로 어떻게 행동하는가"에서 출발합니다. 차이는 마키아벨리가 탁월한 군주 개인에 기댔다면, 한비자는 평범한 군주도 돌릴 수 있는 비인격적 시스템을 만들려 했다는 점입니다. 원문은 그래서 한비자가 현대 제도 설계론에 더 가깝다고 평가합니다.</p>
+<p class="go"><a href="https://yghnsim.github.io/Pages/hanfeizi_legalist_philosophy_fa_shu_shi.html#5-비교사상사-한비자와-마키아벨리의-군주론">원문 해당 부분 ↗</a></p>
+</section>
+
+<section class="sec" id="s8">
+<div class="sec-head"><span class="sec-num">8</span><div><h2>오늘의 빛과 그림자</h2><p class="sub">8가지 교훈과 근본적 한계</p></div></div>
+<h3>빛: 원문이 꼽는 8가지 교훈</h3>
+<p>냉철한 현실 통찰, 출신이 아닌 공헌에 따른 대우, 과시성 토목공사 경계, 아첨꾼 배격과 직언 보호, 순명책실에 따른 능력주의 인사, 법불아귀, 측근 비리와 비선 권력 척결, 리더의 선의에 기대지 않는 시스템 거버넌스입니다.</p>
+<blockquote>"법은 신분이 귀한 자에게 아부하지 않고, 먹줄은 굽은 나무를 봐주지 않는다(法不阿貴 繩不撓曲)."<cite>『한비자』 「유도(有度)」</cite></blockquote>
+<h3>그림자: 법을 통한 지배</h3>
+<table class="tbl stack">
+<thead><tr><th>구분</th><th>한비자 (Rule by Law)</th><th>현대 헌법 (Rule of Law)</th></tr></thead>
+<tbody>
+<tr><th>법의 본질</th><td data-label="한비자">군주의 권력을 관철하는 강제 수단</td><td data-label="현대 헌법">국가 권력 남용을 막아 자유와 권리를 지키는 방패</td></tr>
+<tr><th>백성의 위상</th><td data-label="한비자">통제의 대상</td><td data-label="현대 헌법">주권자</td></tr>
+<tr><th>지배 구조</th><td data-label="한비자">군주는 법 위에 군림</td><td data-label="현대 헌법">모든 권력이 헌법과 법률 아래</td></tr>
+</tbody></table>
+<p>원문은 한비자의 법치가 실질적 법치가 아닌 형식적 법치이고, 겉으로는 법치를 내세우지만 실제로는 '가장 세련되게 정제된 군주 독재이자 인치(人治)'였다고 평가합니다. 다원적 가치와 인권을 질식시키는 국가만능주의와 형벌의 폭력성도 지적합니다.</p>
+<p class="go"><a href="https://yghnsim.github.io/Pages/hanfeizi_legalist_philosophy_fa_shu_shi.html#6-현대적-조명과-비판적-성찰-법치주의의-빛과-그림자">원문 해당 부분 ↗</a></p>
+</section>
+
+<section class="sec" id="s9">
+<div class="sec-head"><span class="sec-num">9</span><div><h2>결론</h2><p class="sub">덕의 나침반과 법의 수레바퀴</p></div></div>
+<p>원문은 한비자가 인간의 이기심을 누구보다 냉철하게 보았고, 만인에게 균등한 성문법, 간신을 걸러내는 인사 검증, 법불아귀는 지금도 유효하다고 말합니다. 그러나 존중, 신뢰, 연대가 빠진 법치는 구성원을 억압하는 감옥이 된다는 것을 진의 15년이 보여 준다고 덧붙입니다. 유가의 덕은 나침반, 한비자의 법은 수레바퀴이고, 시스템의 종착역은 만인의 자유와 존엄이어야 한다는 것이 원문의 결론입니다.</p>
+<p class="go"><a href="https://yghnsim.github.io/Pages/hanfeizi_legalist_philosophy_fa_shu_shi.html#7-결론-덕의-나침반과-법의-수레바퀴">원문 해당 부분 ↗</a></p>
+</section>
+
+<section class="sec issues" id="s10">
+<div class="sec-head"><span class="sec-num">10</span><div><h2>읽으며 걸린 곳</h2><p class="sub">정리하면서 제가 찾은 것. 결론에는 영향이 크지 않습니다</p></div></div>
+<details><summary>5가지 보기</summary>
+<ul>
+<li>법의 기능을 3.4 도식은 '군주의 자의적 권력 남용 견제 기준'이라고 쓰는데, 6.2는 군주가 법 위에 군림하고 그를 통제할 장치가 전무하다고 씁니다. 두 서술의 관계가 설명되지 않습니다.</li>
+<li>송나라 부자 우화의 출처를 「세란/설란」이라고 적는데, 1.2에서는 같은 편을 「설란(說難)」이라고만 씁니다.</li>
+<li>도식의 "법(法)을 안고 세(勢)에 처하며, 술(術)로써 신하를 부린다."는 따옴표로 인용되지만 편명이 없습니다. 「현학」, 「문변」의 짧은 인용도 어디까지가 원전 번역인지 표시가 없습니다.</li>
+<li>진승·오광의 말이 "나라를 위해 목숨을 바치는 것이 낫지 않겠는가"로 옮겨져 있어, 바로 뒤의 '반란 외에 다른 선택지가 없었다'는 서술과 뜻이 어긋나 보입니다.</li>
+<li>1.1의 '도덕적 감마력'은 '감화력'의 오타로 보입니다. 인용문과 연도는 원문을 옮긴 것이고 『한비자』 원전이나 논문과 직접 대조하지는 않았습니다.</li>
+</ul></details>
+</section>
+
+<section class="sources" id="src">
+<h2>출처</h2>
+<p>원문: 「<a href="https://yghnsim.github.io/Pages/hanfeizi_legalist_philosophy_fa_shu_shi.html">중국의 법가(法家) 사상을 집대성한 『한비자』의 법철학: 법·술·세 삼위일체와 현실주의 통치학</a>」, Pages, 2026. 10. 11. 원문이 근거로 삼은 논문: 김효성, 「중국의 법가(法家) 사상을 집대성한 한비(韓非)의 저서인 '한비자'(韓非子)에 나타난 법철학 사상에 관한 연구」, 『사법행정』 2019년 5월호(통권 제701호), 41–59쪽. 원문은 이 밖에 사마천 『사기』 권63 「노자한비열전」 등 8건을 참고문헌으로 듭니다. 인용문은 모두 원문의 번역을 옮겼습니다.</p>
+<p><a class="totop" href="#main">맨 위로</a></p>
+</section>
+</main></div><script>(function(){
+var bs=[].slice.call(document.querySelectorAll('.fss button'));
+bs.forEach(function(b){b.addEventListener('click',function(){bs.forEach(function(x){x.setAttribute('aria-selected',x===b?'true':'false')});
+[].forEach.call(document.querySelectorAll('.fss [data-p]'),function(p){p.hidden=p.getAttribute('data-p')!==b.getAttribute('data-k')})})});
+var links=[].slice.call(document.querySelectorAll('nav.toc li a'));
+if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id)})}})},{rootMargin:'-20% 0px -70% 0px'});
+links.forEach(function(a){var s=document.querySelector(a.getAttribute('href'));if(s)io.observe(s)});}
+[].forEach.call(document.querySelectorAll('nav.toc-m a'),function(a){a.addEventListener('click',function(){a.closest('details').open=false})});
+})();</script>
+
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">요약 아카이브</div><div class="arc-foot-title">법을 안고 세에 처한다: 『한비자』의 법·술·세</div><div class="arc-foot-meta"><time datetime="2026-10-11">2026년 10월 11일</time><a class="arc-tag" href="../index.html#tags=%EB%8F%99%EC%96%91%EC%B2%A0%ED%95%99">#동양철학</a><a class="arc-tag" href="../index.html#tags=%EB%B2%95%EA%B0%80">#법가</a><a class="arc-tag" href="../index.html#tags=%ED%95%9C%EB%B9%84%EC%9E%90">#한비자</a><a class="arc-tag" href="../index.html#tags=%EB%B2%95%EC%B2%A0%ED%95%99">#법철학</a> · <a href="https://yghnsim.github.io/Pages/hanfeizi_legalist_philosophy_fa_shu_shi.html" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body>
+</html>

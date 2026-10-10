@@ -1,5 +1,23 @@
 [
   {
+    "id": "20261011-03",
+    "title": "법을 안고 세에 처한다: 『한비자』의 법·술·세",
+    "summary": "김효성 논문을 뼈대로 한비의 노자 개조, 법·술·세의 기원과 종합, 진의 흥망, 현대 법치에서 본 빛과 그림자를 10분에 정리",
+    "tags": [
+      "동양철학",
+      "법가",
+      "한비자",
+      "법철학"
+    ],
+    "date": "2026-10-11",
+    "file": "pages/2026-10-11-한비자.html",
+    "added": "2026-10-11T03:41:22+09:00",
+    "source_name": "한비자.html",
+    "source_sha256": "79bb99515004890bd06f514a1c19d043f0e6f38ead08487bc6a49a35b649027a",
+    "source_path_sha256": "fe176bb7856900614a3824ff66dd3c641bb8429844aa0c5cfac53046ca92b00a",
+    "source_url": "https://yghnsim.github.io/Pages/hanfeizi_legalist_philosophy_fa_shu_shi.html"
+  },
+  {
     "id": "20261011-02",
     "title": "커피 한 잔에 1시간 42분: 카공족 손익분기점과 위력 업무방해죄",
     "summary": "손익분기점 102분, 형법 제314조 제1항 구성요건과 판례, 시설관리권, 7대 상생 원칙 정리",
