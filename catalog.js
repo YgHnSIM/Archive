@@ -2,6 +2,24 @@
    `python3 add_page.py --rebuild` 를 실행하면 다시 만들어집니다. */
 window.ARCHIVE_CATALOG = [
   {
+    "id": "20261011-04",
+    "title": "이익, 현금흐름, 주가: 다모다란이 본 AI 투자 붐의 회계 정리",
+    "summary": "AI 설비투자가 이익은 키우고 현금흐름은 묶는 회계 구조와 자본비용 허들, 투자자의 4가지 경로",
+    "tags": [
+      "기업재무",
+      "가치평가",
+      "AI",
+      "다모다란"
+    ],
+    "date": "2026-10-11",
+    "file": "pages/2026-10-11-이익과주가.html",
+    "added": "2026-10-11T10:04:47+09:00",
+    "source_name": "이익과주가.html",
+    "source_sha256": "f66d164a2bf1abb622966c841d31a86415ecba7d1563e107a69c237ac891b0f4",
+    "source_path_sha256": "38f0f6972c96361c8ea3b46a7b67db856d03a24fd7961407e6ed7a7606fe4605",
+    "source_url": "https://yghnsim.github.io/Pages/earnings_cashflows_stock_prices_ai_storm.html"
+  },
+  {
     "id": "20261011-03",
     "title": "법을 안고 세에 처한다: 『한비자』의 법·술·세",
     "summary": "김효성 논문을 뼈대로 한비의 노자 개조, 법·술·세의 기원과 종합, 진의 흥망, 현대 법치에서 본 빛과 그림자를 10분에 정리",
