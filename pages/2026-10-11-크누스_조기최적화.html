@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>조기 최적화는 모든 악의 근원인가: 도널드 크누스의 격언과 1974년의 진실</title>
+<meta name="description" content="크누스의 '조기 최적화' 격언이 나온 1974년 논문과 그 배경(GOTO 논쟁, 소프트웨어 위기, NATO 1968, 호어의 컴파일러), 보초법과 루프 언롤링 예제, 3% 대 90% 가정의 계산과 1971년 실측 데이터를 정리했습니다.">
+<style>
+:root{
+  --bg:#faf8f3; --paper:#ffffff; --ink:#1f2328; --muted:#5b6470; --line:#e6e1d6;
+  --accent:#c8553d; --accent-soft:#fbeee9; --link:#4a6b8a;
+  --radius:14px;
+  /* 페이지 고유 의미 색 */
+  --old:#6a5f4b; --old-soft:#f3efe6;
+  --algo:#a2452f; --algo-soft:#fbeee9;
+  --new:#3d5f80; --new-soft:#eaf0f6;
+  --sup:#55598f; --sup-soft:#efeff8;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR","Malgun Gothic","Gothic A1",system-ui,sans-serif;
+  font-size:17px;line-height:1.75;word-break:keep-all;overflow-wrap:break-word}
+@media(max-width:640px){body{font-size:16px}}
+a{color:var(--link)}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #9bb5cf;outline-offset:2px}
+.skip{position:absolute;left:0;top:0;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+.skip:focus{width:auto;height:auto;clip:auto;clip-path:none;left:8px;top:8px;background:#fff;padding:6px 10px;z-index:10}
+.layout{max-width:1180px;margin:0 auto;padding:12px 14px 48px}
+@media(min-width:1024px){.layout{display:grid;grid-template-columns:240px minmax(0,1fr);gap:32px;padding:28px 24px 64px}}
+main{min-width:0}
+
+/* 목차 */
+nav.toc{display:none}
+@media(min-width:1024px){
+  nav.toc{display:block;position:sticky;top:20px;align-self:start;max-height:calc(100vh - 40px);overflow:auto}
+  nav.toc-m{display:none}
+}
+nav.toc .toc-t{font-size:13px;color:var(--muted);letter-spacing:.06em;margin:0 0 10px;font-weight:700}
+nav.toc ol,nav.toc-m ol{list-style:none;margin:0;padding:0}
+nav.toc li a{display:flex;gap:8px;align-items:baseline;text-decoration:none;color:var(--muted);font-size:15px;line-height:1.45;padding:7px 10px;border-radius:8px;border-left:3px solid transparent}
+nav.toc li a .n{font-weight:700;font-size:13px;color:#8a919b;min-width:18px}
+nav.toc li a:hover{background:#f0ece3;color:var(--ink)}
+nav.toc li a.active{background:var(--paper);color:var(--ink);border-left-color:var(--accent);font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+nav.toc li a.active .n{color:var(--accent)}
+nav.toc .orig{display:block;margin-top:12px;padding:10px;border-top:1px solid var(--line);font-size:14px}
+nav.toc-m{margin:14px 0 0}
+nav.toc-m details{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius)}
+nav.toc-m summary{cursor:pointer;padding:10px 14px;font-weight:700;list-style:none}
+nav.toc-m summary::-webkit-details-marker{display:none}
+nav.toc-m summary::after{content:" ▾";color:var(--muted)}
+nav.toc-m ol{padding:0 14px 8px}
+nav.toc-m li a{display:block;padding:8px 0;border-top:1px solid var(--line);text-decoration:none;color:var(--ink)}
+
+/* 머리 */
+.hero{padding:22px 4px 6px}
+.eyebrow{display:inline-block;font-size:13px;font-weight:700;letter-spacing:.04em;color:var(--accent);background:var(--accent-soft);padding:4px 10px;border-radius:999px}
+h1{font-size:clamp(28px,4.4vw,44px);line-height:1.25;margin:14px 0 12px;letter-spacing:-.02em}
+.lead{font-size:18px;color:var(--muted);margin:0 0 18px}
+@media(max-width:640px){.lead{font-size:17px}}
+.info{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.info p{margin:0 0 12px;font-size:16px}
+.cta{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;text-align:center;
+  background:var(--accent);color:#fff;text-decoration:none;font-weight:700;padding:13px 16px;border-radius:12px;font-size:17px}
+.cta:hover{background:#ad4430}
+.cta small{font-weight:500;font-size:14px;opacity:.95}
+.info .meta{font-size:14px;color:var(--muted);margin:12px 0 0}
+
+/* 절 */
+section.sec{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:20px 18px;margin-top:18px;scroll-margin-top:12px}
+@media(min-width:640px){section.sec{padding:28px 30px}}
+.sec-head{display:flex;gap:14px;align-items:flex-start;margin-bottom:10px}
+.sec-num{flex:none;width:36px;height:36px;border-radius:12px;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:800;font-size:16px;margin-top:3px}
+h2{font-size:clamp(23px,3vw,30px);line-height:1.3;margin:0;letter-spacing:-.015em}
+.sub{margin:4px 0 0;color:var(--muted);font-size:15px;line-height:1.5}
+.srcs{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 12px}
+.src{display:inline-block;font-size:14px;text-decoration:none;border:1px solid var(--line);padding:3px 11px;border-radius:999px;color:var(--link);background:#fdfcf9}
+.src:hover{border-color:var(--link)}
+h3{font-size:19px;line-height:1.4;margin:22px 0 6px}
+p{margin:8px 0}
+.muted{color:var(--muted)}
+.tag{display:inline-block;font-size:13px;font-weight:700;line-height:1.5;padding:0 7px;border-radius:6px;background:var(--sup-soft);color:var(--sup);vertical-align:.08em;margin-left:3px;white-space:nowrap}
+.tag.int{background:#efebe2;color:#4f5763}
+blockquote{margin:16px 0;padding:14px 18px;background:#fdfcf9;border-left:5px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;font-size:16.5px;line-height:1.7}
+blockquote cite{display:block;font-style:normal;color:var(--muted);font-size:14px;margin-top:6px}
+.callout{background:#f4f1ea;border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:14px 0;font-size:16px}
+.callout b.t{display:block;margin-bottom:2px}
+.callout.sup{background:var(--sup-soft);border-color:#d9daee}
+ul.tight{margin:6px 0;padding-left:20px}
+ul.tight li{margin:5px 0}
+
+/* 핵심 3줄 */
+.thesis{list-style:none;margin:6px 0 0;padding:0;counter-reset:th}
+.thesis li{counter-increment:th;position:relative;padding:12px 14px 12px 50px;border:1px solid var(--line);border-radius:12px;margin:10px 0;background:#fdfcf9}
+.thesis li::before{content:counter(th);position:absolute;left:14px;top:14px;width:26px;height:26px;border-radius:8px;background:var(--ink);color:#fff;font-weight:700;text-align:center;line-height:26px;font-size:14px}
+.thesis strong{display:block}
+
+/* 6단계 */
+.steps{display:grid;grid-template-columns:1fr;gap:6px;margin:10px 0 0;padding:0;list-style:none}
+@media(min-width:760px){.steps{grid-template-columns:1fr 1fr}}
+.steps li{display:flex;gap:10px;align-items:baseline;border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:16px;line-height:1.6}
+.steps b{flex:none;font-size:14px;color:var(--accent);min-width:58px}
+.steps a{font-size:14px;white-space:nowrap}
+
+/* 용어 */
+.terms{display:grid;grid-template-columns:1fr;gap:8px;margin-top:10px}
+@media(min-width:760px){.terms{grid-template-columns:1fr 1fr}}
+.terms details{border:1px solid var(--line);border-radius:10px;background:#fdfcf9}
+.terms summary{cursor:pointer;padding:9px 12px;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:8px}
+.terms summary::-webkit-details-marker{display:none}
+.terms summary::after{content:"＋";color:var(--muted);font-weight:400}
+.terms details[open] summary::after{content:"－"}
+.terms details p{margin:0;padding:0 12px 10px;font-size:16px;line-height:1.65}
+.terms .en{font-weight:400;color:var(--muted);font-size:14px}
+
+/* 타임라인 */
+.tl{list-style:none;margin:12px 0 0;padding:0 0 0 18px;border-left:3px solid var(--line)}
+.tl li{position:relative;margin:0 0 16px;padding-left:10px}
+.tl li::before{content:"";position:absolute;left:-27px;top:7px;width:15px;height:15px;border-radius:50%;background:#fff;border:3px solid var(--ink)}
+.tl li.ctx::before{border-color:#b3ab9b}
+.tl .date{font-weight:800;font-size:16px}
+.case,.tl .case{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;background:#efebe2;padding:1px 6px;border-radius:6px;white-space:nowrap}
+.tl .txt{font-size:16px;margin:2px 0 0}
+.three{display:grid;grid-template-columns:1fr;gap:8px;margin:12px 0}
+@media(min-width:760px){.three{grid-template-columns:repeat(3,1fr)}}
+.three div{border:1px solid var(--line);border-radius:12px;padding:10px 14px;background:#fdfcf9;font-size:16px;line-height:1.6}
+.three div b{display:block;font-size:17px}
+.three div .yr{display:inline-block;font-size:13px;font-weight:800;color:#fff;background:var(--ink);border-radius:6px;padding:0 7px;margin-bottom:4px}
+
+/* 카드 */
+.cards{display:grid;grid-template-columns:1fr;gap:10px;margin:10px 0}
+@media(min-width:800px){.cards{grid-template-columns:repeat(3,1fr)}}
+.card{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:#fdfcf9;font-size:16px;line-height:1.65}
+.card b.h{display:block;font-size:17px;margin-bottom:2px}
+.card .k{display:inline-block;font-size:13px;font-weight:800;border-radius:6px;padding:0 7px;margin-bottom:4px;background:var(--algo-soft);color:var(--algo)}
+.card.n .k{background:var(--new-soft);color:var(--new)}
+.card.o .k{background:var(--old-soft);color:var(--old)}
+.two{display:grid;gap:12px}
+@media(min-width:800px){.two{grid-template-columns:1fr 1fr}}
+.panel{border:1px solid var(--line);border-radius:12px;padding:12px 16px;background:#fdfcf9}
+.panel h3{margin-top:4px}
+.panel p,.panel li{font-size:16px}
+
+/* 도식 */
+figure.dia{margin:16px 0;padding:14px;border:1px solid var(--line);border-radius:var(--radius);background:#fdfcf9}
+figure.dia svg{display:block;width:100%;max-width:460px;height:auto;margin:0 auto}
+@media(max-width:640px){figure.dia{padding:8px 2px;margin-left:-8px;margin-right:-8px}}
+figure.dia figcaption{font-size:14px;color:var(--muted);margin-top:8px;text-align:center;line-height:1.55}
+
+/* 배달 기사 토글 */
+.seg{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 0}
+.seg button{font:inherit;font-size:15px;font-weight:700;flex:1 1 140px;border:1.5px solid var(--line);background:#fff;color:var(--muted);border-radius:10px;padding:9px 12px;cursor:pointer}
+.seg button[aria-pressed="true"].o{border-color:var(--old);background:var(--old-soft);color:var(--old)}
+.seg button[aria-pressed="true"].n{border-color:var(--new);background:var(--new-soft);color:var(--new)}
+.lens{border:1.5px solid var(--line);border-radius:12px;padding:12px 16px;margin-top:8px;font-size:16px}
+.lens.o{border-color:var(--old);background:var(--old-soft)}
+.lens.n{border-color:var(--new);background:var(--new-soft)}
+.lens ul{margin:6px 0;padding-left:20px}
+.lens p.v{font-weight:800;margin:8px 0 0}
+
+/* 표 */
+.tbl{width:100%;border-collapse:collapse;font-size:16px;line-height:1.6;margin-top:10px}
+.tbl th,.tbl td{border:1px solid var(--line);padding:10px 11px;vertical-align:top;text-align:left}
+.tbl thead th{background:#f4f1ea;font-size:15px}
+.tbl tbody th{background:#fbf9f4;font-weight:700}
+.tbl td.nw{background:#f5f8fb}
+@media(max-width:760px){
+  .stack thead{position:absolute;left:0;top:0;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+  .stack,.stack tbody,.stack tr,.stack th,.stack td{display:block;width:100%}
+  .stack tr{border:1px solid var(--line);border-radius:12px;margin:0 0 12px;overflow:hidden}
+  .stack th,.stack td{border:0;border-top:1px solid var(--line)}
+  .stack tbody th{border-top:0;background:#f4f1ea}
+  .stack td::before{content:attr(data-label);display:block;font-size:13.5px;font-weight:800;color:var(--muted);margin-bottom:2px}
+  .stack td.nw::before{color:var(--new)}
+}
+
+/* 추정 흐름 */
+.flow{list-style:none;margin:12px 0;padding:0;display:grid;gap:8px}
+@media(min-width:800px){.flow{grid-template-columns:repeat(3,1fr)}}
+.flow li{border:1.5px solid var(--line);border-radius:12px;padding:10px 14px;background:#fff;font-size:16px;line-height:1.6;position:relative}
+.flow li b{display:block;font-size:16px}
+.flow li.s1{border-color:#b9a98c}
+.flow li.s2{border-color:var(--new);background:var(--new-soft)}
+.flow li.s3{border-color:var(--algo);background:var(--algo-soft)}
+.flow .who{display:inline-block;font-size:13px;font-weight:800;color:var(--muted)}
+
+/* 오해 카드 */
+.myths{display:grid;grid-template-columns:1fr;gap:10px;margin-top:10px}
+@media(min-width:800px){.myths{grid-template-columns:1fr 1fr}}
+.myth{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:#fdfcf9}
+.myth .say{font-weight:700;margin:0;font-size:16.5px}
+.myth .say::before{content:"흔한 말 ";font-size:13px;font-weight:800;color:var(--algo);background:var(--algo-soft);border-radius:6px;padding:0 6px;margin-right:4px;vertical-align:.08em}
+.myth button{font:inherit;font-size:15px;margin-top:8px;border:1px solid var(--line);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link)}
+.myth .ans{margin:8px 0 0;padding:8px 10px;border-radius:8px;background:var(--new-soft);font-size:16px}
+.myth .ans .ref{display:block;font-size:13.5px;color:var(--muted);margin-top:2px}
+.mcount{font-size:15px;color:var(--muted);margin:10px 0 0}
+button.reset{font:inherit;font-size:15px;border:1px solid var(--line);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;margin-left:6px}
+
+.sources{margin-top:18px;padding:18px;border-top:1px solid var(--line)}
+.sources h2{font-size:20px}
+.sources p{font-size:16px}
+.totop{display:inline-block;margin-top:6px;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:15px;background:#efebe2;padding:1px 5px;border-radius:5px}
+pre.code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;background:#f4f1ea;border:1px solid var(--line);border-radius:10px;padding:10px 12px;overflow-x:auto;max-width:100%;line-height:1.5;white-space:pre}
+.v{display:inline-block;font-size:13px;font-weight:800;border-radius:6px;padding:0 7px;white-space:nowrap;vertical-align:.08em}
+.v.ok{background:#e6f1ea;color:#2f6b45}
+.v.mostly{background:#eaf0f6;color:#3d5f80}
+.v.part{background:#fbeee9;color:#a2452f}
+.issues details{border:1px solid var(--line);border-radius:10px;background:#fdfcf9;margin:8px 0}
+.issues summary{cursor:pointer;padding:10px 12px;font-weight:700;line-height:1.5}
+.issues .no{font-size:13px;color:var(--muted);margin-right:4px}
+.issues details p{margin:0;padding:0 12px 12px;font-size:16px}
+.q{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:10px 0;background:#fdfcf9}
+.q p.qt{font-weight:700;margin:0 0 8px}
+.q button{display:block;width:100%;text-align:left;font:inherit;font-size:16px;border:1.5px solid var(--line);background:#fff;border-radius:10px;padding:8px 12px;margin:6px 0;cursor:pointer;color:var(--ink)}
+.q button.right{border-color:#2f6b45;background:#e6f1ea}
+.q button.wrong{border-color:#a2452f;background:#fbeee9}
+.q .ex{margin:8px 0 0;font-size:16px;padding:8px 10px;border-radius:8px;background:var(--new-soft)}
+
+pre{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:14px;line-height:1.55;background:#f1ede4;border:1px solid var(--line);border-radius:10px;padding:10px 12px;overflow-x:auto;max-width:100%}
+code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:15px;background:#f1ede4;padding:0 .25em;border-radius:3px}
+pre code{background:none;padding:0;font-size:14px}
+blockquote.q{margin:14px 0;padding:10px 14px;border-left:4px solid var(--accent,#c8553d);background:#fdfcf9;font-size:16px}
+blockquote.q p{margin:.4em 0}blockquote.q cite{display:block;font-style:normal;color:#5b6470;font-size:14px;margin-top:4px}
+.math{font-family:"Times New Roman",serif;font-size:17px;background:#fdfcf9;border:1px solid var(--line);border-radius:10px;padding:10px 12px;line-height:1.9}
+.calc{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:#fdfcf9;margin:14px 0}
+.calc label{display:block;font-size:15px;margin:8px 0 2px}
+.calc input{width:100%}
+.calc output{font-weight:700}
+.calc .res{font-size:16px;margin:10px 0 0;padding:8px 10px;background:#f4f1ea;border-radius:8px}
+.issues ul{margin:.4em 0;padding-left:1.2em}.issues li{font-size:15px;margin:.3em 0}
+</style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
+</head>
+<body>
+<a class="skip" href="#main">본문으로 건너뛰기</a>
+<!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="요약 아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>요약 아카이브</a><span class="arc-crumb">조기 최적화는 모든 악의 근원인가: 크누스의 격언과 1974년의 진실</span><span class="arc-meta"><time datetime="2026-10-11">2026년 10월 11일</time><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99%EC%82%AC">#컴퓨터과학사</a><a class="arc-tag" href="../index.html#tags=%EC%84%B1%EB%8A%A5%EC%B5%9C%EC%A0%81%ED%99%94">#성능최적화</a><a class="arc-tag" href="../index.html#tags=%EB%8F%84%EB%84%90%EB%93%9C%ED%81%AC%EB%88%84%EC%8A%A4">#도널드크누스</a><a class="arc-tag" href="../index.html#tags=%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4%EC%9C%84%EA%B8%B0">#소프트웨어위기</a></span></div></div>
+<!-- archive-header:end -->
+<div class="layout">
+<nav class="toc" aria-label="목차"><p class="toc-t">목차</p><ol><li><a href="#s1"><span class="n">1</span>격언은 누구의 말인가</a></li><li><a href="#s2"><span class="n">2</span>1968년 GOTO 논쟁</a></li><li><a href="#s3"><span class="n">3</span>소프트웨어 위기와 IBM 광고</a></li><li><a href="#s4"><span class="n">4</span>NATO 1968 회의와 EWD249</a></li><li><a href="#s5"><span class="n">5</span>호어의 컴파일러 참사와 1972년 책</a></li><li><a href="#s6"><span class="n">6</span>1974년 논문과 작업된 예제</a></li><li><a href="#s7"><span class="n">7</span>"10% 개선" 가정의 계산</a></li><li><a href="#s8"><span class="n">8</span>크누스가 인용한 1971년 데이터</a></li><li><a href="#s9"><span class="n">9</span>1970년대 하드웨어의 비용 모델</a></li><li><a href="#s10"><span class="n">10</span>강연 뒤 질의응답</a></li><li><a href="#s11"><span class="n">11</span>결론</a></li><li><a href="#s12"><span class="n">12</span>읽으며 걸린 곳</a></li></ol></nav>
+<main id="main">
+<header class="hero">
+<span class="eyebrow">컴퓨터 과학사 · 성능 최적화 정리</span>
+<h1>조기 최적화는 모든 악의 근원인가: 도널드 크누스의 격언과 1974년의 진실</h1>
+<p class="lead">크누스가 1974년에 경고한 것은 측정 전에 가독성을 해치는 미시적 루프 튜닝이었습니다. 그런데 그 말의 바탕인 "3%의 코드가 실행 시간의 90%를 차지한다"는 모델은 그가 인용한 1971년 실측(약 50%)과도 맞지 않습니다. 케이시 무라토리의 BSC 2026 강연이 이 격언의 역사적 맥락을 이렇게 복원합니다.</p>
+</header>
+<nav class="toc-m" aria-label="목차"><details><summary>목차</summary><ol><li><a href="#s1">1. 격언은 누구의 말인가</a></li><li><a href="#s2">2. 1968년 GOTO 논쟁</a></li><li><a href="#s3">3. 소프트웨어 위기와 IBM 광고</a></li><li><a href="#s4">4. NATO 1968 회의와 EWD249</a></li><li><a href="#s5">5. 호어의 컴파일러 참사와 1972년 책</a></li><li><a href="#s6">6. 1974년 논문과 작업된 예제</a></li><li><a href="#s7">7. "10% 개선" 가정의 계산</a></li><li><a href="#s8">8. 크누스가 인용한 1971년 데이터</a></li><li><a href="#s9">9. 1970년대 하드웨어의 비용 모델</a></li><li><a href="#s10">10. 강연 뒤 질의응답</a></li><li><a href="#s11">11. 결론</a></li><li><a href="#s12">12. 읽으며 걸린 곳</a></li></ol></details></nav>
+
+<section class="sec" id="s1">
+<div class="sec-head"><span class="sec-num">1</span><div><h2>격언은 누구의 말인가</h2><p class="sub">크누스, 호어, 데이크스트라</p></div></div>
+<p>원문은 이 격언이 성능 문제를 미루는 근거로 널리 쓰인다고 말합니다. 구글 Ngram 뷰어(책 속 단어 빈도를 연도별로 보여 주는 도구)로 보면 이 표현은 1974년 이전에는 사실상 없다가 1974년부터 급증합니다.</p>
+<table class="tbl stack"><thead><tr><th>시점</th><th>사건</th></tr></thead><tbody>
+<tr><th>1974년 12월</th><td data-label="사건">크누스가 ACM Computing Surveys 제6권 제4호의 41쪽 논문 『Structured Programming with go to Statements』에서 코드 예제와 함께 처음 활자화</td></tr>
+<tr><th>1989년</th><td data-label="사건">크누스가 『The Errors of TeX』에서 이 말을 "C.A.R. 호어의 격언"이라고 부름</td></tr>
+<tr><th>2003년</th><td data-label="사건">호어가 한스 거위츠에게 보낸 서신: "이 인용구가 어떻게 나왔는지 전혀 기억나지 않습니다. 제가 에츠허르 데이크스트라(Edsger Dijkstra)의 발언으로 돌렸을 수도 있습니다."</td></tr>
+<tr><th>2004년</th><td data-label="사건">리코 마리아니(MS 리서치)의 질문에 호어가 "내 말투 같기는 한데, 좋은 도서관에서 몇 시간만 뒤져보면 원래 출처를 찾을 수 있을 것 같네"라고 답함</td></tr>
+</tbody></table>
+<p>데이크스트라는 2002년에 세상을 떠나 더 확인할 수 없습니다. 무라토리는 최초 발언자보다 세 사람의 공통 궤적이 중요하다고 봅니다. 셋 다 1960년대 초 ALGOL 컴파일러를 직접 만들었습니다.</p>
+<table class="tbl stack"><thead><tr><th>인물</th><th>출생</th><th>튜링상</th><th>이 논쟁에서의 역할</th></tr></thead><tbody>
+<tr><th>Edsger Dijkstra</th><td data-label="출생">1930년</td><td data-label="튜링상">1972년</td><td data-label="역할">1968년 GOTO 논쟁 촉발, EWD249로 구조적 프로그래밍 제창</td></tr>
+<tr><th>Tony Hoare</th><td data-label="출생">1934년</td><td data-label="튜링상">1980년</td><td data-label="역할">Elliott 503 컴파일러 성능 참사(초당 2자), 데이터 추상화 정립</td></tr>
+<tr><th>Donald Knuth</th><td data-label="출생">1938년</td><td data-label="튜링상">1974년</td><td data-label="역할">1974년 논문 집필, 97% 대 3% 격언과 실증 프로파일링 공식화</td></tr>
+</tbody></table>
+</section>
+
+<section class="sec" id="s2">
+<div class="sec-head"><span class="sec-num">2</span><div><h2>1968년 GOTO 논쟁</h2><p class="sub">데이크스트라의 편지와 바뀐 제목</p></div></div>
+<p>1967년 제1회 ACM 운영체제 원리 심포지엄(SOSP)에서 데이크스트라는 6인 팀과 만든 THE 멀티프로그래밍 시스템을 발표했습니다. 원문은 이 논문이 세마포어(공유 자원 접근을 조율하는 신호 변수), 상호 배제 같은 동시성의 기본 원리를 한자리에 정립했다고 씁니다.</p>
+<p>발표 뒤 휴게실에서 그는 GOTO 문이 프로그램 추론을 어렵게 만든다고 불평했고, 동료들의 권유로 CACM에 원고를 냈습니다.</p>
+<table class="tbl stack"><thead><tr><th>단계</th><th>제목</th></tr></thead><tbody>
+<tr><th>원래 원고</th><td data-label="제목">A Case Against the GO TO Statement</td></tr>
+<tr><th>1968년 3월 CACM 게재</th><td data-label="제목">Go To Statement Considered Harmful (원문에 따르면 편집을 맡은 니클라우스 비르트가 심사를 건너뛰고 독자 투고란으로 돌리며 제목을 바꿈)</td></tr>
+</tbody></table>
+<p>항의 편지가 쏟아졌고, 데이크스트라는 "사람들이 GOTO를 종교로 만들어버렸다"고 개탄했습니다. 같은 해 아인트호벤 공대 수학과는 프로그래밍이 진정한 수학이 아니라며 그의 팀을 해산했고, 그는 심한 우울에 빠졌습니다.</p>
+</section>
+
+<section class="sec" id="s3">
+<div class="sec-head"><span class="sec-num">3</span><div><h2>소프트웨어 위기와 IBM 광고</h2><p class="sub">하드웨어는 빨라지고, 소프트웨어는 그대로</p></div></div>
+<p>1960년대 말 하드웨어의 속도와 메모리는 빠르게 커졌지만 소프트웨어 개발은 1950년대식 수작업에 머물렀습니다. 프로그램이 커지면 일정이 늦어지고 예산이 폭증했습니다. 원문은 이를 '소프트웨어 위기'라 부르며, 당시 업계에서 이 말을 공개적으로 하는 것이 금기에 가까웠다고 씁니다.</p>
+<p>데이크스트라에게 오래 남은 사례가 1968년 10월호 『Datamation』의 IBM PL/I 광고입니다. 문구는 "Can a young girl with no previous programming experience find happiness with PL/I?"였습니다. 원문은 이를 오늘의 '바이브 코딩'(AI에게 말로 지시해 코드를 만드는 방식) 과대광고에 견줍니다.</p>
+<p>무라토리는 1968년 12월호 Datamation의 군 지휘통제 시스템 논문에서 실제 PL/I 코드를 찾았습니다. 32비트 워드 안에서 1비트 태그로 8비트 또는 5비트 데이터를 나누는 판별 유니온(태그로 내용 형태를 구분하는 자료형)을 선언하려고, 의미 없는 NULL 필드를 비트 단위로 계산하고 번호까지 붙여야 했습니다.</p>
+<pre><code>DECLARE 1 BUFFER,
+          2 TAG BIT(1),
+          2 NULL1 BIT(31),
+        1 BUFFER_A DEFINED BUFFER,
+          2 NULL2 BIT(1),
+          2 DATA_8 BIT(8),
+          2 NULL3 BIT(23),
+        1 BUFFER_B DEFINED BUFFER,
+          2 NULL4 BIT(1),
+          2 DATA_5 BIT(5),
+          2 NULL5 BIT(26);</code></pre>
+<p>당시 프로그래머 책상에는 모니터가 없었습니다. 코딩 용지에 연필로 쓰면 키펀치 오퍼레이터가 천공 카드로 옮겼고, 결과는 반나절 뒤에 받았습니다.</p>
+</section>
+
+<section class="sec" id="s4">
+<div class="sec-head"><span class="sec-num">4</span><div><h2>NATO 1968 회의와 EWD249</h2><p class="sub">위기의 공식 인정과 데이크스트라의 회복</p></div></div>
+<p>1968년 10월 독일 가르미슈의 NATO 소프트웨어 공학 회의에 약 50명이 모였습니다. 벨 연구소의 에드워드 데이비드와 알렉스 프레이저는 세션 7 발제에서 야망과 성취의 격차가 벌어지고 있고, 대규모 소프트웨어의 결함이 생명과 국가까지 위협한다고 말했습니다.</p>
+<p>케네스 콜린스가 '위기'라는 말이 과하다고 하자, 더글러스 T. 로스가 반박했습니다.</p>
+<blockquote class="q"><p>"내가 지금 당장 심장마비로 쓰러져 죽어가고 있다면, 내 팔다리와 뇌와 소화기관이 정상 작동하고 있다는 사실 따위는 아무런 의미가 없다. 나는 명백히 치명적인 위기(Crisis) 속에 처해 있는 것이다!"</p><cite>더글러스 T. 로스, 1968 (원문 인용)</cite></blockquote>
+<p>데이크스트라는 전문가 집단이 소프트웨어 실패를 인정한 것이 "가장 신선하고 상쾌한 경험"이라고 화답했습니다. 1969년 8월 그는 『EWD249: Notes on Structured Programming』을 탈고했습니다. 핵심은 '단계적 프로그램 구축'입니다. 프로그램을 다 짠 뒤 증명을 덧붙이지 않고, 작성 과정 자체가 비공식 증명이 되게 합니다. 원문은 이 문건이 복사기를 타고 퍼진 이유를, 대가의 사고 흐름을 그대로 보여 줬기 때문이라고 봅니다.</p>
+</section>
+
+<section class="sec" id="s5">
+<div class="sec-head"><span class="sec-num">5</span><div><h2>호어의 컴파일러 참사와 1972년 책</h2><p class="sub">초당 1,000자에서 초당 2자로</p></div></div>
+<p>엘리엇 브라더스의 호어는 1963년 ALGOL 60 컴파일러를 납품했습니다. 그 뒤 30명이 투입된 Elliott 503 Mark II 프로젝트가 2년이 지나도 끝나지 않자, 호어는 컴파일러만 6개월 안에 먼저 내기로 했습니다.</p>
+<table class="tbl stack"><thead><tr><th>시점</th><th>컴파일 속도 (초당 글자 수)</th></tr></thead><tbody>
+<tr><th>기존 컴파일러 (1963년)</th><td data-label="속도">500~1,000자</td></tr>
+<tr><th>신형 첫 구동</th><td data-label="속도">2자 (기존 1,000자 대비 99.8% 감소)</td></tr>
+<tr><th>수개월 최적화 후</th><td data-label="속도">8자 (첫 구동 2자 대비 4배)</td></tr>
+</tbody></table>
+<p>프로젝트는 취소됐습니다. 호어는 1980년 튜링상 강연 『The Emperor's Old Clothes』에서 원인을 셋으로 짚었습니다.</p>
+<ul>
+<li>주기억장치 할당의 전체 계획이 없었습니다. 각 팀은 어딘가의 할당자나 오버레이(필요할 때 코드를 메모리에 교대로 올리는 방식)가 알아서 해 줄 거라 믿었습니다.</li>
+<li>시스템 소프트웨어가 코어 메모리를 다 차지해 사용자 프로그램 자리가 없었습니다.</li>
+<li>스래싱(페이지 교체가 끊이지 않아 일을 못 하는 상태)으로 CPU의 99%가 입출력 대기에 묶였습니다.</li>
+</ul>
+<p>호어는 이후 로스의 Plex 개념을 받아들여 레코드(오늘의 구조체) 이론을 발전시켰습니다. 1972년에는 데이크스트라, 올레요한 달과 함께 『Structured Programming』(Academic Press)을 냈습니다. 데이크스트라는 제어 구조, 호어는 데이터 구조, 달은 SIMULA 67의 클래스를 다뤘습니다. 이 책을 받은 크누스는 세 저자에게 장문의 서신을 보내며 구조적 프로그래밍에 합류했습니다.</p>
+</section>
+
+<section class="sec" id="s6">
+<div class="sec-head"><span class="sec-num">6</span><div><h2>1974년 논문과 작업된 예제</h2><p class="sub">격언이 나온 자리: 효율성을 다룬 3쪽</p></div></div>
+<p>1969년 스탠퍼드에 온 크누스는 로버트 플로이드와 함께 1971년 "GOTO를 없앨 수 없는 제어 구조가 있다"는 논문을 냈습니다. 1974년 논문은 GOTO의 맹목적 금지를 비판하고, 고급 언어가 표현력과 실행 효율을 함께 갖추려면 어떤 제어 구조가 필요한지 다룹니다. 격언은 '효율성' 3쪽 섹션에 나옵니다.</p>
+<p>예제 문제: 배열 A[1..m]에서 값 x를 찾습니다. 찾으면 빈도 카운터 C[i]를 1 올리고, 못 찾으면 m+1 자리에 x를 넣고 빈도를 1로 둡니다(ALGOL 전통에 따라 1부터 셈).</p>
+<h3>예제 1: GOTO를 쓴 단순 선형 탐색</h3>
+<pre><code>for (i = 1; i &lt;= m; i++) {
+    if (A[i] == x) goto found;
+}
+m = m + 1;
+A[m] = x;
+C[m] = 0;
+found:
+C[i] = C[i] + 1;</code></pre>
+<h3>예제 2: 보초법</h3>
+<p>보초(sentinel)는 탐색 전에 배열 끝에 찾는 값을 미리 써 두는 기법입니다. 그러면 루프 안에서 범위 검사(i &lt;= m)가 필요 없습니다. 크누스는 GOTO 사용 여부보다 알고리즘이 본질이라고 봤습니다.</p>
+<pre><code>A[m + 1] = x;
+i = 1;
+while (A[i] != x) {
+    i = i + 1;
+}
+if (i &gt; m) {
+    m = m + 1;
+    C[m] = 1;
+} else {
+    C[i] = C[i] + 1;
+}</code></pre>
+<h3>예제 2a: 루프 언롤링과 GOTO의 복귀</h3>
+<p>루프 언롤링은 반복 한 번에 여러 원소를 처리하도록 본문을 펼치는 기법입니다. 크누스는 가장 중요한 내부 루프라면 2회씩 손으로 펼치고 GOTO를 다시 쓰겠다고 했습니다("Doubling Up").</p>
+<pre><code>A[m + 1] = x;
+i = 1;
+goto check;
+loop:
+i = i + 2;
+check:
+if (A[i] == x) goto found;
+if (A[i + 1] != x) goto loop;
+i = i + 1;
+found:
+if (i &gt; m) {
+    m = m + 1;
+    C[m] = 1;
+} else {
+    C[i] = C[i] + 1;
+}</code></pre>
+<p>크누스는 캐시 없는 다중 레지스터 컴퓨터를 가정하고 메모리 참조 횟수를 셌습니다(N은 루프 반복 횟수).</p>
+<table class="tbl stack"><thead><tr><th>예제</th><th>메모리 참조 횟수</th><th>원문이 전하는 효과</th></tr></thead><tbody>
+<tr><th>예제 1</th><td data-label="참조">6N + 10</td><td data-label="효과">기준</td></tr>
+<tr><th>예제 2 (보초법)</th><td data-label="참조">4N + 4</td><td data-label="효과">루프 본문 6회에서 4회로, 실행 시간 33% 단축</td></tr>
+<tr><th>예제 2a (언롤링)</th><td data-label="참조">약 3.5N</td><td data-label="효과">예제 2 대비 추가 12% 향상</td></tr>
+</tbody></table>
+<blockquote class="q"><p>"예제 2에서 2a로의 성능 향상은 12%에 불과하며, 많은 사람들은 이를 사소하다고 부를 것이다. ... 하지만 이것이 정립된 공학(Engineering) 분야였다면 12%의 개선은 결코 사소한 것으로 치부되지 않았을 것이다. 제트 엔진 효율이 12% 향상되었다면 아무도 코웃음 치지 않았을 것이다!"</p><cite>Donald Knuth, 1974 (원문의 번역 인용)</cite></blockquote>
+</section>
+
+<section class="sec" id="s7">
+<div class="sec-head"><span class="sec-num">7</span><div><h2>"10% 개선" 가정의 계산</h2><p class="sub">격언의 원문과 그 전제</p></div></div>
+<p>원문이 옮긴 1974년 대목은 다음과 같습니다.</p>
+<blockquote class="q"><p>"프로그래머들은 프로그램의 비핵심적인 부분의 속도를 고민하느라 엄청난 시간을 낭비한다. 그리고 이러한 효율성 시도는 디버깅과 유지보수 관점에서 강력한 부정적 영향을 미친다.</p><p>약 97%의 상황에서는 작은 효율성에 대해 잊어버려야 한다. 조기 최적화는 모든 악의 근원이다.</p><p>하지만 우리는 저 결정적인 3%의 기회를 놓쳐서도 안 된다. 훌륭한 프로그래머라면 안일에 빠지지 않고 크리티컬한 코드를 면밀히 살펴볼 것이나, 이는 오직 그 코드가 명확히 식별된 이후여야 한다."</p><cite>Donald Knuth (1974)</cite></blockquote>
+<p>몇 문단 앞에 '3%'의 근거가 있습니다.</p>
+<blockquote class="q"><p>"경험에 따르면 I/O 바운드가 아닌 프로그램의 실행 시간 대부분은 소스 코드 텍스트의 약 3%에 집중되어 있다. 일반적으로 프로그램 전체의 속도를 지배하는 짧은 내부 루프가 존재하므로, 이 내부 루프의 속도를 10% 향상시키면 프로그램 전체의 속도가 거의 10% 향상된다."</p><cite>Donald Knuth (1974)</cite></blockquote>
+<h3>무라토리의 역산</h3>
+<p>루프 밖 코드는 그대로이므로 줄어든 시간은 루프에서 줄어든 시간과 같습니다. "거의 10%"를 9% 이상으로 잡으면(무라토리의 보수적 가정):</p>
+<div class="math">T<sub>orig</sub> − T<sub>opt</sub> = C<sub>orig</sub> − C<sub>opt</sub> = 0.1 × C<sub>orig</sub><br>(T<sub>orig</sub> − T<sub>opt</sub>) ÷ T<sub>orig</sub> ≥ 0.09<br>따라서 C<sub>orig</sub> ÷ T<sub>orig</sub> ≥ 0.09 ÷ 0.10 = 90%</div>
+<p>T는 프로그램 전체 실행 시간, C는 그 루프의 실행 시간입니다(orig는 최적화 전, opt는 후). 즉 크누스의 말이 성립하려면 3%의 코드가 실행 시간의 90% 이상을 차지해야 합니다.</p>
+<div class="calc" id="calc">
+<b>직접 계산해 보기</b>
+<label for="share">루프가 차지하는 실행 시간 비중: <output id="o-share">90</output>%</label>
+<input id="share" type="range" min="10" max="100" step="1" value="90">
+<label for="gain">루프 실행 시간 단축률: <output id="o-gain">10</output>%</label>
+<input id="gain" type="range" min="1" max="50" step="1" value="10">
+<p class="res" id="res" aria-live="polite"></p>
+</div>
+<p>참고로 원문이 전하는 실측 비중 50%(8절)에 루프 10% 단축을 넣으면 전체는 5%만 줄어듭니다.</p>
+</section>
+
+<section class="sec" id="s8">
+<div class="sec-head"><span class="sec-num">8</span><div><h2>크누스가 인용한 1971년 데이터</h2><p class="sub">90%는 어디에도 없었다</p></div></div>
+<p>1974년 논문의 각주가 인용한 문헌은 두 편입니다. 크누스 본인의 『An Empirical Study of FORTRAN Programs』(1971)와 댄 잉걸스의 『The Execution Time Profile as a Programming Tool』(1971)입니다.</p>
+<p>크누스는 1970년 여름 실제 프로그램을 모았습니다. 전산실 쓰레기통의 카드는 컴파일 에러투성이였고, 전산실 앞에서 묻는 방법도 포기했습니다. 결국 스탠퍼드 디스크의 '반보호' 파일을 스캔해 록히드 코드와 함께 440개 프로그램(천공 카드 250,000장)을 확보했습니다.</p>
+<table class="tbl stack"><thead><tr><th>구문 유형</th><th>440개 합계 (회)</th><th>프로그램당 평균 (회)</th></tr></thead><tbody>
+<tr><th>배정문</th><td data-label="합계">78,435</td><td data-label="평균">178.2</td></tr>
+<tr><th>조건문 (IF)</th><td data-label="합계">27,940</td><td data-label="평균">63.5</td></tr>
+<tr><th>분기문 (GOTO)</th><td data-label="합계">24,640</td><td data-label="평균">56.0</td></tr>
+<tr><th>루프문 (DO)</th><td data-label="합계">10,560</td><td data-label="평균">24.0</td></tr>
+</tbody></table>
+<p>프로그램 하나가 아주 작았다는 뜻입니다. 1971년 논문에는 90%가 없고 이렇게만 적혀 있습니다.</p>
+<blockquote class="q"><p>"우리는 또한 프로그램의 4% 미만이 대개 실행 시간의 절반 이상(more than half, 즉 50% 이상)을 차지한다는 사실을 발견했다."</p><cite>크누스, 1971 (원문 인용)</cite></blockquote>
+<p>무라토리는 디지털본이 없는 잉걸스 논문의 심포지엄 프로시딩 원본을 이베이에서 구해 스캔했습니다. 잉걸스의 FORTRAN 계측 도구 FORTUNE의 출력을 보면 결과는 이렇습니다.</p>
+<table class="tbl stack"><thead><tr><th>항목</th><th>크누스 1974년 주장</th><th>잉걸스 1971년 실측</th></tr></thead><tbody>
+<tr><th>소스 3%가 차지하는 실행 시간</th><td data-label="1974">90%</td><td data-label="1971">50%</td></tr>
+<tr><th>가장 극단적인 프로그램의 1위 루틴 비중</th><td data-label="1974">(해당 없음)</td><td data-label="1971">66.7%, 나머지 33.3%는 여러 루틴에 분산</td></tr>
+</tbody></table>
+<p>원문은 이를 평평한 프로파일(실행 시간이 한 곳에 몰리지 않고 여러 곳에 고르게 퍼진 상태)이라 부르고, 크누스의 가정이 자신이 인용한 데이터로도 뒷받침되지 않는다고 결론짓습니다.</p>
+</section>
+
+<section class="sec" id="s9">
+<div class="sec-head"><span class="sec-num">9</span><div><h2>1970년대 하드웨어의 비용 모델</h2><p class="sub">종이 위 셈과 실제 기계</p></div></div>
+<p>크누스는 명령어 가져오기 1회와 메모리 참조 1회를 각각 비용 1로 단순 합산했습니다. 원문은 1967년 출하된 IBM System/360 Model 91 매뉴얼을 근거로 실제 기계가 훨씬 복잡했다고 봅니다.</p>
+<ul>
+<li><b>루프 모드</b>: 8더블워드(64바이트) 이하 루프를 감지하면 메인 메모리에서 명령어를 가져오지 않고 칩 안 버퍼에서 실행합니다.</li>
+<li><b>비순차 실행</b>: 명령어를 준비된 순서대로 처리합니다. 토마술로 알고리즘을 처음 하드웨어로 구현했습니다.</li>
+<li><b>분기 버퍼</b>: 분기 때 파이프라인이 멈추지 않도록 미리 가져옵니다.</li>
+</ul>
+<p>그래서 원문은 예제 2a처럼 루프를 펼쳐 8더블워드를 넘기면 루프 모드가 풀려 오히려 느려졌을 수 있다고 봅니다.</p>
+<table class="tbl stack"><thead><tr><th>관점</th><th>내용</th></tr></thead><tbody>
+<tr><th>크누스의 가설 (1974)</th><td data-label="내용">3% 소스가 90% 시간 점유. 캐시 없는 단순 CPU, 메모리 접근 횟수 합산</td></tr>
+<tr><th>잉걸스의 실측 (1971)</th><td data-label="내용">3% 소스가 50% 시간 점유. 최대 핫스팟도 66.7%</td></tr>
+<tr><th>원문이 보는 현대 시스템 (2026)</th><td data-label="내용">수백만 줄의 평평한 프로파일, L1~L3 캐시 계층(1~50ns), DRAM 접근 지연 100~200사이클. 사후 3% 튜닝으로 구조를 수습할 수 없음</td></tr>
+</tbody></table>
+</section>
+
+<section class="sec" id="s10">
+<div class="sec-head"><span class="sec-num">10</span><div><h2>강연 뒤 질의응답</h2><p class="sub">gingerBill과 나눈 세 가지 쟁점</p></div></div>
+<p>Odin 언어를 만든 gingerBill이 무라토리와 대담했습니다.</p>
+<ul>
+<li><b>GOTO와 break</b>: 1974년 논문의 GOTO 예제는 오늘날 break, continue로 씁니다. 무라토리는 당시엔 이것이 표준이 아니었고, '루프 앤드 어 하프'(조건 검사 전 한 번 실행하는 구문)를 두고 경쟁 제안이 많았다고 답합니다.</li>
+<li><b>ALGOL 배열 인덱스</b>: ALGOL 60 배열은 1부터 시작하도록 고정된 것이 아니라 <code>array A[-3:7];</code>처럼 아무 정수 범위나, 실행 중 계산한 식으로도 경계를 정할 수 있었습니다. 데이크스트라는 뒤에 0부터 세는 반열린 구간 [0, N)을 주장했습니다.</li>
+<li><b>호어와 SSA</b>: SSA(정적 단일 대입, 변수마다 값을 한 번만 대입하는 컴파일러 표현)를 호어가 공식 발명 15년 전에 이미 문서에 서술했다고 두 사람은 말합니다.</li>
+</ul>
+</section>
+
+<section class="sec" id="s11">
+<div class="sec-head"><span class="sec-num">11</span><div><h2>결론</h2><p class="sub">유해한 추상화가 된 격언</p></div></div>
+<p>무라토리는 새 교훈 하나를 강요하지 않겠다고 했습니다. 이 격언 자체가 1974년의 맥락, 하드웨어 제약, 수학적 세부를 지운 '유해한 추상화'였다는 이유입니다. 'GOTO는 유해하다'가 교조가 되었듯, 이 격언도 성능을 포기하는 방패가 됐다는 것입니다.</p>
+<blockquote class="q"><p>"추상화의 서로 다른 층위를 도입한다고 해서, 다른 층위를 완전히 무시해도 된다고 내가 암시했다면 깊은 죄책감을 느낍니다. 그것은 결코 사실이 아닙니다. ..."</p><cite>데이크스트라, 크누스에게 보낸 서신 (원문 인용)</cite></blockquote>
+<p>원문이 제시하는 2026년의 교훈은 세 가지입니다.</p>
+<ol>
+<li>미시적 조기 튜닝은 여전히 해롭습니다. 구조가 정해지기 전에 코드를 꼬면 유지보수를 해칩니다.</li>
+<li>그러나 아키텍처 수준의 조기 설계는 필수입니다. 메모리 배치, 캐시 친화적 자료구조, 데이터 흐름은 나중에 3%만 고쳐서 바로잡을 수 없습니다. 호어의 컴파일러가 그 예입니다.</li>
+<li>슬로건 뒤에 숨지 말고 원전을 읽어야 합니다.</li>
+</ol>
+</section>
+
+<section class="sec issues" id="s12">
+<div class="sec-head"><span class="sec-num">12</span><div><h2>읽으며 걸린 곳</h2><p class="sub">정리하면서 제가 찾은 것. 결론에는 영향이 크지 않습니다</p></div></div>
+<details><summary>8가지 보기</summary>
+<ul>
+<li>원문은 세 사람이 "8년 터울로 태어나 8년 터울로 튜링상을 받았다"고 쓰지만, 원문 표대로면 출생은 4년 간격(1930, 1934, 1938년), 수상은 1972, 1974, 1980년입니다.</li>
+<li>컴파일 속도 그림은 2자에서 8자로 오른 것을 "400% 빨라졌다"고 씁니다. 4배는 300% 증가입니다.</li>
+<li>1971년 데이터가 섞여 있습니다. 크누스 1971년 논문은 "4% 미만이 절반 이상"이라고 하고, 원문은 잉걸스 실측을 "3%가 정확히 50%"라고 합니다. 도식은 440개 프로그램 계측을 잉걸스 쪽에 넣었지만, 본문에서 440개는 크누스의 수집 결과입니다.</li>
+<li>도식의 "프로그램 크기: 약 180줄"은 프로그램당 배정문 178.2개에서 온 것으로 보이며, 줄 수와는 다릅니다.</li>
+<li>"9% 이상"이라는 기준은 크누스가 아니라 무라토리의 가정입니다. 위 계산기는 이 가정을 바꿔 볼 수 있게 했습니다.</li>
+<li>도입부는 이베이에서 "1971년 천공카드 계측 보고서"를 낙찰받았다고 하고, 8절은 "심포지엄 프로시딩 원본 서적"이라고 합니다.</li>
+<li>현대 캐시 지연 수치, 호어의 컴퓨터 가격 환산(약 17억 원), SSA "15년" 주장, Ngram 그래프(개념도)에는 출처가 붙어 있지 않습니다. 1974년 인용문들도 한국어 번역본만 실려 있습니다.</li>
+<li>예제 2a가 Model 91 루프 모드를 벗어나 느려졌을 것이라는 서술은 원문의 추정이며 측정값은 없습니다.</li>
+</ul></details>
+</section>
+
+<section class="sources" id="src">
+<h2>출처</h2>
+<p>원문: 「조기 최적화는 모든 악의 근원인가: 도널드 크누스의 격언과 1974년의 진실」, 케이시 무라토리 강연(BSC 2026) 기반 분석 및 컴퓨터 과학사 강의록, 2026. 10. 11. (사용자 원문 페이지) 원문이 근거로 든 문헌: D. E. Knuth, "Structured Programming with go to Statements", ACM Computing Surveys 6(4), 1974, <a href="https://doi.org/10.1145/356635.356640">DOI 10.1145/356635.356640</a>. D. E. Knuth, "The Errors of TeX", 1989, <a href="https://doi.org/10.1002/spe.4380190703">DOI 10.1002/spe.4380190703</a>. C. A. R. Hoare, "The Emperor's Old Clothes", <a href="https://doi.org/10.1145/358549.358561">DOI 10.1145/358549.358561</a>. D. E. Knuth, "An Empirical Study of FORTRAN Programs", 1971, <a href="https://doi.org/10.1002/spe.4380010203">DOI 10.1002/spe.4380010203</a>. 연대, 수치, 인용은 모두 원문을 옮겼고 1차 자료와 직접 대조하지는 않았습니다.</p>
+<p><a class="totop" href="#main">맨 위로</a></p>
+</section>
+</main></div><script>(function(){
+var links=[].slice.call(document.querySelectorAll('nav.toc li a'));
+if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id)})}})},{rootMargin:'-20% 0px -70% 0px'});
+links.forEach(function(a){var s=document.querySelector(a.getAttribute('href'));if(s)io.observe(s)});}
+[].forEach.call(document.querySelectorAll('nav.toc-m a'),function(a){a.addEventListener('click',function(){a.closest('details').open=false})});
+var s=document.getElementById('share'),g=document.getElementById('gain'),r=document.getElementById('res');
+function f(x){return (Math.round(x*10)/10).toString()}
+function u(){var p=+s.value,q=+g.value,t=p*q/100;document.getElementById('o-share').textContent=p;document.getElementById('o-gain').textContent=q;
+r.textContent='전체 실행 시간 단축: '+f(t)+'% (루프 단축률 '+q+'%의 '+f(t/q*100)+'%). 전체에서도 '+q+'%에 가깝게(그 90% 이상) 줄려면 루프 비중이 90% 이상이어야 합니다.'}
+s.addEventListener('input',u);g.addEventListener('input',u);u();
+})();</script>
+
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">요약 아카이브</div><div class="arc-foot-title">조기 최적화는 모든 악의 근원인가: 크누스의 격언과 1974년의 진실</div><div class="arc-foot-meta"><time datetime="2026-10-11">2026년 10월 11일</time><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99%EC%82%AC">#컴퓨터과학사</a><a class="arc-tag" href="../index.html#tags=%EC%84%B1%EB%8A%A5%EC%B5%9C%EC%A0%81%ED%99%94">#성능최적화</a><a class="arc-tag" href="../index.html#tags=%EB%8F%84%EB%84%90%EB%93%9C%ED%81%AC%EB%88%84%EC%8A%A4">#도널드크누스</a><a class="arc-tag" href="../index.html#tags=%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4%EC%9C%84%EA%B8%B0">#소프트웨어위기</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body>
+</html>
