@@ -1,5 +1,23 @@
 [
   {
+    "id": "20261011-05",
+    "title": "문명은 나무가 아니라 덩굴이다: 조세핀 퀀의 '서양 문명' 해체 정리",
+    "summary": "조세핀 퀀의 책을 뼈대로, 서양 문명을 홀로 자란 나무가 아닌 얽힌 덩굴로 보는 해설을 10분 분량으로 정리",
+    "tags": [
+      "고대사",
+      "서양문명",
+      "조세핀퀀",
+      "문화혼종성"
+    ],
+    "date": "2026-10-11",
+    "file": "pages/2026-10-11-서양문명.html",
+    "added": "2026-10-11T14:15:38+09:00",
+    "source_name": "서양문명.html",
+    "source_sha256": "6deeec9633c9a3ec9616bd1314392897647ec8f20d45c93bbfea4f9806e0d21e",
+    "source_path_sha256": "7d86e73bf846ed26aad1f113b011d8d4049cb6f8178d22200a24a52499565555",
+    "source_url": "https://yghnsim.github.io/Pages/western_civilization_vine_not_tree.html"
+  },
+  {
     "id": "20261011-04",
     "title": "이익, 현금흐름, 주가: 다모다란이 본 AI 투자 붐의 회계 정리",
     "summary": "AI 설비투자가 이익은 키우고 현금흐름은 묶는 회계 구조와 자본비용 허들, 투자자의 4가지 경로",
