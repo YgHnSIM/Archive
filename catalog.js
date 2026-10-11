@@ -2,6 +2,24 @@
    `python3 add_page.py --rebuild` 를 실행하면 다시 만들어집니다. */
 window.ARCHIVE_CATALOG = [
   {
+    "id": "20261011-06",
+    "title": "소프트웨어 공학의 과정, 원칙, 목표 (1975)",
+    "summary": "로스·굿이너프·어바인 1975년 논문의 4대 목표, 7대 원칙, 5단계 프로세스 큐브와 서브루틴 사례, 원문의 레드팀 비평 정리",
+    "tags": [
+      "소프트웨어공학",
+      "컴퓨터과학사",
+      "설계원칙",
+      "아키텍처"
+    ],
+    "date": "2026-10-11",
+    "file": "pages/2026-10-11-소프트웨어공학_1975.html",
+    "added": "2026-10-11T20:15:28+09:00",
+    "source_name": "소프트웨어공학_1975.html",
+    "source_sha256": "ab7aeccc1c68c1d388d601ba420d79e131a1eafad96e574d864ca92d5ee61a71",
+    "source_path_sha256": "7033159b6e80c959394e945a1cba8cd3a71749c45f20917be29da19ddf5f31df",
+    "source_url": "https://yghnsim.github.io/Pages/software_engineering_framework_1975.html"
+  },
+  {
     "id": "20261011-05",
     "title": "문명은 나무가 아니라 덩굴이다: 조세핀 퀀의 '서양 문명' 해체 정리",
     "summary": "조세핀 퀀의 책을 뼈대로, 서양 문명을 홀로 자란 나무가 아닌 얽힌 덩굴로 보는 해설을 10분 분량으로 정리",
