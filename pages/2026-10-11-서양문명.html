@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>문명은 나무가 아니라 덩굴이다: 조세핀 퀸의 '서양 문명' 해체 정리</title>
+<meta name="description" content="조세핀 퀸의 책을 뼈대로 한 해설을 10분 분량으로 정리했습니다. 가족 나무 대신 덩굴 모델, 1820년대 복수형 문명의 탄생, 돛단배와 아마르나 외교, 베르니케 불상, 알파벳·0·추첨제·요사밧의 기원, 청동기 붕괴, 아테네의 자기비판을 담았습니다.">
+<style>
+:root{
+  --bg:#faf8f3; --paper:#ffffff; --ink:#1f2328; --muted:#5b6470; --line:#e6e1d6;
+  --accent:#c8553d; --accent-soft:#fbeee9; --link:#4a6b8a;
+  --radius:14px;
+  /* 페이지 고유 의미 색 */
+  --old:#6a5f4b; --old-soft:#f3efe6;
+  --algo:#a2452f; --algo-soft:#fbeee9;
+  --new:#3d5f80; --new-soft:#eaf0f6;
+  --sup:#55598f; --sup-soft:#efeff8;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR","Malgun Gothic","Gothic A1",system-ui,sans-serif;
+  font-size:17px;line-height:1.75;word-break:keep-all;overflow-wrap:break-word}
+@media(max-width:640px){body{font-size:16px}}
+a{color:var(--link)}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #9bb5cf;outline-offset:2px}
+.skip{position:absolute;left:0;top:0;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+.skip:focus{width:auto;height:auto;clip:auto;clip-path:none;left:8px;top:8px;background:#fff;padding:6px 10px;z-index:10}
+.layout{max-width:1180px;margin:0 auto;padding:12px 14px 48px}
+@media(min-width:1024px){.layout{display:grid;grid-template-columns:240px minmax(0,1fr);gap:32px;padding:28px 24px 64px}}
+main{min-width:0}
+
+/* 목차 */
+nav.toc{display:none}
+@media(min-width:1024px){
+  nav.toc{display:block;position:sticky;top:20px;align-self:start;max-height:calc(100vh - 40px);overflow:auto}
+  nav.toc-m{display:none}
+}
+nav.toc .toc-t{font-size:13px;color:var(--muted);letter-spacing:.06em;margin:0 0 10px;font-weight:700}
+nav.toc ol,nav.toc-m ol{list-style:none;margin:0;padding:0}
+nav.toc li a{display:flex;gap:8px;align-items:baseline;text-decoration:none;color:var(--muted);font-size:15px;line-height:1.45;padding:7px 10px;border-radius:8px;border-left:3px solid transparent}
+nav.toc li a .n{font-weight:700;font-size:13px;color:#8a919b;min-width:18px}
+nav.toc li a:hover{background:#f0ece3;color:var(--ink)}
+nav.toc li a.active{background:var(--paper);color:var(--ink);border-left-color:var(--accent);font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+nav.toc li a.active .n{color:var(--accent)}
+nav.toc .orig{display:block;margin-top:12px;padding:10px;border-top:1px solid var(--line);font-size:14px}
+nav.toc-m{margin:14px 0 0}
+nav.toc-m details{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius)}
+nav.toc-m summary{cursor:pointer;padding:10px 14px;font-weight:700;list-style:none}
+nav.toc-m summary::-webkit-details-marker{display:none}
+nav.toc-m summary::after{content:" ▾";color:var(--muted)}
+nav.toc-m ol{padding:0 14px 8px}
+nav.toc-m li a{display:block;padding:8px 0;border-top:1px solid var(--line);text-decoration:none;color:var(--ink)}
+
+/* 머리 */
+.hero{padding:22px 4px 6px}
+.eyebrow{display:inline-block;font-size:13px;font-weight:700;letter-spacing:.04em;color:var(--accent);background:var(--accent-soft);padding:4px 10px;border-radius:999px}
+h1{font-size:clamp(28px,4.4vw,44px);line-height:1.25;margin:14px 0 12px;letter-spacing:-.02em}
+.lead{font-size:18px;color:var(--muted);margin:0 0 18px}
+@media(max-width:640px){.lead{font-size:17px}}
+.info{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.info p{margin:0 0 12px;font-size:16px}
+.cta{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;text-align:center;
+  background:var(--accent);color:#fff;text-decoration:none;font-weight:700;padding:13px 16px;border-radius:12px;font-size:17px}
+.cta:hover{background:#ad4430}
+.cta small{font-weight:500;font-size:14px;opacity:.95}
+.info .meta{font-size:14px;color:var(--muted);margin:12px 0 0}
+
+/* 절 */
+section.sec{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:20px 18px;margin-top:18px;scroll-margin-top:12px}
+@media(min-width:640px){section.sec{padding:28px 30px}}
+.sec-head{display:flex;gap:14px;align-items:flex-start;margin-bottom:10px}
+.sec-num{flex:none;width:36px;height:36px;border-radius:12px;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:800;font-size:16px;margin-top:3px}
+h2{font-size:clamp(23px,3vw,30px);line-height:1.3;margin:0;letter-spacing:-.015em}
+.sub{margin:4px 0 0;color:var(--muted);font-size:15px;line-height:1.5}
+.srcs{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 12px}
+.src{display:inline-block;font-size:14px;text-decoration:none;border:1px solid var(--line);padding:3px 11px;border-radius:999px;color:var(--link);background:#fdfcf9}
+.src:hover{border-color:var(--link)}
+h3{font-size:19px;line-height:1.4;margin:22px 0 6px}
+p{margin:8px 0}
+.muted{color:var(--muted)}
+.tag{display:inline-block;font-size:13px;font-weight:700;line-height:1.5;padding:0 7px;border-radius:6px;background:var(--sup-soft);color:var(--sup);vertical-align:.08em;margin-left:3px;white-space:nowrap}
+.tag.int{background:#efebe2;color:#4f5763}
+blockquote{margin:16px 0;padding:14px 18px;background:#fdfcf9;border-left:5px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;font-size:16.5px;line-height:1.7}
+blockquote cite{display:block;font-style:normal;color:var(--muted);font-size:14px;margin-top:6px}
+.callout{background:#f4f1ea;border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:14px 0;font-size:16px}
+.callout b.t{display:block;margin-bottom:2px}
+.callout.sup{background:var(--sup-soft);border-color:#d9daee}
+ul.tight{margin:6px 0;padding-left:20px}
+ul.tight li{margin:5px 0}
+
+/* 핵심 3줄 */
+.thesis{list-style:none;margin:6px 0 0;padding:0;counter-reset:th}
+.thesis li{counter-increment:th;position:relative;padding:12px 14px 12px 50px;border:1px solid var(--line);border-radius:12px;margin:10px 0;background:#fdfcf9}
+.thesis li::before{content:counter(th);position:absolute;left:14px;top:14px;width:26px;height:26px;border-radius:8px;background:var(--ink);color:#fff;font-weight:700;text-align:center;line-height:26px;font-size:14px}
+.thesis strong{display:block}
+
+/* 6단계 */
+.steps{display:grid;grid-template-columns:1fr;gap:6px;margin:10px 0 0;padding:0;list-style:none}
+@media(min-width:760px){.steps{grid-template-columns:1fr 1fr}}
+.steps li{display:flex;gap:10px;align-items:baseline;border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:16px;line-height:1.6}
+.steps b{flex:none;font-size:14px;color:var(--accent);min-width:58px}
+.steps a{font-size:14px;white-space:nowrap}
+
+/* 용어 */
+.terms{display:grid;grid-template-columns:1fr;gap:8px;margin-top:10px}
+@media(min-width:760px){.terms{grid-template-columns:1fr 1fr}}
+.terms details{border:1px solid var(--line);border-radius:10px;background:#fdfcf9}
+.terms summary{cursor:pointer;padding:9px 12px;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:8px}
+.terms summary::-webkit-details-marker{display:none}
+.terms summary::after{content:"＋";color:var(--muted);font-weight:400}
+.terms details[open] summary::after{content:"－"}
+.terms details p{margin:0;padding:0 12px 10px;font-size:16px;line-height:1.65}
+.terms .en{font-weight:400;color:var(--muted);font-size:14px}
+
+/* 타임라인 */
+.tl{list-style:none;margin:12px 0 0;padding:0 0 0 18px;border-left:3px solid var(--line)}
+.tl li{position:relative;margin:0 0 16px;padding-left:10px}
+.tl li::before{content:"";position:absolute;left:-27px;top:7px;width:15px;height:15px;border-radius:50%;background:#fff;border:3px solid var(--ink)}
+.tl li.ctx::before{border-color:#b3ab9b}
+.tl .date{font-weight:800;font-size:16px}
+.case,.tl .case{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;background:#efebe2;padding:1px 6px;border-radius:6px;white-space:nowrap}
+.tl .txt{font-size:16px;margin:2px 0 0}
+.three{display:grid;grid-template-columns:1fr;gap:8px;margin:12px 0}
+@media(min-width:760px){.three{grid-template-columns:repeat(3,1fr)}}
+.three div{border:1px solid var(--line);border-radius:12px;padding:10px 14px;background:#fdfcf9;font-size:16px;line-height:1.6}
+.three div b{display:block;font-size:17px}
+.three div .yr{display:inline-block;font-size:13px;font-weight:800;color:#fff;background:var(--ink);border-radius:6px;padding:0 7px;margin-bottom:4px}
+
+/* 카드 */
+.cards{display:grid;grid-template-columns:1fr;gap:10px;margin:10px 0}
+@media(min-width:800px){.cards{grid-template-columns:repeat(3,1fr)}}
+.card{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:#fdfcf9;font-size:16px;line-height:1.65}
+.card b.h{display:block;font-size:17px;margin-bottom:2px}
+.card .k{display:inline-block;font-size:13px;font-weight:800;border-radius:6px;padding:0 7px;margin-bottom:4px;background:var(--algo-soft);color:var(--algo)}
+.card.n .k{background:var(--new-soft);color:var(--new)}
+.card.o .k{background:var(--old-soft);color:var(--old)}
+.two{display:grid;gap:12px}
+@media(min-width:800px){.two{grid-template-columns:1fr 1fr}}
+.panel{border:1px solid var(--line);border-radius:12px;padding:12px 16px;background:#fdfcf9}
+.panel h3{margin-top:4px}
+.panel p,.panel li{font-size:16px}
+
+/* 도식 */
+figure.dia{margin:16px 0;padding:14px;border:1px solid var(--line);border-radius:var(--radius);background:#fdfcf9}
+figure.dia svg{display:block;width:100%;max-width:460px;height:auto;margin:0 auto}
+@media(max-width:640px){figure.dia{padding:8px 2px;margin-left:-8px;margin-right:-8px}}
+figure.dia figcaption{font-size:14px;color:var(--muted);margin-top:8px;text-align:center;line-height:1.55}
+
+/* 배달 기사 토글 */
+.seg{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 0}
+.seg button{font:inherit;font-size:15px;font-weight:700;flex:1 1 140px;border:1.5px solid var(--line);background:#fff;color:var(--muted);border-radius:10px;padding:9px 12px;cursor:pointer}
+.seg button[aria-pressed="true"].o{border-color:var(--old);background:var(--old-soft);color:var(--old)}
+.seg button[aria-pressed="true"].n{border-color:var(--new);background:var(--new-soft);color:var(--new)}
+.lens{border:1.5px solid var(--line);border-radius:12px;padding:12px 16px;margin-top:8px;font-size:16px}
+.lens.o{border-color:var(--old);background:var(--old-soft)}
+.lens.n{border-color:var(--new);background:var(--new-soft)}
+.lens ul{margin:6px 0;padding-left:20px}
+.lens p.v{font-weight:800;margin:8px 0 0}
+
+/* 표 */
+.tbl{width:100%;border-collapse:collapse;font-size:16px;line-height:1.6;margin-top:10px}
+.tbl th,.tbl td{border:1px solid var(--line);padding:10px 11px;vertical-align:top;text-align:left}
+.tbl thead th{background:#f4f1ea;font-size:15px}
+.tbl tbody th{background:#fbf9f4;font-weight:700}
+.tbl td.nw{background:#f5f8fb}
+@media(max-width:760px){
+  .stack thead{position:absolute;left:0;top:0;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+  .stack,.stack tbody,.stack tr,.stack th,.stack td{display:block;width:100%}
+  .stack tr{border:1px solid var(--line);border-radius:12px;margin:0 0 12px;overflow:hidden}
+  .stack th,.stack td{border:0;border-top:1px solid var(--line)}
+  .stack tbody th{border-top:0;background:#f4f1ea}
+  .stack td::before{content:attr(data-label);display:block;font-size:13.5px;font-weight:800;color:var(--muted);margin-bottom:2px}
+  .stack td.nw::before{color:var(--new)}
+}
+
+/* 추정 흐름 */
+.flow{list-style:none;margin:12px 0;padding:0;display:grid;gap:8px}
+@media(min-width:800px){.flow{grid-template-columns:repeat(3,1fr)}}
+.flow li{border:1.5px solid var(--line);border-radius:12px;padding:10px 14px;background:#fff;font-size:16px;line-height:1.6;position:relative}
+.flow li b{display:block;font-size:16px}
+.flow li.s1{border-color:#b9a98c}
+.flow li.s2{border-color:var(--new);background:var(--new-soft)}
+.flow li.s3{border-color:var(--algo);background:var(--algo-soft)}
+.flow .who{display:inline-block;font-size:13px;font-weight:800;color:var(--muted)}
+
+/* 오해 카드 */
+.myths{display:grid;grid-template-columns:1fr;gap:10px;margin-top:10px}
+@media(min-width:800px){.myths{grid-template-columns:1fr 1fr}}
+.myth{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:#fdfcf9}
+.myth .say{font-weight:700;margin:0;font-size:16.5px}
+.myth .say::before{content:"흔한 말 ";font-size:13px;font-weight:800;color:var(--algo);background:var(--algo-soft);border-radius:6px;padding:0 6px;margin-right:4px;vertical-align:.08em}
+.myth button{font:inherit;font-size:15px;margin-top:8px;border:1px solid var(--line);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link)}
+.myth .ans{margin:8px 0 0;padding:8px 10px;border-radius:8px;background:var(--new-soft);font-size:16px}
+.myth .ans .ref{display:block;font-size:13.5px;color:var(--muted);margin-top:2px}
+.mcount{font-size:15px;color:var(--muted);margin:10px 0 0}
+button.reset{font:inherit;font-size:15px;border:1px solid var(--line);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;margin-left:6px}
+
+.sources{margin-top:18px;padding:18px;border-top:1px solid var(--line)}
+.sources h2{font-size:20px}
+.sources p{font-size:16px}
+.totop{display:inline-block;margin-top:6px;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:15px;background:#efebe2;padding:1px 5px;border-radius:5px}
+pre.code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;background:#f4f1ea;border:1px solid var(--line);border-radius:10px;padding:10px 12px;overflow-x:auto;max-width:100%;line-height:1.5;white-space:pre}
+.v{display:inline-block;font-size:13px;font-weight:800;border-radius:6px;padding:0 7px;white-space:nowrap;vertical-align:.08em}
+.v.ok{background:#e6f1ea;color:#2f6b45}
+.v.mostly{background:#eaf0f6;color:#3d5f80}
+.v.part{background:#fbeee9;color:#a2452f}
+.issues details{border:1px solid var(--line);border-radius:10px;background:#fdfcf9;margin:8px 0}
+.issues summary{cursor:pointer;padding:10px 12px;font-weight:700;line-height:1.5}
+.issues .no{font-size:13px;color:var(--muted);margin-right:4px}
+.issues details p{margin:0;padding:0 12px 12px;font-size:16px}
+.q{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:10px 0;background:#fdfcf9}
+.q p.qt{font-weight:700;margin:0 0 8px}
+.q button{display:block;width:100%;text-align:left;font:inherit;font-size:16px;border:1.5px solid var(--line);background:#fff;border-radius:10px;padding:8px 12px;margin:6px 0;cursor:pointer;color:var(--ink)}
+.q button.right{border-color:#2f6b45;background:#e6f1ea}
+.q button.wrong{border-color:#a2452f;background:#fbeee9}
+.q .ex{margin:8px 0 0;font-size:16px;padding:8px 10px;border-radius:8px;background:var(--new-soft)}
+
+.go{margin:.4em 0 0;font-size:15px}
+.issues ul{margin:.4em 0;padding-left:1.2em}.issues li{font-size:15px;margin:.3em 0}
+</style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
+</head>
+<body>
+<a class="skip" href="#main">본문으로 건너뛰기</a>
+<!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="요약 아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>요약 아카이브</a><span class="arc-crumb">문명은 나무가 아니라 덩굴이다: 조세핀 퀀의 &#x27;서양 문명&#x27; 해체 정리</span><span class="arc-meta"><time datetime="2026-10-11">2026년 10월 11일</time><a class="arc-tag" href="../index.html#tags=%EA%B3%A0%EB%8C%80%EC%82%AC">#고대사</a><a class="arc-tag" href="../index.html#tags=%EC%84%9C%EC%96%91%EB%AC%B8%EB%AA%85">#서양문명</a><a class="arc-tag" href="../index.html#tags=%EC%A1%B0%EC%84%B8%ED%95%80%ED%80%80">#조세핀퀀</a><a class="arc-tag" href="../index.html#tags=%EB%AC%B8%ED%99%94%ED%98%BC%EC%A2%85%EC%84%B1">#문화혼종성</a><a class="arc-src" href="https://yghnsim.github.io/Pages/western_civilization_vine_not_tree.html" rel="noopener">원문 ↗</a></span></div></div>
+<!-- archive-header:end -->
+<div class="layout">
+<nav class="toc" aria-label="목차"><p class="toc-t">목차</p><ol><li><a href="#s1"><span class="n">1</span>한눈에 보기: 나무에서 덩굴로</a></li><li><a href="#s2"><span class="n">2</span>엑스레이 기계의 오류</a></li><li><a href="#s3"><span class="n">3</span>복수형 "문명들"의 탄생</a></li><li><a href="#s4"><span class="n">4</span>고대를 묶은 물리적 엔진</a></li><li><a href="#s5"><span class="n">5</span>고고학이 보여 준 혼종성</a></li><li><a href="#s6"><span class="n">6</span>알파벳, 0, 민주주의, 성인전</a></li><li><a href="#s7"><span class="n">7</span>청동기 붕괴의 역설</a></li><li><a href="#s8"><span class="n">8</span>그리스·로마의 민낯과 자기비판</a></li><li><a href="#s9"><span class="n">9</span>순수성이라는 위안과 4,000년 뒤</a></li><li><a href="#s10"><span class="n">10</span>읽으며 걸린 곳</a></li></ol><a class="orig" href="https://yghnsim.github.io/Pages/western_civilization_vine_not_tree.html">원문 페이지 ↗</a></nav>
+<main id="main">
+<header class="hero">
+<span class="eyebrow">고대사 · 문명론 정리</span>
+<h1>문명은 나무가 아니라 덩굴이다: 조세핀 퀸의 '서양 문명' 해체 정리</h1>
+<p class="lead">약 53분짜리 원문을 10분 남짓에 읽도록 줄였습니다. 뼈대는 옥스퍼드대학교 고대사 교수 조세핀 퀸의 책 《How the World Made the West: A 4,000-Year History》입니다. 원문에 나온 연대, 수치, 인용만 썼습니다.</p>
+</header>
+<nav class="toc-m" aria-label="목차"><details><summary>목차</summary><ol><li><a href="#s1">1. 한눈에 보기: 나무에서 덩굴로</a></li><li><a href="#s2">2. 엑스레이 기계의 오류</a></li><li><a href="#s3">3. 복수형 "문명들"의 탄생</a></li><li><a href="#s4">4. 고대를 묶은 물리적 엔진</a></li><li><a href="#s5">5. 고고학이 보여 준 혼종성</a></li><li><a href="#s6">6. 알파벳, 0, 민주주의, 성인전</a></li><li><a href="#s7">7. 청동기 붕괴의 역설</a></li><li><a href="#s8">8. 그리스·로마의 민낯과 자기비판</a></li><li><a href="#s9">9. 순수성이라는 위안과 4,000년 뒤</a></li><li><a href="#s10">10. 읽으며 걸린 곳</a></li></ol></details></nav>
+
+<section class="sec" id="s1">
+<div class="sec-head"><span class="sec-num">1</span><div><h2>한눈에 보기: 나무에서 덩굴로</h2><p class="sub">원문이 던지는 질문</p></div></div>
+<p>원문의 화두는 이렇습니다. 우리가 당연하게 믿어 온 '서양 문명'은 처음부터 홀로 자란 순수한 실체인가, 아니면 19세기 제국주의가 나중에 만들어 낸 환상인가?</p>
+<table class="tbl stack">
+<thead><tr><th>모델</th><th>핵심 가정</th></tr></thead>
+<tbody>
+<tr><th>가족 나무</th><td data-label="핵심 가정">근동이라는 뿌리에서 그리스라는 기둥, 로마라는 가지를 거쳐 서유럽과 미국에서 꽃핀다. 서양은 독자적 우수성으로 자생했고, 기원과 계승이 일직선으로 이어진다.</td></tr>
+<tr><th>뒤엉킨 덩굴</th><td data-label="핵심 가정">기술, 문자, 철학은 경계를 넘어 끊임없이 섞였다. 상인, 전쟁 포로, 광부처럼 이동하는 소수가 그물망을 짰다.</td></tr>
+</tbody></table>
+<div class="callout"><b class="t">한 줄 요지</b>역사는 고립되어 자란 나무가 아니라, 수천 년 동안 무역, 강제 이주, 정복, 약탈, 지식의 차용으로 얽힌 덩굴이다. 원문은 이를 처음부터 모든 재료가 한 솥에서 끓던 '스튜'에도 비유합니다.</div>
+</section>
+
+<section class="sec" id="s2">
+<div class="sec-head"><span class="sec-num">2</span><div><h2>엑스레이 기계의 오류</h2><p class="sub">선명한 인과율의 함정</p></div></div>
+<p>원문은 응급실 엑스레이로 시작합니다. 뼈는 부러졌거나 아니거나 둘 중 하나라서, 하얀 선 하나로 진단이 끝나고 환자는 안도합니다. 그러나 통증의 원인이 신경이나 심리처럼 얽힌 영역으로 넘어가면 그 기계는 쓸모가 없어집니다.</p>
+<p>근대 이후의 역사 서술도 이렇게 선명한 선을 원했다는 것이 원문의 진단입니다. 그리스에서 싹터 로마, 르네상스, 계몽주의를 지나 근대 서구라는 열매를 맺었다는 '가족 나무' 모델입니다. 퀸은 지난 4,000년의 지중해와 유라시아 교류사를 근거로 이 모델을 거부합니다.</p>
+<p class="go"><a href="https://yghnsim.github.io/Pages/western_civilization_vine_not_tree.html#1-엑스레이-기계의-오류-선명한-인과율의-함정과-순수성의-환상">원문 해당 부분 ↗</a></p>
+</section>
+
+<section class="sec" id="s3">
+<div class="sec-head"><span class="sec-num">3</span><div><h2>복수형 "문명들"의 탄생</h2><p class="sub">1820년대 제국주의의 리브랜딩</p></div></div>
+<p>원문에 따르면 '문명들(civilizations)'이라는 복수형은 1820년대 이전에는 없던 현대적 발명품입니다.</p>
+<table class="tbl stack">
+<thead><tr><th>시기</th><th>쓰임</th></tr></thead>
+<tbody>
+<tr><th>18세기 계몽주의</th><td data-label="쓰임">단수형만 썼다. 특정 지역이나 민족이 아니라, 인류가 야만에서 벗어나 세련되어 가는 보편적 과정 자체를 뜻했다.</td></tr>
+<tr><th>19세기 제국주의</th><td data-label="쓰임">복수형으로 쪼개졌다. 각 문화를 섞일 수 없는 닫힌 상자로 보고 서열을 매겼다. 맨 위에 서양 문명, 가운데 '정체된' 동양 문명, 맨 아래 지배 대상인 '야만'을 두었다.</td></tr>
+</tbody></table>
+<p>원문은 이 변화가 세 가지 일을 했다고 정리합니다. 문화를 본질로 분리했고, 서양 문명을 이성과 자유로 홀로 선 최고의 문명으로 포장했으며, 지배를 '문명화의 사명'이라는 면죄부로 바꿨다는 것입니다.</p>
+<h3>스튜와 1492년</h3>
+<p>여러 문화가 각자 냄비에서 끓다가 나중에 서양이라는 수프로 합쳐졌다는 그림 대신, 원문은 처음부터 한 솥의 스튜였다고 말합니다. 분리된 문명이라는 생각이 낳은 폭력의 예로 1492년 스페인을 듭니다. 신대륙으로 출항하던 해에, 국내에서는 유대인과 무슬림을 '피의 순수성(limpieza de sangre)'을 구실로 내쫓았다는 것입니다. 원문은 이를 '우리'와 '그들'을 가르는 장벽이 세워진 결정적 순간으로 봅니다.</p>
+<p class="go"><a href="https://yghnsim.github.io/Pages/western_civilization_vine_not_tree.html#2-문명들civilizations이라는-복수형의-탄생-1820년대-제국주의의-거대한-리브랜딩">원문 해당 부분 ↗</a></p>
+</section>
+
+<section class="sec" id="s4">
+<div class="sec-head"><span class="sec-num">4</span><div><h2>고대를 묶은 물리적 엔진</h2><p class="sub">돛단배, 위대한 왕들의 클럽, 이동하는 소수</p></div></div>
+<h3>기원전 2500년경의 돛단배</h3>
+<p>원문은 이집트 나일강 유역의 돛단배 발명을 물류 혁명으로 봅니다. 당나귀 한 마리가 지는 짐은 원문 기준 100kg 안팎이지만, 배는 수십 톤을 싣고 지중해와 홍해를 건넜습니다. 이로써 지중해 동부와 근동을 잇는 초국가적 물류망이 열렸다는 것입니다.</p>
+<h3>후기 청동기의 국제 질서</h3>
+<p>기원전 14~13세기에는 이집트, 바빌로니아, 히타이트, 아시리아, 미타니의 군주들이 서로를 "나의 형제"라 부르는 '위대한 왕들의 클럽'이 있었습니다(아마르나 문서). 외교 서한은 각자의 모국어가 아니라 아카드어 쐐기문자로 썼습니다. 원문은 이를 오늘날 영어 같은 국제 공용어에 견줍니다.</p>
+<h3>머문 다수가 아니라 넘나든 소수</h3>
+<p>대부분의 농민은 평생 마을을 떠나지 않았는데 고대를 세계화라 부를 수 있느냐는 반론에, 원문은 덩굴을 엮은 것은 이동한 소수였다고 답합니다. 목숨을 건 상인과 선원, 그리고 강제로 끌려간 전쟁 포로와 노예입니다. 포로들은 제철 기술, 농법, 요리, 언어, 신화를 몸에 지니고 갔고, 원문은 이 잔혹한 강제 이주를 문화의 '믹서기'라고 부릅니다.</p>
+<p class="go"><a href="https://yghnsim.github.io/Pages/western_civilization_vine_not_tree.html#3-요리-은유-분리된-냄비가-아닌-거대한-스튜">원문 해당 부분 ↗</a></p>
+</section>
+
+<section class="sec" id="s5">
+<div class="sec-head"><span class="sec-num">5</span><div><h2>고고학이 보여 준 혼종성</h2><p class="sub">베르니케의 불상과 폼페이의 락슈미</p></div></div>
+<table class="tbl stack">
+<thead><tr><th>유물</th><th>베르니케 석조 불상</th><th>폼페이 락슈미상</th></tr></thead>
+<tbody>
+<tr><th>발견지</th><td data-label="베르니케 석조 불상">이집트 홍해 연안 베르니케 항, 이시스 신전</td><td data-label="폼페이 락슈미상">폼페이 귀족 저택 정원</td></tr>
+<tr><th>시기</th><td data-label="베르니케 석조 불상">기원후 1~2세기, 로마 치하</td><td data-label="폼페이 락슈미상">기원후 79년 화산 폭발 이전</td></tr>
+<tr><th>재료</th><td data-label="베르니케 석조 불상">튀르키예 아나톨리아산 대리석</td><td data-label="폼페이 락슈미상">인도산 상아</td></tr>
+<tr><th>양식</th><td data-label="베르니케 석조 불상">간다라 양식(헬레니즘 조각 기법과 인도 불교)</td><td data-label="폼페이 락슈미상">초기 인도 조각</td></tr>
+<tr><th>의미</th><td data-label="베르니케 석조 불상">홍해를 오가던 인도 불교 상인을 위해 현지에서 조각</td><td data-label="폼페이 락슈미상">인도의 종교 예술품이 로마 상류층의 장식품이 됨</td></tr>
+</tbody></table>
+<p>원문은 베르니케 불상 하나에 네 겹의 결합이 있다고 요약합니다. 재료는 튀르키예, 양식은 그리스와 인도, 발견은 이집트, 시대는 로마 제국입니다. 고대 지중해와 인도양이 하나의 회로처럼 움직였다는 증거라는 것입니다.</p>
+<p class="go"><a href="https://yghnsim.github.io/Pages/western_civilization_vine_not_tree.html#4-고고학이-폭로한-혼종성의-증거들-베르니케의-불상과-폼페이의-락슈미">원문 해당 부분 ↗</a></p>
+</section>
+
+<section class="sec" id="s6">
+<div class="sec-head"><span class="sec-num">6</span><div><h2>알파벳, 0, 민주주의, 성인전</h2><p class="sub">서양의 '소프트웨어'는 릴레이의 산물</p></div></div>
+<h3>알파벳</h3>
+<p>원문에 따르면 알파벳은 기원전 19세기경 시나이 반도 세라빗 엘카딤 터키석 광산에서 일하던 셈족(레반트) 광부들이 만들었습니다. 수천 개에 이르는 이집트 문자의 모양만 빌리고 뜻은 버린 뒤, 첫소리 원리(두음법)로 소리를 붙였습니다. '집' 모양은 bayt의 [b]가 되어 훗날 그리스의 베타로, '소 머리'는 'alp의 [a]가 되어 알파로 이어졌습니다. 원문은 이를 엘리트의 기술을 누구나 배울 수 있게 바꾼 'UI 해킹'이라 부릅니다.</p>
+<h3>숫자와 0</h3>
+<p>바빌로니아가 60진법 기반의 자릿값 체계를 만들고, 인도가 이를 10진법으로 다듬어 0을 수학에 넣었으며, 알콰리즈미를 비롯한 이슬람 세계의 수학자들이 대수학으로 발전시켜 지중해 무역망을 통해 유럽에 전했다는 계주입니다.</p>
+<h3>추첨제 자치</h3>
+<p>기원전 19세기 아나톨리아 중부의 아시리아 무역 거점 카룸 카네시에서는 상인 총회가 도시를 운영하고, 제비뽑기로 관리를 뽑았다고 원문은 씁니다. 아테네 클레이스테네스 개혁(기원전 6세기 말)보다 훨씬 앞선다는 것입니다.</p>
+<h3>부처에서 가톨릭 성인으로</h3>
+<p>중세 유럽에서 널리 읽힌 《발람과 요사밧》은 왕자가 늙음, 병, 죽음을 보고 세속을 버리는 이야기입니다. 원문은 '요사밧'이라는 이름이 아랍어 부다사프, 페르시아어, 조지아어, 그리스어를 거쳐 산스크리트어 보디사트바(보살)로 거슬러 올라간다고 설명합니다.</p>
+<p class="go"><a href="https://yghnsim.github.io/Pages/western_civilization_vine_not_tree.html#5-문명의-소프트웨어는-어떻게-해킹되었는가-알파벳-0-민주주의-그리고-성인전">원문 해당 부분 ↗</a></p>
+</section>
+
+<section class="sec" id="s7">
+<div class="sec-head"><span class="sec-num">7</span><div><h2>청동기 붕괴의 역설</h2><p class="sub">초연결의 붕괴와 철기의 탈세계화</p></div></div>
+<p>기원전 1200년경 가뭄, 기근, '바다 민족'의 습격이 겹치며 미케네, 히타이트, 우가리트가 잇달아 무너졌습니다. 원문은 이 '후기 청동기 붕괴'에서 두 가지 역설을 끌어냅니다.</p>
+<h3>선형문자 B의 소멸</h3>
+<p>미케네 붕괴 뒤 그리스에서는 약 400년 동안 문자가 사라졌습니다. 전통적 설명은 서기 계층이 사라져 기술이 끊겼다는 것입니다. 원문이 소개하는 가설은 다릅니다. 남은 선형문자 B 점토판은 모두 궁정의 징세 장부였고, 민중에게 문자는 수탈의 도구였으니, 왕궁이 무너졌을 때 이를 잊은 게 아니라 일부러 버렸을 수 있다는 것입니다.</p>
+<h3>철이 무역을 끊다</h3>
+<p>청동은 구리 90%에 주석 10%를 섞어야 하는데, 주석은 아프가니스탄 바다흐샨이나 영국 콘월처럼 먼 곳에서 와야 했습니다. 그래서 청동기는 초장거리 무역을 강제했습니다. 1,200℃ 이상의 제련 기술이 퍼지자, 어디서나 캘 수 있는 철광석 덕분에 먼 무역의 유인이 사라졌습니다. 원문의 결론은 역사가 일직선으로 진보하지 않고 세계화와 고립 사이를 출렁인다는 것입니다.</p>
+<p class="go"><a href="https://yghnsim.github.io/Pages/western_civilization_vine_not_tree.html#6-청동기-붕괴의-역설-민중의-문자-보이콧-가설과-철기의-탈세계화">원문 해당 부분 ↗</a></p>
+</section>
+
+<section class="sec" id="s8">
+<div class="sec-head"><span class="sec-num">8</span><div><h2>그리스·로마의 민낯과 자기비판</h2><p class="sub">진짜 유산은 결백이 아니라 의심</p></div></div>
+<table class="tbl stack">
+<thead><tr><th>구분</th><th>근대 유럽의 신화</th><th>원문이 제시하는 실체</th></tr></thead>
+<tbody>
+<tr><th>그리스인</th><td data-label="근대 유럽의 신화">유럽 문명의 요람</td><td data-label="원문이 제시하는 실체">스스로를 유럽인이 아닌 지중해인으로 여김. '에우로페'는 황소에게 납치된 페니키아 공주의 이름</td></tr>
+<tr><th>아테네</th><td data-label="근대 유럽의 신화">이성과 철학의 낙원</td><td data-label="원문이 제시하는 실체">델로스 동맹에서 공납을 거두고, 멜로스의 성인 남성을 학살하고 여성과 아이를 노예로 판 해상 제국</td></tr>
+<tr><th>로마</th><td data-label="근대 유럽의 신화">법을 베푼 법치국가</td><td data-label="원문이 제시하는 실체">원문은 카이사르가 《갈리아 전기》에 갈리아인 100만 명 학살과 100만 명 노예화를 기록했다고 씀. 법은 정복 뒤의 포장</td></tr>
+</tbody></table>
+<p>그렇다고 아테네가 위대하지 않았다는 말은 아닙니다. 원문은 퀸의 평가를 이렇게 전합니다. 아테네의 위대함은 도덕적 결백이 아니라 스스로를 가차 없이 의심하는 지적 개방성에 있었다. 국가가 비용을 대는 공식 축제에서 에우리피데스의 《메데아》와 《트로이아 여인들》이 국가의 폭력과 위선을 무대에 올렸고, "우리 체제가 틀렸을 수 있다"는 질문을 대중 앞에서 허용했다는 것입니다.</p>
+<p class="go"><a href="https://yghnsim.github.io/Pages/western_civilization_vine_not_tree.html#7-그리스로마-신화의-민낯-제국주의적-폭력과-자기비판이라는-진짜-유산">원문 해당 부분 ↗</a></p>
+</section>
+
+<section class="sec" id="s9">
+<div class="sec-head"><span class="sec-num">9</span><div><h2>순수성이라는 위안과 4,000년 뒤</h2><p class="sub">원문의 결론</p></div></div>
+<p>왜 우리는 순수한 기원에 집착할까요? 원문은 심리적 방어기제로 설명합니다. 내 정체성이 폭력, 노예무역, 낯선 문화 속에서 섞여 만들어졌다고 인정하기는 불안하므로, 흠 없는 혈통이 일직선으로 이어졌다는 이야기가 더 달콤한 위안이 된다는 것입니다.</p>
+<p>마지막으로 원문은 묻습니다. 서기 6026년의 역사학자가 오늘을 본다면, 국경의 철조망이나 '서구 대 비서구'의 선을 의미 있는 경계로 볼까, 아니면 광케이블, 반도체 공급망, 오픈소스, 기후 위기, 이주로 엉킨 하나의 덩굴만 보게 될까?</p>
+<div class="callout"><b class="t">원문의 마무리</b>엑스레이의 하얀 선처럼 인류의 문화를 칼로 가를 수 있는 순수한 경계선은 처음부터 없었다. 지식, 자유, 기술, 언어는 이름 없는 광부, 상인, 노예, 사상가가 서로 빌리고 섞어 만든 공동의 산물이다. 있지도 않은 순수성에 갇히면 다양성에 기대는 미래가 질식한다.</div>
+<p class="go"><a href="https://yghnsim.github.io/Pages/western_civilization_vine_not_tree.html#8-거짓된-확실성을-넘어-4000년-후의-미래에서-본-단-하나의-덩굴">원문 해당 부분 ↗</a></p>
+</section>
+
+<section class="sec issues" id="s10">
+<div class="sec-head"><span class="sec-num">10</span><div><h2>읽으며 걸린 곳</h2><p class="sub">정리하면서 제가 찾은 것. 결론에는 영향이 크지 않습니다</p></div></div>
+<details><summary>7가지 보기</summary>
+<ul>
+<li>5장 (3)의 제목은 카룸 카네시가 아테네보다 "400년 앞선다"고 하지만, 본문과 도식은 "1,400년 전"이라고 씁니다. 원문의 연대(기원전 19세기, 기원전 6세기 말)로 따지면 1,300년 안팎입니다. 그래서 요약에는 숫자를 넣지 않았습니다.</li>
+<li>당나귀 적재량을 본문은 50~100kg, 도식은 80~100kg으로 씁니다. 도식은 돛단배 30~50톤을 "당나귀 500두 이상"이라 하지만, 100kg 기준으로 30톤은 300두입니다.</li>
+<li>선형문자 B 보이콧은 6장 제목과 도입에서 "가설"이라 하면서, 본문 끝은 "가능성이 높다"고 단정에 가깝게 씁니다. 누가 제기한 가설인지 출처도 없습니다.</li>
+<li>1장의 퀸 인용문("문명은 결코 홀로 뿌리내린 나무가 아니다…")과 아테네의 자기비판 평가에는 책의 쪽수나 원문 출처가 붙어 있지 않습니다. 그래서 요약에서는 직접 인용으로 옮기지 않았습니다.</li>
+<li>1492년 유대인과 무슬림을 "전원 추방하거나 학살했다"는 서술과 "공식 성인으로 시성"된 요사밧, 카이사르의 100만 명 기록은 원문에 출처가 없습니다. 1차 자료와 대조하지 않았습니다.</li>
+<li>《발람과 요사밧》 이름의 전파 경로가 도식(보살, 페르시아·아랍어 부다사프, 조지아어, 그리스어, 라틴어)과 본문(아랍어 부다사프, 페르시아어를 거쳐 산스크리트어)에서 순서가 조금 다르게 적혀 있습니다.</li>
+<li>도식은 "Quinn, 2024"라고 쓰지만, 본문에는 책의 출간 연도가 따로 나오지 않습니다. 이 요약도 연도를 덧붙이지 않았습니다.</li>
+</ul></details>
+</section>
+
+<section class="sources" id="src">
+<h2>출처</h2>
+<p>원문: 「<a href="https://yghnsim.github.io/Pages/western_civilization_vine_not_tree.html">문명은 나무가 아니라 덩굴이다: 조세핀 퀸의 '서양 문명' 신화 해체</a>」, 조세핀 퀸 연구 기반 Pages 역사·문명 심층 탐구팀, 2026. 10. 11. 원문이 바탕으로 삼은 책: Josephine Quinn, 《How the World Made the West: A 4,000-Year History》. 연대, 수치, 인용은 모두 원문을 옮겼고 1차 자료와 직접 대조하지는 않았습니다.</p>
+<p><a class="totop" href="#main">맨 위로</a></p>
+</section>
+</main></div><script>(function(){
+var links=[].slice.call(document.querySelectorAll('nav.toc li a'));
+if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id)})}})},{rootMargin:'-20% 0px -70% 0px'});
+links.forEach(function(a){var s=document.querySelector(a.getAttribute('href'));if(s)io.observe(s)});}
+[].forEach.call(document.querySelectorAll('nav.toc-m a'),function(a){a.addEventListener('click',function(){a.closest('details').open=false})});
+})();</script>
+
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">요약 아카이브</div><div class="arc-foot-title">문명은 나무가 아니라 덩굴이다: 조세핀 퀀의 &#x27;서양 문명&#x27; 해체 정리</div><div class="arc-foot-meta"><time datetime="2026-10-11">2026년 10월 11일</time><a class="arc-tag" href="../index.html#tags=%EA%B3%A0%EB%8C%80%EC%82%AC">#고대사</a><a class="arc-tag" href="../index.html#tags=%EC%84%9C%EC%96%91%EB%AC%B8%EB%AA%85">#서양문명</a><a class="arc-tag" href="../index.html#tags=%EC%A1%B0%EC%84%B8%ED%95%80%ED%80%80">#조세핀퀀</a><a class="arc-tag" href="../index.html#tags=%EB%AC%B8%ED%99%94%ED%98%BC%EC%A2%85%EC%84%B1">#문화혼종성</a> · <a href="https://yghnsim.github.io/Pages/western_civilization_vine_not_tree.html" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body>
+</html>
