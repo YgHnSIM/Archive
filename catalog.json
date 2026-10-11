@@ -30,10 +30,11 @@
     "date": "2026-10-11",
     "file": "pages/2026-10-11-이익과주가.html",
     "added": "2026-10-11T10:04:47+09:00",
-    "source_name": "이익과주가.html",
-    "source_sha256": "f66d164a2bf1abb622966c841d31a86415ecba7d1563e107a69c237ac891b0f4",
-    "source_path_sha256": "38f0f6972c96361c8ea3b46a7b67db856d03a24fd7961407e6ed7a7606fe4605",
-    "source_url": "https://yghnsim.github.io/Pages/earnings_cashflows_stock_prices_ai_storm.html"
+    "source_name": "이익과주가_v2.html",
+    "source_sha256": "7c1f04151b53f267a3574a5c3aa4506a8c99cd717cfa221481157d3e4e846b43",
+    "source_path_sha256": "ab685173aedd4afe5fc2c0932441f63bf0b0daa4a48a838352168eb90b2aaaaf",
+    "source_url": "https://yghnsim.github.io/Pages/earnings_cashflows_stock_prices_ai_storm.html",
+    "updated": "2026-10-11T17:51:18+09:00"
   },
   {
     "id": "20261011-03",
