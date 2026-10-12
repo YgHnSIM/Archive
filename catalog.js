@@ -2,6 +2,23 @@
    `python3 add_page.py --rebuild` 를 실행하면 다시 만들어집니다. */
 window.ARCHIVE_CATALOG = [
   {
+    "id": "20261013-01",
+    "title": "디지털 장인정신: AI 시대의 의도, 품질, 예술성",
+    "summary": "Stripe 디자인 책임자 Katie Dill의 강연 정리. AI 시대에 '좀비 UI'를 낳는 세 가지 함정과, 의도·품질·예술성을 지키는 네 가지 권고.",
+    "tags": [
+      "AI",
+      "디자인",
+      "강연"
+    ],
+    "date": "2026-10-13",
+    "file": "pages/2026-10-13-디지털장인정신.html",
+    "added": "2026-10-13T02:58:30+09:00",
+    "source_name": "디지털장인정신.html",
+    "source_sha256": "35b8cdca03ea84c34f8a5b892f26aad8b5d214eb3f37ad48c5589914c97ac2ab",
+    "source_path_sha256": "aaddbc868ef390d6f513c0125c8f521aa4bb550a04ddeb221e43ee089364df09",
+    "source_url": "https://youtu.be/GLvFTMtw4Jk"
+  },
+  {
     "id": "20261011-05",
     "title": "문명은 나무가 아니라 덩굴이다: 조세핀 퀀의 '서양 문명' 해체 정리",
     "summary": "조세핀 퀀의 책을 뼈대로, 서양 문명을 홀로 자란 나무가 아닌 얽힌 덩굴로 보는 해설을 10분 분량으로 정리",
