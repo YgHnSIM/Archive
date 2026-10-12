@@ -4,12 +4,59 @@
 <meta name="description" content="Stripe 디자인 책임자 Katie Dill의 강연 정리. AI 건축 붐 속 '좀비 UI'를 낳는 세 가지 함정과, 의도와 품질과 예술성을 지키는 네 가지 권고.">
 <title>디지털 장인정신: AI 시대의 의도, 품질, 예술성</title>
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;font-size:16px;line-height:1.7;color:#222;background:#faf8f4;word-break:keep-all;overflow-wrap:anywhere}
-main{max-width:760px;margin:0 auto;padding:24px 16px 48px}h1{font-size:1.6em;line-height:1.35;margin:.2em 0 .6em}h2{font-size:1.25em;margin:2em 0 .5em;border-bottom:2px solid #b3261e;padding-bottom:4px}h3{font-size:1.05em;margin:1.4em 0 .3em}
-.box{background:#fff;border:1px solid #ddd;border-radius:8px;padding:12px 14px;margin:12px 0}.term{font-size:14px;color:#555}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}.card{background:#fff;border-left:4px solid #b3261e;padding:10px 12px;border-radius:4px}.card b{display:block}
-.pillar{border-left-color:#2a5d9f}table{width:100%;border-collapse:collapse;background:#fff;font-size:15px}th,td{border:1px solid #ccc;padding:8px;text-align:left;vertical-align:top}th{background:#2b2b2b;color:#fff}
-blockquote{margin:12px 0;padding:8px 14px;border-left:4px solid #999;background:#f0ede6}details{background:#fff;border:1px solid #ddd;border-radius:8px;padding:10px 14px;margin-top:2em}summary{cursor:pointer;font-weight:600}.src{font-size:14px;color:#555;margin-top:2em}
+:root{--bg:#faf8f3;--paper:#ffffff;--ink:#1f2328;--muted:#5b6470;--line:#e6e1d6;--accent:#c8553d;--accent-soft:#fbeee9;--link:#4a6b8a;--radius:14px;--pil:#3d5f80;--pil-soft:#eaf0f6}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR","Malgun Gothic","Gothic A1",system-ui,sans-serif;font-size:17px;line-height:1.75;word-break:keep-all;overflow-wrap:break-word}
+@media(max-width:640px){body{font-size:16px}}
+a{color:var(--link)}
+a:focus-visible,summary:focus-visible{outline:3px solid #9bb5cf;outline-offset:2px}
+.layout{max-width:1180px;margin:0 auto;padding:12px 14px 48px}
+@media(min-width:1024px){.layout{display:grid;grid-template-columns:240px minmax(0,1fr);gap:32px;padding:28px 24px 64px}}
+main{min-width:0}
+nav.toc{display:none}
+@media(min-width:1024px){nav.toc{display:block;position:sticky;top:20px;align-self:start;max-height:calc(100vh - 40px);overflow:auto}nav.toc-m{display:none}}
+nav.toc .toc-t{font-size:13px;color:var(--muted);letter-spacing:.06em;margin:0 0 10px;font-weight:700}
+nav.toc ol,nav.toc-m ol{list-style:none;margin:0;padding:0}
+nav.toc li a{display:flex;gap:8px;align-items:baseline;text-decoration:none;color:var(--muted);font-size:15px;line-height:1.45;padding:7px 10px;border-radius:8px;border-left:3px solid transparent}
+nav.toc li a .n{font-weight:700;font-size:13px;color:#8a919b;min-width:18px}
+nav.toc li a:hover{background:#f0ece3;color:var(--ink)}
+nav.toc li a.active{background:var(--paper);color:var(--ink);border-left-color:var(--accent);font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+nav.toc li a.active .n{color:var(--accent)}
+nav.toc-m{margin:14px 0 0}
+nav.toc-m details{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius)}
+nav.toc-m summary{cursor:pointer;padding:10px 14px;font-weight:700;list-style:none}
+nav.toc-m summary::-webkit-details-marker{display:none}
+nav.toc-m summary::after{content:" ▾";color:var(--muted)}
+nav.toc-m ol{padding:0 14px 8px}
+nav.toc-m li a{display:block;padding:8px 0;border-top:1px solid var(--line);text-decoration:none;color:var(--ink)}
+.hero{padding:22px 4px 6px}
+h1{font-size:clamp(28px,4.4vw,44px);line-height:1.25;margin:14px 0 12px;letter-spacing:-.02em}
+.lead{font-size:18px;color:var(--muted);margin:0 0 18px}
+@media(max-width:640px){.lead{font-size:17px}}
+section.sec{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:20px 18px;margin-top:18px;scroll-margin-top:12px}
+@media(min-width:640px){section.sec{padding:28px 30px}}
+.sec-head{display:flex;gap:14px;align-items:flex-start;margin-bottom:10px}
+.sec-num{flex:none;width:36px;height:36px;border-radius:12px;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:800;font-size:16px;margin-top:3px}
+h2{font-size:clamp(23px,3vw,30px);line-height:1.3;margin:0;letter-spacing:-.015em}
+h3{font-size:19px;line-height:1.4;margin:22px 0 6px}
+p{margin:8px 0}
+.term{font-size:15px;color:var(--muted);background:#f4f1ea;border-radius:10px;padding:6px 12px;margin:8px 0}
+blockquote{margin:16px 0;padding:14px 18px;background:#fdfcf9;border-left:5px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;font-size:16.5px;line-height:1.7}
+.box{background:#f4f1ea;border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:14px 0;font-size:16px}
+.box>b:first-child{display:block;margin-bottom:4px}
+.box ul{margin:6px 0;padding-left:20px}.box li{margin:5px 0}
+.grid{display:grid;grid-template-columns:1fr;gap:10px;margin:10px 0}
+@media(min-width:800px){.grid{grid-template-columns:repeat(3,1fr)}}
+.card{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:#fdfcf9;font-size:16px;line-height:1.65;border-top:4px solid var(--accent)}
+.card b{display:block;font-size:17px;margin-bottom:2px}
+table{width:100%;border-collapse:collapse;font-size:16px;line-height:1.6;margin-top:10px;background:var(--paper)}
+th,td{border:1px solid var(--line);padding:10px 11px;vertical-align:top;text-align:left}
+tr:first-child th{background:#f4f1ea;font-size:15px}
+details.note{border:1px solid var(--line);border-radius:12px;background:#fdfcf9;padding:4px 14px}
+details.note summary{cursor:pointer;font-weight:700;padding:6px 0}
+details.note ul{padding-left:20px}
+.src{font-size:14px;color:var(--muted);margin-top:18px}
 </style><!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
 <style id="archive-mobile-css">
 :where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
@@ -30,17 +77,25 @@ blockquote{margin:12px 0;padding:8px 14px;border-left:4px solid #999;background:
 </head><body><!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
 <div class="arc-band" role="navigation" aria-label="요약 아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>요약 아카이브</a><span class="arc-crumb">디지털 장인정신: AI 시대의 의도, 품질, 예술성</span><span class="arc-meta"><time datetime="2026-10-13">2026년 10월 13일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=%EB%94%94%EC%9E%90%EC%9D%B8">#디자인</a><a class="arc-tag" href="../index.html#tags=%EA%B0%95%EC%97%B0">#강연</a><a class="arc-src" href="https://youtu.be/GLvFTMtw4Jk" rel="noopener">원문 ↗</a></span></div></div>
 <!-- archive-header:end -->
-<main>
+<div class="layout">
+<nav class="toc" aria-label="목차"><p class="toc-t">목차</p><ol><li><a href="#s1"><span class="n">1</span>전후 건축 붐과 좀비 건물</a></li><li><a href="#s2"><span class="n">2</span>좀비 UI를 낳는 세 가지 함정</a></li><li><a href="#s3"><span class="n">3</span>네 가지 기둥</a></li><li><a href="#s4"><span class="n">4</span>정리: 함정과 해독제, 그리고 고딕</a></li></ol></nav>
+<main id="main">
+<header class="hero">
 <h1>디지털 장인정신: AI 시대에 의도, 품질, 예술성을 키우는 법</h1>
-<p>Stripe의 디자인 책임자 Katie Dill은 지금의 AI 시대를 2차 세계대전 직후의 건축 붐에 견줍니다. 빨리 짓는 데만 몰두하면 의도 없는 "좀비 건물"이 쏟아졌듯, AI로도 "좀비 UI"가 쏟아질 수 있다는 경고입니다. 강연은 세 가지 함정과 네 가지 권고로 짜여 있습니다.</p>
+<p class="lead">Stripe의 디자인 책임자 Katie Dill은 지금의 AI 시대를 2차 세계대전 직후의 건축 붐에 견줍니다. 빨리 짓는 데만 몰두하면 의도 없는 "좀비 건물"이 쏟아졌듯, AI로도 "좀비 UI"가 쏟아질 수 있다는 경고입니다. 강연은 세 가지 함정과 네 가지 권고로 짜여 있습니다.</p>
+</header>
+<nav class="toc-m" aria-label="목차"><details><summary>목차</summary><ol><li><a href="#s1">1. 전후 건축 붐과 좀비 건물</a></li><li><a href="#s2">2. 좀비 UI를 낳는 세 가지 함정</a></li><li><a href="#s3">3. 네 가지 기둥</a></li><li><a href="#s4">4. 정리: 함정과 해독제, 그리고 고딕</a></li></ol></details></nav>
 
-<h2>1. 전후 건축 붐과 좀비 건물</h2>
+<section class="sec" id="s1">
+<div class="sec-head"><span class="sec-num">1</span><div><h2>전후 건축 붐과 좀비 건물</h2></div></div>
 <p>2차 세계대전 직후 미국에서는 역사상 가장 큰 건축 붐이 일었습니다. 새 기술과 공법으로 건물이 빠르게 올라갔고, 건축가들은 1920년대 모더니즘을 가져다 썼습니다.</p>
 <p class="term">모더니즘: 단순한 기하 형태, 맨 표면, 단색, 장식 없음이 특징인 건축 양식.</p>
 <p>1920년대 모더니즘의 창시자들에게는 분명한 관점이 있었습니다(빌라 사보아, 바우하우스). 그러나 전후에는 그 양식이 의도 없이 거듭 복제되면서 생각이 점점 얇아졌고, 맥락에 맞지 않는 획일적 패턴만 남았습니다. 예전 은행 건물은 신뢰, 안정, 보안을 드러냈지만 이후에는 아무 특징 없는 건물이 되었습니다. Dill은 이를 "좀비 건물"이라 부릅니다. 사용자도, 주변 환경도, 브랜드도 배려하지 않는 건물입니다.</p>
 <p>지금은 AI 건축 붐입니다. 누구나 만들 수 있고, 과거 30명이 하던 일을 이제 3명이 합니다. Dill은 전후 건축 붐과 닮은 점을 "주의할 점"으로 짚습니다.</p>
 
-<h2>2. 좀비 UI를 낳는 세 가지 함정</h2>
+</section>
+<section class="sec" id="s2">
+<div class="sec-head"><span class="sec-num">2</span><div><h2>좀비 UI를 낳는 세 가지 함정</h2></div></div>
 <div class="grid">
 <div class="card"><b>함정 1. 확률의 함정</b>LLM은 가장 그럴듯한 답, 곧 과거에 통했거나 지금 유행하는 것을 잘 알려 줍니다. 나와 내 브랜드, 사용자 맥락에 고유한 것은 잘 못 합니다. 예시로 든 웹사이트는 소프트웨어 회사처럼 보이지만 실은 한국식 바비큐 식당입니다.</div>
 <div class="card"><b>함정 2. "완성"의 유혹</b>AI는 결과물을 너무 빨리, 흔히 너무 이르게 끝난 것처럼 보이게 합니다. Dill의 전자레인지 부리토 비유: 90초 만에 점심이 되니 거의 먹을 수 없는 맛도 눈감게 됩니다. 문장 하나로 그럴듯한 화면이 나와도 정말 문제를 푸는지, 차별점이 있는지는 따로 물어야 합니다.</div>
@@ -49,7 +104,9 @@ blockquote{margin:12px 0;padding:8px 14px;border-left:4px solid #999;background:
 <p>세 함정이 겹치면 단조롭고, 비어 있고, 방치된 "좀비 UI"가 됩니다. 우리는 깨어 있는 시간의 절반을 화면을 보며 보냅니다. 사람들은 정성이 느껴지는 소프트웨어를 원합니다. Dill이 든 정성의 예: 작은 애니메이션으로 생기를 주는 캐릭터, 탭 아이콘에 오늘 날짜를 띄우는 캘린더, 에이전트가 온라인 결제 중 겪을 문제를 미리 내다보고 해결 기능을 넣은 Link 에이전트 지갑.</p>
 <p class="term">LLM(대규모 언어 모델): 방대한 글을 학습해 다음에 올 가장 그럴듯한 말을 예측하는 AI 모델.</p>
 
-<h2>3. 네 가지 기둥</h2>
+</section>
+<section class="sec" id="s3">
+<div class="sec-head"><span class="sec-num">3</span><div><h2>네 가지 기둥</h2></div></div>
 <p>AI는 범인이 될 수도 있지만, 정성과 영혼이 담긴 제품을 만드는 도구도 됩니다. Dill의 권고는 넷입니다.</p>
 
 <h3>기둥 1. 확고한 관점을 가져라</h3>
@@ -90,14 +147,17 @@ blockquote{margin:12px 0;padding:8px 14px;border-left:4px solid #999;background:
 <li><b>낯선 것을 보호하라.</b> 팀을 이끈다면 AI를 쓰라고만 하지 말고 탐색할 여지를 준다. AI가 줄여 준 비용의 일부를 정말 특별한 것을 만드는 데 쓴다.</li></ul></div>
 <blockquote>AI는 바닥만이 아니라 천장도 높일 수 있습니다.</blockquote>
 
-<h2>4. 정리: 함정과 해독제, 그리고 고딕</h2>
+</section>
+<section class="sec" id="s4">
+<div class="sec-head"><span class="sec-num">4</span><div><h2>정리: 함정과 해독제, 그리고 고딕</h2></div></div>
 <table><tr><th>구분</th><th>좀비 AI 방식</th><th>장인정신 AI 방식</th></tr>
 <tr><td>접근</td><td>범용 프롬프트</td><td>확고한 브랜드 관점</td></tr>
 <tr><td>입력</td><td>형태와 일관성의 복제</td><td>시스템을 통한 의도의 확장</td></tr>
 <tr><td>규모</td><td>맥락 없는 획일화(슬롭)</td><td>기계로 만들었지만 손으로 만든 듯한 영혼</td></tr></table>
 <p>1850년 존 러스킨은 고딕 건축을 품질과 장인정신의 정점으로 꼽았습니다. 고딕 건물은 서로 같은 것이 없고, 기둥 하나도 다른 기둥과 같지 않으며, 디테일마다 만든 사람의 손과 생각이 드러난다고 했습니다. 사용자도 마찬가지입니다. 3D 도구로 30분 만에 애니메이션을 만들었다는 데 감탄하지 않습니다. 문제를 풀어 주고, 필요를 미리 내다본 디테일이 있고, 브랜드에 성격이 있을 때 감탄합니다. 이번 건축 붐에서 디지털 좀비 건물을 짓지 않고 창의적 르네상스를 만들 수 있다는 것이 강연의 결론입니다.</p>
 
-<details><summary>읽으며 걸린 곳</summary>
+</section>
+<details class="note" style="margin-top:18px"><summary>읽으며 걸린 곳</summary>
 <ul>
 <li>슬라이드의 "함정과 해독제" 도식은 함정 1~3을 기둥 1~3(관점, 편집자, 의도 시스템)에 짝지어 연결합니다. 강연에서는 이렇게 일대일로 짝짓지 않으므로, 이 페이지에서는 정리 표만 슬라이드 내용을 따랐습니다.</li>
 <li>슬라이드의 편집자 점검표는 "디테일이 살아 있는가?"를 세 번째 질문으로 둡니다. 강연에서 편집 질문은 문제 해결, 사용자 사고방식, 일관성이며, 디테일 이야기는 Nabil Qureshi 인용에서 나옵니다. 본문은 강연을 따랐습니다.</li>
@@ -107,7 +167,11 @@ blockquote{margin:12px 0;padding:8px 14px;border-left:4px solid #999;background:
 </ul></details>
 
 <p class="src">출처: Katie Dill(Stripe), "How to scale intent, quality, and artistry with AI", Lenny's Podcast YouTube 채널, 21분 48초, https://youtu.be/GLvFTMtw4Jk (영어 자동 자막 기준). NotebookLM 슬라이드 「Digital Craftsmanship in the AI Era / 디지털 장인정신을 위한 청사진」(21장, 같은 영상 기반).</p>
-</main>
+</main></div><script>(function(){var links=[].slice.call(document.querySelectorAll('nav.toc li a'));
+if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id)})}})},{rootMargin:'-20% 0px -70% 0px'});
+links.forEach(function(a){var s=document.querySelector(a.getAttribute('href'));if(s)io.observe(s)});}
+[].forEach.call(document.querySelectorAll('nav.toc-m a'),function(a){a.addEventListener('click',function(){a.closest('details').open=false})});
+})();</script>
 <!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
 <div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">요약 아카이브</div><div class="arc-foot-title">디지털 장인정신: AI 시대의 의도, 품질, 예술성</div><div class="arc-foot-meta"><time datetime="2026-10-13">2026년 10월 13일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=%EB%94%94%EC%9E%90%EC%9D%B8">#디자인</a><a class="arc-tag" href="../index.html#tags=%EA%B0%95%EC%97%B0">#강연</a> · <a href="https://youtu.be/GLvFTMtw4Jk" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
 <!-- archive-footer:end -->
