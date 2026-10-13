@@ -1,5 +1,22 @@
 [
   {
+    "id": "20261013-02",
+    "title": "생명은 계산이다: 아구에라 이 아르카스의 공생발생과 AGI",
+    "summary": "블레즈 아구에라 이 아르카스의 Big Think 인터뷰 정리. 생명은 공생발생으로 복잡해지는 자기구성적 계산이며, AI는 인류의 새로운 미토콘드리아라는 주장.",
+    "tags": [
+      "AI",
+      "생물학",
+      "인터뷰"
+    ],
+    "date": "2026-10-13",
+    "file": "pages/2026-10-13-생명계산.html",
+    "added": "2026-10-13T17:43:39+09:00",
+    "source_name": "생명계산.html",
+    "source_sha256": "3538279a68e6e8ede758e36ba81bf9bb3d65346fec4147dab03b52bb501cbc22",
+    "source_path_sha256": "11d2b5e7e5e3bcde2d3ece3d6ba747b94e60e7be4919de5915a2c2d9a00699e7",
+    "source_url": "https://yghnsim.github.io/Pages/life_computation_symbiogenesis_agi.html"
+  },
+  {
     "id": "20261013-01",
     "title": "디지털 장인정신: AI 시대의 의도, 품질, 예술성",
     "summary": "Stripe 디자인 책임자 Katie Dill의 강연 정리. AI 시대에 '좀비 UI'를 낳는 세 가지 함정과, 의도·품질·예술성을 지키는 네 가지 권고.",

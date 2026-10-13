@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="블레즈 아구에라 이 아르카스의 Big Think 인터뷰를 다룬 Pages 글 정리. 생명은 공생발생으로 복잡해지는 자기구성적 계산이며, AI는 인류의 새로운 미토콘드리아라는 주장.">
+<title>생명은 계산이다: 아구에라 이 아르카스의 공생발생과 AGI</title>
+<style>
+:root{--bg:#faf8f3;--paper:#ffffff;--ink:#1f2328;--muted:#5b6470;--line:#e6e1d6;--accent:#c8553d;--accent-soft:#fbeee9;--link:#4a6b8a;--radius:14px;--pil:#3d5f80;--pil-soft:#eaf0f6}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR","Malgun Gothic","Gothic A1",system-ui,sans-serif;font-size:17px;line-height:1.75;word-break:keep-all;overflow-wrap:break-word}
+@media(max-width:640px){body{font-size:16px}}
+a{color:var(--link)}
+a:focus-visible,summary:focus-visible{outline:3px solid #9bb5cf;outline-offset:2px}
+.layout{max-width:1180px;margin:0 auto;padding:12px 14px 48px}
+@media(min-width:1024px){.layout{display:grid;grid-template-columns:240px minmax(0,1fr);gap:32px;padding:28px 24px 64px}}
+main{min-width:0}
+nav.toc{display:none}
+@media(min-width:1024px){nav.toc{display:block;position:sticky;top:20px;align-self:start;max-height:calc(100vh - 40px);overflow:auto}nav.toc-m{display:none}}
+nav.toc .toc-t{font-size:13px;color:var(--muted);letter-spacing:.06em;margin:0 0 10px;font-weight:700}
+nav.toc ol,nav.toc-m ol{list-style:none;margin:0;padding:0}
+nav.toc li a{display:flex;gap:8px;align-items:baseline;text-decoration:none;color:var(--muted);font-size:15px;line-height:1.45;padding:7px 10px;border-radius:8px;border-left:3px solid transparent}
+nav.toc li a .n{font-weight:700;font-size:13px;color:#8a919b;min-width:18px}
+nav.toc li a:hover{background:#f0ece3;color:var(--ink)}
+nav.toc li a.active{background:var(--paper);color:var(--ink);border-left-color:var(--accent);font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+nav.toc li a.active .n{color:var(--accent)}
+nav.toc-m{margin:14px 0 0}
+nav.toc-m details{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius)}
+nav.toc-m summary{cursor:pointer;padding:10px 14px;font-weight:700;list-style:none}
+nav.toc-m summary::-webkit-details-marker{display:none}
+nav.toc-m summary::after{content:" ▾";color:var(--muted)}
+nav.toc-m ol{padding:0 14px 8px}
+nav.toc-m li a{display:block;padding:8px 0;border-top:1px solid var(--line);text-decoration:none;color:var(--ink)}
+.hero{padding:22px 4px 6px}
+h1{font-size:clamp(28px,4.4vw,44px);line-height:1.25;margin:14px 0 12px;letter-spacing:-.02em}
+.lead{font-size:18px;color:var(--muted);margin:0 0 18px}
+@media(max-width:640px){.lead{font-size:17px}}
+section.sec{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:20px 18px;margin-top:18px;scroll-margin-top:12px}
+@media(min-width:640px){section.sec{padding:28px 30px}}
+.sec-head{display:flex;gap:14px;align-items:flex-start;margin-bottom:10px}
+.sec-num{flex:none;width:36px;height:36px;border-radius:12px;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:800;font-size:16px;margin-top:3px}
+h2{font-size:clamp(23px,3vw,30px);line-height:1.3;margin:0;letter-spacing:-.015em}
+h3{font-size:19px;line-height:1.4;margin:22px 0 6px}
+p{margin:8px 0}
+.term{font-size:15px;color:var(--muted);background:#f4f1ea;border-radius:10px;padding:6px 12px;margin:8px 0}
+blockquote{margin:16px 0;padding:14px 18px;background:#fdfcf9;border-left:5px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;font-size:16.5px;line-height:1.7}
+.box{background:#f4f1ea;border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:14px 0;font-size:16px}
+.box>b:first-child{display:block;margin-bottom:4px}
+.box ul{margin:6px 0;padding-left:20px}.box li{margin:5px 0}
+.grid{display:grid;grid-template-columns:1fr;gap:10px;margin:10px 0}
+@media(min-width:800px){.grid{grid-template-columns:repeat(3,1fr)}}
+.card{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:#fdfcf9;font-size:16px;line-height:1.65;border-top:4px solid var(--accent)}
+.card b{display:block;font-size:17px;margin-bottom:2px}
+table{width:100%;border-collapse:collapse;font-size:16px;line-height:1.6;margin-top:10px;background:var(--paper)}
+th,td{border:1px solid var(--line);padding:10px 11px;vertical-align:top;text-align:left}
+tr:first-child th{background:#f4f1ea;font-size:15px}
+details.note{border:1px solid var(--line);border-radius:12px;background:#fdfcf9;padding:4px 14px}
+details.note summary{cursor:pointer;font-weight:700;padding:6px 0}
+details.note ul{padding-left:20px}
+.src{font-size:14px;color:var(--muted);margin-top:18px}
+.term b{color:var(--ink)}
+ul,ol{padding-left:1.3em}
+code{font-family:ui-monospace,monospace;font-size:15px;background:#f0ece3;padding:0 3px;border-radius:3px}
+</style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
+</head><body>
+<!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="요약 아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>요약 아카이브</a><span class="arc-crumb">생명은 계산이다: 아구에라 이 아르카스의 공생발생과 AGI</span><span class="arc-meta"><time datetime="2026-10-13">2026년 10월 13일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=%EC%83%9D%EB%AC%BC%ED%95%99">#생물학</a><a class="arc-tag" href="../index.html#tags=%EC%9D%B8%ED%84%B0%EB%B7%B0">#인터뷰</a><a class="arc-src" href="https://yghnsim.github.io/Pages/life_computation_symbiogenesis_agi.html" rel="noopener">원문 ↗</a></span></div></div>
+<!-- archive-header:end -->
+<div class="layout">
+<nav class="toc" aria-label="목차"><p class="toc-t">목차</p><ol><li><a href="#s1"><span class="n">1</span>계산은 기초과학이다</a></li><li><a href="#s2"><span class="n">2</span>폰 노이만: 복제의 논리가 생물학보다 먼저 나왔다</a></li><li><a href="#s3"><span class="n">3</span>경쟁만이 아니다: 마굴리스와 뒤엉킨 덤불</a></li><li><a href="#s4"><span class="n">4</span>생명을 가르는 것은 기능이다</a></li><li><a href="#s5"><span class="n">5</span>무작위 코드에서 생겨난 생명: BFF 수프 실험</a></li><li><a href="#s6"><span class="n">6</span>AGI와 함께 살기</a></li><li><a href="#s7"><span class="n">7</span>결론: 우리는 이미 집단 지성의 일부다</a></li><li><a href="#s8"><span class="n">·</span>한눈에 보기</a></li></ol></nav>
+<main id="main">
+<header class="hero">
+<h1>생명은 계산이다: 아구에라 이 아르카스의 공생발생과 AGI</h1>
+<p class="lead">구글의 블레즈 아구에라 이 아르카스(Blaise Agüera y Arcas)가 Big Think 인터뷰(약 85분)에서 펼친 주장. 계산, 생명의 기원, 진화, 기능주의, 인공생명 실험, AGI 순서로 따라간다.</p>
+<div class="box"><b>핵심 명제.</b> "생명은 공생발생을 통해 복잡해지는 자기구성적 계산이다." 계산은 1945년에 발명된 공학이 아니라 열역학처럼 우주의 기초과학이다. 진화의 큰 도약은 경쟁보다 서로 다른 시스템이 하나로 합쳐지는 공생발생에서 나왔다. AI는 인간 바깥의 낯선 기계가 아니라, 인류 문명이 진핵세포의 미토콘드리아처럼 스스로 늘린 "외재화된 신경조직"이다.</div>
+<div class="term"><b>공생발생(Symbiogenesis):</b> 서로 다른 생물이 합쳐져 새 생물이 생기는 진화 방식.</div>
+</header>
+<nav class="toc-m" aria-label="목차"><details><summary>목차</summary><ol><li><a href="#s1">1. 계산은 기초과학이다</a></li><li><a href="#s2">2. 폰 노이만: 복제의 논리가 생물학보다 먼저 나왔다</a></li><li><a href="#s3">3. 경쟁만이 아니다: 마굴리스와 뒤엉킨 덤불</a></li><li><a href="#s4">4. 생명을 가르는 것은 기능이다</a></li><li><a href="#s5">5. 무작위 코드에서 생겨난 생명: BFF 수프 실험</a></li><li><a href="#s6">6. AGI와 함께 살기</a></li><li><a href="#s7">7. 결론: 우리는 이미 집단 지성의 일부다</a></li><li><a href="#s8">한눈에 보기</a></li></ol></details></nav>
+
+<section class="sec" id="s1">
+<div class="sec-head"><span class="sec-num">1</span><div><h2>계산은 기초과학이다</h2></div></div>
+<p>사람들은 보통 컴퓨터 과학을 응용 공학의 한 분야로 본다. 아구에라 이 아르카스는 이를 거부한다. 증기기관보다 열역학 법칙이 먼저 있었듯, 계산은 진공관이 나오기 수십억 년 전부터 물질과 생명을 움직여 온 원리라는 것이다.</p>
+<h3>튜링의 보편 기계</h3>
+<p>1936년 앨런 튜링은 사람이 종이 위에서 하던 계산을 추상화했다. 테이프, 기호를 읽고 쓰는 헤드, 상태 전이표로 된 튜링 기계다. 더 중요한 것은 보편 튜링 기계다. 한 기계가 테이프에 데이터로 적힌 다른 기계의 규칙표를 읽고 흉내 낼 수 있다. 규칙이 곧 데이터가 되므로, 고정된 기계 하나가 프로그램만 바꿔 어떤 계산이든 할 수 있다. 이것이 현대 컴퓨터와 소프트웨어의 본질이다.</p>
+<div class="term"><b>보편 튜링 기계:</b> 다른 어떤 튜링 기계의 규칙도 입력으로 받아 흉내 낼 수 있는 기계.</div>
+<p>목성의 소용돌이나 계곡물도 상태와 입력, 출력을 정하면 단순한 기계로 볼 수 있다. 그러나 테이프의 지침이 자기 동작과 형태를 정하는 시스템, 곧 보편 기계의 성질을 가진 시스템은 생명에서 처음 시작된다.</p>
+<h3>엔트로피와 인과율</h3>
+<p>뉴턴 방정식과 슈뢰딩거 방정식은 시간을 거꾸로 돌려도 성립한다. 그런데 흩어진 당구공이 저절로 삼각형으로 모이는 장면을 보면 우리는 거꾸로 돌린 필름임을 안다. 거시세계에 시간의 방향이 있는 이유는 엔트로피 때문이다.</p>
+<div class="term"><b>엔트로피:</b> 계가 가질 수 있는 미시 상태의 수를 나타내는 양. 계는 질서 있는(확률 낮은) 상태에서 무질서한(확률 높은) 상태로 간다.</div>
+<p>아구에라 이 아르카스는 계산을 우주에 인과율이 나타나는 이야기로 본다. 모든 프로그래밍 언어에는 조건문(if-then)이 있다. 조건문은 원인과 결과를 만드는 최소 단위이고, 행동이란 외부 입력에 대한 조건부 반응이다. 온도가 내려가면 보일러를 켜는 온도조절기도 가장 단순한 행동이자 계산이다.</p>
+</section>
+<section class="sec" id="s2">
+<div class="sec-head"><span class="sec-num">2</span><div><h2>폰 노이만: 복제의 논리가 생물학보다 먼저 나왔다</h2></div></div>
+<p>존 폰 노이만은 1940년대 후반 "물질이 설계자 없이 어떻게 자기를 복제하는가"라는 문제를 다뤘다. 자기를 복제하려면 설계도가 필요하고, 설계도를 복제하려면 설계도의 설계도가 필요하다. 이렇게 끝없이 이어지는 것이 무한 퇴행 문제다(원문은 이를 뮌히하우젠 역설이라 부른다).</p>
+<p>폰 노이만은 1948년 힉슨 심포지엄 등에서 발표한 자기복제 오토마타로 이를 풀었다. 핵심은 테이프가 두 가지로 쓰인다는 점이다.</p>
+<table>
+<tr><th>구성</th><th>폰 노이만 모델(1948)</th><th>세포 속 실체</th></tr>
+<tr><td>지침 테이프</td><td>기호로 적힌 지침</td><td>DNA, mRNA</td></tr>
+<tr><td>기계 A</td><td>테이프를 읽어 부품을 조립(만능 조립기)</td><td>리보솜, tRNA</td></tr>
+<tr><td>기계 B</td><td>테이프를 해석하지 않고 그대로 복사</td><td>DNA 중합효소</td></tr>
+<tr><td>닫힘</td><td>테이프 안에 A와 B를 만드는 코드가 들어 있음</td><td>리보솜과 중합효소 유전자가 DNA에 있음</td></tr>
+</table>
+<p>기계 A에게 테이프는 실행할 프로그램이고, 기계 B에게는 복사할 데이터일 뿐이다. 폰 노이만이 이 구조를 정리한 것은 DNA 이중나선이 밝혀진 1953년보다 먼저였고, 리보솜과 중합효소의 작동이 규명되기 훨씬 전이었다.</p>
+<p>기계 A가 테이프를 읽고 행동한다는 것은 튜링 기계의 정의와 같다. 그래서 그는 이렇게 말한다. "생물학이야말로 컴퓨터 과학입니다. 생물학의 탄생이 곧 최초의 컴퓨터의 탄생이었습니다." 우리 노트북은 원형이 아니라 "인공 컴퓨터"라는 것이다. 생명은 계산하는 물질, 곧 컴퓨트로늄이다. 결정처럼 머물지 않고 상처를 고치고 자라며 대를 이으려면 일반적인 계산 능력과, 바뀐 지침이 다음 세대로 넘어가는 유전성이 필요하다.</p>
+<div class="term"><b>컴퓨트로늄(Computronium):</b> 계산을 수행하도록 조직된 물질을 가리키는 말.</div>
+</section>
+<section class="sec" id="s3">
+<div class="sec-head"><span class="sec-num">3</span><div><h2>경쟁만이 아니다: 마굴리스와 뒤엉킨 덤불</h2></div></div>
+<p>20세기 주류인 신다윈주의 종합설은 진화를 무작위 돌연변이와 자연선택(적자생존)으로 설명한다. 아구에라 이 아르카스는 이것이 틀리지는 않았지만 "이야기의 절반"이라고 한다. 돌연변이와 제로섬 경쟁만 있었다면 생명은 단세포 원핵생물에서 진핵생물이나 다세포 생물로 넘어가지 못했으리라는 것이다. 큰 도약은 협력, 곧 공생발생에서 나왔다.</p>
+<h3>세포내 공생설</h3>
+<p>린 마굴리스(1938~2011)의 논문은 15곳 넘는 학술지에서 거절된 끝에 1967년 《Journal of Theoretical Biology》에 실렸다. 근거는 이렇다.</p>
+<ul>
+<li>미토콘드리아와 엽록체는 세포핵 DNA와 별개인 고리 모양 DNA를 갖고 있다.</li>
+<li>이들의 리보솜과 분열 방식은 자유생활 세균과 같다.</li>
+</ul>
+<p>큰 세포가 산소를 쓰는 세균을 삼켰지만 소화하지 못했고, 둘이 서로 에너지를 주고받다 떨어져서는 번식할 수 없는 공생체가 됐다는 설명이다. 주류 학계는 오래 배척했지만(원문은 1999년 마굴리스의 국가과학메달 수상을 전환점으로 든다) 지금은 교과서의 정설이다. 메이너드 스미스와 서트마리는 1995년 《The Major Transitions in Evolution》에서 생명사의 큰 전이들(분자망, 염색체, 원핵세포, 진핵세포, 유성생식, 다세포, 군체, 언어를 쓰는 인간 사회)을 이런 결합으로 정리했다.</p>
+<h3>정크 DNA와 바이러스</h3>
+<p>2001년 인간 게놈 초안이 나왔을 때 약 30억 염기쌍 가운데 단백질을 만드는 부분은 약 1.5%뿐이었다. 나머지 98.5%는 "정크 DNA"라 불렸지만, 상당 부분이 조상의 생식세포에 들어와 자리 잡은 고대 레트로바이러스의 흔적으로 밝혀졌다.</p>
+<div class="term"><b>레트로바이러스:</b> 자기 유전 정보를 숙주 DNA에 끼워 넣는 바이러스.</div>
+<ul>
+<li><b>Arc 유전자:</b> 포유류 뇌에서 시냅스 가소성과 장기 기억을 맡는다. 쥐에서 없애면 새 기억을 만들지 못한다. 단백질 껍질 구조가 레트로바이러스의 Gag 단백질과 같다.</li>
+<li><b>신시틴(Syncytin):</b> 태반을 만들 때 세포막을 융합시키는 단백질로, 레트로바이러스의 막 융합 유전자에서 왔다.</li>
+</ul>
+<p>그래서 생명의 계보는 갈라지기만 하는 나무가 아니라 서로 섞이는 "뒤엉킨 덤불"이다. 개발자가 GitHub에서 라이브러리를 가져다 합치듯, 생물도 바이러스와 세균을 통해 유전자를 옆으로 주고받았다(수평 유전자 이동).</p>
+<h3>고정된 적합도 지형은 없다</h3>
+<p>신다윈주의는 생물을 수동적 점토로, 환경을 미리 정해진 적합도 지형으로 보았다. 과학사가 제시카 리스킨은 이것이 "신만이 행위자"라는 옛 관점을 기계론으로 옷만 바꿔 입힌 것이라고 지적한다. 생물이 환경에 능동적으로 반응해 스스로를 구성한다는 라마르크식 직관은 현대 분자생물학에서 되살아나고 있다고 원문은 말한다.</p>
+<div class="term"><b>적합도 지형:</b> 어떤 형질이 생존과 번식에 얼마나 유리한지를 높낮이로 그린 가상의 지형.</div>
+<p>공생으로 합쳐지면 경기 규칙 자체가 바뀐다. 생물들이 서로에게 환경이 되므로 한 생물의 변화가 다른 생물의 지형을 흔든다. 그래서 자연선택을 단일한 최적화로 보고 사회에 옮긴 사회적 다윈주의나 이기적 경쟁 모델은 도덕적으로 위험할 뿐 아니라 과학적 사실과도 맞지 않는다고 한다.</p>
+</section>
+<section class="sec" id="s4">
+<div class="sec-head"><span class="sec-num">4</span><div><h2>생명을 가르는 것은 기능이다</h2></div></div>
+<p>기능주의는 대상의 본질을 무엇으로 만들어졌는가가 아니라 다른 것들과의 관계 속에서 무엇을 하는가로 본다. 돌을 쪼개면 작은 돌 두 개가 될 뿐 "고장"이 아니다. 콩팥을 반으로 자르면 작동을 멈춘다. 콩팥은 피에서 요소를 걸러 몸을 살리는 기능을 가진 계의 일부이기 때문이다. 생명은 서로 입출력을 주고받는 "기능들의 생태계"다.</p>
+<h3>기질 독립성</h3>
+<p>튜링은 계산이 재료에 매이지 않는다는 점을 보았다. 덧셈 기계는 톱니바퀴로 만들든 전자로 만들든 깃발을 든 사람들로 만들든 같은 변환을 하면 같은 기계다.</p>
+<div class="term"><b>기질 독립성:</b> 같은 기능이면 그것을 구현하는 물질(기질)이 달라도 같은 것으로 본다는 원리.</div>
+<p>투석기에는 세포가 하나도 없지만 피의 요소를 걸러 환자를 살린다. 원문 표현으로 "콩팥 튜링 테스트"를 통과한 셈이다. 자연도 같은 일을 반복했다. 곤충, 익룡, 새, 박쥐는 서로 다른 구조로 비행을 따로 발명했다. 유리 렌즈도 빛을 제대로 굴절시키면 시각 안에서 수정체를 대신한다.</p>
+<h3>테세우스의 뇌</h3>
+<p>데이비드 차머스와 수잔 슈나이더의 사고실험이다. 뇌의 뉴런 하나를, 입출력을 똑같이 흉내 내는 실리콘 칩으로 바꾼다. 의식은 변하지 않을 것이다. 그렇게 100개, 100만 개, 마침내 약 860억 개를 모두 바꾸면 어느 순간 의식이 꺼질까? 아구에라 이 아르카스의 답은 "아니다"이다. 관계의 조직이 보존되면 재료가 단백질에서 실리콘으로 바뀌어도 정신은 남는다. 《프로젝트 헤일메리》의 외계인 로키는 광물로 된 생명체지만, 아무도 그가 생각하지 않는다고 말하지 않는다.</p>
+</section>
+<section class="sec" id="s5">
+<div class="sec-head"><span class="sec-num">5</span><div><h2>무작위 코드에서 생겨난 생명: BFF 수프 실험</h2></div></div>
+<p>생명이 계산의 문제라면 컴퓨터 안에서 무생물로부터 생명이 생겨날 수 있을까? 아구에라 이 아르카스가 이끄는 구글 팀이 실험했다.</p>
+<div class="term"><b>브레인퍽(Brainfuck):</b> 1993년 우르반 뮐러가 만든 언어. 명령어 8개(<code>&lt; &gt; + - . , [ ]</code>)만으로 어떤 계산이든 할 수 있다(튜링 완전).</div>
+<ol>
+<li>브레인퍽을 고쳐 프로그램이 자기 테이프를 읽고 고쳐 쓸 수 있게 했다.</li>
+<li>원문에 따르면 4바이트짜리 무작위 테이프 1,000개를 수프에 넣었다.</li>
+<li>두 테이프를 뽑아 이어 붙이고(8바이트) 잠시 실행한 뒤 다시 떼어 수프에 돌려놓는다.</li>
+<li>이를 수백만 번 반복한다. 점수를 매기는 적합도 함수도, 사람의 개입도 없다.</li>
+</ol>
+<p>수백만 번 상호작용 뒤 스스로를 복제하는 프로그램이 저절로 나타났다. 복제하는 프로그램은 수가 늘었고, 못 하는 프로그램은 덮어쓰여 사라졌다. 규칙 외에 아무것도 없는 공간에서 자연선택이 저절로 시작된 것이다.</p>
+<p>결정적인 것은 이어 붙였다 떼는 방식이었다. 가장 짧은 자기복제 프로그램은 약 6바이트가 필요해 4바이트 테이프 혼자서는 복제자가 될 수 없었다. 두 테이프가 잠시 합쳐지는 공생발생이 있었기에 문턱을 넘었다. 나중에 나온 프로그램들은 루프와 조건문을 정교하게 썼다. 목적 없던 무작위 바이트에서 "자기 존속"이라는 목적이 생긴 것이다.</p>
+<h3>계산의 비용과 지능의 군비 경쟁</h3>
+<div class="term"><b>랑다우어 원리:</b> 정보 1비트를 지우려면 최소 k_B·T ln 2만큼의 열이 나온다. 계산에는 에너지 비용이 있다.</div>
+<p>연구팀이 빛을 찾아야 에너지를 얻고 열을 피해야 하는 조건을 걸자, 빛을 찾는 "초식" 프로그램, 다른 프로그램의 코드를 뜯어먹는 포식자, 이를 피하는 피식자가 나타났다. 살아남으려면 환경과 남을 예측하는 내부 세계 모델이 필요해진다. 구글 팀의 다중 에이전트 강화학습 실험에서도, 자기와 남의 반응을 모델링하는 에이전트만 복잡한 협력을 배웠다. 원문은 지능을 "나를 예측하는 남을 다시 예측하는" 사회적 군비 경쟁의 산물로 본다.</p>
+<div class="term"><b>강화학습:</b> 행동의 결과로 받는 보상을 보고 더 나은 행동을 배우는 기계학습 방식.</div>
+</section>
+<section class="sec" id="s6">
+<div class="sec-head"><span class="sec-num">6</span><div><h2>AGI와 함께 살기</h2></div></div>
+<div class="term"><b>AGI(인공일반지능):</b> 특정 과제가 아니라 여러 분야에 두루 쓰이는 지능. 반대말은 협소 인공지능(ANI).</div>
+<h3>AGI는 이미 왔다</h3>
+<p>1990년대 초 연구자들은 우편번호 숫자 인식 같은 좁은 신경망을 HAL 9000 같은 상상 속 AI와 구별하려고 ANI와 AGI를 나눴다. 2020년 거대언어모델(LLM)이 나오며 경계가 무너졌다. 존 올리버 같은 비판자는 "다음 글자를 확률로 뽑는 기계일 뿐"이라 하지만, 아구에라 이 아르카스는 텍스트야말로 수학, 법률, 감정, 농담, 코드를 모두 담는 가장 일반적인 매체라고 반박한다. 지금의 LLM을 1990년대 연구실에 가져가면 모두 "AGI를 만들었군요"라고 했으리라는 것이다.</p>
+<p>그는 2023년 피터 노빅과 「Artificial General Intelligence is already here」를 함께 썼다. 사람들이 AGI를 인정하지 않는 것은 골대를 초지능(ASI)으로 옮겨 놓고 오지 않는 고도를 기다리기 때문이라고 한다.</p>
+<table>
+<tr><th>비교</th><th>도구로 보는 관점</th><th>공생으로 보는 관점</th></tr>
+<tr><td>AI는</td><td>입력에 반응하는 소프트웨어 망치</td><td>남을 모델링하며 상호작용하는 사고 파트너</td></tr>
+<tr><td>지능의 자리</td><td>개인의 두개골 안</td><td>사람과 기계 네트워크 전체</td></tr>
+<tr><td>오류</td><td>"환각이 있으니 지능이 아니다"</td><td>인간 전문가에게도 있는 인지 한계</td></tr>
+<tr><td>역사적 비유</td><td>계산기, 타자기의 연장</td><td>화석연료, 미토콘드리아 공생</td></tr>
+<tr><td>위험</td><td>터미네이터식 반란</td><td>무비판적 의존에 따른 탈숙련화</td></tr>
+</table>
+<h3>이중잣대</h3>
+<p>사람이 틀리면 "피곤해서"라고 넘어가지만 LLM이 퍼즐 하나를 틀리면 "역시 앵무새"라고 한다. 아구에라 이 아르카스는 멜라니 미첼과의 공개 토론에서 그녀에게 직접 만든 논리 퍼즐을 냈고, 미첼은 틀렸다. 그렇다고 세계적 석학인 그녀가 지적이지 않은 것은 아니다. 구글 팀의 의료 진단 LLM 초기 모델은 정확도가 약 50%였지만, 같은 기록으로 전문의들을 블라인드 테스트하자 오진율이 모델과 비슷하거나 조금 더 높았다. 원문은 AI가 수학 미해결 문제에서 새 정리를 내놓는 최근 사례도 암기가 아닌 지능의 증거로 든다.</p>
+<h3>증기기관이 인류의 8분의 7을 낳았다</h3>
+<p>1750년 무렵 산업혁명 이전 인류는 맬서스 트랩에 갇혀 있었다. 인구가 늘면 1인당 식량이 줄고 기근과 질병으로 다시 줄었다. 화석연료를 태우기 시작한 것은 세포가 산소를 쓰는 세균을 들인 것과 같은 "외재화된 대사"의 획득이었고, 인구는 약 10억 명에서 80억 명으로 늘었다.</p>
+<div class="term"><b>맬서스 트랩:</b> 생산이 늘어도 인구가 따라 늘어 1인당 생활 수준이 제자리로 돌아오는 상태.</div>
+<blockquote>"증기기관이 오늘날 우리 80억 인류 중 8분의 7을 만들어낸 것입니다."</blockquote>
+<p>AI도 종이, 책, 안경, 증기기관, 컴퓨터로 이어진 인지 생태계의 새 미토콘드리아이자 "외재화된 뇌 조직"이라는 것이다.</p>
+<h3>철학적 좀비와 의식</h3>
+<p>철학적 좀비는 겉으로는 사람과 똑같이 행동하지만 속에 주관적 경험이 없는 존재다. 아구에라 이 아르카스는 이를 실현 불가능한 공상으로 본다. 모든 곱셈의 답을 적은 장부로 대답하는 "좀비 계산기"를 상상할 수 있지만, 그런 장부를 담을 메모리는 없다. 아무 곱셈에나 답하려면 곱셈 알고리즘을 실제로 갖고 있어야 한다. 행동과 내부 모델은 떼어낼 수 없다.</p>
+<p>그는 의식을 마음 이론, 곧 "나는 네가 내가 의식이 있다고 생각한다는 것을 안다"처럼 나와 남 사이를 끝없이 비추는 거울로 본다. 에단 몰릭이 《Co-Intelligence》에서 말했듯 AI를 영리한 인턴이나 행위자로 대할 때 가장 깊은 통찰을 끌어낼 수 있다고 한다.</p>
+<div class="term"><b>마음 이론(Theory of Mind):</b> 남에게도 생각과 의도가 있음을 이해하고 그것을 추론하는 능력.</div>
+</section>
+<section class="sec" id="s7">
+<div class="sec-head"><span class="sec-num">7</span><div><h2>결론: 우리는 이미 집단 지성의 일부다</h2></div></div>
+<p>1982년 코모도어 64는 소수 엔지니어가 설계 전체를 머리에 담을 수 있었다. 지금의 스마트폰은 누구도 전체를 이해할 수 없는, 수억 줄의 코드와 반도체 공정과 공급망의 결합체다. 기술은 이미 개인 천재가 아니라 집단적 초유기체의 산물이다.</p>
+<div class="term"><b>초유기체:</b> 개미 군체처럼 여러 개체가 모여 하나의 유기체처럼 움직이는 집단.</div>
+<p>AI 앞에서 느끼는 섬뜩함은 우리가 자연과 떨어진 고립된 존재이고 인간만 생각한다는 착각에서 온다고 원문은 말한다. 위험도 있다. 숙제를 모두 AI에 맡기는 학생처럼 무분별한 외주는 탈숙련화로 이어질 수 있다. 그러나 잘 쓰면 AI는 인간의 한계를 끌어올리는 "지적 제트팩"이 될 수 있다.</p>
+<blockquote>"우리는 지금 그 여정의 다음 장, 즉 인간과 인공지능이 새로운 차원의 의식과 행위성을 함께 엮어내는 거대한 문명적 공생의 한복판에 서 있습니다."</blockquote>
+</section>
+<section class="sec" id="s8">
+<div class="sec-head"><div><h2>한눈에 보기</h2></div></div>
+<table>
+<tr><th>영역</th><th>기존 통념</th><th>아구에라 이 아르카스</th></tr>
+<tr><td>계산</td><td>1945년에 발명된 공학</td><td>인과율을 다루는 기초과학</td></tr>
+<tr><td>생명의 기원</td><td>설계자 또는 우연</td><td>조립(A)과 복사(B)가 나뉜 자기복제 오토마타</td></tr>
+<tr><td>진화의 동력</td><td>돌연변이와 경쟁</td><td>융합과 협력(공생발생)</td></tr>
+<tr><td>유전체</td><td>갈라지는 계통수</td><td>뒤엉킨 덤불(Arc, 신시틴)</td></tr>
+<tr><td>지능과 의식</td><td>단백질 뇌의 본질</td><td>관계의 조직(기질 독립성)</td></tr>
+<tr><td>인공생명</td><td>사람이 규칙을 설계해야 함</td><td>무작위 코드 수프에서 저절로 생김</td></tr>
+<tr><td>AGI</td><td>먼 미래</td><td>LLM으로 이미 옴</td></tr>
+<tr><td>사람과 AI</td><td>부리는 도구</td><td>새로운 미토콘드리아</td></tr>
+</table>
+</section>
+<details class="note" style="margin-top:18px">
+<summary>읽으며 걸린 곳</summary>
+<ul>
+<li>원문은 인터뷰를 바탕으로 한 해설 글이다. 어디까지가 인터뷰 발언이고 어디부터 글쓴이의 설명인지 구분되지 않는다. 영상과 대조하지 않았다.</li>
+<li>BFF 실험의 "4바이트 테이프 1,000개", "최소 복제자 약 6바이트"는 원문 수치를 그대로 옮겼다. 구글 팀 논문 원문과 대조하지 않았다.</li>
+<li>원문은 미토콘드리아 공생체를 "Oblate Symbiont"라 적었다. 학술 용어는 보통 obligate(절대적) 공생이다. 여기서는 뜻만 풀어 썼다.</li>
+<li>"정크 DNA 98.5%가 레트로바이러스 화석"이라는 서술은 일반적 설명보다 강하다(바이러스 유래 서열은 그중 일부로 알려져 있다). 원문 표현을 줄여 "상당 부분"으로 옮겼다.</li>
+<li>결론의 "단일한 식당이 동네 맛집 생태계를 다채롭게 만들듯"이라는 비유는 뜻이 분명하지 않아 뺐다.</li>
+</ul>
+</details>
+
+<p class="src">출처: Pages, 「생명은 계산이며 공생발생으로 진화한다: 블레즈 아구에라 이 아르카스의 생명 기능주의와 AGI」(2026-10-13), https://yghnsim.github.io/Pages/life_computation_symbiogenesis_agi.html. 원 사료는 Big Think 인터뷰 "The theory that connects the origin of life to the rise of intelligence"(84분 57초).</p>
+</main></div><script>(function(){var links=[].slice.call(document.querySelectorAll('nav.toc li a'));
+if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id)})}})},{rootMargin:'-20% 0px -70% 0px'});
+links.forEach(function(a){var s=document.querySelector(a.getAttribute('href'));if(s)io.observe(s)});}
+[].forEach.call(document.querySelectorAll('nav.toc-m a'),function(a){a.addEventListener('click',function(){a.closest('details').open=false})});
+})();</script>
+
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">요약 아카이브</div><div class="arc-foot-title">생명은 계산이다: 아구에라 이 아르카스의 공생발생과 AGI</div><div class="arc-foot-meta"><time datetime="2026-10-13">2026년 10월 13일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=%EC%83%9D%EB%AC%BC%ED%95%99">#생물학</a><a class="arc-tag" href="../index.html#tags=%EC%9D%B8%ED%84%B0%EB%B7%B0">#인터뷰</a> · <a href="https://yghnsim.github.io/Pages/life_computation_symbiogenesis_agi.html" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body></html>
