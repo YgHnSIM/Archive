@@ -13,10 +13,11 @@ window.ARCHIVE_CATALOG = [
     "date": "2026-10-13",
     "file": "pages/2026-10-13-러셀AI통제.html",
     "added": "2026-10-13T23:53:50+09:00",
-    "source_name": "러셀AI통제.html",
-    "source_sha256": "04b45e0f144fa02b6a39b3fa00542b68afa125d62a589f1f4a1a7dee0c63cc1b",
-    "source_path_sha256": "749ba3d44f319974039e8111bcbbbe7e9433cf29b4aaae918430a55c701260e8",
-    "source_url": "https://yghnsim.github.io/Pages/stuart_russell_ai_control_problem.html"
+    "source_name": "러셀AI통제_복습시험판.html",
+    "source_sha256": "7f5b82a6c1103d0ec646bff9f49b88af1a06660b38f5aba6078be6c7783a7e7f",
+    "source_path_sha256": "2c81fe6478803f9854b8181370e4b089a53c25143b9c65841688a2b4bcb308a0",
+    "source_url": "https://yghnsim.github.io/Pages/stuart_russell_ai_control_problem.html",
+    "updated": "2026-10-14T00:56:06+09:00"
   },
   {
     "id": "20261013-02",

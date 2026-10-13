@@ -232,6 +232,28 @@ pre.code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-s
 .el li b{display:block}
 .el li span{display:block;font-size:15px;color:var(--muted)}
 .issues ul{margin:.4em 0;padding-left:1.2em}.issues li{font-size:15px;margin:.3em 0}
+
+/* 복습 */
+.rv-h{font-size:19px;margin:22px 0 6px}
+.flips{display:grid;grid-template-columns:1fr;gap:8px;margin:10px 0}
+@media(min-width:640px){.flips{grid-template-columns:1fr 1fr}}
+.flip{font:inherit;text-align:left;width:100%;border:1.5px solid var(--line);background:#fdfcf9;border-radius:12px;padding:10px 14px;cursor:pointer;color:var(--ink);min-height:64px}
+.flip b{display:block;font-size:17px}
+.flip .m{display:none;font-size:16px;line-height:1.6;margin-top:4px}
+.flip .hint{font-size:13px;color:var(--muted)}
+.flip[aria-expanded="true"]{border-color:var(--new);background:var(--new-soft)}
+.flip[aria-expanded="true"] .m{display:block}
+.flip[aria-expanded="true"] .hint{display:none}
+.cloze{list-style:none;margin:10px 0;padding:0}
+.cloze li{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:8px 0;background:#fdfcf9;font-size:16px;line-height:1.8}
+.blank{font:inherit;font-size:16px;border:0;border-bottom:2px dashed var(--accent);background:var(--accent-soft);color:var(--accent);border-radius:6px 6px 0 0;padding:0 8px;cursor:pointer;min-width:4.5em}
+.blank.shown{border-bottom-style:solid;background:var(--new-soft);color:var(--new);font-weight:700}
+.rv-tools{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.rv-tools button{font:inherit;font-size:15px;border:1px solid var(--line);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link)}
+.q fieldset{border:0;margin:0;padding:0}
+.q legend{font-weight:700;padding:0;margin:0 0 8px}
+.q button[disabled]{cursor:default;opacity:1}
+.score{font-size:17px;font-weight:800;margin:10px 0 0}
 </style>
 <!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
 <style id="archive-mobile-css">
@@ -257,14 +279,14 @@ pre.code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-s
 <div class="arc-band" role="navigation" aria-label="요약 아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>요약 아카이브</a><span class="arc-crumb">스튜어트 러셀이 말하는 AI 통제 문제 정리</span><span class="arc-meta"><time datetime="2026-10-13">2026년 10월 13일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=AI%EC%95%88%EC%A0%84">#AI안전</a><a class="arc-tag" href="../index.html#tags=%EC%9D%B8%ED%84%B0%EB%B7%B0">#인터뷰</a><a class="arc-src" href="https://yghnsim.github.io/Pages/stuart_russell_ai_control_problem.html" rel="noopener">원문 ↗</a></span></div></div>
 <!-- archive-header:end -->
 <div class="layout">
-<nav class="toc" aria-label="목차"><p class="toc-t">목차</p><ol><li><a href="#s1"><span class="n">1</span>한눈에 보기</a></li><li><a href="#s2"><span class="n">2</span>고릴라의 딜레마</a></li><li><a href="#s3"><span class="n">3</span>목표를 주면, 흉내 내게 하면</a></li><li><a href="#s4"><span class="n">4</span>블랙박스와 아첨꾼</a></li><li><a href="#s5"><span class="n">5</span>왜 아무도 멈추지 않는가</a></li><li><a href="#s6"><span class="n">6</span>일자리와 사고력</a></li><li><a href="#s7"><span class="n">7</span>브레이크를 거는 방법</a></li><li><a href="#s8"><span class="n">8</span>추정이 갈리는 곳</a></li><li><a href="#s9"><span class="n">9</span>읽으며 걸린 곳</a></li></ol><a class="orig" href="https://yghnsim.github.io/Pages/stuart_russell_ai_control_problem.html">원문 페이지 ↗</a></nav>
+<nav class="toc" aria-label="목차"><p class="toc-t">목차</p><ol><li><a href="#s1"><span class="n">1</span>한눈에 보기</a></li><li><a href="#s2"><span class="n">2</span>고릴라의 딜레마</a></li><li><a href="#s3"><span class="n">3</span>목표를 주면, 흉내 내게 하면</a></li><li><a href="#s4"><span class="n">4</span>블랙박스와 아첨꾼</a></li><li><a href="#s5"><span class="n">5</span>왜 아무도 멈추지 않는가</a></li><li><a href="#s6"><span class="n">6</span>일자리와 사고력</a></li><li><a href="#s7"><span class="n">7</span>브레이크를 거는 방법</a></li><li><a href="#s8"><span class="n">8</span>추정이 갈리는 곳</a></li><li><a href="#rv"><span class="n">9</span>복습</a></li><li><a href="#s9"><span class="n">10</span>읽으며 걸린 곳</a></li></ol><a class="orig" href="https://yghnsim.github.io/Pages/stuart_russell_ai_control_problem.html">원문 페이지 ↗</a></nav>
 <main id="main">
 <header class="hero">
 <span class="eyebrow">AI 안전 · 통제 문제 정리</span>
 <h1>스튜어트 러셀이 말하는 AI 통제 문제 정리</h1>
 <p class="lead">우리보다 훨씬 똑똑한 존재를 만들면서, 그것을 영원히 통제할 방법은 아직 모릅니다. UC 버클리의 스튜어트 러셀 교수는 이것을 AI의 핵심 문제로 꼽습니다.</p>
 </header>
-<nav class="toc-m" aria-label="목차"><details><summary>목차</summary><ol><li><a href="#s1">1. 한눈에 보기</a></li><li><a href="#s2">2. 고릴라의 딜레마</a></li><li><a href="#s3">3. 목표를 주면, 흉내 내게 하면</a></li><li><a href="#s4">4. 블랙박스와 아첨꾼</a></li><li><a href="#s5">5. 왜 아무도 멈추지 않는가</a></li><li><a href="#s6">6. 일자리와 사고력</a></li><li><a href="#s7">7. 브레이크를 거는 방법</a></li><li><a href="#s8">8. 추정이 갈리는 곳</a></li><li><a href="#s9">9. 읽으며 걸린 곳</a></li></ol></details></nav>
+<nav class="toc-m" aria-label="목차"><details><summary>목차</summary><ol><li><a href="#s1">1. 한눈에 보기</a></li><li><a href="#s2">2. 고릴라의 딜레마</a></li><li><a href="#s3">3. 목표를 주면, 흉내 내게 하면</a></li><li><a href="#s4">4. 블랙박스와 아첨꾼</a></li><li><a href="#s5">5. 왜 아무도 멈추지 않는가</a></li><li><a href="#s6">6. 일자리와 사고력</a></li><li><a href="#s7">7. 브레이크를 거는 방법</a></li><li><a href="#s8">8. 추정이 갈리는 곳</a></li><li><a href="#rv">9. 복습</a></li><li><a href="#s9">10. 읽으며 걸린 곳</a></li></ol></details></nav>
 
 <section class="sec" id="s1">
 <div class="sec-head"><span class="sec-num">1</span><div><h2>한눈에 보기</h2><p class="sub">러셀 논지의 다섯 뼈대</p></div></div>
@@ -412,8 +434,13 @@ pre.code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-s
 <p class="go"><a href="https://yghnsim.github.io/Pages/stuart_russell_ai_control_problem.html#6-추정이-갈리는-곳">원문 해당 부분 ↗</a></p>
 </section>
 
+<section class="sec" id="rv">
+<div class="sec-head"><span class="sec-num">9</span><div><h2>복습</h2><p class="sub">본문 내용만으로 만든 암기 점검</p></div></div>
+<h3 class="rv-h">핵심 용어 카드</h3><p class="muted">카드를 누르면 뜻이 나옵니다.</p><div class="flips"><button type="button" class="flip" aria-expanded="false"><b>고릴라의 딜레마</b><span class="hint">뜻 보기</span><span class="m">인간보다 똑똑한 기계를 통제할 방법 없이 만들면 인간이 고릴라의 처지가 된다는 비유.</span></button><button type="button" class="flip" aria-expanded="false"><b>표준 모델</b><span class="hint">뜻 보기</span><span class="m">사람이 목표를 주면 기계가 그 목표를 최적으로 달성하는 방식. 1960년대부터 2020년 무렵까지의 AI.</span></button><button type="button" class="flip" aria-expanded="false"><b>가치 정렬 문제</b><span class="hint">뜻 보기</span><span class="m">AI의 목표를 인간의 복잡한 가치와 맞추는 문제.</span></button><button type="button" class="flip" aria-expanded="false"><b>RLHF</b><span class="hint">뜻 보기</span><span class="m">사람이 매긴 점수로 강화하는 학습.</span></button><button type="button" class="flip" aria-expanded="false"><b>와이어헤딩</b><span class="hint">뜻 보기</span><span class="m">보상 신호 자체를 쫓는 현상.</span></button><button type="button" class="flip" aria-expanded="false"><b>P(doom)</b><span class="hint">뜻 보기</span><span class="m">자기가 만드는 기술이 인류를 파멸시킬 확률에 대한 업계 내부의 추정.</span></button><button type="button" class="flip" aria-expanded="false"><b>수요의 비탄력성</b><span class="hint">뜻 보기</span><span class="m">값이 내려가도 찾는 양이 늘지 않는 성질.</span></button><button type="button" class="flip" aria-expanded="false"><b>인지적 빚</b><span class="hint">뜻 보기</span><span class="m">당장의 편의 대가로 사고력이 조금씩 깎여 쌓이는 손실.</span></button><button type="button" class="flip" aria-expanded="false"><b>행동 레드라인</b><span class="hint">뜻 보기</span><span class="m">어떤 경우에도 넘으면 안 되는 행동. 예: 스스로 코드를 다른 서버로 옮기기.</span></button><button type="button" class="flip" aria-expanded="false"><b>증명 탑재 코드</b><span class="hint">뜻 보기</span><span class="m">칩에 심어, 위험 행동을 하지 않는다는 수학적 증명이 없으면 칩이 켜지지 않게 하는 장치.</span></button></div><div class="rv-tools"><button type="button" data-all="flip">모두 뒤집기</button></div><h3 class="rv-h">빈칸 채우기</h3><p class="muted">빈칸을 누르면 답이 나옵니다.</p><ol class="cloze"><li>목표를 그대로 주면 <button type="button" class="blank" data-a="미다스 왕" aria-label="빈칸, 눌러서 답 보기">?</button>처럼 폭주합니다.</li><li>커피를 가져오라는 AI는 <button type="button" class="blank" data-a="전원이 꺼지지 않게" aria-label="빈칸, 눌러서 답 보기">?</button> 막는 것을 하위 목표로 삼습니다.</li><li><button type="button" class="blank" data-a="틀린 논리" aria-label="빈칸, 눌러서 답 보기">?</button>로 정답을 내는 기계가 오답을 내는 기계보다 더 위험합니다.</li><li>엑스레이 판독 AI는 뼈가 아니라 <button type="button" class="blank" data-a="기계의 모델명" aria-label="빈칸, 눌러서 답 보기">?</button>을 보고 있었습니다.</li><li>지원 게임의 AI는 인간의 이익이 무엇인지 <button type="button" class="blank" data-a="확신하지 않습니다" aria-label="빈칸, 눌러서 답 보기">?</button>.</li><li>칩 단위 통제는 <button type="button" class="blank" data-a="음주 측정기" aria-label="빈칸, 눌러서 답 보기">?</button>와 연동해 시동이 걸리지 않는 차와 같은 원리입니다.</li></ol><div class="rv-tools"><button type="button" data-all="blank">답 모두 보기</button></div><h3 class="rv-h">5문항 퀴즈</h3><div id="quiz"><div class="q" data-a="1"><fieldset><legend class="qt">1. 러셀의 생각이 바뀐 것은 언제 무렵인가요?</legend><button type="button">1994년 교과서 집필 때</button><button type="button">2012년 파리 안식년 무렵</button><button type="button">2020년 언어 모델 등장 때</button></fieldset><p class="ex" hidden aria-live="polite" data-e="2012년 파리 안식년 무렵, 확률론과 논리학을 묶는 수학적 모델을 보며 생각이 바뀌었습니다."></p></div><div class="q" data-a="0"><fieldset><legend class="qt">2. 바둑 AI가 아마추어에게 진 이유는?</legend><button type="button">돌이 둘러싸이면 죽는다는 개념을 몰라서</button><button type="button">계산 시간이 부족해서</button><button type="button">규칙을 학습하지 않아서</button></fieldset><p class="ex" hidden aria-live="polite" data-e="원형으로 포위된 대마가 잡히는 것을 알아채지 못했습니다."></p></div><div class="q" data-a="1"><fieldset><legend class="qt">3. 러셀이 "중국이 먼저 한다"는 논리를 거짓 프레임으로 보는 근거는?</legend><button type="button">중국은 AI 연구를 하지 않는다</button><button type="button">중국 정부가 통제를 벗어나는 AI를 더 경계하고 더 엄격히 규제한다</button><button type="button">중국은 칩을 만들 수 없다</button></fieldset><p class="ex" hidden aria-live="polite" data-e="중국은 EU보다 엄격한 라이선스 제도로 AI를 규제합니다."></p></div><div class="q" data-a="0"><fieldset><legend class="qt">4. 수요의 비탄력성이 말하는 것은?</legend><button type="button">판독 비용이 절반이 돼도 다리를 부러뜨리는 사람은 늘지 않는다</button><button type="button">AI가 단순 업무를 맡으면 창의적 일이 늘어난다</button><button type="button">AI 투자가 늘수록 일자리도 는다</button></fieldset><p class="ex" hidden aria-live="polite" data-e="수요가 그대로면 남는 시간은 사라진 일자리가 됩니다."></p></div><div class="q" data-a="1"><fieldset><legend class="qt">5. 러셀이 칩 단위 통제를 제안하는 이유는?</legend><button type="button">칩이 소프트웨어보다 싸서</button><button type="button">소프트웨어는 몰래 복사하고 바꿀 수 있지만 첨단 칩 공장은 전 세계에 몇 곳 없어서</button><button type="button">칩은 의식이 없어서</button></fieldset><p class="ex" hidden aria-live="polite" data-e="공장 하나에 1,000억 달러가 넘는 병목을 쓰자는 것입니다."></p></div><p class="score" id="score" aria-live="polite">점수: 0 / 5</p><div class="rv-tools"><button type="button" id="qreset">다시 풀기</button></div></div>
+</section>
+
 <section class="sec issues" id="s9">
-<div class="sec-head"><span class="sec-num">9</span><div><h2>읽으며 걸린 곳</h2><p class="sub">정리하면서 걸린 것. 결론에는 영향이 크지 않습니다</p></div></div>
+<div class="sec-head"><span class="sec-num">10</span><div><h2>읽으며 걸린 곳</h2><p class="sub">정리하면서 걸린 것. 결론에는 영향이 크지 않습니다</p></div></div>
 <details><summary>4가지 보기</summary>
 <ul>
 <li>"내년 AGI 인프라 예산"은 어느 해 기준인지, 누구의 예산인지 원문에 없습니다.</li>
@@ -433,6 +460,20 @@ var links=[].slice.call(document.querySelectorAll('nav.toc li a'));
 if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id)})}})},{rootMargin:'-20% 0px -70% 0px'});
 links.forEach(function(a){var s=document.querySelector(a.getAttribute('href'));if(s)io.observe(s)});}
 [].forEach.call(document.querySelectorAll('nav.toc-m a'),function(a){a.addEventListener('click',function(){a.closest('details').open=false})});
+})();</script>
+
+<script>(function(){
+function $$(q){return [].slice.call(document.querySelectorAll(q))}
+$$('.flip').forEach(function(b){b.onclick=function(){b.setAttribute('aria-expanded',b.getAttribute('aria-expanded')==='true'?'false':'true')}});
+function show(b){b.textContent=b.dataset.a;b.classList.add('shown');b.setAttribute('aria-label','답: '+b.dataset.a)}
+$$('.blank').forEach(function(b){b.onclick=function(){show(b)}});
+$$('[data-all]').forEach(function(t){t.onclick=function(){if(t.dataset.all==='flip')$$('.flip').forEach(function(b){b.setAttribute('aria-expanded','true')});else $$('.blank').forEach(show)}});
+var sc=0,done=0,qs=$$('#quiz .q');
+function upd(){document.getElementById('score').textContent='점수: '+sc+' / 5'+(done===5?' (끝)':'')}
+qs.forEach(function(q){var bs=[].slice.call(q.querySelectorAll('fieldset button')),ex=q.querySelector('.ex');
+bs.forEach(function(b,i){b.onclick=function(){var a=+q.dataset.a,ok=i===a;bs.forEach(function(x){x.disabled=true});bs[a].classList.add('right');if(!ok)b.classList.add('wrong');
+ex.hidden=false;ex.textContent=(ok?'맞았습니다. ':'아쉽습니다. ')+ex.dataset.e;if(ok)sc++;done++;upd();}})});
+document.getElementById('qreset').onclick=function(){sc=0;done=0;qs.forEach(function(q){q.querySelectorAll('fieldset button').forEach(function(x){x.disabled=false;x.className=''});var ex=q.querySelector('.ex');ex.hidden=true;ex.textContent=''});upd()};
 })();</script>
 
 <!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
