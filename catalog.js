@@ -2,6 +2,23 @@
    `python3 add_page.py --rebuild` 를 실행하면 다시 만들어집니다. */
 window.ARCHIVE_CATALOG = [
   {
+    "id": "20261013-03",
+    "title": "스튜어트 러셀이 말하는 AI 통제 문제 정리",
+    "summary": "스튜어트 러셀의 AI 통제 문제를 10분 분량으로 정리했습니다. 고릴라의 딜레마, 미다스 왕 문제, 블랙박스와 아첨, 멈추지 못하는 경쟁 구조, 일자리와 인지적 빚, 지원 게임과 사전 면허, 칩 단위 통제를 담았습니다.",
+    "tags": [
+      "AI",
+      "AI안전",
+      "인터뷰"
+    ],
+    "date": "2026-10-13",
+    "file": "pages/2026-10-13-러셀AI통제.html",
+    "added": "2026-10-13T23:53:50+09:00",
+    "source_name": "러셀AI통제.html",
+    "source_sha256": "04b45e0f144fa02b6a39b3fa00542b68afa125d62a589f1f4a1a7dee0c63cc1b",
+    "source_path_sha256": "749ba3d44f319974039e8111bcbbbe7e9433cf29b4aaae918430a55c701260e8",
+    "source_url": "https://yghnsim.github.io/Pages/stuart_russell_ai_control_problem.html"
+  },
+  {
     "id": "20261013-02",
     "title": "생명은 계산이다: 아구에라 이 아르카스의 공생발생과 AGI",
     "summary": "블레즈 아구에라 이 아르카스의 Big Think 인터뷰 정리. 생명은 공생발생으로 복잡해지는 자기구성적 계산이며, AI는 인류의 새로운 미토콘드리아라는 주장.",
