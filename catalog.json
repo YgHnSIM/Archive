@@ -1,5 +1,21 @@
 [
   {
+    "id": "20261014-01",
+    "title": "How Do Committees Invent? - Melvin E. Conway (1968) 영한 대조",
+    "summary": "Melvin E. Conway의 1968년 논문 「How Do Committees Invent?」 영한 대조. 시스템 설계는 그것을 만든 조직의 소통 구조를 닮는다는 콘웨이 법칙의 원전.",
+    "tags": [
+      "소프트웨어",
+      "조직",
+      "논문"
+    ],
+    "date": "2026-10-14",
+    "file": "pages/2026-10-14-콘웨이_위원회.html",
+    "added": "2026-10-14T17:22:15+09:00",
+    "source_name": "콘웨이_위원회.html",
+    "source_sha256": "b9d39102ead5705714895275f4ddedfa70abe29e43d5e40ef29ff317d209a996",
+    "source_path_sha256": "7fb82adedcbf4ecf7406df98b6df4818c758d5162a55f55c6324fce913ccd7a0"
+  },
+  {
     "id": "20261013-03",
     "title": "스튜어트 러셀이 말하는 AI 통제 문제 정리",
     "summary": "스튜어트 러셀의 AI 통제 문제: 고릴라의 딜레마, 미다스 왕 문제, 블랙박스와 아첨, 멈추지 못하는 경쟁 구조, 일자리와 인지적 빚, 지원 게임과 사전 면허, 칩 단위 통제.",
