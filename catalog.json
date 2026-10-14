@@ -1,5 +1,21 @@
 [
   {
+    "id": "20261014-02",
+    "title": "생명은 계산이며 공생발생으로 진화한다 — 심화 학습 가이드",
+    "summary": "「생명은 계산이며 공생발생으로 진화한다」 심화 학습 가이드. PDF 원문을 내용 수정 없이 옮긴 판.",
+    "tags": [
+      "AI",
+      "생물학",
+      "학습가이드"
+    ],
+    "date": "2026-10-14",
+    "file": "pages/2026-10-14-생명계산_학습가이드.html",
+    "added": "2026-10-14T17:31:35+09:00",
+    "source_name": "생명계산_학습가이드.html",
+    "source_sha256": "21bdfb5c19d36082c1a6b1918caf4e23495743be2b3e225f17ae70d0323e884b",
+    "source_path_sha256": "d88d12f541b0966ad7da23ad770299e32e2ddc13f0ffd5daf9cc5ff7294eac4b"
+  },
+  {
     "id": "20261014-01",
     "title": "How Do Committees Invent? - Melvin E. Conway (1968) 영한 대조",
     "summary": "Melvin E. Conway의 1968년 논문 「How Do Committees Invent?」 영한 대조. 시스템 설계는 그것을 만든 조직의 소통 구조를 닮는다는 콘웨이 법칙의 원전.",
