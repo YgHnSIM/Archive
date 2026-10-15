@@ -13,7 +13,8 @@
     "added": "2026-10-14T17:31:35+09:00",
     "source_name": "생명계산_학습가이드.html",
     "source_sha256": "21bdfb5c19d36082c1a6b1918caf4e23495743be2b3e225f17ae70d0323e884b",
-    "source_path_sha256": "d88d12f541b0966ad7da23ad770299e32e2ddc13f0ffd5daf9cc5ff7294eac4b"
+    "source_path_sha256": "d88d12f541b0966ad7da23ad770299e32e2ddc13f0ffd5daf9cc5ff7294eac4b",
+    "tokens": false
   },
   {
     "id": "20261014-01",
@@ -29,7 +30,8 @@
     "added": "2026-10-14T17:22:15+09:00",
     "source_name": "콘웨이_위원회.html",
     "source_sha256": "b9d39102ead5705714895275f4ddedfa70abe29e43d5e40ef29ff317d209a996",
-    "source_path_sha256": "7fb82adedcbf4ecf7406df98b6df4818c758d5162a55f55c6324fce913ccd7a0"
+    "source_path_sha256": "7fb82adedcbf4ecf7406df98b6df4818c758d5162a55f55c6324fce913ccd7a0",
+    "tokens": false
   },
   {
     "id": "20261013-03",
