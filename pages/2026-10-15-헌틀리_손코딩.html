@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>이제 아무도 손으로 코드를 치지 않는다: 제프리 헌틀리가 말하는 남은 것</title>
+<meta name="description" content="제프리 헌틀리와 조쉬 울프의 4부작 대담을 정리했습니다. 비전, 검증, 주체성, 루프 엔지니어링, PR 리뷰 대신 시스템 테스트, 스킬 팩 대신 프리커밋 훅, 유니커널과 표적 크기 1, 그리고 복습 카드와 퀴즈.">
+<style>
+:root{
+  --bg:#faf8f3; --paper:#ffffff; --ink:#1f2328; --muted:#5b6470; --line:#e6e1d6;
+  --accent:#c8553d; --accent-soft:#fbeee9; --link:#4a6b8a;
+  --radius:14px;
+  /* 페이지 고유 의미 색 */
+  --old:#6a5f4b; --old-soft:#f3efe6;
+  --algo:#a2452f; --algo-soft:#fbeee9;
+  --new:#3d5f80; --new-soft:#eaf0f6;
+  --sup:#55598f; --sup-soft:#efeff8;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR","Malgun Gothic","Gothic A1",system-ui,sans-serif;
+  font-size:17px;line-height:1.75;word-break:keep-all;overflow-wrap:break-word}
+@media(max-width:640px){body{font-size:16px}}
+a{color:var(--link)}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #9bb5cf;outline-offset:2px}
+.skip{position:absolute;left:0;top:0;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+.skip:focus{width:auto;height:auto;clip:auto;clip-path:none;left:8px;top:8px;background:#fff;padding:6px 10px;z-index:10}
+.layout{max-width:1180px;margin:0 auto;padding:12px 14px 48px}
+@media(min-width:1024px){.layout{display:grid;grid-template-columns:240px minmax(0,1fr);gap:32px;padding:28px 24px 64px}}
+main{min-width:0}
+
+/* 목차 */
+nav.toc{display:none}
+@media(min-width:1024px){
+  nav.toc{display:block;position:sticky;top:20px;align-self:start;max-height:calc(100vh - 40px);overflow:auto}
+  nav.toc-m{display:none}
+}
+nav.toc .toc-t{font-size:13px;color:var(--muted);letter-spacing:.06em;margin:0 0 10px;font-weight:700}
+nav.toc ol,nav.toc-m ol{list-style:none;margin:0;padding:0}
+nav.toc li a{display:flex;gap:8px;align-items:baseline;text-decoration:none;color:var(--muted);font-size:15px;line-height:1.45;padding:7px 10px;border-radius:8px;border-left:3px solid transparent}
+nav.toc li a .n{font-weight:700;font-size:13px;color:#8a919b;min-width:18px}
+nav.toc li a:hover{background:#f0ece3;color:var(--ink)}
+nav.toc li a.active{background:var(--paper);color:var(--ink);border-left-color:var(--accent);font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+nav.toc li a.active .n{color:var(--accent)}
+nav.toc .orig{display:block;margin-top:12px;padding:10px;border-top:1px solid var(--line);font-size:14px}
+nav.toc-m{margin:14px 0 0}
+nav.toc-m details{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius)}
+nav.toc-m summary{cursor:pointer;padding:10px 14px;font-weight:700;list-style:none}
+nav.toc-m summary::-webkit-details-marker{display:none}
+nav.toc-m summary::after{content:" ▾";color:var(--muted)}
+nav.toc-m ol{padding:0 14px 8px}
+nav.toc-m li a{display:block;padding:8px 0;border-top:1px solid var(--line);text-decoration:none;color:var(--ink)}
+
+/* 머리 */
+.hero{padding:22px 4px 6px}
+.eyebrow{display:inline-block;font-size:13px;font-weight:700;letter-spacing:.04em;color:var(--accent);background:var(--accent-soft);padding:4px 10px;border-radius:999px}
+h1{font-size:clamp(28px,4.4vw,44px);line-height:1.25;margin:14px 0 12px;letter-spacing:-.02em}
+.lead{font-size:18px;color:var(--muted);margin:0 0 18px}
+@media(max-width:640px){.lead{font-size:17px}}
+.info{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.info p{margin:0 0 12px;font-size:16px}
+.cta{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;text-align:center;
+  background:var(--accent);color:#fff;text-decoration:none;font-weight:700;padding:13px 16px;border-radius:12px;font-size:17px}
+.cta:hover{background:#ad4430}
+.cta small{font-weight:500;font-size:14px;opacity:.95}
+.info .meta{font-size:14px;color:var(--muted);margin:12px 0 0}
+
+/* 절 */
+section.sec{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:20px 18px;margin-top:18px;scroll-margin-top:12px}
+@media(min-width:640px){section.sec{padding:28px 30px}}
+.sec-head{display:flex;gap:14px;align-items:flex-start;margin-bottom:10px}
+.sec-num{flex:none;width:36px;height:36px;border-radius:12px;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:800;font-size:16px;margin-top:3px}
+h2{font-size:clamp(23px,3vw,30px);line-height:1.3;margin:0;letter-spacing:-.015em}
+.sub{margin:4px 0 0;color:var(--muted);font-size:15px;line-height:1.5}
+.srcs{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 12px}
+.src{display:inline-block;font-size:14px;text-decoration:none;border:1px solid var(--line);padding:3px 11px;border-radius:999px;color:var(--link);background:#fdfcf9}
+.src:hover{border-color:var(--link)}
+h3{font-size:19px;line-height:1.4;margin:22px 0 6px}
+p{margin:8px 0}
+.muted{color:var(--muted)}
+.tag{display:inline-block;font-size:13px;font-weight:700;line-height:1.5;padding:0 7px;border-radius:6px;background:var(--sup-soft);color:var(--sup);vertical-align:.08em;margin-left:3px;white-space:nowrap}
+.tag.int{background:#efebe2;color:#4f5763}
+blockquote{margin:16px 0;padding:14px 18px;background:#fdfcf9;border-left:5px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;font-size:16.5px;line-height:1.7}
+blockquote cite{display:block;font-style:normal;color:var(--muted);font-size:14px;margin-top:6px}
+.callout{background:#f4f1ea;border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:14px 0;font-size:16px}
+.callout b.t{display:block;margin-bottom:2px}
+.callout.sup{background:var(--sup-soft);border-color:#d9daee}
+ul.tight{margin:6px 0;padding-left:20px}
+ul.tight li{margin:5px 0}
+
+/* 핵심 3줄 */
+.thesis{list-style:none;margin:6px 0 0;padding:0;counter-reset:th}
+.thesis li{counter-increment:th;position:relative;padding:12px 14px 12px 50px;border:1px solid var(--line);border-radius:12px;margin:10px 0;background:#fdfcf9}
+.thesis li::before{content:counter(th);position:absolute;left:14px;top:14px;width:26px;height:26px;border-radius:8px;background:var(--ink);color:#fff;font-weight:700;text-align:center;line-height:26px;font-size:14px}
+.thesis strong{display:block}
+
+/* 6단계 */
+.steps{display:grid;grid-template-columns:1fr;gap:6px;margin:10px 0 0;padding:0;list-style:none}
+@media(min-width:760px){.steps{grid-template-columns:1fr 1fr}}
+.steps li{display:flex;gap:10px;align-items:baseline;border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:16px;line-height:1.6}
+.steps b{flex:none;font-size:14px;color:var(--accent);min-width:58px}
+.steps a{font-size:14px;white-space:nowrap}
+
+/* 용어 */
+.terms{display:grid;grid-template-columns:1fr;gap:8px;margin-top:10px}
+@media(min-width:760px){.terms{grid-template-columns:1fr 1fr}}
+.terms details{border:1px solid var(--line);border-radius:10px;background:#fdfcf9}
+.terms summary{cursor:pointer;padding:9px 12px;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:8px}
+.terms summary::-webkit-details-marker{display:none}
+.terms summary::after{content:"＋";color:var(--muted);font-weight:400}
+.terms details[open] summary::after{content:"－"}
+.terms details p{margin:0;padding:0 12px 10px;font-size:16px;line-height:1.65}
+.terms .en{font-weight:400;color:var(--muted);font-size:14px}
+
+/* 타임라인 */
+.tl{list-style:none;margin:12px 0 0;padding:0 0 0 18px;border-left:3px solid var(--line)}
+.tl li{position:relative;margin:0 0 16px;padding-left:10px}
+.tl li::before{content:"";position:absolute;left:-27px;top:7px;width:15px;height:15px;border-radius:50%;background:#fff;border:3px solid var(--ink)}
+.tl li.ctx::before{border-color:#b3ab9b}
+.tl .date{font-weight:800;font-size:16px}
+.case,.tl .case{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;background:#efebe2;padding:1px 6px;border-radius:6px;white-space:nowrap}
+.tl .txt{font-size:16px;margin:2px 0 0}
+.three{display:grid;grid-template-columns:1fr;gap:8px;margin:12px 0}
+@media(min-width:760px){.three{grid-template-columns:repeat(3,1fr)}}
+.three div{border:1px solid var(--line);border-radius:12px;padding:10px 14px;background:#fdfcf9;font-size:16px;line-height:1.6}
+.three div b{display:block;font-size:17px}
+.three div .yr{display:inline-block;font-size:13px;font-weight:800;color:#fff;background:var(--ink);border-radius:6px;padding:0 7px;margin-bottom:4px}
+
+/* 카드 */
+.cards{display:grid;grid-template-columns:1fr;gap:10px;margin:10px 0}
+@media(min-width:800px){.cards{grid-template-columns:repeat(3,1fr)}}
+.card{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:#fdfcf9;font-size:16px;line-height:1.65}
+.card b.h{display:block;font-size:17px;margin-bottom:2px}
+.card .k{display:inline-block;font-size:13px;font-weight:800;border-radius:6px;padding:0 7px;margin-bottom:4px;background:var(--algo-soft);color:var(--algo)}
+.card.n .k{background:var(--new-soft);color:var(--new)}
+.card.o .k{background:var(--old-soft);color:var(--old)}
+.two{display:grid;gap:12px}
+@media(min-width:800px){.two{grid-template-columns:1fr 1fr}}
+.panel{border:1px solid var(--line);border-radius:12px;padding:12px 16px;background:#fdfcf9}
+.panel h3{margin-top:4px}
+.panel p,.panel li{font-size:16px}
+
+/* 도식 */
+figure.dia{margin:16px 0;padding:14px;border:1px solid var(--line);border-radius:var(--radius);background:#fdfcf9}
+figure.dia svg{display:block;width:100%;max-width:460px;height:auto;margin:0 auto}
+@media(max-width:640px){figure.dia{padding:8px 2px;margin-left:-8px;margin-right:-8px}}
+figure.dia figcaption{font-size:14px;color:var(--muted);margin-top:8px;text-align:center;line-height:1.55}
+
+/* 배달 기사 토글 */
+.seg{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 0}
+.seg button{font:inherit;font-size:15px;font-weight:700;flex:1 1 140px;border:1.5px solid var(--line);background:#fff;color:var(--muted);border-radius:10px;padding:9px 12px;cursor:pointer}
+.seg button[aria-pressed="true"].o{border-color:var(--old);background:var(--old-soft);color:var(--old)}
+.seg button[aria-pressed="true"].n{border-color:var(--new);background:var(--new-soft);color:var(--new)}
+.lens{border:1.5px solid var(--line);border-radius:12px;padding:12px 16px;margin-top:8px;font-size:16px}
+.lens.o{border-color:var(--old);background:var(--old-soft)}
+.lens.n{border-color:var(--new);background:var(--new-soft)}
+.lens ul{margin:6px 0;padding-left:20px}
+.lens p.v{font-weight:800;margin:8px 0 0}
+
+/* 표 */
+.tbl{width:100%;border-collapse:collapse;font-size:16px;line-height:1.6;margin-top:10px}
+.tbl th,.tbl td{border:1px solid var(--line);padding:10px 11px;vertical-align:top;text-align:left}
+.tbl thead th{background:#f4f1ea;font-size:15px}
+.tbl tbody th{background:#fbf9f4;font-weight:700}
+.tbl td.nw{background:#f5f8fb}
+@media(max-width:760px){
+  .stack thead{position:absolute;left:0;top:0;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+  .stack,.stack tbody,.stack tr,.stack th,.stack td{display:block;width:100%}
+  .stack tr{border:1px solid var(--line);border-radius:12px;margin:0 0 12px;overflow:hidden}
+  .stack th,.stack td{border:0;border-top:1px solid var(--line)}
+  .stack tbody th{border-top:0;background:#f4f1ea}
+  .stack td::before{content:attr(data-label);display:block;font-size:13.5px;font-weight:800;color:var(--muted);margin-bottom:2px}
+  .stack td.nw::before{color:var(--new)}
+}
+
+/* 추정 흐름 */
+.flow{list-style:none;margin:12px 0;padding:0;display:grid;gap:8px}
+@media(min-width:800px){.flow{grid-template-columns:repeat(3,1fr)}}
+.flow li{border:1.5px solid var(--line);border-radius:12px;padding:10px 14px;background:#fff;font-size:16px;line-height:1.6;position:relative}
+.flow li b{display:block;font-size:16px}
+.flow li.s1{border-color:#b9a98c}
+.flow li.s2{border-color:var(--new);background:var(--new-soft)}
+.flow li.s3{border-color:var(--algo);background:var(--algo-soft)}
+.flow .who{display:inline-block;font-size:13px;font-weight:800;color:var(--muted)}
+
+/* 오해 카드 */
+.myths{display:grid;grid-template-columns:1fr;gap:10px;margin-top:10px}
+@media(min-width:800px){.myths{grid-template-columns:1fr 1fr}}
+.myth{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:#fdfcf9}
+.myth .say{font-weight:700;margin:0;font-size:16.5px}
+.myth .say::before{content:"흔한 말 ";font-size:13px;font-weight:800;color:var(--algo);background:var(--algo-soft);border-radius:6px;padding:0 6px;margin-right:4px;vertical-align:.08em}
+.myth button{font:inherit;font-size:15px;margin-top:8px;border:1px solid var(--line);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link)}
+.myth .ans{margin:8px 0 0;padding:8px 10px;border-radius:8px;background:var(--new-soft);font-size:16px}
+.myth .ans .ref{display:block;font-size:13.5px;color:var(--muted);margin-top:2px}
+.mcount{font-size:15px;color:var(--muted);margin:10px 0 0}
+button.reset{font:inherit;font-size:15px;border:1px solid var(--line);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;margin-left:6px}
+
+.sources{margin-top:18px;padding:18px;border-top:1px solid var(--line)}
+.sources h2{font-size:20px}
+.sources p{font-size:16px}
+.totop{display:inline-block;margin-top:6px;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:15px;background:#efebe2;padding:1px 5px;border-radius:5px}
+pre.code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;background:#f4f1ea;border:1px solid var(--line);border-radius:10px;padding:10px 12px;overflow-x:auto;max-width:100%;line-height:1.5;white-space:pre}
+.v{display:inline-block;font-size:13px;font-weight:800;border-radius:6px;padding:0 7px;white-space:nowrap;vertical-align:.08em}
+.v.ok{background:#e6f1ea;color:#2f6b45}
+.v.mostly{background:#eaf0f6;color:#3d5f80}
+.v.part{background:#fbeee9;color:#a2452f}
+.issues details{border:1px solid var(--line);border-radius:10px;background:#fdfcf9;margin:8px 0}
+.issues summary{cursor:pointer;padding:10px 12px;font-weight:700;line-height:1.5}
+.issues .no{font-size:13px;color:var(--muted);margin-right:4px}
+.issues details p{margin:0;padding:0 12px 12px;font-size:16px}
+.q{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:10px 0;background:#fdfcf9}
+.q p.qt{font-weight:700;margin:0 0 8px}
+.q button{display:block;width:100%;text-align:left;font:inherit;font-size:16px;border:1.5px solid var(--line);background:#fff;border-radius:10px;padding:8px 12px;margin:6px 0;cursor:pointer;color:var(--ink)}
+.q button.right{border-color:#2f6b45;background:#e6f1ea}
+.q button.wrong{border-color:#a2452f;background:#fbeee9}
+.q .ex{margin:8px 0 0;font-size:16px;padding:8px 10px;border-radius:8px;background:var(--new-soft)}
+
+.go{margin:.4em 0 0;font-size:15px}
+.calc{border:1px solid var(--line);border-radius:12px;background:#fff;padding:12px 14px;margin:14px 0}
+.calc label{display:block;font-weight:700;font-size:15px}
+.calc input[type=range]{width:100%;margin:10px 0}
+.calc .out{font-size:17px}.calc .out b{color:var(--accent)}
+.bar{height:14px;border-radius:7px;background:#e6e1d6;position:relative;overflow:hidden;margin:8px 0}
+.bar i{position:absolute;left:0;top:0;bottom:0;background:#4a6b8a}
+.bar i.over{background:#c8553d}
+.bar s{position:absolute;top:0;bottom:0;width:2px;background:#1f2328}
+.calc .note{font-size:14px;color:var(--muted);margin:.5em 0 0}
+.el{list-style:none;padding:0;margin:12px 0}
+.el li{border:1px solid var(--line);border-left:4px solid var(--link);border-radius:12px;background:#fff;padding:10px 14px;margin:8px 0}
+.el li b{display:block}
+.el li span{display:block;font-size:15px;color:var(--muted)}
+.issues ul{margin:.4em 0;padding-left:1.2em}.issues li{font-size:15px;margin:.3em 0}
+
+/* 복습 */
+.rv-h{font-size:19px;margin:22px 0 6px}
+.flips{display:grid;grid-template-columns:1fr;gap:8px;margin:10px 0}
+@media(min-width:640px){.flips{grid-template-columns:1fr 1fr}}
+.flip{font:inherit;text-align:left;width:100%;border:1.5px solid var(--line);background:#fdfcf9;border-radius:12px;padding:10px 14px;cursor:pointer;color:var(--ink);min-height:64px}
+.flip b{display:block;font-size:17px}
+.flip .m{display:none;font-size:16px;line-height:1.6;margin-top:4px}
+.flip .hint{font-size:13px;color:var(--muted)}
+.flip[aria-expanded="true"]{border-color:var(--new);background:var(--new-soft)}
+.flip[aria-expanded="true"] .m{display:block}
+.flip[aria-expanded="true"] .hint{display:none}
+.cloze{list-style:none;margin:10px 0;padding:0}
+.cloze li{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:8px 0;background:#fdfcf9;font-size:16px;line-height:1.8}
+.blank{font:inherit;font-size:16px;border:0;border-bottom:2px dashed var(--accent);background:var(--accent-soft);color:var(--accent);border-radius:6px 6px 0 0;padding:0 8px;cursor:pointer;min-width:4.5em}
+.blank.shown{border-bottom-style:solid;background:var(--new-soft);color:var(--new);font-weight:700}
+.rv-tools{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.rv-tools button{font:inherit;font-size:15px;border:1px solid var(--line);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link)}
+.q fieldset{border:0;margin:0;padding:0}
+.q legend{font-weight:700;padding:0;margin:0 0 8px}
+.q button[disabled]{cursor:default;opacity:1}
+.score{font-size:17px;font-weight:800;margin:10px 0 0}
+</style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<style>@media(max-width:640px){.sec p,.sec li,.tbl td,.sec blockquote{font-size:16px}}</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
+</head>
+<body>
+<a class="skip" href="#main">본문으로 건너뛰기</a>
+<!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="요약 아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>요약 아카이브</a><span class="arc-crumb">이제 아무도 손으로 코드를 치지 않는다: 제프리 헌틀리가 말하는 남은 것</span><span class="arc-meta"><time datetime="2026-10-15">2026년 10월 15일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4">#소프트웨어</a><a class="arc-tag" href="../index.html#tags=%EC%9D%B8%ED%84%B0%EB%B7%B0">#인터뷰</a><a class="arc-src" href="https://yghnsim.github.io/Pages/huntley_nobody_should_type_code_by_hand.html" rel="noopener">원문 ↗</a></span></div></div>
+<!-- archive-header:end -->
+<div class="layout">
+<nav class="toc" aria-label="목차"><p class="toc-t">목차</p><ol><li><a href="#s1"><span class="n">1</span>한눈에 보기</a></li><li><a href="#s2"><span class="n">2</span>코딩은 끝났나</a></li><li><a href="#s3"><span class="n">3</span>아무도 다 리뷰할 수 없다</a></li><li><a href="#s4"><span class="n">4</span>AI를 스스로 멍청하게 만든다</a></li><li><a href="#s5"><span class="n">5</span>오픈소스는 보안 취약점</a></li><li><a href="#s6"><span class="n">6</span>4부작 영상</a></li><li><a href="#rv"><span class="n">7</span>복습</a></li><li><a href="#s9"><span class="n">8</span>읽으며 걸린 곳</a></li></ol><a class="orig" href="https://yghnsim.github.io/Pages/huntley_nobody_should_type_code_by_hand.html">원문 페이지 ↗</a></nav>
+<main id="main">
+<header class="hero">
+<span class="eyebrow">소프트웨어 엔지니어링 · AI 에이전트 정리</span>
+<h1>이제 아무도 손으로 코드를 치지 않는다: 제프리 헌틀리가 말하는 남은 것</h1>
+<p class="lead">제프리 헌틀리(Geoffrey Huntley)가 2026년 10월 13일 블로그에 올린 글입니다. 조쉬 울프(Josh Wulf)의 방송 「Agentic Engineering」에서 나눈 4부작 대담을 순서대로 정리했습니다.</p>
+</header>
+<nav class="toc-m" aria-label="목차"><details><summary>목차</summary><ol><li><a href="#s1">1. 한눈에 보기</a></li><li><a href="#s2">2. 코딩은 끝났나</a></li><li><a href="#s3">3. 아무도 다 리뷰할 수 없다</a></li><li><a href="#s4">4. AI를 스스로 멍청하게 만든다</a></li><li><a href="#s5">5. 오픈소스는 보안 취약점</a></li><li><a href="#s6">6. 4부작 영상</a></li><li><a href="#rv">7. 복습</a></li><li><a href="#s9">8. 읽으며 걸린 곳</a></li></ol></details></nav>
+
+<section class="sec" id="s1">
+<div class="sec-head"><span class="sec-num">1</span><div><h2>한눈에 보기</h2><p class="sub">모델은 더 이상 병목이 아니다</p></div></div>
+<p>헌틀리는 모델이 제약이던 시대가 오래전에 끝났다고 봅니다. 인간 엔지니어에게 남은 것은 세 가지입니다.</p>
+<ol class="thesis">
+<li><strong>비전(Vision).</strong> 무엇을 왜 만들지 정하는 일.</li>
+<li><strong>검증(Verification).</strong> 제대로 만들어졌는지, 최악의 조건에서도 버티는지 확인하는 일.</li>
+<li><strong>주체성(Agency).</strong> 남이 만든 매뉴얼을 기다리지 않고 스스로 문제를 정하고 실험하는 태도.</li>
+</ol>
+<p>그래서 권하는 행동도 세 가지입니다. 스킬 팩을 지우고, 시스템 전체를 테스트 아래 두고, 예전에 어렵다고 여긴 것을 모두 다시 따져 보라는 것입니다.</p>
+<div class="terms">
+<details><summary>루프 엔지니어링 <span class="en">Loop Engineering</span></summary><p>에이전트가 코드 생성, 테스트 실행, 오류 확인, 수정을 목표가 채워질 때까지 스스로 반복하게 설계하는 기법.</p></details>
+<details><summary>스킬 팩, AGENTS.md</summary><p>코딩 에이전트에게 규칙을 알려 주려고 맥락에 넣는 마크다운 지침 파일.</p></details>
+</div>
+<blockquote>이제 이 세상에 손으로 직접 코드를 타이핑하는 소프트웨어 엔지니어가 설 자리는 없습니다.<cite>원문 서문</cite></blockquote>
+<p>조쉬 울프는 레드햇(Red Hat)에서 10년, 브리즈번에서 테크 리크루터로 3년을 일했습니다. 두 사람은 약 1시간 반 동안 이야기했고, 조쉬가 이를 4편으로 나눠 같은 날 공개했습니다.</p>
+</section>
+
+<section class="sec" id="s2">
+<div class="sec-head"><span class="sec-num">2</span><div><h2>코딩은 끝났나</h2><p class="sub">파트 1</p></div></div>
+<h3>IDE가 사라진다</h3>
+<p>2024년 12월 헌틀리는 캔바(Canva)의 테크 리드였고, 동료들은 젯브레인(JetBrains)을 좋아했습니다. 그는 커서(Cursor)로 첫 루프를 손으로 돌려 보며 IDE가 없는 미래를 떠올렸습니다. 원문에 따르면 JetBrains는 최근 창사 이래 첫 순손실을 냈고, 그의 주변에서는 이제 아무도 IDE에 코드를 치지 않습니다.</p>
+<h3>파일시스템을 상태로, 그리고 무한 소프트웨어</h3>
+<p>2025년 2월 그는 <b>상태로서의 파일시스템</b>을 발견하고 곧 Z80 글을 냈습니다. 기존 프로그램을 <b>클린룸 역공학</b>으로 명세서로 바꾸고, 그 명세서에서 다시 소프트웨어를 만드는 방식입니다. 모든 관할권에서 합법은 아니라고 그는 덧붙입니다. 지난주 쏟아진 포토샵 클론들이 바로 이 아이디어라고 합니다.</p>
+<div class="terms">
+<details><summary>상태로서의 파일시스템</summary><p>휘발되는 대화 맥락 대신 명세서, 진행 상황, 코드, 테스트 결과를 파일로 남겨 장기 루프의 기억으로 쓰는 기법.</p></details>
+<details><summary>클린룸 역공학</summary><p>원본을 분석해 명세서만 쓰는 쪽과, 명세서만 보고 새로 짜는 쪽을 나눠 복제하는 방법.</p></details>
+</div>
+<p>밑바닥 개념은 <b>무한 소프트웨어</b>입니다. 인프라나 다른 락인 없이 소프트웨어만 판다면 끝장났다는 것입니다. 그래서 진짜 질문은 "지금 소프트웨어의 해자는 무엇인가"입니다.</p>
+<h3>무빙워크</h3>
+<p>기술이라는 무빙워크(travelator)는 늘 앞으로 움직입니다. 헌틀리가 가장 걱정하는 사람은 아직 발도 올리지 않아서, 그 위에서 전력 질주하는 사람이 있다는 것조차 모르는 사람들입니다. 조쉬는 처음에 자동완성형 코파일럿을 형편없다고 껐다가, 자바 테스트 프레임워크를 Node.js로 복제시켜 보고 생각을 바꿨습니다. 결과는 직접 짠 것의 약 80% 수준이었고, 모자란 20%는 <b>완결성</b>과 <b>검증</b>이었습니다. 사람이 그 20%에 집중하면 규모가 생깁니다.</p>
+<p>곧 채용 공고에 "AI 활용 경력 N년 이상"이 붙을 것이라고 헌틀리는 봅니다. 조쉬는 하루 더 많은 시간, 한 주 더 많은 날을 쏟아 1년 동안 2년 치 경험을 쌓았다고 말합니다.</p>
+<h3>매니저, 번아웃, 은퇴 프로젝트</h3>
+<ul class="tight">
+<li><b>매니저에게</b>: 팀원에게 AI 실험 시간을 주지 않으면 그들이 대체되도록 판을 까는 것이라는 글은 24시간 만에 순 조회 50만 회를 기록했습니다. 회사가 AI 사용을 전면 금지했다면 그만두라고 그는 씁니다.</li>
+<li><b>인지적 번아웃</b>: 조쉬는 이를 헬스장의 근육통처럼 여깁니다. 그만두거나 돌파해 적응하거나 둘 중 하나입니다.</li>
+<li><b>미래로의 순간이동</b>: 은퇴 뒤에 하려던 프로젝트(나만의 언어, 파일시스템 등)를 지금 해치우는 것. 헌틀리는 은퇴 프로젝트가 바닥났습니다.</li>
+</ul>
+<h3>보조금은 공짜 대학교육</h3>
+<p>지금의 LLM 서비스는 큰 보조금으로 돌아가고, 그 보조금은 마르고 있습니다. 실제 원가대로 사이드 프로젝트 하나에 1,000달러가 든다면 사람들은 재미로 게임을 만들지 않을 것입니다. 그래서 지금은 VC가 모두의 자기계발비를 대 주는 시기이고, 이를 놓치면 보조금 받는 대학교육을 놓치는 셈이라고 합니다. 기후와 전력 문제에 대해서는, 엔지니어 20명 회사가 2~5명과 AI로 같은 일을 하는 회사와 경쟁해야 한다는 단위 경제학으로 답합니다.</p>
+<h3>원자 대신 분자를 뽑는다</h3>
+<p>아이폰 초기처럼 지금도 대기업은 제품보다 경험 쌓인 사람을 원해 회사를 사들입니다(인재 인수). 조쉬는 스트라이프(Stripe)가 개인(원자)보다 호흡이 검증된 3~4명 팀(<b>분자</b>)을 뽑는다는 이야기를 꺼냅니다. 결론은 토큰 비용을 대 주는 회사에 들어가라는 것, 그럴 수 없으면 급여 일부를 토큰에 쓰는 "야간 대학"으로 여기라는 것입니다.</p>
+</section>
+
+<section class="sec" id="s3">
+<div class="sec-head"><span class="sec-num">3</span><div><h2>아무도 다 리뷰할 수 없다</h2><p class="sub">파트 2</p></div></div>
+<h3>변명의 여지는 없다</h3>
+<p>프로 엔지니어라면 월 200달러 요금제 하나쯤은 감당해야 하고, 앞서 가려면 5개를 구독하라고 합니다. 헌틀리는 할당량에 막히지 않으려고 계정 5개를 돌립니다. 그의 리듬은 2주 구상, 48시간 집중 제작, 다시 2주 구상입니다.</p>
+<h3>10일 안에 옛 직장 세 곳의 제품을 다시 만들다</h3>
+<p>최근 그는 10일이 안 되는 기간에 예전 직장 세 곳의 주력 제품을 처음부터 다시 만들었고, MIT 라이선스로 공개할 예정입니다. 하나는 그가 초기 직원이었던 깃팟(Gitpod) 같은 AI 우선 내부 개발자 플랫폼입니다. 원문에 따르면 Gitpod은 최근 OpenAI가 4억 5천만 달러에 인수했습니다. 이유는 2주 뒤 뉴욕 강연에서 대량의 코드를 어떻게 검증하는지 사례로 보여 주기 위해서입니다.</p>
+<h3>모델이 아니라 마인드셋의 한계</h3>
+<p>DHH가 작년 11월에야 모델이 쓸 만해졌다고 말하자, 조쉬는 "그때 당신이 깨달은 것뿐"이라고 받아칩니다. 카파시는 이를 K자형이 아닌 "가파른 깔때기"라고 했고, 헌틀리는 프론티어 연구소에서 에이전트 스웜이 돌아가는 것을 직접 본 사람이 전 세계 5,000명이 안 될 것이라고 봅니다. 규모의 예로, 한 연구소는 샌드박스 1,500만 개와 CPU 코어 약 100만 개를 쓴 학습을 마쳤고, 미국 내 GCP의 CPU를 다 쓰고 AWS에서 약 45만 코어를 더 구했다고 합니다.</p>
+<div class="terms">
+<details><summary>샌드박스</summary><p>코드를 바깥에 해를 끼치지 않게 격리해서 실행하는 환경.</p></details>
+<details><summary>스웜 <span class="en">swarm</span></summary><p>여러 에이전트를 무리로 동시에 돌리는 방식.</p></details>
+</div>
+<h3>코딩 에이전트를 직접 만들 수 있는가</h3>
+<p>이제 특정 기술 스택 경력은 의미가 없고, 새 도구로 무엇을 만들었고 그 원리를 얼마나 깊이 설명하는지가 중요합니다. 코딩 에이전트는 약 300줄이면 만듭니다. 조쉬는 헌틀리의 워크숍을 읽고 러스트로 6MB짜리 하네스 '나노코더'를 만들었고, 면접에서 "제가 만든 걸 씁니다. 보실래요?"라고 답할 수 있게 됐습니다. 그의 원칙은 무엇을 자동화할지 배울 때만 손으로 한다는 것입니다. 프로그램은 재현과 검증이 되지만 프롬프트와 그 출력은 그렇지 않기 때문입니다.</p>
+<div class="terms"><details><summary>하네스 <span class="en">harness</span></summary><p>모델을 도구 실행, 파일 읽기와 쓰기에 연결해 에이전트로 돌리는 실행 틀.</p></details></div>
+<h3>왜 아직도 PR 리뷰를 하나</h3>
+<p>눈으로 코드를 훑는 것으로 충분했다면 버그는 없었을 것입니다. 사람 속도에서도 통하지 않던 방식이 1,000배 속도에서 통할 리 없습니다. PR 리뷰의 다른 목적이던 교육과 온보딩도 사라졌습니다. 헌틀리의 대안은 <b>오너십</b>입니다. 만든 것을 직접 쓰며 다듬고, 닉스(Nix)로 운영체제까지 포함한 시스템 전체를 테스트 아래 둡니다.</p>
+<p>그의 본업은 결정론적 컴퓨터를 만든 앤티테시스(Antithesis)입니다. 컨테이너를 그 위에서 돌리면 시계를 감고 네트워크를 끊는 등 결함을 넣고, 시간을 되감아 문제 시점을 짚습니다. 바탕은 <b>속성 기반 테스팅</b>이고, Hypothesis 같은 도구로 지금 시작할 수 있습니다. 예: "결제가 마이크로서비스 두세 곳을 거쳐도 고객에게는 한 번만 청구된다." LLM은 심판으로 코드 문제를 찾을 수 있지만, 최악의 조건에서 시스템이 버티는지는 알려 주지 못한다는 것이 그가 검증 분야에 있는 이유입니다.</p>
+<div class="terms">
+<details><summary>Nix</summary><p>운영체제와 도구 구성을 선언으로 적어 언제나 똑같이 재현하게 하는 패키지 관리 체계.</p></details>
+<details><summary>속성 기반 테스팅</summary><p>개별 예시 대신 "항상 지켜져야 하는 성질"을 적고, 무작위 입력을 많이 넣어 깨지는지 보는 테스트.</p></details>
+</div>
+<h3>비전과 검증, 화이트보드 디펜스</h3>
+<p>조쉬의 요약대로 사람이 개입하는 곳은 비전과 검증 두 곳이고, 그 사이의 구현은 블랙박스가 됐습니다. 헌틀리는 코드를 한 줄씩 읽지 않고 에이전트에게 요약, 상태 머신 다이어그램, 구성 요소의 맞물림을 계속 묻습니다. 목표는 <b>화이트보드 디펜스</b>, 곧 누가 물으면 화이트보드에 시스템 설계를 그리고 방어할 수 있는 상태입니다.</p>
+<p>이것은 대충 만드는 YOLO 코딩이 아니라 여전히 엔지니어링입니다. 에이전트가 그가 만든 진단 라이브러리 패턴을 따르지 않자, 그는 화내는 대신 환경을 어떻게 조율할지 묻고, 그래도 안 되면 뒤처리하는 루프('룸바')를 돌립니다. 같은 지적을 세 번 하면 자동화하라는 원칙대로, 그는 생성된 코드를 결정론적으로 검사하는 <b>프리커밋 훅</b>을 겁니다. 본질은 예전 Danger Systems와 같은 아키텍처 강제입니다.</p>
+<div class="terms"><details><summary>프리커밋 훅</summary><p>커밋 직전에 자동으로 실행돼 규칙을 어기면 커밋을 막는 스크립트.</p></details></div>
+<h3>모범 사례는 없다</h3>
+<p>AI 시대의 모범 사례는 직접 발명해야 하며, 지금 방식도 두 달 뒤면 낡습니다. 자바 생태계도 로즈웰 우주선에서 떨어진 게 아니라 사람들이 만든 것이라고 조쉬는 말합니다. 학습된 무기력에 빠지지 말라는 것입니다.</p>
+</section>
+
+<section class="sec" id="s4">
+<div class="sec-head"><span class="sec-num">4</span><div><h2>AI를 스스로 멍청하게 만든다</h2><p class="sub">파트 3</p></div></div>
+<h3>아기 고양이와 룸바</h3>
+<p>고양이 릴리가 바닥에 실수한 뒤 로봇청소기가 돌면 집 전체에 퍼집니다. 코드베이스에 나쁜 패턴이 있으면 AI는 그것을 사방에 복사합니다. AI는 <b>증폭기</b>입니다. 헌틀리는 루프 끝에 에이전트가 자기 실행 기록을 분석하게 하고, 헤매면 "이전 도구 호출을 살펴보고 다시 계획하자"고 성찰을 시킵니다. 궤도 수정에 효과가 크다고 합니다.</p>
+<h3>스킬 팩은 엔지니어의 점성술</h3>
+<p>스킬 팩, AGENTS.md, MCP 서버는 모두 <b>확률론적</b>이라 효과가 보장되지 않고, 읽기에 그럴듯할 뿐입니다. 점성술이 아닌 것은 엔지니어링입니다. 헌틀리는 git diff를 검사해 진단 모듈을 우회하는 코드를 잡는 프리커밋 훅을 쓰고, 걸리면 커밋을 실패시키고 진단 라이브러리를 쓰라는 메시지를 에이전트에게 넣습니다. 그러면 준수율이 10점 만점에 10점이 됩니다. 조쉬는 이를 "루프 안의 Danger Systems"라고 불렀습니다.</p>
+<p>스킬 파일과 AGENTS.md는 두어 달에 한 번 통째로 지우라고 합니다. 모델은 계속 좋아지는데, 옛 지침이 성능을 깎는 <b>디튜닝</b>을 일으키는지 평가(evals) 인프라 없이 알 수 없기 때문입니다.</p>
+<div class="terms">
+<details><summary>MCP 서버</summary><p>모델에 외부 도구와 데이터를 연결해 주는 규약(Model Context Protocol)의 서버.</p></details>
+<details><summary>디튜닝</summary><p>과거에 쓴 지침이 더 좋아진 모델의 추론 성능을 오히려 떨어뜨리는 현상.</p></details>
+</div>
+<h3>모델 카드를 읽고, 모델 하나에 머물러라</h3>
+<p>AI 연구소는 통합자용 가이드인 모델 카드를 내지만 아무도 읽지 않습니다. GPT-5가 소심하게 느껴졌을 때 모델 카드를 보니 "모델에게 소리 지르지 마라"고 적혀 있었고, 앤트로픽 가이드는 중요한 지시는 소리 지르듯 강조하라고 했습니다. 같은 지침도 모델에 따라 반대로 작동합니다.</p>
+<p>조쉬의 비유로 747을 몰 줄 안다고 F-16 자격이 있는 것은 아닙니다. 잘 되는 모델 하나를 골라 고정하라고 헌틀리는 권합니다. 매주 모델을 바꾸는 것은 개발자를 해고하고 신입을 새로 뽑는 것과 같습니다. 움직이는 변수가 적을수록 결정론적이 됩니다.</p>
+<h3>양초를 꿈꾸라</h3>
+<p>LLM을 유능하지만 완벽하지 않은 동료처럼 대하는 방식이 통합니다. 때로는 "멍청한 고철 깡통"도, "어머니가 암 투병 중"이라는 말도 통합니다. 초기 윈드서프(Windsurf)의 유출된 시스템 프롬프트에 거의 같은 내용이 있었고, 그 세대 모델에는 실제로 통했지만 지금 모델에는 필요 없습니다. "증명하는 동안 양초를 꿈꾸라" 같은 기묘한 문장도 작동합니다. 요점은 정답 공식이 아니라 호기심, 탐구, 발견, 주체성입니다. 그는 위스퍼 플로우 같은 음성 입력을 권하며, 요즘 키보드를 거의 치지 않는다고 합니다.</p>
+</section>
+
+<section class="sec" id="s5">
+<div class="sec-head"><span class="sec-num">5</span><div><h2>오픈소스는 보안 취약점</h2><p class="sub">파트 4</p></div></div>
+<h3>하네스는 서로 바꿔 쓸 수 있다</h3>
+<p>Codex, OpenCode, Pi 같은 하네스는 서로 대체 가능하고, 중요한 것은 토큰을 얼마나 싸게 확보하느냐입니다. 그가 만든 프록시 <b>언더클래스</b>(Underclass)는 여러 구독 계정을 하나로 묶고, 한 계정 할당량이 떨어지면 다음 계정으로 넘깁니다. 스웜이나 복잡한 오케스트레이터는 쓰지 않습니다. 단순 루프로도 반나절에 몇 주 치가 나오고, 1,000개 에이전트가 자기 이해를 앞질러 폭주하는 것을 원치 않기 때문입니다. 조쉬는 이를 "천천히 가서 빨리 가기"라고 불렀습니다.</p>
+<h3>sudo를 주고 main에 바로 푸시</h3>
+<p>조쉬는 Copilot 리뷰어와 에이전트로 PR 코멘트를 해결하는 수렴 루프를 씁니다. 헌틀리는 신규 구축과 연구 작업이 많다는 전제를 달고, 에이전트에게 sudo를 주고 PR 없이 main에 바로 푸시합니다. 전용 개발 머신의 NixOS는 에이전트가 망가뜨려도 10분이면 다시 만들고, 통합 테스트를 통과하지 못하면 커밋할 수 없게 해 둡니다. 테스트를 지워 버리던 모델의 속임수는 지난 1년 반 사이 크게 줄었다고 합니다.</p>
+<div class="terms"><details><summary>sudo</summary><p>리눅스에서 관리자(루트) 권한으로 명령을 실행하게 하는 명령.</p></details></div>
+<h3>반복 속도가 승패를 가른다</h3>
+<p>먼저 손에 쥐고 써 보며 가치가 있는지 확인한 뒤에 검증과 견고화에 힘을 씁니다. 첫 번째 결과물은 틀리고, 열 번째쯤 제대로 된 것이 나오니 열 번째까지 빨리 가라는 것입니다. 조쉬는 대기업에 틀리지 않으려는 소심함의 문화가 있다고 봅니다. 규제 산업, 송금, 로켓은 신중해야 하지만, 많은 사람이 자기 일의 심각성을 부풀린다는 것입니다. 빠른 속도를 버티게 하는 <b>백프레셔</b>로 검증 플랫폼이 필요합니다.</p>
+<div class="terms"><details><summary>백프레셔 <span class="en">back pressure</span></summary><p>컴파일러, 타입 검사, 통합 테스트처럼 잘못된 결과를 자동으로 되밀어 루프의 탈선을 막는 장치.</p></details></div>
+<p>캔바는 통합 이벤트를 줄이려고 주 2회만 배포하지만, 다른 곳은 통합 문제를 앞당겨 없애고 매일 배포합니다. 조쉬는 레드햇의 페도라(빠르고 실험적)와 RHEL(은행과 병원용 안정판)처럼 두 채널을 함께 가질 수 있다고 말합니다.</p>
+<h3>호기심, 적응력, 주체성</h3>
+<p>미래를 안다는 사람은 경계하라고 그는 씁니다. 세월을 견딜 것은 호기심, 적응력, 주체성이고, 더 큰 야망을 품고 야망 있는 사람들과 어울려야 합니다. 조쉬는 스킬 팩 논의를 "AGENTS.md가 아니라 Agency"로 요약했습니다.</p>
+<h3>표적 크기 1</h3>
+<p><b>유니커널</b>과 권한 기반 운영체제는 새 아이디어가 아니라 만들기가 비쌌을 뿐입니다. 에이전트가 코드 작성을 쉽게 만들면 그 마찰이 사라집니다. 서버에 Bash도 Python도 없고 앱 코드만 있으면 공격 표면이 아주 작아집니다. 레일즈 앱이 뚫리면 공격자는 셸을 얻어 데이터베이스를 통째로 빼 가지만, 유니커널에서는 오직 당신을 노린 맞춤 공격을 짜야 합니다.</p>
+<div class="terms"><details><summary>유니커널</summary><p>범용 운영체제의 셸 같은 부분을 빼고 앱과 필요한 커널 기능만 하나의 이미지로 묶은 실행 형태.</p></details></div>
+<blockquote>모두가 똑같은 오픈소스 스택을 실행할 때는 제로데이 취약점 하나로 모두가 동시에 타격을 입습니다. 이를 '표적 크기 1'로 줄여 버리면, 공격자는 오직 당신만을 겨냥해 처음부터 공격법을 설계해야만 합니다.<cite>원문 파트 4</cite></blockquote>
+<p>소프트웨어를 다시 쓰지 말라던 조엘 스폴스키의 원칙은 수명을 다했다고 그는 봅니다. ASP.NET Classic, MVC, .NET Core 인력을 동시에 두고 있다면 루프 몇 번으로 최신 .NET으로 옮기라고 합니다. 기술 스택 통합이 최우선 과제입니다. 다만 그는 모두가 당장 유니커널을 써야 한다는 극단론자가 아니고, 요지는 어렵다고 믿던 것을 반증해 보자는 것입니다. 캔바에서는 전담 Bazel 팀 5명이 효과를 보기까지 약 2년이 걸렸지만, 지금은 하룻밤에 코드베이스를 Bazel로 옮길 수 있다고 합니다. 원문의 마지막 말은 "계속 호기심을 유지하십시오"입니다.</p>
+</section>
+
+<section class="sec" id="s6">
+<div class="sec-head"><span class="sec-num">6</span><div><h2>4부작 영상</h2><p class="sub">원문이 단 영상 링크</p></div></div>
+<table class="tbl stack">
+<thead><tr><th>편</th><th>제목</th><th>주요 내용</th></tr></thead>
+<tbody>
+<tr><th>1</th><td data-label="제목"><a href="https://www.youtube.com/watch?v=ziXOV0b134s">Is Coding Over?</a></td><td data-label="주요 내용">IDE의 종말, Z80 클린룸, 무빙워크</td></tr>
+<tr><th>2</th><td data-label="제목"><a href="https://www.youtube.com/watch?v=I8F5wagYFuc">Nobody Can Review This Much Code. Now What?</a></td><td data-label="주요 내용">300줄 에이전트, PR 리뷰의 종말, Nix와 Antithesis, 화이트보드 디펜스</td></tr>
+<tr><th>3</th><td data-label="제목"><a href="https://www.youtube.com/watch?v=8FwApXjknmU">You're Making Your AI Dumber</a></td><td data-label="주요 내용">고양이와 룸바, 스킬 팩 대신 프리커밋 훅, 모델 카드, 모델 하나에 머물기</td></tr>
+<tr><th>4</th><td data-label="제목"><a href="https://www.youtube.com/watch?v=CXNqVQTzWSE">Open Source Is Now a Security Vulnerability</a></td><td data-label="주요 내용">언더클래스, sudo와 main 직행 푸시, 백프레셔, 유니커널과 표적 크기 1</td></tr>
+</tbody></table>
+</section>
+<section class="sec" id="rv">
+<div class="sec-head"><span class="sec-num">7</span><div><h2>복습</h2><p class="sub">본문 내용만으로 만든 암기 점검</p></div></div>
+<h3 class="rv-h">핵심 용어 카드</h3><p class="muted">카드를 누르면 뜻이 나옵니다.</p><div class="flips"><button type="button" class="flip" aria-expanded="false"><b>루프 엔지니어링</b><span class="hint">뜻 보기</span><span class="m">에이전트가 생성, 테스트, 오류 확인, 수정을 목표가 채워질 때까지 스스로 반복하게 설계하는 기법.</span></button><button type="button" class="flip" aria-expanded="false"><b>상태로서의 파일시스템</b><span class="hint">뜻 보기</span><span class="m">대화 맥락 대신 파일에 명세서와 진행 상황을 남겨 장기 루프의 기억으로 쓰는 기법.</span></button><button type="button" class="flip" aria-expanded="false"><b>무한 소프트웨어</b><span class="hint">뜻 보기</span><span class="m">작성 비용이 0에 가까워져 코드만으로는 해자가 되지 못하는 상황.</span></button><button type="button" class="flip" aria-expanded="false"><b>무빙워크</b><span class="hint">뜻 보기</span><span class="m">기술이 기본 속도를 올려 둔 위에서 뛰는 사람과 타지 않은 사람의 격차가 벌어진다는 비유.</span></button><button type="button" class="flip" aria-expanded="false"><b>분자 채용</b><span class="hint">뜻 보기</span><span class="m">개인 대신 호흡이 검증된 3~4명 팀을 통째로 뽑는 방식.</span></button><button type="button" class="flip" aria-expanded="false"><b>화이트보드 디펜스</b><span class="hint">뜻 보기</span><span class="m">코드를 줄마다 읽지 않아도 시스템 설계를 그리고 방어할 수 있는 상태.</span></button><button type="button" class="flip" aria-expanded="false"><b>백프레셔</b><span class="hint">뜻 보기</span><span class="m">테스트와 타입 검사처럼 잘못된 결과를 되밀어 루프의 탈선을 막는 장치.</span></button><button type="button" class="flip" aria-expanded="false"><b>디튜닝</b><span class="hint">뜻 보기</span><span class="m">옛 지침이 더 좋아진 모델의 성능을 오히려 떨어뜨리는 현상.</span></button><button type="button" class="flip" aria-expanded="false"><b>언더클래스</b><span class="hint">뜻 보기</span><span class="m">여러 구독 계정을 묶고 할당량이 떨어지면 다음 계정으로 넘기는 헌틀리의 프록시.</span></button><button type="button" class="flip" aria-expanded="false"><b>표적 크기 1</b><span class="hint">뜻 보기</span><span class="m">나만의 스택과 유니커널로, 공격자가 오직 나만을 위한 공격을 짜게 만드는 것.</span></button></div><div class="rv-tools"><button type="button" data-all="flip">모두 뒤집기</button></div><h3 class="rv-h">빈칸 채우기</h3><p class="muted">빈칸을 누르면 답이 나옵니다.</p><ol class="cloze"><li>인간에게 남은 것은 비전, 검증, 그리고 <button type="button" class="blank" data-a="주체성" aria-label="빈칸, 눌러서 답 보기">?</button>입니다.</li><li>조쉬의 첫 복제 결과는 직접 짠 것의 약 <button type="button" class="blank" data-a="80%" aria-label="빈칸, 눌러서 답 보기">?</button>였고, 모자란 몫은 완결성과 검증이었습니다.</li><li>코딩 에이전트는 코드 약 <button type="button" class="blank" data-a="300줄" aria-label="빈칸, 눌러서 답 보기">?</button>이면 만듭니다.</li><li>스킬 팩과 AGENTS.md는 엔지니어를 위한 <button type="button" class="blank" data-a="점성술" aria-label="빈칸, 눌러서 답 보기">?</button>이라고 헌틀리는 말합니다.</li><li>헌틀리는 에이전트 규칙을 지침 파일 대신 <button type="button" class="blank" data-a="프리커밋 훅" aria-label="빈칸, 눌러서 답 보기">?</button>으로 결정론적으로 강제합니다.</li><li>첫 번째 결과물은 틀리니 <button type="button" class="blank" data-a="열 번째" aria-label="빈칸, 눌러서 답 보기">?</button>까지 빨리 가라고 합니다.</li></ol><div class="rv-tools"><button type="button" data-all="blank">답 모두 보기</button></div><h3 class="rv-h">5문항 퀴즈</h3><div id="quiz"><div class="q" data-a="1"><fieldset><legend class="qt">1. 원문이 말하는 '인간이 개입하는 두 곳'은?</legend><button type="button">프롬프트와 배포</button><button type="button">비전과 검증</button><button type="button">구현과 리뷰</button></fieldset><p class="ex" hidden aria-live="polite" data-e="구현은 블랙박스가 됐고, 사람은 비전과 검증에 개입합니다."></p></div><div class="q" data-a="0"><fieldset><legend class="qt">2. 헌틀리가 PR 리뷰 대신 내세우는 출발점은?</legend><button type="button">오너십과 시스템 전체 테스트</button><button type="button">더 많은 리뷰어</button><button type="button">LLM 심판</button></fieldset><p class="ex" hidden aria-live="polite" data-e="만든 것을 직접 쓰며 다듬고, Nix로 시스템 전체를 테스트 아래 둡니다."></p></div><div class="q" data-a="1"><fieldset><legend class="qt">3. 스킬 파일과 AGENTS.md를 어떻게 하라고 하나요?</legend><button type="button">매주 늘려 간다</button><button type="button">두어 달에 한 번 통째로 지운다</button><button type="button">유료 스킬 팩으로 바꾼다</button></fieldset><p class="ex" hidden aria-live="polite" data-e="옛 지침이 디튜닝을 일으키는지 알 수 없기 때문입니다."></p></div><div class="q" data-a="1"><fieldset><legend class="qt">4. 모델을 매주 바꾸는 것을 무엇에 비유하나요?</legend><button type="button">새 노트북을 사는 것</button><button type="button">개발자를 해고하고 신입을 새로 뽑는 것</button><button type="button">747에서 F-16으로 갈아타는 것</button></fieldset><p class="ex" hidden aria-live="polite" data-e="바꿀 때마다 형성기부터 다시 거쳐야 합니다."></p></div><div class="q" data-a="1"><fieldset><legend class="qt">5. 유니커널이 공격을 어렵게 하는 이유는?</legend><button type="button">암호화가 강해서</button><button type="button">서버에 Bash나 Python 같은 인터프리터 없이 앱 코드만 있어서</button><button type="button">오픈소스라서</button></fieldset><p class="ex" hidden aria-live="polite" data-e="공격자가 오직 그 시스템만을 노린 맞춤 공격을 짜야 합니다."></p></div><p class="score" id="score" aria-live="polite">점수: 0 / 5</p><div class="rv-tools"><button type="button" id="qreset">다시 풀기</button></div></div>
+</section>
+
+<section class="sec issues" id="s9">
+<div class="sec-head"><span class="sec-num">8</span><div><h2>읽으며 걸린 곳</h2><p class="sub">정리하면서 걸린 것. 결론에는 영향이 크지 않습니다</p></div></div>
+<details><summary>4가지 보기</summary>
+<ul>
+<li>원문은 월 200달러 요금제 5개를 "월 1,200달러(약 160만 원)"라고 씁니다. 그대로 곱하면 1,000달러입니다.</li>
+<li>원문의 챕터 목록에서 2편의 일부 항목(10:05 이후)이 4편에 다시 나오고, 3편 시각이 11:45부터 시작합니다. 어느 편의 시각인지 확인하지 못해 이 정리에는 시각을 옮기지 않았습니다.</li>
+<li>JetBrains 첫 순손실, OpenAI의 Gitpod 4억 5천만 달러 인수, CPU 코어 수치는 헌틀리의 말로만 나오며 1차 자료와 대조하지 않았습니다.</li>
+<li>원문 4편 언더클래스 카드에 일본어 "しながら"가 섞여 있습니다(번역 잔재로 보임).</li>
+</ul></details>
+</section>
+
+<section class="sources" id="src">
+<h2>출처</h2>
+<p>원문: 「<a href="https://yghnsim.github.io/Pages/huntley_nobody_should_type_code_by_hand.html">영한 대조 심화 학습서: nobody should type code by hand anymore (Geoffrey Huntley)</a>」, Pages. 원전: Geoffrey Huntley, 「<a href="https://ghuntley.com/agency/">nobody should type code by hand anymore. here's what's left.</a>」, 2026. 10. 13. 용어 설명은 원문의 주석 사전을 줄여 옮겼고, 숫자와 사례는 모두 원문에서 옮겼습니다.</p>
+<p><a class="totop" href="#main">맨 위로</a></p>
+</section>
+</main></div><script>(function(){
+var links=[].slice.call(document.querySelectorAll('nav.toc li a'));
+if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id)})}})},{rootMargin:'-20% 0px -70% 0px'});
+links.forEach(function(a){var s=document.querySelector(a.getAttribute('href'));if(s)io.observe(s)});}
+[].forEach.call(document.querySelectorAll('nav.toc-m a'),function(a){a.addEventListener('click',function(){a.closest('details').open=false})});
+})();</script>
+
+<script>(function(){
+function $$(q){return [].slice.call(document.querySelectorAll(q))}
+$$('.flip').forEach(function(b){b.onclick=function(){b.setAttribute('aria-expanded',b.getAttribute('aria-expanded')==='true'?'false':'true')}});
+function show(b){b.textContent=b.dataset.a;b.classList.add('shown');b.setAttribute('aria-label','답: '+b.dataset.a)}
+$$('.blank').forEach(function(b){b.onclick=function(){show(b)}});
+$$('[data-all]').forEach(function(t){t.onclick=function(){if(t.dataset.all==='flip')$$('.flip').forEach(function(b){b.setAttribute('aria-expanded','true')});else $$('.blank').forEach(show)}});
+var sc=0,done=0,qs=$$('#quiz .q');
+function upd(){document.getElementById('score').textContent='점수: '+sc+' / 5'+(done===5?' (끝)':'')}
+qs.forEach(function(q){var bs=[].slice.call(q.querySelectorAll('fieldset button')),ex=q.querySelector('.ex');
+bs.forEach(function(b,i){b.onclick=function(){var a=+q.dataset.a,ok=i===a;bs.forEach(function(x){x.disabled=true});bs[a].classList.add('right');if(!ok)b.classList.add('wrong');
+ex.hidden=false;ex.textContent=(ok?'맞았습니다. ':'아쉽습니다. ')+ex.dataset.e;if(ok)sc++;done++;upd();}})});
+document.getElementById('qreset').onclick=function(){sc=0;done=0;qs.forEach(function(q){q.querySelectorAll('fieldset button').forEach(function(x){x.disabled=false;x.className=''});var ex=q.querySelector('.ex');ex.hidden=true;ex.textContent=''});upd()};
+})();</script>
+
+
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">요약 아카이브</div><div class="arc-foot-title">이제 아무도 손으로 코드를 치지 않는다: 제프리 헌틀리가 말하는 남은 것</div><div class="arc-foot-meta"><time datetime="2026-10-15">2026년 10월 15일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4">#소프트웨어</a><a class="arc-tag" href="../index.html#tags=%EC%9D%B8%ED%84%B0%EB%B7%B0">#인터뷰</a> · <a href="https://yghnsim.github.io/Pages/huntley_nobody_should_type_code_by_hand.html" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body>
+</html>

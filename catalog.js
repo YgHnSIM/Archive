@@ -2,6 +2,23 @@
    `python3 add_page.py --rebuild` 를 실행하면 다시 만들어집니다. */
 window.ARCHIVE_CATALOG = [
   {
+    "id": "20261015-01",
+    "title": "이제 아무도 손으로 코드를 치지 않는다: 제프리 헌틀리가 말하는 남은 것",
+    "summary": "제프리 헌틀리와 조쉬 울프의 4부작 대담을 정리했습니다. 비전, 검증, 주체성, 루프 엔지니어링, PR 리뷰 대신 시스템 테스트, 스킬 팩 대신 프리커밋 훅, 유니커널과 표적 크기 1, 그리고 복습 카드와 퀴즈.",
+    "tags": [
+      "AI",
+      "소프트웨어",
+      "인터뷰"
+    ],
+    "date": "2026-10-15",
+    "file": "pages/2026-10-15-헌틀리_손코딩.html",
+    "added": "2026-10-15T21:41:05+09:00",
+    "source_name": "헌틀리_손코딩.html",
+    "source_sha256": "29b26700c415e266025c2683fc3c15e54e53dc078d96d56f46d954b675eb323e",
+    "source_path_sha256": "0de4c9720f29de59f90be0850feb3714e9951c9d631d0c1ab634ba13f5728006",
+    "source_url": "https://yghnsim.github.io/Pages/huntley_nobody_should_type_code_by_hand.html"
+  },
+  {
     "id": "20261014-02",
     "title": "생명은 계산이며 공생발생으로 진화한다 — 심화 학습 가이드",
     "summary": "「생명은 계산이며 공생발생으로 진화한다」 심화 학습 가이드. PDF 원문을 내용 수정 없이 옮긴 판.",
