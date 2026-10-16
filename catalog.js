@@ -2,6 +2,23 @@
    `python3 add_page.py --rebuild` 를 실행하면 다시 만들어집니다. */
 window.ARCHIVE_CATALOG = [
   {
+    "id": "20261016-01",
+    "title": "드와르케시 파텔과 타일러 코웬, AI의 미래를 예측하다",
+    "summary": "파텔과 코웬의 2026년 AI 미래 대담 정리",
+    "tags": [
+      "AI",
+      "경제",
+      "인터뷰"
+    ],
+    "date": "2026-10-16",
+    "file": "pages/2026-10-16-드와르케시_코웬.html",
+    "added": "2026-10-16T17:27:03+09:00",
+    "source_name": "드와르케시_코웬.html",
+    "source_sha256": "6f8c8b220f1f9ae568097d8fcdccfd379f14fd03d07ab0cfaa0a5e28389ed7a4",
+    "source_path_sha256": "9551badd483d5cbed2318aacf962b85f1babd25b8cb80148d4c0fd79ffb56d27",
+    "source_url": "https://yghnsim.github.io/Pages/dwarkesh_patel_tyler_cowen_future_of_ai.html"
+  },
+  {
     "id": "20261015-01",
     "title": "이제 아무도 손으로 코드를 치지 않는다: 제프리 헌틀리가 말하는 남은 것",
     "summary": "제프리 헌틀리와 조쉬 울프의 4부작 대담을 정리했습니다. 비전, 검증, 주체성, 루프 엔지니어링, PR 리뷰 대신 시스템 테스트, 스킬 팩 대신 프리커밋 훅, 유니커널과 표적 크기 1, 그리고 복습 카드와 퀴즈.",
