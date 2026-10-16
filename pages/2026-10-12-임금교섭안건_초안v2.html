@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>[초안 v2] 2027년도 임금교섭 및 노동조건 개선 안건 - 우체국물류지원단 물류노동조합</title>
+<meta name="description" content="2027년도 임금교섭 및 노동조건 개선 협의 안건(초안 v2): 유급병가 60일 원상회복, 퇴직 연차수당 단협 명문화, 직무수당·명절보로금 인상, 고용안정 및 작업환경 개선">
+<style>
+:root{
+  --bg:#faf8f3; --paper:#ffffff; --ink:#1f2328; --muted:#5b6470; --line:#e6e1d6;
+  --accent:#c8553d; --accent-soft:#fbeee9; --blue:#4a6b8a; --blue-soft:#eaf0f6;
+  --green:#2e7d32; --green-soft:#e8f5e9;
+  --radius:14px; --toc-w:240px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR","Malgun Gothic","Gothic A1",system-ui,sans-serif;
+  font-size:17px;line-height:1.75;word-break:keep-all;overflow-wrap:break-word;-webkit-font-smoothing:antialiased;
+}
+a{color:var(--blue);text-decoration:none}
+a:hover{text-decoration:underline}
+#progress{position:fixed;top:0;left:0;height:4px;width:0;background:linear-gradient(90deg,var(--accent),var(--blue));z-index:100;transition:width .08s linear}
+
+/* 아카이브 헤더 밴드 */
+.arc-band{
+  background:#f3efe6;border-bottom:1px solid var(--line);
+  font-size:14px;line-height:1.5;padding:8px 0;
+}
+.arc-inner{
+  max-width:1180px;margin:0 auto;padding:0 20px;
+  display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;
+}
+.arc-back{font-weight:700;color:var(--blue);display:inline-flex;align-items:center;gap:4px}
+.arc-crumb{color:var(--muted)}
+.arc-crumb::before{content:"/";margin-right:10px;color:var(--line)}
+.arc-meta{margin-left:auto;display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:13px;color:var(--muted)}
+.arc-tag{background:#ebe5d8;color:var(--ink);padding:2px 8px;border-radius:6px;font-size:12px;font-weight:600}
+
+/* hero */
+.hero{background:linear-gradient(180deg,#f3efe6 0%,var(--bg) 100%);border-bottom:1px solid var(--line);padding:52px 20px 38px}
+.hero-inner{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1.15fr 0.95fr;gap:36px;align-items:center}
+.eyebrow{display:inline-block;font-size:13px;font-weight:700;letter-spacing:.04em;color:var(--accent);background:var(--accent-soft);padding:4px 10px;border-radius:999px}
+.hero h1{font-size:clamp(26px,4vw,40px);line-height:1.3;margin:14px 0 10px;letter-spacing:-.02em}
+.hero p.lead{font-size:17.5px;color:var(--muted);margin:0;line-height:1.6}
+
+/* 사건/안건 카드 */
+.case-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:6px 16px;font-size:15px;line-height:1.6;box-shadow:0 2px 6px rgba(0,0,0,.03)}
+.case-card .table-wrap{margin:0;border:0;background:none}
+.case-card table{width:100%;border-collapse:collapse}
+.case-card thead{display:none}
+.case-card th,.case-card td{background:none;border:0;border-bottom:1px solid #f0ece3;padding:8px 4px;vertical-align:top}
+.case-card tr:last-child td{border-bottom:0}
+.case-card td:first-child{white-space:nowrap;width:1%;padding-right:16px;color:var(--muted)}
+.case-card td:first-child strong{font-weight:700;color:var(--muted)}
+
+/* layout & TOC */
+.layout{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:var(--toc-w) minmax(0,1fr);gap:40px;padding:0 20px}
+nav.toc{position:sticky;top:20px;align-self:start;margin-top:36px;max-height:calc(100vh - 40px);overflow-y:auto;padding-right:8px}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:0 0 10px 4px}
+.toc ol{list-style:none;margin:0;padding:0}
+.toc li{margin:3px 0}
+.toc li a{
+  display:flex;align-items:baseline;gap:8px;padding:7px 10px;
+  border-radius:8px;font-size:14.5px;line-height:1.4;color:var(--muted);
+  border-left:2px solid transparent;transition:all .15s ease;
+}
+.toc li a:hover{color:var(--ink);background:#f4efe6;text-decoration:none}
+.toc li a.active{color:var(--ink);font-weight:700;background:var(--paper);border-left-color:var(--accent);box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.toc li a .n{flex:none;font-weight:800;color:var(--accent);font-size:13px}
+
+/* main content */
+main{padding:36px 0 70px;min-width:0}
+.opening{padding-bottom:24px;border-bottom:1px dashed var(--line);margin-bottom:8px}
+.opening p{margin:8px 0}
+
+section.sec{padding:36px 0 28px;border-bottom:1px dashed var(--line)}
+section.sec:last-of-type{border-bottom:0}
+.sec-head{display:flex;gap:14px;align-items:flex-start;margin-bottom:14px}
+.sec-num{flex:none;width:40px;height:40px;border-radius:12px;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:800;font-size:17px;margin-top:2px}
+.sec h2{font-size:clamp(22px,2.8vw,28px);line-height:1.3;margin:0;letter-spacing:-.015em}
+.sec h3{font-size:19px;margin:26px 0 8px;line-height:1.45;color:var(--ink)}
+
+/* prose elements */
+.prose p{margin:10px 0}
+.prose ul,.prose ol{margin:10px 0;padding-left:24px}
+.prose li{margin:6px 0}
+.prose li::marker{color:var(--accent);font-weight:700}
+.prose blockquote{
+  margin:18px 0;padding:14px 20px;background:var(--paper);
+  border-left:5px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;
+  box-shadow:0 1px 4px rgba(0,0,0,.03);
+}
+.prose blockquote p{margin:4px 0}
+
+.hang{display:flex;gap:.5em;margin:8px 0 0}
+.hang .hm{flex:none;font-weight:700;color:var(--accent)}
+.hang .hm.blue{color:var(--blue)}
+.hang .hm.green{color:var(--green)}
+
+.formula{display:block;margin:12px 0;padding:14px 16px;background:#f7f4ed;border:1px solid var(--line);border-radius:10px;text-align:left;line-height:1.6}
+.formula strong{color:var(--accent)}
+
+/* 표 */
+.table-wrap{margin:16px 0;overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:12px;background:var(--paper)}
+.table-wrap table{border-collapse:collapse;width:100%;min-width:620px;font-size:15px;line-height:1.6}
+.table-wrap th,.table-wrap td{padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:middle}
+.table-wrap thead th{background:#f4f1ea;font-weight:800;white-space:nowrap}
+.table-wrap tbody tr:last-child td{border-bottom:0}
+.al-left{text-align:left}.al-center{text-align:center}.al-right{text-align:right}
+
+/* 뱃지 */
+.priority-pill{display:inline-block;padding:2px 8px;border-radius:6px;font-size:12px;font-weight:800;letter-spacing:.02em;margin-right:6px}
+.priority-pill.p1{background:var(--accent-soft);color:var(--accent);border:1px solid #f5cfc5}
+.priority-pill.p2{background:var(--blue-soft);color:var(--blue);border:1px solid #cbdde9}
+.priority-pill.p3{background:var(--green-soft);color:var(--green);border:1px solid #c8e6c9}
+
+/* 단협 조문 박스 */
+.clause-card{
+  background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);
+  padding:16px 20px;margin:16px 0;box-shadow:0 1px 4px rgba(0,0,0,.03);
+}
+.clause-title{font-size:15.5px;font-weight:800;color:var(--accent);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+
+/* 버튼 */
+.btn-wrap{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 10px}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  padding:11px 18px;border-radius:8px;font-size:14.5px;font-weight:700;
+  cursor:pointer;border:1px solid transparent;transition:all .15s ease;
+}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:#b24732}
+.btn-outline{background:var(--paper);color:var(--ink);border-color:var(--line)}
+.btn-outline:hover{background:#f4efe6}
+
+/* 서명부 및 꼬리말 */
+.signature{margin:28px 0 0;padding-top:18px;border-top:1px solid var(--line);text-align:right}
+.signature p{margin:4px 0}
+footer.src{max-width:1180px;margin:0 auto;padding:24px 20px 60px;color:var(--muted);font-size:14px;border-top:1px solid var(--line)}
+
+/* 맨위로 버튼 & 토스트 */
+#totop{
+  position:fixed;right:18px;bottom:18px;width:44px;height:44px;border-radius:50%;
+  border:1px solid var(--line);background:var(--paper);box-shadow:0 4px 14px rgba(0,0,0,.1);
+  font-size:18px;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .2s;z-index:90;color:var(--ink);
+}
+#totop.show{opacity:1;pointer-events:auto}
+.toast{
+  position:fixed;bottom:76px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--ink);color:#fff;padding:10px 18px;border-radius:24px;
+  font-size:13.5px;font-weight:600;box-shadow:0 4px 14px rgba(0,0,0,.2);
+  opacity:0;pointer-events:none;transition:all .25s ease;z-index:100;white-space:nowrap;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* 반응형 미디어 쿼리 */
+@media (max-width:900px){
+  .hero-inner{grid-template-columns:minmax(0,1fr);gap:24px}
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding:0}
+  nav.toc{
+    position:sticky;top:0;z-index:50;margin:0;max-height:none;
+    background:rgba(250,248,243,.96);backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);padding:8px 12px;
+    overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;
+  }
+  .toc h2{display:none}
+  .toc ol{display:flex;gap:6px;white-space:nowrap}
+  .toc li a{border-left:0;border-radius:999px;padding:6px 12px;font-size:14px;background:#f1ede4}
+  .toc li a.active{border-left:0;background:var(--ink);color:#fff;box-shadow:none}
+  .toc li a.active .n{color:#ffb9a8}
+  main{padding:14px 18px 60px;max-width:none}
+  html{scroll-padding-top:64px}
+}
+@media (max-width:640px){
+  body{font-size:16px}
+  .hero{padding:34px 18px 24px}
+  .hero h1{font-size:24px}
+  .hero p.lead{font-size:16px}
+  .case-card{font-size:15px;padding:4px 12px}
+  .case-card td:first-child{white-space:normal;width:6.5em;padding-right:10px}
+  .sec-num{width:34px;height:34px;font-size:15px}
+  .sec h2{font-size:21px}
+  .sec h3{font-size:17.5px}
+  .prose blockquote{padding:12px 14px}
+  .prose ul,.prose ol{padding-left:22px}
+  .table-wrap table{font-size:14.5px}
+  .formula{font-size:14.5px}
+  .btn{width:100%}
+  footer.src{font-size:13.5px}
+}
+@media print{nav.toc,#progress,#totop,.btn-wrap{display:none}.layout{grid-template-columns:1fr}}
+</style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<!-- archive-head:end -->
+</head>
+<body>
+
+<!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="요약 아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>요약 아카이브</a><span class="arc-crumb">[초안 v2] 2027년도 임금교섭 및 노동조건 개선 안건 - 우체국물류지원단 물류노동조합</span><span class="arc-meta"><time datetime="2026-10-12">2026년 10월 12일</time><a class="arc-tag" href="../index.html#tags=%EB%85%B8%EB%8F%99">#노동</a><a class="arc-tag" href="../index.html#tags=%EC%9E%84%EA%B8%88%EA%B5%90%EC%84%AD">#임금교섭</a><a class="arc-tag" href="../index.html#tags=%EB%85%B8%EB%8F%99%EC%A1%B0%ED%95%A9">#노동조합</a></span></div></div>
+<!-- archive-header:end -->
+<div class="arc-band" role="navigation" aria-label="요약 아카이브">
+  <div class="arc-inner">
+    <a class="arc-back" href="https://yghnsim.github.io/workplace/"><b>←</b>공개 자료실</a>
+    <span class="arc-crumb">2027년도 임금교섭 및 노동조건 개선 안건 (초안 v2)</span>
+    <span class="arc-meta">
+      <time datetime="2026-10-12">2026년 10월 12일</time>
+      <span class="arc-tag">#임금교섭</span>
+      <span class="arc-tag">#물류노조</span>
+      <span class="arc-tag">#공정대표의무</span>
+    </span>
+  </div>
+</div>
+<div id="progress" aria-hidden="true"></div>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div>
+      <span class="eyebrow">우체국물류지원단 물류노동조합 · 2027 교섭 안건</span>
+      <h1>2027년도 임금교섭 및 노동조건 개선 안건 (초안 v2)</h1>
+      <p class="lead">2026. 10. 21. 사측 및 교섭대표노동조합에 공식 제출할 요구안입니다.</p>
+    </div>
+    <div class="case-card">
+      <div class="table-wrap" role="region" tabindex="0" aria-label="표 (가로로 밀어서 보기)">
+        <table>
+          <tbody>
+            <tr>
+              <td><strong>문서번호</strong></td>
+              <td>물류노조 제2026-○○-○○호 (초안 회람)</td>
+            </tr>
+            <tr>
+              <td><strong>교섭지위</strong></td>
+              <td>교섭참여노동조합 (안건 제출권)</td>
+            </tr>
+            <tr>
+              <td><strong>수신/참조</strong></td>
+              <td>교섭대표노조(위원장 고돈섭) / 우체국물류지원단 이사장(오기호)</td>
+            </tr>
+            <tr>
+              <td><strong>공식제출</strong></td>
+              <td><strong>2026년 10월 21일 (수)</strong> [접수 마감]</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+<nav class="toc" aria-label="목차">
+  <h2>목차</h2>
+  <ol>
+    <li><a href="#s1"><span class="n">1</span><span>제출 취지 및 기본 원칙</span></a></li>
+    <li><a href="#s2"><span class="n">2</span><span>【1순위】 기 판정·판결 단협 명문화</span></a></li>
+    <li><a href="#s3"><span class="n">3</span><span>【2순위】 수당 차별 철폐 및 현실화</span></a></li>
+    <li><a href="#s4"><span class="n">4</span><span>【3순위】 고용안정 및 환경·인력 개선</span></a></li>
+    <li><a href="#s5"><span class="n">5</span><span>공식 제출 공문 전문 (원문)</span></a></li>
+  </ol>
+</nav>
+
+<main>
+<div class="opening prose">
+<p>우체국물류지원단 물류노동조합 조합원 동지 여러분,</p>
+<p>2027년도 임금교섭 및 노동조건 개선 협의가 개시됩니다. 우리 물류노조는 노동조합 및 노동관계조정법(노조법)상 <strong>교섭참여노동조합</strong>으로서, 교섭대표노동조합과 사측을 상대로 공식 안건을 제출합니다. 교섭대표노조와 사측은 <strong>노조법 제29조의4에 따른 ‘공정대표의무’</strong>를 부담하며, 소수노조 및 취약 고용형태 노동자의 정당한 권익을 합리적 이유 없이 배제할 수 없습니다.</p>
+<p>이번 안건은 백화점식 나열을 배제하고, <strong>① 이미 승소한 중노위 판정 및 대법원 판결의 제도화</strong>, <strong>② 10년 묶인 직무수당과 차별적 수당의 정상화</strong>, <strong>③ 2030 물류 통폐합에 대비한 고용안정 및 작업환경 개선</strong> 등 3대 우선순위에 역량을 집중했습니다. 10월 21일 최종 제출을 완료하겠습니다.</p>
+</div>
+
+<!-- 섹션 1 -->
+<section class="sec" id="s1">
+  <div class="sec-head">
+    <div class="sec-num">1</div>
+    <div><h2>제출 취지 및 기본 원칙</h2></div>
+  </div>
+  <div class="prose">
+    <p>우리 노동조합의 2027년 교섭 안건 수립 3대 원칙은 다음과 같습니다.</p>
+    <ol>
+      <li><strong>법적 승소의 온전한 단체협약 명문화:</strong> 노동위원회 판정과 대법원 확정 판결로 입증된 물류노동자의 권리를 사측 관행이나 어설픈 노사합의로 왜곡하지 못하도록 단체협약에 쐐기를 박습니다.</li>
+      <li><strong>수당 차별 철폐 및 실질 노동 대가 정상화:</strong> 고용형태(정규직/공무직/단시간)를 이유로 명절상여금, 가족수당 등을 차별하는 관행을 철폐하고, 10년째 10만 원으로 동결된 직무수당을 현실화하여 실질임금을 보전합니다.</li>
+      <li><strong>현장 조합원의 안전과 지속가능한 총고용 보장:</strong> 쪼개기 계약을 근절하여 계속근속을 인정받고, 2030년 예정된 부천집중국 폐국 및 광역물류센터 통폐합에 대비한 전원 고용승계 원칙을 확립합니다.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- 섹션 2 -->
+<section class="sec" id="s2">
+  <div class="sec-head">
+    <div class="sec-num">2</div>
+    <div><h2>【1순위】 기 판정·판결 이행 및 단체협약 명문화</h2></div>
+  </div>
+  <div class="prose">
+    <p><span class="priority-pill p1">최우선 1순위</span> <strong>행정기관(중노위)과 사법부(대법원)가 이미 위법·차별로 확정한 권리를 단협에 명문화합니다.</strong></p>
+
+    <h3>2.1. 단시간근로자 유급병가 60일 원상회복 및 차별 철폐</h3>
+    <blockquote>
+      <p><strong>중앙노동위원회 2026. 9. 재심 인용 승소:</strong> 1일 병가 시 이미 4시간분(50%)만 지급받는데, 연간 사용 일수까지 60일에서 30일로 줄인 것은 <strong>‘연간 보장 총량을 25%(120시간)로 축소시킨 불법 이중삭감’</strong>이자 기간제법 위반 차별적 처우임이 확정되었습니다.</p>
+    </blockquote>
+    <div class="formula">
+      <strong>[이중삭감의 구조적 모순]</strong><br>
+      • 통상근로자: 1일 8시간 × 연간 60일 = <strong>480시간</strong> 보장<br>
+      • 2025 합의 단시간: 1일 4시간 × 연간 30일 = <strong>120시간 (25%로 축소!)</strong><br>
+      ☞ 1일 단위에서 이미 시간비례가 완결되었으므로, 일수는 통상근로자와 동일하게 <strong>60일</strong>이어야 온전한 시간비례(240시간, 50%)가 충족됩니다.
+    </div>
+    <div class="hang"><span class="hm">요구 1</span><span>단시간근로자 연간 유급병가 일수를 통상근로자와 동일하게 <strong>연간 60일</strong>로 즉각 원상 복구한다.</span></div>
+    <div class="hang"><span class="hm">요구 2</span><span>중노위 차별시정 재심 판정 취지에 따라 취업규칙 및 단체협약 해당 조항을 즉각 개정하고, 사측의 불복 행정소송 제기를 일체 금지한다.</span></div>
+
+    <h3>2.2. 퇴직자 미사용 연차수당 100% 보장 및 임금 상계 영구 차단</h3>
+    <blockquote>
+      <p><strong>대법원 2026. 6. 25. 선고 2026다202306 확정 판결:</strong> 취업규칙에 퇴직 정산 명문 규정이 없는 한 노동자에게 불리한 입사일 기준 임의 정산은 위법·무효이며, 회계연도 기준 발생 연차 전액을 지급해야 합니다.</p>
+    </blockquote>
+    <div class="hang"><span class="hm">요구 1</span><span><strong>퇴직 시 회계연도 기준 발생 연차 100% 온전 보장</strong> (입사일 기준 역산 삭감 원천 차단).</span></div>
+    <div class="hang"><span class="hm">요구 2</span><span>회계연도 기준과 입사일 기준 중 <strong>조합원에게 더 유리한 일수 우선 적용 원칙</strong> 명문화.</span></div>
+    <div class="hang"><span class="hm">요구 3</span><span>근로자 동의 없는 마지막 월급 임의 공제 금지 (근기법 제43조 임금 전액지급 원칙 준수).</span></div>
+    <div class="hang"><span class="hm">요구 4</span><span>부천 집중국 이관자 등 최근 3년 이내 퇴직·전보 과정에서 부당 공제·삭감된 미사용 연차수당을 전수 조사하여 소멸시효(3년) 만료 전 자진 반환한다.</span></div>
+
+    <div class="clause-card">
+      <div class="clause-title">📜 단체협약 제42조 [연차유급휴가의 정산 및 지급] 신설(안)</div>
+      <p>① 조합원의 퇴직 시 미사용 연차유급휴가 수당은 <strong>회계연도 기준 발생 일수를 온전히 인정하여 100% 지급</strong>하며, 입사일 기준 역산을 통한 삭감을 일체 금지한다.<br>
+      ② 퇴직 시 정산 기준은 <strong>회계연도 기준과 입사일 기준 중 조합원에게 더 유리한 일수를 우선 적용</strong>한다.<br>
+      ③ 조합원의 명시적인 개별 서면 동의 없는 퇴직 월 급여 및 퇴직금에서의 일방적 연차 차감·상계를 영구 금지한다.<br>
+      ④ 사측은 최근 3년 이내 부당 삭감된 미사용 연차수당을 소멸시효 만료 전 전액 반환한다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 섹션 3 -->
+<section class="sec" id="s3">
+  <div class="sec-head">
+    <div class="sec-num">3</div>
+    <div><h2>【2순위】 수당 차별 철폐 및 핵심 수당 현실화</h2></div>
+  </div>
+  <div class="prose">
+    <p><span class="priority-pill p2">중점 2순위</span> <strong>고용형태에 따른 부당한 수당 격차를 없애고, 10년째 묶여 있는 현장 노동 대가를 현실화합니다.</strong></p>
+
+    <h3>3.1. 가족수당 및 복리후생 고용형태별 차별 철폐</h3>
+    <div class="hang"><span class="hm blue">요구</span><span>부양가족 유무에 따라 실질 생계를 보조하는 <strong>가족수당을 고용형태(정규직/공무직/단시간)와 무관하게 동일 기준·동일 금액으로 전원 지급</strong>한다. (노조법 제9조 차별금지 원칙 준수)</span></div>
+  
+    <h3>3.2. 10년 동결 직무수당 현실화 (월 250,000원)</h3>
+    <div class="hang"><span class="hm blue">현황</span><span>농산물·쌀·생수 등 택배 중량화로 상하차 노동강도는 극심해졌으나 직무수당은 <strong>10년째 월 100,000원에 동결</strong>되어 있음.</span></div>
+    <div class="hang"><span class="hm blue">요구</span><span>직무수당을 현행 월 100,000원에서 <strong>월 250,000원으로 150,000원 인상</strong>하여 기준월봉 및 통상임금에 즉각 반영한다.</span></div>
+
+    <h3>3.3. 명절 보로금 120% 인상 (원청 격차 해소)</h3>
+    <div class="hang"><span class="hm blue">현황</span><span>물류지원단 현장 노동자의 명절 보로금은 원청인 우정사업본부 우정실무원 대비 현저히 낮아 상대적 박탈감과 실질임금 격차의 주원인이 됨.</span></div>
+    <div class="hang"><span class="hm blue">요구</span><span>명절 보로금을 <strong>연 120% 지급(설 60%, 추석 60%)으로 단체협약에 명문화</strong>하여 처우 격차를 해소하고 명절 생계 안정을 도모한다.</span></div>
+  </div>
+</section>
+
+<!-- 섹션 4 -->
+<section class="sec" id="s4">
+  <div class="sec-head">
+    <div class="sec-num">4</div>
+    <div><h2>【3순위】 고용안정 제도화 및 환경·인력 개선</h2></div>
+  </div>
+  <div class="prose">
+    <p><span class="priority-pill p3">핵심 3순위</span> <strong>상시업무 노동자의 고용불안을 원천 차단하고, 폭염·중량물로부터 현장 안전을 확보합니다.</strong></p>
+
+    <h3>4.1. 쪼개기 계약 금지 및 상시지속 업무 실질 근속 인정</h3>
+    <div class="hang"><span class="hm green">요구 1</span><span>퇴직금·연차·공무직 전환 회피 목적의 <strong>1년 미만 단기 ‘쪼개기 계약’(3개월, 11개월 등) 체결을 원천 금지</strong>한다.</span></div>
+    <div class="hang"><span class="hm green">요구 2</span><span>단절 없이 상시업무를 지속해 온 기간제·단시간 노동자의 <strong>실제 근무 기간 전체를 근속연수에 100% 통산하여 인정</strong>한다.</span></div>
+
+    <h3>4.2. 2030 물류 통폐합 대비 전 조합원 총고용 보장 협약</h3>
+    <div class="hang"><span class="hm green">현황</span><span>2030년 예정된 부천우편집중국 폐국 및 수도권 광역물류센터 개국, 부평물류사업소 리모델링 계획에 따른 대규모 인력 재편 우려.</span></div>
+    <div class="hang"><span class="hm green">요구</span><span>인력 감축을 전면 배제하고, <strong>현 물류 노동자 전원 100% 고용승계 및 희망 근무지 우선 배치를 골자로 하는 ‘고용안정 특별협약’</strong>을 2027년 교섭에서 선제 체결한다.</span></div>
+
+    <h3>4.3. 부평 등 작업장 ‘덕트 하향 인출 공사’ 조기 완공 및 안전 인력 충원</h3>
+    <div class="hang"><span class="hm green">요구 1</span><span>부평사업소 등 노후 현장에 안양사업소 우수 개선 방식을 적용, 작업대로 직접 냉기를 분사하는 <strong>‘덕트 하향 인출 배관 공사’를 2027년 5월 말(하절기 이전)까지 최우선 완공</strong>한다.</span></div>
+    <div class="hang"><span class="hm green">요구 2</span><span>작업장 내부 적정 온도(여름철 28도 이하) 유지를 의무화한다.</span></div>
+    <div class="hang"><span class="hm green">요구 3</span><span>농산물 등 고중량물 집중 라인에 <strong>2인 1조 작업 원칙을 단협에 명시</strong>하고, 결원 및 휴가에 대비한 상시 대체인력을 충원한다.</span></div>
+  </div>
+</section>
+
+<!-- 섹션 5 -->
+<section class="sec" id="s5">
+  <div class="sec-head">
+    <div class="sec-num">5</div>
+    <div><h2>공식 제출 공문 전문 (원문)</h2></div>
+  </div>
+  <div class="prose">
+    <p>10월 21일 교섭대표노동조합 및 우체국물류지원단 사측에 공식 발송할 공문 전문입니다.</p>
+
+    <div class="case-card" style="margin: 16px 0;">
+      <div class="table-wrap">
+        <table>
+          <tbody>
+            <tr><td><strong>문서번호</strong></td><td>물류노조 제2026-10-02호</td></tr>
+            <tr><td><strong>수　　신</strong></td><td>교섭대표노동조합 위원장 (참조: 정책·교섭국장)</td></tr>
+            <tr><td><strong>참　　조</strong></td><td>우체국물류지원단 이사장 (참조: 경영지원실장, 물류관리실장)</td></tr>
+            <tr><td><strong>발　　신</strong></td><td>우체국물류지원단 물류노동조합 위원장 김영문</td></tr>
+            <tr><td><strong>제출일자</strong></td><td>2026년 10월 21일 (수)</td></tr>
+            <tr><td><strong>제　　목</strong></td><td><strong>2027년도 임금교섭 및 노동조건 개선을 위한 교섭참여노동조합 요구 안건 제출의 건</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <p><strong>1. 귀 노동조합 및 지원단의 발전을 기원합니다.</strong></p>
+    <p><strong>2.</strong> 본 노동조합은 「노동조합 및 노동관계조정법」 제29조의2에 따른 교섭참여노동조합으로서, 동법 제29조의4(공정대표의무)에 의거하여 2027년도 공동 교섭 요구안에 반드시 반영되어야 할 현장 물류노동자의 핵심 안건을 제출합니다.</p>
+    <p><strong>3.</strong> 교섭대표노조는 소수 노동조합과 단시간·공무직 노동자의 권익을 합리적 이유 없이 배제하지 말아야 하며, 본 안건의 채택 여부 및 입장을 <strong>2026년 10월 28일(수)까지 공식 서면으로 회신</strong>하여 주시기 바랍니다. 합리적 이유 없는 안건 배제 시 노동위원회 공정대표의무 위반 시정신청 등 엄중한 법적 절차에 돌입할 것임을 밝힙니다.</p>
+
+    <div class="signature">
+      <p><strong>2026년 10월 21일</strong></p>
+      <p style="font-size:18px;font-weight:800;color:var(--accent);">우체국물류지원단 물류노동조합 위원장 김 영 문</p>
+    </div>
+
+    <div class="btn-wrap">
+      <button class="btn btn-primary" onclick="copySummary()">
+        📑 안건 핵심 요약 전체 복사
+      </button>
+      <button class="btn btn-outline" onclick="sharePage()">
+        🔗 페이지 링크 복사
+      </button>
+    </div>
+  </div>
+</section>
+
+</main>
+</div>
+
+<footer class="src">
+  <div style="max-width:1180px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;">
+    <div><strong>우체국물류지원단 물류노동조합</strong> · 위원장 김영문 · 사무국장 이용석</div>
+    <div>문의 및 접수: 각 지부 소통간사 및 본조 사무국</div>
+  </div>
+</footer>
+
+<button id="totop" aria-label="맨 위로 가기">↑</button>
+<div class="toast" id="toast">복사되었습니다!</div>
+
+<script>
+(function(){
+  var bar = document.getElementById('progress');
+  var topBtn = document.getElementById('totop');
+
+  function onScroll(){
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    bar.style.width = (max > 0 ? (h.scrollTop / max * 100) : 0) + '%';
+    topBtn.classList.toggle('show', h.scrollTop > 500);
+  }
+  window.addEventListener('scroll', onScroll, {passive: true});
+  onScroll();
+
+  topBtn.addEventListener('click', function(){
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  });
+
+  var links = [].slice.call(document.querySelectorAll('.toc a'));
+  var map = {};
+  links.forEach(function(a){
+    map[a.getAttribute('href').slice(1)] = a;
+  });
+  var secs = [].slice.call(document.querySelectorAll('section.sec'));
+
+  function spy(){
+    var y = window.innerHeight * 0.3;
+    var cur = secs[0].id;
+    secs.forEach(function(s){
+      if(s.getBoundingClientRect().top <= y) cur = s.id;
+    });
+    links.forEach(function(a){ a.classList.remove('active'); });
+    var a = map[cur];
+    if(a){
+      a.classList.add('active');
+      var nav = a.closest('nav');
+      if(nav && nav.scrollWidth > nav.clientWidth){
+        nav.scrollTo({
+          left: a.offsetLeft - nav.clientWidth / 2 + a.offsetWidth / 2,
+          behavior: 'smooth'
+        });
+      }
+    }
+  }
+
+  var t;
+  window.addEventListener('scroll', function(){
+    clearTimeout(t);
+    t = setTimeout(spy, 50);
+  }, {passive: true});
+  spy();
+})();
+
+function showToast(msg){
+  var toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(function(){ toast.classList.remove('show'); }, 2000);
+}
+
+function copySummary(){
+  var summaryText = '[우체국물류지원단 물류노조 2027 교섭 핵심 요구안(초안)]\n'
+    + '■ 1순위: 판결·판정 이행 및 단협 명문화\n'
+    + '  1. 단시간 유급병가 60일 원상회복 (중노위 승소 반영)\n'
+    + '  2. 퇴직 연차수당 100% 보장 및 임금공제 금지 (대법원 2026다202306)\n'
+    + '■ 2순위: 수당 차별 철폐 및 현실화\n'
+    + '  1. 가족수당 고용형태별 차별 철폐\n'
+    + '  2. 10년 동결 직무수당 월 20만 원 인상\n'
+    + '  3. 명절보로금 연 120% 인상 (우정실무원 격차 해소)\n'
+    + '■ 3순위: 고용안정 및 환경·인력\n'
+    + '  1. 쪼개기 계약 금지 및 상시업무 실질 근속 인정\n'
+    + '  2. 2030 물류 통폐합 대비 전원 총고용 보장 협약\n'
+    + '  3. 부평 덕트 하향 인출 냉방 공사 완공 및 2인 1조 충원\n'
+    + '※ 10.21. 공식 접수 예정!';
+
+  navigator.clipboard.writeText(summaryText).then(function(){
+    showToast('핵심 요약이 클립보드에 복사되었습니다!');
+  }).catch(function(){
+    showToast('복사에 실패했습니다.');
+  });
+}
+
+function sharePage(){
+  var url = window.location.href;
+  navigator.clipboard.writeText(url).then(function(){
+    showToast('페이지 링크가 복사되었습니다!');
+  }).catch(function(){
+    showToast('링크 복사 실패');
+  });
+}
+</script>
+
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">요약 아카이브</div><div class="arc-foot-title">[초안 v2] 2027년도 임금교섭 및 노동조건 개선 안건 - 우체국물류지원단 물류노동조합</div><div class="arc-foot-meta"><time datetime="2026-10-12">2026년 10월 12일</time><a class="arc-tag" href="../index.html#tags=%EB%85%B8%EB%8F%99">#노동</a><a class="arc-tag" href="../index.html#tags=%EC%9E%84%EA%B8%88%EA%B5%90%EC%84%AD">#임금교섭</a><a class="arc-tag" href="../index.html#tags=%EB%85%B8%EB%8F%99%EC%A1%B0%ED%95%A9">#노동조합</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body>
+</html>
