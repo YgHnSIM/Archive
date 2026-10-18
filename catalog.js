@@ -2,6 +2,23 @@
    `python3 add_page.py --rebuild` 를 실행하면 다시 만들어집니다. */
 window.ARCHIVE_CATALOG = [
   {
+    "id": "20261019-01",
+    "title": "만들었다고 이해한 것은 아니다: 언어 모델의 속을 들여다보기",
+    "summary": "엠마뉴엘 아메이젠의 해석가능성 대담 정리",
+    "tags": [
+      "AI",
+      "해석가능성",
+      "인터뷰"
+    ],
+    "date": "2026-10-19",
+    "file": "pages/2026-10-19-언어모델_블랙박스.html",
+    "added": "2026-10-19T00:38:42+09:00",
+    "source_name": "언어모델_블랙박스.html",
+    "source_sha256": "ff44fda2e22a97904bf4d47ef4acc4b3315c400128af08362c4fa0f24ed2a023",
+    "source_path_sha256": "e7dc0638259de6b0d66e163b972e582b98214f27193e7d49c14d5f8acea3b3c4",
+    "source_url": "https://yghnsim.github.io/Pages/inside_the_black_box_how_llms_think.html"
+  },
+  {
     "id": "20261018-01",
     "title": "홉스와 라이프니츠, 기호에서 AI까지",
     "summary": "홉스와 라이프니츠의 기호론에서 LLM까지 정리",
