@@ -1,5 +1,21 @@
 [
   {
+    "id": "20261018-01",
+    "title": "홉스와 라이프니츠, 기호에서 AI까지",
+    "summary": "홉스와 라이프니츠의 기호론에서 LLM까지 정리",
+    "tags": [
+      "AI",
+      "철학"
+    ],
+    "date": "2026-10-18",
+    "file": "pages/2026-10-18-홉스_라이프니츠.html",
+    "added": "2026-10-18T14:29:18+09:00",
+    "source_name": "홉스_라이프니츠.html",
+    "source_sha256": "1d3f005db06568c857ce3f2b6cf06ec0673a7cc1eaa5bd0cab42071ced75995c",
+    "source_path_sha256": "5c5844329db1b4ed0c6958a877c5c1611c1f51731a6c829a9a2f85c7caf9b043",
+    "source_url": "https://yghnsim.github.io/Pages/hobbes_leibniz_symbolic_cognition_ai.html"
+  },
+  {
     "id": "20261016-01",
     "title": "드와르케시 파텔과 타일러 코웬, AI의 미래를 예측하다",
     "summary": "파텔과 코웬의 2026년 AI 미래 대담 정리",

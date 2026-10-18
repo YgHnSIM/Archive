@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>홉스와 라이프니츠, 기호에서 AI까지</title>
+<meta name="description" content="홉스와 라이프니츠의 기호론에서 LLM까지 정리">
+<style>
+:root{
+  --bg:#faf8f3; --paper:#ffffff; --ink:#1f2328; --muted:#5b6470; --line:#e6e1d6;
+  --accent:#c8553d; --accent-soft:#fbeee9; --link:#4a6b8a;
+  --radius:14px;
+  /* 페이지 고유 의미 색 */
+  --old:#6a5f4b; --old-soft:#f3efe6;
+  --algo:#a2452f; --algo-soft:#fbeee9;
+  --new:#3d5f80; --new-soft:#eaf0f6;
+  --sup:#55598f; --sup-soft:#efeff8;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR","Malgun Gothic","Gothic A1",system-ui,sans-serif;
+  font-size:17px;line-height:1.75;word-break:keep-all;overflow-wrap:break-word}
+@media(max-width:640px){body{font-size:16px}}
+a{color:var(--link)}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #9bb5cf;outline-offset:2px}
+.skip{position:absolute;left:0;top:0;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+.skip:focus{width:auto;height:auto;clip:auto;clip-path:none;left:8px;top:8px;background:#fff;padding:6px 10px;z-index:10}
+.layout{max-width:1180px;margin:0 auto;padding:12px 14px 48px}
+@media(min-width:1024px){.layout{display:grid;grid-template-columns:240px minmax(0,1fr);gap:32px;padding:28px 24px 64px}}
+main{min-width:0}
+
+/* 목차 */
+nav.toc{display:none}
+@media(min-width:1024px){
+  nav.toc{display:block;position:sticky;top:20px;align-self:start;max-height:calc(100vh - 40px);overflow:auto}
+  nav.toc-m{display:none}
+}
+nav.toc .toc-t{font-size:13px;color:var(--muted);letter-spacing:.06em;margin:0 0 10px;font-weight:700}
+nav.toc ol,nav.toc-m ol{list-style:none;margin:0;padding:0}
+nav.toc li a{display:flex;gap:8px;align-items:baseline;text-decoration:none;color:var(--muted);font-size:15px;line-height:1.45;padding:7px 10px;border-radius:8px;border-left:3px solid transparent}
+nav.toc li a .n{font-weight:700;font-size:13px;color:#8a919b;min-width:18px}
+nav.toc li a:hover{background:#f0ece3;color:var(--ink)}
+nav.toc li a.active{background:var(--paper);color:var(--ink);border-left-color:var(--accent);font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+nav.toc li a.active .n{color:var(--accent)}
+nav.toc .orig{display:block;margin-top:12px;padding:10px;border-top:1px solid var(--line);font-size:14px}
+nav.toc-m{margin:14px 0 0}
+nav.toc-m details{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius)}
+nav.toc-m summary{cursor:pointer;padding:10px 14px;font-weight:700;list-style:none}
+nav.toc-m summary::-webkit-details-marker{display:none}
+nav.toc-m summary::after{content:" ▾";color:var(--muted)}
+nav.toc-m ol{padding:0 14px 8px}
+nav.toc-m li a{display:block;padding:8px 0;border-top:1px solid var(--line);text-decoration:none;color:var(--ink)}
+
+/* 머리 */
+.hero{padding:22px 4px 6px}
+.eyebrow{display:inline-block;font-size:13px;font-weight:700;letter-spacing:.04em;color:var(--accent);background:var(--accent-soft);padding:4px 10px;border-radius:999px}
+h1{font-size:clamp(28px,4.4vw,44px);line-height:1.25;margin:14px 0 12px;letter-spacing:-.02em}
+.lead{font-size:18px;color:var(--muted);margin:0 0 18px}
+@media(max-width:640px){.lead{font-size:17px}}
+.info{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.info p{margin:0 0 12px;font-size:16px}
+.cta{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;text-align:center;
+  background:var(--accent);color:#fff;text-decoration:none;font-weight:700;padding:13px 16px;border-radius:12px;font-size:17px}
+.cta:hover{background:#ad4430}
+.cta small{font-weight:500;font-size:14px;opacity:.95}
+.info .meta{font-size:14px;color:var(--muted);margin:12px 0 0}
+
+/* 절 */
+section.sec{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:20px 18px;margin-top:18px;scroll-margin-top:12px}
+@media(min-width:640px){section.sec{padding:28px 30px}}
+.sec-head{display:flex;gap:14px;align-items:flex-start;margin-bottom:10px}
+.sec-num{flex:none;width:36px;height:36px;border-radius:12px;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:800;font-size:16px;margin-top:3px}
+h2{font-size:clamp(23px,3vw,30px);line-height:1.3;margin:0;letter-spacing:-.015em}
+.sub{margin:4px 0 0;color:var(--muted);font-size:15px;line-height:1.5}
+.srcs{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 12px}
+.src{display:inline-block;font-size:14px;text-decoration:none;border:1px solid var(--line);padding:3px 11px;border-radius:999px;color:var(--link);background:#fdfcf9}
+.src:hover{border-color:var(--link)}
+h3{font-size:19px;line-height:1.4;margin:22px 0 6px}
+p{margin:8px 0}
+.muted{color:var(--muted)}
+.tag{display:inline-block;font-size:13px;font-weight:700;line-height:1.5;padding:0 7px;border-radius:6px;background:var(--sup-soft);color:var(--sup);vertical-align:.08em;margin-left:3px;white-space:nowrap}
+.tag.int{background:#efebe2;color:#4f5763}
+blockquote{margin:16px 0;padding:14px 18px;background:#fdfcf9;border-left:5px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;font-size:16.5px;line-height:1.7}
+blockquote cite{display:block;font-style:normal;color:var(--muted);font-size:14px;margin-top:6px}
+.callout{background:#f4f1ea;border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:14px 0;font-size:16px}
+.callout b.t{display:block;margin-bottom:2px}
+.callout.sup{background:var(--sup-soft);border-color:#d9daee}
+ul.tight{margin:6px 0;padding-left:20px}
+ul.tight li{margin:5px 0}
+
+/* 핵심 3줄 */
+.thesis{list-style:none;margin:6px 0 0;padding:0;counter-reset:th}
+.thesis li{counter-increment:th;position:relative;padding:12px 14px 12px 50px;border:1px solid var(--line);border-radius:12px;margin:10px 0;background:#fdfcf9}
+.thesis li::before{content:counter(th);position:absolute;left:14px;top:14px;width:26px;height:26px;border-radius:8px;background:var(--ink);color:#fff;font-weight:700;text-align:center;line-height:26px;font-size:14px}
+.thesis strong{display:block}
+
+/* 6단계 */
+.steps{display:grid;grid-template-columns:1fr;gap:6px;margin:10px 0 0;padding:0;list-style:none}
+@media(min-width:760px){.steps{grid-template-columns:1fr 1fr}}
+.steps li{display:flex;gap:10px;align-items:baseline;border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:16px;line-height:1.6}
+.steps b{flex:none;font-size:14px;color:var(--accent);min-width:58px}
+.steps a{font-size:14px;white-space:nowrap}
+
+/* 용어 */
+.terms{display:grid;grid-template-columns:1fr;gap:8px;margin-top:10px}
+@media(min-width:760px){.terms{grid-template-columns:1fr 1fr}}
+.terms details{border:1px solid var(--line);border-radius:10px;background:#fdfcf9}
+.terms summary{cursor:pointer;padding:9px 12px;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:8px}
+.terms summary::-webkit-details-marker{display:none}
+.terms summary::after{content:"＋";color:var(--muted);font-weight:400}
+.terms details[open] summary::after{content:"－"}
+.terms details p{margin:0;padding:0 12px 10px;font-size:16px;line-height:1.65}
+.terms .en{font-weight:400;color:var(--muted);font-size:14px}
+
+/* 타임라인 */
+.tl{list-style:none;margin:12px 0 0;padding:0 0 0 18px;border-left:3px solid var(--line)}
+.tl li{position:relative;margin:0 0 16px;padding-left:10px}
+.tl li::before{content:"";position:absolute;left:-27px;top:7px;width:15px;height:15px;border-radius:50%;background:#fff;border:3px solid var(--ink)}
+.tl li.ctx::before{border-color:#b3ab9b}
+.tl .date{font-weight:800;font-size:16px}
+.case,.tl .case{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;background:#efebe2;padding:1px 6px;border-radius:6px;white-space:nowrap}
+.tl .txt{font-size:16px;margin:2px 0 0}
+.three{display:grid;grid-template-columns:1fr;gap:8px;margin:12px 0}
+@media(min-width:760px){.three{grid-template-columns:repeat(3,1fr)}}
+.three div{border:1px solid var(--line);border-radius:12px;padding:10px 14px;background:#fdfcf9;font-size:16px;line-height:1.6}
+.three div b{display:block;font-size:17px}
+.three div .yr{display:inline-block;font-size:13px;font-weight:800;color:#fff;background:var(--ink);border-radius:6px;padding:0 7px;margin-bottom:4px}
+
+/* 카드 */
+.cards{display:grid;grid-template-columns:1fr;gap:10px;margin:10px 0}
+@media(min-width:800px){.cards{grid-template-columns:repeat(3,1fr)}}
+.card{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:#fdfcf9;font-size:16px;line-height:1.65}
+.card b.h{display:block;font-size:17px;margin-bottom:2px}
+.card .k{display:inline-block;font-size:13px;font-weight:800;border-radius:6px;padding:0 7px;margin-bottom:4px;background:var(--algo-soft);color:var(--algo)}
+.card.n .k{background:var(--new-soft);color:var(--new)}
+.card.o .k{background:var(--old-soft);color:var(--old)}
+.two{display:grid;gap:12px}
+@media(min-width:800px){.two{grid-template-columns:1fr 1fr}}
+.panel{border:1px solid var(--line);border-radius:12px;padding:12px 16px;background:#fdfcf9}
+.panel h3{margin-top:4px}
+.panel p,.panel li{font-size:16px}
+
+/* 도식 */
+figure.dia{margin:16px 0;padding:14px;border:1px solid var(--line);border-radius:var(--radius);background:#fdfcf9}
+figure.dia svg{display:block;width:100%;max-width:460px;height:auto;margin:0 auto}
+@media(max-width:640px){figure.dia{padding:8px 2px;margin-left:-8px;margin-right:-8px}}
+figure.dia figcaption{font-size:14px;color:var(--muted);margin-top:8px;text-align:center;line-height:1.55}
+
+/* 배달 기사 토글 */
+.seg{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 0}
+.seg button{font:inherit;font-size:15px;font-weight:700;flex:1 1 140px;border:1.5px solid var(--line);background:#fff;color:var(--muted);border-radius:10px;padding:9px 12px;cursor:pointer}
+.seg button[aria-pressed="true"].o{border-color:var(--old);background:var(--old-soft);color:var(--old)}
+.seg button[aria-pressed="true"].n{border-color:var(--new);background:var(--new-soft);color:var(--new)}
+.lens{border:1.5px solid var(--line);border-radius:12px;padding:12px 16px;margin-top:8px;font-size:16px}
+.lens.o{border-color:var(--old);background:var(--old-soft)}
+.lens.n{border-color:var(--new);background:var(--new-soft)}
+.lens ul{margin:6px 0;padding-left:20px}
+.lens p.v{font-weight:800;margin:8px 0 0}
+
+/* 표 */
+.tbl{width:100%;border-collapse:collapse;font-size:16px;line-height:1.6;margin-top:10px}
+.tbl th,.tbl td{border:1px solid var(--line);padding:10px 11px;vertical-align:top;text-align:left}
+.tbl thead th{background:#f4f1ea;font-size:15px}
+.tbl tbody th{background:#fbf9f4;font-weight:700}
+.tbl td.nw{background:#f5f8fb}
+@media(max-width:760px){
+  .stack thead{position:absolute;left:0;top:0;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+  .stack,.stack tbody,.stack tr,.stack th,.stack td{display:block;width:100%}
+  .stack tr{border:1px solid var(--line);border-radius:12px;margin:0 0 12px;overflow:hidden}
+  .stack th,.stack td{border:0;border-top:1px solid var(--line)}
+  .stack tbody th{border-top:0;background:#f4f1ea}
+  .stack td::before{content:attr(data-label);display:block;font-size:13.5px;font-weight:800;color:var(--muted);margin-bottom:2px}
+  .stack td.nw::before{color:var(--new)}
+}
+
+/* 추정 흐름 */
+.flow{list-style:none;margin:12px 0;padding:0;display:grid;gap:8px}
+@media(min-width:800px){.flow{grid-template-columns:repeat(3,1fr)}}
+.flow li{border:1.5px solid var(--line);border-radius:12px;padding:10px 14px;background:#fff;font-size:16px;line-height:1.6;position:relative}
+.flow li b{display:block;font-size:16px}
+.flow li.s1{border-color:#b9a98c}
+.flow li.s2{border-color:var(--new);background:var(--new-soft)}
+.flow li.s3{border-color:var(--algo);background:var(--algo-soft)}
+.flow .who{display:inline-block;font-size:13px;font-weight:800;color:var(--muted)}
+
+/* 오해 카드 */
+.myths{display:grid;grid-template-columns:1fr;gap:10px;margin-top:10px}
+@media(min-width:800px){.myths{grid-template-columns:1fr 1fr}}
+.myth{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:#fdfcf9}
+.myth .say{font-weight:700;margin:0;font-size:16.5px}
+.myth .say::before{content:"흔한 말 ";font-size:13px;font-weight:800;color:var(--algo);background:var(--algo-soft);border-radius:6px;padding:0 6px;margin-right:4px;vertical-align:.08em}
+.myth button{font:inherit;font-size:15px;margin-top:8px;border:1px solid var(--line);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link)}
+.myth .ans{margin:8px 0 0;padding:8px 10px;border-radius:8px;background:var(--new-soft);font-size:16px}
+.myth .ans .ref{display:block;font-size:13.5px;color:var(--muted);margin-top:2px}
+.mcount{font-size:15px;color:var(--muted);margin:10px 0 0}
+button.reset{font:inherit;font-size:15px;border:1px solid var(--line);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;margin-left:6px}
+
+.sources{margin-top:18px;padding:18px;border-top:1px solid var(--line)}
+.sources h2{font-size:20px}
+.sources p{font-size:16px}
+.totop{display:inline-block;margin-top:6px;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:15px;background:#efebe2;padding:1px 5px;border-radius:5px}
+pre.code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;background:#f4f1ea;border:1px solid var(--line);border-radius:10px;padding:10px 12px;overflow-x:auto;max-width:100%;line-height:1.5;white-space:pre}
+.v{display:inline-block;font-size:13px;font-weight:800;border-radius:6px;padding:0 7px;white-space:nowrap;vertical-align:.08em}
+.v.ok{background:#e6f1ea;color:#2f6b45}
+.v.mostly{background:#eaf0f6;color:#3d5f80}
+.v.part{background:#fbeee9;color:#a2452f}
+.issues details{border:1px solid var(--line);border-radius:10px;background:#fdfcf9;margin:8px 0}
+.issues summary{cursor:pointer;padding:10px 12px;font-weight:700;line-height:1.5}
+.issues .no{font-size:13px;color:var(--muted);margin-right:4px}
+.issues details p{margin:0;padding:0 12px 12px;font-size:16px}
+.q{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:10px 0;background:#fdfcf9}
+.q p.qt{font-weight:700;margin:0 0 8px}
+.q button{display:block;width:100%;text-align:left;font:inherit;font-size:16px;border:1.5px solid var(--line);background:#fff;border-radius:10px;padding:8px 12px;margin:6px 0;cursor:pointer;color:var(--ink)}
+.q button.right{border-color:#2f6b45;background:#e6f1ea}
+.q button.wrong{border-color:#a2452f;background:#fbeee9}
+.q .ex{margin:8px 0 0;font-size:16px;padding:8px 10px;border-radius:8px;background:var(--new-soft)}
+
+.go{margin:.4em 0 0;font-size:15px}
+.calc{border:1px solid var(--line);border-radius:12px;background:#fff;padding:12px 14px;margin:14px 0}
+.calc label{display:block;font-weight:700;font-size:15px}
+.calc input[type=range]{width:100%;margin:10px 0}
+.calc .out{font-size:17px}.calc .out b{color:var(--accent)}
+.bar{height:14px;border-radius:7px;background:#e6e1d6;position:relative;overflow:hidden;margin:8px 0}
+.bar i{position:absolute;left:0;top:0;bottom:0;background:#4a6b8a}
+.bar i.over{background:#c8553d}
+.bar s{position:absolute;top:0;bottom:0;width:2px;background:#1f2328}
+.calc .note{font-size:14px;color:var(--muted);margin:.5em 0 0}
+.el{list-style:none;padding:0;margin:12px 0}
+.el li{border:1px solid var(--line);border-left:4px solid var(--link);border-radius:12px;background:#fff;padding:10px 14px;margin:8px 0}
+.el li b{display:block}
+.el li span{display:block;font-size:15px;color:var(--muted)}
+.issues ul{margin:.4em 0;padding-left:1.2em}.issues li{font-size:15px;margin:.3em 0}
+
+/* 복습 */
+.rv-h{font-size:19px;margin:22px 0 6px}
+.flips{display:grid;grid-template-columns:1fr;gap:8px;margin:10px 0}
+@media(min-width:640px){.flips{grid-template-columns:1fr 1fr}}
+.flip{font:inherit;text-align:left;width:100%;border:1.5px solid var(--line);background:#fdfcf9;border-radius:12px;padding:10px 14px;cursor:pointer;color:var(--ink);min-height:64px}
+.flip b{display:block;font-size:17px}
+.flip .m{display:none;font-size:16px;line-height:1.6;margin-top:4px}
+.flip .hint{font-size:13px;color:var(--muted)}
+.flip[aria-expanded="true"]{border-color:var(--new);background:var(--new-soft)}
+.flip[aria-expanded="true"] .m{display:block}
+.flip[aria-expanded="true"] .hint{display:none}
+.cloze{list-style:none;margin:10px 0;padding:0}
+.cloze li{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:8px 0;background:#fdfcf9;font-size:16px;line-height:1.8}
+.blank{font:inherit;font-size:16px;border:0;border-bottom:2px dashed var(--accent);background:var(--accent-soft);color:var(--accent);border-radius:6px 6px 0 0;padding:0 8px;cursor:pointer;min-width:4.5em}
+.blank.shown{border-bottom-style:solid;background:var(--new-soft);color:var(--new);font-weight:700}
+.rv-tools{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.rv-tools button{font:inherit;font-size:15px;border:1px solid var(--line);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link)}
+.q fieldset{border:0;margin:0;padding:0}
+.q legend{font-weight:700;padding:0;margin:0 0 8px}
+.q button[disabled]{cursor:default;opacity:1}
+.score{font-size:17px;font-weight:800;margin:10px 0 0}
+</style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<style>@media(max-width:640px){.sec p,.sec li,.tbl td,.sec blockquote{font-size:16px}}</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
+</head>
+<body>
+<a class="skip" href="#main">본문으로 건너뛰기</a>
+<!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="요약 아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>요약 아카이브</a><span class="arc-crumb">홉스와 라이프니츠, 기호에서 AI까지</span><span class="arc-meta"><time datetime="2026-10-18">2026년 10월 18일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=%EC%B2%A0%ED%95%99">#철학</a><a class="arc-src" href="https://yghnsim.github.io/Pages/hobbes_leibniz_symbolic_cognition_ai.html" rel="noopener">원문 ↗</a></span></div></div>
+<!-- archive-header:end -->
+<div class="layout">
+<nav class="toc" aria-label="목차"><p class="toc-t">목차</p><ol>
+<li><a href="#s1"><span class="n">1</span>한눈에 보기</a></li>
+<li><a href="#s2"><span class="n">2</span>홉스: 왜 기호가 필요한가</a></li>
+<li><a href="#s3"><span class="n">3</span>홉스: 추론은 계산이다</a></li>
+<li><a href="#s4"><span class="n">4</span>라이프니츠: 맹목적 사고</a></li>
+<li><a href="#s5"><span class="n">5</span>0과 1, 불, 튜링, 섀넌</a></li>
+<li><a href="#s6"><span class="n">6</span>기호주의 AI와 LLM</a></li>
+<li><a href="#s7"><span class="n">7</span>중국어 방과 의미의 외주화</a></li>
+<li><a href="#rv"><span class="n">8</span>복습</a></li>
+<li><a href="#s9"><span class="n">9</span>읽으며 걸린 곳</a></li></ol>
+<a class="orig" href="https://yghnsim.github.io/Pages/hobbes_leibniz_symbolic_cognition_ai.html">원문 페이지 ↗</a></nav>
+<main id="main">
+<header class="hero">
+<span class="eyebrow">철학사 · 컴퓨터과학 정리</span>
+<h1>홉스와 라이프니츠, 기호에서 AI까지</h1>
+<p class="lead">이상명(숭실대 철학과)의 논문 〈홉스와 라이프니츠: 기호의 기능〉(《가톨릭철학》 27호, 2016, 113~140쪽)을 바탕으로, "생각은 계산이다"라는 생각이 17세기에서 오늘의 거대 언어 모델까지 어떻게 이어지는지 따라갑니다. 2~4장은 논문의 내용이고, 5~7장은 원문 페이지가 덧붙인 기술사와 해석입니다.</p>
+</header>
+<nav class="toc-m" aria-label="목차"><details><summary>목차</summary><ol>
+<li><a href="#s1">1. 한눈에 보기</a></li><li><a href="#s2">2. 홉스: 왜 기호가 필요한가</a></li><li><a href="#s3">3. 홉스: 추론은 계산이다</a></li><li><a href="#s4">4. 라이프니츠: 맹목적 사고</a></li><li><a href="#s5">5. 0과 1, 불, 튜링, 섀넌</a></li><li><a href="#s6">6. 기호주의 AI와 LLM</a></li><li><a href="#s7">7. 중국어 방과 의미의 외주화</a></li><li><a href="#rv">8. 복습</a></li><li><a href="#s9">9. 읽으며 걸린 곳</a></li></ol></details></nav>
+
+<section class="sec" id="s1">
+<div class="sec-head"><span class="sec-num">1</span><div><h2>한눈에 보기</h2><p class="sub">가발 쓴 철학자들과 실리콘 문명</p></div></div>
+<p>엑셀 수식 <code>=SUM(A1:B10)</code>, 추천 알고리즘, 챗GPT는 철학과 거리가 먼 공학처럼 보입니다. 원문은 그 작동 원리가 두 17세기 철학자의 설계도와 맞물린다고 말합니다. 영국의 기계론자 <b>토머스 홉스</b>(1588~1679)와 독일의 <b>고트프리트 빌헬름 라이프니츠</b>(1646~1716)입니다.</p>
+<ol class="thesis">
+<li><strong>홉스.</strong> 사람의 생각은 금방 사라지므로 기호가 필요하고, 추론은 더하고 빼는 계산입니다. 그러나 기호는 아직 보조 도구에 머뭅니다.</li>
+<li><strong>라이프니츠.</strong> 모든 추론은 기호로 이루어집니다. 내용을 직관하지 못해도 기호 규칙만 지키면 진리에 이릅니다(맹목적 사고).</li>
+<li><strong>원문의 확장.</strong> 이 생각이 불 대수, 튜링 기계, 섀넌의 회로를 거쳐 의미를 모른 채 기호를 다루는 LLM까지 이어졌다고 봅니다.</li>
+</ol>
+<div class="terms">
+<details><summary>계산주의 <span class="en">Computationalism</span></summary><p>마음의 작용을 기호를 규칙대로 다루는 계산으로 보는 입장.</p></details>
+<details><summary>LLM</summary><p>거대 언어 모델. 방대한 글로 학습해 다음 단어를 예측하는 모델. 챗GPT의 바탕.</p></details>
+</div>
+</section>
+
+<section class="sec" id="s2">
+<div class="sec-head"><span class="sec-num">2</span><div><h2>홉스: 왜 기호가 필요한가</h2><p class="sub">사고의 유동성과 망각</p></div></div>
+<p>홉스는 마음을 영혼의 신비가 아니라, 감각 기관을 거쳐 뇌와 심장에 전해진 물질 운동으로 보았습니다. 그에게 사람의 생각은 흐르는 물처럼 유동적이고 일시적입니다. 떠오른 생각을 다시 불러내는 것도 운에 맡겨야 할 만큼 어렵습니다.</p>
+<blockquote>결국 인간의 사고에는 자신의 경험을 통해서 알게 된 것 외에는 확실하고 오류 불가능한 것이 없다.<cite>이상명(2016) 115쪽, 홉스 《물체론》 I, 2, 1</cite></blockquote>
+<p>눈앞에 기준이 없으면 양을 기억하지 못하고, 견본이 없으면 색을 기억하지 못하며, 수의 이름을 차례로 배우지 않으면 큰 수를 세지 못합니다. 그래서 생각이 날아가기 전에 붙잡아 둘 <b>감각 가능한 표시</b>가 필요하다고 홉스는 말합니다.</p>
+<h3>표지와 신호</h3>
+<table class="tbl stack">
+<thead><tr><th>구분</th><th>표지 <span class="en">Nota, Mark</span></th><th>신호 <span class="en">Signum, Sign</span></th></tr></thead>
+<tbody>
+<tr><th>기능</th><td data-label="표지">내 기억의 보존</td><td data-label="신호">남에게 전하고 가르치기</td></tr>
+<tr><th>쓰는 사람</th><td data-label="표지">나 자신</td><td data-label="신호">타인과 공동체</td></tr>
+<tr><th>원문의 예</th><td data-label="표지">모니터에 붙인 포스트잇, 갈림길의 돌무더기</td><td data-label="신호">동료에게 보내는 메시지, 공통 언어</td></tr>
+</tbody></table>
+<blockquote>표지와 신호 간의 차이는, 우리가 표지를 우리 자신이 사용하기 위해 만드는 반면 신호는 다른 사람들도 사용하기 위해 만든다는 것이다.<cite>홉스 《물체론》 I, 2, 2</cite></blockquote>
+<p>표지만 있다면 학자가 죽을 때 지식도 사라집니다. 학문이 쌓이려면 개인의 표지가 여럿이 아는 약속, 곧 신호가 되어야 합니다.</p>
+<h3>이름과 명제</h3>
+<p>표지와 신호의 실체는 단어, 곧 <b>이름</b>입니다. 이름은 먼저 내 기억을 위한 표지로 작동하고, 문법에 맞게 배열되어 <b>명제</b>를 이룰 때 비로소 남에게 생각을 전하는 신호가 됩니다(I, 2, 3). 또 이름은 바깥 사물 자체가 아니라 <b>사물에 대한 우리의 관념</b>을 나타내는 기호입니다(I, 2, 5).</p>
+<div class="terms"><details><summary>《물체론》 <span class="en">De Corpore</span></summary><p>홉스가 1655년 낸 《철학의 원리》 제1부. 제1편의 부제가 "계산 혹은 논리학".</p></details>
+<details><summary>명제</summary><p>참이나 거짓을 말할 수 있는 문장. 예: "사람은 동물이다".</p></details></div>
+</section>
+
+<section class="sec" id="s3">
+<div class="sec-head"><span class="sec-num">3</span><div><h2>홉스: 추론은 계산이다</h2><p class="sub">대담한 선언과 '무언의 추론'이라는 모순</p></div></div>
+<p>홉스는 철학을 감각이 아니라 참된 추론으로 얻은 원인과 결과의 지식으로 정의하고 이렇게 선언합니다.</p>
+<blockquote>추론이란 곧 산수의 계산과 같이, 더하고 빼는 정신의 작용이다.<cite>홉스 《물체론》 I, 1, 2, 《리바이어던》 1부 5장</cite></blockquote>
+<p>곱셈은 덧셈의 반복, 나눗셈은 뺄셈의 반복이니 계산은 결국 더하기와 빼기입니다. 멀리서 무언가 다가오면 먼저 '물체'를, 스스로 움직이니 '생명'을, 말을 나누니 '이성적'을 더해 <b>사람 = 물체 + 생명 + 이성</b>을 얻습니다. 거꾸로 사람에서 이성을 빼면 <b>동물</b>이 남습니다. 이는 파도바 학파의 자바렐라와 갈릴레오가 세운 <b>분석과 종합</b>의 방법을 사고 전체로 넓힌 것입니다.</p>
+<div class="terms"><details><summary>분석과 종합 <span class="en">resolution, composition</span></summary><p>대상을 요소로 나누고(분석) 요소를 다시 결합해(종합) 원인을 밝히는 과학 방법.</p></details></div>
+<h3>무언의 추론이라는 모순</h3>
+<ul class="tight">
+<li><b>주장 A</b>: 마음은 잘 잊으므로 추론에는 감각 가능한 기호가 꼭 필요하다(I, 2, 2).</li>
+<li><b>주장 B</b>: 그런데 단어 없이 관념만으로 하는 마음속 추론도 있다(I, 1, 3).</li>
+</ul>
+<blockquote>이 예들을 통해서 단어들 없는 마음의 내적 추론이 무엇인지 충분히 명백해졌다고 본다. 따라서 우리는 계산, 즉 추론이 오직 수에서만 일어난다고 생각해서는 안 된다.<cite>홉스 《물체론》 I, 1, 3</cite></blockquote>
+<p>언어철학자 <b>마르셀로 다스칼</b>은 이 점을 비판합니다. 홉스에게 기호는 밥을 떠먹는 숟가락 같은 보조 도구일 뿐, 소화(추론)는 정신이 기호 없이 한다는 것입니다. 홉스는 "기호 없이는 고도의 추론이 불가능하다"는 데까지 가지 못했습니다.</p>
+<h3>닐과 다스칼, 그리고 이상명의 재평가</h3>
+<p>다스칼은 논리학사가 <b>윌리엄 닐</b>이 "홉스에게 사고는 기호 조작일 뿐"이라고 잘못 읽었다고 공격했습니다. 이상명은 닐의 원문을 다시 보고, 닐은 홉스의 '계산 혹은 논리학'이라는 제목이 추론을 계산으로 바꿀 수 있음을 <b>시사</b>했고 라이프니츠가 그것을 받아들였다고 썼을 뿐이라고 밝힙니다. 두 사람 모두 홉스에게 기호가 아직 사고의 본질적 구성요소가 아니었다는 결론은 같습니다.</p>
+<p>이상명은 '무언의 추론'을 완결된 정설이 아니라 계산이 수에만 국한되지 않음을 보이려다 나온 과도기적 논증으로 봅니다. 《리바이어던》에서는 추론을 일반 명사에서 결과를 끌어내는 계산이라 하여 언어 기호의 개입을 인정합니다. 그래도 한계는 분명합니다. 홉스는 기호를 자연언어에 한정했고, 수학 기호를 분석의 축약으로만 보았으며, 의미 없이 기호만 다뤄 진리에 이른다는 확신은 없었습니다.</p>
+</section>
+
+<section class="sec" id="s4">
+<div class="sec-head"><span class="sec-num">4</span><div><h2>라이프니츠: 맹목적 사고</h2><p class="sub">천각형의 역설과 기호적 인식</p></div></div>
+<p>라이프니츠는 젊을 때부터 홉스의 기호론에 감명받아 표지와 신호의 구별을 그대로 받아들였습니다. 그러나 기호를 보조 도구로 보는 시각은 거부합니다.</p>
+<blockquote>인간의 모든 추론은 어떤 부호나 기호를 통해서 완성된다. 모든 추론은 기호의 사용으로 구성된다.<cite>라이프니츠 《추론 계산의 기초》</cite></blockquote>
+<h3>직관은 신에게만</h3>
+<p>1684년 《인식, 진리, 관념에 대한 성찰》에서 그는 인식을 나눕니다. 더 쪼갤 수 없는 <b>단순 개념</b>, 그것들이 결합한 <b>복합 개념</b>, 복합 개념을 단순 개념까지 다 분해해 아는 <b>충분한 인식</b>, 모든 요소를 한꺼번에 꿰뚫어 보는 <b>직관적 인식</b>입니다. 완전한 직관적 인식은 신에게만 가능하고, 사람의 인식은 불충분할 수밖에 없다고 그는 봅니다.</p>
+<h3>천각형</h3>
+<p>데카르트는 《성찰》에서 변이 1,000개인 <b>천각형</b>을 예로 들었습니다. 머릿속에 떠올리면 원과 구별되지 않지만, 데카르트는 상상력의 한계일 뿐 순수 지성으로는 파악된다고 보았습니다. 라이프니츠는 반대로 순수 지성도 <b>기호 없이는</b> 천각형을 생각할 수 없다고 말합니다. 대신 '천각형'이라는 말과 1,000이라는 숫자를 빈 자리에 넣으면 정확히 추론할 수 있습니다.</p>
+<p>다각형 내각의 합 = 180° × (n − 2)에 n = 1,000을 넣으면 180° × 998 = <b>179,640°</b>입니다. 변을 세지 않고도 답이 나옵니다.</p>
+<h3>맹목적 사고와 관념</h3>
+<p>대상의 심상 없이 기호의 형식 규칙만으로 진행되는 생각을 라이프니츠는 <b>맹목적 사고</b>(cogitatio caeca) 또는 <b>기호적 사고</b>라고 불렀습니다. caecus는 '눈먼'이라는 뜻이지만, 이상명은 이를 내용을 비워 둔 채 이름과 기호로 전개하는 <b>명목적 사고</b>로 해석합니다. 내용이 비어 있기에 대수의 x처럼 아주 복잡한 대상이나 존재하지 않는 대상도 연산에 넣을 수 있습니다.</p>
+<p>1678년 무렵의 《관념이란 무엇인가》에서는 관념을 지금 떠오른 이미지가 아니라 <b>사유할 수 있는 능력</b>으로 봅니다. 그러니 이미지를 떠올리지 못해도 기호로 생각할 수 있습니다. 진리의 기준도 바뀝니다. 관념과 사물의 일치가 아니라, 규칙대로 기호를 다뤘는가 하는 <b>추론의 형식적 정당성</b>이 진리를 보증합니다. 기호는 지성을 이끄는 '아리아드네의 기계적 실'이 됩니다.</p>
+<div class="terms">
+<details><summary>맹목적 사고 <span class="en">Cogitatio caeca</span></summary><p>대상을 직관하지 않고 기호와 규칙만으로 진행하는 사고. 기호적 사고라고도 함.</p></details>
+<details><summary>아리아드네의 실</summary><p>그리스 신화에서 미궁을 빠져나오게 한 실. 복잡한 문제를 풀어 가는 확실한 길잡이의 비유.</p></details>
+<details><summary>형식적 정당성 <span class="en">validity</span></summary><p>전제의 내용과 무관하게, 추론의 형식이 규칙에 맞는 성질.</p></details>
+</div>
+</section>
+
+<section class="sec" id="s5">
+<div class="sec-head"><span class="sec-num">5</span><div><h2>0과 1, 불, 튜링, 섀넌</h2><p class="sub">원문이 그린 기술사 계보</p></div></div>
+<p>라이프니츠는 두 체계를 구상했습니다. 모든 개념을 기본 관념으로 쪼개 모호하지 않은 기호를 붙이는 <b>보편 기호법</b>, 그 기호를 조작해 새 진리를 끌어내는 <b>사유의 계산</b>입니다. 원문은 이를 각각 데이터 표현과 추론 엔진에 빗댑니다. 논쟁이 생기면 앉아서 "계산해 봅시다(Calculemus)!"라고 하자는 것이 그의 제안이었습니다.</p>
+<p>그는 0과 1만 쓰는 <b>이진법</b>을 연구해 1을 신, 0을 무로 보았고, 사칙연산을 하는 톱니바퀴 계산기 <b>단차 계산기</b>를 설계하고 만들었습니다.</p>
+<table class="tbl stack">
+<thead><tr><th>인물(연도)</th><th>한 일</th></tr></thead>
+<tbody>
+<tr><th>조지 불(1854)</th><td data-label="한 일">《사유의 법칙》에서 참을 1, 거짓을 0으로 두고 AND, OR, NOT을 대수식으로 다뤘습니다.</td></tr>
+<tr><th>앨런 튜링(1936)</th><td data-label="한 일">테이프 위 기호를 읽고 쓰며 상태를 바꾸는 가상 기계를 고안했습니다. 테이프의 지시만 바꾸면 한 기계가 무엇이든 계산하는 <b>보편 튜링 기계</b>입니다.</td></tr>
+<tr><th>클로드 섀넌(1937)</th><td data-label="한 일">MIT 석사 논문에서 불 대수의 참과 거짓이 릴레이 스위치의 켜짐과 꺼짐에 대응함을 보였습니다. 직렬은 AND, 병렬은 OR입니다.</td></tr>
+</tbody></table>
+<p>원문의 결론은 이렇습니다. 칩은 화면의 강아지 사진이 무엇인지 모른 채 클록에 맞춰 1초에 수십억 번 0과 1을 바꿀 뿐이고, 이것이 맹목적 사고가 실리콘의 몸을 입은 모습입니다.</p>
+<div class="terms">
+<details><summary>불 대수</summary><p>참과 거짓을 1과 0으로 놓고 논리 연산을 대수처럼 계산하는 체계.</p></details>
+<details><summary>논리 게이트</summary><p>입력 신호(0, 1)에 AND, OR, NOT 같은 연산을 해 출력을 내는 회로 단위.</p></details>
+<details><summary>클록</summary><p>칩의 동작 박자를 맞추는 주기 신호. 3GHz면 1초에 30억 번.</p></details>
+</div>
+</section>
+
+<section class="sec" id="s6">
+<div class="sec-head"><span class="sec-num">6</span><div><h2>기호주의 AI와 LLM</h2><p class="sub">라이프니츠의 승리라는 역설</p></div></div>
+<p>AI 연구는 두 갈래로 나뉘었습니다. <b>기호주의 AI</b>는 뉴얼과 사이먼의 '물리적 기호 시스템 가설'처럼 지식과 상식을 if-then 규칙으로 적어 주면 지능이 된다고 믿었습니다. 원문은 이 흐름이 1980년대에 무너졌다고 보고, 두 가지 벽을 듭니다.</p>
+<ul class="tight">
+<li><b>프레임 문제</b>: 행동할 때 바뀌지 않는 수많은 조건까지 따지느라 시스템이 멈춥니다.</li>
+<li><b>기호 접지 문제</b>: 기호가 다른 기호만 가리키며 사전처럼 맴돌 뿐, 몸의 경험이나 감각과 이어지지 않습니다.</li>
+</ul>
+<p><b>연결주의 AI</b>는 규칙 대신 인공 뉴런의 연결 강도(가중치)를 데이터로 학습시킵니다. 2010년대 딥러닝과 2017년 구글의 <b>트랜스포머</b>가 이 흐름의 승리를 이끌었고, 문법을 한 줄도 넣지 않아도 전문가 수준의 글이 나오기 시작했습니다.</p>
+<h3>그런데 LLM은 라이프니츠의 승리인가</h3>
+<p>원문은 역설을 봅니다. LLM은 단어 조각(토큰)을 수천 차원 벡터로 바꾸고, 행렬 곱셈을 거쳐, 다음에 올 확률이 높은 토큰을 고릅니다. 안에는 고통이나 사랑의 의미가 아니라 거리와 확률만 있습니다. 그런데 결과는 지적이고 유창합니다. 원문은 이것을 "직관 없이 형식 규칙만으로 지적 결과에 이른다"는 맹목적 사고의 가장 극단적인 실현이라고 해석합니다.</p>
+<div class="terms">
+<details><summary>토큰</summary><p>모델이 글을 처리하는 최소 단위. 단어나 단어 조각.</p></details>
+<details><summary>트랜스포머</summary><p>문장 속 모든 토큰 사이의 관련도(어텐션)를 계산하는 신경망 구조. 2017년 발표.</p></details>
+</div>
+</section>
+
+<section class="sec" id="s7">
+<div class="sec-head"><span class="sec-num">7</span><div><h2>중국어 방과 의미의 외주화</h2><p class="sub">구문론은 의미론을 낳지 못한다</p></div></div>
+<p>존 설은 1980년에 <b>중국어 방</b> 사고실험을 냈습니다. 중국어를 모르는 사람이 방 안에서 영어 규칙서대로 한자를 맞춰 내보내면, 밖에서는 그가 중국어를 이해한다고 착각합니다. 그러나 그는 기호의 모양과 순서 규칙(<b>구문론</b>)만 다룰 뿐 뜻(<b>의미론</b>)은 모릅니다. 설의 결론은 "구문론은 의미론에 충분하지 않다"입니다.</p>
+<p>원문은 오늘의 챗GPT를 거대한 '통계적 중국어 방'으로 봅니다. 사과 맛도 실연도 겪지 않았지만 사람 같은 글을 냅니다. 그렇다면 사람의 언어와 추론도 상당 부분 깊은 직관이 아니라 기호 규칙에 기대고 있었음을 기계가 거꾸로 보여 준 셈이라는 것입니다.</p>
+<h3>일상의 맹목적 사고</h3>
+<p>엑셀에 <code>=A1+B1</code>을 걸고 끌어내릴 때 우리는 어떤 숫자가 들어올지 상상하지 않습니다. 내용은 비워 두고, 관계만 정하고, 실행은 엔진에 맡깁니다. 변수 선언, SQL, 컴파일러, 프롬프트도 같은 원리 위에 있다고 원문은 말합니다.</p>
+<h3>의미의 외주화</h3>
+<ul class="tight">
+<li>홉스의 표지는 <b>기억</b>의 외주였습니다.</li>
+<li>라이프니츠의 사유의 계산은 <b>추론</b>의 외주였습니다.</li>
+<li>생성형 AI는 <b>개념 구성, 문장화, 의미 해석</b>의 외주로 가고 있습니다.</li>
+</ul>
+<p>3초 만에 우주론 리포트를 뽑지만 그 글을 쥔 사람은 증명의 고통을 지나지 않았습니다. 기호가 계산 능력은 넓혀 주었지만 깊이 성찰하는 직관은 퇴화시키는 것 아니냐고 원문은 묻습니다. 마지막 질문은 이것입니다. 우리가 AI에 넘긴 것은 계산인가, 세계에 대한 이해 그 자체인가.</p>
+<div class="terms"><details><summary>구문론과 의미론</summary><p>구문론은 기호의 배열 규칙, 의미론은 기호가 가리키는 뜻을 다루는 분야.</p></details></div>
+</section>
+<section class="sec" id="rv">
+<div class="sec-head"><span class="sec-num">8</span><div><h2>복습</h2><p class="sub">본문 내용만으로 만든 암기 점검</p></div></div>
+<h3 class="rv-h">핵심 용어 카드</h3><p class="muted">카드를 누르면 뜻이 나옵니다.</p><div class="flips"><button type="button" class="flip" aria-expanded="false"><b>표지(Nota)</b><span class="hint">뜻 보기</span><span class="m">내 기억을 보존하려고 스스로 만든 기호. 예: 포스트잇.</span></button><button type="button" class="flip" aria-expanded="false"><b>신호(Signum)</b><span class="hint">뜻 보기</span><span class="m">남에게 생각을 전하려고 만든 공통 기호. 이름이 명제를 이룰 때 신호가 됩니다.</span></button><button type="button" class="flip" aria-expanded="false"><b>추론은 계산</b><span class="hint">뜻 보기</span><span class="m">홉스: 추론은 더하고 빼는 정신의 작용. 사람 = 물체 + 생명 + 이성.</span></button><button type="button" class="flip" aria-expanded="false"><b>무언의 추론</b><span class="hint">뜻 보기</span><span class="m">단어 없이 관념만으로 하는 추론. 기호 필수론과 충돌하는 홉스의 모순.</span></button><button type="button" class="flip" aria-expanded="false"><b>천각형</b><span class="hint">뜻 보기</span><span class="m">변 1,000개 다각형. 상상은 못 해도 기호로는 내각 합 179,640°를 계산.</span></button><button type="button" class="flip" aria-expanded="false"><b>맹목적 사고</b><span class="hint">뜻 보기</span><span class="m">직관 없이 기호와 규칙만으로 진행하는 사고(cogitatio caeca).</span></button><button type="button" class="flip" aria-expanded="false"><b>명목적 사고</b><span class="hint">뜻 보기</span><span class="m">이상명의 해석: 내용을 비워 두고 이름과 기호로 전개하는 사고.</span></button><button type="button" class="flip" aria-expanded="false"><b>보편 기호법</b><span class="hint">뜻 보기</span><span class="m">모든 개념을 기본 관념으로 쪼개 명확한 기호를 붙이는 라이프니츠의 구상.</span></button><button type="button" class="flip" aria-expanded="false"><b>중국어 방</b><span class="hint">뜻 보기</span><span class="m">규칙서로 한자를 맞추는 사람은 중국어를 이해하지 못한다는 설의 사고실험.</span></button><button type="button" class="flip" aria-expanded="false"><b>의미의 외주화</b><span class="hint">뜻 보기</span><span class="m">기억, 추론에 이어 의미 해석까지 기계에 맡긴다는 원문의 우려.</span></button></div><div class="rv-tools"><button type="button" data-all="flip">모두 뒤집기</button></div><h3 class="rv-h">빈칸 채우기</h3><p class="muted">빈칸을 누르면 답이 나옵니다.</p><ol class="cloze"><li>홉스는 기호를 기억용 표지와 소통용 <button type="button" class="blank" data-a="신호" aria-label="빈칸, 눌러서 답 보기">?</button>로 나눴습니다.</li><li>홉스에게 사람에서 이성을 빼면 <button type="button" class="blank" data-a="동물" aria-label="빈칸, 눌러서 답 보기">?</button>이 남습니다.</li><li>완전한 직관적 인식은 오직 <button type="button" class="blank" data-a="신" aria-label="빈칸, 눌러서 답 보기">?</button>에게만 가능하다고 라이프니츠는 봅니다.</li><li>천각형의 내각 합은 180° × 998 = <button type="button" class="blank" data-a="179,640°" aria-label="빈칸, 눌러서 답 보기">?</button>입니다.</li><li>라이프니츠에게 진리는 추론의 형식적 <button type="button" class="blank" data-a="정당성" aria-label="빈칸, 눌러서 답 보기">?</button>으로 보증됩니다.</li><li>설은 구문론이 <button type="button" class="blank" data-a="의미론" aria-label="빈칸, 눌러서 답 보기">?</button>에 충분하지 않다고 결론짓습니다.</li></ol><div class="rv-tools"><button type="button" data-all="blank">답 모두 보기</button></div><h3 class="rv-h">5문항 퀴즈</h3><div id="quiz"><div class="q" data-a="0"><fieldset><legend class="qt">1. 홉스가 기호가 필요하다고 본 근본 이유는?</legend><button type="button">생각이 유동적이어서 금방 잊히기 때문</button><button type="button">신의 뜻을 전하기 위해</button><button type="button">계산기를 만들기 위해</button></fieldset><p class="ex" hidden aria-live="polite" data-e="감각 가능한 표시가 없으면 생각이 날아갑니다."></p></div><div class="q" data-a="1"><fieldset><legend class="qt">2. 다스칼이 본 홉스의 기호는?</legend><button type="button">사고 그 자체</button><button type="button">숟가락 같은 보조 도구</button><button type="button">신의 언어</button></fieldset><p class="ex" hidden aria-live="polite" data-e="추론은 정신이 기호 없이 한다고 본 한계입니다."></p></div><div class="q" data-a="2"><fieldset><legend class="qt">3. 라이프니츠가 천각형으로 보이려 한 것은?</legend><button type="button">상상력은 무한하다</button><button type="button">순수 지성으로 다 파악된다</button><button type="button">기호 없이는 지성도 천각형을 생각할 수 없다</button></fieldset><p class="ex" hidden aria-live="polite" data-e="데카르트와 반대 입장입니다."></p></div><div class="q" data-a="1"><fieldset><legend class="qt">4. 라이프니츠가 말한 관념은?</legend><button type="button">지금 떠오른 이미지</button><button type="button">사유할 수 있는 능력</button><button type="button">외부 사물의 복사본</button></fieldset><p class="ex" hidden aria-live="polite" data-e="그래서 이미지 없이도 기호로 생각할 수 있습니다."></p></div><div class="q" data-a="0"><fieldset><legend class="qt">5. 원문이 LLM을 '맹목적 사고의 극단적 실현'이라 보는 이유는?</legend><button type="button">의미 없이 기호를 다루는데 결과가 유창해서</button><button type="button">규칙을 사람이 다 적어 줘서</button><button type="button">이진법을 쓰지 않아서</button></fieldset><p class="ex" hidden aria-live="polite" data-e="내부엔 거리와 확률만 있는데 출력은 지적입니다."></p></div><p class="score" id="score" aria-live="polite">점수: 0 / 5</p><div class="rv-tools"><button type="button" id="qreset">다시 풀기</button></div></div>
+</section>
+<section class="sec issues" id="s9">
+<div class="sec-head"><span class="sec-num">9</span><div><h2>읽으며 걸린 곳</h2><p class="sub">정리하면서 걸린 것. 결론에는 영향이 크지 않습니다</p></div></div>
+<details><summary>6가지 보기</summary>
+<ul>
+<li>논문 서지(《가톨릭철학》 27호, 2016, 113~140쪽, 숭실대 이상명)는 RISS와 DBpia에서 확인됩니다. 다만 논문 초록은 "현대 형식 논리학의 기초"에서 끝나고, 튜링, 섀넌, LLM, 중국어 방, 의미의 외주화(5~7장)는 원문 페이지가 덧붙인 해석입니다.</li>
+<li>원문은 단차 계산기를 사칙연산 계산기의 "세계 최초" 제작이라 하는데, 이 기계는 10진법이었고 자리올림 장치에 결함이 있어 안정적으로 작동하지 않았습니다. 덧셈 기계로는 쉬카르트(1623)와 파스칼(1642)이 먼저입니다.</li>
+<li>이진법도 라이프니츠가 처음 "고안"했다기보다, 해리엇과 카라무엘 등의 앞선 작업이 있고 라이프니츠가 1703년 논문으로 체계화했다고 보는 편이 정확합니다.</li>
+<li>섀넌의 석사 논문은 1937년 제출, 1938년 출간입니다. 불 대수도 지금의 형태는 불 이후 제번스, 퍼스 등이 다듬었습니다.</li>
+<li>원문은 기호주의가 1980년대에 무너졌다고 하지만 1980년대는 전문가 시스템의 전성기였고 쇠퇴는 80년대 말입니다. 기호 접지 문제는 하르나드가 1990년에 이름 붙였습니다.</li>
+<li>챗GPT가 "1조 개의 파라미터"라는 수치는 OpenAI가 공개한 적이 없습니다. 계산 예시 180° × 998 = 179,640°는 맞습니다.</li>
+</ul></details>
+</section>
+
+<section class="sources" id="src">
+<h2>출처</h2>
+<p>원문: 「<a href="https://yghnsim.github.io/Pages/hobbes_leibniz_symbolic_cognition_ai.html">홉스와 라이프니츠, 기호에서 AI까지</a>」, Pages, 2026. 10. 18. 원전 논문: 이상명, 〈홉스와 라이프니츠: 기호의 기능〉, 《가톨릭철학》 27호, 2016, 113~140쪽. 인용문과 사례는 원문에서 옮겼고, 용어 설명은 정리하며 덧붙였습니다.</p>
+<p><a class="totop" href="#main">맨 위로</a></p>
+</section>
+</main></div>
+<script>(function(){
+var links=[].slice.call(document.querySelectorAll('nav.toc li a'));
+if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id)})}})},{rootMargin:'-20% 0px -70% 0px'});
+links.forEach(function(a){var s=document.querySelector(a.getAttribute('href'));if(s)io.observe(s)});}
+[].forEach.call(document.querySelectorAll('nav.toc-m a'),function(a){a.addEventListener('click',function(){a.closest('details').open=false})});
+})();</script>
+
+<script>(function(){
+function $$(q){return [].slice.call(document.querySelectorAll(q))}
+$$('.flip').forEach(function(b){b.onclick=function(){b.setAttribute('aria-expanded',b.getAttribute('aria-expanded')==='true'?'false':'true')}});
+function show(b){b.textContent=b.dataset.a;b.classList.add('shown');b.setAttribute('aria-label','답: '+b.dataset.a)}
+$$('.blank').forEach(function(b){b.onclick=function(){show(b)}});
+$$('[data-all]').forEach(function(t){t.onclick=function(){if(t.dataset.all==='flip')$$('.flip').forEach(function(b){b.setAttribute('aria-expanded','true')});else $$('.blank').forEach(show)}});
+var sc=0,done=0,qs=$$('#quiz .q');
+function upd(){document.getElementById('score').textContent='점수: '+sc+' / 5'+(done===5?' (끝)':'')}
+qs.forEach(function(q){var bs=[].slice.call(q.querySelectorAll('fieldset button')),ex=q.querySelector('.ex');
+bs.forEach(function(b,i){b.onclick=function(){var a=+q.dataset.a,ok=i===a;bs.forEach(function(x){x.disabled=true});bs[a].classList.add('right');if(!ok)b.classList.add('wrong');
+ex.hidden=false;ex.textContent=(ok?'맞았습니다. ':'아쉽습니다. ')+ex.dataset.e;if(ok)sc++;done++;upd();}})});
+document.getElementById('qreset').onclick=function(){sc=0;done=0;qs.forEach(function(q){q.querySelectorAll('fieldset button').forEach(function(x){x.disabled=false;x.className=''});var ex=q.querySelector('.ex');ex.hidden=true;ex.textContent=''});upd()};
+})();</script>
+
+
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">요약 아카이브</div><div class="arc-foot-title">홉스와 라이프니츠, 기호에서 AI까지</div><div class="arc-foot-meta"><time datetime="2026-10-18">2026년 10월 18일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=%EC%B2%A0%ED%95%99">#철학</a> · <a href="https://yghnsim.github.io/Pages/hobbes_leibniz_symbolic_cognition_ai.html" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body>
+</html>
