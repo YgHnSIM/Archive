@@ -1,5 +1,21 @@
 [
   {
+    "id": "20261019-02",
+    "title": "x²을 쓰기까지 왜 1,877년이 걸렸나",
+    "summary": "zenzizenzizenzic에서 데카르트의 지수까지, 지수 표기의 역사 정리",
+    "tags": [
+      "수학",
+      "역사"
+    ],
+    "date": "2026-10-19",
+    "file": "pages/2026-10-19-x제곱_1877년.html",
+    "added": "2026-10-19T17:29:22+09:00",
+    "source_name": "x제곱_1877년.html",
+    "source_sha256": "b2e7d9fa5aae9b5bd0cd3582e78a8c373e270274a95535909b69d38e49c9a03f",
+    "source_path_sha256": "4c87c98421bd1c505f76aac3cb9bb512123d3d7b2e09477fe42498a945306203",
+    "source_url": "https://yghnsim.github.io/Pages/why_did_it_take_1877_years_to_invent_x_squared.html"
+  },
+  {
     "id": "20261019-01",
     "title": "만들었다고 이해한 것은 아니다: 언어 모델의 속을 들여다보기",
     "summary": "엠마뉴엘 아메이젠의 해석가능성 대담 정리",

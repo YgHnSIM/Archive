@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>x²을 쓰기까지 왜 1,877년이 걸렸나</title>
+<meta name="description" content="zenzizenzizenzic에서 데카르트의 지수까지, 지수 표기의 역사 정리">
+<style>
+:root{
+  --bg:#faf8f3; --paper:#ffffff; --ink:#1f2328; --muted:#5b6470; --line:#e6e1d6;
+  --accent:#c8553d; --accent-soft:#fbeee9; --link:#4a6b8a;
+  --radius:14px;
+  /* 페이지 고유 의미 색 */
+  --old:#6a5f4b; --old-soft:#f3efe6;
+  --algo:#a2452f; --algo-soft:#fbeee9;
+  --new:#3d5f80; --new-soft:#eaf0f6;
+  --sup:#55598f; --sup-soft:#efeff8;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR","Malgun Gothic","Gothic A1",system-ui,sans-serif;
+  font-size:17px;line-height:1.75;word-break:keep-all;overflow-wrap:break-word}
+@media(max-width:640px){body{font-size:16px}}
+a{color:var(--link)}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #9bb5cf;outline-offset:2px}
+.skip{position:absolute;left:0;top:0;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+.skip:focus{width:auto;height:auto;clip:auto;clip-path:none;left:8px;top:8px;background:#fff;padding:6px 10px;z-index:10}
+.layout{max-width:1180px;margin:0 auto;padding:12px 14px 48px}
+@media(min-width:1024px){.layout{display:grid;grid-template-columns:240px minmax(0,1fr);gap:32px;padding:28px 24px 64px}}
+main{min-width:0}
+
+/* 목차 */
+nav.toc{display:none}
+@media(min-width:1024px){
+  nav.toc{display:block;position:sticky;top:20px;align-self:start;max-height:calc(100vh - 40px);overflow:auto}
+  nav.toc-m{display:none}
+}
+nav.toc .toc-t{font-size:13px;color:var(--muted);letter-spacing:.06em;margin:0 0 10px;font-weight:700}
+nav.toc ol,nav.toc-m ol{list-style:none;margin:0;padding:0}
+nav.toc li a{display:flex;gap:8px;align-items:baseline;text-decoration:none;color:var(--muted);font-size:15px;line-height:1.45;padding:7px 10px;border-radius:8px;border-left:3px solid transparent}
+nav.toc li a .n{font-weight:700;font-size:13px;color:#8a919b;min-width:18px}
+nav.toc li a:hover{background:#f0ece3;color:var(--ink)}
+nav.toc li a.active{background:var(--paper);color:var(--ink);border-left-color:var(--accent);font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+nav.toc li a.active .n{color:var(--accent)}
+nav.toc .orig{display:block;margin-top:12px;padding:10px;border-top:1px solid var(--line);font-size:14px}
+nav.toc-m{margin:14px 0 0}
+nav.toc-m details{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius)}
+nav.toc-m summary{cursor:pointer;padding:10px 14px;font-weight:700;list-style:none}
+nav.toc-m summary::-webkit-details-marker{display:none}
+nav.toc-m summary::after{content:" ▾";color:var(--muted)}
+nav.toc-m ol{padding:0 14px 8px}
+nav.toc-m li a{display:block;padding:8px 0;border-top:1px solid var(--line);text-decoration:none;color:var(--ink)}
+
+/* 머리 */
+.hero{padding:22px 4px 6px}
+.eyebrow{display:inline-block;font-size:13px;font-weight:700;letter-spacing:.04em;color:var(--accent);background:var(--accent-soft);padding:4px 10px;border-radius:999px}
+h1{font-size:clamp(28px,4.4vw,44px);line-height:1.25;margin:14px 0 12px;letter-spacing:-.02em}
+.lead{font-size:18px;color:var(--muted);margin:0 0 18px}
+@media(max-width:640px){.lead{font-size:17px}}
+.info{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.info p{margin:0 0 12px;font-size:16px}
+.cta{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;text-align:center;
+  background:var(--accent);color:#fff;text-decoration:none;font-weight:700;padding:13px 16px;border-radius:12px;font-size:17px}
+.cta:hover{background:#ad4430}
+.cta small{font-weight:500;font-size:14px;opacity:.95}
+.info .meta{font-size:14px;color:var(--muted);margin:12px 0 0}
+
+/* 절 */
+section.sec{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:20px 18px;margin-top:18px;scroll-margin-top:12px}
+@media(min-width:640px){section.sec{padding:28px 30px}}
+.sec-head{display:flex;gap:14px;align-items:flex-start;margin-bottom:10px}
+.sec-num{flex:none;width:36px;height:36px;border-radius:12px;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:800;font-size:16px;margin-top:3px}
+h2{font-size:clamp(23px,3vw,30px);line-height:1.3;margin:0;letter-spacing:-.015em}
+.sub{margin:4px 0 0;color:var(--muted);font-size:15px;line-height:1.5}
+.srcs{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 12px}
+.src{display:inline-block;font-size:14px;text-decoration:none;border:1px solid var(--line);padding:3px 11px;border-radius:999px;color:var(--link);background:#fdfcf9}
+.src:hover{border-color:var(--link)}
+h3{font-size:19px;line-height:1.4;margin:22px 0 6px}
+p{margin:8px 0}
+.muted{color:var(--muted)}
+.tag{display:inline-block;font-size:13px;font-weight:700;line-height:1.5;padding:0 7px;border-radius:6px;background:var(--sup-soft);color:var(--sup);vertical-align:.08em;margin-left:3px;white-space:nowrap}
+.tag.int{background:#efebe2;color:#4f5763}
+blockquote{margin:16px 0;padding:14px 18px;background:#fdfcf9;border-left:5px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;font-size:16.5px;line-height:1.7}
+blockquote cite{display:block;font-style:normal;color:var(--muted);font-size:14px;margin-top:6px}
+.callout{background:#f4f1ea;border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:14px 0;font-size:16px}
+.callout b.t{display:block;margin-bottom:2px}
+.callout.sup{background:var(--sup-soft);border-color:#d9daee}
+ul.tight{margin:6px 0;padding-left:20px}
+ul.tight li{margin:5px 0}
+
+/* 핵심 3줄 */
+.thesis{list-style:none;margin:6px 0 0;padding:0;counter-reset:th}
+.thesis li{counter-increment:th;position:relative;padding:12px 14px 12px 50px;border:1px solid var(--line);border-radius:12px;margin:10px 0;background:#fdfcf9}
+.thesis li::before{content:counter(th);position:absolute;left:14px;top:14px;width:26px;height:26px;border-radius:8px;background:var(--ink);color:#fff;font-weight:700;text-align:center;line-height:26px;font-size:14px}
+.thesis strong{display:block}
+
+/* 6단계 */
+.steps{display:grid;grid-template-columns:1fr;gap:6px;margin:10px 0 0;padding:0;list-style:none}
+@media(min-width:760px){.steps{grid-template-columns:1fr 1fr}}
+.steps li{display:flex;gap:10px;align-items:baseline;border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:16px;line-height:1.6}
+.steps b{flex:none;font-size:14px;color:var(--accent);min-width:58px}
+.steps a{font-size:14px;white-space:nowrap}
+
+/* 용어 */
+.terms{display:grid;grid-template-columns:1fr;gap:8px;margin-top:10px}
+@media(min-width:760px){.terms{grid-template-columns:1fr 1fr}}
+.terms details{border:1px solid var(--line);border-radius:10px;background:#fdfcf9}
+.terms summary{cursor:pointer;padding:9px 12px;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:8px}
+.terms summary::-webkit-details-marker{display:none}
+.terms summary::after{content:"＋";color:var(--muted);font-weight:400}
+.terms details[open] summary::after{content:"－"}
+.terms details p{margin:0;padding:0 12px 10px;font-size:16px;line-height:1.65}
+.terms .en{font-weight:400;color:var(--muted);font-size:14px}
+
+/* 타임라인 */
+.tl{list-style:none;margin:12px 0 0;padding:0 0 0 18px;border-left:3px solid var(--line)}
+.tl li{position:relative;margin:0 0 16px;padding-left:10px}
+.tl li::before{content:"";position:absolute;left:-27px;top:7px;width:15px;height:15px;border-radius:50%;background:#fff;border:3px solid var(--ink)}
+.tl li.ctx::before{border-color:#b3ab9b}
+.tl .date{font-weight:800;font-size:16px}
+.case,.tl .case{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;background:#efebe2;padding:1px 6px;border-radius:6px;white-space:nowrap}
+.tl .txt{font-size:16px;margin:2px 0 0}
+.three{display:grid;grid-template-columns:1fr;gap:8px;margin:12px 0}
+@media(min-width:760px){.three{grid-template-columns:repeat(3,1fr)}}
+.three div{border:1px solid var(--line);border-radius:12px;padding:10px 14px;background:#fdfcf9;font-size:16px;line-height:1.6}
+.three div b{display:block;font-size:17px}
+.three div .yr{display:inline-block;font-size:13px;font-weight:800;color:#fff;background:var(--ink);border-radius:6px;padding:0 7px;margin-bottom:4px}
+
+/* 카드 */
+.cards{display:grid;grid-template-columns:1fr;gap:10px;margin:10px 0}
+@media(min-width:800px){.cards{grid-template-columns:repeat(3,1fr)}}
+.card{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:#fdfcf9;font-size:16px;line-height:1.65}
+.card b.h{display:block;font-size:17px;margin-bottom:2px}
+.card .k{display:inline-block;font-size:13px;font-weight:800;border-radius:6px;padding:0 7px;margin-bottom:4px;background:var(--algo-soft);color:var(--algo)}
+.card.n .k{background:var(--new-soft);color:var(--new)}
+.card.o .k{background:var(--old-soft);color:var(--old)}
+.two{display:grid;gap:12px}
+@media(min-width:800px){.two{grid-template-columns:1fr 1fr}}
+.panel{border:1px solid var(--line);border-radius:12px;padding:12px 16px;background:#fdfcf9}
+.panel h3{margin-top:4px}
+.panel p,.panel li{font-size:16px}
+
+/* 도식 */
+figure.dia{margin:16px 0;padding:14px;border:1px solid var(--line);border-radius:var(--radius);background:#fdfcf9}
+figure.dia svg{display:block;width:100%;max-width:460px;height:auto;margin:0 auto}
+@media(max-width:640px){figure.dia{padding:8px 2px;margin-left:-8px;margin-right:-8px}}
+figure.dia figcaption{font-size:14px;color:var(--muted);margin-top:8px;text-align:center;line-height:1.55}
+
+/* 배달 기사 토글 */
+.seg{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 0}
+.seg button{font:inherit;font-size:15px;font-weight:700;flex:1 1 140px;border:1.5px solid var(--line);background:#fff;color:var(--muted);border-radius:10px;padding:9px 12px;cursor:pointer}
+.seg button[aria-pressed="true"].o{border-color:var(--old);background:var(--old-soft);color:var(--old)}
+.seg button[aria-pressed="true"].n{border-color:var(--new);background:var(--new-soft);color:var(--new)}
+.lens{border:1.5px solid var(--line);border-radius:12px;padding:12px 16px;margin-top:8px;font-size:16px}
+.lens.o{border-color:var(--old);background:var(--old-soft)}
+.lens.n{border-color:var(--new);background:var(--new-soft)}
+.lens ul{margin:6px 0;padding-left:20px}
+.lens p.v{font-weight:800;margin:8px 0 0}
+
+/* 표 */
+.tbl{width:100%;border-collapse:collapse;font-size:16px;line-height:1.6;margin-top:10px}
+.tbl th,.tbl td{border:1px solid var(--line);padding:10px 11px;vertical-align:top;text-align:left}
+.tbl thead th{background:#f4f1ea;font-size:15px}
+.tbl tbody th{background:#fbf9f4;font-weight:700}
+.tbl td.nw{background:#f5f8fb}
+@media(max-width:760px){
+  .stack thead{position:absolute;left:0;top:0;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+  .stack,.stack tbody,.stack tr,.stack th,.stack td{display:block;width:100%}
+  .stack tr{border:1px solid var(--line);border-radius:12px;margin:0 0 12px;overflow:hidden}
+  .stack th,.stack td{border:0;border-top:1px solid var(--line)}
+  .stack tbody th{border-top:0;background:#f4f1ea}
+  .stack td::before{content:attr(data-label);display:block;font-size:13.5px;font-weight:800;color:var(--muted);margin-bottom:2px}
+  .stack td.nw::before{color:var(--new)}
+}
+
+/* 추정 흐름 */
+.flow{list-style:none;margin:12px 0;padding:0;display:grid;gap:8px}
+@media(min-width:800px){.flow{grid-template-columns:repeat(3,1fr)}}
+.flow li{border:1.5px solid var(--line);border-radius:12px;padding:10px 14px;background:#fff;font-size:16px;line-height:1.6;position:relative}
+.flow li b{display:block;font-size:16px}
+.flow li.s1{border-color:#b9a98c}
+.flow li.s2{border-color:var(--new);background:var(--new-soft)}
+.flow li.s3{border-color:var(--algo);background:var(--algo-soft)}
+.flow .who{display:inline-block;font-size:13px;font-weight:800;color:var(--muted)}
+
+/* 오해 카드 */
+.myths{display:grid;grid-template-columns:1fr;gap:10px;margin-top:10px}
+@media(min-width:800px){.myths{grid-template-columns:1fr 1fr}}
+.myth{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:#fdfcf9}
+.myth .say{font-weight:700;margin:0;font-size:16.5px}
+.myth .say::before{content:"흔한 말 ";font-size:13px;font-weight:800;color:var(--algo);background:var(--algo-soft);border-radius:6px;padding:0 6px;margin-right:4px;vertical-align:.08em}
+.myth button{font:inherit;font-size:15px;margin-top:8px;border:1px solid var(--line);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link)}
+.myth .ans{margin:8px 0 0;padding:8px 10px;border-radius:8px;background:var(--new-soft);font-size:16px}
+.myth .ans .ref{display:block;font-size:13.5px;color:var(--muted);margin-top:2px}
+.mcount{font-size:15px;color:var(--muted);margin:10px 0 0}
+button.reset{font:inherit;font-size:15px;border:1px solid var(--line);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;margin-left:6px}
+
+.sources{margin-top:18px;padding:18px;border-top:1px solid var(--line)}
+.sources h2{font-size:20px}
+.sources p{font-size:16px}
+.totop{display:inline-block;margin-top:6px;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:15px;background:#efebe2;padding:1px 5px;border-radius:5px}
+pre.code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;background:#f4f1ea;border:1px solid var(--line);border-radius:10px;padding:10px 12px;overflow-x:auto;max-width:100%;line-height:1.5;white-space:pre}
+.v{display:inline-block;font-size:13px;font-weight:800;border-radius:6px;padding:0 7px;white-space:nowrap;vertical-align:.08em}
+.v.ok{background:#e6f1ea;color:#2f6b45}
+.v.mostly{background:#eaf0f6;color:#3d5f80}
+.v.part{background:#fbeee9;color:#a2452f}
+.issues details{border:1px solid var(--line);border-radius:10px;background:#fdfcf9;margin:8px 0}
+.issues summary{cursor:pointer;padding:10px 12px;font-weight:700;line-height:1.5}
+.issues .no{font-size:13px;color:var(--muted);margin-right:4px}
+.issues details p{margin:0;padding:0 12px 12px;font-size:16px}
+.q{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:10px 0;background:#fdfcf9}
+.q p.qt{font-weight:700;margin:0 0 8px}
+.q button{display:block;width:100%;text-align:left;font:inherit;font-size:16px;border:1.5px solid var(--line);background:#fff;border-radius:10px;padding:8px 12px;margin:6px 0;cursor:pointer;color:var(--ink)}
+.q button.right{border-color:#2f6b45;background:#e6f1ea}
+.q button.wrong{border-color:#a2452f;background:#fbeee9}
+.q .ex{margin:8px 0 0;font-size:16px;padding:8px 10px;border-radius:8px;background:var(--new-soft)}
+
+.go{margin:.4em 0 0;font-size:15px}
+.calc{border:1px solid var(--line);border-radius:12px;background:#fff;padding:12px 14px;margin:14px 0}
+.calc label{display:block;font-weight:700;font-size:15px}
+.calc input[type=range]{width:100%;margin:10px 0}
+.calc .out{font-size:17px}.calc .out b{color:var(--accent)}
+.bar{height:14px;border-radius:7px;background:#e6e1d6;position:relative;overflow:hidden;margin:8px 0}
+.bar i{position:absolute;left:0;top:0;bottom:0;background:#4a6b8a}
+.bar i.over{background:#c8553d}
+.bar s{position:absolute;top:0;bottom:0;width:2px;background:#1f2328}
+.calc .note{font-size:14px;color:var(--muted);margin:.5em 0 0}
+.el{list-style:none;padding:0;margin:12px 0}
+.el li{border:1px solid var(--line);border-left:4px solid var(--link);border-radius:12px;background:#fff;padding:10px 14px;margin:8px 0}
+.el li b{display:block}
+.el li span{display:block;font-size:15px;color:var(--muted)}
+.issues ul{margin:.4em 0;padding-left:1.2em}.issues li{font-size:15px;margin:.3em 0}
+
+/* 복습 */
+.rv-h{font-size:19px;margin:22px 0 6px}
+.flips{display:grid;grid-template-columns:1fr;gap:8px;margin:10px 0}
+@media(min-width:640px){.flips{grid-template-columns:1fr 1fr}}
+.flip{font:inherit;text-align:left;width:100%;border:1.5px solid var(--line);background:#fdfcf9;border-radius:12px;padding:10px 14px;cursor:pointer;color:var(--ink);min-height:64px}
+.flip b{display:block;font-size:17px}
+.flip .m{display:none;font-size:16px;line-height:1.6;margin-top:4px}
+.flip .hint{font-size:13px;color:var(--muted)}
+.flip[aria-expanded="true"]{border-color:var(--new);background:var(--new-soft)}
+.flip[aria-expanded="true"] .m{display:block}
+.flip[aria-expanded="true"] .hint{display:none}
+.cloze{list-style:none;margin:10px 0;padding:0}
+.cloze li{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:8px 0;background:#fdfcf9;font-size:16px;line-height:1.8}
+.blank{font:inherit;font-size:16px;border:0;border-bottom:2px dashed var(--accent);background:var(--accent-soft);color:var(--accent);border-radius:6px 6px 0 0;padding:0 8px;cursor:pointer;min-width:4.5em}
+.blank.shown{border-bottom-style:solid;background:var(--new-soft);color:var(--new);font-weight:700}
+.rv-tools{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.rv-tools button{font:inherit;font-size:15px;border:1px solid var(--line);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link)}
+.q fieldset{border:0;margin:0;padding:0}
+.q legend{font-weight:700;padding:0;margin:0 0 8px}
+.q button[disabled]{cursor:default;opacity:1}
+.score{font-size:17px;font-weight:800;margin:10px 0 0}
+sup{font-size:max(.75em,13px);line-height:0}
+.math{text-align:center;font-size:1.08em;overflow-wrap:anywhere;margin:12px 0}
+</style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<style>@media(max-width:640px){.sec p,.sec li,.tbl td,.sec blockquote{font-size:16px}}</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
+</head>
+<body>
+<a class="skip" href="#main">본문으로 건너뛰기</a>
+<!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="요약 아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>요약 아카이브</a><span class="arc-crumb">x²을 쓰기까지 왜 1,877년이 걸렸나</span><span class="arc-meta"><time datetime="2026-10-19">2026년 10월 19일</time><a class="arc-tag" href="../index.html#tags=%EC%88%98%ED%95%99">#수학</a><a class="arc-tag" href="../index.html#tags=%EC%97%AD%EC%82%AC">#역사</a><a class="arc-src" href="https://yghnsim.github.io/Pages/why_did_it_take_1877_years_to_invent_x_squared.html" rel="noopener">원문 ↗</a></span></div></div>
+<!-- archive-header:end -->
+<div class="layout">
+<nav class="toc" aria-label="목차"><p class="toc-t">목차</p><ol>
+<li><a href="#s1"><span class="n">1</span>Z가 가장 많은 단어</a></li>
+<li><a href="#s2"><span class="n">2</span>아르키메데스와 디오판토스</a></li>
+<li><a href="#s3"><span class="n">3</span>코식 대수학의 이름들</a></li>
+<li><a href="#s4"><span class="n">4</span>수는 형용사였다</a></li>
+<li><a href="#s5"><span class="n">5</span>로버트 레코드의 삶</a></li>
+<li><a href="#s6"><span class="n">6</span>대륙의 실험과 빠진 밑</a></li>
+<li><a href="#s7"><span class="n">7</span>데카르트와 구문론</a></li>
+<li><a href="#s8"><span class="n">8</span>뉴턴과 불멸의 등호</a></li>
+<li><a href="#rv"><span class="n">9</span>복습</a></li>
+<li><a href="#s10"><span class="n">10</span>읽으며 걸린 곳</a></li></ol>
+<a class="orig" href="https://yghnsim.github.io/Pages/why_did_it_take_1877_years_to_invent_x_squared.html">원문 페이지 ↗</a></nav>
+<main id="main">
+<header class="hero">
+<span class="eyebrow">수학사 정리</span>
+<h1>x²을 쓰기까지 왜 1,877년이 걸렸나</h1>
+<p class="lead">지수 곱셈 법칙은 기원전 3세기 아르키메데스가 처음 적었지만, 지금 같은 지수 표기는 1637년 데카르트의 『기하학』에서야 자리 잡았습니다. 원문은 벤 시버슨(Ben Syversen)의 유튜브 영상을 바탕으로, 그 사이에 무엇이 막고 있었는지를 등호를 만든 로버트 레코드의 삶과 함께 따라갑니다.</p>
+</header>
+<nav class="toc-m" aria-label="목차"><details><summary>목차</summary><ol>
+<li><a href="#s1">1. Z가 가장 많은 단어</a></li><li><a href="#s2">2. 아르키메데스와 디오판토스</a></li><li><a href="#s3">3. 코식 대수학의 이름들</a></li><li><a href="#s4">4. 수는 형용사였다</a></li><li><a href="#s5">5. 로버트 레코드의 삶</a></li><li><a href="#s6">6. 대륙의 실험과 빠진 밑</a></li><li><a href="#s7">7. 데카르트와 구문론</a></li><li><a href="#s8">8. 뉴턴과 불멸의 등호</a></li><li><a href="#rv">9. 복습</a></li><li><a href="#s10">10. 읽으며 걸린 곳</a></li></ol></details></nav>
+
+<section class="sec" id="s1">
+<div class="sec-head"><span class="sec-num">1</span><div><h2>Z가 가장 많은 단어</h2><p class="sub">zenzizenzizenzic = x<sup>8</sup></p></div></div>
+<p>옥스퍼드 영어사전에서 Z가 가장 많은 단어는 <b>zenzizenzizenzic</b>입니다. 16글자에 Z가 6개입니다. 웨일스 출신 의사이자 수학자 <b>로버트 레코드</b>(Robert Recorde)가 1557년 대수학서 『지혜의 숫돌(The Whetstone of Witte)』에 썼고, "정사각형의 정사각형을 다시 정사각형으로 한 것"이라고 설명했습니다. 지금 말로는 8제곱입니다.</p>
+<p class="math">((x<sup>2</sup>)<sup>2</sup>)<sup>2</sup> = (x<sup>4</sup>)<sup>2</sup> = x<sup>8</sup></p>
+<p>이 단어는 레코드의 장난이 아니라 당시 독일과 이탈리아에서 쓰던 <b>코식 대수학</b>의 정식 이름이었습니다. 레코드는 영어로 산술과 대수학을 가르치려 했고, 그 과정에서 등호(=)를 만들었습니다. 그러나 감옥에서 죽기 전 마지막 책에서도 지수 표기는 풀지 못했습니다.</p>
+<div class="terms"><details><summary>지수 <span class="en">exponent</span></summary><p>밑을 몇 번 곱하는지 밑의 오른쪽 위에 작게 적는 수. x<sup>3</sup>의 3.</p></details>
+<details><summary>코식 대수학 <span class="en">Cossic algebra</span></summary><p>15~16세기 독일의 대수학 전통. 미지수를 '사물'(이탈리아어 cosa)이라 부른 데서 이름이 옴.</p></details></div>
+</section>
+
+<section class="sec" id="s2">
+<div class="sec-head"><span class="sec-num">2</span><div><h2>아르키메데스와 디오판토스</h2><p class="sub">첫 지수 법칙과 첫 단축 기호</p></div></div>
+<p>고대 그리스 수 체계는 1만(미리아드)이 기본 단위였고, 1억(미리아드의 미리아드, 10<sup>8</sup>)을 넘는 수를 셀 말이 없었습니다. <b>아르키메데스</b>(기원전 287~212년경)는 『모래알 셈』에서 우주를 채울 모래알 수를 어림하기 위해 큰 수를 세는 체계를 직접 만들었고, 결과는 지금 표기로 약 10<sup>63</sup>개였습니다.</p>
+<p>그 과정에서 그는 1, a, a<sup>2</sup>, a<sup>3</sup>, … 같은 <b>연속 비례</b>에서 두 항을 곱하면, 1에서 떨어진 자리 수를 더한 자리의 항이 된다는 것을 적었습니다. 기록에 남은 첫 지수 법칙입니다.</p>
+<p class="math">a<sup>m</sup> · a<sup>n</sup> = a<sup>m+n</sup> &nbsp;(예: a<sup>3</sup> · a<sup>4</sup> = a<sup>7</sup>, 3 + 4 = 7)</p>
+<p>하지만 반복 곱셈을 적을 기호가 없어 모두 기하학적 비례의 말로 풀어 써야 했습니다.</p>
+<p>약 500년 뒤 서기 3세기, 알렉산드리아의 <b>디오판토스</b>는 『산술』에서 미지수와 그 거듭제곱의 단축 기호를 썼습니다. 이름은 더하기로 지었습니다.</p>
+<table class="tbl stack">
+<thead><tr><th>지금</th><th>디오판토스</th><th>짜임</th></tr></thead>
+<tbody>
+<tr><th>x<sup>2</sup></th><td data-label="디오판토스">뒤나미스 Δ<sup>Υ</sup></td><td data-label="짜임">제곱</td></tr>
+<tr><th>x<sup>3</sup></th><td data-label="디오판토스">퀴보스 K<sup>Υ</sup></td><td data-label="짜임">세제곱</td></tr>
+<tr><th>x<sup>4</sup></th><td data-label="디오판토스">뒤나모뒤나미스 Δ<sup>Υ</sup>Δ</td><td data-label="짜임">2 + 2</td></tr>
+<tr><th>x<sup>5</sup></th><td data-label="디오판토스">뒤나모퀴보스 ΔK<sup>Υ</sup></td><td data-label="짜임">2 + 3</td></tr>
+<tr><th>x<sup>6</sup></th><td data-label="디오판토스">퀴보퀴보스 K<sup>Υ</sup>K</td><td data-label="짜임">3 + 3</td></tr>
+</tbody></table>
+<p>그의 책은 여러 번 사라졌다 다시 발견됐고, 미지수의 거듭제곱을 어떻게 다룰지는 이후 1,400년간 대수학의 중심 문제가 됐습니다.</p>
+<div class="terms"><details><summary>연속 비례 <span class="en">continued proportion</span></summary><p>이웃한 두 항의 비가 늘 같은 수열. 1, 2, 4, 8처럼 지금의 등비수열.</p></details>
+<details><summary>단축 기호 <span class="en">syncopated notation</span></summary><p>문장으로 쓰던 수학을 일부 약어로 줄여 쓴 표기. 완전한 기호 대수 이전 단계.</p></details></div>
+</section>
+
+<section class="sec" id="s3">
+<div class="sec-head"><span class="sec-num">3</span><div><h2>코식 대수학의 이름들</h2><p class="sub">māl에서 zenzic까지, 그리고 손계산</p></div></div>
+<p>텐비의 상인 집안에서 자란 레코드는 옥스퍼드와 케임브리지에서 공부한 뒤 런던으로 왔습니다. 당시 수학을 배우려면 라틴어를 읽어야 했습니다. 그의 영어 산술서 『기예의 기초(The Grounde of Artes)』(1543)는 150년 동안 영국 학생들의 기본 교재가 되어 49번 넘게 다시 찍혔고, 1557년 『지혜의 숫돌』은 영어로 쓴 첫 대수학서였습니다.</p>
+<p>그가 쓴 이름은 독일 코식 대수학을 영어로 옮긴 것이고, 뿌리는 아랍 대수학입니다. 9세기 알콰리즈미는 x<sup>2</sup>을 '재산'을 뜻하는 <b>māl</b>이라 불렀고, 이탈리아에서 재산 조사를 뜻하는 라틴어 census에서 온 <b>censo</b>로, 독일에서 <b>zensus</b>로, 레코드에게서 <b>zenzic</b>이 됐습니다.</p>
+<table class="tbl stack">
+<thead><tr><th>차수</th><th>이름</th><th>짜임</th></tr></thead>
+<tbody>
+<tr><th>x</th><td data-label="이름">Root, Thing</td><td data-label="짜임">미지수 자체</td></tr>
+<tr><th>x<sup>2</sup></th><td data-label="이름">Zenzic</td><td data-label="짜임">제곱</td></tr>
+<tr><th>x<sup>3</sup></th><td data-label="이름">Cubic</td><td data-label="짜임">세제곱</td></tr>
+<tr><th>x<sup>4</sup></th><td data-label="이름">Zenzizenzic</td><td data-label="짜임">제곱의 제곱, 2 × 2</td></tr>
+<tr><th>x<sup>5</sup></th><td data-label="이름">Sursolid</td><td data-label="짜임">쪼갤 수 없는 소수 차수</td></tr>
+<tr><th>x<sup>6</sup></th><td data-label="이름">Zenzicubic</td><td data-label="짜임">세제곱의 제곱, 2 × 3</td></tr>
+<tr><th>x<sup>7</sup></th><td data-label="이름">Second sursolid</td><td data-label="짜임">두 번째 소수 차수</td></tr>
+<tr><th>x<sup>8</sup></th><td data-label="이름">Zenzizenzizenzic</td><td data-label="짜임">2 × 2 × 2</td></tr>
+<tr><th>x<sup>9</sup></th><td data-label="이름">Cubicocubic</td><td data-label="짜임">3 × 3</td></tr>
+</tbody></table>
+<h3>왜 곱셈으로 이름을 지었나</h3>
+<p>디오판토스는 더하기(2 + 3 = 5)로 지었는데 코식 대수학은 곱하기(2 × 2 × 2 = 8)로 지었습니다. 이유는 손계산입니다. 당시에는 제곱근과 세제곱근을 손으로 뽑는 알고리즘이 있었습니다. 256의 제곱근은 16, 16의 제곱근은 4, 4의 제곱근은 2이니, 256은 제곱근을 세 번 뽑을 수 있는 zenzizenzizenzic 수입니다. 이름이 곧 근을 찾는 절차였습니다.</p>
+<p class="math">√√√256 = √√16 = √4 = 2</p>
+<p>문제는 2와 3으로 나눌 수 없는 5, 7, 11 같은 소수 차수입니다. 이것들은 <b>sursolid</b>, second sursolid 같은 이름을 따로 붙여야 했습니다. 이 대수학은 실용성은 없고 머리를 벼리려는 사람만 배우는, 요즘의 수학 올림피아드 같은 공부였습니다. 책 제목도 말장난입니다. 라틴어 cos(숫돌)가 대수학을 뜻하는 coss와 소리가 같아, 대수학 책이자 지혜를 가는 숫돌이 됩니다.</p>
+<div class="terms"><details><summary>거듭제곱근</summary><p>몇 번 곱해서 주어진 수가 되는 수. 8의 세제곱근은 2.</p></details>
+<details><summary>소수 <span class="en">prime</span></summary><p>1과 자기 자신으로만 나누어떨어지는 2 이상의 정수. 2, 3, 5, 7, 11.</p></details></div>
+</section>
+
+<section class="sec" id="s4">
+<div class="sec-head"><span class="sec-num">4</span><div><h2>수는 형용사였다</h2><p class="sub">종-수량 쌍과 "3시간 21분 13초"</p></div></div>
+<p>왜 그 뛰어난 수학자들이 "x 위에 작은 8을 쓰면 된다"를 못 했을까요. 원문은 수학사가 제프리 오크스(Jeffrey Oaks)의 연구를 들어 깊은 이유가 있었다고 말합니다. 17세기 전까지 수는 홀로 서는 추상이 아니라, 구체적인 무엇의 양을 꾸미는 <b>형용사</b>였습니다.</p>
+<p>'다스'를 생각하면 됩니다. 그냥 '다스'는 없고 '계란 한 다스'처럼 무엇과 짝을 이룰 때만 뜻이 있습니다. 이것을 <b>종-수량 쌍</b>이라고 부릅니다. 지금 3x는 "3 곱하기 x"지만, 그때의 '3 things'는 곱셈이 아니라 "정체 모를 사물 3개", 곧 액면가를 모르는 동전 세 닢이었습니다.</p>
+<p>그래서 거듭제곱마다 다른 '종'이었습니다. "두 제곱, 다섯 사물, 네 수"(지금의 2x<sup>2</sup> + 5x + 4)는 "3시간 21분 13초"처럼 단위가 다른 것을 나란히 둔 말이었고, 변환 없이 합칠 수 없었습니다. 거듭제곱끼리 곱하면 수량을 곱하는 것과 함께 종을 바꿔야 했고, 이를 위해 아버지와 고조할아버지의 관계를 찾듯 종 사이의 관계표를 따로 거쳐야 했습니다. 이름은 관계를 말할 뿐 바로 계산하게 해 주지는 않았습니다.</p>
+<div class="terms"><details><summary>종-수량 쌍 <span class="en">quantity-species pair</span></summary><p>수(수량)가 늘 특정한 종류의 대상(종)과 짝을 이룬다는 전근대의 수 개념.</p></details></div>
+</section>
+
+<section class="sec" id="s5">
+<div class="sec-head"><span class="sec-num">5</span><div><h2>로버트 레코드의 삶</h2><p class="sub">조폐국, 등호, 그리고 채무자 감옥</p></div></div>
+<h3>화폐 대개악과 브리스톨 조폐국</h3>
+<p>헨리 8세는 전쟁 비용을 대려고 은화의 순은 함량을 92.5%에서 25%까지 낮췄습니다(<b>화폐 대개악</b>, 1544~1551). 은화 표면에 구리가 비쳐 그는 '구리 코 영감'이라 불렸습니다. 조폐국 관리가 은을 빼돌리기 쉬웠고, 9세의 에드워드 6세가 즉위한 뒤 부패는 더 심해졌습니다. 브리스톨 조폐국의 윌리엄 셰링턴이 횡령으로 물러나자, 정부는 꼼꼼하고 정직하기로 이름난 레코드를 1549년 1월 감사관으로 앉혔습니다. 급여는 전임자의 4배였습니다.</p>
+<div class="terms"><details><summary>화폐 대개악 <span class="en">Great Debasement</span></summary><p>헨리 8세와 에드워드 6세 시기 은화의 귀금속 함량을 크게 줄여 차익을 챙긴 정책.</p></details></div>
+<h3>정육면체로 도는 모델</h3>
+<p>『지혜의 숫돌』에서 레코드는 독일식 이름보다 쉬운 그림도 제안합니다. 단위, 선(x), 정사각형(x<sup>2</sup>), 정육면체(x<sup>3</sup>)까지 간 뒤, 정육면체를 새 단위로 삼아 한 줄로 세운 '긴 정육면체', 정육면체로 만든 정사각형, 정육면체의 정육면체로 다시 돕니다. 이렇게 하면 새 이름 없이 끝없이 이어 갈 수 있습니다. 다만 곱셈으로 높은 차수를 만든다는 생각 자체는 디오판토스만큼 오래된 것이었습니다.</p>
+<h3>등호의 탄생</h3>
+<p>당시 책들은 "is equal to"를 끝없이 되풀이해 적었습니다. 레코드는 대신 길이가 같은 평행선 두 개를 그었습니다.</p>
+<blockquote>그리고 'is equal to'라는 말의 지루한 반복을 피하려고, 내가 작업할 때 자주 쓰듯 길이가 같은 한 쌍의 평행선, 곧 쌍둥이 선을 이렇게 쓰겠다: ======. 어떤 두 사물도 이보다 더 같을 수 없기 때문이다.<cite>로버트 레코드, 『지혜의 숫돌』(1557)</cite></blockquote>
+<h3>펨브룩 백작과 감옥</h3>
+<p>감사관이 된 지 7일 만에 적이 나타났습니다. 존 오브리가 "글도 모르는 미친 싸움꾼"이라 묘사한 펨브룩 백작 <b>윌리엄 허버트</b>입니다. 그는 레코드가 관리하던 제철소에서 왕에게 갈 물자를 가로채려 했고, 레코드가 거부하자 반역죄로 고발했습니다.</p>
+<p>1553년 에드워드 6세가 15세로 죽고 메리 1세가 조폐국 부패 척결에 나서자, 레코드는 허버트가 브리스톨과 더블린 조폐국에서 한 방해를 여왕에게 편지로 알렸습니다. 그러나 허버트의 힘은 더 커져 있었습니다. 허버트는 <b>1만 2,000파운드</b>의 명예훼손 소송을 냈고, 유력한 증인을 앞세워 <b>1,000파운드</b> 배상 판결을 받아 냈습니다. 급여를 제때 받지 못하던 레코드는 갚지 못해 런던 킹스 벤치 채무자 감옥에 갇혔습니다.</p>
+<p>『지혜의 숫돌』이 나온 1557년에 그는 이미 감옥에 있었던 것으로 보입니다. 1557~1558년 전염병이 돌던 중 그는 1558년 여름 숨졌고, 제대로 된 묘비도 없었습니다. 12년 뒤인 1570년, 유족은 아일랜드 조폐국 근무 대가로 1,000파운드를 받았습니다. 『기예의 기초』는 49판 넘게 찍혔지만, 등호가 실린 『지혜의 숫돌』은 단 한 번 인쇄됐습니다.</p>
+</section>
+
+<section class="sec" id="s6">
+<div class="sec-head"><span class="sec-num">6</span><div><h2>대륙의 실험과 빠진 밑</h2><p class="sub">문제는 지수 숫자가 아니라 밑이었다</p></div></div>
+<table class="tbl stack">
+<thead><tr><th>인물(연도)</th><th>무엇을 했나</th></tr></thead>
+<tbody>
+<tr><th>니콜라 슈케(1484)</th><td data-label="무엇을 했나">필사본 『삼부작』에서 차수를 위첨자로 쓰고(12<sup>2</sup>, 12<sup>3</sup>), 상수의 차수를 0으로 보았습니다. 원고는 1880년에야 출판됐습니다.</td></tr>
+<tr><th>미하엘 슈티펠(1544)</th><td data-label="무엇을 했나">『종합 산술』의 2의 거듭제곱 표 위에 차수를 적고 '드러난 수'라 불러, exponent라는 말이 생겼습니다.</td></tr>
+<tr><th>라파엘 봄벨리(1572)</th><td data-label="무엇을 했나">차수 숫자를 작은 호 안에 넣었습니다.</td></tr>
+<tr><th>시몬 스테빈(1585)</th><td data-label="무엇을 했나">차수 숫자에 동그라미를 쳤고(②), 동그라미 안 분수가 거듭제곱과 근 뽑기를 함께 나타낸다고 했습니다.</td></tr>
+</tbody></table>
+<p>숫자는 있었는데 왜 지금의 지수로 가지 못했을까요. <b>밑</b>이 없었기 때문입니다. 코식과 아바코 대수학은 미지수가 늘 하나뿐이라 이름을 붙일 필요가 없었습니다. 스테빈의 ②는 지수 2가 아니라 "제곱된 그 미지수"라는 낱말이었고, 3②는 3x<sup>2</sup>이었습니다. 이래서는 (a+b)<sup>2</sup>이나 2<sup>5</sup>처럼 아무 수나 식을 밑으로 쓸 수 없었습니다.</p>
+<h3>비에트, 1591년</h3>
+<p>프랑스 법률가 <b>프랑수아 비에트</b>는 기하 작도를 대수로 풀려 했습니다. 도형에는 아는 길이와 모르는 길이가 여럿 있으니, 그는 모든 양을 글자로 적었습니다. 모음(A, E, …)은 미지수, 자음(B, C, D, …)은 아는 양입니다. 좁은 문제를 풀려던 이 방법이 대수학을 바꿨습니다. 글자가 여럿이 되자 "어떤 글자의 제곱인가"를 적어야 했고(A quadratum, A cubum), 밑이 비로소 표기 안으로 들어왔습니다.</p>
+<div class="terms"><details><summary>밑 <span class="en">base</span></summary><p>거듭제곱에서 반복해서 곱하는 수나 식. x<sup>3</sup>의 x.</p></details>
+<details><summary>아바코 대수학</summary><p>중세 이탈리아 도시의 셈 선생(아바코 마스터)들이 가르치고 겨루던 실용 산술과 대수 전통.</p></details></div>
+</section>
+
+<section class="sec" id="s7">
+<div class="sec-head"><span class="sec-num">7</span><div><h2>데카르트와 구문론</h2><p class="sub">표기 규칙이 뜻을 이끌다</p></div></div>
+<p>몸이 약해 아침 11시까지 침대에서 생각하던 것으로 알려진 <b>르네 데카르트</b>는 당시 대수학을 "혼란스럽고 모호한 기술"이라 불렀습니다. 그는 1637년 『방법서설』의 부록 『기하학』에서 기하와 대수를 하나로 묶으며 새 표기를 정했습니다.</p>
+<ul class="tight">
+<li>알파벳 끝 글자(x, y, z)는 미지수, 앞 글자(a, b, c)는 정해지지 않은 계수입니다.</li>
+<li>호나 동그라미 대신 차수 숫자를 글자 뒤 조금 위에 썼습니다(x<sup>3</sup>, x<sup>4</sup>).</li>
+<li>다만 x<sup>2</sup>은 자주 <b>xx</b>로 썼습니다. 지면 폭이 같았기 때문입니다.</li>
+</ul>
+<p>그는 학자가 아니라 일반 독자를 위해 프랑스어로 썼지만, 예제의 중간 단계를 많이 건너뛰었습니다. 묻힐 뻔한 이 책은 네덜란드의 <b>프란스 판 스호텐</b>이 해설을 단 라틴어판(1649, 1659~1661)으로 유럽 학계에 퍼졌습니다.</p>
+<h3>구문론이 의미론을 이끈다</h3>
+<p>수학책이 소리 내어 외우는 책에서 눈으로 읽는 책으로 바뀌면서, 표기가 꼭 말로 되돌아갈 필요가 없어졌습니다. 그러자 표기 규칙(<b>구문론</b>)을 따라가면 원래의 뜻(<b>의미론</b>)을 넘어선 새 뜻이 나왔습니다.</p>
+<ul class="tight">
+<li><b>음수 지수</b>: 2<sup>3</sup> ÷ 2<sup>5</sup> = 8 ÷ 32 = 1/4인데, 나눗셈 규칙대로 지수를 빼면 2<sup>3−5</sup> = 2<sup>−2</sup>입니다. 따라서 2<sup>−2</sup> = 1/4이어야 합니다.</li>
+<li><b>분수 지수</b>: 거듭제곱의 거듭제곱은 지수를 곱하므로, (2<sup>a</sup>)<sup>2</sup> = 2<sup>1</sup>이 되려면 a = 1/2입니다. 따라서 2<sup>1/2</sup> = √2입니다.</li>
+</ul>
+<p>따로 다루던 근 뽑기가 분수 지수라는 한 지붕 아래로 들어왔습니다.</p>
+<div class="terms"><details><summary>구문론과 의미론</summary><p>구문론은 기호를 배열하고 다루는 규칙, 의미론은 그 기호가 가리키는 뜻.</p></details>
+<details><summary>해석기하학</summary><p>점과 도형을 좌표와 방정식으로 다뤄 기하 문제를 대수로 푸는 분야.</p></details></div>
+</section>
+
+<section class="sec" id="s8">
+<div class="sec-head"><span class="sec-num">8</span><div><h2>뉴턴과 불멸의 등호</h2><p class="sub">일반화자들과 100년 뒤의 부활</p></div></div>
+<p><b>존 월리스</b>는 1655년 『무한 산술』에서 곡선 아래 넓이(적분의 바탕)를 구하며 데카르트의 지수를 썼고, 지수가 분수나 무리수일 수도 있다고 시사했습니다. 1676년 6월 13일 <b>아이작 뉴턴</b>은 편지(제1서한)에서 유리수 지수 전반에 통하는 <b>일반화된 이항정리</b>를 내놓아, 지수를 "몇 번 곱했나"에서 떼어 냈습니다.</p>
+<p class="math">(1+x)<sup>r</sup> = 1 + rx + r(r−1)/2! · x<sup>2</sup> + r(r−1)(r−2)/3! · x<sup>3</sup> + …</p>
+<p>그 뒤 요한 베르누이와 레온하르트 오일러는 지수 자체가 연속값인 지수함수(a<sup>x</sup>, e<sup>x</sup>)로 나아갔고, 오일러는 허수 지수까지 들였습니다. 원문은 그 상징으로 e<sup>iπ</sup> + 1 = 0을 듭니다.</p>
+<h3>레코드의 등호가 살아남은 길</h3>
+<p>데카르트는 레코드의 등호를 몰라 라틴어 aequalis에서 왔을 법한 작은 갈고리 모양 기호를 썼습니다. 레코드의 평행선을 이은 사람은 <b>윌리엄 오트레드</b>입니다. 1631년 『수학의 열쇠』는 『지혜의 숫돌』을 밀어내고 영국의 표준 고급 교재가 됐는데, 이 책에 등호가 실렸습니다. 케임브리지 수업에 불만이던 청년 뉴턴은 판 스호텐의 데카르트와 오트레드의 책으로 독학했고, 그렇게 등호는 새 세대의 영국 수학자들에게 전해졌습니다. 레코드가 죽고 100년 뒤, 그의 두 평행선은 불멸이 됐습니다.</p>
+<div class="terms"><details><summary>이항정리</summary><p>(1+x)<sup>n</sup>을 x의 거듭제곱의 합으로 펼치는 공식. 뉴턴은 n이 분수나 음수일 때로 넓힘.</p></details>
+<details><summary>무한급수</summary><p>끝없이 이어지는 항들의 합. 일정한 값에 수렴하면 그 값을 나타냄.</p></details></div>
+</section>
+<section class="sec" id="rv">
+<div class="sec-head"><span class="sec-num">9</span><div><h2>복습</h2><p class="sub">본문 내용만으로 만든 암기 점검</p></div></div>
+<h3 class="rv-h">핵심 용어 카드</h3><p class="muted">카드를 누르면 뜻이 나옵니다.</p><div class="flips"><button type="button" class="flip" aria-expanded="false"><b>zenzizenzizenzic</b><span class="hint">뜻 보기</span><span class="m">x⁸. 제곱의 제곱의 제곱. 제곱근을 세 번 뽑을 수 있는 수.</span></button><button type="button" class="flip" aria-expanded="false"><b>연속 비례</b><span class="hint">뜻 보기</span><span class="m">1, a, a², a³…. 아르키메데스가 여기서 첫 지수 법칙을 적었습니다.</span></button><button type="button" class="flip" aria-expanded="false"><b>디오판토스식 이름</b><span class="hint">뜻 보기</span><span class="m">더하기로 지음. x⁵ = 뒤나모퀴보스(2 + 3).</span></button><button type="button" class="flip" aria-expanded="false"><b>코식식 이름</b><span class="hint">뜻 보기</span><span class="m">곱하기로 지음. 손으로 근을 뽑는 절차를 그대로 담음.</span></button><button type="button" class="flip" aria-expanded="false"><b>sursolid</b><span class="hint">뜻 보기</span><span class="m">2와 3으로 쪼갤 수 없는 소수 차수(x⁵). x⁷은 second sursolid.</span></button><button type="button" class="flip" aria-expanded="false"><b>종-수량 쌍</b><span class="hint">뜻 보기</span><span class="m">수는 무엇의 양을 꾸미는 형용사였다는 전근대의 수 개념.</span></button><button type="button" class="flip" aria-expanded="false"><b>3시간 21분 13초</b><span class="hint">뜻 보기</span><span class="m">2x² + 5x + 4가 단위가 다른 것을 나란히 둔 말이었다는 비유.</span></button><button type="button" class="flip" aria-expanded="false"><b>밑의 부재</b><span class="hint">뜻 보기</span><span class="m">미지수가 하나뿐이라 이름이 없었고, 그래서 일반 지수가 불가능했음.</span></button><button type="button" class="flip" aria-expanded="false"><b>비에트의 글자</b><span class="hint">뜻 보기</span><span class="m">모음은 미지수, 자음은 아는 양. 밑이 표기 안으로 들어옴.</span></button><button type="button" class="flip" aria-expanded="false"><b>구문론이 의미론을 이끈다</b><span class="hint">뜻 보기</span><span class="m">표기 규칙을 따르자 음수 지수와 분수 지수가 저절로 나옴.</span></button></div><div class="rv-tools"><button type="button" data-all="flip">모두 뒤집기</button></div><h3 class="rv-h">빈칸 채우기</h3><p class="muted">빈칸을 누르면 답이 나옵니다.</p><ol class="cloze"><li>알콰리즈미는 x²을 '재산'을 뜻하는 <button type="button" class="blank" data-a="māl" aria-label="빈칸, 눌러서 답 보기">?</button>이라 불렀습니다.</li><li>레코드는 등호로 길이가 같은 <button type="button" class="blank" data-a="평행선" aria-label="빈칸, 눌러서 답 보기">?</button> 두 개를 그었습니다.</li><li>허버트의 소송 끝에 레코드는 <button type="button" class="blank" data-a="1,000파운드" aria-label="빈칸, 눌러서 답 보기">?</button> 배상 판결을 받았습니다.</li><li>1591년 <button type="button" class="blank" data-a="비에트" aria-label="빈칸, 눌러서 답 보기">?</button>는 모든 양을 글자로 적었습니다.</li><li>2³ ÷ 2⁵ = 1/4이므로 2⁻² = <button type="button" class="blank" data-a="1/4" aria-label="빈칸, 눌러서 답 보기">?</button>입니다.</li><li>등호를 영국 새 세대에 전한 고리는 <button type="button" class="blank" data-a="오트레드" aria-label="빈칸, 눌러서 답 보기">?</button>의 『수학의 열쇠』입니다.</li></ol><div class="rv-tools"><button type="button" data-all="blank">답 모두 보기</button></div><h3 class="rv-h">5문항 퀴즈</h3><div id="quiz"><div class="q" data-a="1"><fieldset><legend class="qt">1. 코식 대수학이 거듭제곱 이름을 곱셈으로 지은 이유는?</legend><button type="button">외우기 쉬워서</button><button type="button">손으로 제곱근과 세제곱근을 뽑는 절차를 담으려고</button><button type="button">디오판토스를 따라서</button></fieldset><p class="ex" hidden aria-live="polite" data-e="256 → 16 → 4 → 2처럼 근을 세 번 뽑는 절차입니다."></p></div><div class="q" data-a="0"><fieldset><legend class="qt">2. 전근대에 '3 things'는 무엇이었나?</legend><button type="button">정체 모를 사물 3개</button><button type="button">3과 x의 곱</button><button type="button">x의 세제곱</button></fieldset><p class="ex" hidden aria-live="polite" data-e="수는 사물을 꾸미는 형용사였습니다."></p></div><div class="q" data-a="2"><fieldset><legend class="qt">3. 슈케, 슈티펠, 봄벨리, 스테빈의 표기에 빠져 있던 것은?</legend><button type="button">지수 숫자</button><button type="button">등호</button><button type="button">밑</button></fieldset><p class="ex" hidden aria-live="polite" data-e="미지수가 하나뿐이라 따로 이름이 없었습니다."></p></div><div class="q" data-a="1"><fieldset><legend class="qt">4. 데카르트가 x² 대신 자주 쓴 것은?</legend><button type="button">x²</button><button type="button">xx</button><button type="button">x②</button></fieldset><p class="ex" hidden aria-live="polite" data-e="지면 폭이 같았기 때문입니다."></p></div><div class="q" data-a="0"><fieldset><legend class="qt">5. 분수 지수 2^(1/2)이 √2인 근거는?</legend><button type="button">거듭제곱의 거듭제곱은 지수를 곱하므로</button><button type="button">실험으로 측정해서</button><button type="button">정의가 그래서</button></fieldset><p class="ex" hidden aria-live="polite" data-e="(2^a)² = 2¹이 되려면 a = 1/2입니다."></p></div><p class="score" id="score" aria-live="polite">점수: 0 / 5</p><div class="rv-tools"><button type="button" id="qreset">다시 풀기</button></div></div>
+</section>
+<section class="sec issues" id="s10">
+<div class="sec-head"><span class="sec-num">10</span><div><h2>읽으며 걸린 곳</h2><p class="sub">정리하면서 걸린 것. 결론에는 영향이 크지 않습니다</p></div></div>
+<details><summary>7가지 보기</summary>
+<ul>
+<li><b>1,877년</b>은 『모래알 셈』(기원전 240년 무렵)부터 1637년까지를 센 값으로 보입니다. 『모래알 셈』의 정확한 연대는 모르고(기원전 240~216년 사이로 추정), 영상 내레이션 자체도 "1,900년"이라고 말합니다. 어림값으로 읽는 편이 맞습니다.</li>
+<li><b>x²을 처음 쓴 사람</b>: 데카르트는 『기하학』에서 x<sup>3</sup>, x<sup>4</sup>는 위첨자로 썼지만 2제곱은 대개 xx로 썼습니다. 글자 밑에 숫자 지수를 붙이는 시도는 그보다 조금 앞선 에리곤(1634, a2 식)과 흄(1636, 로마 숫자 위첨자)에게도 있습니다. 제목의 "x²의 발명"은 데카르트가 세운 틀을 가리키는 말로 읽어야 합니다.</li>
+<li>원문은 레코드가 "인류 최초로" 영어 산술 교과서를 썼다고 하지만, 영상은 "최초 가운데 하나"라고 말합니다. 1537년 익명의 영어 산술서 『An Introduction for to Lerne to Recken』이 먼저 있습니다. 첫 영어 대수학서라는 점은 맞습니다.</li>
+<li>원문의 생몰년(1510~1558)과 "48세"는 출생을 1510년으로 본 것입니다. 흔히는 1512년경 출생으로 보아 46세 안팎입니다. 『지혜의 숫돌』 출간 때 이미 투옥돼 있었다는 대목도 영상은 "아마도"라고 말합니다.</li>
+<li>원문은 '숫돌' 말장난을 라틴어 cos로 설명하는데 이것이 맞습니다. 영상은 "독일어로 숫돌"이라고 말합니다. 또 원문은 슈티펠의 말을 numeri expositi로 적지만, 슈티펠이 실제 쓴 말은 exponens로 알려져 있습니다. sursolid의 어원도 "뚫을 수 없는"보다는 surd(라틴어 surdus, '귀먹은', 무리수)와 solid의 결합으로 보는 것이 일반적입니다.</li>
+<li>원문은 뉴턴이 일반화된 이항정리를 "증명했다"고 쓰지만, 뉴턴은 귀납과 계산으로 제시했고 엄밀한 증명은 19세기(아벨 등)에 나왔습니다. e<sup>iπ</sup> + 1 = 0도 오일러가 1748년 『무한 해석 입문』에 낸 공식에서 따라 나오지만, 그가 이 꼴로 직접 적었다는 기록은 확인되지 않습니다.</li>
+<li>영상에 있는 알카라지(11세기, 역수 거듭제곱 표)와 오렘(14세기, 분수 비례)은 원문에서 빠졌습니다. 원문이 이름을 든 제프리 오크스는 영상 받아쓰기에는 나오지 않습니다.</li>
+</ul></details>
+</section>
+
+<section class="sources" id="src">
+<h2>출처</h2>
+<p>원문: 「<a href="https://yghnsim.github.io/Pages/why_did_it_take_1877_years_to_invent_x_squared.html">지수 기호 하나를 얻기까지 왜 1,877년이나 걸렸는가</a>」, Pages, 2026. 10. 19. 원전: Ben Syversen, 「<a href="https://www.youtube.com/watch?v=uIQzkLTI2MU">Why Did It Take 1,877 Years to Invent x²?</a>」, YouTube, 2026. 9. (27분 20초). 레코드 인용은 『The Whetstone of Witte』(1557). 사례와 숫자는 원문에서 옮겼고, 영상 받아쓰기와 대조했습니다. 용어 설명은 정리하며 덧붙였습니다.</p>
+<p><a class="totop" href="#main">맨 위로</a></p>
+</section>
+</main></div>
+<script>(function(){
+var links=[].slice.call(document.querySelectorAll('nav.toc li a'));
+if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id)})}})},{rootMargin:'-20% 0px -70% 0px'});
+links.forEach(function(a){var s=document.querySelector(a.getAttribute('href'));if(s)io.observe(s)});}
+[].forEach.call(document.querySelectorAll('nav.toc-m a'),function(a){a.addEventListener('click',function(){a.closest('details').open=false})});
+})();</script>
+
+<script>(function(){
+function $$(q){return [].slice.call(document.querySelectorAll(q))}
+$$('.flip').forEach(function(b){b.onclick=function(){b.setAttribute('aria-expanded',b.getAttribute('aria-expanded')==='true'?'false':'true')}});
+function show(b){b.textContent=b.dataset.a;b.classList.add('shown');b.setAttribute('aria-label','답: '+b.dataset.a)}
+$$('.blank').forEach(function(b){b.onclick=function(){show(b)}});
+$$('[data-all]').forEach(function(t){t.onclick=function(){if(t.dataset.all==='flip')$$('.flip').forEach(function(b){b.setAttribute('aria-expanded','true')});else $$('.blank').forEach(show)}});
+var sc=0,done=0,qs=$$('#quiz .q');
+function upd(){document.getElementById('score').textContent='점수: '+sc+' / 5'+(done===5?' (끝)':'')}
+qs.forEach(function(q){var bs=[].slice.call(q.querySelectorAll('fieldset button')),ex=q.querySelector('.ex');
+bs.forEach(function(b,i){b.onclick=function(){var a=+q.dataset.a,ok=i===a;bs.forEach(function(x){x.disabled=true});bs[a].classList.add('right');if(!ok)b.classList.add('wrong');
+ex.hidden=false;ex.textContent=(ok?'맞았습니다. ':'아쉽습니다. ')+ex.dataset.e;if(ok)sc++;done++;upd();}})});
+document.getElementById('qreset').onclick=function(){sc=0;done=0;qs.forEach(function(q){q.querySelectorAll('fieldset button').forEach(function(x){x.disabled=false;x.className=''});var ex=q.querySelector('.ex');ex.hidden=true;ex.textContent=''});upd()};
+})();</script>
+
+
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">요약 아카이브</div><div class="arc-foot-title">x²을 쓰기까지 왜 1,877년이 걸렸나</div><div class="arc-foot-meta"><time datetime="2026-10-19">2026년 10월 19일</time><a class="arc-tag" href="../index.html#tags=%EC%88%98%ED%95%99">#수학</a><a class="arc-tag" href="../index.html#tags=%EC%97%AD%EC%82%AC">#역사</a> · <a href="https://yghnsim.github.io/Pages/why_did_it_take_1877_years_to_invent_x_squared.html" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body>
+</html>
