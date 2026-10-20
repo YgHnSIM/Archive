@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>기하학과 대수학의 위대한 번역: 데카르트와 페르마</title>
+<meta name="description" content="파푸스의 문제에서 데카르트의 단위 선분, 페르마의 의사의법까지">
+<style>
+:root{
+  --bg:#faf8f3; --paper:#ffffff; --ink:#1f2328; --muted:#5b6470; --line:#e6e1d6;
+  --accent:#c8553d; --accent-soft:#fbeee9; --link:#4a6b8a;
+  --radius:14px;
+  /* 페이지 고유 의미 색 */
+  --old:#6a5f4b; --old-soft:#f3efe6;
+  --algo:#a2452f; --algo-soft:#fbeee9;
+  --new:#3d5f80; --new-soft:#eaf0f6;
+  --sup:#55598f; --sup-soft:#efeff8;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR","Malgun Gothic","Gothic A1",system-ui,sans-serif;
+  font-size:17px;line-height:1.75;word-break:keep-all;overflow-wrap:break-word}
+@media(max-width:640px){body{font-size:16px}}
+a{color:var(--link)}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #9bb5cf;outline-offset:2px}
+.skip{position:absolute;left:0;top:0;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+.skip:focus{width:auto;height:auto;clip:auto;clip-path:none;left:8px;top:8px;background:#fff;padding:6px 10px;z-index:10}
+.layout{max-width:1180px;margin:0 auto;padding:12px 14px 48px}
+@media(min-width:1024px){.layout{display:grid;grid-template-columns:240px minmax(0,1fr);gap:32px;padding:28px 24px 64px}}
+main{min-width:0}
+
+/* 목차 */
+nav.toc{display:none}
+@media(min-width:1024px){
+  nav.toc{display:block;position:sticky;top:20px;align-self:start;max-height:calc(100vh - 40px);overflow:auto}
+  nav.toc-m{display:none}
+}
+nav.toc .toc-t{font-size:13px;color:var(--muted);letter-spacing:.06em;margin:0 0 10px;font-weight:700}
+nav.toc ol,nav.toc-m ol{list-style:none;margin:0;padding:0}
+nav.toc li a{display:flex;gap:8px;align-items:baseline;text-decoration:none;color:var(--muted);font-size:15px;line-height:1.45;padding:7px 10px;border-radius:8px;border-left:3px solid transparent}
+nav.toc li a .n{font-weight:700;font-size:13px;color:#8a919b;min-width:18px}
+nav.toc li a:hover{background:#f0ece3;color:var(--ink)}
+nav.toc li a.active{background:var(--paper);color:var(--ink);border-left-color:var(--accent);font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+nav.toc li a.active .n{color:var(--accent)}
+nav.toc .orig{display:block;margin-top:12px;padding:10px;border-top:1px solid var(--line);font-size:14px}
+nav.toc-m{margin:14px 0 0}
+nav.toc-m details{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius)}
+nav.toc-m summary{cursor:pointer;padding:10px 14px;font-weight:700;list-style:none}
+nav.toc-m summary::-webkit-details-marker{display:none}
+nav.toc-m summary::after{content:" ▾";color:var(--muted)}
+nav.toc-m ol{padding:0 14px 8px}
+nav.toc-m li a{display:block;padding:8px 0;border-top:1px solid var(--line);text-decoration:none;color:var(--ink)}
+
+/* 머리 */
+.hero{padding:22px 4px 6px}
+.eyebrow{display:inline-block;font-size:13px;font-weight:700;letter-spacing:.04em;color:var(--accent);background:var(--accent-soft);padding:4px 10px;border-radius:999px}
+h1{font-size:clamp(28px,4.4vw,44px);line-height:1.25;margin:14px 0 12px;letter-spacing:-.02em}
+.lead{font-size:18px;color:var(--muted);margin:0 0 18px}
+@media(max-width:640px){.lead{font-size:17px}}
+.info{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.info p{margin:0 0 12px;font-size:16px}
+.cta{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;text-align:center;
+  background:var(--accent);color:#fff;text-decoration:none;font-weight:700;padding:13px 16px;border-radius:12px;font-size:17px}
+.cta:hover{background:#ad4430}
+.cta small{font-weight:500;font-size:14px;opacity:.95}
+.info .meta{font-size:14px;color:var(--muted);margin:12px 0 0}
+
+/* 절 */
+section.sec{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:20px 18px;margin-top:18px;scroll-margin-top:12px}
+@media(min-width:640px){section.sec{padding:28px 30px}}
+.sec-head{display:flex;gap:14px;align-items:flex-start;margin-bottom:10px}
+.sec-num{flex:none;width:36px;height:36px;border-radius:12px;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:800;font-size:16px;margin-top:3px}
+h2{font-size:clamp(23px,3vw,30px);line-height:1.3;margin:0;letter-spacing:-.015em}
+.sub{margin:4px 0 0;color:var(--muted);font-size:15px;line-height:1.5}
+.srcs{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 12px}
+.src{display:inline-block;font-size:14px;text-decoration:none;border:1px solid var(--line);padding:3px 11px;border-radius:999px;color:var(--link);background:#fdfcf9}
+.src:hover{border-color:var(--link)}
+h3{font-size:19px;line-height:1.4;margin:22px 0 6px}
+p{margin:8px 0}
+.muted{color:var(--muted)}
+.tag{display:inline-block;font-size:13px;font-weight:700;line-height:1.5;padding:0 7px;border-radius:6px;background:var(--sup-soft);color:var(--sup);vertical-align:.08em;margin-left:3px;white-space:nowrap}
+.tag.int{background:#efebe2;color:#4f5763}
+blockquote{margin:16px 0;padding:14px 18px;background:#fdfcf9;border-left:5px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;font-size:16.5px;line-height:1.7}
+blockquote cite{display:block;font-style:normal;color:var(--muted);font-size:14px;margin-top:6px}
+.callout{background:#f4f1ea;border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:14px 0;font-size:16px}
+.callout b.t{display:block;margin-bottom:2px}
+.callout.sup{background:var(--sup-soft);border-color:#d9daee}
+ul.tight{margin:6px 0;padding-left:20px}
+ul.tight li{margin:5px 0}
+
+/* 핵심 3줄 */
+.thesis{list-style:none;margin:6px 0 0;padding:0;counter-reset:th}
+.thesis li{counter-increment:th;position:relative;padding:12px 14px 12px 50px;border:1px solid var(--line);border-radius:12px;margin:10px 0;background:#fdfcf9}
+.thesis li::before{content:counter(th);position:absolute;left:14px;top:14px;width:26px;height:26px;border-radius:8px;background:var(--ink);color:#fff;font-weight:700;text-align:center;line-height:26px;font-size:14px}
+.thesis strong{display:block}
+
+/* 6단계 */
+.steps{display:grid;grid-template-columns:1fr;gap:6px;margin:10px 0 0;padding:0;list-style:none}
+@media(min-width:760px){.steps{grid-template-columns:1fr 1fr}}
+.steps li{display:flex;gap:10px;align-items:baseline;border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:16px;line-height:1.6}
+.steps b{flex:none;font-size:14px;color:var(--accent);min-width:58px}
+.steps a{font-size:14px;white-space:nowrap}
+
+/* 용어 */
+.terms{display:grid;grid-template-columns:1fr;gap:8px;margin-top:10px}
+@media(min-width:760px){.terms{grid-template-columns:1fr 1fr}}
+.terms details{border:1px solid var(--line);border-radius:10px;background:#fdfcf9}
+.terms summary{cursor:pointer;padding:9px 12px;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:8px}
+.terms summary::-webkit-details-marker{display:none}
+.terms summary::after{content:"＋";color:var(--muted);font-weight:400}
+.terms details[open] summary::after{content:"－"}
+.terms details p{margin:0;padding:0 12px 10px;font-size:16px;line-height:1.65}
+.terms .en{font-weight:400;color:var(--muted);font-size:14px}
+
+/* 타임라인 */
+.tl{list-style:none;margin:12px 0 0;padding:0 0 0 18px;border-left:3px solid var(--line)}
+.tl li{position:relative;margin:0 0 16px;padding-left:10px}
+.tl li::before{content:"";position:absolute;left:-27px;top:7px;width:15px;height:15px;border-radius:50%;background:#fff;border:3px solid var(--ink)}
+.tl li.ctx::before{border-color:#b3ab9b}
+.tl .date{font-weight:800;font-size:16px}
+.case,.tl .case{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;background:#efebe2;padding:1px 6px;border-radius:6px;white-space:nowrap}
+.tl .txt{font-size:16px;margin:2px 0 0}
+.three{display:grid;grid-template-columns:1fr;gap:8px;margin:12px 0}
+@media(min-width:760px){.three{grid-template-columns:repeat(3,1fr)}}
+.three div{border:1px solid var(--line);border-radius:12px;padding:10px 14px;background:#fdfcf9;font-size:16px;line-height:1.6}
+.three div b{display:block;font-size:17px}
+.three div .yr{display:inline-block;font-size:13px;font-weight:800;color:#fff;background:var(--ink);border-radius:6px;padding:0 7px;margin-bottom:4px}
+
+/* 카드 */
+.cards{display:grid;grid-template-columns:1fr;gap:10px;margin:10px 0}
+@media(min-width:800px){.cards{grid-template-columns:repeat(3,1fr)}}
+.card{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:#fdfcf9;font-size:16px;line-height:1.65}
+.card b.h{display:block;font-size:17px;margin-bottom:2px}
+.card .k{display:inline-block;font-size:13px;font-weight:800;border-radius:6px;padding:0 7px;margin-bottom:4px;background:var(--algo-soft);color:var(--algo)}
+.card.n .k{background:var(--new-soft);color:var(--new)}
+.card.o .k{background:var(--old-soft);color:var(--old)}
+.two{display:grid;gap:12px}
+@media(min-width:800px){.two{grid-template-columns:1fr 1fr}}
+.panel{border:1px solid var(--line);border-radius:12px;padding:12px 16px;background:#fdfcf9}
+.panel h3{margin-top:4px}
+.panel p,.panel li{font-size:16px}
+
+/* 도식 */
+figure.dia{margin:16px 0;padding:14px;border:1px solid var(--line);border-radius:var(--radius);background:#fdfcf9}
+figure.dia svg{display:block;width:100%;max-width:460px;height:auto;margin:0 auto}
+@media(max-width:640px){figure.dia{padding:8px 2px;margin-left:-8px;margin-right:-8px}}
+figure.dia figcaption{font-size:14px;color:var(--muted);margin-top:8px;text-align:center;line-height:1.55}
+
+/* 배달 기사 토글 */
+.seg{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 0}
+.seg button{font:inherit;font-size:15px;font-weight:700;flex:1 1 140px;border:1.5px solid var(--line);background:#fff;color:var(--muted);border-radius:10px;padding:9px 12px;cursor:pointer}
+.seg button[aria-pressed="true"].o{border-color:var(--old);background:var(--old-soft);color:var(--old)}
+.seg button[aria-pressed="true"].n{border-color:var(--new);background:var(--new-soft);color:var(--new)}
+.lens{border:1.5px solid var(--line);border-radius:12px;padding:12px 16px;margin-top:8px;font-size:16px}
+.lens.o{border-color:var(--old);background:var(--old-soft)}
+.lens.n{border-color:var(--new);background:var(--new-soft)}
+.lens ul{margin:6px 0;padding-left:20px}
+.lens p.v{font-weight:800;margin:8px 0 0}
+
+/* 표 */
+.tbl{width:100%;border-collapse:collapse;font-size:16px;line-height:1.6;margin-top:10px}
+.tbl th,.tbl td{border:1px solid var(--line);padding:10px 11px;vertical-align:top;text-align:left}
+.tbl thead th{background:#f4f1ea;font-size:15px}
+.tbl tbody th{background:#fbf9f4;font-weight:700}
+.tbl td.nw{background:#f5f8fb}
+@media(max-width:760px){
+  .stack thead{position:absolute;left:0;top:0;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+  .stack,.stack tbody,.stack tr,.stack th,.stack td{display:block;width:100%}
+  .stack tr{border:1px solid var(--line);border-radius:12px;margin:0 0 12px;overflow:hidden}
+  .stack th,.stack td{border:0;border-top:1px solid var(--line)}
+  .stack tbody th{border-top:0;background:#f4f1ea}
+  .stack td::before{content:attr(data-label);display:block;font-size:13.5px;font-weight:800;color:var(--muted);margin-bottom:2px}
+  .stack td.nw::before{color:var(--new)}
+}
+
+/* 추정 흐름 */
+.flow{list-style:none;margin:12px 0;padding:0;display:grid;gap:8px}
+@media(min-width:800px){.flow{grid-template-columns:repeat(3,1fr)}}
+.flow li{border:1.5px solid var(--line);border-radius:12px;padding:10px 14px;background:#fff;font-size:16px;line-height:1.6;position:relative}
+.flow li b{display:block;font-size:16px}
+.flow li.s1{border-color:#b9a98c}
+.flow li.s2{border-color:var(--new);background:var(--new-soft)}
+.flow li.s3{border-color:var(--algo);background:var(--algo-soft)}
+.flow .who{display:inline-block;font-size:13px;font-weight:800;color:var(--muted)}
+
+/* 오해 카드 */
+.myths{display:grid;grid-template-columns:1fr;gap:10px;margin-top:10px}
+@media(min-width:800px){.myths{grid-template-columns:1fr 1fr}}
+.myth{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:#fdfcf9}
+.myth .say{font-weight:700;margin:0;font-size:16.5px}
+.myth .say::before{content:"흔한 말 ";font-size:13px;font-weight:800;color:var(--algo);background:var(--algo-soft);border-radius:6px;padding:0 6px;margin-right:4px;vertical-align:.08em}
+.myth button{font:inherit;font-size:15px;margin-top:8px;border:1px solid var(--line);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link)}
+.myth .ans{margin:8px 0 0;padding:8px 10px;border-radius:8px;background:var(--new-soft);font-size:16px}
+.myth .ans .ref{display:block;font-size:13.5px;color:var(--muted);margin-top:2px}
+.mcount{font-size:15px;color:var(--muted);margin:10px 0 0}
+button.reset{font:inherit;font-size:15px;border:1px solid var(--line);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;margin-left:6px}
+
+.sources{margin-top:18px;padding:18px;border-top:1px solid var(--line)}
+.sources h2{font-size:20px}
+.sources p{font-size:16px}
+.totop{display:inline-block;margin-top:6px;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:15px;background:#efebe2;padding:1px 5px;border-radius:5px}
+pre.code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;background:#f4f1ea;border:1px solid var(--line);border-radius:10px;padding:10px 12px;overflow-x:auto;max-width:100%;line-height:1.5;white-space:pre}
+.v{display:inline-block;font-size:13px;font-weight:800;border-radius:6px;padding:0 7px;white-space:nowrap;vertical-align:.08em}
+.v.ok{background:#e6f1ea;color:#2f6b45}
+.v.mostly{background:#eaf0f6;color:#3d5f80}
+.v.part{background:#fbeee9;color:#a2452f}
+.issues details{border:1px solid var(--line);border-radius:10px;background:#fdfcf9;margin:8px 0}
+.issues summary{cursor:pointer;padding:10px 12px;font-weight:700;line-height:1.5}
+.issues .no{font-size:13px;color:var(--muted);margin-right:4px}
+.issues details p{margin:0;padding:0 12px 12px;font-size:16px}
+.q{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:10px 0;background:#fdfcf9}
+.q p.qt{font-weight:700;margin:0 0 8px}
+.q button{display:block;width:100%;text-align:left;font:inherit;font-size:16px;border:1.5px solid var(--line);background:#fff;border-radius:10px;padding:8px 12px;margin:6px 0;cursor:pointer;color:var(--ink)}
+.q button.right{border-color:#2f6b45;background:#e6f1ea}
+.q button.wrong{border-color:#a2452f;background:#fbeee9}
+.q .ex{margin:8px 0 0;font-size:16px;padding:8px 10px;border-radius:8px;background:var(--new-soft)}
+
+.go{margin:.4em 0 0;font-size:15px}
+.calc{border:1px solid var(--line);border-radius:12px;background:#fff;padding:12px 14px;margin:14px 0}
+.calc label{display:block;font-weight:700;font-size:15px}
+.calc input[type=range]{width:100%;margin:10px 0}
+.calc .out{font-size:17px}.calc .out b{color:var(--accent)}
+.bar{height:14px;border-radius:7px;background:#e6e1d6;position:relative;overflow:hidden;margin:8px 0}
+.bar i{position:absolute;left:0;top:0;bottom:0;background:#4a6b8a}
+.bar i.over{background:#c8553d}
+.bar s{position:absolute;top:0;bottom:0;width:2px;background:#1f2328}
+.calc .note{font-size:14px;color:var(--muted);margin:.5em 0 0}
+.el{list-style:none;padding:0;margin:12px 0}
+.el li{border:1px solid var(--line);border-left:4px solid var(--link);border-radius:12px;background:#fff;padding:10px 14px;margin:8px 0}
+.el li b{display:block}
+.el li span{display:block;font-size:15px;color:var(--muted)}
+.issues ul{margin:.4em 0;padding-left:1.2em}.issues li{font-size:15px;margin:.3em 0}
+
+/* 복습 */
+.rv-h{font-size:19px;margin:22px 0 6px}
+.flips{display:grid;grid-template-columns:1fr;gap:8px;margin:10px 0}
+@media(min-width:640px){.flips{grid-template-columns:1fr 1fr}}
+.flip{font:inherit;text-align:left;width:100%;border:1.5px solid var(--line);background:#fdfcf9;border-radius:12px;padding:10px 14px;cursor:pointer;color:var(--ink);min-height:64px}
+.flip b{display:block;font-size:17px}
+.flip .m{display:none;font-size:16px;line-height:1.6;margin-top:4px}
+.flip .hint{font-size:13px;color:var(--muted)}
+.flip[aria-expanded="true"]{border-color:var(--new);background:var(--new-soft)}
+.flip[aria-expanded="true"] .m{display:block}
+.flip[aria-expanded="true"] .hint{display:none}
+.cloze{list-style:none;margin:10px 0;padding:0}
+.cloze li{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:8px 0;background:#fdfcf9;font-size:16px;line-height:1.8}
+.blank{font:inherit;font-size:16px;border:0;border-bottom:2px dashed var(--accent);background:var(--accent-soft);color:var(--accent);border-radius:6px 6px 0 0;padding:0 8px;cursor:pointer;min-width:4.5em}
+.blank.shown{border-bottom-style:solid;background:var(--new-soft);color:var(--new);font-weight:700}
+.rv-tools{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.rv-tools button{font:inherit;font-size:15px;border:1px solid var(--line);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link)}
+.q fieldset{border:0;margin:0;padding:0}
+.q legend{font-weight:700;padding:0;margin:0 0 8px}
+.q button[disabled]{cursor:default;opacity:1}
+.score{font-size:17px;font-weight:800;margin:10px 0 0}
+sup,sub{font-size:max(.75em,13px);line-height:0}
+.math{text-align:center;font-size:1.08em;overflow-wrap:anywhere;margin:12px 0}
+</style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<style>@media(max-width:640px){.sec p,.sec li,.tbl td,.sec blockquote{font-size:16px}}</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
+</head>
+<body>
+<a class="skip" href="#main">본문으로 건너뛰기</a>
+<!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="요약 아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>요약 아카이브</a><span class="arc-crumb">기하학과 대수학의 위대한 번역: 데카르트와 페르마</span><span class="arc-meta"><time datetime="2026-10-20">2026년 10월 20일</time><a class="arc-tag" href="../index.html#tags=%EC%88%98%ED%95%99%EC%82%AC">#수학사</a><a class="arc-tag" href="../index.html#tags=%ED%95%B4%EC%84%9D%EA%B8%B0%ED%95%98%ED%95%99">#해석기하학</a><a class="arc-tag" href="../index.html#tags=%EB%AF%B8%EC%A0%81%EB%B6%84">#미적분</a><a class="arc-src" href="https://yghnsim.github.io/Pages/the_great_mathematical_translation.html" rel="noopener">원문 ↗</a></span></div></div>
+<!-- archive-header:end -->
+<div class="layout">
+<nav class="toc" aria-label="목차"><p class="toc-t">목차</p><ol>
+<li><a href="#s1"><span class="n">1</span>원의 신분증</a></li>
+<li><a href="#s2"><span class="n">2</span>아폴로니우스의 증상</a></li>
+<li><a href="#s3"><span class="n">3</span>파푸스의 문제와 차원의 벽</a></li>
+<li><a href="#s4"><span class="n">4</span>데카르트의 단위 선분</a></li>
+<li><a href="#s5"><span class="n">5</span>반대편의 페르마</a></li>
+<li><a href="#s6"><span class="n">6</span>접선 전쟁과 엽선</a></li>
+<li><a href="#s7"><span class="n">7</span>뉴턴과 라이프니츠</a></li>
+<li><a href="#s8"><span class="n">8</span>스마트폰 속 17세기</a></li>
+<li><a href="#rv"><span class="n">9</span>복습</a></li>
+<li><a href="#s10"><span class="n">10</span>읽으며 걸린 곳</a></li></ol>
+<a class="orig" href="https://yghnsim.github.io/Pages/the_great_mathematical_translation.html">원문 페이지 ↗</a></nav>
+<main id="main">
+<header class="hero">
+<span class="eyebrow">수학사 정리</span>
+<h1>기하학과 대수학의 위대한 번역: 데카르트와 페르마</h1>
+<p class="lead">곡선 위의 모든 점에 (x, y)라는 두 숫자를 붙이면, 곡선과 방정식은 같은 것을 다른 언어로 쓴 것이 됩니다. 고대의 기하학자들은 이 일을 하지 못했고, 그래서 한 궤적 문제가 1,300년 동안 풀리지 않았습니다. 17세기 데카르트와 페르마가 양쪽에서 이 다리를 놓았고, 그 결과가 미적분과 오늘의 스마트폰 화면까지 이어집니다.</p>
+</header>
+<nav class="toc-m" aria-label="목차"><details><summary>목차</summary><ol>
+<li><a href="#s1">1. 원의 신분증</a></li><li><a href="#s2">2. 아폴로니우스의 증상</a></li><li><a href="#s3">3. 파푸스의 문제와 차원의 벽</a></li><li><a href="#s4">4. 데카르트의 단위 선분</a></li><li><a href="#s5">5. 반대편의 페르마</a></li><li><a href="#s6">6. 접선 전쟁과 엽선</a></li><li><a href="#s7">7. 뉴턴과 라이프니츠</a></li><li><a href="#s8">8. 스마트폰 속 17세기</a></li><li><a href="#rv">9. 복습</a></li><li><a href="#s10">10. 읽으며 걸린 곳</a></li></ol></details></nav>
+
+<section class="sec" id="s1">
+<div class="sec-head"><span class="sec-num">1</span><div><h2>원의 신분증</h2><p class="sub">따로 놀던 두 언어</p></div></div>
+<p>지도 앱에서 한 지점을 누르면 위도 37.5665° N, 경도 126.9780° E 같은 두 숫자가 나옵니다. 지구 위 어떤 다른 지점도 이 조합을 갖지 않는 고유한 신분증입니다.</p>
+<p>곡선 위 모든 점에 이런 신분증을 주면, 반지름 1인 원은 한 줄의 식으로 압축됩니다.</p>
+<p class="math">x<sup>2</sup> + y<sup>2</sup> = 1</p>
+<p>원 위의 모든 점은 이 식을 만족하고, 원 밖이나 안의 점은 하나도 만족하지 않습니다. 식이 곧 다른 언어로 쓴 원입니다. 그러나 오랫동안 <b>기하학</b>은 공간을 보았지만 계산할 도구가 없었고, <b>대수학</b>은 계산했지만 그것이 어떤 모양인지 보지 못했습니다. 원문은 이를 눈을 가린 화가와 붓이 없는 계산기에 빗댑니다.</p>
+<div class="terms"><details><summary>좌표</summary><p>기준선에서 잰 거리 두 개(x, y)로 평면 위 한 점의 위치를 나타낸 순서쌍.</p></details>
+<details><summary>해석기하학</summary><p>점과 곡선을 좌표와 방정식으로 다뤄 기하 문제를 대수로 푸는 분야.</p></details></div>
+</section>
+
+<section class="sec" id="s2">
+<div class="sec-head"><span class="sec-num">2</span><div><h2>아폴로니우스의 증상</h2><p class="sub">고대 기하학의 정점과 한계</p></div></div>
+<p>페르가의 <b>아폴로니우스</b>(기원전 262~190년경)는 『원뿔곡선론』에서 원뿔을 평면으로 자를 때 나오는 곡선을 정리했습니다. 자르는 각도에 따라 원, 타원, 포물선, 쌍곡선이 나옵니다.</p>
+<table class="tbl stack">
+<thead><tr><th>곡선</th><th>자르는 방식</th><th>그리스어 뜻</th></tr></thead>
+<tbody>
+<tr><th>타원</th><td data-label="자르는 방식">모선보다 완만하게</td><td data-label="그리스어 뜻">ἔλλειψις, 모자람</td></tr>
+<tr><th>포물선</th><td data-label="자르는 방식">모선과 평행하게</td><td data-label="그리스어 뜻">παραβολή, 맞춰 댐</td></tr>
+<tr><th>쌍곡선</th><td data-label="자르는 방식">모선보다 가파르게</td><td data-label="그리스어 뜻">ὑπερβολή, 넘침</td></tr>
+</tbody></table>
+<p>그는 곡선 위 점에서 축까지 내린 선분과 꼭짓점까지 거리 사이의 고유한 비례를 밝혔고, 그리스인은 이를 곡선의 <b>증상</b>(symptōma)이라 불렀습니다. 포물선의 증상을 지금 식으로 옮기면 y<sup>2</sup> = px(p는 통경)입니다.</p>
+<p>그래도 해석기하학은 열리지 않았습니다. 첫째, 기호가 없어 이 관계를 "축에 그은 선분 위의 정사각형은 꼭짓점까지의 선분과 통경으로 만든 직사각형과 같다" 같은 긴 문장으로 써야 했습니다. 둘째, 모든 선분이 이미 있는 도형 안에 묶여 있었고, 평면 전체에 독립된 좌표축을 깔아 두 수로 점을 가리키는 생각이 없었습니다. 그래서 "어떤 관계식이 어떤 곡선을 그리는가"라는 반대 방향의 질문을 하지 못했습니다.</p>
+<div class="terms"><details><summary>원뿔곡선</summary><p>원뿔을 평면으로 자른 단면의 곡선. 원, 타원, 포물선, 쌍곡선.</p></details>
+<details><summary>통경 <span class="en">latus rectum</span></summary><p>원뿔곡선의 초점을 지나 축에 수직인 현. 포물선 y² = px에서 길이 p.</p></details></div>
+</section>
+
+<section class="sec" id="s3">
+<div class="sec-head"><span class="sec-num">3</span><div><h2>파푸스의 문제와 차원의 벽</h2><p class="sub">4선 궤적과 동차성의 법칙</p></div></div>
+<p>서기 320년경 알렉산드리아의 <b>파푸스</b>는 『수학 집성』 제7권에 고대인이 끝내 다 풀지 못한 궤적 문제를 남겼습니다. 평면에 고정된 직선 네 개가 있고, 움직이는 점 P에서 각 직선까지의 거리(주어진 각도로 잰 거리)를 d<sub>1</sub>~d<sub>4</sub>라 할 때, 다음을 만족하는 P의 자취는 무엇인가.</p>
+<p class="math">(d<sub>1</sub> · d<sub>2</sub>) ÷ (d<sub>3</sub> · d<sub>4</sub>) = k &nbsp;(k는 상수)</p>
+<p>파푸스는 유클리드와 아폴로니우스도 이 문제를 완전히 풀지 못했다고 적었습니다. 더 큰 문제는 직선 수를 늘릴 때였습니다.</p>
+<table class="tbl stack">
+<thead><tr><th>직선 수</th><th>양변</th><th>그리스식 해석</th></tr></thead>
+<tbody>
+<tr><th>4개</th><td data-label="양변">길이 2개의 곱</td><td data-label="그리스식 해석">직사각형 넓이의 비교</td></tr>
+<tr><th>6개</th><td data-label="양변">길이 3개의 곱</td><td data-label="그리스식 해석">직육면체 부피의 비교</td></tr>
+<tr><th>8개</th><td data-label="양변">길이 4개의 곱</td><td data-label="그리스식 해석">4차원 "초입체", 존재하지 않음</td></tr>
+</tbody></table>
+<p>파푸스는 세 차원을 넘는 입체는 없다며 넷 이상의 선분 곱을 논하는 것을 감각으로 그릴 수 없는 일로 여겼습니다. 원문은 이후 1,300년 동안 이 문제가 봉인됐다고 씁니다.</p>
+<h3>동차성의 법칙</h3>
+<p>원문은 이 벽의 뿌리를 <b>동차성의 법칙</b>에서 찾습니다. 기원전 5세기 피타고라스 학파는 한 변이 1인 정사각형의 대각선 √2가 정수의 비로 나타나지 않는다는 것을 발견했습니다. 그 뒤 그리스 수학은 띄엄띄엄한 '수'보다 연속적인 '크기'를 토대로 삼았고, 곱셈은 셈이 아니라 차원이 올라가는 사건이 됐습니다.</p>
+<ul class="tight">
+<li>길이 × 길이 = 넓이(L<sup>2</sup>), 넓이 × 길이 = 부피(L<sup>3</sup>).</li>
+<li>차원이 다른 크기는 더하거나 뺄 수 없습니다. 길이에 넓이를 더하는 것은 사과에 시간을 더하는 것과 같았습니다.</li>
+</ul>
+<p>1591년 문자로 기호 대수를 연 <b>비에트</b>도 이 법칙을 지켰습니다. 그에게 A<sup>2</sup>은 넓이, A<sup>3</sup>은 입체, A<sup>4</sup>는 그릴 수 없는 차원이었습니다.</p>
+<div class="terms"><details><summary>궤적 <span class="en">locus</span></summary><p>주어진 조건을 만족하는 점들이 이루는 도형.</p></details>
+<details><summary>무리수</summary><p>두 정수의 비로 나타낼 수 없는 수. √2, π.</p></details>
+<details><summary>동차성의 법칙</summary><p>차원(차수)이 같은 양끼리만 더하고 비교할 수 있다는 규칙.</p></details></div>
+</section>
+
+<section class="sec" id="s4">
+<div class="sec-head"><span class="sec-num">4</span><div><h2>데카르트의 단위 선분</h2><p class="sub">곱해도 선분으로 남는다</p></div></div>
+<p>1631년 늦가을, 라이덴 대학의 수학·아랍어 교수 <b>야코뷔스 골리우스</b>가 35세의 <b>르네 데카르트</b>(1596~1650)에게 파푸스의 문제를 건넸습니다. 데카르트는 1619년 울름 근처 난로방에서 기하와 대수를 하나의 보편학으로 묶을 수 있다는 확신을 얻은 터였습니다.</p>
+<p>그는 "왜 두 선분을 곱하면 꼭 넓이여야 하는가"를 물었습니다. 기준 길이 하나를 정해 <b>단위 선분 1</b>이라 부르고, 닮은 삼각형으로 곱을 작도했습니다.</p>
+<ol class="tight">
+<li>한 점 O에서 만나는 두 직선을 긋습니다.</li>
+<li>한 직선에 OA = 1, OB = a를, 다른 직선에 OC = b를 잡습니다.</li>
+<li>A와 C를 잇고, B를 지나며 AC와 평행한 직선을 그어 다른 직선과 만나는 점을 D라 합니다.</li>
+<li>닮음에서 1 : a = b : OD이므로 OD = a · b입니다.</li>
+</ol>
+<p>a와 b의 곱은 넓이가 아니라 또 하나의 선분입니다. 같은 방법으로 x<sup>2</sup>, x<sup>3</sup>, 파푸스가 있을 수 없다고 한 x<sup>4</sup>까지 모두 선분입니다. 데카르트는 『기하학』(1637)에서 제곱, 세제곱이라는 말을 써도 자신에게는 언제나 단순한 선분이라고 밝혔습니다.</p>
+<p>그는 주어진 직선 하나를 기준선으로 삼아 점 P에 기준선을 따라 간 거리 x와 기준선에서 잰 거리 y를 붙였습니다. 그러면 어떤 직선까지의 거리도 ax + by + c 꼴의 1차식이 되고, 4선 조건은 2차 방정식이 됩니다.</p>
+<p class="math">Ax<sup>2</sup> + Bxy + Cy<sup>2</sup> + Dx + Ey + F = 0</p>
+<p>이 식은 원뿔곡선입니다. 직선이 5~6개면 3차, 7~8개면 4차 곡선이 될 뿐입니다. 이름도 없던 곡선들이 방정식의 차수로 정리됐습니다. 데카르트는 메르센에게 이 풀이에 5~6주가 걸렸다고 썼습니다.</p>
+<h3>원문의 사실 확인 두 가지</h3>
+<ul class="tight">
+<li>『기하학』에는 지금의 직교 모눈이 없습니다. 기준축 하나와, 문제에 따라 비스듬히 잰 y를 썼고(사교좌표), 음수 근은 '거짓 근'이라 꺼렸습니다. 직교 격자는 판 스호텐, 월리스, 뉴턴, 라이프니츠를 거치며 굳었습니다.</li>
+<li>x가 아랍어 al-shay를 스페인 번역자가 못 옮겨 생겼다는 이야기는 근거 없는 설입니다. 앞 글자 a, b, c는 아는 양, 뒤 글자 x, y, z는 미지수로 쓴 것은 데카르트의 설계입니다.</li>
+</ul>
+<div class="terms"><details><summary>단위 선분</summary><p>길이 1로 정한 기준 선분. 곱을 비례로 정의해 결과를 다시 선분으로 만듦.</p></details>
+<details><summary>사교좌표</summary><p>두 축이 직각이 아닌 각도로 만나는 좌표계.</p></details></div>
+</section>
+
+<section class="sec" id="s5">
+<div class="sec-head"><span class="sec-num">5</span><div><h2>반대편의 페르마</h2><p class="sub">방정식에서 곡선으로</p></div></div>
+<p>같은 시기 툴루즈에서는 의회(고등법원) 법관이자 아마추어 수학자 <b>피에르 드 페르마</b>가 반대편에서 같은 다리를 놓고 있었습니다. 그는 1629년 무렵 사라진 아폴로니우스의 『평면 궤적』을 복원하다가 비에트의 기호 대수로 통찰을 얻었습니다. 방정식에 미지수 두 개(그는 A와 E로 썼습니다)가 있으면 둘은 따로 움직일 수 없고, 한쪽이 움직이면 다른 쪽이 따라 움직입니다.</p>
+<blockquote>최종 방정식에 두 개의 미지수가 나타날 때마다, 그 미지수 중 하나의 끝점은 평면 위에서 하나의 직선이나 곡선을 추적한다.<cite>페르마, 『평면 및 입체 궤적 입문』</cite></blockquote>
+<p>그는 1차 방정식은 직선, 2차 방정식은 원뿔곡선임을 1636년 소논문으로 정리했습니다. 『기하학』 출판 1년 전입니다.</p>
+<table class="tbl stack">
+<thead><tr><th>항목</th><th>데카르트</th><th>페르마</th></tr></thead>
+<tbody>
+<tr><th>방향</th><td data-label="데카르트">도형에서 방정식으로</td><td data-label="페르마">방정식에서 도형으로</td></tr>
+<tr><th>동차성</th><td data-label="데카르트">단위 선분으로 폐기</td><td data-label="페르마">비에트의 차원 용어 유지</td></tr>
+<tr><th>목적</th><td data-label="데카르트">보편학의 무기</td><td data-label="페르마">고대 원전 복원</td></tr>
+<tr><th>출판</th><td data-label="데카르트">1637년 출판</td><td data-label="페르마">편지로만 돌다가 1679년 유고집</td></tr>
+</tbody></table>
+</section>
+
+<section class="sec" id="s6">
+<div class="sec-head"><span class="sec-num">6</span><div><h2>접선 전쟁과 엽선</h2><p class="sub">의사의법이 이기다</p></div></div>
+<p>발단은 데카르트의 『굴절광학』이었습니다. 페르마가 그 증명의 결함을 지적하자 데카르트는 격분했습니다. 페르마는 메르센 신부를 통해 접선과 극대·극소를 구하는 자기 방법을 보냈고, 데카르트는 1638년 1월 이를 오류라고 비난하며 시험 곡선을 내놓았습니다. <b>데카르트의 엽선</b>입니다.</p>
+<p class="math">x<sup>3</sup> + y<sup>3</sup> − 3axy = 0</p>
+<p>제1사분면에 나뭇잎 모양 고리를 맺고 점근선 x + y + a = 0을 따라 뻗는 곡선입니다. 데카르트 자신의 접선법은 곡선에 원을 접하게 해 중근을 찾는 방식(법선법)이었는데, 원문에 따르면 이 곡선에 쓰면 6차 방정식이 나와 그 자신도 손대기 어려웠습니다.</p>
+<h3>의사의법</h3>
+<p>페르마의 무기는 디오판토스에게서 착상한 <b>의사의법</b>(adequality)이었습니다. y = x<sup>2</sup>으로 보면 이렇습니다.</p>
+<ol class="tight">
+<li>x를 아주 작은 양 e만큼 옮깁니다. 높이는 (x + e)<sup>2</sup>이 됩니다.</li>
+<li>차이를 "거의 같다"고 놓고 전개합니다: (x + e)<sup>2</sup> − x<sup>2</sup> = 2xe + e<sup>2</sup>.</li>
+<li>e로 나눕니다(e는 아직 0이 아님): 2x + e.</li>
+<li>남은 e를 0으로 놓습니다: 2x. 이것이 접선의 기울기입니다.</li>
+</ol>
+<p>엽선에 같은 발상을 쓰면 기울기 식이 나옵니다.</p>
+<p class="math">dy/dx = (ay − x<sup>2</sup>) ÷ (y<sup>2</sup> − ax)</p>
+<p>고리 끝점 (3a/2, 3a/2)에서는 분자가 −3a<sup>2</sup>/4, 분모가 3a<sup>2</sup>/4라 기울기가 정확히 −1입니다. 원문은 데카르트가 1638년 10월 메르센에게 페르마의 해법이 흠잡을 데 없고 그의 기하학 지식이 누구보다 뛰어나다고 인정했다고 씁니다.</p>
+<p>싸움은 페르마가 이겼지만 역사는 데카르트 쪽이었습니다. 『기하학』은 표준 교과서가 됐고 x가 칠판을 차지했으며, 페르마의 e는 인쇄되지 못한 채 다음 세대를 기다렸습니다.</p>
+<div class="terms"><details><summary>접선</summary><p>곡선의 한 점에 스치듯 닿는 직선. 그 기울기가 그 점의 순간 변화율.</p></details>
+<details><summary>의사의법 <span class="en">adequality</span></summary><p>아주 작은 증분 e를 더해 "거의 같다"고 놓고 전개한 뒤 e를 없애 접선과 극값을 구한 페르마의 방법.</p></details>
+<details><summary>점근선</summary><p>곡선이 무한히 가까워지지만 만나지는 않는 직선.</p></details></div>
+</section>
+
+<section class="sec" id="s7">
+<div class="sec-head"><span class="sec-num">7</span><div><h2>뉴턴과 라이프니츠</h2><p class="sub">기호에 생각을 맡기다</p></div></div>
+<p>1664년 무렵 케임브리지의 22세 <b>아이작 뉴턴</b>은 데카르트 『기하학』의 라틴어판을 구해, 몇 쪽 읽다 막히면 처음으로 돌아가기를 되풀이하며 독학했습니다. 곡선이 방정식이 되자 그는 "점이 지금 얼마나 빨리 오르는가"도 식으로 구할 수 있어야 한다고 생각했습니다.</p>
+<table class="tbl stack">
+<thead><tr><th>시기</th><th>누구</th><th>표기</th></tr></thead>
+<tbody>
+<tr><th>1630년대</th><td data-label="누구">페르마</td><td data-label="표기">공간의 작은 증분 e</td></tr>
+<tr><th>1660년대</th><td data-label="누구">뉴턴</td><td data-label="표기">흐르는 양(유량) x, 그 속도(유율) ẋ, 아주 짧은 시간 o</td></tr>
+<tr><th>1670년대</th><td data-label="누구">라이프니츠</td><td data-label="표기">차이 dx, dy와 합 ∫</td></tr>
+</tbody></table>
+<p>원문은 뉴턴이 거인의 어깨를 말하며 페르마의 접선법에서 힌트를 얻었다고 인정했다고 씁니다. <b>라이프니츠</b>의 dy/dx와 ∫ y dx는 분수처럼 약분하듯 작동해서, 연쇄 법칙(dy/dx = dy/du · du/dx)과 치환적분이 공간 상상 없이 기계적인 셈이 됐습니다. 원문은 이를 기호 체계에 생각을 맡기는 <b>인지 외주화</b>라 부릅니다.</p>
+<div class="terms"><details><summary>유율 <span class="en">fluxion</span></summary><p>뉴턴의 용어로, 시간에 따라 흐르는 양의 순간 변화 속도. 지금의 시간 도함수.</p></details>
+<details><summary>연쇄 법칙</summary><p>합성함수의 도함수는 각 단계 도함수의 곱이라는 규칙.</p></details></div>
+</section>
+
+<section class="sec" id="s8">
+<div class="sec-head"><span class="sec-num">8</span><div><h2>스마트폰 속 17세기</h2><p class="sub">화면, 스크롤, 지도</p></div></div>
+<ul class="tight">
+<li><b>화면</b>: 가로 W, 세로 H 픽셀의 직교 격자입니다. 화면 좌표 (x, y)는 메모리 주소 = 시작 주소 + (y × 한 줄 바이트 수 + x) × 픽셀당 바이트로 바뀝니다. 글꼴과 아이콘의 윤곽은 3차 베지에 곡선 B(t) = (1−t)<sup>3</sup>P<sub>0</sub> + 3(1−t)<sup>2</sup>tP<sub>1</sub> + 3(1−t)t<sup>2</sup>P<sub>2</sub> + t<sup>3</sup>P<sub>3</sub>로 정의됩니다.</li>
+<li><b>스크롤</b>: 화면 아래 ITO 전극 격자가 손가락 위치를 초당 120번 잽니다. 손을 떼면 UI는 점성 감쇠 방정식 mẍ + cẋ = 0을 풀어 x(t) = x<sub>0</sub> + (v<sub>0</sub>/μ)(1 − e<sup>−μt</sup>)처럼 서서히 멈추게 하고, 끝에서 튕기는 효과는 용수철 항을 더한 mẍ + cẋ + kx = 0입니다.</li>
+<li><b>지도</b>: 약 2만 km 상공 위성 4기 이상의 시간 신호로 비선형 연립방정식을 풀어 위치를 구합니다. 지도는 Web Mercator(EPSG:3857), X = R·λ, Y = R·ln(tan(π/4 + φ/2))로 지구를 평면에 펼칩니다. 이 Y는 시컨트 적분에서 나옵니다.</li>
+</ul>
+<p>원문의 맺음 질문은 이렇습니다. 역사를 움직인 것은 먼저 발견한 고독한 천재인가, 남이 쓰기 쉬운 언어로 다듬어 공유한 힘인가. 페르마는 먼저 깨닫고도 출판하지 않았고, 데카르트는 x, y, a, b, x<sup>2</sup>이라는 구문론을 책으로 퍼뜨렸습니다. 원문은 표기법이 사고를 결정한다고 결론짓습니다.</p>
+<div class="terms"><details><summary>베지에 곡선</summary><p>제어점 몇 개로 매끄러운 곡선을 정의하는 매개변수 다항식. 글꼴과 벡터 그림의 기본.</p></details>
+<details><summary>점성 감쇠</summary><p>속도에 비례하는 저항으로 움직임이 지수적으로 느려지는 현상.</p></details>
+<details><summary>Web Mercator</summary><p>웹 지도가 쓰는 메르카토르 도법. 각도는 지키고 고위도일수록 면적이 부풂.</p></details></div>
+</section>
+<section class="sec" id="rv">
+<div class="sec-head"><span class="sec-num">9</span><div><h2>복습</h2><p class="sub">본문 내용만으로 만든 암기 점검</p></div></div>
+<h3 class="rv-h">핵심 용어 카드</h3><p class="muted">카드를 누르면 뜻이 나옵니다.</p><div class="flips"><button type="button" class="flip" aria-expanded="false"><b>증상(symptōma)</b><span class="hint">뜻 보기</span><span class="m">곡선이 늘 만족하는 고유한 비례. 포물선은 y² = px.</span></button><button type="button" class="flip" aria-expanded="false"><b>파푸스의 문제</b><span class="hint">뜻 보기</span><span class="m">네 직선까지 거리의 곱의 비가 일정한 점의 자취를 묻는 궤적 문제.</span></button><button type="button" class="flip" aria-expanded="false"><b>동차성의 법칙</b><span class="hint">뜻 보기</span><span class="m">차원이 같은 양끼리만 더하고 비교할 수 있다는 규칙. 곱하면 차원이 오름.</span></button><button type="button" class="flip" aria-expanded="false"><b>단위 선분</b><span class="hint">뜻 보기</span><span class="m">길이 1로 정한 선분. 1 : a = b : x로 곱 ab를 다시 선분으로 만듦.</span></button><button type="button" class="flip" aria-expanded="false"><b>사교좌표</b><span class="hint">뜻 보기</span><span class="m">데카르트가 실제로 쓴, 축이 비스듬히 만나는 좌표.</span></button><button type="button" class="flip" aria-expanded="false"><b>페르마의 방향</b><span class="hint">뜻 보기</span><span class="m">방정식에서 곡선으로. 두 미지수의 끝점이 곡선을 그림.</span></button><button type="button" class="flip" aria-expanded="false"><b>데카르트의 엽선</b><span class="hint">뜻 보기</span><span class="m">x³ + y³ − 3axy = 0. 1638년 데카르트가 페르마에게 던진 시험 곡선.</span></button><button type="button" class="flip" aria-expanded="false"><b>의사의법</b><span class="hint">뜻 보기</span><span class="m">e를 더해 거의 같다고 놓고, e로 나눈 뒤 e를 지워 기울기를 구하는 방법.</span></button><button type="button" class="flip" aria-expanded="false"><b>유율</b><span class="hint">뜻 보기</span><span class="m">뉴턴의 순간 변화 속도 ẋ. 짧은 시간은 o.</span></button><button type="button" class="flip" aria-expanded="false"><b>인지 외주화</b><span class="hint">뜻 보기</span><span class="m">dy/dx, ∫ 같은 기호가 공간 상상 대신 계산을 떠맡는 것.</span></button></div><div class="rv-tools"><button type="button" data-all="flip">모두 뒤집기</button></div><h3 class="rv-h">빈칸 채우기</h3><p class="muted">빈칸을 누르면 답이 나옵니다.</p><ol class="cloze"><li>반지름 1인 원은 x² + y² = <button type="button" class="blank" data-a="1" aria-label="빈칸, 눌러서 답 보기">?</button>로 나타납니다.</li><li>그리스식으로 8선 문제는 <button type="button" class="blank" data-a="4차원" aria-label="빈칸, 눌러서 답 보기">?</button> 초입체의 비교가 되어 막혔습니다.</li><li>데카르트에게 문제를 건넨 사람은 라이덴의 <button type="button" class="blank" data-a="골리우스" aria-label="빈칸, 눌러서 답 보기">?</button>입니다.</li><li>4선 조건은 언제나 <button type="button" class="blank" data-a="2차" aria-label="빈칸, 눌러서 답 보기">?</button> 방정식, 곧 원뿔곡선이 됩니다.</li><li>y = x²에 의사의법을 쓰면 기울기는 <button type="button" class="blank" data-a="2x" aria-label="빈칸, 눌러서 답 보기">?</button>입니다.</li><li>엽선의 고리 끝점 (3a/2, 3a/2)에서 기울기는 <button type="button" class="blank" data-a="−1" aria-label="빈칸, 눌러서 답 보기">?</button>입니다.</li></ol><div class="rv-tools"><button type="button" data-all="blank">답 모두 보기</button></div><h3 class="rv-h">5문항 퀴즈</h3><div id="quiz"><div class="q" data-a="1"><fieldset><legend class="qt">1. 아폴로니우스가 해석기하학에 이르지 못한 이유로 원문이 든 것은?</legend><button type="button">원뿔곡선을 몰라서</button><button type="button">기호 대수와 독립된 좌표축이 없어서</button><button type="button">무리수를 몰라서</button></fieldset><p class="ex" hidden aria-live="polite" data-e="관계를 긴 문장으로 써야 했고, 선분이 도형 안에 묶여 있었습니다."></p></div><div class="q" data-a="0"><fieldset><legend class="qt">2. 데카르트의 단위 선분이 바꾼 것은?</legend><button type="button">두 선분의 곱이 넓이가 아니라 선분이 됨</button><button type="button">원을 직선으로 바꿈</button><button type="button">음수를 없앰</button></fieldset><p class="ex" hidden aria-live="polite" data-e="그래서 x⁴도 선분이 되어 차원의 벽이 사라졌습니다."></p></div><div class="q" data-a="1"><fieldset><legend class="qt">3. 데카르트와 페르마의 방향 차이는?</legend><button type="button">둘 다 방정식에서 시작</button><button type="button">데카르트는 도형에서 방정식, 페르마는 방정식에서 도형</button><button type="button">데카르트는 미적분, 페르마는 기하</button></fieldset><p class="ex" hidden aria-live="polite" data-e="같은 다리를 양쪽에서 놓은 셈입니다."></p></div><div class="q" data-a="2"><fieldset><legend class="qt">4. 의사의법의 마지막 단계는?</legend><button type="button">e로 곱한다</button><button type="button">e를 무한대로 보낸다</button><button type="button">남은 e를 0으로 놓는다</button></fieldset><p class="ex" hidden aria-live="polite" data-e="2x + e에서 e를 지우면 2x가 남습니다."></p></div><div class="q" data-a="2"><fieldset><legend class="qt">5. 『기하학』 원전의 좌표에 대해 맞는 것은?</legend><button type="button">직교 모눈이 그려져 있다</button><button type="button">음수 사분면이 있다</button><button type="button">기준축 하나와 비스듬한 y를 썼다</button></fieldset><p class="ex" hidden aria-live="polite" data-e="직교 격자는 후대에 굳었습니다."></p></div><p class="score" id="score" aria-live="polite">점수: 0 / 5</p><div class="rv-tools"><button type="button" id="qreset">다시 풀기</button></div></div>
+</section>
+<section class="sec issues" id="s10">
+<div class="sec-head"><span class="sec-num">10</span><div><h2>읽으며 걸린 곳</h2><p class="sub">정리하면서 걸린 것. 결론에는 영향이 크지 않습니다</p></div></div>
+<details><summary>8가지 보기</summary>
+<ul>
+<li><b>"1,300년 미해결"과 "유클리드·아폴로니우스도 못 풀었다"</b>: 스탠퍼드 철학 백과(Descartes' Mathematics)에 따르면 파푸스는 『수학 집성』에서 3선·4선 문제의 풀이와 6선에 대한 아폴로니우스의 접근을 소개합니다. 고대에 막힌 것은 직선 수를 일반화한 n선 문제이고, 이것을 데카르트가 1632년에 풀었습니다. 같은 문헌은 골리우스가 1631년 말 문제를 권했고, 데카르트가 메르센에게 "5~6주 걸렸다"고 쓴 것(1632년 4월 5일)을 확인해 줍니다.</li>
+<li><b>동차성의 법칙의 출처</b>: 원문은 이를 유클리드 『원론』 5·6권에 "명시"됐다고 하지만, 그런 이름의 법칙은 『원론』에 없습니다. 비에트가 '동차량의 법칙(lex homogeneorum)'으로 정식화했습니다. 파푸스의 탄식 인용도 원문을 꽤 강하게 의역한 것으로 보입니다.</li>
+<li><b>페르마의 생년</b>은 1601년설과 1607년설이 있고, 직위는 판사라기보다 툴루즈 고등법원의 평정관(conseiller)이었습니다. 『평면 및 입체 궤적 입문』은 1636년 무렵 돌았고 1679년 출간됐다는 점은 맞습니다.</li>
+<li><b>접선 전쟁의 세부</b>: 데카르트가 페르마의 시력을 조롱했다는 대목과 "6차 방정식" 대목은 확인하지 못했습니다. 1638년의 화해는 데카르트가 페르마의 방법을 일부 인정한 정도로 알려져 있고, 원문의 긴 인용은 그대로 옮긴 것이 아닐 수 있습니다.</li>
+<li><b>극한 표기는 시대착오</b>: 원문은 페르마가 lim<sub>e→0</sub>의 기틀을 세웠다고 쓰지만, 페르마는 e로 나눈 뒤 e를 그냥 지웠습니다. 극한 개념은 19세기 코시와 바이어슈트라스 때 엄밀해졌습니다.</li>
+<li><b>뉴턴 인용</b>: "거인의 어깨"는 1675년 훅에게 보낸 편지, "페르마의 접선 긋는 법에서 힌트를 얻었다"는 따로 전하는 뉴턴의 메모에서 온 말입니다. 원문은 둘을 한 편지의 한 문장처럼 합쳤습니다. 또 원문은 케임브리지를 "런던 근교"라 하지만 약 80km 떨어져 있습니다.</li>
+<li><b>메르카토르</b>: 메르카토르(1569)는 미적분 이전 사람이라 "투영 원리를 적분"하지 않았습니다. 위도 간격을 시컨트의 합으로 구한 것은 에드워드 라이트(1599)이고, 그것이 로그 탄젠트 식과 같다는 것은 17세기 중반에 밝혀졌습니다.</li>
+<li><b>원뿔곡선론 8권</b>은 맞지만 8권은 전하지 않고 7권까지만 남았습니다. 원문의 원전(영상이나 글)은 찾지 못했습니다. 원문 페이지에는 출처 표기가 없습니다.</li>
+</ul></details>
+</section>
+
+<section class="sources" id="src">
+<h2>출처</h2>
+<p>원문: 「<a href="https://yghnsim.github.io/Pages/the_great_mathematical_translation.html">기하학과 대수학의 위대한 번역</a>」, Pages, 2026. 10. 20. 원문 페이지에 원전 표기가 없고, 원전도 찾지 못했습니다. 사실 확인 참고: Stanford Encyclopedia of Philosophy, 「<a href="https://plato.stanford.edu/archives/win2018/entries/descartes-mathematics/">Descartes' Mathematics</a>」(2018 겨울판). 수식과 사례는 원문에서 옮겼고, 용어 설명은 정리하며 덧붙였습니다.</p>
+<p><a class="totop" href="#main">맨 위로</a></p>
+</section>
+</main></div>
+<script>(function(){
+var links=[].slice.call(document.querySelectorAll('nav.toc li a'));
+if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id)})}})},{rootMargin:'-20% 0px -70% 0px'});
+links.forEach(function(a){var s=document.querySelector(a.getAttribute('href'));if(s)io.observe(s)});}
+[].forEach.call(document.querySelectorAll('nav.toc-m a'),function(a){a.addEventListener('click',function(){a.closest('details').open=false})});
+})();</script>
+
+<script>(function(){
+function $$(q){return [].slice.call(document.querySelectorAll(q))}
+$$('.flip').forEach(function(b){b.onclick=function(){b.setAttribute('aria-expanded',b.getAttribute('aria-expanded')==='true'?'false':'true')}});
+function show(b){b.textContent=b.dataset.a;b.classList.add('shown');b.setAttribute('aria-label','답: '+b.dataset.a)}
+$$('.blank').forEach(function(b){b.onclick=function(){show(b)}});
+$$('[data-all]').forEach(function(t){t.onclick=function(){if(t.dataset.all==='flip')$$('.flip').forEach(function(b){b.setAttribute('aria-expanded','true')});else $$('.blank').forEach(show)}});
+var sc=0,done=0,qs=$$('#quiz .q');
+function upd(){document.getElementById('score').textContent='점수: '+sc+' / 5'+(done===5?' (끝)':'')}
+qs.forEach(function(q){var bs=[].slice.call(q.querySelectorAll('fieldset button')),ex=q.querySelector('.ex');
+bs.forEach(function(b,i){b.onclick=function(){var a=+q.dataset.a,ok=i===a;bs.forEach(function(x){x.disabled=true});bs[a].classList.add('right');if(!ok)b.classList.add('wrong');
+ex.hidden=false;ex.textContent=(ok?'맞았습니다. ':'아쉽습니다. ')+ex.dataset.e;if(ok)sc++;done++;upd();}})});
+document.getElementById('qreset').onclick=function(){sc=0;done=0;qs.forEach(function(q){q.querySelectorAll('fieldset button').forEach(function(x){x.disabled=false;x.className=''});var ex=q.querySelector('.ex');ex.hidden=true;ex.textContent=''});upd()};
+})();</script>
+
+
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">요약 아카이브</div><div class="arc-foot-title">기하학과 대수학의 위대한 번역: 데카르트와 페르마</div><div class="arc-foot-meta"><time datetime="2026-10-20">2026년 10월 20일</time><a class="arc-tag" href="../index.html#tags=%EC%88%98%ED%95%99%EC%82%AC">#수학사</a><a class="arc-tag" href="../index.html#tags=%ED%95%B4%EC%84%9D%EA%B8%B0%ED%95%98%ED%95%99">#해석기하학</a><a class="arc-tag" href="../index.html#tags=%EB%AF%B8%EC%A0%81%EB%B6%84">#미적분</a> · <a href="https://yghnsim.github.io/Pages/the_great_mathematical_translation.html" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body>
+</html>

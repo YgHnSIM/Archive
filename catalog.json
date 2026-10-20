@@ -1,5 +1,22 @@
 [
   {
+    "id": "20261020-01",
+    "title": "기하학과 대수학의 위대한 번역: 데카르트와 페르마",
+    "summary": "파푸스의 문제에서 데카르트의 단위 선분, 페르마의 의사의법까지",
+    "tags": [
+      "수학사",
+      "해석기하학",
+      "미적분"
+    ],
+    "date": "2026-10-20",
+    "file": "pages/2026-10-20-기하대수_번역.html",
+    "added": "2026-10-20T17:25:37+09:00",
+    "source_name": "기하대수_번역.html",
+    "source_sha256": "7d6c7479cf2ad3c85aa893b4afbfaab6d9aa00fe52cb15a2b15c1864f1e1d277",
+    "source_path_sha256": "a3887f34f1a063ce1cee9fd0293b89d3bd5bd320bffa6bc279de9e55692a7711",
+    "source_url": "https://yghnsim.github.io/Pages/the_great_mathematical_translation.html"
+  },
+  {
     "id": "20261019-02",
     "title": "x²을 쓰기까지 왜 1,877년이 걸렸나",
     "summary": "zenzizenzizenzic에서 데카르트의 지수까지, 지수 표기의 역사 정리",
