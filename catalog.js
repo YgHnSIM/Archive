@@ -2,6 +2,23 @@
    `python3 add_page.py --rebuild` 를 실행하면 다시 만들어집니다. */
 window.ARCHIVE_CATALOG = [
   {
+    "id": "20261022-02",
+    "title": "예측하는 기계는 왜 압축하는 기계인가",
+    "summary": "다음 토큰 예측은 곧 압축이며, LLM의 압축 성능(BPC)이 벤치마크 점수와 거의 직선 관계라는 두 논문을 정리.",
+    "tags": [
+      "AI",
+      "정보이론",
+      "압축"
+    ],
+    "date": "2026-10-22",
+    "file": "pages/2026-10-22-언어모델압축.html",
+    "added": "2026-10-22T22:47:13+09:00",
+    "source_name": "2026-10-22-언어모델압축.html",
+    "source_sha256": "a120c6f8796ce0736c8d8ac691b7981647697eb0abeff9a74791f01c0b9f0aac",
+    "source_path_sha256": "8df6fe0582ef2e6eef7c4f3526159f6a112104c20e3489cecfa7364568c6b809",
+    "source_url": "https://yghnsim.github.io/Pages/language_modeling_compression_intelligence.html"
+  },
+  {
     "id": "20261022-01",
     "title": "심장은 누구의 명령으로 뛰는가: 데니스 노블과 유전자 너머의 생명",
     "summary": "심장 박동처럼 생명은 유전자의 명령이 아니라 모든 층위의 양방향 인과와 행위자성이 함께 만든다는 데니스 노블의 주장",
