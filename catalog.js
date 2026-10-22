@@ -2,6 +2,22 @@
    `python3 add_page.py --rebuild` 를 실행하면 다시 만들어집니다. */
 window.ARCHIVE_CATALOG = [
   {
+    "id": "20261022-01",
+    "title": "심장은 누구의 명령으로 뛰는가: 데니스 노블과 유전자 너머의 생명",
+    "summary": "심장 박동처럼 생명은 유전자의 명령이 아니라 모든 층위의 양방향 인과와 행위자성이 함께 만든다는 데니스 노블의 주장",
+    "tags": [
+      "생물학",
+      "과학철학",
+      "시스템생물학"
+    ],
+    "date": "2026-10-22",
+    "file": "pages/2026-10-22-데니스노블.html",
+    "added": "2026-10-22T17:09:44+09:00",
+    "source_name": "noble-interview-essay.html",
+    "source_sha256": "1345e35915e917d138ad06faafc32ecde7c4d2e897ce2fc738ff2c67b9dfbe11",
+    "source_path_sha256": "abedeb3b61a101cfa78c872c62feca5e8042de687298b39c3e535bff1164c9b9"
+  },
+  {
     "id": "20261020-01",
     "title": "기하학과 대수학의 위대한 번역: 데카르트와 페르마",
     "summary": "파푸스의 문제에서 데카르트의 단위 선분, 페르마의 의사의법까지",
