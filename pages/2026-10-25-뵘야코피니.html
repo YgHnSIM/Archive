@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light dark">
 <title>뵘·야코피니 1966 해설 학습서: goto 없이도 모든 흐름도를</title>
 <style>
 :root{--bg:#fbfaf7;--fg:#1f2328;--mut:#5b6470;--acc:#2f6feb;--paper:#8a4b00;--paperbg:#fff4e0;--int:#1a7f37;--intbg:#e8f6ec;--card:#fff;--bd:#e2ded6;--hl:#ffe58a}
@@ -51,6 +51,21 @@ a{color:var(--acc)}.src{font-size:.8rem;color:var(--mut);margin-top:.4rem}.guide
 <link rel="stylesheet" href="../assets/archive-page.css">
 <link rel="stylesheet" href="../assets/archive-tokens.css">
 <!-- archive-head:end -->
+<style id="page-color-fix">
+/* 아카이브 토큰(라이트 고정)과 페이지 다크 변수의 충돌 보정 */
+body{color:var(--fg)}
+:root{--red:#cf222e}
+.arc-back b,.arc-foot-label{color:#a8432e}
+@media(prefers-color-scheme:dark){
+:root{--bg:#15171a;--ink:#e8e6e3;--muted:#a0a7b0;--line:#33373d;--arc-link:#8fb3d9}
+body{background:var(--bg);color:var(--fg)}
+a{color:var(--acc)}
+.b-paper,.b-int{color:#15171a}
+button{color:#0d1117}button.sec{color:var(--acc)}
+.no{color:#ff8a80}
+:root{--red:#ff8a80}
+}
+</style>
 </head><body>
 <!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
 <div class="arc-band" role="navigation" aria-label="요약 아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>요약 아카이브</a><span class="arc-crumb">흐름도, 튜링 기계, 그리고 단 두 개의 형성 규칙: 뵘·야코피니 1966</span><span class="arc-meta"><time datetime="2026-10-25">2026년 10월 25일</time><a class="arc-tag" href="../index.html#tags=%EA%B3%84%EC%82%B0%EC%9D%B4%EB%A1%A0">#계산이론</a><a class="arc-tag" href="../index.html#tags=%EA%B5%AC%EC%A1%B0%EC%A0%81%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D">#구조적프로그래밍</a><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99%EC%82%AC">#컴퓨터과학사</a></span></div></div>
@@ -471,7 +486,7 @@ const AR='<defs><marker id="ar5" viewBox="0 0 10 10" refX="9" refY="5" markerWid
 const bx=(x,y,w,t,h=30,st="")=>`<g class="node"><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="6" style="${st}"/><text x="${x+w/2}" y="${y+h/2+5}" text-anchor="middle">${t}</text></g>`;
 const dm=(cx,cy,t,st="")=>`<g class="node"><polygon points="${cx},${cy-22} ${cx+70},${cy} ${cx},${cy+22} ${cx-70},${cy}" style="${st}"/><text x="${cx}" y="${cy+5}" text-anchor="middle">${t}</text></g>`;
 const ln=(d,c="gray")=>`<path d="${d}" marker-end="url(#ar5)" style="stroke:${c};color:${c}"/>`;
-const lb=(x,y,t,c="")=>`<text class="lbl" x="${x}" y="${y}" style="${c?"fill:"+c:""}">${t}</text>`;
+const lb=(x,y,t,c="")=>`<text class="lbl" x="${x}" y="${y}" style="${c?"fill:"+(c==RED?"var(--red)":c==GRN?"var(--int)":c):""}">${t}</text>`;
 const RED="#cf222e",GRN="#1a7f37",HL="stroke:#cf222e;stroke-width:3";
 function tangled(hlExits,memo){const ex=hlExits?RED:"gray";
  const top=`${bx(110,5,140,"① 물 끓이기")}${ln("M180,35 V50")}${bx(110,50,140,"② 면·스프 넣기")}${ln("M180,80 V95")}${bx(110,95,140,"③ 1분 젓기")}${ln("M180,125 V145")}
