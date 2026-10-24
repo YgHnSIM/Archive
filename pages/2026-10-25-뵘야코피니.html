@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>뵘·야코피니 1966 해설 학습서: goto 없이도 모든 흐름도를</title>
+<style>
+:root{--bg:#fbfaf7;--fg:#1f2328;--mut:#5b6470;--acc:#2f6feb;--paper:#8a4b00;--paperbg:#fff4e0;--int:#1a7f37;--intbg:#e8f6ec;--card:#fff;--bd:#e2ded6;--hl:#ffe58a}
+@media(prefers-color-scheme:dark){:root{--bg:#15171a;--fg:#e8e6e3;--mut:#a0a7b0;--acc:#6ea8ff;--paper:#ffb85c;--paperbg:#33260f;--int:#56d37a;--intbg:#12301c;--card:#1d2024;--bd:#33373d;--hl:#6b5a12}}
+*{box-sizing:border-box}body{margin:0;overflow-x:hidden;font-family:system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;background:var(--bg);color:var(--fg);line-height:1.75;font-size:17px}
+header{padding:2.2rem 1rem 1.2rem;text-align:center;border-bottom:1px solid var(--bd)}header h1{margin:.2rem 0;font-size:1.7rem}header p{color:var(--mut);margin:.3rem auto;max-width:44rem}
+nav{max-width:100vw;position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--bd);overflow-x:auto;white-space:nowrap;padding:.4rem .6rem}
+nav a{display:inline-block;padding:.25rem .7rem;margin:.1rem;border-radius:99px;color:var(--fg);text-decoration:none;font-size:.9rem;border:1px solid var(--bd)}nav a:hover{border-color:var(--acc)}
+main{max-width:52rem;margin:auto;padding:1rem}section{margin:2.5rem 0}h2{border-left:5px solid var(--acc);padding-left:.6rem}
+.badge{display:inline-block;font-size:.75rem;font-weight:700;padding:.05rem .5rem;border-radius:6px;margin-right:.4rem;vertical-align:middle}
+.b-paper{background:var(--paper);color:#fff}.b-int{background:var(--int);color:#fff}
+.paper{background:var(--paperbg);border-left:4px solid var(--paper);padding:.7rem 1rem;border-radius:6px;margin:1rem 0}
+.int{background:var(--intbg);border-left:4px solid var(--int);padding:.7rem 1rem;border-radius:6px;margin:1rem 0}
+blockquote{margin:.5rem 0;font-family:Georgia,serif;font-style:italic}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:1rem;margin:1rem 0}
+button{font:inherit;font-size:.92rem;padding:.35rem .8rem;border-radius:8px;border:1px solid var(--acc);background:var(--acc);color:#fff;cursor:pointer;margin:.15rem}button.sec{background:transparent;color:var(--acc)}
+input,select,textarea{font:inherit;font-size:.95rem;padding:.3rem .5rem;border-radius:6px;border:1px solid var(--bd);background:var(--card);color:var(--fg)}
+textarea{width:100%;font-family:ui-monospace,Consolas,monospace}
+code,.mono{font-family:ui-monospace,Consolas,monospace;font-size:.92em}
+.row{display:flex;flex-wrap:wrap;gap:1rem}.row>*{flex:1 1 20rem;min-width:0}
+svg{max-width:100%;height:auto}svg .node rect,svg .node polygon{fill:var(--card);stroke:var(--fg);stroke-width:1.5}svg .node text{fill:var(--fg);font-size:13px}
+svg .node.on rect,svg .node.on polygon{fill:var(--hl);stroke:var(--acc);stroke-width:3}svg path,svg line{stroke:var(--mut);fill:none;stroke-width:1.5}svg .lbl{fill:var(--mut);font-size:11px}
+.log{font-family:ui-monospace,monospace;font-size:.85rem;background:var(--bg);border:1px solid var(--bd);border-radius:6px;padding:.5rem;max-height:12rem;overflow:auto;white-space:pre-wrap}
+.code{font-family:ui-monospace,monospace;font-size:.88rem;background:var(--bg);border:1px solid var(--bd);border-radius:6px;padding:.4rem}
+.code,pre{overflow-x:auto}.code div{padding:0 .4rem;border-radius:4px;white-space:pre}.code div.on{background:var(--hl)}
+.tape{display:flex;gap:2px;overflow-x:auto;padding:.6rem 0}.cell{min-width:2.2rem;height:2.4rem;display:flex;align-items:center;justify-content:center;border:1px solid var(--bd);border-radius:5px;font-family:monospace;background:var(--card);position:relative}
+.cell.head{border:2px solid var(--acc);background:var(--hl)}.cell.head::after{content:"▲";position:absolute;bottom:-1.1rem;color:var(--acc);font-size:.8rem}
+.prog span{font-family:monospace;font-size:1.1rem;padding:0 1px;border-radius:3px}.prog span.on{background:var(--hl);outline:2px solid var(--acc)}
+.quiz .q{margin:.8rem 0;padding:.6rem;border:1px dashed var(--bd);border-radius:8px}.quiz label{display:block;cursor:pointer;padding:.1rem .3rem;border-radius:5px}
+.fb{font-size:.92rem;margin-top:.3rem}.ok{color:var(--int);font-weight:700}.no{color:#cf222e;font-weight:700}
+table{border-collapse:collapse;width:100%;font-size:.92rem}td,th{border:1px solid var(--bd);padding:.35rem .5rem;text-align:left}
+details{margin:.6rem 0}summary{cursor:pointer;font-weight:600}
+a{color:var(--acc)}.src{font-size:.8rem;color:var(--mut);margin-top:.4rem}.guide{background:var(--card);border:1px dashed var(--acc);border-radius:8px;padding:.5rem .8rem;margin:.6rem 0;font-size:.95rem}td code{word-break:break-all}main{overflow-x:clip}footer{color:var(--mut);font-size:.85rem;text-align:center;padding:2rem 1rem}
+@media(max-width:600px){body{font-size:16px}header h1{font-size:1.35rem}}
+</style><!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
+</head><body>
+<!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="요약 아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>요약 아카이브</a><span class="arc-crumb">흐름도, 튜링 기계, 그리고 단 두 개의 형성 규칙: 뵘·야코피니 1966</span><span class="arc-meta"><time datetime="2026-10-25">2026년 10월 25일</time><a class="arc-tag" href="../index.html#tags=%EA%B3%84%EC%82%B0%EC%9D%B4%EB%A1%A0">#계산이론</a><a class="arc-tag" href="../index.html#tags=%EA%B5%AC%EC%A1%B0%EC%A0%81%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D">#구조적프로그래밍</a><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99%EC%82%AC">#컴퓨터과학사</a></span></div></div>
+<!-- archive-header:end -->
+<header><div class="mono" style="color:var(--mut)">Communications of the ACM 9(5), 1966년 5월, pp. 366–371</div>
+<h1>흐름도, 튜링 기계, 그리고 단 두 개의 형성 규칙</h1>
+<p>Corrado Böhm(코라도 뵘) · Giuseppe Jacopini(주세페 야코피니)의 고전 논문을, 직접 만져 보며 이해하는 해설 학습서</p>
+<p style="font-size:.9rem"><span class="badge b-paper">논문 원문</span> 논문에 실제로 적힌 내용·인용 &nbsp; <span class="badge b-int">해설·해석</span> 이 학습서의 설명·비유·현대적 해석</p></header>
+<nav><a href="#basics">먼저 알아 둘 것</a><a href="#ov">전반적인 해설</a><a href="#s0">0. 길잡이</a><a href="#s1">1. 맥락</a><a href="#s2">2. 기초 개념</a><a href="#s3">3. 핵심 정리</a><a href="#s4">4. P′′ 언어</a><a href="#s5">5. 오해와 의미</a><a href="#s6">최종 복습</a></nav>
+<main>
+
+<section id="basics"><h2>먼저 알아 둘 것</h2>
+<div class="guide">📌 <b>이 절에서 알게 될 것</b>:<ul style="margin:.2rem 0 0"><li>프로그램, 순서도, ‘점프(goto)’가 무엇인지</li><li>점프가 왜 골칫거리였는지</li></ul></div>
+
+<h3>프로그램이란?</h3>
+<div class="int"><span class="badge b-int">해설·해석</span>
+<p>프로그램은 <b>컴퓨터에게 주는 레시피</b>입니다.</p>
+<p>레시피에는 할 일이 순서대로 적혀 있습니다. 컴퓨터는 그것을 위에서부터 하나씩 따라 합니다.</p>
+<p>예를 들어 “물을 끓인다 → 면을 넣는다 → 젓는다” 같은 식이에요.</p></div>
+
+<h3>순서도(흐름도)란?</h3>
+<div class="int"><span class="badge b-int">해설·해석</span>
+<p>순서도는 레시피를 <b>그림으로 그린 것</b>입니다. 그림에는 세 가지가 나옵니다.</p>
+<ul><li><b>네모</b>: 할 일. (예: “면을 넣는다”)</li>
+<li><b>마름모</b>: 예/아니오 질문. (예: “면이 익었나?”)</li>
+<li><b>화살표</b>: 다음에 어디로 가는지.</li></ul></div>
+<div class="card"><svg viewBox="0 0 360 150" role="img" aria-label="순서도의 세 가지 그림 요소">
+<defs><marker id="ar4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" style="fill:currentColor;stroke:none"/></marker></defs>
+<g style="color:gray"><path d="M110,45 H150" marker-end="url(#ar4)"/><path d="M250,45 H290" marker-end="url(#ar4)"/><text class="lbl" x="262" y="38">예</text><path d="M200,70 V100" marker-end="url(#ar4)"/><text class="lbl" x="206" y="92">아니오</text></g>
+<g class="node"><rect x="10" y="28" width="100" height="34" rx="6"/><text x="60" y="50" text-anchor="middle">면을 넣는다</text></g>
+<g class="node"><polygon points="200,20 250,45 200,70 150,45"/><text x="200" y="50" text-anchor="middle">익었나?</text></g>
+<g class="node"><rect x="290" y="28" width="62" height="34" rx="6"/><text x="321" y="50" text-anchor="middle">담기</text></g>
+<g class="node"><rect x="160" y="100" width="80" height="30" rx="6"/><text x="200" y="120" text-anchor="middle">더 젓기</text></g>
+<text class="lbl" x="35" y="145">네모 = 할 일 · 마름모 = 질문 · 화살표 = 다음 차례</text></svg></div>
+
+<h3>점프(goto)란?</h3>
+<div class="int"><span class="badge b-int">해설·해석</span>
+<p>점프는 “<b>○번으로 가라</b>”는 지시입니다.</p>
+<p>레시피 중간에 “3번으로 돌아가라”, “9번으로 건너뛰어라”라고 적는 것과 같아요.</p>
+<p>영어로 “go to(~로 가라)”라서 <b>goto</b>라고 부릅니다.</p>
+<p>점프는 편리합니다. 아무 데로나 갈 수 있으니까요.</p></div>
+
+<h3>왜 문제였나?</h3>
+<div class="int"><span class="badge b-int">해설·해석</span>
+<p>점프가 몇 개뿐이면 괜찮습니다.</p>
+<p>하지만 수십, 수백 개가 되면 화살표가 <b>국수 가닥처럼 엉킵니다</b>. 그래서 이런 프로그램을 ‘스파게티 코드’라고 부르기도 합니다.</p>
+<p>엉킨 레시피는 읽는 사람이 “지금 어디쯤이지?”를 놓치기 쉽습니다. 실수를 찾기도 어렵습니다.</p>
+<p>1960년대에는 순서도와 점프가 프로그램을 짜는 흔한 방식이었습니다. 이 고민이 이 논문의 배경입니다.</p></div>
+<div class="card"><svg viewBox="0 0 360 170" role="img" aria-label="정돈된 흐름과 엉킨 흐름 비교">
+<g style="color:gray"><path d="M60,40 V60" marker-end="url(#ar4)"/><path d="M60,90 V110" marker-end="url(#ar4)"/></g>
+<g class="node"><rect x="20" y="10" width="80" height="30" rx="6"/><text x="60" y="30" text-anchor="middle">1</text></g>
+<g class="node"><rect x="20" y="60" width="80" height="30" rx="6"/><text x="60" y="80" text-anchor="middle">2</text></g>
+<g class="node"><rect x="20" y="110" width="80" height="30" rx="6"/><text x="60" y="130" text-anchor="middle">3</text></g>
+<text class="lbl" x="22" y="160">정돈된 순서</text>
+<g style="color:#cf222e"><path d="M240,25 C340,0 340,90 300,80" marker-end="url(#ar4)" style="stroke:#cf222e"/><path d="M280,95 C200,150 180,40 205,30" marker-end="url(#ar4)" style="stroke:#cf222e"/><path d="M230,40 C260,90 340,110 300,125" marker-end="url(#ar4)" style="stroke:#cf222e"/><path d="M270,135 C160,160 160,80 200,90" marker-end="url(#ar4)" style="stroke:#cf222e"/></g>
+<g class="node"><rect x="200" y="12" width="40" height="28" rx="6"/><text x="220" y="31" text-anchor="middle">1</text></g>
+<g class="node"><rect x="290" y="70" width="40" height="28" rx="6"/><text x="310" y="89" text-anchor="middle">2</text></g>
+<g class="node"><rect x="230" y="120" width="40" height="28" rx="6"/><text x="250" y="139" text-anchor="middle">3</text></g>
+<text class="lbl" x="200" y="165">점프로 엉킨 순서 (가상의 예)</text></svg></div>
+</section>
+
+<section id="ov"><h2>전반적인 해설</h2>
+<div class="guide">📌 <b>이 절에서 알게 될 것</b>: 이 논문이 무엇을 보였는지, 라면 레시피 하나로 끝까지 따라가며 이해하기.</div>
+
+<h3>한 줄 요약</h3>
+<div class="int"><span class="badge b-int">해설·해석</span>
+<p>아무리 점프로 엉킨 레시피라도, <b>세 가지 모양만으로</b> 다시 쓸 수 있다.</p>
+<p>단, 옆에 <b>작은 메모장</b>을 하나 두어야 한다.</p></div>
+
+<h3>세 가지 모양</h3>
+<div class="int"><span class="badge b-int">해설·해석</span>
+<ul><li><b>차례대로</b>: 이것 하고, 그다음 저것.</li>
+<li><b>고르기</b>: 질문에 따라 이쪽 또는 저쪽.</li>
+<li><b>될 때까지 되풀이</b>: 어떤 일이 이루어질 때까지 반복.</li></ul>
+<p>세 모양은 모두 <b>들어가는 문 하나, 나오는 문 하나</b>입니다.</p>
+<p>그래서 레고 블록처럼 서로 안에 끼워 넣을 수 있습니다.</p></div>
+
+<h3>메모장이란?</h3>
+<div class="int"><span class="badge b-int">해설·해석</span>
+<p>“계속” 또는 “그만”을 적어 두는 쪽지입니다.</p>
+<p>점프하는 대신 쪽지에 적어 두고, 나중에 쪽지를 보고 결정합니다.</p></div>
+<div class="paper"><span class="badge b-paper">논문 원문</span> 논문은 이 쪽지에 해당하는 것을 계산 대상에 “한 비트의 정보”를 더하거나 빼는 연산으로 도입합니다.
+<blockquote>“…some are assumed which either add one bit of information to the object of the computation or remove one from it.”</blockquote>
+<p style="margin:0">그리고 그 비트를 가장 자연스럽게 해석하면 “binary switch”(켜짐/꺼짐 스위치)라고 말합니다.</p></div>
+
+<h3>🍜 라면으로 따라가 보기</h3>
+<div class="card" id="rm">
+<div><button id="rmPrev" class="sec">◀ 이전</button><button id="rmNext">다음 ▶</button> <span class="mono" id="rmNum"></span></div>
+<h4 id="rmTitle" style="margin:.5rem 0 .2rem"></h4>
+<div id="rmSvg"></div>
+<p id="rmCap" style="margin:.3rem 0 0"></p>
+<div class="src">해설용 예시입니다. 논문에 나오는 예가 아닙니다.</div></div>
+
+<h3>왜 중요한가</h3>
+<div class="int"><span class="badge b-int">해설·해석</span>
+<p>“점프가 꼭 있어야 하나?”라는 질문에 답을 줬습니다.</p>
+<p>답은 “<b>원리적으로는 없어도 된다</b>”입니다. 쪽지만 있으면 됩니다.</p>
+<p>이 논문은 점프를 쓰지 말라고 <b>권하지는 않습니다</b>. “할 수 있다”는 것을 보였을 뿐입니다.</p></div>
+
+<h3>그 뒤에 일어난 일</h3>
+<div class="int"><span class="badge b-int">해설·해석</span>
+<p>1968년, 컴퓨터 과학자 다익스트라가 학술지에 점프를 비판하는 글을 실었습니다.</p>
+<p>제목 「Go To Statement Considered Harmful」(점프 문은 해롭다)은 편집자 니클라우스 비르트가 붙였다고 다익스트라가 회고했습니다.</p>
+<p>그 글은 이 논문을 인용하며 점프가 “논리적으로는 필요 없다”는 것이 증명된 것 같다고 썼습니다.</p>
+<p>하지만 엉킨 레시피를 기계적으로 바꾸는 일은 권하지 않았습니다. 결과가 더 읽기 쉬워지지 않기 때문입니다.</p>
+<p>이후 “처음부터 세 모양으로 짜자”는 생각이 퍼졌습니다. 이것을 <b>구조적 프로그래밍</b>(정돈된 블록으로 프로그램을 짜는 방식)이라고 부릅니다.</p>
+<div class="src">출처: <a href="https://www.cs.utexas.edu/~EWD/transcriptions/EWD13xx/EWD1308.html">EWD1308</a> · <a href="https://www.cs.utexas.edu/~EWD/transcriptions/EWD02xx/EWD215.html">EWD215</a></div></div>
+
+<details class="card"><summary>더 알고 싶다면: 논문의 증명은 어떻게 흘러가나 (다섯 걸음)</summary>
+<div class="int"><span class="badge b-int">해설·해석</span> 정확한 기호는 3절에 있습니다.
+<ol><li><b>문제 확인</b>: 나가는 문이 여러 개인 고리는 세 모양으로 그대로 잘라 낼 수 없다. (논문이 이렇게 말합니다.)</li>
+<li><b>도구 추가</b>: 다음 세 가지를 새로 들여온다.<ul><li>쪽지에 “참” 또는 “거짓”을 적는 일</li><li>쪽지를 지우는 일</li><li>쪽지를 확인하는 질문</li></ul></li>
+<li><b>모양 나누기</b>: 어떤 순서도든 다음 세 경우 중 하나다.<ol><li>첫 칸이 할 일인 경우. <span style="color:var(--mut)">(예: 첫 칸이 “물 끓이기”)</span></li><li>첫 칸이 질문이고, 두 갈래가 서로 떨어진 두 부분으로 가는 경우. <span style="color:var(--mut)">(예: “매운 걸 원하나?” → 예: 매운 라면 순서 / 아니오: 순한 라면 순서, 두 순서는 서로 안 만남)</span></li><li>첫 칸이 질문이고, 두 갈래가 이어진 하나의 부분으로 가는 경우. <span style="color:var(--mut)">(예: 두 갈래가 같은 조리 순서의 서로 다른 단계로 들어감)</span></li></ol></li>
+<li><b>한 바퀴 틀로 감싸기</b>: 전체를 “쪽지를 보며 ‘그만’이 될 때까지 되풀이”라는 틀에 넣는다. 안쪽은 끝날 때 쪽지에 ‘그만’ 또는 ‘다시’를 적는다.</li>
+<li><b>작게 줄여 가기</b>: 안쪽 부분은 원래보다 작으니, 같은 방법을 되풀이 적용하면 결국 모두 세 모양이 된다. (수학에서 ‘귀납법’이라 부르는 방식입니다.)</li></ol>
+<p style="margin:0">논문 뒷부분에서 뵘은 이 방법을 튜링 기계(가장 단순한 형태의 상상 속 컴퓨터)에 적용해, ‘이어 붙이기’와 ‘되풀이’ 두 규칙만 있는 아주 작은 언어로 옮길 수 있음을 보입니다.</p></div></details>
+<div class="quiz card" data-quiz="q0"></div>
+</section>
+
+<section id="s0"><h2>0. 이 학습서 사용법</h2>
+<div class="guide">📌 <b>이 절에서 알게 될 것</b>: 이 학습서를 어떤 순서로 보면 좋은지.</div>
+<div class="int"><span class="badge b-int">해설·해석</span> 이 논문은 여섯 쪽밖에 안 되지만 기호가 빽빽해서 처음 읽으면 막막합니다. 그래서 순서를 이렇게 잡았어요. ① 왜 이런 논문이 나왔는지 → ② 필요한 기초 개념 → ③ 핵심 정리를 <b>직접 돌려 보며</b> 이해하기 → ④ 논문 후반부의 아주 작은 언어 P′′를 인터프리터로 실행해 보기 → ⑤ 흔한 오해 바로잡기. 각 절 끝에 짧은 퀴즈가 있고, 맨 끝에 종합 복습이 있어요.</div>
+<div class="card"><b>한 문장 요약</b> <span class="badge b-int">해설·해석</span><br>“아무렇게나 얽힌 흐름도라도, <b>작은 기억 공간(참/거짓 비트)</b>을 하나 더 쓰면 <b>순차·선택·반복</b> 세 가지 조립 방식만으로 같은 일을 하는 흐름도로 바꿀 수 있다. 더 나아가 튜링 기계에 대해서는 <b>순차와 반복 두 가지</b>만으로도 충분하다.”</div>
+</section>
+
+<section id="s1"><h2>1. 논문이 나온 맥락</h2>
+<div class="guide">📌 <b>이 절에서 알게 될 것</b>: 이 논문이 언제, 어디서 나왔고 이후 다익스트라의 글과 어떻게 이어지는지.</div>
+<h3>1960년대: 흐름도와 goto의 시대</h3>
+<div class="int"><span class="badge b-int">해설·해석</span> 초기 컴퓨터 프로그래밍에서는 <b>흐름도(flow diagram)</b>로 알고리즘을 그리고, 이를 기계어·어셈블리나 FORTRAN 같은 언어로 옮기는 일이 흔했습니다. 이런 언어에서 흐름을 바꾸는 기본 수단은 “몇 번 줄로 가라”는 <b>점프(goto)</b>였어요. 화살표를 어디로든 그을 수 있는 흐름도와 어디로든 뛸 수 있는 goto는 잘 맞았지만, 화살표가 많아질수록 ‘스파게티’처럼 얽혀 읽고 검증하기 어려워졌습니다.</div>
+<div class="paper"><span class="badge b-paper">논문 원문</span> 논문은 흐름도를 이렇게 소개합니다 (p. 366).
+<blockquote>“The set of block or flow diagrams is a two-dimensional programming language, which was used at the beginning of automatic computing and which now still enjoys a certain favor. As far as is known, a systematic theory of this language does not exist.”</blockquote>
+각주에 따르면 이 논문은 <b>1964년 예루살렘에서 열린 International Colloquium on Algebraic Linguistics and Automata Theory</b>의 초청 강연이었고, 1부(흐름도 정규화)는 야코피니가, 2부(튜링 기계 응용)는 뵘이 썼습니다. 접수일은 “RECEIVED NOVEMBER, 1965”로 적혀 있습니다.</div>
+<h3>이후: 다익스트라와 구조적 프로그래밍</h3>
+<div class="int"><span class="badge b-int">해설·해석</span> 1968년 3월, 에츠허르 다익스트라는 같은 학술지 Communications of the ACM 11권 3호(147–148쪽)에 <b>「Go To Statement Considered Harmful」</b>을 실었습니다. 이 제목은 다익스트라가 붙인 것이 아닙니다. 그가 2001년에 쓴 회고록 EWD1308에 따르면 경위는 다음과 같습니다.<ol><li>다익스트라는 “A case against the goto statement”라는 제목으로 원고를 냈습니다.</li><li>편집자는 출판을 서두르려고 이 글을 ‘편집자에게 보내는 편지’로 바꿨습니다.</li><li>그 과정에서 편집자가 직접 새 제목을 지었습니다.</li><li>그 편집자는 <b>니클라우스 비르트(Niklaus Wirth)</b>였습니다.</li></ol>
+<blockquote>“…in the process he had given it a new title of his own invention! The editor was Niklaus Wirth.” — Dijkstra, EWD1308 (2001)</blockquote>
+이 글은 뵘·야코피니 논문을 참고문헌 [2]로 들면서 이렇게 말합니다.
+<blockquote>“In [2] Guiseppe [sic] Jacopini seems to have proved the (logical) superfluousness of the go to statement. The exercise to translate an arbitrary flow diagram more or less mechanically into a jumpless one, however, is not to be recommended. Then the resulting flow diagram cannot be expected to be more transparent than the original one.” — Dijkstra 1968 (EWD215 전사본)</blockquote>
+즉 다익스트라는 이 결과를 “goto가 <i>논리적으로는</i> 불필요하다”는 증거로 인정하면서도, <b>기계적 변환은 권하지 않았습니다</b>. 이후 1970년대에 <b>구조적 프로그래밍</b>이 퍼지면서 뵘·야코피니의 결과는 흔히 “구조적 프로그램 정리”라는 이름으로 인용되었습니다.
+<div class="src">출처: Dijkstra, <a href="https://www.cs.utexas.edu/~EWD/transcriptions/EWD13xx/EWD1308.html">EWD1308 “What led to ‘Notes on Structured Programming’”</a> · <a href="https://www.cs.utexas.edu/~EWD/transcriptions/EWD02xx/EWD215.html">EWD215 “A Case against the GO TO Statement”</a> (CACM 11(3):147–148 게재본의 마지막 두 단락과 참고문헌 포함)</div></div>
+<div class="int"><span class="badge b-int">해설·해석</span> 주의할 점: 논문 자체에는 “goto”라는 단어도 “구조적 프로그래밍”이라는 말도 나오지 않습니다. 논문이 다루는 것은 <b>흐름도의 분해(정규화)</b>와 <b>튜링 기계</b>입니다. ‘goto 없이 프로그래밍할 수 있다’는 것은 이후 사람들이 이 결과에서 읽어 낸 해석이에요.</div>
+<div class="quiz card" data-quiz="q1"></div>
+</section>
+
+<section id="s2"><h2>2. 기초 개념</h2>
+<div class="guide">📌 <b>이 절에서 알게 될 것</b>: 논문이 쓰는 기본 그림 다섯 가지(Π, Ω, Δ, Φ, Λ)와 튜링 기계. 앞의 ‘세 가지 모양’에 기호 이름을 붙이는 단계입니다.</div>
+<h3>2-1. 흐름도: 상자 두 종류와 화살표</h3>
+<div class="paper"><span class="badge b-paper">논문 원문</span> <b>기능형(functional) 상자</b>(그림 1)는 대상 <i>x</i>(집합 X의 원소, 예: 컴퓨터 메모리의 숫자들, 튜링 기계의 테이프 상태)에 기본 연산 <i>a, b, c, …</i>를 수행합니다. <b>술어형(predicative) 상자</b>(그림 2)는 <i>x</i>를 바꾸지 않고, 어떤 성질 <i>α, β, γ, …</i>가 성립하는지에 따라 다음 연산을 고릅니다. 그림 2의 마름모에서는 <b>위쪽 출구가 true, 아래쪽 출구가 false</b>로 표시되어 있습니다. 논문은 흐름도를 엄밀히 정의하지 않고 “ostensive method”(예시로 보여 주는 방법)로 소개합니다.</div>
+<h3>2-2. 논문의 기본 도형 (그림 5–9)</h3>
+<div class="paper"><span class="badge b-paper">논문 원문</span> 페이지 이미지의 그림을 직접 확인해 정리했습니다.
+<table><tr><th>기호 (그림)</th><th>그림이 보여 주는 흐름</th><th>오늘날 말로 <span class="badge b-int">해설</span></th></tr>
+<tr><td><b>Π(a, b)</b> (5)</td><td>a 다음 b</td><td>순차 <code>a; b</code></td></tr>
+<tr><td><b>Ω(α, a)</b> (6)</td><td>α를 먼저 검사해서, true면 나가고 false면 a를 한 뒤 다시 α로</td><td><code>while not α do a</code> (검사 먼저)</td></tr>
+<tr><td><b>Δ(α, a, b)</b> (7)</td><td>α가 true면 a, false면 b</td><td><code>if α then a else b</code></td></tr>
+<tr><td><b>Φ(α, a)</b> (8)</td><td>a를 먼저 한 뒤 α 검사, true면 나가고 false면 다시 a로</td><td><code>repeat a until α</code> (실행 먼저)</td></tr>
+<tr><td><b>Λ(α, a)</b> (9)</td><td>α가 true면 그냥 지나가고, false면 a</td><td><code>if not α then a</code></td></tr></table>
+논문의 예와 분해식 (pp. 366–367):
+<ul><li><code>Σ(α, β, γ, a, b, c) = Ω(α, Δ(β, Ω(γ, a), Π(b, c)))</code></li>
+<li><code>Φ(α, a) = Π(a, Ω(α, a))</code>, <code>Λ(α, a) = Δ(α, Ω(α, a), a)</code>, <code>Ω(α, a) = Λ(α, Φ(α, a))</code></li></ul></div>
+<div class="int"><span class="badge b-int">해설·해석</span> 정리하면 <b>논문의 반복 도형은 “조건이 참이 될 때까지” 도는 고리</b>입니다. 오늘날 흔히 쓰는 <code>while α</code>(참인 동안 반복)와는 방향이 반대예요. 처음 판에서는 이 학습서가 Φ를 ‘while α’로 소개했는데, 그림을 다시 확인한 결과 틀린 설명이었습니다. 검사를 먼저 하는 고리는 Ω이고, Φ는 실행을 먼저 하는 고리입니다. 어떤 도형이든 <b>입구 하나, 출구 하나</b>라서 레고 블록처럼 서로 끼워 넣을 수 있습니다.</div>
+
+<h3>🔧 실습 ① 흐름도 단계별 실행기</h3>
+<div class="card" id="fx">
+<p style="margin-top:0">유클리드 호제법(최대공약수)을 흐름도로 그렸습니다. 숫자를 넣고 <b>한 단계</b>를 눌러 현재 상자가 어떻게 이동하는지 보세요. 마름모 “y = 0 ?”에서 <b>예(true)면 나가고 아니오면 몸체를 실행</b>하므로, 논문의 Ω(α, a)와 같은 모양입니다. <span class="badge b-int">해설·해석</span> (이 예시는 논문에 없는 학습용입니다.)</p>
+<div>x = <input id="fxA" type="number" value="48" style="width:5rem"> y = <input id="fxB" type="number" value="18" style="width:5rem">
+<button id="fxReset" class="sec">초기화</button><button id="fxStep">한 단계 ▶</button><button id="fxRun">끝까지 ⏩</button></div>
+<div class="row"><div><svg id="fxSvg" viewBox="0 0 340 400"></svg></div>
+<div><div><b>현재 상태</b>: <span id="fxState" class="mono"></span></div><div class="log" id="fxLog"></div></div></div></div>
+
+<h3>2-3. 튜링 기계</h3>
+<div class="int"><span class="badge b-int">해설·해석</span> 튜링 기계는 1936년 앨런 튜링이 “계산이란 무엇인가”를 정의하려고 고안한 가상의 기계입니다. 칸으로 나뉜 긴 <b>테이프</b>, 한 칸을 읽고 쓰는 <b>헤드</b>, 그리고 “이 상태에서 이 기호를 읽으면 무엇을 쓰고 어느 쪽으로 움직여 어떤 상태로 갈지”를 정한 <b>규칙표</b>로 이루어져 있어요. 규칙표는 사실상 흐름도와 같습니다(상태가 상자, 전이가 화살표). 그래서 흐름도에 관한 결과가 튜링 기계에 관한 결과로 이어집니다.</div>
+<div class="paper"><span class="badge b-paper">논문 원문</span> 2부가 다루는 튜링 기계는 <b>왼쪽으로만 무한한 테이프</b>(“(leftward) infinite tape”, p. 370)와 유한 알파벳 {c<sub>1</sub>, …, c<sub>n</sub>} ∪ {□}(n ≥ 1, □는 빈칸)을 씁니다. “tape configuration”은 테이프 내용과 헤드가 보고 있는 칸의 표시를 함께 가리킵니다.</div>
+<div class="quiz card" data-quiz="q2"></div>
+</section>
+
+<section id="s3"><h2>3. 핵심 정리와 증명 아이디어</h2>
+<div class="guide">📌 <b>이 절에서 알게 될 것</b>: 앞의 라면 예에서 본 ‘쪽지’ 방법을 논문이 실제로 어떤 기호(T, F, K, ω)로 쓰는지. 가장 어려운 절이니 천천히 보세요.</div>
+<h3>3-1. 나쁜 소식: 그대로는 쪼갤 수 없는 흐름도 Ω<sub>n</sub></h3>
+<div class="paper"><span class="badge b-paper">논문 원문</span> 그림 4의 Ω<sub>5</sub>(α, β, γ, δ, ε, a, b, c, d, e)를 아래에 다시 그렸습니다. 술어 다섯 개가 한 줄로 늘어서 있고, 각 술어가 <b>true면 공통 출구로 빠져나가고</b>, false면 해당 연산(a…e)을 실행한 뒤 다음 술어로 갑니다. 마지막 e 다음에는 처음 α로 돌아갑니다. 논문은 이런 도형의 무한 계열 <b>Ω<sub>1</sub>[=Ω], Ω<sub>2</sub>, Ω<sub>3</sub>, …, Ω<sub>n</sub>, …</b>을 들고, 이들을 Π, Ω, Δ로 분해할 수 없다고 말합니다.
+<svg viewBox="0 0 640 170" role="img" aria-label="Ω5 흐름도 재현">
+<defs><marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" style="fill:currentColor;stroke:none"/></marker></defs>
+<g style="color:gray">
+<path d="M5,60 H32" marker-end="url(#ar2)"/>
+<path d="M60,40 V15 H630" marker-end="url(#ar2)"/><text class="lbl" x="606" y="11">출구</text>
+<path d="M174,40 V15"/><path d="M288,40 V15"/><path d="M402,40 V15"/><path d="M516,40 V15"/>
+<path d="M60,80 V100" marker-end="url(#ar2)"/><path d="M174,80 V100" marker-end="url(#ar2)"/><path d="M288,80 V100" marker-end="url(#ar2)"/><path d="M402,80 V100" marker-end="url(#ar2)"/><path d="M516,80 V100" marker-end="url(#ar2)"/>
+<path d="M78,115 H110 V60 H144" marker-end="url(#ar2)"/><path d="M192,115 H224 V60 H258" marker-end="url(#ar2)"/><path d="M306,115 H338 V60 H372" marker-end="url(#ar2)"/><path d="M420,115 H452 V60 H486" marker-end="url(#ar2)"/>
+<path d="M534,115 H560 V155 H18 V60 H30" marker-end="url(#ar2)"/>
+</g>
+<g class="node"><polygon points="60,40 90,60 60,80 30,60"/><text x="60" y="65" text-anchor="middle">α</text></g>
+<g class="node"><polygon points="174,40 204,60 174,80 144,60"/><text x="174" y="65" text-anchor="middle">β</text></g>
+<g class="node"><polygon points="288,40 318,60 288,80 258,60"/><text x="288" y="65" text-anchor="middle">γ</text></g>
+<g class="node"><polygon points="402,40 432,60 402,80 372,60"/><text x="402" y="65" text-anchor="middle">δ</text></g>
+<g class="node"><polygon points="516,40 546,60 516,80 486,60"/><text x="516" y="65" text-anchor="middle">ε</text></g>
+<g class="node"><rect x="42" y="100" width="36" height="30"/><text x="60" y="120" text-anchor="middle">a</text></g>
+<g class="node"><rect x="156" y="100" width="36" height="30"/><text x="174" y="120" text-anchor="middle">b</text></g>
+<g class="node"><rect x="270" y="100" width="36" height="30"/><text x="288" y="120" text-anchor="middle">c</text></g>
+<g class="node"><rect x="384" y="100" width="36" height="30"/><text x="402" y="120" text-anchor="middle">d</text></g>
+<g class="node"><rect x="498" y="100" width="36" height="30"/><text x="516" y="120" text-anchor="middle">e</text></g>
+<text class="lbl" x="66" y="34">true</text><text class="lbl" x="64" y="94">false</text>
+</svg>
+<div class="src">논문 그림 4 “Diagram of Ω<sub>5</sub>”를 보고 다시 그림 (선 배치는 단순화)</div>
+<blockquote>“It is not possible to decompose all flow diagrams into a finite number of given base diagrams.”</blockquote>
+논문은 동치인 도형으로 바꿔도 되는 더 넓은 의미의 분해를 허용해도, 모든 Ω<sub>n</sub>에 대해 다른 Ω<sub>n</sub>이나 더 높은 차수의 Ω를 포함하지 않는 동치 도형을 찾는 것은 가능해 보이지 않는다고 하며, 예로 <code>Ω<sub>3</sub>(α, β, γ, a, b, c) = Λ(α, Π(a, Ω<sub>3</sub>(β, γ, α, b, c, a))) = Ω<sub>6</sub>(α, β, γ, α, β, γ, a, b, c, a, b, c)</code>를 듭니다. 각주 1:
+<blockquote>“We did not, however, succeed in finding a plain and sufficiently rigorous proof of this.”</blockquote></div>
+<div class="int"><span class="badge b-int">해설·해석</span> Ω<sub>n</sub>은 “<b>출구가 n개인 고리</b>”입니다. 고리 여기저기서 밖으로 빠지는 화살표가 있으면 “입구 하나·출구 하나” 블록으로 오려 낼 부분이 없어요. 이후 연구에서 S. Rao Kosaraju(1973)가 “보조 변수 없이 구조화할 수 있는 것은 출구가 둘 이상인 고리를 포함하지 않는 프로그램뿐”이라는 결과를 냈다고 위키백과가 정리하고 있습니다. 다만 Kosaraju의 ‘환원 가능’ 개념은 뵘·야코피니보다 좁으며, 이 학습서에서 Kosaraju 원논문은 읽지 않았습니다(<b>원문 확인되지 않음</b>).
+<div class="src">출처: <a href="https://en.wikipedia.org/wiki/Structured_program_theorem">Wikipedia, “Structured program theorem”</a> (Kosaraju 1973/1974 재인용)</div></div>
+
+<h3>3-2. 해결책: 비트 하나를 더 기억하기 (T, F, K, ω)</h3>
+<div class="paper"><span class="badge b-paper">논문 원문</span>
+<blockquote>“The proved unfeasibility is circumvented if a new predicate is added and if, among the elementary operations, some are assumed which either add one bit of information to the object of the computation or remove one from it.”</blockquote>
+새로 도입하는 것은 기능형 상자 <b>T, F, K</b>와 술어형 상자 <b>ω</b>입니다.
+<ul><li><b>T</b>: x → (t, x), <b>F</b>: x → (f, x) — 맨 위에 참/거짓 비트를 얹음 (예: (t, x) → (t, (t, x)))</li>
+<li><b>K</b>: (v, x) → x — 순서쌍의 둘째 성분만 남김, 즉 맨 위 비트를 떼어 냄 (예: (t, (f, (t, x))) → (f, (t, x)))</li>
+<li><b>ω</b>: ω[(v, x)] = t ⇔ v = t — 맨 위 비트 검사. ω와 K는 순서쌍에서만 정의됨</li></ul>
+덧붙인 비트들은 <b>스택 구조</b>(중첩된 순서쌍)를 이루며, 맨 위 비트만 다루면 충분하다고 설명합니다. 주 정리 (p. 368):
+<blockquote>“If a mapping x → x′ is representable by any flow diagram containing a, b, c, …, α, β, γ, …, it is also representable by a flow diagram decomposable into Π, Φ and Δ and containing the same boxes which occurred in the initial diagrams, plus the boxes K, T, F and ω.”</blockquote>
+NOTE: 덧붙인 비트 v를 가장 자연스럽게 해석하면 <b>이진 스위치</b>입니다. 대상이 정수 x라면 연산을 순수하게 산술적으로 정의할 수도 있습니다.
+<div class="mono" style="text-align:center;margin:.4rem">T: x → 2x + 1 &nbsp;&nbsp; F: x → 2x &nbsp;&nbsp; K: x → [x/2] (정수 부분) &nbsp;&nbsp; ω: 홀수 판정</div>
+논문은 x를 이진수로 쓰고 세 연산을 다음처럼 해석할 때에만 비트 v가 드러난다고 덧붙입니다.<ul><li>T: 맨 오른쪽에 1 붙이기</li><li>F: 맨 오른쪽에 0 붙이기</li><li>K: 맨 오른쪽 자리 지우기</li></ul></div>
+<div class="int"><span class="badge b-int">해설·해석</span> 정수 해석을 직접 확인해 보세요. x = 5(이진수 101)에 T를 적용하면 11(1011), F를 적용하면 10(1010)이 됩니다. K는 맨 오른쪽 자리를 지워 다시 5로 되돌리고, ω는 맨 오른쪽 자리가 1인지, 즉 홀수인지를 봅니다. 오늘날 말로는 “<b>보조 불리언 변수(플래그)</b>로 ‘고리를 계속 돌아야 하나?’를 기억하기”입니다.
+<div style="margin-top:.4rem">x = <input id="bitX" type="number" value="5" min="0" style="width:5rem"> <button id="bitT">T</button><button id="bitF">F</button><button id="bitK">K</button> <span class="mono" id="bitOut"></span></div></div>
+
+<h3>3-3. 증명의 뼈대: 세 유형과 귀납법</h3>
+<div class="paper"><span class="badge b-paper">논문 원문</span> 모든 흐름도는 다음 세 유형 중 하나라고 봅니다(유형의 모양은 그림으로만 제시됩니다).<ol type="I"><li>유형 I (그림 13): 첫 상자가 연산 a이고, 그 뒤가 부분 𝒜입니다.</li><li>유형 II (그림 14): 첫 상자가 술어 α이고, 두 갈래가 서로 다른 부분 𝒜, ℬ로 이어집니다.</li><li>유형 III (그림 15): 첫 상자가 술어 α이고, 두 갈래가 같은 부분 𝒞로 이어집니다.</li></ol> 각 부분에서 나가는 가지는 1(밖으로 나감)과 2(처음으로 되돌아옴)로 표시되어 있고, 둘 중 하나가 없을 수도 있습니다. 그림 16–17의 A·B 도형은 가지 1 끝에 <b>T</b>, 가지 2 끝에 <b>F</b>를 붙인 것입니다. 이렇게 하면:
+<ul><li>유형 I (그림 20): <code>Π(Π(T, Φ(ω, Π(Π(K, a), A))), K)</code></li>
+<li>유형 II (그림 21): <code>Π(Π(T, Φ(ω, Π(K, Δ(α, A, B)))), K)</code></li>
+<li>유형 III: 그림 22처럼 𝒞를 위 입구에서 닿는 부분 𝒞′과 아래 입구에서 닿는 부분 𝒞″으로 나누어 유형 II처럼 처리</li></ul>
+A, B가 귀납 가정에 의해 Π, Φ, Δ로 표현 가능하면 증명이 끝납니다. 각주 3: 귀납은 실제로 <b>3N + M</b>(M은 T·F 상자 수, N은 그 밖의 모든 상자 수, 술어 포함)에 대해 이루어집니다. 또 Ω, Π, Δ를 기본으로 골라도 된다고 덧붙입니다(Φ = Π(a, Ω(α, a))이므로).</div>
+<div class="int"><span class="badge b-int">해설·해석</span> 유형 I 공식을 풀어 읽어 봅시다 (Φ는 “실행 후 검사, 참이 되면 종료”).
+<pre class="code">T                          ← 자리 채우기용 비트(첫 K가 바로 떼어 냄)
+repeat                     ← Φ(ω, …)
+    K                      ← 맨 위 비트를 떼고
+    a; A                   ← 한 바퀴 진행. A는 끝에서
+                              밖으로 나갈 때(가지 1) T, 처음으로 돌아갈 때(가지 2) F를 얹음
+until ω (맨 위 비트 = t)
+K                          ← 남은 비트 제거</pre>
+출구가 어디에 있든 “T를 얹고 고리 끝으로 간다”로 통일되니 <b>고리 출구가 하나</b>가 됩니다.</div>
+
+<h3>🔧 실습 ② goto 흐름도 → 논문식 정규형 변환 데모</h3>
+<div class="card" id="cv">
+<p style="margin-top:0"><span class="badge b-int">해설·해석</span> 왼쪽은 고리 두 군데에서 빠져나가는 goto 프로그램(Ω<sub>2</sub>와 같은 꼴, 출구 두 개), 오른쪽은 유형 I 정규형 <code>Π(Π(T, Φ(ω, Π(Π(K, a), A))), K)</code>를 따라 보조 비트 스택으로 바꾼 프로그램입니다. 같은 입력으로 <b>양쪽을 나란히 한 단계씩</b> 실행해 결과가 같은지 확인해 보세요. (연산 a, b와 조건 α, β는 학습용으로 고른 것입니다.)</p>
+<div>시작값 x = <input id="cvX" type="number" value="1" style="width:5rem"> <button id="cvReset" class="sec">초기화</button><button id="cvStep">양쪽 한 단계 ▶</button><button id="cvRun">끝까지 ⏩</button>
+<label style="font-size:.9rem"><input type="checkbox" id="cvMode"> 오른쪽을 ‘종료 플래그 변수’로 읽기</label></div>
+<div class="row" style="margin-top:.6rem">
+<div><b>goto 버전</b><div class="code" id="cvL"></div><div class="mono" id="cvLs"></div></div>
+<div><b>정규형 버전</b><div class="code" id="cvR"></div><div class="mono" id="cvRs"></div></div></div>
+<div id="cvMsg" class="fb"></div></div>
+
+<h3>3-4. 선택(Δ)도 없애고 기호 문자열로</h3>
+<div class="paper"><span class="badge b-paper">논문 원문</span> 논문은 각 술어 α에 대해 새 기능형 상자 <b>α̲ ≡ Δ(α, Π(T, F), Π(F, T))</b>(그림 23)를 정의합니다. 식 (2)로 쓰면 <b>α̲[x] = (¬α[x], (α[x], x))</b>, 즉 비트를 두 개 얹습니다(위에 ¬α, 그 아래 α). 그러면 모든 Δ(α, X, Y)를 다음처럼 바꿀 수 있습니다(그림 24).
+<div class="mono" style="font-size:.85rem;overflow-x:auto">Π(α̲, Π(Ω(ω, Π(K, Π(K, Π(X, Π(T, T))))), Π(K, Π(Ω(ω, Π(K, Π(Y, T))), K))))</div>
+표기를 <code>Π(X, Y) ≡ XY</code>, <code>Π(Π(X, Y), Z) = Π(X, Π(Y, Z)) ≡ XYZ</code>, <code>Ω(ω, X) ≡ (X)</code>로 줄이면, 모든 흐름도를 연산 기호 a, b, c, …, α̲, β̲, γ̲, …, T, F, K와 괄호만 쓴 문자열로 적을 수 있습니다. 예 (각주 5에 따르면 이 식들은 일반 방법으로 얻은 것이 아니고, 일반 방법을 쓰면 “even more cumbersome”해짐):
+<table><tr><td><code>Π(a, b) = ab</code></td><td><code>Ω(α, a) = α̲K(Kaα̲K)K</code></td></tr>
+<tr><td><code>Φ(α, a) = F(Kaα̲K)K</code></td><td><code>Δ(α, a, b) = α̲(KKaTT)K(KbT)K</code></td></tr>
+<tr><td><code>Λ(α, a) = α̲K(KaT)K</code></td><td><code>Ω<sub>2</sub>(α, β, a, b) = F(Kα̲(KTT)K(Kaβ̲(KTT)K(KbFT))K)K</code></td></tr></table>
+추상적으로 정리한 결과가 식 (5)입니다.
+<div class="mono" style="text-align:center">𝔇(Ψ, O) ⊂ 𝔈(ω, O ∪ Ψ̲ ∪ {T, F, K})</div>
+𝔇(Ψ, O)는 술어 집합 Ψ와 연산 집합 O의 상자로 된 흐름도로 기술 가능한 X→X 변환의 클래스이고, 𝔈(π, Q)는 Q에서 출발해 <b>합성 q<sub>1</sub>q<sub>2</sub></b>와 <b>반복 (q)</b>만으로 만든 클래스입니다. 여기서 (q)는 π[z]이면 (q)[z] = z, 아니면 (q)[z] = (q)[q[z]]로 정의됩니다.</div>
+<div class="int"><span class="badge b-int">해설·해석</span> 그러니까 <b>(X)는 “맨 위 비트가 t가 될 때까지 X 반복”</b>입니다. 예로 Ω(α, a) = α̲K(Kaα̲K)K를 따라가 보면, α̲가 (¬α, α)를 얹고 K가 ¬α를 떼면 맨 위에 α가 남습니다. 그러면 괄호 고리는 α가 참이 될 때까지 “K로 떼고 → a → α̲K로 새 α 얹기”를 반복하고, 마지막 K가 비트를 치웁니다. 정확히 “while not α do a”예요. 이것이 제목의 “<b>단 두 개의 형성 규칙</b>”(합성, 반복)입니다. 대가는 대상 x에 비트 스택을 덧붙여 <b>상태 공간을 넓히는 것</b>입니다(초록의 표현으로는 “semantical level”에서 참).</div>
+<div class="quiz card" data-quiz="q3"></div>
+</section>
+
+<section id="s4"><h2>4. P′′ 언어</h2>
+<div class="guide">📌 <b>이 절에서 알게 될 것</b>: 논문 뒷부분의 아주 작은 언어 P′′. 명령 두 개(λ, R)와 괄호만으로 프로그램을 쓰고 직접 실행해 봅니다.</div>
+<div class="paper"><span class="badge b-paper">논문 원문</span> 2부는 뵘의 이전 논문 [8](ICC Bulletin 3, 1964)의 결과를 소개합니다. <b>왼쪽으로만 무한한 테이프</b>의 튜링 기계에서:
+<ul><li><b>α</b>: 헤드가 보는 칸이 빈칸(□)이면 참인 술어</li>
+<li><b>λ</b>: 보는 칸의 기호 c<sub>i</sub>를 c<sub>i+1</sub>로 바꾸고(c<sub>0</sub> ≡ c<sub>n+1</sub> ≡ □) 헤드를 왼쪽으로 한 칸</li>
+<li><b>R</b>: 헤드를 (가능하면, “if any”) 오른쪽으로 한 칸</li></ul>
+식 (6): 𝔅′ ≡ 𝔇({α}, {λ, R}) — 언어 P′가 기술하는 튜링 기계족. P′′의 정의:
+<ol type="i"><li>λ, R ∈ P′′ (Axiom of Atomic Operations)</li><li>q<sub>1</sub>, q<sub>2</sub> ∈ P′′ ⇒ q<sub>1</sub>q<sub>2</sub> ∈ P′′ (Composition Rule)</li><li>q ∈ P′′ ⇒ (q) ∈ P′′ (Iteration Rule)</li><li>(i)–(iii)으로 유도되는 표현만 P′′에 속함</li></ol>
+q<sub>1</sub>q<sub>2</sub>는 합성 q<sub>2</sub>∘q<sub>1</sub>(먼저 q<sub>1</sub>)이고, (q)는 q<sup>n</sup>(n은 α[q<sup>n</sup>[x]] = t인 최소의 n ≥ 0), 즉 “최종 상태에서 보는 칸이 □가 되는 최소 거듭제곱”입니다. 식 (7): <b>𝔅′′ ≡ 𝔈(α, {λ, R})</b>.
+<br>한계: 모든 튜링 기계를 P′′로 <i>직접</i> 기술할 수는 없습니다. 예로 H<sup>−1</sup>(보는 칸이 □가 아니면 아무것도 안 하고, □이면 다음 □이 나올 때까지 오른쪽으로 가는 기계)은 P′′로 기술할 수 없음(H<sup>−1</sup> ∉ 𝔅′′)이 [8]에서 증명되었습니다. 그럼에도 “the most surprising property”는 <b>m ≥ 0 변수의 모든 부분 재귀 함수를 P′′ 프로그램으로 계산할 수 있다</b>는 것입니다([8]).
+<br>더 직접적인 대응으로, 각 튜링 기계 M에 대해 테이프의 인접한 두 칸 사이마다 빈칸을 끼워 넣은 기계 M*를 만들고(이 보조 칸들에 스위치 스택의 값 v를 오른쪽에서 왼쪽으로 기록), <b>M ∈ 𝔅′ ⇒ M* ∈ 𝔅′′</b>를 증명합니다. 식 (8): 𝔅′ ⊂ 𝔈(ω, {λ, R, α̲, T, F, K}).</div>
+<div class="paper"><span class="badge b-paper">논문 원문</span> 증명에 나오는 식 (pp. 370–371, 페이지 이미지로 확인):
+<ul><li><code>L ≡ [λR]<sup>n</sup>λ</code> — “the operation of shifting the head one square to the left”</li>
+<li><code>λ* = λL</code>, <code>R* = R²</code>, <code>T* = L²</code>, <code>F* = Lλ</code>, <code>K* = R(λR)R</code></li>
+<li><code>α̲* ≡ L³λR⁴(X)L⁵(Y)R</code>, 여기서 <code>(X) ≡ (r′L(λR)λL(λR)L²λR⁶)</code>, <code>(Y) ≡ (r′R⁵λL⁴)</code>, <code>r′ ≡ [λR]<sup>n</sup></code></li></ul>
+각주 8: α̲*의 이 해법은 심사위원(referee)의 것이며 저자들의 해법보다 “shorter and more elegant”하다고 합니다.</div>
+<div class="int"><span class="badge b-int">해설·해석</span> <b>r과 r′에 대해</b>: 이 논문에는 <code>r′ ≡ [λR]<sup>n</sup></code>만 정의되어 있고, <code>r</code>이라는 이름은 나오지 않습니다(위키백과는 r ≡ λR을 1964년 논문 [8]의 것으로 소개하지만, 이 학습서에서 [8] 원문은 <b>확인되지 않음</b>). 논문은 r′의 의미를 말로 설명하지 않지만, 정의에서 이렇게 따라 나옵니다. λR은 “칸 값을 +1 하고 왼쪽으로 갔다가 다시 오른쪽으로”이므로 <b>제자리에서 +1</b>입니다(단, 오른쪽 끝 칸이면 R이 움직이지 못하니 예외). 여기서 두 가지가 따라 나옵니다.<ol><li>r′ = λR을 n번: +n ≡ <b>−1 (mod n+1)</b>. 즉 r′은 제자리에서 기호를 하나 되돌립니다.</li><li>L = r′λ: −1을 한 뒤 λ로 +1 하며 왼쪽으로 갑니다. 즉 <b>값은 그대로 두고 왼쪽으로 한 칸</b>입니다.</li></ol> 아래 인터프리터로 확인해 보세요.</div>
+<div class="int"><span class="badge b-int">해설·해석</span> <b>Brainfuck과의 관계</b>: Esolang 위키에 따르면 Brainfuck은 <b>1993년 우르반 뮐러(Urban Müller)</b>가 Amiga OS 2.0용으로 가장 작은 컴파일러를 쓰려고 만든 언어이고, FALSE에서 영감을 받았습니다. 같은 문서는 brainfuck을 P′′의 “minor variation”으로 볼 수 있다고 하면서도 <i>“It is not known to what extent Müller was aware of or influenced by Böhm's language P′′”</i>라고 적습니다(같은 페이지 정보 상자에는 영향 받은 언어로 P′′가 함께 적혀 있어 서로 어긋납니다). 그래서 이 학습서는 <b>“명령 체계가 구조적으로 대응한다”까지만</b> 말하고, 뮐러가 P′′를 직접 참고했는지는 <b>확인되지 않음</b>으로 둡니다. 위키백과에 따르면 대응 관계는 테이프 방향만 거울처럼 뒤집으면 성립합니다(P′′는 왼쪽 무한, BF는 오른쪽 무한).
+<div class="src">출처: <a href="https://esolangs.org/wiki/Brainfuck">Esolang wiki, “brainfuck”</a> · <a href="https://en.wikipedia.org/wiki/P%E2%80%B2%E2%80%B2">Wikipedia, “P′′”</a></div></div>
+<h3>🔧 실습 ③ P′′ 인터프리터 (논문과 같은 왼쪽 무한 테이프)</h3>
+<div class="card" id="pp">
+<p style="margin-top:0">프로그램에는 <code>λ</code>(또는 <code>l</code>), <code>R</code>, <code>(</code>, <code>)</code>만 씁니다. 칸 값은 0(=□)…n입니다. 테이프는 논문처럼 <b>왼쪽으로만 무한</b>합니다. 맨 오른쪽 칸(‖ 표시) 너머로는 칸이 없어서 거기서 R은 아무 일도 하지 않고, 왼쪽으로는 필요한 만큼 빈칸이 생깁니다. <code>(q)</code>는 들어갈 때와 매 바퀴 끝에 보는 칸이 □인지 검사합니다.</p>
+<div>알파벳 크기 n = <select id="ppN"><option>1</option><option selected>2</option><option>3</option></select>
+예제: <select id="ppEx"><option value="0">λR: 제자리 +1</option><option value="4">r′ = [λR]ⁿ: 제자리 −1</option><option value="2">L = [λR]ⁿλ: 왼쪽으로 한 칸</option><option value="1">(λ): 왼쪽으로 가며 +1, □에서 멈춤</option><option value="5">K* = R(λR)R</option><option value="3">직접 입력</option></select></div>
+<textarea id="ppProg" rows="2">λR</textarea>
+<div>초기 테이프(쉼표로 구분, 헤드 위치는 *, 마지막 칸이 오른쪽 끝): <input id="ppTape" value="0,1,*2,1,0" style="width:14rem"></div>
+<div><button id="ppLoad" class="sec">불러오기</button><button id="ppStep">한 단계 ▶</button><button id="ppRun">실행 ⏩</button> <span class="mono" id="ppInfo"></span></div>
+<div class="prog" id="ppView"></div><div class="tape" id="ppTapeV"></div><div class="log" id="ppLog" style="margin-top:1rem"></div></div>
+<div class="quiz card" data-quiz="q4"></div>
+</section>
+
+<section id="s5"><h2>5. 흔한 오해와 오늘날의 의미</h2>
+<div class="guide">📌 <b>이 절에서 알게 될 것</b>: 이 논문에 대해 흔히 잘못 알려진 점과 오늘날의 의미.</div>
+<details open><summary>오해 1: “뵘·야코피니가 goto를 쓰지 말라고 했다.”</summary><div class="int"><span class="badge b-int">해설·해석</span> 논문은 어떤 프로그래밍 습관도 권하지 않습니다. 무엇을 <i>표현할 수 있는가</i>에 대한 수학적 결과예요. goto 반대론은 다익스트라 등 이후의 논의이고, 다익스트라조차 기계적 변환은 “not to be recommended”라고 했습니다.</div></details>
+<details><summary>오해 2: “아무 흐름도나 모양 그대로 순차·선택·반복으로 쪼갤 수 있다.”</summary><div class="paper"><span class="badge b-paper">논문 원문</span> 정반대입니다. 논문은 분해할 수 없는 Ω<sub>n</sub> 계열이 있다고 말하고, 보조 비트(T, F, K, ω)를 추가해 대상 집합을 확장한 뒤에야 가능하다고 합니다.</div></details>
+<details><summary>오해 3: “이 정리 = ‘프로그램 카운터 변수 하나와 while 고리 하나면 된다’.”</summary><div class="int"><span class="badge b-int">해설·해석</span> 위키백과에 따르면 Harel(1980, “On Folk Theorems”, CACM 23(7))은 흔히 인용되는 “while 고리 하나 + 보조 변수” 버전이 뵘·야코피니 증명과는 다른 <b>민간 정리(folk theorem)</b>이며, 그 뿌리는 폰 노이만과 클리니까지 거슬러 올라간다고 지적했습니다. 또 이 논문이 기술적인 문체 때문에 “more often cited than read in detail”이라고 평했습니다. 실제 논문의 증명은 보조 비트 <b>스택</b>을 쓰는 구조적 귀납입니다. (Harel 원문은 이 학습서에서 직접 읽지 않았으며 인용은 위키백과 재인용입니다. 원문 대조는 <b>확인되지 않음</b>.)<div class="src">출처: <a href="https://en.wikipedia.org/wiki/Structured_program_theorem">Wikipedia, “Structured program theorem”</a> (Harel 1980, pp. 380–383 재인용)</div></div></details>
+<details><summary>오해 4: “변환된 프로그램이 더 읽기 쉽다.”</summary><div class="int"><span class="badge b-int">해설·해석</span> 기계적으로 변환하면 플래그가 얽혀 오히려 읽기 어려워지기 쉽습니다. 논문도 일반 방법을 쓰면 공식이 “even more cumbersome”해진다고 했고, 다익스트라도 결과가 원래보다 “more transparent”하리라 기대할 수 없다고 했습니다.</div></details>
+<details><summary>오해 5: “P′′로 모든 튜링 기계를 그대로 쓸 수 있다.”</summary><div class="paper"><span class="badge b-paper">논문 원문</span> 논문은 P′′가 튜링 기계 전체의 <b>진부분족(proper subfamily)</b>을 기술한다고 명시합니다(예: H<sup>−1</sup>). 대신 빈칸을 끼워 넣은 M*로 “essentially the same job”을 하게 만듭니다.</div></details>
+<details><summary>오해 6: “보조 변수 없이는 불가능하다는 것도 이 논문이 증명했다.”</summary><div class="paper"><span class="badge b-paper">논문 원문</span> 아닙니다. 저자들은 각주 1에서 그 엄밀한 증명을 찾지 못했다고 밝혔습니다. 관련 결과로 Kosaraju(1973)가 알려져 있습니다(위키백과 재인용, 원문 <b>확인되지 않음</b>).</div></details>
+<div class="int"><span class="badge b-int">해설·해석</span> <b>오늘날의 의미</b>: 이 결과는 다음과 모두 맞닿아 있습니다.<ul><li>거의 모든 언어의 <code>if</code>/<code>while</code>/블록 구조</li><li>“입구 하나·출구 하나”라는 설계 감각</li><li>컴파일러와 디컴파일러가 제어 흐름 그래프를 구조화하는 문제</li><li>“최소한의 규칙으로 어디까지 계산할 수 있나”라는 질문(튜링 완전성)</li></ul>한편 현대 언어는 <code>break</code>, <code>return</code>, 예외 같은 ‘절제된 점프’를 다시 받아들였습니다. 플래그로 억지로 바꾸는 것보다 읽기 좋은 경우가 많기 때문입니다.</div>
+<div class="quiz card" data-quiz="q5"></div>
+</section>
+
+
+<section id="s6"><h2>최종 복습</h2>
+<div class="quiz card" data-quiz="final"></div>
+<div class="card"><b>점수</b>: <span id="score">0</span> / <span id="total">0</span> <button class="sec" id="resetQ">퀴즈 모두 초기화</button></div>
+</section>
+</main>
+<footer>원문: C. Böhm, G. Jacopini, “Flow Diagrams, Turing Machines and Languages with Only Two Formation Rules,” Comm. ACM 9(5):366–371, 1966 (<a href="https://www.cs.unibo.it/~martini/PP/bohm-jac.pdf">PDF</a>). 인용과 기호는 스캔본 페이지 이미지를 보고 대조했습니다. 외부 의존성 없는 단일 HTML 파일입니다.</footer>
+<script>
+"use strict";
+const $=id=>document.getElementById(id);
+/* ---------- Flow executor (Euclid) ---------- */
+const FX={nodes:{
+ s:{x:120,y:10,w:100,h:30,t:"시작",k:"r"},
+ c:{x:110,y:70,w:120,h:50,t:"y = 0 ?",k:"d"},
+ r:{x:100,y:160,w:140,h:34,t:"t ← x mod y",k:"r"},
+ a:{x:100,y:220,w:140,h:34,t:"x ← y",k:"r"},
+ b:{x:100,y:280,w:140,h:34,t:"y ← t",k:"r"},
+ e:{x:250,y:340,w:80,h:34,t:"끝: x 출력",k:"r"}},st:null};
+function fxDraw(){const s=$("fxSvg");let h='<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" style="fill:currentColor;stroke:none"/></marker></defs>';
+ const L=(d,t,tx,ty)=>h+=`<path d="${d}" marker-end="url(#ar)" style="color:gray"/>`+(t?`<text class="lbl" x="${tx}" y="${ty}">${t}</text>`:"");
+ L("M170,40 V70");L("M170,120 V160","아니오",176,145);L("M230,95 H290 V340","예",240,88);L("M170,194 V220");L("M170,254 V280");L("M100,297 H40 V95 H110");
+ for(const[k,n]of Object.entries(FX.nodes)){const on=FX.st&&FX.st.at===k?" on":"";h+=`<g class="node${on}">`;
+  if(n.k==="d"){const cx=n.x+n.w/2,cy=n.y+n.h/2;h+=`<polygon points="${cx},${n.y} ${n.x+n.w},${cy} ${cx},${n.y+n.h} ${n.x},${cy}"/>`}else h+=`<rect x="${n.x}" y="${n.y}" width="${n.w}" height="${n.h}" rx="6"/>`;
+  h+=`<text x="${n.x+n.w/2}" y="${n.y+n.h/2+5}" text-anchor="middle">${n.t}</text></g>`}s.innerHTML=h;}
+function fxReset(){FX.st={at:"s",x:Math.abs(parseInt($("fxA").value)||0),y:Math.abs(parseInt($("fxB").value)||0),t:"-",n:0};$("fxLog").textContent="";fxShow();}
+function fxShow(){const s=FX.st;$("fxState").textContent=`x=${s.x}, y=${s.y}, t=${s.t}, 단계=${s.n}`;fxDraw();}
+function fxStep(){const s=FX.st;if(s.at==="e")return false;let m="";
+ switch(s.at){case"s":s.at="c";m="시작 → 조건 검사로";break;
+ case"c":if(s.y===0){s.at="e";m=`y=0 → 예: 끝! 최대공약수 = ${s.x}`}else{s.at="r";m=`y=${s.y}≠0 → 아니오`}break;
+ case"r":s.t=s.x%s.y;s.at="a";m=`t ← ${s.t}`;break;case"a":s.x=s.y;s.at="b";m=`x ← ${s.x}`;break;case"b":s.y=s.t;s.at="c";m=`y ← ${s.y} (다시 조건으로: 반복!)`;break}
+ s.n++;$("fxLog").textContent+=`${s.n}. ${m}\n`;$("fxLog").scrollTop=1e9;fxShow();return true;}
+$("fxReset").onclick=fxReset;$("fxStep").onclick=fxStep;$("fxRun").onclick=()=>{let i=0;while(fxStep()&&i++<500);};
+/* ---------- bit demo ---------- */
+function bitShow(){const x=Math.max(0,parseInt($("bitX").value)||0);$("bitOut").textContent=`x = ${x} (이진수 ${x.toString(2)}) · ω = ${x%2===1?"t (홀수)":"f (짝수)"}`;}
+$("bitX").oninput=bitShow;$("bitT").onclick=()=>{$("bitX").value=2*(+$("bitX").value)+1;bitShow()};$("bitF").onclick=()=>{$("bitX").value=2*(+$("bitX").value);bitShow()};$("bitK").onclick=()=>{$("bitX").value=Math.floor(+$("bitX").value/2);bitShow()};
+/* ---------- Converter ---------- */
+const GL=["L1:  x ← x + 3                    (a)","      if not (x < 30) goto END    (α′: 출구 1)","      x ← x × 2                    (b)","      if x mod 3 ≠ 0 goto L1      (β′: 아니면 출구 2)","END: 종료"];
+const SR_STACK=["T                           ← 자리 채우기 비트","repeat                      ← Φ(ω, …) 시작","    K                       ← 맨 위 비트 제거","    x ← x + 3               (a)","    if x < 30:              ← Δ","        x ← x × 2           (b)","        if x mod 3 ≠ 0: F   ← 처음으로(가지 2)","        else: T             ← 밖으로(가지 1)","    else: T                 ← 밖으로(가지 1)","until ω (맨 위 = t)","K                           ← 비트 제거","종료"];
+const SR_FLAG=["done ← 참 (자리 채우기)","repeat","    (done 지움)","    x ← x + 3","    if x < 30:","        x ← x × 2","        if x mod 3 ≠ 0: done ← 거짓","        else: done ← 참","    else: done ← 참","until done","(done 정리)","종료"];
+let CV;
+function cvReset(){const x=parseInt($("cvX").value)||0;CV={L:{pc:0,x,done:false,n:0},R:{pc:0,x,stack:[],done:false,n:0}};$("cvMsg").textContent="";cvShow();}
+function cvShow(){const flag=$("cvMode").checked;const lines=flag?SR_FLAG:SR_STACK;
+ $("cvL").innerHTML=GL.map((l,i)=>`<div class="${i===CV.L.pc?"on":""}">${l}</div>`).join("");
+ $("cvR").innerHTML=lines.map((l,i)=>`<div class="${i===CV.R.pc?"on":""}">${l}</div>`).join("");
+ $("cvLs").textContent=`x = ${CV.L.x} · 단계 ${CV.L.n}`+(CV.L.done?"  ✔ 종료":"");
+ const st=CV.R.stack;$("cvRs").textContent=`x = ${CV.R.x} · 단계 ${CV.R.n}   `+(flag?`done = ${st.length?(st[st.length-1]?"참":"거짓"):"(없음)"}`:`스택(위→아래) = [${st.slice().reverse().map(v=>v?"t":"f").join(", ")}]`)+(CV.R.done?"  ✔ 종료":"");}
+function stepL(){const s=CV.L;if(s.done)return;s.n++;switch(s.pc){case 0:s.x+=3;s.pc=1;break;case 1:s.pc=(s.x<30)?2:4;break;case 2:s.x*=2;s.pc=3;break;case 3:s.pc=(s.x%3!==0)?0:4;break;case 4:s.done=true;}}
+function stepR(){const s=CV.R,S=s.stack;if(s.done)return;s.n++;switch(s.pc){
+ case 0:S.push(true);s.pc=1;break;case 1:s.pc=2;break;case 2:S.pop();s.pc=3;break;case 3:s.x+=3;s.pc=4;break;
+ case 4:s.pc=(s.x<30)?5:8;break;case 5:s.x*=2;s.pc=6;break;case 6:if(s.x%3!==0){S.push(false);s.pc=9}else s.pc=7;break;case 7:S.push(true);s.pc=9;break;case 8:S.push(true);s.pc=9;break;
+ case 9:s.pc=S[S.length-1]?10:1;break;case 10:S.pop();s.pc=11;break;case 11:s.done=true;}}
+function cvStep(){stepL();stepR();cvShow();if(CV.L.done&&CV.R.done){$("cvMsg").innerHTML=CV.L.x===CV.R.x?`<span class="ok">✔ 두 프로그램의 최종 x가 ${CV.L.x}(으)로 같습니다.</span> 정규형은 단계가 더 많지만 고리의 출구가 하나뿐입니다.`:`<span class="no">결과가 다릅니다(버그)</span>`;return false}return true;}
+$("cvReset").onclick=cvReset;$("cvStep").onclick=cvStep;$("cvRun").onclick=()=>{let i=0;while(cvStep()&&i++<5000);};$("cvMode").onchange=cvShow;
+/* ---------- P'' interpreter (left-infinite tape, fixed right end) ---------- */
+let PP;
+function ppParse(src){const p=[];for(const ch of src){if(ch==="λ"||ch==="l")p.push("λ");else if(ch==="R")p.push("R");else if(ch==="("||ch===")")p.push(ch);else if(/\s/.test(ch))continue;else throw new Error(`허용되지 않는 기호: '${ch}'`)}
+ const match={},st=[];p.forEach((c,i)=>{if(c==="(")st.push(i);else if(c===")"){if(!st.length)throw new Error("짝 없는 )");const j=st.pop();match[i]=j;match[j]=i}});if(st.length)throw new Error("짝 없는 (");return{p,match};}
+function ppExample(){const n=+$("ppN").value,v=$("ppEx").value;const L="λR".repeat(n)+"λ";
+ const set=(p,t)=>{$("ppProg").value=p;$("ppTape").value=t};
+ if(v==="0")set("λR","0,1,*1,0");else if(v==="4")set("λR".repeat(n),"0,1,*1,0");else if(v==="2")set(L,"0,1,*1,0");else if(v==="1")set("(λ)",`0,1,${Math.min(2,n)},*1,0`);else if(v==="5")set("R(λR)R","0,*1,0,1,0");
+ ppLoad();}
+function ppLoad(){const n=+$("ppN").value;$("ppLog").textContent="";try{const{p,match}=ppParse($("ppProg").value);const parts=$("ppTape").value.split(",");let head=0;const tape=parts.map((s,i)=>{s=s.trim();if(s.startsWith("*")){head=i;s=s.slice(1)}const v=parseInt(s)||0;return((v%(n+1))+(n+1))%(n+1)});
+ PP={p,match,tape,head,pc:0,n,steps:0};$("ppInfo").textContent="";}catch(e){PP=null;$("ppInfo").textContent="⚠ "+e.message}ppShow();}
+function ppShow(){if(!PP){$("ppView").innerHTML="";$("ppTapeV").innerHTML="";return}
+ $("ppView").innerHTML=PP.p.map((c,i)=>`<span class="${i===PP.pc?"on":""}">${c}</span>`).join("")+(PP.pc>=PP.p.length?' <span class="ok">✔ 종료</span>':"");
+ $("ppTapeV").innerHTML='<div class="cell" style="border:none">…</div>'+PP.tape.map((v,i)=>`<div class="cell${i===PP.head?" head":""}">${v===0?"□":v}</div>`).join("")+'<div class="cell" style="border:none;font-weight:700">‖</div>';
+ $("ppInfo").textContent=`단계 ${PP.steps} · 헤드 칸 값 ${PP.tape[PP.head]===0?"□":PP.tape[PP.head]}`;}
+function ppStep(){if(!PP||PP.pc>=PP.p.length)return false;const c=PP.p[PP.pc],T=PP.tape;let m="";
+ if(c==="λ"){T[PP.head]=(T[PP.head]+1)%(PP.n+1);m=`λ: 칸 값을 ${T[PP.head]===0?"□":T[PP.head]}(으)로 바꾸고 왼쪽으로`;PP.head--;if(PP.head<0){T.unshift(0);PP.head=0}PP.pc++}
+ else if(c==="R"){if(PP.head<T.length-1){PP.head++;m="R: 오른쪽으로"}else m="R: 오른쪽 끝이라 움직이지 않음 (“if any”)";PP.pc++}
+ else if(c==="("){if(T[PP.head]===0){PP.pc=PP.match[PP.pc]+1;m="( : 칸이 □ → 고리 건너뜀"}else{PP.pc++;m="( : 칸이 □ 아님 → 고리 안으로"}}
+ else{if(T[PP.head]===0){PP.pc++;m=") : 칸이 □ → 고리 종료"}else{PP.pc=PP.match[PP.pc]+1;m=") : 칸이 □ 아님 → 고리 처음으로"}}
+ PP.steps++;$("ppLog").textContent+=`${PP.steps}. ${m}\n`;$("ppLog").scrollTop=1e9;ppShow();return true;}
+$("ppLoad").onclick=ppLoad;$("ppStep").onclick=ppStep;$("ppRun").onclick=()=>{let i=0;while(ppStep()&&i++<5000);if(i>=5000)$("ppInfo").textContent+=" · 5000단계에서 멈춤(무한 반복일 수 있음)";};
+$("ppEx").onchange=ppExample;$("ppN").onchange=ppExample;
+/* ---------- Quizzes ---------- */
+const Q={
+q0:[["이 논문이 보인 것에 가장 가까운 것은?",["점프는 해로우니 쓰지 말라","쪽지를 쓰면 엉킨 레시피도 세 가지 모양으로 다시 쓸 수 있다","모든 레시피는 그대로 세 모양으로 나뉜다"],1,"‘쓰지 말라’는 권고가 아니라 ‘할 수 있다’는 결과입니다. 그대로는 안 되고 쪽지가 필요합니다."],
+ ["라면 예에서 쪽지를 쓰면 고리의 나가는 문은 몇 개가 되나?",["하나","둘","셋"],0,"‘그만’을 적고 고리 끝에서 한 번만 확인하니 하나가 됩니다."],
+ ["순서도에서 마름모는 무엇을 뜻하나?",["할 일","예/아니오 질문","끝"],1,"네모는 할 일, 마름모는 질문, 화살표는 다음 차례입니다."],
+ ["다익스트라는 엉킨 순서도를 기계적으로 바꾸는 일을…",["권했다","권하지 않았다"],1,"결과가 더 읽기 쉬워지지 않기 때문입니다. (EWD215)"]],
+q1:[["이 논문이 처음 발표된 자리로 논문 각주가 밝힌 것은?",["1968년 ACM 총회","1964년 예루살렘 국제 콜로키엄의 초청 강연","1966년 다익스트라 세미나"],1,"각주: 1964 International Colloquium on Algebraic Linguistics and Automata Theory, Jerusalem."],
+ ["「Go To Statement Considered Harmful」이라는 제목을 지은 사람은? (EWD1308 기준)",["다익스트라 본인","편집자 니클라우스 비르트","토니 호어"],1,"다익스트라는 “A case against the goto statement”로 제출했고, 편집자 Wirth가 새 제목을 붙였다고 회고했습니다."],
+ ["다익스트라 1968년 글은 흐름도를 기계적으로 goto 없는 형태로 바꾸는 일을…",["적극 권장했다","권하지 않았다","언급하지 않았다"],1,"“…is not to be recommended.”"]],
+q2:[["논문의 Ω(α, a)(그림 6)에 해당하는 것은?",["while α do a","while not α do a (먼저 검사)","repeat a until α"],1,"α가 true면 나가고 false면 a를 실행합니다."],
+ ["논문의 Φ(α, a)(그림 8)는?",["repeat a until α","if α then a","while α do a"],0,"a를 먼저 하고 α가 true가 되면 나갑니다. Φ(α,a) = Π(a, Ω(α,a))."],
+ ["세 기본 도형이 서로 끼워 넣기 좋은 이유는?",["입구와 출구가 하나씩이라서","상자가 셋 이하라서","조건이 없어서"],0,"입구 하나·출구 하나 덕분에 블록처럼 중첩됩니다."]],
+q3:[["정수 해석에서 K는?",["x → 2x","x → [x/2]","x → 2x + 1"],1,"맨 오른쪽 이진 자리를 지웁니다. T는 2x+1, F는 2x, ω는 홀수 판정."],
+ ["논문에 따르면 보조 비트 없이 Π·Ω·Δ만으로 모든 흐름도를 (모양 그대로) 분해할 수 있다.",["참","거짓"],1,"Ω_n 계열은 분해할 수 없다고 논문이 말합니다."],
+ ["유형 I·II 정규형에서 부분 도형 A가 ‘밖으로 나가는’ 가지(1) 끝에 얹는 것은?",["T","F","K"],0,"T를 얹으면 Φ(ω, …)의 검사 ω가 참이 되어 고리를 빠져나갑니다. 되돌아가는 가지(2)는 F."],
+ ["α̲[x]의 값은?",["(α[x], x)","(¬α[x], (α[x], x))","(t, x)"],1,"식 (2). 비트를 두 개 얹습니다."]],
+q4:[["P′′의 형성 규칙 두 가지는?",["합성과 반복","선택과 반복","합성과 선택"],0,"제목의 ‘only two formation rules’."],
+ ["(q)는 언제 멈추나?",["q를 정확히 n번 하면","보는 칸이 □일 때","테이프 끝에 닿으면"],1,"α[qⁿ[x]] = t인 최소 n."],
+ ["n=2, 헤드 칸 값 2에서 λ를 실행하면?",["칸이 □(0)가 되고 헤드는 왼쪽으로","칸이 3이 되고 헤드는 오른쪽으로","아무 변화 없음"],0,"c_{n+1} ≡ □."],
+ ["논문의 P′′ 테이프는?",["양쪽으로 무한","왼쪽으로만 무한","유한"],1,"(leftward) infinite tape. 그래서 R은 “if any”."]],
+q5:[["논문이 스스로 밝힌 한계로 맞는 것은?",["P′′는 모든 튜링 기계를 직접 기술한다","보조 비트 없이는 불가능하다는 것의 엄밀한 증명은 찾지 못했다","흐름도는 2차원 언어가 아니다"],1,"각주 1."],
+ ["‘while 고리 하나 + 프로그램 카운터’ 버전을 Harel(1980)은 무엇이라 불렀나? (위키백과 재인용)",["뵘·야코피니의 원래 증명","민간 정리(folk theorem)","Kosaraju 정리"],1,"원래 증명과 다른, 더 단순한 민간 정리라고 지적했습니다."]],
+final:[["정리의 핵심 ‘대가’는?",["실행이 항상 빨라짐","보조 비트(스택)로 상태 공간을 확장해야 함","모든 반복을 없애야 함"],1,"semantical level에서, 집합과 연산을 확장해야 성립합니다."],
+ ["논문 표기 Ω(ω, X) ≡ (X)의 뜻은?",["맨 위 비트가 t인 동안 X 반복","맨 위 비트가 t가 될 때까지 X 반복","X를 한 번 실행"],1,"Ω는 조건이 참이 되면 나가는 고리입니다."],
+ ["M*에서 칸 사이에 끼워 넣은 빈칸의 용도는?",["입력 복사","스위치 스택의 비트 기록","오류 검사"],1,"“…used to record, from right to left, the values v of the switch stack.”"],
+ ["이 논문에 정의된 r′ ≡ [λR]ⁿ의 효과(해설)는?",["제자리에서 기호 −1 (mod n+1)","왼쪽으로 n칸","오른쪽으로 n칸"],0,"λR은 제자리 +1이고, n번 하면 −1과 같습니다. 인터프리터로 확인해 보세요."],
+ ["Brainfuck에 대해 확인된 사실은?",["뮐러가 이 논문을 인용했다","1993년 Urban Müller가 만들었다","뵘이 만들었다"],1,"Esolang 위키. P′′를 직접 참고했는지는 알려져 있지 않습니다."],
+ ["다익스트라의 1968년 글이 실린 곳은?",["Communications of the ACM 11(3)","Nature","ICC Bulletin"],0,"CACM 11(3), 147–148."]]};
+let score=0,total=0;
+function buildQuiz(){score=0;total=0;document.querySelectorAll("[data-quiz]").forEach(box=>{const k=box.dataset.quiz;box.innerHTML=`<b>✏️ ${k==="final"?"종합 복습":"확인 퀴즈"}</b>`;
+ Q[k].forEach((q,qi)=>{total++;const d=document.createElement("div");d.className="q";d.innerHTML=`<div>${qi+1}. ${q[0]}</div>`+q[1].map((o,oi)=>`<label><input type="radio" name="${k}-${qi}" value="${oi}"> ${o}</label>`).join("")+`<div class="fb"></div>`;
+  d.querySelectorAll("input").forEach(inp=>inp.onchange=()=>{const fb=d.querySelector(".fb");if(d.dataset.done)return;d.dataset.done=1;const ok=+inp.value===q[2];if(ok)score++;
+   fb.innerHTML=(ok?'<span class="ok">정답!</span> ':'<span class="no">아쉬워요.</span> 정답: '+q[1][q[2]]+'. ')+q[3];d.querySelectorAll("input").forEach(x=>x.disabled=true);$("score").textContent=score;});box.appendChild(d)})});
+ $("score").textContent=0;$("total").textContent=total;}
+$("resetQ").onclick=buildQuiz;
+/* ---------- Ramen stepper ---------- */
+const AR='<defs><marker id="ar5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" style="fill:currentColor;stroke:none"/></marker></defs>';
+const bx=(x,y,w,t,h=30,st="")=>`<g class="node"><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="6" style="${st}"/><text x="${x+w/2}" y="${y+h/2+5}" text-anchor="middle">${t}</text></g>`;
+const dm=(cx,cy,t,st="")=>`<g class="node"><polygon points="${cx},${cy-22} ${cx+70},${cy} ${cx},${cy+22} ${cx-70},${cy}" style="${st}"/><text x="${cx}" y="${cy+5}" text-anchor="middle">${t}</text></g>`;
+const ln=(d,c="gray")=>`<path d="${d}" marker-end="url(#ar5)" style="stroke:${c};color:${c}"/>`;
+const lb=(x,y,t,c="")=>`<text class="lbl" x="${x}" y="${y}" style="${c?"fill:"+c:""}">${t}</text>`;
+const RED="#cf222e",GRN="#1a7f37",HL="stroke:#cf222e;stroke-width:3";
+function tangled(hlExits,memo){const ex=hlExits?RED:"gray";
+ const top=`${bx(110,5,140,"① 물 끓이기")}${ln("M180,35 V50")}${bx(110,50,140,"② 면·스프 넣기")}${ln("M180,80 V95")}${bx(110,95,140,"③ 1분 젓기")}${ln("M180,125 V145")}
+${dm(180,167,"④ 면이 익었나?",hlExits?HL:"")}${ln("M180,189 V210")}${lb(186,204,"아니오")}${dm(180,232,"⑤ 국물이 졸았나?",hlExits?HL:"")}`;
+ if(!memo)return `<svg viewBox="0 0 360 330">${AR}${top}
+${ln("M250,167 H300 V310 H252",ex)}${lb(256,160,"예 → ⑥으로 점프!",ex)}${ln("M250,232 H300",ex)}${lb(256,226,"예 → ⑥으로 점프!",ex)}
+${ln("M110,232 H40 V110 H108",RED)}${lb(30,104,"③으로 점프!",RED)}${bx(110,295,140,"⑥ 그릇에 담기")}</svg>`;
+ return `<svg viewBox="0 0 360 400">${AR}${top}
+${ln("M250,167 H290 V280",GRN)}${lb(256,160,"예 → 쪽지에 ‘그만’",GRN)}${ln("M250,232 H290",GRN)}${lb(256,226,"예 → ‘그만’",GRN)}
+${ln("M110,232 H70 V293 H228",GRN)}${lb(14,252,"아니오 → ‘계속’",GRN)}
+${bx(230,280,110,"쪽지 확인",26,"stroke:#1a7f37;stroke-width:2")}
+${ln("M340,293 H352 V110 H252",GRN)}${lb(300,122,"‘계속’ → ③",GRN)}
+${ln("M285,306 V345 H252",GRN)}${lb(291,330,"‘그만’",GRN)}
+${bx(110,330,140,"⑥ 그릇에 담기")}</svg>`;}
+function memoPic(){return `<svg viewBox="0 0 360 170">${AR}<g class="node"><rect x="110" y="15" width="140" height="130" rx="8" style="fill:#fff8c5;stroke:#b08800"/></g>
+<text x="180" y="45" text-anchor="middle" style="fill:#5a4500;font-size:15px">📝 쪽지</text><line x1="125" y1="58" x2="235" y2="58" style="stroke:#b08800"/>
+<text x="180" y="88" text-anchor="middle" style="fill:#1f2328;font-size:15px">☐ 계속</text><text x="180" y="120" text-anchor="middle" style="fill:#1f2328;font-size:15px">☐ 그만</text>
+${lb(40,162,"둘 중 하나에만 표시합니다. 지우고 다시 쓸 수 있어요.")}</svg>`;}
+function structured(){return `<svg viewBox="0 0 360 400">${AR}
+${bx(110,5,140,"① 물 끓이기")}${ln("M180,35 V45")}${bx(110,45,140,"② 면·스프 넣기")}${ln("M180,75 V85")}
+${bx(110,85,140,"📝 쪽지에 ‘계속’",30,"stroke:#1a7f37;stroke-width:2")}${ln("M180,115 V128")}
+<g class="node"><rect x="15" y="128" width="330" height="222" rx="10" style="fill:none;stroke:#2f6feb;stroke-width:2;stroke-dasharray:6 4"/></g>${lb(24,145,"되풀이: 쪽지가 ‘그만’이 될 때까지","#2f6feb")}
+${bx(110,152,140,"③ 1분 젓기")}${ln("M180,182 V192")}
+<g class="node"><rect x="25" y="192" width="310" height="150" rx="8" style="fill:none;stroke:#8a4b00;stroke-dasharray:4 3"/></g>${lb(32,207,"고르기","#8a4b00")}
+${dm(180,225,"면이 익었나?")}${ln("M110,225 H75 V268")}${lb(70,218,"예")}${bx(35,268,90,"‘그만’",26,"stroke:#1a7f37")}
+${ln("M250,225 H285 V250")}${lb(258,218,"아니오")}
+${dm(255,272,"졸았나?")}${ln("M220,290 V310")}${lb(196,305,"예")}${ln("M290,290 V310")}${lb(296,305,"아니오")}
+${bx(185,310,70,"‘그만’",26,"stroke:#1a7f37")}${bx(262,310,66,"‘계속’",26,"stroke:#1a7f37")}
+${ln("M180,350 V365")}${bx(110,365,140,"⑥ 그릇에 담기")}</svg>`;}
+function traceTbl(){return `<table><tr><th>바퀴</th><th>젓고 나서</th><th>점프 레시피</th><th>쪽지 레시피</th></tr>
+<tr><td>1</td><td>안 익음, 안 졸음</td><td>③으로 점프</td><td>‘계속’ → 한 바퀴 더</td></tr>
+<tr><td>2</td><td>안 익음, 안 졸음</td><td>③으로 점프</td><td>‘계속’ → 한 바퀴 더</td></tr>
+<tr><td>3</td><td>익음</td><td>⑥으로 점프 → 담기</td><td>‘그만’ → 되풀이 끝 → 담기</td></tr></table>
+<p style="font-size:.9rem;margin:.3rem 0 0">국물이 먼저 졸아도 마찬가지로 두 레시피 모두 바로 담기로 갑니다.</p>`;}
+const RM=[
+ ["1. 점프가 있는 원래 레시피",()=>tangled(false,false),"빨간 화살표가 점프입니다. ⑤에서 ‘아니오’면 ③으로 되돌아가고, ④나 ⑤에서 ‘예’면 ⑥으로 건너뜁니다."],
+ ["2. 무엇이 문제인가",()=>tangled(true,false),"③~⑤는 되풀이되는 고리입니다. 그런데 이 고리에서 <b>나가는 문이 두 개</b>(④의 ‘예’, ⑤의 ‘예’)입니다. ‘나가는 문 하나’ 블록으로 깔끔하게 잘라 낼 수 없습니다."],
+ ["3. 쪽지를 준비한다",()=>memoPic(),"점프 대신 쓸 쪽지를 하나 둡니다. 여기에 ‘계속’ 또는 ‘그만’을 적습니다."],
+ ["4. 점프를 쪽지 메모로 바꾼다",()=>tangled(false,true),"‘⑥으로 점프’ 대신 쪽지에 ‘그만’을 적습니다. ‘③으로 점프’ 대신 ‘계속’을 적습니다. 그리고 <b>고리 끝에서 딱 한 번</b> 쪽지를 확인합니다. 이제 나가는 문은 하나입니다."],
+ ["5. 세 가지 모양으로 다시 쓴 레시피",()=>structured(),"차례대로(①→②→쪽지→되풀이→⑥), 될 때까지 되풀이(파란 점선), 그 안의 고르기(갈색 점선). 점프는 하나도 없습니다."],
+ ["6. 결과가 같은지 확인",()=>traceTbl(),"면이 세 바퀴째에 익는 경우를 따라가 보면, 두 레시피가 똑같이 움직입니다. 끝나는 곳도 같습니다."]];
+let rmI=0;function rmShow(){const s=RM[rmI];$("rmTitle").textContent=s[0];$("rmSvg").innerHTML=s[1]();$("rmCap").innerHTML=s[2];$("rmNum").textContent=`${rmI+1} / ${RM.length}`;$("rmPrev").disabled=rmI===0;$("rmNext").disabled=rmI===RM.length-1;}
+$("rmPrev").onclick=()=>{if(rmI>0){rmI--;rmShow()}};$("rmNext").onclick=()=>{if(rmI<RM.length-1){rmI++;rmShow()}};rmShow();
+
+fxReset();cvReset();ppExample();buildQuiz();bitShow();
+</script>
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">요약 아카이브</div><div class="arc-foot-title">흐름도, 튜링 기계, 그리고 단 두 개의 형성 규칙: 뵘·야코피니 1966</div><div class="arc-foot-meta"><time datetime="2026-10-25">2026년 10월 25일</time><a class="arc-tag" href="../index.html#tags=%EA%B3%84%EC%82%B0%EC%9D%B4%EB%A1%A0">#계산이론</a><a class="arc-tag" href="../index.html#tags=%EA%B5%AC%EC%A1%B0%EC%A0%81%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D">#구조적프로그래밍</a><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99%EC%82%AC">#컴퓨터과학사</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body></html>

@@ -2,6 +2,22 @@
    `python3 add_page.py --rebuild` 를 실행하면 다시 만들어집니다. */
 window.ARCHIVE_CATALOG = [
   {
+    "id": "20261025-01",
+    "title": "흐름도, 튜링 기계, 그리고 단 두 개의 형성 규칙: 뵘·야코피니 1966",
+    "summary": "goto 없이 순차·선택·반복만으로 모든 흐름도를 표현할 수 있음을 보인 뵘·야코피니 정리를 단계 보기와 P′′ 인터프리터, 퀴즈로 익히는 학습서",
+    "tags": [
+      "계산이론",
+      "구조적프로그래밍",
+      "컴퓨터과학사"
+    ],
+    "date": "2026-10-25",
+    "file": "pages/2026-10-25-뵘야코피니.html",
+    "added": "2026-10-25T02:46:03+09:00",
+    "source_name": "bohm-jacopini-learn.html",
+    "source_sha256": "490b109589dbfff68a88223c31475e8344dc563ed958ca3aa3619328cb0672c0",
+    "source_path_sha256": "56c00ccc4cc8ce1ac3558d61b2573fdd8ee2d122b46ef490b374b4feaea22a41"
+  },
+  {
     "id": "20261022-02",
     "title": "예측하는 기계는 왜 압축하는 기계인가",
     "summary": "다음 토큰 예측은 곧 압축이며, LLM의 압축 성능(BPC)이 벤치마크 점수와 거의 직선 관계라는 두 논문을 정리.",
