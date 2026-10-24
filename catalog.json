@@ -1,5 +1,22 @@
 [
   {
+    "id": "20261025-02",
+    "title": "기호를 계산하는 재귀 함수와 LISP의 탄생: 매카시 1960",
+    "summary": "매카시 1960 논문으로 조건식·재귀·S-식·eval이 어떻게 LISP가 되었는지 직접 만져 보며 익히는 학습서",
+    "tags": [
+      "계산이론",
+      "LISP",
+      "컴퓨터과학사"
+    ],
+    "date": "2026-10-25",
+    "file": "pages/2026-10-25-매카시LISP.html",
+    "added": "2026-10-25T04:18:57+09:00",
+    "source_name": "2026-10-25-매카시LISP.html",
+    "source_sha256": "6c246220c9de0cdbd6133cb7c6479a5f3261f05252eb61edaa0d1fbe73bbdc73",
+    "source_path_sha256": "8c29fc3c0b7cf23df50f8dbfbd94052b26ff163e079c75bea3323f6c4d4da2fe",
+    "source_url": "https://pages.cs.wisc.edu/~horwitz/CS704-NOTES/PAPERS/mccarthy.pdf"
+  },
+  {
     "id": "20261025-01",
     "title": "흐름도, 튜링 기계, 그리고 단 두 개의 형성 규칙: 뵘·야코피니 1966",
     "summary": "goto 없이 순차·선택·반복만으로 모든 흐름도를 표현할 수 있음을 보인 뵘·야코피니 정리를 단계 보기와 P′′ 인터프리터, 퀴즈로 익히는 학습서",

@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="color-scheme" content="light only">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>매카시 1960 해설 학습서: 기호를 계산하는 재귀 함수, 그리고 LISP의 탄생</title>
+<style>
+:root{color-scheme:light only;
+ --bg:#fbfaf7;--fg:#1f2328;--mut:#57606a;--card:#ffffff;--card-fg:#1f2328;--bd:#d0d7de;
+ --acc:#0a58ca;--acc-fg:#ffffff;--link:#0a58ca;
+ --paper-badge:#8a4b00;--paper-badge-fg:#ffffff;--paperbg:#fff4e0;--paper-fg:#1f2328;--paper-bd:#8a4b00;
+ --int-badge:#1a7f37;--int-badge-fg:#ffffff;--intbg:#e8f6ec;--int-fg:#1f2328;--int-bd:#1a7f37;
+ --hl:#ffe58a;--hl-fg:#1f2328;--ok:#116329;--no:#b42318;--code-bg:#f2f0ea;--code-fg:#1f2328;
+ --guide-bg:#eef4ff;--guide-fg:#1f2328;--warn:#9a3412;
+}
+*{box-sizing:border-box}
+html{background:var(--bg);color:var(--fg)}
+body{margin:0;overflow-x:hidden;font-family:system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;background:var(--bg);color:var(--fg);line-height:1.75;font-size:17px}
+a{color:var(--link)}
+header{padding:2rem 1rem 1rem;text-align:center;border-bottom:1px solid var(--bd)}
+header h1{margin:.2rem 0;font-size:1.6rem}header p{color:var(--mut);margin:.3rem auto;max-width:44rem}
+nav{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--bd);overflow-x:auto;white-space:nowrap;padding:.4rem .6rem;max-width:100vw}
+nav a{display:inline-block;padding:.2rem .65rem;margin:.1rem;border-radius:99px;color:var(--fg);text-decoration:none;font-size:.88rem;border:1px solid var(--bd)}
+main{max-width:52rem;margin:auto;padding:1rem;overflow-x:clip}section{margin:2.5rem 0}
+h2{border-left:5px solid var(--acc);padding-left:.6rem}
+.badge{display:inline-block;font-size:.75rem;font-weight:700;padding:.05rem .5rem;border-radius:6px;margin-right:.4rem;vertical-align:middle}
+.b-paper{background:var(--paper-badge);color:var(--paper-badge-fg)}.b-int{background:var(--int-badge);color:var(--int-badge-fg)}
+.paper{background:var(--paperbg);color:var(--paper-fg);border-left:4px solid var(--paper-bd);padding:.7rem 1rem;border-radius:6px;margin:1rem 0}
+.int{background:var(--intbg);color:var(--int-fg);border-left:4px solid var(--int-bd);padding:.7rem 1rem;border-radius:6px;margin:1rem 0}
+.paper p,.int p{margin:.45rem 0}
+.guide{background:var(--guide-bg);color:var(--guide-fg);border:1px dashed var(--acc);border-radius:8px;padding:.5rem .8rem;margin:.6rem 0;font-size:.95rem}
+blockquote{margin:.5rem 0;font-family:Georgia,"Times New Roman",serif;font-style:italic}
+.card{background:var(--card);color:var(--card-fg);border:1px solid var(--bd);border-radius:12px;padding:1rem;margin:1rem 0}
+button{font:inherit;font-size:.92rem;padding:.35rem .8rem;border-radius:8px;border:1px solid var(--acc);background:var(--acc);color:var(--acc-fg);cursor:pointer;margin:.15rem}
+button.sec{background:var(--card);color:var(--link)}button:disabled{opacity:.45;cursor:default}
+input,select,textarea{font:inherit;font-size:.95rem;padding:.3rem .5rem;border-radius:6px;border:1px solid var(--bd);background:var(--card);color:var(--card-fg);max-width:100%}
+code,.mono{font-family:ui-monospace,Consolas,monospace;font-size:.92em;overflow-wrap:anywhere}
+pre,.code{font-family:ui-monospace,Consolas,monospace;font-size:.86rem;background:var(--code-bg);color:var(--code-fg);border:1px solid var(--bd);border-radius:6px;padding:.5rem;overflow-x:auto;white-space:pre-wrap;overflow-wrap:anywhere}
+.row{display:flex;flex-wrap:wrap;gap:1rem}.row>*{flex:1 1 18rem;min-width:0}
+svg{max-width:100%;height:auto;display:block}
+svg .stroke{stroke:var(--fg);fill:none;stroke-width:1.6}svg .boxf{fill:var(--card);stroke:var(--fg);stroke-width:1.6}
+svg .hlf{fill:var(--hl);stroke:var(--acc);stroke-width:3}svg .t{fill:var(--fg);font-size:14px}svg .th{fill:var(--hl-fg);font-size:14px}
+svg .tm{fill:var(--mut);font-size:12px}svg .arrow{stroke:var(--mut);fill:none;stroke-width:1.6}
+svg .ah{fill:var(--mut)}
+.log{font-family:ui-monospace,monospace;font-size:.84rem;background:var(--code-bg);color:var(--code-fg);border:1px solid var(--bd);border-radius:6px;padding:.5rem;max-height:16rem;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere}
+.log .on{background:var(--hl);color:var(--hl-fg);border-radius:4px}
+.quiz .q{margin:.8rem 0;padding:.6rem;border:1px dashed var(--bd);border-radius:8px}.quiz label{display:block;cursor:pointer;padding:.1rem .3rem}
+.fb{font-size:.92rem;margin-top:.3rem}.ok{color:var(--ok);font-weight:700}.no{color:var(--no);font-weight:700}
+table{border-collapse:collapse;width:100%;font-size:.92rem}td,th{border:1px solid var(--bd);padding:.35rem .5rem;text-align:left;vertical-align:top}td code{word-break:break-all}
+details{margin:.8rem 0}summary{cursor:pointer;font-weight:700;color:var(--link)}
+.src{font-size:.82rem;color:var(--mut);margin-top:.4rem}
+.small{font-size:.9rem;color:var(--mut)}
+footer{color:var(--mut);font-size:.85rem;text-align:center;padding:2rem 1rem}
+@media(max-width:600px){body{font-size:16px}header h1{font-size:1.3rem}main{padding:.7rem}}
+</style><!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
+</head><body>
+<!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="요약 아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>요약 아카이브</a><span class="arc-crumb">기호를 계산하는 재귀 함수와 LISP의 탄생: 매카시 1960</span><span class="arc-meta"><time datetime="2026-10-25">2026년 10월 25일</time><a class="arc-tag" href="../index.html#tags=%EA%B3%84%EC%82%B0%EC%9D%B4%EB%A1%A0">#계산이론</a><a class="arc-tag" href="../index.html#tags=LISP">#LISP</a><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99%EC%82%AC">#컴퓨터과학사</a><a class="arc-src" href="https://pages.cs.wisc.edu/~horwitz/CS704-NOTES/PAPERS/mccarthy.pdf" rel="noopener">원문 ↗</a></span></div></div>
+<!-- archive-header:end -->
+<header><div class="mono" style="color:var(--mut)">Communications of the ACM 3(4), 1960년 4월</div>
+<h1>기호를 계산하는 재귀 함수와 LISP의 탄생</h1>
+<p>존 매카시(John McCarthy), 「Recursive Functions of Symbolic Expressions and Their Computation by Machine, Part I」를 직접 만져 보며 이해하는 해설 학습서</p>
+<p style="font-size:.9rem"><span class="badge b-paper">논문 원문</span> 논문에 실제로 적힌 내용과 인용 &nbsp; <span class="badge b-int">해설·해석</span> 이 학습서의 설명, 비유, 해석</p></header>
+<nav><a href="#basics">먼저 알아 둘 것</a><a href="#ov">전반적인 해설</a><a href="#s1">1. 맥락</a><a href="#s2">2. 함수와 조건식</a><a href="#s3">3. S-식과 S-함수</a><a href="#s4">4. 기계 속의 LISP</a><a href="#s5">5. 다른 형식과 순서도</a><a href="#s6">6. 오해와 의미</a><a href="#final">최종 복습</a></nav>
+<main>
+<div class="paper"><span class="badge b-paper">논문 원문</span> 이 학습서가 읽은 PDF는 1960년 원본 지면이 아니라 저자가 다시 조판한 판입니다. 첫 쪽 각주에 이렇게 적혀 있습니다.
+<blockquote>“Copied with minor notational changes from CACM, April 1960. If you want the exact typography, look there.”</blockquote>
+<p>이 판에는 “1995:”로 시작하는 저자의 나중 메모가 각주로 들어 있습니다. 학습서에서는 이 메모를 <b>1995년 메모</b>라고 따로 표시합니다. 1960년 지면과 글자 하나하나까지 대조하지는 못했습니다(<b>확인되지 않음</b>).</p></div>
+
+<section id="basics"><h2>먼저 알아 둘 것</h2>
+<div class="guide">📌 <b>이 절에서 알게 될 것</b>: 논문을 읽는 데 필요한 네 가지 생각, 함수·조건·재귀·기호와 목록.</div>
+<h3>함수: 넣으면 나오는 기계</h3>
+<div class="int"><span class="badge b-int">해설·해석</span>
+<p>함수는 <b>무엇을 넣으면 정해진 것이 나오는 기계</b>입니다.</p>
+<p>자판기를 떠올려 보세요. 버튼 번호를 넣으면 음료가 나옵니다.</p>
+<p>같은 번호를 넣으면 늘 같은 음료가 나옵니다. 이것이 함수의 핵심입니다.</p></div>
+<div class="card"><svg viewBox="0 0 360 120" role="img" aria-label="함수를 자판기로 나타낸 그림">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path class="ah" d="M0,0L10,5L0,10z"/></marker></defs>
+<rect class="boxf" x="130" y="20" width="100" height="70" rx="10"/><text class="t" x="180" y="52" text-anchor="middle">함수</text><text class="tm" x="180" y="72" text-anchor="middle">(자판기)</text>
+<path class="arrow" d="M60,55 H128" marker-end="url(#ah)"/><text class="t" x="10" y="50">넣는 것</text><text class="tm" x="10" y="70">예: 3</text>
+<path class="arrow" d="M232,55 H300" marker-end="url(#ah)"/><text class="t" x="305" y="50">나오는 것</text><text class="tm" x="305" y="70">예: 9</text>
+<text class="tm" x="90" y="112">“제곱하기” 함수에 3을 넣으면 9가 나옵니다</text></svg></div>
+
+<h3>조건: 만약 ~이면</h3>
+<div class="int"><span class="badge b-int">해설·해석</span>
+<p>조건은 <b>상황에 따라 다른 답을 고르는 규칙</b>입니다.</p>
+<p>예: “비가 오면 우산, 아니면 모자.”</p>
+<p>질문을 위에서부터 차례로 보고, 처음으로 “예”가 나온 줄의 답을 고릅니다.</p></div>
+<div class="card"><table><tr><th>질문(위에서부터)</th><th>답</th></tr><tr><td>비가 오나?</td><td>우산</td></tr><tr><td>햇빛이 강한가?</td><td>모자</td></tr><tr><td>그 밖의 모든 경우</td><td>아무것도 안 챙김</td></tr></table>
+<p class="small" style="margin:.4rem 0 0">이 논문의 ‘조건식’이 바로 이런 모양입니다.</p></div>
+
+<h3>재귀: 자기 자신을 다시 쓰는 규칙</h3>
+<div class="int"><span class="badge b-int">해설·해석</span>
+<p>재귀는 <b>문제를 더 작은 같은 문제로 바꾸어 푸는 방법</b>입니다.</p>
+<p>러시아 인형(마트료시카)을 생각해 보세요. “가장 작은 인형 찾기”는 이렇게 풀 수 있습니다.</p>
+<ol><li>인형을 연다.</li><li>안에 인형이 없으면, 지금 인형이 가장 작은 인형이다.</li><li>안에 인형이 있으면, 그 인형으로 1번부터 다시 한다.</li></ol>
+<p>규칙 안에 “다시 한다”가 들어 있지요. 그래도 인형은 점점 작아지니 언젠가 끝납니다.</p></div>
+<div class="card"><svg viewBox="0 0 360 120" role="img" aria-label="러시아 인형 재귀 그림">
+<ellipse class="boxf" cx="70" cy="62" rx="55" ry="48"/><ellipse class="boxf" cx="70" cy="66" rx="38" ry="34"/><ellipse class="boxf" cx="70" cy="70" rx="22" ry="20"/><ellipse class="hlf" cx="70" cy="73" rx="9" ry="9"/>
+<text class="t" x="145" y="40">큰 인형 안에 작은 인형</text><text class="t" x="145" y="64">그 안에 더 작은 인형…</text><text class="t" x="145" y="88">노란 것이 마지막(가장 작은) 인형</text></svg></div>
+
+<h3>기호와 목록</h3>
+<div class="int"><span class="badge b-int">해설·해석</span>
+<p><b>기호</b>는 숫자가 아닌 이름표입니다. 예: <code>APPLE</code>, <code>RED</code>.</p>
+<p><b>목록</b>은 기호를 차례로 늘어놓은 것입니다. 예: 장보기 목록 <code>(APPLE, MILK, EGG)</code>.</p>
+<p>목록 안에 또 목록이 들어갈 수도 있습니다. 예: <code>(APPLE, (MILK, EGG))</code>.</p>
+<p>이 논문은 숫자가 아니라 <b>이런 기호와 목록을 계산하는 방법</b>을 다룹니다.</p></div>
+<div class="card"><svg viewBox="0 0 360 110" role="img" aria-label="목록을 칸과 화살표로 나타낸 그림">
+<rect class="boxf" x="10" y="20" width="50" height="32"/><rect class="boxf" x="60" y="20" width="30" height="32"/><text class="t" x="35" y="41" text-anchor="middle">APPLE</text>
+<path class="arrow" d="M75,36 H118" marker-end="url(#ah)"/>
+<rect class="boxf" x="120" y="20" width="50" height="32"/><rect class="boxf" x="170" y="20" width="30" height="32"/><text class="t" x="145" y="41" text-anchor="middle">MILK</text>
+<path class="arrow" d="M185,36 H228" marker-end="url(#ah)"/>
+<rect class="boxf" x="230" y="20" width="50" height="32"/><rect class="boxf" x="280" y="20" width="30" height="32"/><text class="t" x="255" y="41" text-anchor="middle">EGG</text><text class="tm" x="285" y="41">끝</text>
+<text class="tm" x="10" y="80">칸마다 왼쪽에 물건, 오른쪽에 ‘다음 칸’을 가리키는 화살표</text><text class="tm" x="10" y="100">마지막 칸의 오른쪽에는 ‘끝’ 표시</text></svg></div>
+<div class="quiz card" data-quiz="q0"></div>
+</section>
+<section id="ov"><h2>전반적인 해설</h2>
+<div class="guide">📌 <b>이 절에서 알게 될 것</b>: 이 논문이 무엇을 말하는지, 왜 중요한지, 그 뒤에 무엇이 일어났는지.</div>
+<h3>한 줄 요약</h3>
+<div class="int"><span class="badge b-int">해설·해석</span>
+<p>기호와 목록을 다루는 계산은 <b>아주 적은 재료만으로</b> 모두 쓸 수 있다.</p>
+<p>그리고 그 계산 규칙 자체도 <b>같은 기호와 목록으로 적을 수 있다.</b></p></div>
+<h3>재료는 몇 개뿐</h3>
+<div class="int"><span class="badge b-int">해설·해석</span>
+<p>매카시가 쓴 재료는 다음과 같습니다.</p>
+<ul><li>목록의 <b>맨 앞</b>을 꺼내는 일</li><li>맨 앞을 뺀 <b>나머지</b>를 꺼내는 일</li><li>두 개를 <b>붙여</b> 새 묶음을 만드는 일</li><li>이것이 <b>낱개 기호</b>인지 묻는 일</li><li>두 기호가 <b>같은지</b> 묻는 일</li></ul>
+<p>여기에 “만약 ~이면” 규칙과 “같은 규칙을 다시 쓰기”(재귀)를 더합니다.</p>
+<p>논문은 이것만으로 컴퓨터가 계산할 수 있는 것은 모두 만들 수 있다고 말합니다.</p></div>
+<div class="paper"><span class="badge b-paper">논문 원문</span>
+<blockquote>“We get a much larger class of functions (in fact, all computable functions) when we allow ourselves to form new functions of S-expressions by conditional expressions and recursive definition.”</blockquote></div>
+
+<h3>🎁 예시로 따라가 보기: 상자 속 첫 물건 찾기</h3>
+<div class="card" id="gx">
+<div><button id="gxPrev" class="sec">◀ 이전</button><button id="gxNext">다음 ▶</button> <span class="mono" id="gxNum"></span></div>
+<h4 id="gxTitle" style="margin:.5rem 0 .2rem"></h4><div id="gxSvg"></div><p id="gxCap" style="margin:.3rem 0 0"></p>
+<div class="src">해설용 예시입니다. 다만 같은 계산이 논문에 <code>ff</code>라는 함수로 나옵니다(3절).</div></div>
+
+<h3>왜 중요한가</h3>
+<div class="int"><span class="badge b-int">해설·해석</span>
+<p>첫째, 숫자가 아닌 <b>기호</b>를 계산하는 방법을 깔끔하게 정리했습니다.</p>
+<p>둘째, 프로그램을 데이터와 <b>같은 모양</b>으로 적었습니다. 그래서 프로그램이 다른 프로그램을 읽고 실행할 수 있습니다.</p>
+<p>셋째, 그런 실행기, 즉 <b>만능 함수</b>를 몇 줄로 적어 보였습니다.</p>
+<p>넷째, 다 쓴 메모리를 컴퓨터가 <b>스스로 치우는 방법</b>을 설명했습니다.</p></div>
+<h3>그 뒤에 일어난 일</h3>
+<div class="int"><span class="badge b-int">해설·해석</span>
+<p>논문에 적힌 언어가 <b>LISP</b>입니다. ‘목록 처리기(LISt Processor)’라는 뜻입니다.</p>
+<p>매카시의 회고에 따르면, 함께 일하던 스티브 러셀이 논문의 ‘만능 함수’를 직접 기계어로 옮겨 실제로 돌아가는 실행기를 만들었습니다.</p>
+<p>‘알아서 메모리 치우기’는 오늘날 <b>가비지 컬렉션</b>(쓰레기 수거)이라 불리며 많은 언어가 씁니다.</p>
+<p>제목의 “Part I”에 이어질 Part II는 끝내 쓰이지 않았다고 매카시가 회고했습니다.</p>
+<div class="src">출처: McCarthy, “History of LISP” (ACM SIGPLAN Notices 13(8), 1978) <a href="https://pages.cs.wisc.edu/~horwitz/CS704-NOTES/PAPERS/mccarthy.pdf">PDF</a></div></div>
+
+<details class="card"><summary>더 알고 싶다면: 논문의 흐름 한눈에 보기</summary>
+<div class="int"><span class="badge b-int">해설·해석</span> 논문은 다음 순서로 나아갑니다.
+<ol><li>함수를 정의하는 도구를 준비한다: 조건식, 재귀 정의, 이름 없는 함수 표기(λ), 이름 붙이기(label).</li>
+<li>계산 대상인 ‘S-식’(기호 묶음)을 정의한다.</li>
+<li>기본 연산 다섯 개로 여러 함수를 만든다.</li>
+<li>함수 자체를 S-식으로 적는 규칙을 정한다.</li>
+<li>S-식으로 적힌 함수를 실행하는 만능 함수 <code>apply</code>/<code>eval</code>을 정의한다.</li>
+<li>IBM 704 컴퓨터의 메모리에 S-식을 담는 방법과 메모리 회수 방법을 설명한다.</li>
+<li>비슷한 다른 방식(linear LISP)과, 순서도를 재귀 함수로 바꾸는 방법을 보인다.</li></ol></div></details>
+<div class="quiz card" data-quiz="qov"></div>
+</section>
+
+<section id="s1"><h2>1. 논문이 나온 맥락</h2>
+<div class="guide">📌 <b>이 절에서 알게 될 것</b>: LISP가 어떤 목적으로, 어떤 컴퓨터에서 만들어졌는지.</div>
+<div class="paper"><span class="badge b-paper">논문 원문</span> 논문 첫 문장입니다.
+<blockquote>“A programming system called LISP (for LISt Processor) has been developed for the IBM 704 computer by the Artificial Intelligence group at M.I.T.”</blockquote>
+<p>논문은 LISP의 목적을 다음과 같이 밝힙니다.</p>
+<ul><li>‘Advice Taker’라는 시스템을 실험하기 위해 만들었다.</li><li>Advice Taker는 명령문뿐 아니라 서술문도 다루고 “common sense”를 보이도록 구상된 시스템이다.</li><li>Advice Taker 제안은 1958년 11월에 처음 나왔다.</li></ul>
+<p>또 LISP가 여러 단계의 단순화를 거쳐, 어떤 기호식들의 부분 재귀 함수를 나타내는 체계가 되었다고 말합니다. 이 체계는 IBM 704나 다른 어떤 컴퓨터와도 무관하다고 덧붙입니다.</p></div>
+<div class="int"><span class="badge b-int">해설·해석</span>
+<p>당시 대부분의 프로그램은 <b>숫자 계산</b>이 목적이었습니다.</p>
+<p>매카시는 인공지능 연구를 위해 <b>문장과 논리식 같은 기호</b>를 다루는 도구가 필요했습니다.</p>
+<p>매카시의 회고에 따르면 LISP 개발은 1958년에 시작됐습니다. 또 car, cdr 같은 이름은 IBM 704의 기계어 단어 구조(‘address’ 부분, ‘decrement’ 부분)에서 왔습니다.</p>
+<div class="src">출처: McCarthy, “History of LISP” (1978) <a href="https://pages.cs.wisc.edu/~horwitz/CS704-NOTES/PAPERS/mccarthy.pdf">PDF</a> · <a href="https://en.wikipedia.org/wiki/Lisp_(programming_language)">Wikipedia, “Lisp (programming language)”</a></div></div>
+<div class="quiz card" data-quiz="q1"></div>
+</section>
+
+<section id="s2"><h2>2. 함수와 함수 정의</h2>
+<div class="guide">📌 <b>이 절에서 알게 될 것</b>: 매카시가 새로 내놓은 ‘조건식’과, 그것으로 재귀 함수를 정의하는 방법.</div>
+<h3>2-1. 부분 함수와 참·거짓</h3>
+<div class="paper"><span class="badge b-paper">논문 원문</span>
+<ul><li><b>부분 함수(partial function)</b>: 정의역의 일부에서만 정의된 함수. 계산이 끝나지 않는 경우가 있으니 자연히 생긴다.</li>
+<li><b>명제식(propositional expression)</b>: 값이 T(참) 또는 F(거짓)인 식. 예: <code>x &lt; y</code>, <code>x is prime</code>.</li>
+<li><b>술어(predicate)</b>: 값이 T와 F뿐인 함수.</li></ul></div>
+<h3>2-2. 조건식</h3>
+<div class="paper"><span class="badge b-paper">논문 원문</span> 논문은 조건식이라는 개념이 새롭다고 봅니다(“believed to be new”). 모양은 다음과 같습니다.
+<div class="mono" style="text-align:center;margin:.4rem">(p<sub>1</sub> → e<sub>1</sub>, ⋯, p<sub>n</sub> → e<sub>n</sub>)</div>
+<p>읽는 법은 “p<sub>1</sub>이면 e<sub>1</sub>, 아니고 p<sub>2</sub>이면 e<sub>2</sub>, ⋯”입니다. 값을 정하는 규칙은 다음과 같습니다.</p>
+<ol><li>p들을 왼쪽부터 살핀다.</li><li>값이 정의되지 않은 p보다 먼저 T인 p를 만나면, 그에 대응하는 e의 값이 답이다(그 e가 정의된 경우).</li><li>T인 p보다 정의되지 않은 p를 먼저 만나면, 답은 정의되지 않는다.</li><li>모든 p가 거짓이면, 답은 정의되지 않는다.</li><li>첫 번째로 참인 p에 대응하는 e가 정의되지 않으면, 답은 정의되지 않는다.</li></ol>
+<p>논문의 예:</p>
+<table><tr><td><code>(1 &lt; 2 → 4, 1 &gt; 2 → 3) = 4</code></td><td><code>(2 &lt; 1 → 4, T → 3) = 3</code></td></tr>
+<tr><td><code>(2 &lt; 1 → 0/0, T → 3) = 3</code></td><td><code>(2 &lt; 1 → 3, T → 0/0)</code>은 정의되지 않음</td></tr>
+<tr><td><code>|x| = (x &lt; 0 → −x, T → x)</code></td><td><code>sgn(x) = (x &lt; 0 → −1, x = 0 → 0, T → 1)</code></td></tr></table>
+<p>각주 2에서 매카시는 조건식을 Algol 60에 넣자고 제안했으나 이 표기는 받아들여지지 않았고, Algol 60이 채택한 <code>if … then … else</code>는 John Backus가 제안했다고 적습니다.</p></div>
+<div class="int"><span class="badge b-int">해설·해석</span>
+<p><code>0/0</code>처럼 뜻이 없는 식이 있어도, 그 줄에 도달하지 않으면 괜찮다는 점이 중요합니다.</p>
+<p>이 성질 덕분에 다음 절의 재귀 정의가 무한히 돌지 않고 멈출 수 있습니다.</p></div>
+<h3>2-3. 재귀 함수 정의</h3>
+<div class="paper"><span class="badge b-paper">논문 원문</span> 조건식을 쓰면 정의하려는 함수가 식 안에 다시 나와도 순환에 빠지지 않습니다.
+<div class="mono" style="text-align:center;margin:.4rem">n! = (n = 0 → 1, T → n · (n − 1)!)</div>
+<p>논문의 다른 예:</p>
+<ul><li>최대공약수: <code>gcd(m, n) = (m &gt; n → gcd(n, m), rem(n, m) = 0 → m, T → gcd(rem(n, m), m))</code></li>
+<li>뉴턴법 제곱근: <code>sqrt(a, x, ε) = (|x² − a| &lt; ε → x, T → sqrt(a, ½(x + a/x), ε))</code></li></ul>
+<p>논리 연결사도 조건식으로 정의합니다. 예: <code>p ∧ q = (p → q, T → F)</code>, <code>p ∨ q = (p → T, T → q)</code>, <code>¬p = (p → F, T → T)</code>. 그래서 p가 거짓이고 q가 정의되지 않으면 <code>p ∧ q</code>는 거짓이지만 <code>q ∧ p</code>는 정의되지 않습니다. 논문은 이 비가환성이 바람직하다고 말합니다.</p></div>
+<div class="card"><b>🔧 n! 계산 따라가기</b> <span class="badge b-int">해설·해석</span> 논문이 보여 준 2! 계산을 한 단계씩 펼칩니다.
+<div>n = <select id="factN"><option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option></select> <button id="factPrev" class="sec">◀ 이전</button><button id="factNext">다음 ▶</button></div>
+<div class="log" id="factLog"></div></div>
+<h3>2-4. 함수와 형식, λ 표기, label</h3>
+<div class="int"><span class="badge b-int">해설·해석</span>
+<p>“y² + x”는 그 자체로는 함수가 아닙니다. 3과 4를 어느 변수에 넣을지 모르기 때문입니다.</p>
+<p>그래서 “변수 순서는 (x, y)”라고 정해 주는 표기가 필요합니다. 이것이 <b>λ 표기</b>입니다.</p>
+<p>그런데 λ만으로는 자기 자신을 부르는 함수에 이름을 붙일 수 없습니다. 그래서 <b>label</b>을 씁니다.</p></div>
+<details class="card"><summary>더 알고 싶다면: λ와 label의 정확한 정의</summary>
+<div class="paper"><span class="badge b-paper">논문 원문</span>
+<p>처치(Church)를 따라, <code>y² + x</code> 같은 식을 <b>형식(form)</b>이라 부릅니다. <code>y² + x(3, 4)</code>는 값이 13인지 19인지 불분명합니다.</p>
+<p>E가 변수 x<sub>1</sub>, ⋯, x<sub>n</sub>의 형식이면, <code>λ((x<sub>1</sub>, ⋯, x<sub>n</sub>), E)</code>는 인자를 그 순서대로 E의 변수에 대입해 계산하는 n변수 함수입니다. 예: <code>λ((x, y), y² + x)(3, 4) = 19</code>.</p>
+<p>λ의 변수 목록에 있는 변수는 <b>묶인(bound)</b> 변수라 이름을 바꿔도 뜻이 같습니다. 묶이지 않은 변수는 <b>자유(free)</b> 변수입니다.</p>
+<p><code>label(a, E)</code>는 식 E를 나타내되, E 안의 a는 식 전체를 가리킨다고 해석합니다. 예: <code>label(sqrt, λ((a, x, ε), (|x² − a| &lt; ε → x, T → sqrt(a, ½(x + a/x), ε))))</code>.</p>
+<p>감사의 말에 따르면, λ 표기가 재귀 함수 이름 붙이기에 부족하다는 점은 N. Rochester가 알아챘고, 그는 label과는 다른 해법도 찾았습니다.</p></div></details>
+<div class="quiz card" data-quiz="q2"></div>
+</section>
+<section id="s3"><h2>3. 기호식(S-식)과 그 함수들</h2>
+<div class="guide">📌 <b>이 절에서 알게 될 것</b>: 계산 대상인 S-식, 기본 연산 다섯 개, 그리고 프로그램을 실행하는 만능 함수. 이 글의 중심입니다.</div>
+<h3>3-1. S-식이란</h3>
+<div class="paper"><span class="badge b-paper">논문 원문</span> S는 symbolic(기호)의 약자입니다. 정의는 두 줄입니다.
+<ol><li>원자 기호(atomic symbol)는 S-식이다.</li><li>e<sub>1</sub>, e<sub>2</sub>가 S-식이면 <code>(e<sub>1</sub> · e<sub>2</sub>)</code>도 S-식이다.</li></ol>
+<p>원자 기호로는 대문자 라틴 문자와 숫자로 된 문자열을 씁니다. 예: <code>A</code>, <code>ABA</code>, <code>APPLE PIE NUMBER 3</code>. 한 글자가 아닌 이름을 쓰는 이유로 논문은 두 가지를 듭니다.</p>
+<ul><li>프로그램에는 수백 개의 기호가 필요한데, IBM 704가 인쇄할 수 있는 문자는 47개뿐이다.</li><li>영어 단어를 기호로 쓰면 기억하기 쉽다.</li></ul>
+<p>목록 <code>(m<sub>1</sub>, m<sub>2</sub>, ⋯, m<sub>n</sub>)</code>은 <code>(m<sub>1</sub> · (m<sub>2</sub> · (⋯ (m<sub>n</sub> · NIL) ⋯)))</code>의 줄임말입니다. <code>NIL</code>은 목록 끝을 나타내는 원자 기호입니다. 줄임 규칙은 다음 셋입니다.</p>
+<ol><li><code>(m)</code>은 <code>(m · NIL)</code></li><li><code>(m<sub>1</sub>, ⋯, m<sub>n</sub>)</code>은 <code>(m<sub>1</sub> · (⋯ (m<sub>n</sub> · NIL) ⋯))</code></li><li><code>(m<sub>1</sub>, ⋯, m<sub>n</sub> · x)</code>은 <code>(m<sub>1</sub> · (⋯ (m<sub>n</sub> · x) ⋯))</code></li></ol>
+<p class="small">1995년 메모(각주 3): 당시에는 목록 원소를 쉼표로 구분했으므로 기호 안에 빈칸을 허용할 수 있었다.</p></div>
+<div class="int"><span class="badge b-int">해설·해석</span>
+<p>S-식은 결국 <b>둘씩 묶은 쌍</b>입니다. 쌍 안에 또 쌍이 들어갈 수 있습니다.</p>
+<p>목록은 “첫 원소”와 “나머지 목록”의 쌍을 계속 이어 붙인 것입니다.</p></div>
+
+<h3>3-2. 기본 함수 다섯 개</h3>
+<div class="paper"><span class="badge b-paper">논문 원문</span> 함수를 적을 때는 S-식과 구별하려고 소문자 이름, 대괄호, 세미콜론을 씁니다(예: <code>car[cons[(A · B); x]]</code>). 논문은 이런 표기를 <b>M-식(meta-expression)</b>이라 부릅니다.
+<table><tr><th>함수</th><th>뜻</th><th>논문의 예</th></tr>
+<tr><td><code>atom[x]</code></td><td>x가 원자 기호면 T, 아니면 F</td><td><code>atom[X] = T</code>, <code>atom[(X · A)] = F</code></td></tr>
+<tr><td><code>eq[x; y]</code></td><td>x, y가 둘 다 원자일 때만 정의. 같은 기호면 T</td><td><code>eq[X; X] = T</code>, <code>eq[X; (X · A)]</code>는 정의되지 않음</td></tr>
+<tr><td><code>car[x]</code></td><td>x가 원자가 아닐 때만 정의. <code>car[(e<sub>1</sub> · e<sub>2</sub>)] = e<sub>1</sub></code></td><td><code>car[((X · A) · Y)] = (X · A)</code></td></tr>
+<tr><td><code>cdr[x]</code></td><td>x가 원자가 아닐 때만 정의. <code>cdr[(e<sub>1</sub> · e<sub>2</sub>)] = e<sub>2</sub></code></td><td><code>cdr[((X · A) · Y)] = Y</code></td></tr>
+<tr><td><code>cons[x; y]</code></td><td>언제나 정의. <code>cons[e<sub>1</sub>; e<sub>2</sub>] = (e<sub>1</sub> · e<sub>2</sub>)</code></td><td><code>cons[(X · A); Y] = ((X · A) · Y)</code></td></tr></table>
+<p>세 함수는 다음 관계를 만족합니다.</p>
+<ul><li><code>car[cons[x; y]] = x</code></li><li><code>cdr[cons[x; y]] = y</code></li><li><code>cons[car[x]; cdr[x]] = x</code> (x가 원자가 아닐 때)</li></ul></div>
+<div class="int"><span class="badge b-int">해설·해석</span>
+<ul><li><b>car</b>: 쌍의 왼쪽(목록이라면 첫 원소)</li><li><b>cdr</b>: 쌍의 오른쪽(목록이라면 첫 원소를 뺀 나머지)</li><li><b>cons</b>: 두 개를 묶어 새 쌍 만들기</li></ul></div>
+
+<h3>🔧 실습 ① S-식 놀이터 (car · cdr · cons)</h3>
+<div class="card" id="pg">
+<p style="margin-top:0" class="small">S-식을 입력하고 버튼을 눌러 보세요. 점 표기 <code>(A · B)</code>(<code>.</code>도 됨)와 목록 표기 <code>(A, B, C)</code>(빈칸 구분도 됨)를 모두 받습니다. 아래 그림은 논문 4절의 ‘칸과 화살표’ 방식입니다. <span class="badge b-int">해설·해석</span></p>
+<div>x = <input id="pgX" value="((A · B), C, D)" style="width:16rem"> <select id="pgEx"><option value="">예제…</option><option>((A · B), C, D)</option><option>(A, (B, C), D)</option><option>((A · B) · (C · (E · F)))</option><option>(A · B)</option><option>APPLE</option></select></div>
+<div style="margin-top:.3rem"><button id="pgCar">car[x]</button><button id="pgCdr">cdr[x]</button><button id="pgAtom">atom[x]</button> &nbsp; y = <input id="pgY" value="Z" style="width:6rem"> <button id="pgCons">cons[y; x]</button><button id="pgEq">eq[x; y]</button> <button id="pgReset" class="sec">되돌리기</button></div>
+<div style="margin-top:.4rem"><b>현재 x</b>: <span class="mono" id="pgShow"></span><br><span class="small">점 표기: <span class="mono" id="pgDot"></span></span></div>
+<div id="pgMsg" class="fb"></div><div id="pgSvg" style="overflow-x:auto"></div></div>
+
+<h3>3-3. 재귀로 만든 S-함수</h3>
+<div class="paper"><span class="badge b-paper">논문 원문</span>
+<ul><li><b>ff[x]</b>: 괄호를 무시했을 때 x의 첫 원자 기호. <code>ff[x] = [atom[x] → x; T → ff[car[x]]]</code>, 예: <code>ff[((A · B) · C)] = A</code></li>
+<li><b>subst[x; y; z]</b>: z 안의 원자 y를 모두 x로 바꾼 결과. <code>subst[x; y; z] = [atom[z] → [eq[z; y] → x; T → z]; T → cons[subst[x; y; car[z]]; subst[x; y; cdr[z]]]]</code>, 예: <code>subst[(X · A); B; ((A · B) · C)] = ((A · (X · A)) · C)</code></li>
+<li><b>equal[x; y]</b>: 같은 S-식이면 T</li>
+<li><b>null[x]</b> = <code>atom[x] ∧ eq[x; NIL]</code></li></ul>
+<p>목록용 함수로는 다음이 정의됩니다.</p>
+<ul><li><code>append</code>: 두 목록 잇기. 예: <code>append[(A, B); (C, D, E)] = (A, B, C, D, E)</code></li>
+<li><code>among</code>: x가 목록 y의 원소인가</li>
+<li><code>pair</code>: 두 목록의 짝 목록. 예: <code>pair[(A, B, C); (X, (Y, Z), U)] = ((A, X), (B, (Y, Z)), (C, U))</code></li>
+<li><code>assoc</code>: 짝 목록에서 x의 짝 찾기. 예: <code>assoc[X; ((W, (A, B)), (X, (C, D)), (Y, (E, F)))] = (C, D)</code></li>
+<li><code>sublis</code>: 짝 목록대로 한꺼번에 바꾸기</li></ul>
+<p>줄임말로 <code>cadr[x]</code>는 <code>car[cdr[x]]</code>, <code>caddr[x]</code>는 <code>car[cdr[cdr[x]]]</code>입니다.</p></div>
+
+<h3>🔧 실습 ② 재귀 추적기</h3>
+<div class="card" id="rt">
+<div>함수: <select id="rtF"><option value="ff">ff[((A · B) · C)]</option><option value="subst">subst[(X · A); B; ((A · B) · C)]</option><option value="append">append[(A, B); (C, D, E)]</option></select>
+<button id="rtPrev" class="sec">◀ 이전</button><button id="rtNext">다음 ▶</button><button id="rtAll" class="sec">전부 보기</button> <span class="mono" id="rtNum"></span></div>
+<div class="log" id="rtLog"></div><div id="rtRes" class="fb"></div>
+<p class="small" style="margin:.3rem 0 0"><span class="badge b-int">해설·해석</span> 들여쓰기 깊이가 “함수가 자기 자신을 부른 깊이”입니다. 계산 규칙은 논문의 정의를 그대로 따릅니다.</p></div>
+
+<h3>3-4. 프로그램을 데이터로: M-식을 S-식으로</h3>
+<div class="int"><span class="badge b-int">해설·해석</span>
+<p>지금까지 함수는 M-식(소문자, 대괄호)으로 적었습니다.</p>
+<p>매카시는 이 함수들을 <b>S-식으로도 적는 규칙</b>을 정했습니다.</p>
+<p>그러면 함수 자체가 데이터가 됩니다. 함수를 계산하는 함수를 만들 수 있게 됩니다.</p></div>
+<details class="card"><summary>더 알고 싶다면: 번역 규칙 여섯 가지</summary>
+<div class="paper"><span class="badge b-paper">논문 원문</span> M-식 E의 번역을 E*라 씁니다.
+<ol><li>E가 S-식이면 E*는 <code>(QUOTE, E)</code>.</li><li>소문자 변수·함수 이름은 대문자로. 예: car*는 <code>CAR</code>.</li><li><code>f[e<sub>1</sub>; ⋯; e<sub>n</sub>]</code>는 <code>(f*, e<sub>1</sub>*, ⋯, e<sub>n</sub>*)</code>. 예: <code>cons[car[x]; cdr[x]]*</code>는 <code>(CONS, (CAR, X), (CDR, X))</code>.</li><li><code>[p<sub>1</sub> → e<sub>1</sub>; ⋯; p<sub>n</sub> → e<sub>n</sub>]*</code>는 <code>(COND, (p<sub>1</sub>*, e<sub>1</sub>*), ⋯, (p<sub>n</sub>*, e<sub>n</sub>*))</code>.</li><li><code>λ[[x<sub>1</sub>; ⋯; x<sub>n</sub>]; E]*</code>는 <code>(LAMBDA, (x<sub>1</sub>*, ⋯, x<sub>n</sub>*), E*)</code>.</li><li><code>label[a; E]*</code>는 <code>(LABEL, a*, E*)</code>.</li></ol>
+<p>논문은 이 표기가 “writable and somewhat readable”하다고 평합니다.</p></div></details>
+
+<h3>3-5. 만능 함수 apply와 eval</h3>
+<div class="int"><span class="badge b-int">해설·해석</span>
+<p><code>apply</code>는 <b>“함수의 설명서(S-식)”와 “재료(인자)”를 받아 결과를 내는 함수</b>입니다.</p>
+<p>논문은 이것이 이론에서는 만능 튜링 기계의 역할을, 실제로는 인터프리터(프로그램 실행기)의 역할을 한다고 말합니다.</p>
+<p>실제 일은 <code>eval</code>이 합니다. eval은 식 하나와 “이름–값 짝 목록”(a)을 받아 식의 값을 냅니다.</p></div>
+<div class="paper"><span class="badge b-paper">논문 원문</span> 논문의 예:
+<div class="mono" style="overflow-wrap:anywhere">λ[[x; y]; cons[car[x]; y]][(A, B); (C, D)] = apply[(LAMBDA, (X, Y), (CONS, (CAR, X), Y)); ((A, B), (C, D))] = (A, C, D)</div>
+<p><code>apply[f; args] = eval[cons[f; appq[args]]; NIL]</code>. 여기서 appq는 각 인자에 QUOTE를 씌워 “그 자체를 뜻한다”고 표시합니다.</p></div>
+<details class="card"><summary>더 알고 싶다면: eval의 전체 정의와 경우 나누기</summary>
+<div class="paper"><span class="badge b-paper">논문 원문</span>
+<pre>eval[e; a] = [
+  atom[e] → assoc[e; a];
+  atom[car[e]] → [
+    eq[car[e]; QUOTE] → cadr[e];
+    eq[car[e]; ATOM]  → atom[eval[cadr[e]; a]];
+    eq[car[e]; EQ]    → [eval[cadr[e]; a] = eval[caddr[e]; a]];
+    eq[car[e]; COND]  → evcon[cdr[e]; a];
+    eq[car[e]; CAR]   → car[eval[cadr[e]; a]];
+    eq[car[e]; CDR]   → cdr[eval[cadr[e]; a]];
+    eq[car[e]; CONS]  → cons[eval[cadr[e]; a]; eval[caddr[e]; a]];
+    T → eval[cons[assoc[car[e]; a]; evlis[cdr[e]; a]]; a]];
+  eq[caar[e]; LABEL]  → eval[cons[caddar[e]; cdr[e]]; cons[list[cadar[e]; car[e]]; a]];
+  eq[caar[e]; LAMBDA] → eval[caddar[e]; append[pair[cadar[e]; evlis[cdr[e]; a]]; a]]]
+
+evcon[c; a] = [eval[caar[c]; a] → eval[cadar[c]; a]; T → evcon[cdr[c]; a]]
+evlis[m; a] = [null[m] → NIL; T → cons[eval[car[m]; a]; evlis[cdr[m]; a]]]</pre>
+<p>논문의 설명을 정리하면 다음과 같습니다.</p>
+<ol><li>e가 원자면, a에서 e와 짝지어진 것을 찾는다.</li><li>e의 car가 원자면, QUOTE·ATOM·EQ·COND·CAR·CDR·CONS 중 무엇인지에 따라 처리한다. 그 밖의 원자 f면 a에서 f의 짝으로 바꿔 다시 계산한다.</li><li><code>((LABEL, f, E), e<sub>1</sub>, ⋯)</code>는 짝 <code>(f, (LABEL, f, E))</code>를 a 앞에 붙이고 <code>(E, e<sub>1</sub>, ⋯)</code>를 계산한다.</li><li><code>((LAMBDA, (x<sub>1</sub>, ⋯), E), e<sub>1</sub>, ⋯)</code>는 짝 <code>((x<sub>1</sub>, e<sub>1</sub>), ⋯)</code>를 a 앞에 붙이고 E를 계산한다.</li></ol>
+<p>짝 목록 a를 쓰는 이유는 묶인 변수의 충돌(collision of bound variables)을 피하기 위해서라고 논문은 설명합니다.</p>
+<p class="small">1995년 메모(각주 5): “This version isn't quite right.” 실제로 구현된 판과의 비교는 Herbert Stoyan의 글을 보라고 적혀 있습니다.</p></div></details>
+
+<h3>🔧 실습 ③ eval/apply 단계 보기</h3>
+<div class="card" id="ev">
+<div>예제: <select id="evEx"><option value="0">논문 예 1: (LAMBDA, (X, Y), (CONS, (CAR, X), Y)) 에 ((A, B), (C, D))</option><option value="1">논문 예 2: ff를 LABEL로 정의해 ((A · B)) 에 적용</option></select></div>
+<div><label class="small"><input type="checkbox" id="evFix"> 수정판으로 실행: 함수 이름을 a에서 찾아 바꿀 때, 이미 계산한 인자에 QUOTE를 씌움 (논문 18–20쪽의 계산 과정처럼)</label></div>
+<div><button id="evPrev" class="sec">◀ 이전</button><button id="evNext">다음 ▶</button><button id="evEnd" class="sec">끝으로</button> <span class="mono" id="evNum"></span></div>
+<div class="log" id="evCur" style="max-height:none"></div>
+<div id="evRes" class="fb"></div>
+<details><summary>지금까지의 호출 기록</summary><div class="log" id="evLog"></div></details>
+<p class="small" style="margin:.3rem 0 0"><span class="badge b-int">해설·해석</span> 기본은 논문에 <b>인쇄된 정의 그대로</b> 실행합니다. 예 2는 인쇄된 정의로 돌리면 중간에 <code>assoc[A; a]</code>가 정의되지 않아 멈춥니다. ‘이미 계산한 인자를 다시 계산하는’ 문제 때문입니다. 1995년 메모가 “isn't quite right”라고 한 것과 관련 있을 수 있지만, 메모가 가리키는 결함이 정확히 이것인지는 <b>확인되지 않음</b>입니다.</p></div>
+
+<h3>3-6. 함수를 인자로 받는 함수</h3>
+<div class="paper"><span class="badge b-paper">논문 원문</span>
+<ul><li><code>maplist[x; f] = [null[x] → NIL; T → cons[f[x]; maplist[cdr[x]; f]]]</code></li>
+<li><code>search[x; p; f; u]</code>: 목록에서 성질 p를 가진 원소를 찾아 f를 적용하고, 없으면 인자 없는 함수 u를 계산</li></ul>
+<p>maplist의 쓸모로 논문은 <code>PLUS</code>, <code>TIMES</code>로 된 식의 미분 함수 <code>diff</code>를 보입니다. 예로 <code>(TIMES, X, (PLUS, X, A), Y)</code>, 곧 X(X + A)Y의 미분을 계산합니다. 논문은 이 표기가 본질적으로 폴란드 표기법이라고 말합니다.</p></div>
+<div class="quiz card" data-quiz="q3"></div>
+</section>
+<section id="s4"><h2>4. 기계 속의 LISP (IBM 704)</h2>
+<div class="guide">📌 <b>이 절에서 알게 될 것</b>: S-식이 메모리에 어떻게 담기는지, 그리고 다 쓴 메모리를 어떻게 되찾는지.</div>
+<div class="paper"><span class="badge b-paper">논문 원문</span> 논문은 LISP 시스템이 쓰였거나 쓰일 목적을 다음처럼 꼽습니다.
+<ol><li>LISP 프로그램을 기계어로 옮기는 컴파일러 작성</li><li>어떤 형식 논리 체계의 증명을 검사하는 프로그램</li><li>형식적 미분·적분 프로그램</li><li>술어 논리의 증명 생성 알고리즘 구현</li><li>결과가 숫자가 아닌 공식인 공학 계산</li><li>Advice Taker 프로그래밍</li></ol></div>
+<h3>4-1. 칸과 화살표: 리스트 구조</h3>
+<div class="paper"><span class="badge b-paper">논문 원문</span>
+<p>기계의 한 ‘단어(word)’를 두 칸짜리 상자로 그립니다. 왼쪽 칸은 <b>address</b> 부분, 오른쪽 칸은 <b>decrement</b> 부분입니다.</p>
+<p>원자가 아닌 S-식 x는 단어 하나로 나타냅니다. address 부분에는 car[x]의 위치가, decrement 부분에는 cdr[x]의 위치가 들어갑니다.</p>
+<p>같은 부분 구조를 여러 곳에서 함께 가리키는 것은 허용됩니다. 하지만 순환(자기 자신을 가리키는 고리)은 허용하지 않습니다.</p>
+<p>리스트 구조의 장점으로 논문은 세 가지를 듭니다.</p>
+<ol><li>다룰 식의 크기와 개수를 미리 알 수 없어도 된다.</li><li>필요 없어진 칸을 하나씩 ‘빈칸 목록’에 돌려줄 수 있다.</li><li>여러 식에 들어 있는 같은 부분식을 한 번만 저장할 수 있다.</li></ol>
+<p>이름의 유래도 이 절에 나옵니다.</p>
+<ul><li>“car” is a mnemonic for “contents of the address part of register.”</li><li>“cdr” stands for “contents of the decrement part of register.”</li><li>“cons” is an abbreviation for “construct.”</li></ul></div>
+<div class="int"><span class="badge b-int">해설·해석</span> 실습 ①의 그림이 바로 이 방식입니다. 왼쪽 칸에서 아래로 가는 화살표가 car, 오른쪽 칸에서 옆으로 가는 화살표가 cdr입니다.</div>
+<h3>4-2. 기호의 정보 목록</h3>
+<div class="paper"><span class="badge b-paper">논문 원문</span> 원자 기호는 컴퓨터 안에서 ‘association list’라는 특수한 리스트 구조로 나타냅니다. 여기에는 인쇄용 이름(print name), 숫자 값, 기계어 루틴 위치 같은 정보를 담을 수 있습니다. IBM 704는 36비트 단어를 쓰고, 인쇄 가능한 문자는 6비트씩이라 한 단어에 여섯 글자가 들어갑니다. <span class="small">1995년 메모(각주 6): 이것은 나중에 property list라고 불렸다.</span></div>
+<h3>4-3. 빈칸 목록과 자동 회수</h3>
+<div class="int"><span class="badge b-int">해설·해석</span>
+<p>새 쌍을 만들 때마다 메모리 칸이 하나씩 필요합니다.</p>
+<p>쓰지 않는 칸은 ‘빈칸 목록’에 모아 둡니다.</p>
+<p>빈칸이 다 떨어지면, 프로그램이 더는 닿을 수 없는 칸을 찾아 빈칸 목록으로 되돌립니다.</p>
+<p>프로그래머가 직접 지울 필요가 없다는 점이 핵심입니다.</p></div>
+<details class="card"><summary>더 알고 싶다면: 회수 과정의 실제 설명</summary>
+<div class="paper"><span class="badge b-paper">논문 원문</span>
+<p>리스트 구조용 메모리 중 쓰이지 않는 레지스터(처음에는 약 15,000개)는 <b>free-storage list</b>라는 하나의 목록으로 묶입니다. 레지스터 FREE가 그 첫 위치를 가리킵니다.</p>
+<p>회수는 다음 순서로 자동으로 일어납니다.</p>
+<ol><li>빈 레지스터가 필요한데 목록이 비었을 때에만 회수(reclamation) 주기가 시작된다.</li><li>기준 레지스터들에서 car–cdr 사슬로 닿는 모든 레지스터의 부호를 음수로 바꾼다. 이미 음수면 이미 방문한 것으로 본다.</li><li>리스트 구조 영역 전체를 훑어, 부호가 바뀌지 않은 레지스터를 free-storage list에 돌려준다.</li><li>닿을 수 있는 레지스터의 부호를 다시 양수로 돌린다.</li></ol>
+<p>논문은 회수에 몇 초가 걸리므로, 닿을 수 있는 목록이 메모리를 거의 채우지 않아야 효율적이라고 말합니다.</p>
+<p class="small">각주 7(나중에 덧붙인 저자 메모): “We already called this process “garbage collection”, but I guess I chickened out of using it in the paper—or else the Research Laboratory of Electronics grammar ladies wouldn't let me.”</p></div>
+<div class="int"><span class="badge b-int">해설·해석</span> 오늘날 말로는 <b>표시 후 쓸기(mark-and-sweep) 방식의 가비지 컬렉션</b>입니다. 각주에 따르면 ‘garbage collection’이라는 말은 당시 이미 쓰였지만 논문 본문에는 넣지 않았습니다. 다만 이 각주가 1960년 원래 지면에는 없는 나중 메모라는 점에 주의하세요. 위키백과는 가비지 컬렉션 루틴을 MIT 대학원생 Daniel Edwards가 1962년 이전에 개발했다고 적고 있습니다(LISP 1.5 Programmer's Manual 인용). 이 학습서에서 그 매뉴얼을 직접 대조하지는 않았습니다(<b>확인되지 않음</b>).<div class="src">출처: <a href="https://en.wikipedia.org/wiki/Lisp_(programming_language)">Wikipedia, “Lisp (programming language)”</a></div></div></details>
+<h3>4-4. 재귀 함수의 실행과 시스템 현황</h3>
+<div class="paper"><span class="badge b-paper">논문 원문</span>
+<p>재귀 함수의 루틴은 자기 자신을 서브루틴으로 부릅니다. 이때 임시 레지스터 값이 겹치지 않도록 SAVE와 UNSAVE 루틴이 ‘public push-down list’를 씁니다. <span class="small">1995년 메모(각주 8): 지금은 stack이라고 부른다.</span></p>
+<p>1960년 2월 현황으로 논문은 다음을 적습니다.</p>
+<ul><li>apply의 변형을 IBM 704용 프로그램 APPLY로 옮겼고, 이것이 LISP의 인터프리터 역할을 한다.</li><li>함수를 원하는 만큼 S-식으로 정의할 수 있다.</li><li>S-식을 읽고 인쇄할 수 있다(직접 또는 자기 테이프).</li><li>오류 진단과 선택적 추적 기능이 있다.</li><li>컴파일된 함수는 해석할 때보다 약 60배 빠르다.</li><li>ALGOL 방식의 대입문과 go to를 쓰는 “program feature”가 있다.</li><li>부동소수점 계산은 되지만 비효율적이다.</li><li>프로그래머 매뉴얼을 준비 중이고, IBM 709용 판도 준비 중이다.</li></ul></div>
+<div class="int"><span class="badge b-int">해설·해석</span> 매카시는 회고에서 S. R. 러셀이 eval이 LISP 인터프리터 역할을 할 수 있음을 알아채고 곧바로 손으로 코딩했다고 적었습니다(“S.R. Russell noticed that eval could serve as an interpreter for LISP, promptly hand coded it”). 논문이 말하는 APPLY 프로그램과 이 일이 같은 것인지는 이 학습서에서 <b>확인되지 않음</b>입니다.<div class="src">출처: McCarthy, “History of LISP” (1978) <a href="https://pages.cs.wisc.edu/~horwitz/CS704-NOTES/PAPERS/mccarthy.pdf">PDF</a></div></div>
+<div class="quiz card" data-quiz="q4"></div>
+</section>
+
+<section id="s5"><h2>5. 다른 형식(linear LISP)과 순서도</h2>
+<div class="guide">📌 <b>이 절에서 알게 될 것</b>: 문자열만 쓰는 변형 LISP, 그리고 순서도 프로그램을 재귀 함수로 바꾸는 방법.</div>
+<div class="paper"><span class="badge b-paper">논문 원문</span> <b>linear LISP</b>은 문자열(L-식)을 다룹니다. 함수 세 개와 술어 세 개를 씁니다.
+<ul><li><code>first[x]</code>: 첫 문자. 예: <code>first[ABC] = A</code></li><li><code>rest[x]</code>: 첫 문자를 뺀 나머지. 예: <code>rest[ABC] = BC</code></li><li><code>combine[x; y]</code>: 문자 x를 y 앞에 붙이기. 예: <code>combine[A; BC] = ABC</code></li><li>술어: <code>char[x]</code>(한 문자인가), <code>null[x]</code>(빈 문자열인가), <code>x = y</code>(같은 문자인가)</li></ul>
+<p>장점은 괄호·점·쉼표 같은 특별한 문자가 없다는 것입니다. 단점은 부분식을 꺼내기가 기본 연산이 아니라 꽤 복잡한 연산이라는 것입니다. 수학적으로는 linear LISP이 LISP을 포함하지만, 컴퓨터 루틴으로는 LISP이 본질적으로 더 빠르다고 논문은 말합니다.</p></div>
+<div class="int"><span class="badge b-int">해설·해석</span>
+<p>마지막 절은 방향을 거꾸로 해 봅니다.</p>
+<p>보통 프로그램(순서도)도 재귀 함수로 적을 수 있다는 것입니다.</p>
+<p>순서도의 갈림길마다 “여기서부터 끝까지 일어나는 변화”를 함수 하나로 두면 됩니다.</p></div>
+<details class="card"><summary>더 알고 싶다면: 순서도 → 재귀 함수 공식</summary>
+<div class="paper"><span class="badge b-paper">논문 원문</span>
+<p>기계의 상태를 변수들을 모은 벡터 ξ로 둡니다. 입구 하나·출구 하나인 프로그램 블록은 ξ′ = f(ξ) 꼴의 함수로 정해집니다.</p>
+<p>일반적으로, β가 n갈래 분기점이고 f<sub>1</sub>, ⋯, f<sub>n</sub>이 분기점 β<sub>1</sub>, ⋯, β<sub>n</sub>으로 이어지는 계산이라고 합시다. φ가 β에서 출구까지의 변환, φ<sub>i</sub>가 β<sub>i</sub>에서 출구까지의 변환이면 다음과 같습니다.</p>
+<div class="mono" style="overflow-wrap:anywhere">φ[ξ] = [p<sub>1</sub>[ξ] → φ<sub>1</sub>[f<sub>1</sub>[ξ]]; ⋯; p<sub>n</sub>[ξ] → φ<sub>n</sub>[f<sub>n</sub>[ξ]]]</div>
+<p class="small">위 공식의 마지막 항은 PDF에 <code>φ<sub>n</sub>[ξ]</code>로 인쇄되어 있습니다. 앞 항들과의 일관성으로 보아 <code>φ<sub>n</sub>[f<sub>n</sub>[ξ]]</code>로 읽었는데, 이것은 이 학습서의 해석입니다(1960년 지면과는 <b>확인되지 않음</b>).</p></div></details>
+<div class="quiz card" data-quiz="q5"></div>
+</section>
+
+<section id="s6"><h2>6. 흔한 오해와 오늘날의 의미</h2>
+<div class="guide">📌 <b>이 절에서 알게 될 것</b>: 이 논문에 대해 잘못 알려지기 쉬운 점과 남긴 영향.</div>
+<details open><summary>오해 1: “LISP 프로그램은 처음부터 괄호투성이 S-식으로 쓰도록 설계됐다.”</summary><div class="paper"><span class="badge b-paper">논문 원문</span> 논문에서 함수는 M-식(<code>car[x]</code>처럼 대괄호와 세미콜론)으로 적고, S-식은 데이터와 ‘함수의 번역’에 씁니다.</div><div class="int"><span class="badge b-int">해설·해석</span> 위키백과에 따르면 M-식은 널리 쓰이지 않았고, 오늘날 LISP 계열 언어는 거의 모두 S-식으로 코드와 데이터를 함께 다룹니다.<div class="src">출처: <a href="https://en.wikipedia.org/wiki/Lisp_(programming_language)">Wikipedia, “Lisp (programming language)”</a></div></div></details>
+<details><summary>오해 2: “논문의 eval은 그대로 완벽하게 돌아간다.”</summary><div class="paper"><span class="badge b-paper">논문 원문</span> 1995년 메모가 “This version isn't quite right.”라고 밝힙니다. 실습 ③에서 인쇄된 정의를 그대로 돌려 보면 예 2가 멈추는 것을 볼 수 있습니다.</div></details>
+<details><summary>오해 3: “이 논문에는 Part II가 있다.”</summary><div class="int"><span class="badge b-int">해설·해석</span> 매카시는 “Part II was never written but was intended to contain applications to computing with algebraic expressions.”라고 회고했습니다.<div class="src">출처: McCarthy, “History of LISP” (1978) <a href="https://pages.cs.wisc.edu/~horwitz/CS704-NOTES/PAPERS/mccarthy.pdf">PDF</a></div></div></details>
+<details><summary>오해 4: “논문 본문에 ‘garbage collection’이라는 말이 나온다.”</summary><div class="paper"><span class="badge b-paper">논문 원문</span> 본문은 ‘reclamation’이라고 씁니다. ‘garbage collection’은 나중에 덧붙인 각주 7에만 나옵니다.</div></details>
+<div class="int"><span class="badge b-int">해설·해석</span> <b>오늘날의 의미</b>: 이 논문의 생각들은 다음과 이어져 있습니다.
+<ul><li>조건식: 오늘날 거의 모든 언어의 if 식·삼항 연산자</li><li>재귀와 고차 함수(maplist 같은 함수를 받는 함수): 함수형 프로그래밍의 기본기</li><li>코드를 데이터로 다루기: 매크로, 인터프리터, 컴파일러를 같은 언어로 쓰는 전통</li><li>자동 메모리 회수: 오늘날 많은 언어의 가비지 컬렉터</li></ul></div>
+<div class="quiz card" data-quiz="q6"></div>
+</section>
+
+<section id="final"><h2>최종 복습</h2>
+<div class="guide">📌 <b>이 절에서 알게 될 것</b>: 전체 내용을 문제로 다시 확인하기.</div>
+<div class="quiz card" data-quiz="final"></div>
+<div class="card"><b>점수</b>: <span id="score">0</span> / <span id="total">0</span> <button class="sec" id="resetQ">퀴즈 모두 초기화</button></div>
+</section>
+</main>
+<footer>원문: J. McCarthy, “Recursive Functions of Symbolic Expressions and Their Computation by Machine, Part I,” Comm. ACM 3(4), 1960 (이 학습서는 저자의 재조판본 PDF를 읽음). 외부 의존성 없는 단일 HTML 파일입니다.</footer>
+<script>
+"use strict";
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;");
+/* ---------- S-expression core ---------- */
+const NIL="NIL";
+const isAtom=x=>typeof x==="string";
+const cons=(a,b)=>({car:a,cdr:b});
+class Undef extends Error{}
+const car=x=>{if(isAtom(x))throw new Undef(`car[${show(x)}]은 정의되지 않음 (원자에는 car가 없음)`);return x.car};
+const cdr=x=>{if(isAtom(x))throw new Undef(`cdr[${show(x)}]은 정의되지 않음 (원자에는 cdr가 없음)`);return x.cdr};
+const eqA=(x,y)=>{if(!isAtom(x)||!isAtom(y))throw new Undef(`eq[${show(x)}; ${show(y)}]는 정의되지 않음 (둘 다 원자여야 함)`);return x===y?"T":"F"};
+const list=(...xs)=>xs.reduceRight((t,h)=>cons(h,t),NIL);
+function parse(src){const toks=[];const re=/\s*([()·.,]|[A-Z0-9]+)\s*/gy;let m,pos=0;src=src.trim();
+ while(pos<src.length){re.lastIndex=pos;m=re.exec(src);if(!m||m.index!==pos)throw new Error(`읽을 수 없는 글자: '${src[pos]}' (원자는 대문자와 숫자만)`);toks.push(m[1]==="."?"·":m[1]);pos=re.lastIndex}
+ let i=0;function one(){const t=toks[i++];if(t===undefined)throw new Error("식이 덜 끝났음");if(t==="(")return seq();if(t===")"||t==="·"||t===",")throw new Error(`'${t}'가 예상 밖 위치에 있음`);return t}
+ function seq(){const items=[];let tail=NIL;while(true){const t=toks[i];if(t===undefined)throw new Error("닫는 괄호가 없음");if(t===")"){i++;break}if(t===","){i++;continue}if(t==="·"){i++;tail=one();if(toks[i]!==")")throw new Error("점 뒤에는 식 하나와 ')'가 와야 함");i++;break}items.push(one())}
+  if(!items.length){if(tail!==NIL)throw new Error("점 앞에 식이 없음");return NIL}return items.reduceRight((t,h)=>cons(h,t),tail)}
+ const r=one();if(i!==toks.length)throw new Error("식 뒤에 남는 글자가 있음");return r}
+function show(x){if(isAtom(x))return x;const items=[];let p=x;while(!isAtom(p)){items.push(show(p.car));p=p.cdr}return "("+items.join(", ")+(p===NIL?"":" · "+p)+")"}
+function dot(x){return isAtom(x)?x:"("+dot(x.car)+" · "+dot(x.cdr)+")"}
+/* ---------- box-and-pointer SVG ---------- */
+function boxSvg(x){const CW=96,RH=64,cells=[],arrows=[],atoms=[];
+ function lay(n,c,r){ // returns width in columns
+  if(isAtom(n)){atoms.push({c,r,t:n});return 1}
+  cells.push({c,r,carAtom:isAtom(n.car)?n.car:null,cdrAtom:isAtom(n.cdr)?n.cdr:null});
+  let wcar=1;if(!isAtom(n.car)){arrows.push({type:"down",c,r});wcar=lay(n.car,c,r+1)}
+  let wcdr=0;if(!isAtom(n.cdr)){arrows.push({type:"right",c,r,to:c+wcar});wcdr=lay(n.cdr,c+wcar,r)}
+  return wcar+wcdr}
+ if(isAtom(x)){return `<svg viewBox="0 0 160 50" role="img" aria-label="원자"><rect class="boxf" x="10" y="10" width="${Math.max(60,x.length*11+20)}" height="30" rx="14"/><text class="t" x="20" y="30">${esc(x)}</text><text class="tm" x="${Math.max(60,x.length*11+20)+16}" y="30">원자</text></svg>`}
+ const w=lay(x,0,0);const rows=Math.max(...cells.map(c=>c.r))+1;const W=w*CW+20,H=rows*RH+10;
+ let s=`<svg viewBox="0 0 ${W} ${H}" style="min-width:${Math.min(W,600)}px" role="img" aria-label="칸과 화살표 그림"><defs><marker id="ahb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path class="ah" d="M0,0L10,5L0,10z"/></marker></defs>`;
+ const X=c=>10+c*CW,Y=r=>8+r*RH;
+ for(const a of arrows){if(a.type==="down")s+=`<path class="arrow" d="M${X(a.c)+19},${Y(a.r)+15} V${Y(a.r+1)-1}" marker-end="url(#ahb)"/>`;else s+=`<path class="arrow" d="M${X(a.c)+57},${Y(a.r)+15} H${X(a.to)-1}" marker-end="url(#ahb)"/>`}
+ for(const c of cells){s+=`<rect class="boxf" x="${X(c.c)}" y="${Y(c.r)}" width="38" height="30"/><rect class="boxf" x="${X(c.c)+38}" y="${Y(c.r)}" width="38" height="30"/>`;
+  if(c.carAtom!==null)s+=`<text class="t" x="${X(c.c)+19}" y="${Y(c.r)+20}" text-anchor="middle" style="font-size:${c.carAtom.length>3?10:13}px">${esc(c.carAtom)}</text>`;
+  if(c.cdrAtom!==null)s+=c.cdrAtom===NIL?`<line class="stroke" x1="${X(c.c)+38}" y1="${Y(c.r)+30}" x2="${X(c.c)+76}" y2="${Y(c.r)}"/>`:`<text class="t" x="${X(c.c)+57}" y="${Y(c.r)+20}" text-anchor="middle" style="font-size:${c.cdrAtom.length>3?10:13}px">${esc(c.cdrAtom)}</text>`}
+ return s+`</svg><p class="small" style="margin:.2rem 0 0">왼쪽 칸 = address(car), 오른쪽 칸 = decrement(cdr). 사선은 NIL(목록 끝).</p>`}
+/* ---------- playground ---------- */
+let PGx,PGorig;
+function pgSet(v){PGx=v;$("pgShow").textContent=show(v);$("pgDot").textContent=dot(v);$("pgSvg").innerHTML=boxSvg(v)}
+function pgLoad(){try{PGorig=parse($("pgX").value);pgSet(PGorig);$("pgMsg").textContent=""}catch(e){$("pgMsg").innerHTML=`<span class="no">⚠ ${esc(e.message)}</span>`}}
+function pgDo(f,label){try{const r=f();$("pgMsg").innerHTML=`<span class="ok">${esc(label)} = ${esc(show(r))}</span>`;return r}catch(e){$("pgMsg").innerHTML=`<span class="no">${esc(e.message)}</span>`;return null}}
+function pgY(){try{return parse($("pgY").value)}catch(e){$("pgMsg").innerHTML=`<span class="no">y: ${esc(e.message)}</span>`;return null}}
+$("pgX").onchange=pgLoad;$("pgEx").onchange=()=>{if($("pgEx").value){$("pgX").value=$("pgEx").value;pgLoad()}};
+$("pgCar").onclick=()=>{const r=pgDo(()=>car(PGx),`car[${show(PGx)}]`);if(r!==null)pgSet(r)};
+$("pgCdr").onclick=()=>{const r=pgDo(()=>cdr(PGx),`cdr[${show(PGx)}]`);if(r!==null)pgSet(r)};
+$("pgAtom").onclick=()=>pgDo(()=>isAtom(PGx)?"T":"F",`atom[${show(PGx)}]`);
+$("pgCons").onclick=()=>{const y=pgY();if(y===null)return;const r=pgDo(()=>cons(y,PGx),`cons[${show(y)}; ${show(PGx)}]`);if(r)pgSet(r)};
+$("pgEq").onclick=()=>{const y=pgY();if(y===null)return;pgDo(()=>eqA(PGx,y),`eq[${show(PGx)}; ${show(y)}]`)};
+$("pgReset").onclick=()=>{pgSet(PGorig);$("pgMsg").textContent="처음 식으로 되돌렸습니다."};
+/* ---------- gift stepper ---------- */
+function gift(step){const H="hlf",B="boxf";const outer=step===1?H:B,inner=step===2?H:B,app=step===3?H:B;
+ const tf=(cls)=>cls===H?"th":"t";
+ return `<svg viewBox="0 0 360 200" role="img" aria-label="상자 속 상자 그림">
+<rect class="${outer}" x="10" y="20" width="340" height="150" rx="10"/><text class="${tf(outer)}" x="20" y="40">큰 상자</text>
+<line class="stroke" x1="230" y1="45" x2="230" y2="165" style="stroke-dasharray:4 3"/><text class="tm" x="22" y="190">왼쪽 칸</text><text class="tm" x="240" y="190">오른쪽 칸</text>
+<rect class="${inner}" x="25" y="55" width="195" height="100" rx="8"/><text class="${tf(inner)}" x="35" y="73">작은 상자</text>
+<line class="stroke" x1="122" y1="80" x2="122" y2="150" style="stroke-dasharray:4 3"/>
+<circle class="${app}" cx="72" cy="115" r="28"/><text class="${tf(app)}" x="72" y="120" text-anchor="middle">🍎 사과</text>
+<circle class="${B}" cx="172" cy="115" r="28"/><text class="t" x="172" y="120" text-anchor="middle">🍐 배</text>
+<circle class="${B}" cx="290" cy="105" r="28"/><text class="t" x="290" y="110" text-anchor="middle">🍊 귤</text></svg>`}
+const GX=[["1. 문제와 규칙",0,"선물 상자 안에 칸이 둘 있습니다. 칸에는 물건이나 또 다른 상자가 들어 있습니다. 목표는 <b>맨 왼쪽 끝에 있는 첫 물건</b>을 찾는 것입니다. 규칙은 하나입니다. “열어 본 것이 물건이면 그게 답. 상자면 그 상자의 왼쪽 칸으로 가서 같은 규칙을 다시 쓴다.”"],
+ ["2. 큰 상자를 본다",1,"큰 상자는 물건인가요? 아닙니다, 상자입니다. 그러니 규칙대로 <b>왼쪽 칸</b>으로 갑니다."],
+ ["3. 작은 상자를 본다",2,"왼쪽 칸에는 작은 상자가 있습니다. 물건인가요? 아닙니다. 같은 규칙을 다시 써서 작은 상자의 <b>왼쪽 칸</b>으로 갑니다."],
+ ["4. 사과를 본다",3,"이번엔 사과입니다. 물건이지요. 그러니 <b>답은 사과</b>입니다. 여기서 멈춥니다."],
+ ["5. 정리",3,"같은 규칙을 더 작은 상자에 되풀이했습니다. 이것이 <b>재귀</b>입니다. 논문에서는 상자를 <code>((사과 · 배) · 귤)</code>처럼 적고, 이 규칙을 <code>ff</code>라는 함수로 씁니다. 결과도 같습니다: <code>ff[((A · B) · C)] = A</code>."]];
+let gxI=0;function gxShow(){const g=GX[gxI];$("gxTitle").textContent=g[0];$("gxSvg").innerHTML=gift(g[1]);$("gxCap").innerHTML=g[2];$("gxNum").textContent=`${gxI+1} / ${GX.length}`;$("gxPrev").disabled=gxI===0;$("gxNext").disabled=gxI===GX.length-1}
+$("gxPrev").onclick=()=>{if(gxI>0){gxI--;gxShow()}};$("gxNext").onclick=()=>{if(gxI<GX.length-1){gxI++;gxShow()}};
+/* ---------- factorial trace ---------- */
+function factLines(n){const L=[];let pre=[];let k=n;
+ const P=()=>pre.length?pre.join(" · ")+" · ":"";
+ while(true){L.push(`${P()}(${k} = 0 → 1, T → ${k} · (${k} − 1)!)`);if(k===0){L.push(`${P()}1   ← ${k} = 0 이 참이라 첫 줄의 1을 고름`);break}
+  L.push(`${P()}${k} · ${k-1}!   ← ${k} = 0 이 거짓, T → 줄을 고름`);pre.push(k);k--}
+ let v=1;for(const p of pre)v*=p;if(pre.length)L.push(`= ${v}`);return L}
+let FL=[],fI=0;function factShow(){$("factLog").innerHTML=FL.slice(0,fI+1).map((l,i)=>`<div class="${i===fI?"on":""}">${i===0?`${$("factN").value}! = `:"   = "}${esc(l)}</div>`).join("");$("factPrev").disabled=fI===0;$("factNext").disabled=fI===FL.length-1}
+function factLoad(){FL=factLines(+$("factN").value);fI=0;factShow()}
+$("factN").onchange=factLoad;$("factPrev").onclick=()=>{if(fI>0){fI--;factShow()}};$("factNext").onclick=()=>{if(fI<FL.length-1){fI++;factShow()}};
+/* ---------- recursive tracer ---------- */
+function traceRun(name){const L=[];let res;
+ function ff(x,d){L.push({d,t:`ff[${show(x)}]  → atom[${show(x)}] = ${isAtom(x)?"T":"F"}`});if(isAtom(x)){L.push({d,t:`= ${x}`});return x}const r=ff(car(x),d+1);L.push({d,t:`= ${show(r)}`});return r}
+ function subst(x,y,z,d){L.push({d,t:`subst[${show(x)}; ${y}; ${show(z)}]`});let r;if(isAtom(z)){r=z===y?x:z;L.push({d,t:`  atom이므로 ${z===y?`eq[${z}; ${y}] = T → ${show(x)}`:`eq[${z}; ${y}] = F → ${z}`}`})}else{const a=subst(x,y,car(z),d+1),b=subst(x,y,cdr(z),d+1);r=cons(a,b);L.push({d,t:`  cons[${show(a)}; ${show(b)}]`})}L.push({d,t:`= ${show(r)}`});return r}
+ function append(x,y,d){L.push({d,t:`append[${show(x)}; ${show(y)}]  → null[${show(x)}] = ${x===NIL?"T":"F"}`});let r;if(x===NIL)r=y;else{const t=append(cdr(x),y,d+1);r=cons(car(x),t);L.push({d,t:`  cons[${show(car(x))}; ${show(t)}]`})}L.push({d,t:`= ${show(r)}`});return r}
+ if(name==="ff")res=ff(parse("((A · B) · C)"),0);else if(name==="subst")res=subst(parse("(X · A)"),"B",parse("((A · B) · C)"),0);else res=append(parse("(A, B)"),parse("(C, D, E)"),0);
+ return{L,res}}
+let RT,rtI=0;function rtShow(){$("rtLog").innerHTML=RT.L.slice(0,rtI+1).map((l,i)=>`<div class="${i===rtI?"on":""}">${"  ".repeat(l.d)}${esc(l.t)}</div>`).join("");$("rtNum").textContent=`${rtI+1} / ${RT.L.length}`;$("rtRes").innerHTML=rtI===RT.L.length-1?`<span class="ok">결과: ${esc(show(RT.res))}</span>`:"";$("rtPrev").disabled=rtI===0;$("rtNext").disabled=rtI===RT.L.length-1}
+function rtLoad(){RT=traceRun($("rtF").value);rtI=0;rtShow()}
+$("rtF").onchange=rtLoad;$("rtPrev").onclick=()=>{if(rtI>0){rtI--;rtShow()}};$("rtNext").onclick=()=>{if(rtI<RT.L.length-1){rtI++;rtShow()}};$("rtAll").onclick=()=>{rtI=RT.L.length-1;rtShow()};
+/* ---------- eval / apply (paper's printed definition) ---------- */
+function runEval(exIdx,fixed){const S=[];let depth=0;const lim={n:0};
+ const cadr=x=>car(cdr(x)),caddr=x=>car(cdr(cdr(x))),caar=x=>car(car(x)),cadar=x=>car(cdr(car(x))),caddar=x=>car(cdr(cdr(car(x))));
+ const shortA=a=>{const s=show(a);return s.length>160?s.slice(0,157)+"…":s};
+ const log=(t,extra)=>{S.push({d:depth,t,extra});if(++lim.n>400)throw new Undef("단계가 너무 많아 멈춤")};
+ function assoc(x,y){if(y===NIL)throw new Undef(`assoc[${show(x)}; a]: a에 ${show(x)}의 짝이 없어 정의되지 않음`);return eqA(caar(y),x)==="T"?cadar(y):assoc(x,cdr(y))}
+ function pair(x,y){if(x===NIL&&y===NIL)return NIL;if(!isAtom(x)&&!isAtom(y))return cons(list(car(x),car(y)),pair(cdr(x),cdr(y)));throw new Undef("pair: 변수와 인자 개수가 다름")}
+ function app(x,y){return x===NIL?y:cons(car(x),app(cdr(x),y))}
+ function evlis(m,a){return m===NIL?NIL:cons(ev(car(m),a),evlis(cdr(m),a))}
+ function evcon(c,a){if(c===NIL)throw new Undef("evcon: 참인 조건이 없어 정의되지 않음");log(`evcon: 조건 ${show(caar(c))} 검사`);return ev(caar(c),a)==="T"?ev(cadar(c),a):evcon(cdr(c),a)}
+ function ev(e,a){log(`eval[${show(e)}; a]`,`a = ${shortA(a)}`);depth++;let r,rule;
+  try{
+  if(isAtom(e)){rule="atom[e] → assoc[e; a]";r=assoc(e,a)}
+  else if(isAtom(car(e))){const f=car(e);
+   if(f==="QUOTE"){rule="QUOTE → cadr[e]";r=cadr(e)}
+   else if(f==="ATOM"){rule="ATOM → atom[eval[cadr[e]; a]]";r=isAtom(ev(cadr(e),a))?"T":"F"}
+   else if(f==="EQ"){rule="EQ → eval[cadr[e]] = eval[caddr[e]]";r=eqA(ev(cadr(e),a),ev(caddr(e),a))}
+   else if(f==="COND"){rule="COND → evcon[cdr[e]; a]";r=evcon(cdr(e),a)}
+   else if(f==="CAR"){rule="CAR → car[eval[cadr[e]; a]]";r=car(ev(cadr(e),a))}
+   else if(f==="CDR"){rule="CDR → cdr[eval[cadr[e]; a]]";r=cdr(ev(cadr(e),a))}
+   else if(f==="CONS"){rule="CONS → cons[eval[cadr[e]]; eval[caddr[e]]]";r=cons(ev(cadr(e),a),ev(caddr(e),a))}
+   else{rule=`T → 함수 이름 ${f}를 a에서 찾아 바꾸고, 인자는 evlis로 계산`+(fixed?" (수정판: 계산한 인자에 QUOTE를 씌움)":"");
+    const fn=assoc(f,a);let args=evlis(cdr(e),a);
+    if(fixed){const q=m=>m===NIL?NIL:cons(list("QUOTE",car(m)),q(cdr(m)));args=q(args)}
+    log(`→ 함수 ${f} = ${show(fn).slice(0,60)}${show(fn).length>60?"…":""}, 인자 = ${show(args)}`);r=ev(cons(fn,args),a)}}
+  else if(caar(e)==="LABEL"){rule="LABEL → 짝 (f, (LABEL, f, E))를 a 앞에 붙이고 (E, 인자…) 계산";r=ev(cons(caddar(e),cdr(e)),cons(list(cadar(e),car(e)),a))}
+  else if(caar(e)==="LAMBDA"){rule="LAMBDA → 인자를 evlis로 계산해 변수와 짝지어 a 앞에 붙이고 몸체 계산";const vals=evlis(cdr(e),a);const na=app(pair(cadar(e),vals),a);log(`→ 새 짝: ${show(pair(cadar(e),vals))}`);r=ev(caddar(e),na)}
+  else throw new Undef(`eval: 처리할 경우가 없음`);
+  }finally{depth--}
+  log(`= ${show(r)}   [${rule}]`);return r}
+ const EX=[{f:"(LAMBDA, (X, Y), (CONS, (CAR, X), Y))",args:"((A, B), (C, D))"},{f:"(LABEL, FF, (LAMBDA, (X), (COND, ((ATOM, X), X), ((QUOTE, T), (FF, (CAR, X))))))",args:"((A · B))"}][exIdx];
+ const f=parse(EX.f),args=parse(EX.args);
+ const appq=m=>m===NIL?NIL:cons(list("QUOTE",car(m)),appq(cdr(m)));
+ S.push({d:0,t:`apply[${EX.f}; ${EX.args}]`,extra:"apply[f; args] = eval[cons[f; appq[args]]; NIL]"});
+ let result=null,err=null;try{result=ev(cons(f,appq(args)),NIL)}catch(e){if(e instanceof Undef)err=e.message;else throw e}
+ return{S,result,err}}
+let EV,evI=0;
+function evShow(){const s=EV.S[evI];$("evCur").innerHTML=`<div>${"│ ".repeat(s.d)}<b>${esc(s.t)}</b></div>`+(s.extra?`<div class="small">${esc(s.extra)}</div>`:"");
+ $("evLog").innerHTML=EV.S.slice(0,evI+1).map((x,i)=>`<div class="${i===evI?"on":""}">${"│ ".repeat(x.d)}${esc(x.t)}</div>`).join("");
+ $("evNum").textContent=`${evI+1} / ${EV.S.length}`;$("evPrev").disabled=evI===0;$("evNext").disabled=evI===EV.S.length-1;
+ $("evRes").innerHTML=evI===EV.S.length-1?(EV.err?`<span class="no">멈춤: ${esc(EV.err)}</span>`:`<span class="ok">결과: ${esc(show(EV.result))}</span>`):""}
+function evLoad(){EV=runEval(+$("evEx").value,$("evFix").checked);evI=0;evShow()}
+$("evEx").onchange=evLoad;$("evFix").onchange=evLoad;$("evPrev").onclick=()=>{if(evI>0){evI--;evShow()}};$("evNext").onclick=()=>{if(evI<EV.S.length-1){evI++;evShow()}};$("evEnd").onclick=()=>{evI=EV.S.length-1;evShow()};
+/* ---------- quizzes ---------- */
+const Q={
+q0:[["함수에 같은 것을 넣으면?",["매번 다른 것이 나온다","늘 같은 것이 나온다"],1,"자판기처럼, 같은 입력엔 같은 출력입니다."],
+ ["재귀가 끝없이 돌지 않으려면?",["문제가 점점 작아져 끝나는 경우가 있어야 한다","규칙이 길어야 한다"],0,"인형이 점점 작아지다 마지막 인형에서 멈추는 것과 같습니다."],
+ ["목록 (APPLE, (MILK, EGG))의 원소는 몇 개인가?",["2개","3개"],0,"APPLE과 (MILK, EGG) 두 개입니다. 둘째 원소가 목록일 뿐입니다."]],
+qov:[["논문이 말한 ‘모든 계산 가능한 함수’를 만드는 재료가 아닌 것은?",["조건식","재귀 정의","무작위로 고르기"],2,"기본 연산 + 조건식 + 재귀 정의입니다."],
+ ["상자 예에서 답을 찾는 규칙은?",["오른쪽 칸부터 연다","물건이면 답, 상자면 왼쪽 칸에 같은 규칙"],1,"논문의 ff와 같은 규칙입니다."]],
+q1:[["LISP이 처음 만들어진 컴퓨터로 논문이 밝힌 것은?",["IBM 704","IBM 360","PDP-1"],0,"첫 문장: “…developed for the IBM 704 computer…”"],
+ ["LISP을 만든 목적으로 논문이 든 시스템은?",["Advice Taker","Logic Theorist","FORTRAN"],0,"Advice Taker 실험을 돕기 위해서입니다."]],
+q2:[["(2 < 1 → 0/0, T → 3)의 값은?",["정의되지 않음","3"],1,"첫 조건이 거짓이라 0/0은 계산되지 않습니다."],
+ ["p가 거짓이고 q가 정의되지 않을 때 q ∧ p는?",["거짓","정의되지 않음"],1,"q를 먼저 계산하므로 정의되지 않습니다. 논문은 이를 비가환성이라 부릅니다."],
+ ["재귀 함수에 이름을 붙이려고 도입한 표기는?",["label","QUOTE","cons"],0,"λ만으로는 자기 자신을 가리킬 수 없어서 label을 씁니다."]],
+q3:[["car[((X · A) · Y)]는?",["X","(X · A)","Y"],1,"쌍의 왼쪽 전체입니다."],
+ ["cdr[(A, B, C)]는?",["(B, C)","C","B"],0,"목록에서 첫 원소를 뺀 나머지입니다."],
+ ["eq[X; (X · A)]는?",["F","정의되지 않음"],1,"eq는 두 인자가 모두 원자일 때만 정의됩니다."],
+ ["apply가 이론과 실제에서 하는 역할로 논문이 든 것은?",["만능 튜링 기계 / 인터프리터","컴파일러 / 운영체제"],0,"“…the theoretical role of a universal Turing machine and the practical role of an interpreter.”"]],
+q4:[["“car”는 무엇의 약자라고 논문에 적혀 있나?",["contents of the address part of register","copy and return"],0,"cdr는 decrement part입니다."],
+ ["회수(reclamation)는 언제 시작되나?",["일정 시간마다","빈칸 목록이 바닥났을 때"],1,"“Nothing happens until the program runs out of free storage.”"],
+ ["컴파일된 함수는 해석할 때보다 약 몇 배 빠르다고 했나?",["약 60배","약 6배"],0,"“about 60 times as fast”"]],
+q5:[["linear LISP의 단점으로 논문이 든 것은?",["부분식 꺼내기가 복잡하다","문자를 쓸 수 없다"],0,"괄호가 없는 대신 부분식 추출이 기본 연산이 아닙니다."]],
+q6:[["‘garbage collection’이라는 말이 나오는 곳은?",["논문 본문","나중에 덧붙인 각주"],1,"본문은 reclamation이라고 씁니다."],
+ ["Part II는?",["1961년에 출판되었다","쓰이지 않았다고 매카시가 회고했다"],1,"History of LISP(1978)."]],
+final:[["S-식의 정의 두 줄에 해당하는 것은?",["원자는 S-식, 두 S-식의 쌍도 S-식","숫자는 S-식, 문자열도 S-식"],0,"(e1 · e2)"],
+ ["(A, B)의 점 표기는?",["(A · B)","(A · (B · NIL))"],1,"목록은 NIL로 끝나는 쌍의 사슬입니다."],
+ ["eval[e; a]에서 a는?",["이름과 값의 짝 목록","인자의 개수"],0,"원자 e의 값은 a에서 찾습니다(assoc)."],
+ ["논문의 M-식과 S-식 관계는?",["M-식으로 쓴 함수를 S-식으로 번역할 수 있다","둘은 아무 관계 없다"],0,"그래서 함수가 데이터가 됩니다."],
+ ["논문 각주가 밝힌 Algol 60의 if…then…else 제안자는?",["John Backus","John McCarthy"],0,"각주 2."],
+ ["1995년 메모가 eval에 대해 한 말은?",["완벽하다","This version isn't quite right."],1,"각주 5."]]};
+let score=0,total=0;
+function buildQuiz(){score=0;total=0;document.querySelectorAll("[data-quiz]").forEach(box=>{const k=box.dataset.quiz;box.innerHTML=`<b>✏️ ${k==="final"?"종합 복습":"확인 퀴즈"}</b>`;
+ Q[k].forEach((q,qi)=>{total++;const d=document.createElement("div");d.className="q";d.innerHTML=`<div>${qi+1}. ${q[0]}</div>`+q[1].map((o,oi)=>`<label><input type="radio" name="${k}-${qi}" value="${oi}"> ${esc(o)}</label>`).join("")+`<div class="fb"></div>`;
+  d.querySelectorAll("input").forEach(inp=>inp.onchange=()=>{if(d.dataset.done)return;d.dataset.done=1;const ok=+inp.value===q[2];if(ok)score++;
+   d.querySelector(".fb").innerHTML=(ok?'<span class="ok">정답!</span> ':'<span class="no">아쉬워요.</span> 정답: '+esc(q[1][q[2]])+'. ')+esc(q[3]);d.querySelectorAll("input").forEach(x=>x.disabled=true);$("score").textContent=score});box.appendChild(d)})});
+ $("score").textContent=0;$("total").textContent=total}
+$("resetQ").onclick=buildQuiz;
+pgLoad();gxShow();factLoad();rtLoad();evLoad();buildQuiz();
+</script>
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">요약 아카이브</div><div class="arc-foot-title">기호를 계산하는 재귀 함수와 LISP의 탄생: 매카시 1960</div><div class="arc-foot-meta"><time datetime="2026-10-25">2026년 10월 25일</time><a class="arc-tag" href="../index.html#tags=%EA%B3%84%EC%82%B0%EC%9D%B4%EB%A1%A0">#계산이론</a><a class="arc-tag" href="../index.html#tags=LISP">#LISP</a><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99%EC%82%AC">#컴퓨터과학사</a> · <a href="https://pages.cs.wisc.edu/~horwitz/CS704-NOTES/PAPERS/mccarthy.pdf" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body></html>
