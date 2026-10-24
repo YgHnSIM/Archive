@@ -3,53 +3,70 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>매카시 1960 해설 학습서: 기호를 계산하는 재귀 함수, 그리고 LISP의 탄생</title>
 <style>
+/* 아카이브 공통 스타일(데니스노블·언어모델압축 기준) + 인터랙티브 위젯 */
 :root{color-scheme:light only;
- --bg:#fbfaf7;--fg:#1f2328;--mut:#57606a;--card:#ffffff;--card-fg:#1f2328;--bd:#d0d7de;
- --acc:#0a58ca;--acc-fg:#ffffff;--link:#0a58ca;
- --paper-badge:#8a4b00;--paper-badge-fg:#ffffff;--paperbg:#fff4e0;--paper-fg:#1f2328;--paper-bd:#8a4b00;
- --int-badge:#1a7f37;--int-badge-fg:#ffffff;--intbg:#e8f6ec;--int-fg:#1f2328;--int-bd:#1a7f37;
- --hl:#ffe58a;--hl-fg:#1f2328;--ok:#116329;--no:#b42318;--code-bg:#f2f0ea;--code-fg:#1f2328;
- --guide-bg:#eef4ff;--guide-fg:#1f2328;--warn:#9a3412;
-}
+ --bg:#faf8f3;--paper-c:#fff;--ink:#1f2328;--muted:#5b6470;--line:#e6e1d6;--accent:#c8553d;--accent-soft:#fbeee9;--link:#4a6b8a;--new:#3d5f80;--new-soft:#eaf0f6;--radius:14px;
+ --fg:var(--ink);--mut:var(--muted);--card:#fff;--card-fg:var(--ink);--bd:var(--line);--acc:var(--new);--acc-fg:#fff;
+ --paper:#a8432e;--paper-badge:#a8432e;--paper-badge-fg:#fff;--paperbg:var(--accent-soft);--paper-fg:var(--ink);--paper-bd:var(--accent);
+ --int:var(--new);--int-badge:var(--new);--int-badge-fg:#fff;--intbg:var(--new-soft);--int-fg:var(--ink);--int-bd:var(--new);
+ --hl:#fde9a8;--hl-fg:var(--ink);--ok:#2f7a5b;--no:#b4442e;--red:#b4442e;--warn:#9a3412;--code-bg:#f7f4ed;--code-fg:var(--ink);--guide-bg:#fdfcf9;--guide-fg:var(--ink)}
 *{box-sizing:border-box}
-html{background:var(--bg);color:var(--fg)}
-body{margin:0;overflow-x:hidden;font-family:system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;background:var(--bg);color:var(--fg);line-height:1.75;font-size:17px}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;background:var(--bg)}
+body{margin:0;overflow-x:hidden;background:var(--bg);color:var(--ink);font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",system-ui,sans-serif;font-size:17px;line-height:1.8;word-break:keep-all;overflow-wrap:break-word}
+@media(max-width:640px){body{font-size:16px}}
 a{color:var(--link)}
-header{padding:2rem 1rem 1rem;text-align:center;border-bottom:1px solid var(--bd)}
-header h1{margin:.2rem 0;font-size:1.6rem}header p{color:var(--mut);margin:.3rem auto;max-width:44rem}
-nav{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--bd);overflow-x:auto;white-space:nowrap;padding:.4rem .6rem;max-width:100vw}
-nav a{display:inline-block;padding:.2rem .65rem;margin:.1rem;border-radius:99px;color:var(--fg);text-decoration:none;font-size:.88rem;border:1px solid var(--bd)}
-main{max-width:52rem;margin:auto;padding:1rem;overflow-x:clip}section{margin:2.5rem 0}
-h2{border-left:5px solid var(--acc);padding-left:.6rem}
-.badge{display:inline-block;font-size:.75rem;font-weight:700;padding:.05rem .5rem;border-radius:6px;margin-right:.4rem;vertical-align:middle}
-.b-paper{background:var(--paper-badge);color:var(--paper-badge-fg)}.b-int{background:var(--int-badge);color:var(--int-badge-fg)}
-.paper{background:var(--paperbg);color:var(--paper-fg);border-left:4px solid var(--paper-bd);padding:.7rem 1rem;border-radius:6px;margin:1rem 0}
-.int{background:var(--intbg);color:var(--int-fg);border-left:4px solid var(--int-bd);padding:.7rem 1rem;border-radius:6px;margin:1rem 0}
-.paper p,.int p{margin:.45rem 0}
-.guide{background:var(--guide-bg);color:var(--guide-fg);border:1px dashed var(--acc);border-radius:8px;padding:.5rem .8rem;margin:.6rem 0;font-size:.95rem}
-blockquote{margin:.5rem 0;font-family:Georgia,"Times New Roman",serif;font-style:italic}
-.card{background:var(--card);color:var(--card-fg);border:1px solid var(--bd);border-radius:12px;padding:1rem;margin:1rem 0}
-button{font:inherit;font-size:.92rem;padding:.35rem .8rem;border-radius:8px;border:1px solid var(--acc);background:var(--acc);color:var(--acc-fg);cursor:pointer;margin:.15rem}
-button.sec{background:var(--card);color:var(--link)}button:disabled{opacity:.45;cursor:default}
-input,select,textarea{font:inherit;font-size:.95rem;padding:.3rem .5rem;border-radius:6px;border:1px solid var(--bd);background:var(--card);color:var(--card-fg);max-width:100%}
-code,.mono{font-family:ui-monospace,Consolas,monospace;font-size:.92em;overflow-wrap:anywhere}
-pre,.code{font-family:ui-monospace,Consolas,monospace;font-size:.86rem;background:var(--code-bg);color:var(--code-fg);border:1px solid var(--bd);border-radius:6px;padding:.5rem;overflow-x:auto;white-space:pre-wrap;overflow-wrap:anywhere}
-.row{display:flex;flex-wrap:wrap;gap:1rem}.row>*{flex:1 1 18rem;min-width:0}
-svg{max-width:100%;height:auto;display:block}
-svg .stroke{stroke:var(--fg);fill:none;stroke-width:1.6}svg .boxf{fill:var(--card);stroke:var(--fg);stroke-width:1.6}
-svg .hlf{fill:var(--hl);stroke:var(--acc);stroke-width:3}svg .t{fill:var(--fg);font-size:14px}svg .th{fill:var(--hl-fg);font-size:14px}
-svg .tm{fill:var(--mut);font-size:12px}svg .arrow{stroke:var(--mut);fill:none;stroke-width:1.6}
-svg .ah{fill:var(--mut)}
-.log{font-family:ui-monospace,monospace;font-size:.84rem;background:var(--code-bg);color:var(--code-fg);border:1px solid var(--bd);border-radius:6px;padding:.5rem;max-height:16rem;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere}
-.log .on{background:var(--hl);color:var(--hl-fg);border-radius:4px}
-.quiz .q{margin:.8rem 0;padding:.6rem;border:1px dashed var(--bd);border-radius:8px}.quiz label{display:block;cursor:pointer;padding:.1rem .3rem}
-.fb{font-size:.92rem;margin-top:.3rem}.ok{color:var(--ok);font-weight:700}.no{color:var(--no);font-weight:700}
-table{border-collapse:collapse;width:100%;font-size:.92rem}td,th{border:1px solid var(--bd);padding:.35rem .5rem;text-align:left;vertical-align:top}td code{word-break:break-all}
-details{margin:.8rem 0}summary{cursor:pointer;font-weight:700;color:var(--link)}
-.src{font-size:.82rem;color:var(--mut);margin-top:.4rem}
-.small{font-size:.9rem;color:var(--mut)}
-footer{color:var(--mut);font-size:.85rem;text-align:center;padding:2rem 1rem}
-@media(max-width:600px){body{font-size:16px}header h1{font-size:1.3rem}main{padding:.7rem}}
+header{max-width:780px;margin:0 auto;padding:34px 18px 6px;text-align:left}
+header .mono{display:inline-block;font-family:inherit;font-size:13px;font-weight:700;letter-spacing:.04em;color:#a8432e!important;background:var(--accent-soft);padding:4px 10px;border-radius:999px;line-height:1.5}
+header h1{font-size:clamp(26px,5.5vw,42px);line-height:1.3;margin:14px 0 12px;letter-spacing:-.02em}
+nav{position:sticky;top:0;z-index:5;max-width:780px;margin:6px auto 0;background:rgba(250,248,243,.96);overflow-x:auto;white-space:nowrap;padding:8px 14px;-webkit-overflow-scrolling:touch}
+nav a{display:inline-block;padding:6px 12px;margin:2px 3px 2px 0;border-radius:999px;color:var(--ink);text-decoration:none;font-size:14px;background:var(--paper-c);border:1px solid var(--line)}
+nav a:hover{border-color:var(--accent);color:var(--accent)}
+main{max-width:780px;margin:0 auto;padding:4px 14px 48px;overflow-x:clip}
+main>section{background:var(--paper-c);border:1px solid var(--line);border-radius:var(--radius);padding:20px 18px;margin:18px 0 0;scroll-margin-top:60px}
+@media(min-width:640px){main>section{padding:28px 30px}}
+h2{font-size:clamp(21px,4.4vw,28px);line-height:1.35;margin:0 0 12px;letter-spacing:-.015em}
+h3{font-size:18px;margin:22px 0 6px}
+p{margin:0 0 14px}
+ul,ol{margin:0 0 14px;padding-left:20px}
+.badge{display:inline-block;font-size:12.5px;font-weight:800;padding:2px 10px;border-radius:999px;margin-right:6px;vertical-align:2px;line-height:1.5}
+.b-paper{background:var(--paper-badge);color:#fff}.b-int{background:var(--int-badge);color:#fff}
+.paper{background:var(--accent-soft);color:var(--ink);border-left:4px solid var(--accent);border-radius:10px;padding:14px 16px;margin:16px 0}
+.int{background:var(--new-soft);color:var(--ink);border-left:4px solid var(--new);border-radius:10px;padding:14px 16px;margin:16px 0}
+.paper p,.int p{margin:6px 0}.paper p:last-child,.int p:last-child{margin-bottom:0}
+.guide{background:#fdfcf9;color:var(--ink);border:1px dashed #d9d2c3;border-radius:10px;padding:10px 14px;margin:10px 0;font-size:16px}
+blockquote{margin:12px 0;padding:10px 16px;background:var(--paper-c);border-left:4px solid var(--accent);border-radius:0 10px 10px 0;font-style:normal}
+.card{background:var(--paper-c);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:16px 0}
+main>section .card{background:#fdfcf9}
+button{font:inherit;font-size:15px;padding:6px 14px;border-radius:999px;border:1px solid var(--new);background:var(--new);color:#fff;cursor:pointer;margin:3px 2px;min-height:36px}
+button.sec{background:var(--paper-c);color:var(--ink);border-color:var(--line)}button.sec:hover{background:#f0ece3}
+button:disabled{opacity:.45;cursor:default}
+input,select,textarea{font:inherit;font-size:15px;padding:5px 9px;border-radius:8px;border:1px solid var(--line);background:#fff;color:var(--ink);max-width:100%}
+textarea{width:100%;font-family:ui-monospace,Consolas,monospace}
+code,.mono{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.92em;overflow-wrap:anywhere}
+pre,.code{font-family:ui-monospace,Consolas,monospace;font-size:14px;background:var(--code-bg);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:8px 10px;overflow-x:auto}
+pre{white-space:pre-wrap;overflow-wrap:anywhere}
+.code div{padding:0 .4rem;border-radius:4px;white-space:pre}.code div.on{background:var(--hl)}
+.row{display:flex;flex-wrap:wrap;gap:14px}.row>*{flex:1 1 18rem;min-width:0}
+svg{max-width:100%;height:auto}
+svg .node rect,svg .node polygon{fill:#fff;stroke:var(--ink);stroke-width:1.5}svg .node text{fill:var(--ink);font-size:13px}
+svg .node.on rect,svg .node.on polygon{fill:var(--hl);stroke:var(--accent);stroke-width:3}svg path,svg line{stroke:var(--muted);fill:none;stroke-width:1.5}svg .lbl{fill:var(--muted);font-size:11px}
+svg .stroke{stroke:var(--ink);fill:none;stroke-width:1.6}svg .boxf{fill:#fff;stroke:var(--ink);stroke-width:1.6}
+svg .hlf{fill:var(--hl);stroke:var(--accent);stroke-width:3}svg .t{fill:var(--ink);font-size:14px}svg .th{fill:var(--ink);font-size:14px}
+svg .tm{fill:var(--muted);font-size:12px}svg .arrow{stroke:var(--muted);fill:none;stroke-width:1.6}svg .ah{fill:var(--muted)}
+.log{font-family:ui-monospace,monospace;font-size:14px;background:var(--code-bg);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:8px 10px;max-height:16rem;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere}
+.log .on{background:var(--hl);border-radius:4px}
+.tape{display:flex;gap:2px;overflow-x:auto;padding:.6rem 0}.cell{min-width:2.2rem;height:2.4rem;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:6px;font-family:monospace;background:#fff;position:relative}
+.cell.head{border:2px solid var(--accent);background:var(--hl)}.cell.head::after{content:"▲";position:absolute;bottom:-1.1rem;color:var(--accent);font-size:.8rem}
+.prog span{font-family:monospace;font-size:1.1rem;padding:0 1px;border-radius:3px}.prog span.on{background:var(--hl);outline:2px solid var(--accent)}
+.quiz .q{margin:12px 0;padding:10px 12px;border:1px dashed #d9d2c3;border-radius:10px;background:#fff}.quiz label{display:block;cursor:pointer;padding:2px 4px;border-radius:6px}
+.fb{font-size:15px;margin-top:4px}.ok{color:var(--ok);font-weight:700}.no{color:var(--no);font-weight:700}
+table{width:100%;border-collapse:collapse;font-size:15px;margin:10px 0 14px}th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}th{color:var(--muted)}td code{word-break:break-all}
+details{margin:12px 0}summary{cursor:pointer;font-weight:700;color:var(--new)}
+details.viz{margin:14px 0;border:1px solid var(--line);border-radius:12px;background:#fdfcf9}
+.src{font-size:14px;color:var(--muted);margin-top:6px}
+.small{font-size:15px;color:var(--muted)}
+.arc-back b,.arc-foot-label{color:#a8432e!important}
+footer{max-width:780px;margin:28px auto 0;color:var(--muted);font-size:14px;padding:0 18px 30px;text-align:left}
 </style><!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
 <style id="archive-mobile-css">
 :where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
