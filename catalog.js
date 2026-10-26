@@ -2,6 +2,23 @@
    `python3 add_page.py --rebuild` 를 실행하면 다시 만들어집니다. */
 window.ARCHIVE_CATALOG = [
   {
+    "id": "20261027-01",
+    "title": "AI는 슈퍼카인데 회사는 왜 제자리일까: 개인의 속도, 조직의 병목, 마찰의 종말",
+    "summary": "개인 AI 생산성은 폭증해도 조직 성과는 제자리인 이유를 몰릭의 《공존》으로 짚고, 경영의 근육·역량 과잉·마찰의 종말·양손잡이 조직 전략까지 정리",
+    "tags": [
+      "AI",
+      "조직",
+      "경영"
+    ],
+    "date": "2026-10-27",
+    "file": "pages/2026-10-27-AI슈퍼카.html",
+    "added": "2026-10-27T03:55:43+09:00",
+    "source_name": "2026-10-27-AI슈퍼카.html",
+    "source_sha256": "2d2782648f439f4155541de32ebe66f45abe38fbb809e8269e53bd0eadfc9204",
+    "source_path_sha256": "6cfb4c1f38ee1f75d8bb730fc61f6ac9784365d079c02e9ddc6bed10e8f2be30",
+    "source_url": "https://yghnsim.github.io/Pages/articles/ai_supercar_organizational_bottleneck.html"
+  },
+  {
     "id": "20261025-02",
     "title": "기호를 계산하는 재귀 함수와 LISP의 탄생: 매카시 1960",
     "summary": "매카시 1960 논문으로 조건식·재귀·S-식·eval이 어떻게 LISP가 되었는지 직접 만져 보며 익히는 학습서",
