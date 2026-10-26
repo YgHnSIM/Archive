@@ -76,5 +76,6 @@ R6~R8은 `add_page.py`가 카탈로그(제목·날짜·태그·`source_url`)를 
 - [ ] 외부 리소스 없음 (이미지는 data URI)
 - [ ] 색은 `--bg / --ink / --muted / --line / --accent` 변수로 (의미 색은 별도 이름)
 - [ ] 390px에서 가로 스크롤 없고 본문 16px 이상
+- [ ] 태그는 **[공통태깅규칙.md](file:///workspace/tagging_rules/공통태깅규칙.md)**(v2.0) 준수 (`[분야 1~2개] + [주제 1~2개] + [인물 0~1개] + [형식 1개]`, 3~5개, 공백·특수문자 금지)
 - [ ] 원문이 웹에 있으면 추가할 때 `--source-url` 지정
 - [ ] 추가 후 `python3 add_page.py --check-style <id>` 통과

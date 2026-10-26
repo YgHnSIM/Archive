@@ -397,6 +397,11 @@ def style_lint(entry):
     ext += re.findall(r"(?:@import|url\()\s*[\"']?(https?:)?//", own, re.I)
     if ext:
         req.append(f"외부 리소스 {len(ext)}개 (CDN·웹폰트·외부 이미지 금지, 오프라인 동작 필수)")
+    tag_errs, tag_warns = lint_tags(entry.get("tags", []), CONTROLLED_VOCAB)
+    for err in tag_errs:
+        req.append(f"태그 필수 위반: {err}")
+    for w in tag_warns:
+        rec.append(f"태그 권장 안내: {w}")
     # 권장
     if not re.search(r"<meta\b[^>]*name=[\"']?description", text, re.I):
         rec.append("<meta name=\"description\"> 권장")
@@ -458,6 +463,10 @@ def validate(entries):
         ids.add(e.get("id"))
         if not isinstance(e.get("tags", []), list):
             problems.append(f"{where}: tags는 배열이어야 함")
+        else:
+            tag_errs, _ = lint_tags(e["tags"], CONTROLLED_VOCAB)
+            for err in tag_errs:
+                problems.append(f"{where}: {err}")
         if "date" in e and not DATE_RE.match(str(e["date"])):
             problems.append(f"{where}: date 형식은 YYYY-MM-DD")
         f = e.get("file")
@@ -555,6 +564,63 @@ def parse_tags(s):
     return out
 
 
+FIELD_TAGS = {
+    "AI", "컴퓨터과학", "노동법", "법학", "역사", "수학",
+    "철학", "경제경영", "생물학", "자연과학", "사회과학", "문화예술",
+}
+FORMAT_TAGS = {"인터뷰", "강연", "논문리뷰", "해설", "튜토리얼", "요약"}
+VALID_TAG_RE = re.compile(r"^[가-힣A-Za-z0-9]+(?:-[가-힣A-Za-z0-9]+)*$")
+CONTROLLED_VOCAB = {
+    # 12 Field
+    "AI", "컴퓨터과학", "노동법", "법학", "역사", "수학",
+    "철학", "경제경영", "생물학", "자연과학", "사회과학", "문화예술",
+    # 71 Topic
+    "AGI", "에이전트", "언어모델", "AI안전", "AI윤리", "AI철학", "해석가능성", "생성형AI", "정보이론",
+    "계산이론", "컴퓨터구조", "컴퓨터과학사", "메모리모델", "포인터", "자료구조", "컴파일러",
+    "시스템프로그래밍", "소프트웨어공학", "아키텍처", "프로그래밍언어", "객체지향", "가비지컬렉션",
+    "압축", "Python", "CPython", "C-Cpp", "Go", "Rust",
+    "근로자성", "플랫폼노동", "종속성", "타인결정성", "근로자추정", "노동3권", "노동법사",
+    "비교노동법", "독일노동법", "미국노동법", "해고법제", "형법", "업무방해죄", "공정거래법", "법철학", "규제",
+    "고대사", "서양문명", "문화혼종성", "청동기시대", "스페인정복", "군사사", "지정학", "국제정치경제학",
+    "수학사", "해석기하학", "대수학", "미적분학", "기호학", "우주론", "시스템생물학", "공생발생",
+    "과학철학", "동양철학", "법가사상", "정치철학", "종교", "디자인",
+    "기업재무", "가치평가", "조직설계", "생산성", "자영업경제학",
+    # 15 Entity
+    "스튜어트러셀", "제프리헌틀리", "이선몰릭", "아스워스다모다란", "타일러코웬",
+    "데니스노블", "블레즈아구에라이아르카스", "조세핀퀸", "한비자", "데카르트",
+    "페르마", "뉴턴", "홉스", "라이프니츠", "앤트로픽",
+    # 6 Format
+    "인터뷰", "강연", "논문리뷰", "해설", "튜토리얼", "요약"
+}
+
+
+def lint_tags(tags, controlled_vocab=None):
+    """(필수 오류 목록 errors, 권장/확인 경고 목록 warnings) 반환."""
+    errors, warnings = [], []
+    if not isinstance(tags, list) or not (2 <= len(tags) <= 5):
+        errors.append(f"[TAG-LINT:L1] 태그 수량 위반 ({len(tags) if isinstance(tags, list) else 0}개): 2~5개 필수")
+        if not isinstance(tags, list):
+            return errors, warnings
+    seen = set()
+    for t in tags:
+        if re.search(r"\s", t):
+            errors.append(f"[TAG-LINT:L2] 공백 포함 금지: '{t}' → '{re.sub(r'\\s+', '', t)}'")
+        if not VALID_TAG_RE.match(t):
+            errors.append(f"[TAG-LINT:L3] 특수기호 금지: '{t}'")
+        cf = t.casefold()
+        if cf in seen:
+            errors.append(f"[TAG-LINT:L4] 중복 태그: '{t}'")
+        seen.add(cf)
+        if controlled_vocab and t not in controlled_vocab:
+            warnings.append(f"[TAG-LINT:L7] 미등재 신규 태그 감지: '{t}' (표준 학문 분과명인지 확인)")
+    if not any(t in FIELD_TAGS for t in tags):
+        errors.append("[TAG-LINT:L5] 필수 분야 태그(12종) 중 최소 1개 이상 포함 필수")
+    fmt_cnt = sum(1 for t in tags if t in FORMAT_TAGS)
+    if fmt_cnt != 1:
+        warnings.append(f"[TAG-LINT:L6] 형식 태그(6종) 1개 권장 (현재 {fmt_cnt}개)")
+    return errors, warnings
+
+
 def html_title(path):
     try:
         with open(path, encoding="utf-8", errors="replace") as f:
@@ -612,6 +678,13 @@ def cmd_add(a):
             warn(f"태그 '{t}' → 기존 표기 '{k}' 로 통일")
             tags[i] = k
     tags = list(dict.fromkeys(tags))
+    errs, warns = lint_tags(tags, CONTROLLED_VOCAB)
+    for w in warns:
+        warn(w)
+    if errs:
+        for er in errs:
+            warn(er)
+        die("태그 규칙 위반으로 추가를 중단합니다.")
 
     digest, phash = sha256(src), path_hash(src)
     dups = []
@@ -768,7 +841,15 @@ def cmd_edit(a):
     if a.summary:
         e["summary"] = nfc(a.summary).strip(); changed.append("summary")
     if a.tags:
-        e["tags"] = parse_tags(a.tags); changed.append("tags")
+        tags = parse_tags(a.tags)
+        errs, warns = lint_tags(tags, CONTROLLED_VOCAB)
+        for w in warns:
+            warn(w)
+        if errs:
+            for er in errs:
+                warn(er)
+            die("태그 규칙 위반으로 수정을 중단합니다.")
+        e["tags"] = tags; changed.append("tags")
     if a.date:
         if not DATE_RE.match(a.date):
             die("--date 형식은 YYYY-MM-DD 입니다.")
