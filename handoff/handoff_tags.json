@@ -1,0 +1,612 @@
+{
+  "handoff_version": "2.0",
+  "updated_at": "2026-10-27T07:30:00+09:00",
+  "total_count": 27,
+  "items": [
+    {
+      "pages_slug": "ai_supercar_organizational_bottleneck",
+      "pages_url": "https://yghnsim.github.io/Pages/articles/ai_supercar_organizational_bottleneck.html",
+      "ssot_route": "A",
+      "pages_tags": [
+        "AI",
+        "경제경영",
+        "조직설계",
+        "생산성",
+        "해설"
+      ],
+      "archive_id": "20261027-01",
+      "archive_file": "pages/2026-10-27-AI슈퍼카.html",
+      "archive_format_override": "요약",
+      "archive_target_tags": [
+        "AI",
+        "경제경영",
+        "조직설계",
+        "생산성",
+        "요약"
+      ],
+      "source_url": "https://yghnsim.github.io/Pages/articles/ai_supercar_organizational_bottleneck.html",
+      "cli_command": "python3 add_page.py --edit 20261027-01 --tags AI,경제경영,조직설계,생산성,요약 --source-url https://yghnsim.github.io/Pages/articles/ai_supercar_organizational_bottleneck.html"
+    },
+    {
+      "pages_slug": null,
+      "pages_url": null,
+      "ssot_route": "C",
+      "pages_tags": null,
+      "archive_id": "20261025-02",
+      "archive_file": "pages/2026-10-25-매카시LISP.html",
+      "archive_format_override": null,
+      "archive_target_tags": [
+        "컴퓨터과학",
+        "계산이론",
+        "프로그래밍언어",
+        "컴퓨터과학사",
+        "튜토리얼"
+      ],
+      "source_url": "https://pages.cs.wisc.edu/~horwitz/CS704-NOTES/PAPERS/mccarthy.pdf",
+      "cli_command": "python3 add_page.py --edit 20261025-02 --tags 컴퓨터과학,계산이론,프로그래밍언어,컴퓨터과학사,튜토리얼 --source-url https://pages.cs.wisc.edu/~horwitz/CS704-NOTES/PAPERS/mccarthy.pdf"
+    },
+    {
+      "pages_slug": null,
+      "pages_url": null,
+      "ssot_route": "C",
+      "pages_tags": null,
+      "archive_id": "20261025-01",
+      "archive_file": "pages/2026-10-25-뵘야코피니.html",
+      "archive_format_override": null,
+      "archive_target_tags": [
+        "컴퓨터과학",
+        "계산이론",
+        "소프트웨어공학",
+        "컴퓨터과학사",
+        "튜토리얼"
+      ],
+      "source_url": null,
+      "cli_command": "python3 add_page.py --edit 20261025-01 --tags 컴퓨터과학,계산이론,소프트웨어공학,컴퓨터과학사,튜토리얼"
+    },
+    {
+      "pages_slug": "language_modeling_compression_intelligence",
+      "pages_url": "https://yghnsim.github.io/Pages/articles/language_modeling_compression_intelligence.html",
+      "ssot_route": "B",
+      "pages_tags": [
+        "AI",
+        "언어모델",
+        "정보이론",
+        "압축",
+        "논문리뷰"
+      ],
+      "archive_id": "20261022-02",
+      "archive_file": "pages/2026-10-22-언어모델압축.html",
+      "archive_format_override": null,
+      "archive_target_tags": [
+        "AI",
+        "언어모델",
+        "정보이론",
+        "압축",
+        "논문리뷰"
+      ],
+      "source_url": "https://yghnsim.github.io/Pages/articles/language_modeling_compression_intelligence.html",
+      "cli_command": "python3 add_page.py --edit 20261022-02 --tags AI,언어모델,정보이론,압축,논문리뷰 --source-url https://yghnsim.github.io/Pages/articles/language_modeling_compression_intelligence.html"
+    },
+    {
+      "pages_slug": "noble_genes_not_blueprint",
+      "pages_url": "https://yghnsim.github.io/Pages/articles/noble_genes_not_blueprint.html",
+      "ssot_route": "B",
+      "pages_tags": [
+        "생물학",
+        "시스템생물학",
+        "과학철학",
+        "데니스노블",
+        "해설"
+      ],
+      "archive_id": "20261022-01",
+      "archive_file": "pages/2026-10-22-데니스노블.html",
+      "archive_format_override": null,
+      "archive_target_tags": [
+        "생물학",
+        "시스템생물학",
+        "과학철학",
+        "데니스노블",
+        "해설"
+      ],
+      "source_url": null,
+      "cli_command": "python3 add_page.py --edit 20261022-01 --tags 생물학,시스템생물학,과학철학,데니스노블,해설"
+    },
+    {
+      "pages_slug": "the_great_mathematical_translation",
+      "pages_url": "https://yghnsim.github.io/Pages/articles/the_great_mathematical_translation.html",
+      "ssot_route": "A",
+      "pages_tags": [
+        "수학",
+        "수학사",
+        "해석기하학",
+        "미적분학",
+        "해설"
+      ],
+      "archive_id": "20261020-01",
+      "archive_file": "pages/2026-10-20-기하대수_번역.html",
+      "archive_format_override": "요약",
+      "archive_target_tags": [
+        "수학",
+        "수학사",
+        "해석기하학",
+        "미적분학",
+        "요약"
+      ],
+      "source_url": "https://yghnsim.github.io/Pages/articles/the_great_mathematical_translation.html",
+      "cli_command": "python3 add_page.py --edit 20261020-01 --tags 수학,수학사,해석기하학,미적분학,요약 --source-url https://yghnsim.github.io/Pages/articles/the_great_mathematical_translation.html"
+    },
+    {
+      "pages_slug": "why_did_it_take_1877_years_to_invent_x_squared",
+      "pages_url": "https://yghnsim.github.io/Pages/articles/why_did_it_take_1877_years_to_invent_x_squared.html",
+      "ssot_route": "A",
+      "pages_tags": [
+        "수학",
+        "역사",
+        "수학사",
+        "대수학",
+        "기호학"
+      ],
+      "archive_id": "20261019-02",
+      "archive_file": "pages/2026-10-19-x제곱_1877년.html",
+      "archive_format_override": null,
+      "archive_target_tags": [
+        "수학",
+        "역사",
+        "수학사",
+        "대수학",
+        "기호학"
+      ],
+      "source_url": "https://yghnsim.github.io/Pages/articles/why_did_it_take_1877_years_to_invent_x_squared.html",
+      "cli_command": "python3 add_page.py --edit 20261019-02 --tags 수학,역사,수학사,대수학,기호학 --source-url https://yghnsim.github.io/Pages/articles/why_did_it_take_1877_years_to_invent_x_squared.html"
+    },
+    {
+      "pages_slug": "inside_the_black_box_how_llms_think",
+      "pages_url": "https://yghnsim.github.io/Pages/articles/inside_the_black_box_how_llms_think.html",
+      "ssot_route": "B",
+      "pages_tags": [
+        "AI",
+        "해석가능성",
+        "언어모델",
+        "AI안전",
+        "인터뷰"
+      ],
+      "archive_id": "20261019-01",
+      "archive_file": "pages/2026-10-19-언어모델_블랙박스.html",
+      "archive_format_override": null,
+      "archive_target_tags": [
+        "AI",
+        "해석가능성",
+        "언어모델",
+        "AI안전",
+        "인터뷰"
+      ],
+      "source_url": "https://yghnsim.github.io/Pages/articles/inside_the_black_box_how_llms_think.html",
+      "cli_command": "python3 add_page.py --edit 20261019-01 --tags AI,해석가능성,언어모델,AI안전,인터뷰 --source-url https://yghnsim.github.io/Pages/articles/inside_the_black_box_how_llms_think.html"
+    },
+    {
+      "pages_slug": "hobbes_leibniz_symbolic_cognition_ai",
+      "pages_url": "https://yghnsim.github.io/Pages/articles/hobbes_leibniz_symbolic_cognition_ai.html",
+      "ssot_route": "A",
+      "pages_tags": [
+        "철학",
+        "AI",
+        "AI철학",
+        "기호학",
+        "해설"
+      ],
+      "archive_id": "20261018-01",
+      "archive_file": "pages/2026-10-18-홉스_라이프니츠.html",
+      "archive_format_override": "요약",
+      "archive_target_tags": [
+        "철학",
+        "AI",
+        "AI철학",
+        "기호학",
+        "요약"
+      ],
+      "source_url": "https://yghnsim.github.io/Pages/articles/hobbes_leibniz_symbolic_cognition_ai.html",
+      "cli_command": "python3 add_page.py --edit 20261018-01 --tags 철학,AI,AI철학,기호학,요약 --source-url https://yghnsim.github.io/Pages/articles/hobbes_leibniz_symbolic_cognition_ai.html"
+    },
+    {
+      "pages_slug": "dwarkesh_patel_tyler_cowen_future_of_ai",
+      "pages_url": "https://yghnsim.github.io/Pages/articles/dwarkesh_patel_tyler_cowen_future_of_ai.html",
+      "ssot_route": "A",
+      "pages_tags": [
+        "AI",
+        "경제경영",
+        "AGI",
+        "타일러코웬",
+        "인터뷰"
+      ],
+      "archive_id": "20261016-01",
+      "archive_file": "pages/2026-10-16-드와르케시_코웬.html",
+      "archive_format_override": null,
+      "archive_target_tags": [
+        "AI",
+        "경제경영",
+        "AGI",
+        "타일러코웬",
+        "인터뷰"
+      ],
+      "source_url": "https://yghnsim.github.io/Pages/articles/dwarkesh_patel_tyler_cowen_future_of_ai.html",
+      "cli_command": "python3 add_page.py --edit 20261016-01 --tags AI,경제경영,AGI,타일러코웬,인터뷰 --source-url https://yghnsim.github.io/Pages/articles/dwarkesh_patel_tyler_cowen_future_of_ai.html"
+    },
+    {
+      "pages_slug": "huntley_nobody_should_type_code_by_hand",
+      "pages_url": "https://yghnsim.github.io/Pages/articles/huntley_nobody_should_type_code_by_hand.html",
+      "ssot_route": "B",
+      "pages_tags": [
+        "AI",
+        "에이전트",
+        "소프트웨어공학",
+        "제프리헌틀리",
+        "튜토리얼"
+      ],
+      "archive_id": "20261015-01",
+      "archive_file": "pages/2026-10-15-헌틀리_손코딩.html",
+      "archive_format_override": "인터뷰",
+      "archive_target_tags": [
+        "AI",
+        "에이전트",
+        "소프트웨어공학",
+        "제프리헌틀리",
+        "인터뷰"
+      ],
+      "source_url": "https://yghnsim.github.io/Pages/articles/huntley_nobody_should_type_code_by_hand.html",
+      "cli_command": "python3 add_page.py --edit 20261015-01 --tags AI,에이전트,소프트웨어공학,제프리헌틀리,인터뷰 --source-url https://yghnsim.github.io/Pages/articles/huntley_nobody_should_type_code_by_hand.html"
+    },
+    {
+      "pages_slug": "life_computation_symbiogenesis_agi",
+      "pages_url": "https://yghnsim.github.io/Pages/articles/life_computation_symbiogenesis_agi.html",
+      "ssot_route": "A",
+      "pages_tags": [
+        "AI",
+        "생물학",
+        "공생발생",
+        "계산이론",
+        "인터뷰"
+      ],
+      "archive_id": "20261014-02",
+      "archive_file": "pages/2026-10-14-생명계산_학습가이드.html",
+      "archive_format_override": "튜토리얼",
+      "archive_target_tags": [
+        "AI",
+        "생물학",
+        "공생발생",
+        "계산이론",
+        "튜토리얼"
+      ],
+      "source_url": null,
+      "cli_command": "python3 add_page.py --edit 20261014-02 --tags AI,생물학,공생발생,계산이론,튜토리얼"
+    },
+    {
+      "pages_slug": null,
+      "pages_url": null,
+      "ssot_route": "C",
+      "pages_tags": null,
+      "archive_id": "20261014-01",
+      "archive_file": "pages/2026-10-14-콘웨이_위원회.html",
+      "archive_format_override": null,
+      "archive_target_tags": [
+        "컴퓨터과학",
+        "소프트웨어공학",
+        "조직설계",
+        "아키텍처",
+        "논문리뷰"
+      ],
+      "source_url": null,
+      "cli_command": "python3 add_page.py --edit 20261014-01 --tags 컴퓨터과학,소프트웨어공학,조직설계,아키텍처,논문리뷰"
+    },
+    {
+      "pages_slug": "stuart_russell_ai_control_problem",
+      "pages_url": "https://yghnsim.github.io/Pages/articles/stuart_russell_ai_control_problem.html",
+      "ssot_route": "A",
+      "pages_tags": [
+        "AI",
+        "AI안전",
+        "규제",
+        "스튜어트러셀",
+        "인터뷰"
+      ],
+      "archive_id": "20261013-03",
+      "archive_file": "pages/2026-10-13-러셀AI통제.html",
+      "archive_format_override": null,
+      "archive_target_tags": [
+        "AI",
+        "AI안전",
+        "규제",
+        "스튜어트러셀",
+        "인터뷰"
+      ],
+      "source_url": "https://yghnsim.github.io/Pages/articles/stuart_russell_ai_control_problem.html",
+      "cli_command": "python3 add_page.py --edit 20261013-03 --tags AI,AI안전,규제,스튜어트러셀,인터뷰 --source-url https://yghnsim.github.io/Pages/articles/stuart_russell_ai_control_problem.html"
+    },
+    {
+      "pages_slug": "life_computation_symbiogenesis_agi",
+      "pages_url": "https://yghnsim.github.io/Pages/articles/life_computation_symbiogenesis_agi.html",
+      "ssot_route": "A",
+      "pages_tags": [
+        "AI",
+        "생물학",
+        "공생발생",
+        "계산이론",
+        "인터뷰"
+      ],
+      "archive_id": "20261013-02",
+      "archive_file": "pages/2026-10-13-생명계산.html",
+      "archive_format_override": null,
+      "archive_target_tags": [
+        "AI",
+        "생물학",
+        "공생발생",
+        "계산이론",
+        "인터뷰"
+      ],
+      "source_url": "https://yghnsim.github.io/Pages/articles/life_computation_symbiogenesis_agi.html",
+      "cli_command": "python3 add_page.py --edit 20261013-02 --tags AI,생물학,공생발생,계산이론,인터뷰 --source-url https://yghnsim.github.io/Pages/articles/life_computation_symbiogenesis_agi.html"
+    },
+    {
+      "pages_slug": "digital_craftsmanship_ai_era",
+      "pages_url": "https://yghnsim.github.io/Pages/articles/digital_craftsmanship_ai_era.html",
+      "ssot_route": "B",
+      "pages_tags": [
+        "AI",
+        "디자인",
+        "소프트웨어공학",
+        "강연"
+      ],
+      "archive_id": "20261013-01",
+      "archive_file": "pages/2026-10-13-디지털장인정신.html",
+      "archive_format_override": null,
+      "archive_target_tags": [
+        "AI",
+        "디자인",
+        "소프트웨어공학",
+        "강연"
+      ],
+      "source_url": "https://youtu.be/GLvFTMtw4Jk",
+      "cli_command": "python3 add_page.py --edit 20261013-01 --tags AI,디자인,소프트웨어공학,강연 --source-url https://youtu.be/GLvFTMtw4Jk"
+    },
+    {
+      "pages_slug": null,
+      "pages_url": null,
+      "ssot_route": "C",
+      "pages_tags": null,
+      "archive_id": "20261012-01",
+      "archive_file": "pages/2026-10-12-임금교섭안건.html",
+      "archive_format_override": null,
+      "archive_target_tags": [
+        "노동법",
+        "노동3권",
+        "요약"
+      ],
+      "source_url": null,
+      "cli_command": "python3 add_page.py --edit 20261012-01 --tags 노동법,노동3권,요약"
+    },
+    {
+      "pages_slug": "western_civilization_vine_not_tree",
+      "pages_url": "https://yghnsim.github.io/Pages/articles/western_civilization_vine_not_tree.html",
+      "ssot_route": "A",
+      "pages_tags": [
+        "역사",
+        "고대사",
+        "서양문명",
+        "문화혼종성",
+        "해설"
+      ],
+      "archive_id": "20261011-05",
+      "archive_file": "pages/2026-10-11-서양문명.html",
+      "archive_format_override": "요약",
+      "archive_target_tags": [
+        "역사",
+        "고대사",
+        "서양문명",
+        "문화혼종성",
+        "요약"
+      ],
+      "source_url": "https://yghnsim.github.io/Pages/articles/western_civilization_vine_not_tree.html",
+      "cli_command": "python3 add_page.py --edit 20261011-05 --tags 역사,고대사,서양문명,문화혼종성,요약 --source-url https://yghnsim.github.io/Pages/articles/western_civilization_vine_not_tree.html"
+    },
+    {
+      "pages_slug": "earnings_cashflows_stock_prices_ai_storm",
+      "pages_url": "https://yghnsim.github.io/Pages/articles/earnings_cashflows_stock_prices_ai_storm.html",
+      "ssot_route": "A",
+      "pages_tags": [
+        "경제경영",
+        "AI",
+        "기업재무",
+        "가치평가",
+        "해설"
+      ],
+      "archive_id": "20261011-04",
+      "archive_file": "pages/2026-10-11-이익과주가.html",
+      "archive_format_override": "요약",
+      "archive_target_tags": [
+        "경제경영",
+        "AI",
+        "기업재무",
+        "가치평가",
+        "요약"
+      ],
+      "source_url": "https://yghnsim.github.io/Pages/articles/earnings_cashflows_stock_prices_ai_storm.html",
+      "cli_command": "python3 add_page.py --edit 20261011-04 --tags 경제경영,AI,기업재무,가치평가,요약 --source-url https://yghnsim.github.io/Pages/articles/earnings_cashflows_stock_prices_ai_storm.html"
+    },
+    {
+      "pages_slug": "hanfeizi_legalist_philosophy_fa_shu_shi",
+      "pages_url": "https://yghnsim.github.io/Pages/articles/hanfeizi_legalist_philosophy_fa_shu_shi.html",
+      "ssot_route": "A",
+      "pages_tags": [
+        "철학",
+        "동양철학",
+        "법가사상",
+        "법철학",
+        "해설"
+      ],
+      "archive_id": "20261011-03",
+      "archive_file": "pages/2026-10-11-한비자.html",
+      "archive_format_override": "요약",
+      "archive_target_tags": [
+        "철학",
+        "동양철학",
+        "법가사상",
+        "법철학",
+        "요약"
+      ],
+      "source_url": "https://yghnsim.github.io/Pages/articles/hanfeizi_legalist_philosophy_fa_shu_shi.html",
+      "cli_command": "python3 add_page.py --edit 20261011-03 --tags 철학,동양철학,법가사상,법철학,요약 --source-url https://yghnsim.github.io/Pages/articles/hanfeizi_legalist_philosophy_fa_shu_shi.html"
+    },
+    {
+      "pages_slug": "cagongjok_breakeven_obstruction_of_business",
+      "pages_url": "https://yghnsim.github.io/Pages/articles/cagongjok_breakeven_obstruction_of_business.html",
+      "ssot_route": "A",
+      "pages_tags": [
+        "법학",
+        "형법",
+        "업무방해죄",
+        "자영업경제학",
+        "해설"
+      ],
+      "archive_id": "20261011-02",
+      "archive_file": "pages/2026-10-11-카공족.html",
+      "archive_format_override": "요약",
+      "archive_target_tags": [
+        "법학",
+        "형법",
+        "업무방해죄",
+        "자영업경제학",
+        "요약"
+      ],
+      "source_url": "https://yghnsim.github.io/Pages/articles/cagongjok_breakeven_obstruction_of_business.html",
+      "cli_command": "python3 add_page.py --edit 20261011-02 --tags 법학,형법,업무방해죄,자영업경제학,요약 --source-url https://yghnsim.github.io/Pages/articles/cagongjok_breakeven_obstruction_of_business.html"
+    },
+    {
+      "pages_slug": "how_did_spanish_soldiers_topple_two_empires",
+      "pages_url": "https://yghnsim.github.io/Pages/articles/how_did_spanish_soldiers_topple_two_empires.html",
+      "ssot_route": "A",
+      "pages_tags": [
+        "역사",
+        "스페인정복",
+        "군사사",
+        "지정학",
+        "인터뷰"
+      ],
+      "archive_id": "20261011-01",
+      "archive_file": "pages/2026-10-11-스페인정복.html",
+      "archive_format_override": null,
+      "archive_target_tags": [
+        "역사",
+        "스페인정복",
+        "군사사",
+        "지정학",
+        "인터뷰"
+      ],
+      "source_url": "https://yghnsim.github.io/Pages/articles/how_did_spanish_soldiers_topple_two_empires.html",
+      "cli_command": "python3 add_page.py --edit 20261011-01 --tags 역사,스페인정복,군사사,지정학,인터뷰 --source-url https://yghnsim.github.io/Pages/articles/how_did_spanish_soldiers_topple_two_empires.html"
+    },
+    {
+      "pages_slug": "douglas_ross_plex_struct_origin",
+      "pages_url": "https://yghnsim.github.io/Pages/articles/douglas_ross_plex_struct_origin.html",
+      "ssot_route": "A",
+      "pages_tags": [
+        "컴퓨터과학",
+        "컴퓨터과학사",
+        "자료구조",
+        "메모리모델",
+        "해설"
+      ],
+      "archive_id": "20261010-01",
+      "archive_file": "pages/2026-10-10-Plex_구조체기원.html",
+      "archive_format_override": "요약",
+      "archive_target_tags": [
+        "컴퓨터과학",
+        "컴퓨터과학사",
+        "자료구조",
+        "메모리모델",
+        "요약"
+      ],
+      "source_url": "https://yghnsim.github.io/Pages/articles/douglas_ross_plex_struct_origin.html",
+      "cli_command": "python3 add_page.py --edit 20261010-01 --tags 컴퓨터과학,컴퓨터과학사,자료구조,메모리모델,요약 --source-url https://yghnsim.github.io/Pages/articles/douglas_ross_plex_struct_origin.html"
+    },
+    {
+      "pages_slug": "algorithmic_control_heteronomy",
+      "pages_url": "https://yghnsim.github.io/Pages/articles/algorithmic_control_heteronomy.html",
+      "ssot_route": "A",
+      "pages_tags": [
+        "노동법",
+        "플랫폼노동",
+        "근로자성",
+        "타인결정성",
+        "해설"
+      ],
+      "archive_id": "20261009-01",
+      "archive_file": "pages/2026-10-09-알고리즘통제_타율성.html",
+      "archive_format_override": "요약",
+      "archive_target_tags": [
+        "노동법",
+        "플랫폼노동",
+        "근로자성",
+        "타인결정성",
+        "요약"
+      ],
+      "source_url": "https://yghnsim.github.io/Pages/articles/algorithmic_control_heteronomy.html",
+      "cli_command": "python3 add_page.py --edit 20261009-01 --tags 노동법,플랫폼노동,근로자성,타인결정성,요약 --source-url https://yghnsim.github.io/Pages/articles/algorithmic_control_heteronomy.html"
+    },
+    {
+      "pages_slug": null,
+      "pages_url": null,
+      "ssot_route": "C",
+      "pages_tags": null,
+      "archive_id": "20261008-01",
+      "archive_file": "pages/2026-10-08-차별시정_재심의견서.html",
+      "archive_format_override": null,
+      "archive_target_tags": [
+        "노동법",
+        "근로자성",
+        "해설"
+      ],
+      "source_url": null,
+      "cli_command": "python3 add_page.py --edit 20261008-01 --tags 노동법,근로자성,해설"
+    },
+    {
+      "pages_slug": "union_activity_antitrust_boundary",
+      "pages_url": "https://yghnsim.github.io/Pages/articles/union_activity_antitrust_boundary.html",
+      "ssot_route": "A",
+      "pages_tags": [
+        "노동법",
+        "공정거래법",
+        "노동3권",
+        "플랫폼노동",
+        "해설"
+      ],
+      "archive_id": "20261006-02",
+      "archive_file": "pages/2026-10-06-공정거래법경계.html",
+      "archive_format_override": "요약",
+      "archive_target_tags": [
+        "노동법",
+        "공정거래법",
+        "노동3권",
+        "플랫폼노동",
+        "요약"
+      ],
+      "source_url": "https://yghnsim.github.io/Pages/articles/union_activity_antitrust_boundary.html",
+      "cli_command": "python3 add_page.py --edit 20261006-02 --tags 노동법,공정거래법,노동3권,플랫폼노동,요약 --source-url https://yghnsim.github.io/Pages/articles/union_activity_antitrust_boundary.html"
+    },
+    {
+      "pages_slug": null,
+      "pages_url": null,
+      "ssot_route": "C",
+      "pages_tags": null,
+      "archive_id": "20261006-01",
+      "archive_file": "pages/2026-10-06-좋은추상화.html",
+      "archive_format_override": null,
+      "archive_target_tags": [
+        "AI",
+        "컴퓨터과학",
+        "소프트웨어공학",
+        "강연"
+      ],
+      "source_url": null,
+      "cli_command": "python3 add_page.py --edit 20261006-01 --tags AI,컴퓨터과학,소프트웨어공학,강연"
+    }
+  ]
+}
