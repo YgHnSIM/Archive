@@ -1,4 +1,6 @@
-<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>예측하는 기계는 왜 압축하는 기계인가</title>
+<!DOCTYPE html><html lang="ko"><head><meta name="description" content="다음 토큰 예측은 곧 압축이며, LLM의 압축 성능(BPC)이 벤치마크 점수와 거의 직선 관계라는 두 논문을 정리.">
+<meta name="color-scheme" content="light only">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>예측하는 기계는 왜 압축하는 기계인가</title>
 <style>
 :root{--bg:#faf8f3;--paper:#fff;--ink:#1f2328;--muted:#5b6470;--line:#e6e1d6;--accent:#c8553d;--accent-soft:#fbeee9;--link:#4a6b8a;--new:#3d5f80;--new-soft:#eaf0f6;--radius:14px}
 *{box-sizing:border-box}
@@ -66,13 +68,73 @@ dl.terms dt{font-weight:800;margin-top:10px}dl.terms dd{margin:2px 0 0 0;color:v
 <link rel="stylesheet" href="../assets/archive-page.css">
 <link rel="stylesheet" href="../assets/archive-tokens.css">
 <!-- archive-head:end -->
+<!-- archive-fix: 첫 페이지(좋은추상화) 형식 맞춤 — 1180px 격자·왼쪽 고정 목차·절 번호 배지·제목 크기·글자 하한 -->
+<style id="archive-fix">
+:root{--toc-w:240px;color-scheme:light only}
+html{scroll-padding-top:24px}
+.cf-hero{background:linear-gradient(180deg,#f3efe6 0%,var(--bg,#faf8f3) 100%);border-bottom:1px solid var(--line,#e6e1d6);padding:48px 20px 34px;margin:0;max-width:none;text-align:left}
+.cf-hero-inner{max-width:1180px;margin:0 auto}
+.cf-eyebrow{display:inline-block;font-family:inherit!important;font-size:13px!important;font-weight:700;letter-spacing:.04em;color:#a8432e!important;background:#fbeee9;padding:4px 10px;border-radius:999px;line-height:1.5}
+.cf-hero h1{font-size:clamp(28px,4.4vw,44px)!important;line-height:1.25!important;margin:14px 0 12px!important;letter-spacing:-.02em}
+.cf-hero .cf-lead{font-size:18px;color:#5b6470;margin:0 0 14px;max-width:none}
+.cf-layout{width:100%;max-width:1180px;margin:0 auto;display:grid;grid-template-columns:var(--toc-w) minmax(0,1fr);gap:40px;padding:0 20px;box-sizing:border-box}
+.cf-main{min-width:0;padding:28px 0 60px}
+.cf-main>main,.cf-main main{max-width:none!important;margin:0!important;padding:0!important;width:auto}
+nav.cf-toc{max-width:none;width:auto;position:sticky;top:20px;align-self:start;margin:36px 0 0!important;max-height:calc(100vh - 40px);overflow:auto;padding-right:4px;background:none;border:0;white-space:normal;z-index:20}
+.cf-toc-t{font-size:13px;color:#5b6470;letter-spacing:.06em;margin:0 0 10px;font-weight:700}
+nav.cf-toc ol{list-style:none;margin:0;padding:0}
+nav.cf-toc li{margin:0;padding:0}
+nav.cf-toc li a{display:flex;gap:8px;align-items:baseline;text-decoration:none;color:#5b6470;font-size:14.5px;line-height:1.45;padding:7px 10px;border-radius:8px;border-left:3px solid transparent;background:none;border-top:0;margin:0}
+nav.cf-toc li a .n{font-weight:700;font-size:13px;color:#6b7280;min-width:18px}
+nav.cf-toc li a:hover{background:#f0ece3;color:#1f2328}
+h2{font-size:clamp(23px,3vw,30px)!important;line-height:1.3!important;letter-spacing:-.015em}
+h3{font-size:19px!important}
+.cf-num{flex:none;display:inline-grid;place-items:center;width:40px;height:40px;border-radius:12px;background:#1f2328;color:#fff;font-weight:800;font-size:17px;margin:0 12px 0 0;vertical-align:middle;line-height:1;letter-spacing:0}
+.cf-num.ref{background:#3d5f80}
+.cf-num.ref::before{content:"★";font-size:16px}
+.cf-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.sec-num{width:40px!important;height:40px!important;font-size:17px!important;margin-top:4px!important}
+@media (max-width:900px){
+  .cf-layout{grid-template-columns:minmax(0,1fr);gap:0;padding:0}
+  nav.cf-toc{position:sticky;top:0;margin:0!important;max-height:none;background:rgba(250,248,243,.96);backdrop-filter:blur(6px);border-bottom:1px solid #e6e1d6;padding:8px 10px;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch}
+  .cf-toc-t{display:none}
+  nav.cf-toc ol{display:flex;gap:6px;white-space:nowrap}
+  nav.cf-toc li a{border-left:0;border-radius:999px;padding:6px 12px;font-size:14px;background:#f1ede4;color:#1f2328}
+  nav.cf-toc li a .n{color:#5b6470}
+  .cf-main{padding:10px 18px 60px}
+  html{scroll-padding-top:64px}
+}
+@media (max-width:640px){
+  .cf-hero{padding:32px 18px 24px}
+  .cf-hero .cf-lead{font-size:17px}
+  .cf-num,.sec-num{width:34px!important;height:34px!important;font-size:15px!important}
+}
+.arc-back b,.arc-foot-label{color:#a8432e!important}
+q{color:#a8432e}
+.badge,.tag-pill{font-size:13px!important}
+.ill{font-size:13px!important;background:#5f6670!important}
+sub,sup{font-size:max(12px,.8em)}
+svg .lbl{font-size:12px}
+.small{font-size:16px!important}
+.src code{font-size:1em}
+main>section,section.sec{background:none!important;border:0!important;border-bottom:1px dashed #e6e1d6!important;border-radius:0!important;padding:36px 0 28px!important;margin:0!important;box-shadow:none!important}
+main>section:last-of-type,section.sec:last-of-type{border-bottom:0!important}
+.layout{max-width:none}
+a[href^="#s"] b{color:#a8432e!important}
+.insight b.t{color:#7d5900!important}
+p[style*="font-size:14px"]{font-size:16px!important}
+
+</style>
+
 </head><body><!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
 <div class="arc-band" role="navigation" aria-label="요약 아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>요약 아카이브</a><span class="arc-crumb">예측하는 기계는 왜 압축하는 기계인가</span><span class="arc-meta"><time datetime="2026-10-22">2026년 10월 22일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=%EC%A0%95%EB%B3%B4%EC%9D%B4%EB%A1%A0">#정보이론</a><a class="arc-tag" href="../index.html#tags=%EC%95%95%EC%B6%95">#압축</a><a class="arc-src" href="https://yghnsim.github.io/Pages/language_modeling_compression_intelligence.html" rel="noopener">원문 ↗</a></span></div></div>
 <!-- archive-header:end -->
-<div class="layout"><header class="hero"><span class="eyebrow">AI · 정보이론</span>
+<header class="hero cf-hero"><div class="cf-hero-inner"><span class="eyebrow cf-eyebrow">AI · 정보이론</span>
 <h1>예측하는 기계는 왜 압축하는 기계인가</h1>
-<p class="lead">다음을 잘 맞히는 능력은 곧 잘 줄이는 능력입니다.</p>
-<nav class="toc"><details><summary>목차</summary><ol><li><a href="#s0">★ 먼저 큰 그림</a></li><li><a href="#s1">1. 놀람의 양과 압축의 바닥</a></li><li><a href="#s2">2. 산술 부호화: 예측을 비트로 바꾸는 기계</a></li><li><a href="#s3">3. 언어 모델의 학습 손실은 곧 압축 길이</a></li><li><a href="#s4">4. 연구사: 가장 짧은 설명을 찾는 일</a></li><li><a href="#s5">5. 논문 ①: 텍스트만 배운 모델이 사진과 소리를 줄이다</a></li><li><a href="#s6">6. 모델 크기라는 대가: 조정 압축률</a></li><li><a href="#s7">7. 토크나이저와 생성: 등가 관계의 양쪽 끝</a></li><li><a href="#s8">8. 논문 ②: 압축과 점수는 한 직선 위에</a></li><li><a href="#s9">9. 직선 밖의 점들: 오염과 형식 과적합</a></li><li><a href="#s10">10. 한계와 조심해서 읽을 점</a></li><li><a href="#s11">✓ 복습: 용어 · 핵심 · 점검</a></li></ol></details></nav></header><main>
+<p class="lead cf-lead">다음을 잘 맞히는 능력은 곧 잘 줄이는 능력입니다.</p>
+</div></header>
+<div class="cf-layout"><nav class="cf-toc" aria-label="목차"><div class="cf-toc-t">목차</div><ol><li><a href="#s0"><span class="n">★</span>먼저 큰 그림</a></li><li><a href="#s1"><span class="n">1</span>놀람의 양과 압축의 바닥</a></li><li><a href="#s2"><span class="n">2</span>산술 부호화: 예측을 비트로 바꾸는 기계</a></li><li><a href="#s3"><span class="n">3</span>언어 모델의 학습 손실은 곧 압축 길이</a></li><li><a href="#s4"><span class="n">4</span>연구사: 가장 짧은 설명을 찾는 일</a></li><li><a href="#s5"><span class="n">5</span>논문 ①: 텍스트만 배운 모델이 사진과 소리를 줄이다</a></li><li><a href="#s6"><span class="n">6</span>모델 크기라는 대가: 조정 압축률</a></li><li><a href="#s7"><span class="n">7</span>토크나이저와 생성: 등가 관계의 양쪽 끝</a></li><li><a href="#s8"><span class="n">8</span>논문 ②: 압축과 점수는 한 직선 위에</a></li><li><a href="#s9"><span class="n">9</span>직선 밖의 점들: 오염과 형식 과적합</a></li><li><a href="#s10"><span class="n">10</span>한계와 조심해서 읽을 점</a></li><li><a href="#s11"><span class="n">·</span>✓ 복습: 용어 · 핵심 · 점검</a></li></ol></nav><div class="cf-main">
+<main>
 <section class="sec" id="s0"><div class="sec-head"><div class="sec-num">★</div><h2>먼저 큰 그림</h2></div>
 <p>첫째, <b>다음에 올 것을 잘 맞히는 능력과 데이터를 적은 비트로 줄이는 능력은 정말 같은 능력인가?</b> 둘째, 그렇다면 <b>잘 줄이는 모델이 더 똑똑하다고 말할 수 있는가?</b> 원문은 “땅콩버터와 ○○○”의 빈칸을 예로 듭니다. 받는 사람도 같은 짐작을 한다면 뻔한 말은 다 적어 보낼 필요 없이 ‘예상대로’라는 짧은 신호면 충분합니다. 예측이 정확할수록 보낼 것이 줄어드는 셈입니다.</p>
 <p>이 생각은 1948년 섀넌의 정보 이론에서 출발해 콜모고로프, 솔로모노프, 후터를 거치며 ‘압축하는 능력이 곧 지능’이라는 대담한 가설로 자랐습니다. 딥마인드의 「Language Modeling Is Compression」(ICLR 2024)은 첫 번째 질문에 답합니다. 텍스트만 배운 모델이 사진과 소리까지 전용 압축기보다 잘 줄입니다. HKUST·텐센트의 「Compression Represents Intelligence Linearly」(COLM 2024)는 두 번째 질문에 답합니다. 31개 모델의 압축 효율과 벤치마크 점수가 거의 한 직선 위에 놓입니다.</p>
@@ -307,7 +369,7 @@ dl.terms dt{font-weight:800;margin-top:10px}dl.terms dd{margin:2px 0 0 0;color:v
 </section>
 </main>
 <footer>원문: <a href="https://yghnsim.github.io/Pages/language_modeling_compression_intelligence.html">Pages · 예측하는 기계는 왜 압축하는 기계인가</a><br>논문: <a href="https://arxiv.org/abs/2309.10668">Delétang 외, 「Language Modeling Is Compression」, ICLR 2024</a> · <a href="https://arxiv.org/abs/2404.09937">Huang 외, 「Compression Represents Intelligence Linearly」, COLM 2024</a><br>노란·초록 상자는 이해를 돕기 위한 해석이며, 수치는 모두 원문에서 가져왔습니다.</footer>
-</div>
+</div></div>
 
 <!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
 <div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">요약 아카이브</div><div class="arc-foot-title">예측하는 기계는 왜 압축하는 기계인가</div><div class="arc-foot-meta"><time datetime="2026-10-22">2026년 10월 22일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=%EC%A0%95%EB%B3%B4%EC%9D%B4%EB%A1%A0">#정보이론</a><a class="arc-tag" href="../index.html#tags=%EC%95%95%EC%B6%95">#압축</a> · <a href="https://yghnsim.github.io/Pages/language_modeling_compression_intelligence.html" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>

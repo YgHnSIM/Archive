@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light only">
+<html lang="ko"><head><meta name="description" content="goto 없이 순차·선택·반복만으로 모든 흐름도를 표현할 수 있음을 보인 뵘·야코피니 정리를 단계 보기와 P′′ 인터프리터, 퀴즈로 익히는 학습서">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light only">
 <title>뵘·야코피니 1966 해설 학습서: goto 없이도 모든 흐름도를</title>
 <style>
 /* 아카이브 공통 스타일(데니스노블·언어모델압축 기준) + 인터랙티브 위젯 */
@@ -83,17 +84,70 @@ footer{max-width:780px;margin:28px auto 0;color:var(--muted);font-size:14px;padd
 <link rel="stylesheet" href="../assets/archive-page.css">
 <link rel="stylesheet" href="../assets/archive-tokens.css">
 <!-- archive-head:end -->
+<!-- archive-fix: 첫 페이지(좋은추상화) 형식 맞춤 — 1180px 격자·왼쪽 고정 목차·절 번호 배지·제목 크기·글자 하한 -->
+<style id="archive-fix">
+:root{--toc-w:240px;color-scheme:light only}
+html{scroll-padding-top:24px}
+.cf-hero{background:linear-gradient(180deg,#f3efe6 0%,var(--bg,#faf8f3) 100%);border-bottom:1px solid var(--line,#e6e1d6);padding:48px 20px 34px;margin:0;max-width:none;text-align:left}
+.cf-hero-inner{max-width:1180px;margin:0 auto}
+.cf-eyebrow{display:inline-block;font-family:inherit!important;font-size:13px!important;font-weight:700;letter-spacing:.04em;color:#a8432e!important;background:#fbeee9;padding:4px 10px;border-radius:999px;line-height:1.5}
+.cf-hero h1{font-size:clamp(28px,4.4vw,44px)!important;line-height:1.25!important;margin:14px 0 12px!important;letter-spacing:-.02em}
+.cf-hero .cf-lead{font-size:18px;color:#5b6470;margin:0 0 14px;max-width:none}
+.cf-layout{width:100%;max-width:1180px;margin:0 auto;display:grid;grid-template-columns:var(--toc-w) minmax(0,1fr);gap:40px;padding:0 20px;box-sizing:border-box}
+.cf-main{min-width:0;padding:28px 0 60px}
+.cf-main>main,.cf-main main{max-width:none!important;margin:0!important;padding:0!important;width:auto}
+nav.cf-toc{max-width:none;width:auto;position:sticky;top:20px;align-self:start;margin:36px 0 0!important;max-height:calc(100vh - 40px);overflow:auto;padding-right:4px;background:none;border:0;white-space:normal;z-index:20}
+.cf-toc-t{font-size:13px;color:#5b6470;letter-spacing:.06em;margin:0 0 10px;font-weight:700}
+nav.cf-toc ol{list-style:none;margin:0;padding:0}
+nav.cf-toc li{margin:0;padding:0}
+nav.cf-toc li a{display:flex;gap:8px;align-items:baseline;text-decoration:none;color:#5b6470;font-size:14.5px;line-height:1.45;padding:7px 10px;border-radius:8px;border-left:3px solid transparent;background:none;border-top:0;margin:0}
+nav.cf-toc li a .n{font-weight:700;font-size:13px;color:#6b7280;min-width:18px}
+nav.cf-toc li a:hover{background:#f0ece3;color:#1f2328}
+h2{font-size:clamp(23px,3vw,30px)!important;line-height:1.3!important;letter-spacing:-.015em}
+h3{font-size:19px!important}
+.cf-num{flex:none;display:inline-grid;place-items:center;width:40px;height:40px;border-radius:12px;background:#1f2328;color:#fff;font-weight:800;font-size:17px;margin:0 12px 0 0;vertical-align:middle;line-height:1;letter-spacing:0}
+.cf-num.ref{background:#3d5f80}
+.cf-num.ref::before{content:"★";font-size:16px}
+.cf-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.sec-num{width:40px!important;height:40px!important;font-size:17px!important;margin-top:4px!important}
+@media (max-width:900px){
+  .cf-layout{grid-template-columns:minmax(0,1fr);gap:0;padding:0}
+  nav.cf-toc{position:sticky;top:0;margin:0!important;max-height:none;background:rgba(250,248,243,.96);backdrop-filter:blur(6px);border-bottom:1px solid #e6e1d6;padding:8px 10px;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch}
+  .cf-toc-t{display:none}
+  nav.cf-toc ol{display:flex;gap:6px;white-space:nowrap}
+  nav.cf-toc li a{border-left:0;border-radius:999px;padding:6px 12px;font-size:14px;background:#f1ede4;color:#1f2328}
+  nav.cf-toc li a .n{color:#5b6470}
+  .cf-main{padding:10px 18px 60px}
+  html{scroll-padding-top:64px}
+}
+@media (max-width:640px){
+  .cf-hero{padding:32px 18px 24px}
+  .cf-hero .cf-lead{font-size:17px}
+  .cf-num,.sec-num{width:34px!important;height:34px!important;font-size:15px!important}
+}
+.arc-back b,.arc-foot-label{color:#a8432e!important}
+q{color:#a8432e}
+.badge,.tag-pill{font-size:13px!important}
+.ill{font-size:13px!important;background:#5f6670!important}
+sub,sup{font-size:max(12px,.8em)}
+svg .lbl{font-size:12px}
+.small{font-size:16px!important}
+.src code{font-size:1em}
+main>section,section.sec{background:none!important;border:0!important;border-bottom:1px dashed #e6e1d6!important;border-radius:0!important;padding:36px 0 28px!important;margin:0!important;box-shadow:none!important}
+main>section:last-of-type,section.sec:last-of-type{border-bottom:0!important}
+
+</style>
+
 </head><body>
 <!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
 <div class="arc-band" role="navigation" aria-label="요약 아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>요약 아카이브</a><span class="arc-crumb">흐름도, 튜링 기계, 그리고 단 두 개의 형성 규칙: 뵘·야코피니 1966</span><span class="arc-meta"><time datetime="2026-10-25">2026년 10월 25일</time><a class="arc-tag" href="../index.html#tags=%EA%B3%84%EC%82%B0%EC%9D%B4%EB%A1%A0">#계산이론</a><a class="arc-tag" href="../index.html#tags=%EA%B5%AC%EC%A1%B0%EC%A0%81%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D">#구조적프로그래밍</a><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99%EC%82%AC">#컴퓨터과학사</a></span></div></div>
 <!-- archive-header:end -->
-<header><div class="mono" style="color:var(--mut)">Communications of the ACM 9(5), 1966년 5월, pp. 366–371</div>
-<h1>흐름도, 튜링 기계, 그리고 단 두 개의 형성 규칙</h1>
-</header>
-<nav><a href="#basics">먼저 알아 둘 것</a><a href="#ov">전반적인 해설</a><a href="#s0">0. 길잡이</a><a href="#s1">1. 맥락</a><a href="#s2">2. 기초 개념</a><a href="#s3">3. 핵심 정리</a><a href="#s4">4. P′′ 언어</a><a href="#s5">5. 오해와 의미</a><a href="#s6">최종 복습</a></nav>
+<header class="cf-hero"><div class="cf-hero-inner"><div class="mono cf-eyebrow">Communications of the ACM 9(5), 1966년 5월, pp. 366–371</div>
+<h1>흐름도, 튜링 기계, 그리고 단 두 개의 형성 규칙</h1></div></header>
+<div class="cf-layout"><nav class="cf-toc" aria-label="목차"><div class="cf-toc-t">목차</div><ol><li><a href="#basics"><span class="n">·</span>먼저 알아 둘 것</a></li><li><a href="#ov"><span class="n">·</span>전반적인 해설</a></li><li><a href="#s0"><span class="n">0</span>길잡이</a></li><li><a href="#s1"><span class="n">1</span>맥락</a></li><li><a href="#s2"><span class="n">2</span>기초 개념</a></li><li><a href="#s3"><span class="n">3</span>핵심 정리</a></li><li><a href="#s4"><span class="n">4</span>P′′ 언어</a></li><li><a href="#s5"><span class="n">5</span>오해와 의미</a></li><li><a href="#s6"><span class="n">·</span>최종 복습</a></li></ol></nav><div class="cf-main">
 <main>
 
-<section id="basics"><h2>먼저 알아 둘 것</h2>
+<section id="basics"><h2><span class="cf-num ref" aria-hidden="true"></span>먼저 알아 둘 것</h2>
 <div class="guide">📌 <b>이 절에서 알게 될 것</b>:<ul style="margin:.2rem 0 0"><li>프로그램, 순서도, ‘점프(goto)’가 무엇인지</li><li>점프가 왜 골칫거리였는지</li></ul></div>
 
 <h3>프로그램이란?</h3>
@@ -143,7 +197,7 @@ footer{max-width:780px;margin:28px auto 0;color:var(--muted);font-size:14px;padd
 <text class="lbl" x="200" y="165">점프로 엉킨 순서 (가상의 예)</text></svg></div>
 </section>
 
-<section id="ov"><h2>전반적인 해설</h2>
+<section id="ov"><h2><span class="cf-num ref" aria-hidden="true"></span>전반적인 해설</h2>
 <div class="guide">📌 <b>이 절에서 알게 될 것</b>: 이 논문이 무엇을 보였는지, 라면 레시피 하나로 끝까지 따라가며 이해하기.</div>
 
 <h3>한 줄 요약</h3>
@@ -201,13 +255,13 @@ footer{max-width:780px;margin:28px auto 0;color:var(--muted);font-size:14px;padd
 <div class="quiz card" data-quiz="q0"></div>
 </section>
 
-<section id="s0"><h2>0. 이 학습서 사용법</h2>
+<section id="s0"><h2><span class="cf-num">0<span class="cf-sr">. </span></span>이 학습서 사용법</h2>
 <div class="guide">📌 <b>이 절에서 알게 될 것</b>: 이 학습서를 어떤 순서로 보면 좋은지.</div>
 <div class="int"><span class="badge b-int">해설·해석</span> 이 논문은 여섯 쪽밖에 안 되지만 기호가 빽빽해서 처음 읽으면 막막합니다. 그래서 순서를 이렇게 잡았어요. ① 왜 이런 논문이 나왔는지 → ② 필요한 기초 개념 → ③ 핵심 정리를 <b>직접 돌려 보며</b> 이해하기 → ④ 논문 후반부의 아주 작은 언어 P′′를 인터프리터로 실행해 보기 → ⑤ 흔한 오해 바로잡기. 각 절 끝에 짧은 퀴즈가 있고, 맨 끝에 종합 복습이 있어요.</div>
 <div class="card"><b>한 문장 요약</b> <span class="badge b-int">해설·해석</span><br>“아무렇게나 얽힌 흐름도라도, <b>작은 기억 공간(참/거짓 비트)</b>을 하나 더 쓰면 <b>순차·선택·반복</b> 세 가지 조립 방식만으로 같은 일을 하는 흐름도로 바꿀 수 있다. 더 나아가 튜링 기계에 대해서는 <b>순차와 반복 두 가지</b>만으로도 충분하다.”</div>
 </section>
 
-<section id="s1"><h2>1. 논문이 나온 맥락</h2>
+<section id="s1"><h2><span class="cf-num">1<span class="cf-sr">. </span></span>논문이 나온 맥락</h2>
 <div class="guide">📌 <b>이 절에서 알게 될 것</b>: 이 논문이 언제, 어디서 나왔고 이후 다익스트라의 글과 어떻게 이어지는지.</div>
 <h3>1960년대: 흐름도와 goto의 시대</h3>
 <div class="int"><span class="badge b-int">해설·해석</span> 초기 컴퓨터 프로그래밍에서는 <b>흐름도(flow diagram)</b>로 알고리즘을 그리고, 이를 기계어·어셈블리나 FORTRAN 같은 언어로 옮기는 일이 흔했습니다. 이런 언어에서 흐름을 바꾸는 기본 수단은 “몇 번 줄로 가라”는 <b>점프(goto)</b>였어요. 화살표를 어디로든 그을 수 있는 흐름도와 어디로든 뛸 수 있는 goto는 잘 맞았지만, 화살표가 많아질수록 ‘스파게티’처럼 얽혀 읽고 검증하기 어려워졌습니다.</div>
@@ -225,7 +279,7 @@ footer{max-width:780px;margin:28px auto 0;color:var(--muted);font-size:14px;padd
 <div class="quiz card" data-quiz="q1"></div>
 </section>
 
-<section id="s2"><h2>2. 기초 개념</h2>
+<section id="s2"><h2><span class="cf-num">2<span class="cf-sr">. </span></span>기초 개념</h2>
 <div class="guide">📌 <b>이 절에서 알게 될 것</b>: 논문이 쓰는 기본 그림 다섯 가지(Π, Ω, Δ, Φ, Λ)와 튜링 기계. 앞의 ‘세 가지 모양’에 기호 이름을 붙이는 단계입니다.</div>
 <h3>2-1. 흐름도: 상자 두 종류와 화살표</h3>
 <div class="paper"><span class="badge b-paper">논문 원문</span> <b>기능형(functional) 상자</b>(그림 1)는 대상 <i>x</i>(집합 X의 원소, 예: 컴퓨터 메모리의 숫자들, 튜링 기계의 테이프 상태)에 기본 연산 <i>a, b, c, …</i>를 수행합니다. <b>술어형(predicative) 상자</b>(그림 2)는 <i>x</i>를 바꾸지 않고, 어떤 성질 <i>α, β, γ, …</i>가 성립하는지에 따라 다음 연산을 고릅니다. 그림 2의 마름모에서는 <b>위쪽 출구가 true, 아래쪽 출구가 false</b>로 표시되어 있습니다. 논문은 흐름도를 엄밀히 정의하지 않고 “ostensive method”(예시로 보여 주는 방법)로 소개합니다.</div>
@@ -256,7 +310,7 @@ footer{max-width:780px;margin:28px auto 0;color:var(--muted);font-size:14px;padd
 <div class="quiz card" data-quiz="q2"></div>
 </section>
 
-<section id="s3"><h2>3. 핵심 정리와 증명 아이디어</h2>
+<section id="s3"><h2><span class="cf-num">3<span class="cf-sr">. </span></span>핵심 정리와 증명 아이디어</h2>
 <div class="guide">📌 <b>이 절에서 알게 될 것</b>: 앞의 라면 예에서 본 ‘쪽지’ 방법을 논문이 실제로 어떤 기호(T, F, K, ω)로 쓰는지. 가장 어려운 절이니 천천히 보세요.</div>
 <h3>3-1. 나쁜 소식: 그대로는 쪼갤 수 없는 흐름도 Ω<sub>n</sub></h3>
 <div class="paper"><span class="badge b-paper">논문 원문</span> 그림 4의 Ω<sub>5</sub>(α, β, γ, δ, ε, a, b, c, d, e)를 아래에 다시 그렸습니다. 술어 다섯 개가 한 줄로 늘어서 있고, 각 술어가 <b>true면 공통 출구로 빠져나가고</b>, false면 해당 연산(a…e)을 실행한 뒤 다음 술어로 갑니다. 마지막 e 다음에는 처음 α로 돌아갑니다. 논문은 이런 도형의 무한 계열 <b>Ω<sub>1</sub>[=Ω], Ω<sub>2</sub>, Ω<sub>3</sub>, …, Ω<sub>n</sub>, …</b>을 들고, 이들을 Π, Ω, Δ로 분해할 수 없다고 말합니다.
@@ -344,7 +398,7 @@ K                          ← 남은 비트 제거</pre>
 <div class="quiz card" data-quiz="q3"></div>
 </section>
 
-<section id="s4"><h2>4. P′′ 언어</h2>
+<section id="s4"><h2><span class="cf-num">4<span class="cf-sr">. </span></span>P′′ 언어</h2>
 <div class="guide">📌 <b>이 절에서 알게 될 것</b>: 논문 뒷부분의 아주 작은 언어 P′′. 명령 두 개(λ, R)와 괄호만으로 프로그램을 쓰고 직접 실행해 봅니다.</div>
 <div class="paper"><span class="badge b-paper">논문 원문</span> 2부는 뵘의 이전 논문 [8](ICC Bulletin 3, 1964)의 결과를 소개합니다. <b>왼쪽으로만 무한한 테이프</b>의 튜링 기계에서:
 <ul><li><b>α</b>: 헤드가 보는 칸이 빈칸(□)이면 참인 술어</li>
@@ -375,7 +429,7 @@ q<sub>1</sub>q<sub>2</sub>는 합성 q<sub>2</sub>∘q<sub>1</sub>(먼저 q<sub>
 <div class="quiz card" data-quiz="q4"></div>
 </section>
 
-<section id="s5"><h2>5. 흔한 오해와 오늘날의 의미</h2>
+<section id="s5"><h2><span class="cf-num">5<span class="cf-sr">. </span></span>흔한 오해와 오늘날의 의미</h2>
 <div class="guide">📌 <b>이 절에서 알게 될 것</b>: 이 논문에 대해 흔히 잘못 알려진 점과 오늘날의 의미.</div>
 <details open><summary>오해 1: “뵘·야코피니가 goto를 쓰지 말라고 했다.”</summary><div class="int"><span class="badge b-int">해설·해석</span> 논문은 어떤 프로그래밍 습관도 권하지 않습니다. 무엇을 <i>표현할 수 있는가</i>에 대한 수학적 결과예요. goto 반대론은 다익스트라 등 이후의 논의이고, 다익스트라조차 기계적 변환은 “not to be recommended”라고 했습니다.</div></details>
 <details><summary>오해 2: “아무 흐름도나 모양 그대로 순차·선택·반복으로 쪼갤 수 있다.”</summary><div class="paper"><span class="badge b-paper">논문 원문</span> 정반대입니다. 논문은 분해할 수 없는 Ω<sub>n</sub> 계열이 있다고 말하고, 보조 비트(T, F, K, ω)를 추가해 대상 집합을 확장한 뒤에야 가능하다고 합니다.</div></details>
@@ -388,12 +442,12 @@ q<sub>1</sub>q<sub>2</sub>는 합성 q<sub>2</sub>∘q<sub>1</sub>(먼저 q<sub>
 </section>
 
 
-<section id="s6"><h2>최종 복습</h2>
+<section id="s6"><h2><span class="cf-num ref" aria-hidden="true"></span>최종 복습</h2>
 <div class="quiz card" data-quiz="final"></div>
 <div class="card"><b>점수</b>: <span id="score">0</span> / <span id="total">0</span> <button class="sec" id="resetQ">퀴즈 모두 초기화</button></div>
 </section>
 </main>
-<footer>원문: C. Böhm, G. Jacopini, “Flow Diagrams, Turing Machines and Languages with Only Two Formation Rules,” Comm. ACM 9(5):366–371, 1966 (<a href="https://www.cs.unibo.it/~martini/PP/bohm-jac.pdf">PDF</a>). 인용과 기호는 스캔본 페이지 이미지를 보고 대조했습니다. 외부 의존성 없는 단일 HTML 파일입니다.</footer>
+<footer>원문: C. Böhm, G. Jacopini, “Flow Diagrams, Turing Machines and Languages with Only Two Formation Rules,” Comm. ACM 9(5):366–371, 1966 (<a href="https://www.cs.unibo.it/~martini/PP/bohm-jac.pdf">PDF</a>). 인용과 기호는 스캔본 페이지 이미지를 보고 대조했습니다. 외부 의존성 없는 단일 HTML 파일입니다.</footer></div></div>
 <script>
 "use strict";
 const $=id=>document.getElementById(id);

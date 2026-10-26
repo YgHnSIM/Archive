@@ -13,16 +13,6 @@
   <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
   <link rel="icon" type="image/x-icon" href="../favicon.ico">
   <link rel="apple-touch-icon" href="../apple-touch-icon.png">
-  <script>
-    (function () {
-      try {
-        var f = localStorage.getItem("pages_font");
-        if (f === "d2coding" || f === "pretendard") {
-          document.documentElement.setAttribute("data-font", f);
-        }
-      } catch (e) {}
-    })();
-  </script>
   
 
   <style>
@@ -1912,6 +1902,10 @@
     .article-card{background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:none}
     .article-content a,.article-card a{color:var(--link)}
     #progress-bar{background:linear-gradient(90deg,var(--accent),var(--new))}
+    nav.sec-nav{width:100%;min-width:0;align-self:center;position:sticky;top:0;z-index:5;max-width:780px;margin:6px auto 0;background:rgba(250,248,243,.96);overflow-x:auto;white-space:nowrap;padding:8px 14px;-webkit-overflow-scrolling:touch}
+    nav.sec-nav a{display:inline-block;padding:6px 12px;margin:2px 3px 2px 0;border-radius:999px;color:var(--ink);text-decoration:none;font-size:14px;background:#fff;border:1px solid var(--line)}
+    nav.sec-nav a:hover{border-color:var(--accent);color:#a8432e}
+    html{scroll-padding-top:64px}
     .arc-back b,.arc-foot-label{color:#a8432e!important}
     .toc-drawer:not(.active){visibility:hidden}
     .toc-drawer{transition:transform .3s ease,visibility .3s}
@@ -1933,68 +1927,77 @@
 <link rel="stylesheet" href="../assets/archive-page.css">
 <link rel="stylesheet" href="../assets/archive-tokens.css">
 <!-- archive-head:end -->
+<!-- archive-fix: 첫 페이지(좋은추상화) 형식 맞춤 — 1180px 격자·왼쪽 고정 목차·절 번호 배지·제목 크기·글자 하한 -->
+<style id="archive-fix">
+:root{--toc-w:240px;color-scheme:light only}
+html{scroll-padding-top:24px}
+.cf-hero{background:linear-gradient(180deg,#f3efe6 0%,var(--bg,#faf8f3) 100%);border-bottom:1px solid var(--line,#e6e1d6);padding:48px 20px 34px;margin:0;max-width:none;text-align:left}
+.cf-hero-inner{max-width:1180px;margin:0 auto}
+.cf-eyebrow{display:inline-block;font-family:inherit!important;font-size:13px!important;font-weight:700;letter-spacing:.04em;color:#a8432e!important;background:#fbeee9;padding:4px 10px;border-radius:999px;line-height:1.5}
+.cf-hero h1{font-size:clamp(28px,4.4vw,44px)!important;line-height:1.25!important;margin:14px 0 12px!important;letter-spacing:-.02em}
+.cf-hero .cf-lead{font-size:18px;color:#5b6470;margin:0 0 14px;max-width:none}
+.cf-layout{width:100%;max-width:1180px;margin:0 auto;display:grid;grid-template-columns:var(--toc-w) minmax(0,1fr);gap:40px;padding:0 20px;box-sizing:border-box}
+.cf-main{min-width:0;padding:28px 0 60px}
+.cf-main>main,.cf-main main{max-width:none!important;margin:0!important;padding:0!important;width:auto}
+nav.cf-toc{max-width:none;width:auto;position:sticky;top:20px;align-self:start;margin:36px 0 0!important;max-height:calc(100vh - 40px);overflow:auto;padding-right:4px;background:none;border:0;white-space:normal;z-index:20}
+.cf-toc-t{font-size:13px;color:#5b6470;letter-spacing:.06em;margin:0 0 10px;font-weight:700}
+nav.cf-toc ol{list-style:none;margin:0;padding:0}
+nav.cf-toc li{margin:0;padding:0}
+nav.cf-toc li a{display:flex;gap:8px;align-items:baseline;text-decoration:none;color:#5b6470;font-size:14.5px;line-height:1.45;padding:7px 10px;border-radius:8px;border-left:3px solid transparent;background:none;border-top:0;margin:0}
+nav.cf-toc li a .n{font-weight:700;font-size:13px;color:#6b7280;min-width:18px}
+nav.cf-toc li a:hover{background:#f0ece3;color:#1f2328}
+h2{font-size:clamp(23px,3vw,30px)!important;line-height:1.3!important;letter-spacing:-.015em}
+h3{font-size:19px!important}
+.cf-num{flex:none;display:inline-grid;place-items:center;width:40px;height:40px;border-radius:12px;background:#1f2328;color:#fff;font-weight:800;font-size:17px;margin:0 12px 0 0;vertical-align:middle;line-height:1;letter-spacing:0}
+.cf-num.ref{background:#3d5f80}
+.cf-num.ref::before{content:"★";font-size:16px}
+.cf-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.sec-num{width:40px!important;height:40px!important;font-size:17px!important;margin-top:4px!important}
+@media (max-width:900px){
+  .cf-layout{grid-template-columns:minmax(0,1fr);gap:0;padding:0}
+  nav.cf-toc{position:sticky;top:0;margin:0!important;max-height:none;background:rgba(250,248,243,.96);backdrop-filter:blur(6px);border-bottom:1px solid #e6e1d6;padding:8px 10px;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch}
+  .cf-toc-t{display:none}
+  nav.cf-toc ol{display:flex;gap:6px;white-space:nowrap}
+  nav.cf-toc li a{border-left:0;border-radius:999px;padding:6px 12px;font-size:14px;background:#f1ede4;color:#1f2328}
+  nav.cf-toc li a .n{color:#5b6470}
+  .cf-main{padding:10px 18px 60px}
+  html{scroll-padding-top:64px}
+}
+@media (max-width:640px){
+  .cf-hero{padding:32px 18px 24px}
+  .cf-hero .cf-lead{font-size:17px}
+  .cf-num,.sec-num{width:34px!important;height:34px!important;font-size:15px!important}
+}
+.arc-back b,.arc-foot-label{color:#a8432e!important}
+q{color:#a8432e}
+.badge,.tag-pill{font-size:13px!important}
+.ill{font-size:13px!important;background:#5f6670!important}
+sub,sup{font-size:max(12px,.8em)}
+svg .lbl{font-size:12px}
+.small{font-size:16px!important}
+.src code{font-size:1em}
+.article-card{background:none!important;border:0!important;box-shadow:none!important;padding:0!important}
+.article-container{padding:0!important}
+
+</style>
+
 </head>
 <body>
 
   <!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
 <div class="arc-band" role="navigation" aria-label="요약 아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>요약 아카이브</a><span class="arc-crumb">AI는 슈퍼카인데 회사는 왜 제자리일까: 개인의 속도, 조직의 병목, 마찰의 종말</span><span class="arc-meta"><time datetime="2026-10-27">2026년 10월 27일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=%EC%A1%B0%EC%A7%81">#조직</a><a class="arc-tag" href="../index.html#tags=%EA%B2%BD%EC%98%81">#경영</a><a class="arc-src" href="https://yghnsim.github.io/Pages/articles/ai_supercar_organizational_bottleneck.html" rel="noopener">원문 ↗</a></span></div></div>
 <!-- archive-header:end -->
-<!-- Top Sticky Navigation Bar -->
-  <header class="top-nav">
-    <div class="nav-left">
-      <a href="../index.html" class="nav-btn" title="목록으로 이동">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-        <span>목록</span>
-      </a>
-      <span class="nav-title" id="nav-title-text">AI는 슈퍼카인데 회사는 왜 제자리일까 — 개인의 속도, 조직의 병목, 그리고 마찰의 종말</span>
-    </div>
-    
-    <div class="nav-right">
-      <div class="font-picker" id="font-picker">
-        <button class="nav-btn" id="font-toggle" type="button" aria-label="본문 폰트" title="본문 폰트 선택" aria-expanded="false" aria-haspopup="listbox" aria-controls="font-menu">가</button>
-        <div class="font-menu" id="font-menu" role="listbox" hidden>
-          <button type="button" class="font-option" role="option" data-font="pretendard" aria-selected="true">Pretendard</button>
-          <button type="button" class="font-option" role="option" data-font="d2coding" aria-selected="false">D2Coding</button>
-        </div>
-      </div>
-      <button class="nav-btn" id="theme-toggle" aria-label="테마 전환" title="다크/라이트 모드 전환">
-        <span id="theme-icon">🌓</span>
-      </button>
-      <button class="nav-btn" id="toc-toggle" aria-label="목차 열기" title="목차 보기" aria-expanded="false" aria-controls="toc-drawer">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="21" x2="3" y1="6" y2="6"/><line x1="15" x2="3" y1="12" y2="12"/><line x1="17" x2="3" y1="18" y2="18"/></svg>
-        <span>목차</span>
-      </button>
-    </div>
-    <!-- Reading Progress Bar -->
-    <div id="progress-container">
-      <div id="progress-bar"></div>
-    </div>
-  </header>
-
-  <!-- TOC Slide-in Drawer -->
-  <div class="drawer-overlay" id="drawer-overlay"></div>
-  <aside class="toc-drawer" id="toc-drawer" aria-label="문서 목차">
-    <div class="toc-drawer-header">
-      <span class="toc-drawer-title">📑 목차</span>
-      <button class="toc-close-btn" id="toc-close" aria-label="목차 닫기">&times;</button>
-    </div>
-    <div class="toc-drawer-body">
-      <ul class="toc-list"><li class="depth-2"><a href="#1-슈퍼카와-도심의-정체-개인의-속도와-거시-지표의-괴리" class="toc-link"><span class="toc-badge badge-h2">대주제</span><span class="toc-text">1. 슈퍼카와 도심의 정체: 개인의 속도와 거시 지표의 괴리</span></a></li><li class="depth-2"><a href="#2-싱글-플레이어-도구와-멀티플레이어-조직-100배의-코드가-30-출시로-꺾이는-이유" class="toc-link"><span class="toc-badge badge-h2">대주제</span><span class="toc-text">2. 싱글 플레이어 도구와 멀티플레이어 조직: 100배의 코드가 30% 출시로 꺾이는 이유</span></a></li><li class="depth-2"><a href="#3-잃어버린-경영의-근육-하버드의-40-우위와-85-roi의-착시" class="toc-link"><span class="toc-badge badge-h2">대주제</span><span class="toc-text">3. 잃어버린 경영의 근육: 하버드의 40% 우위와 85% ROI의 착시</span></a></li><li class="depth-2"><a href="#4-역량-과잉과-추론기-패러다임-암산에서-연습장으로" class="toc-link"><span class="toc-badge badge-h2">대주제</span><span class="toc-text">4. 역량 과잉과 추론기 패러다임: 암산에서 연습장으로</span></a></li><li class="depth-2"><a href="#5-마찰의-종말-제로-토큰-비용과-기생적-비즈니스의-붕괴" class="toc-link"><span class="toc-badge badge-h2">대주제</span><span class="toc-text">5. 마찰의 종말: 제로 토큰 비용과 기생적 비즈니스의 붕괴</span></a></li><li class="depth-2"><a href="#6-인지적-하역의-덫-길치-증후군과-아날로그-교실의-역설" class="toc-link"><span class="toc-badge badge-h2">대주제</span><span class="toc-text">6. 인지적 하역의 덫: 길치 증후군과 아날로그 교실의 역설</span></a></li><li class="depth-2"><a href="#7-보이지-않는-명령-자율-에이전트와-프롬프트-인젝션-시한폭탄" class="toc-link"><span class="toc-badge badge-h2">대주제</span><span class="toc-text">7. 보이지 않는 명령: 자율 에이전트와 프롬프트 인젝션 시한폭탄</span></a></li><li class="depth-2"><a href="#8-생존-전략-양손잡이-조직과-과도기의-사회적-안전망" class="toc-link"><span class="toc-badge badge-h2">대주제</span><span class="toc-text">8. 생존 전략: 양손잡이 조직과 과도기의 사회적 안전망</span></a></li><li class="depth-2"><a href="#9-맺음말-사라진-마찰의-자리에-무엇을-채울-것인가" class="toc-link"><span class="toc-badge badge-h2">대주제</span><span class="toc-text">9. 맺음말: 사라진 마찰의 자리에 무엇을 채울 것인가</span></a></li></ul>
-    </div>
-  </aside>
 
   <!-- Main Article Content Container -->
-  <main class="article-container">
-    <article class="article-card">
-      <header class="article-header">
+  <header class="article-header cf-hero"><div class="cf-hero-inner">
+        <span class="cf-eyebrow">✍️ Pages AI·경영경제 심층 해설 에세이</span>
+        <h1 class="article-title">AI는 슈퍼카인데 회사는 왜 제자리일까 — 개인의 속도, 조직의 병목, 그리고 마찰의 종말</h1>
+        <p class="article-subtitle cf-lead">와튼 스쿨 이선 몰릭의 《공존: AI의 다음 단계》와 빅 테크놀로지 팟캐스트로 읽는 역량 오버행, 추론기 패러다임, 인지적 하역, 그리고 양손잡이 조직의 생존법</p>
+        
         <div class="article-meta">
           <span class="meta-badge">📅 2026-10-26</span>
           <span class="meta-badge">⏱️ 약 30분</span>
-          <span class="meta-badge">✍️ Pages AI·경영경제 심층 해설 에세이</span>
         </div>
-        <h1 class="article-title">AI는 슈퍼카인데 회사는 왜 제자리일까 — 개인의 속도, 조직의 병목, 그리고 마찰의 종말</h1>
-        <p class="article-subtitle">와튼 스쿨 이선 몰릭의 《공존: AI의 다음 단계》와 빅 테크놀로지 팟캐스트로 읽는 역량 오버행, 추론기 패러다임, 인지적 하역, 그리고 양손잡이 조직의 생존법</p>
-        
         <div class="tag-list">
           
           <span class="tag-pill">#AI</span>
@@ -2008,7 +2011,10 @@
           <span class="tag-pill">#에이전트</span>
           
         </div>
-      </header>
+      </div></header>
+  <div class="cf-layout"><nav class="cf-toc" aria-label="목차"><div class="cf-toc-t">목차</div><ol><li><a href="#1-슈퍼카와-도심의-정체-개인의-속도와-거시-지표의-괴리"><span class="n">1</span>슈퍼카와 도심의 정체</a></li><li><a href="#2-싱글-플레이어-도구와-멀티플레이어-조직-100배의-코드가-30-출시로-꺾이는-이유"><span class="n">2</span>싱글 플레이어 도구와 멀티플레이어 조직</a></li><li><a href="#3-잃어버린-경영의-근육-하버드의-40-우위와-85-roi의-착시"><span class="n">3</span>잃어버린 경영의 근육</a></li><li><a href="#4-역량-과잉과-추론기-패러다임-암산에서-연습장으로"><span class="n">4</span>역량 과잉과 추론기 패러다임</a></li><li><a href="#5-마찰의-종말-제로-토큰-비용과-기생적-비즈니스의-붕괴"><span class="n">5</span>마찰의 종말</a></li><li><a href="#6-인지적-하역의-덫-길치-증후군과-아날로그-교실의-역설"><span class="n">6</span>인지적 하역의 덫</a></li><li><a href="#7-보이지-않는-명령-자율-에이전트와-프롬프트-인젝션-시한폭탄"><span class="n">7</span>보이지 않는 명령</a></li><li><a href="#8-생존-전략-양손잡이-조직과-과도기의-사회적-안전망"><span class="n">8</span>생존 전략</a></li><li><a href="#9-맺음말-사라진-마찰의-자리에-무엇을-채울-것인가"><span class="n">9</span>맺음말</a></li></ol></nav><div class="cf-main">
+  <main class="article-container">
+    <article class="article-card">
 
       <section class="content" id="article-content">
 <div class="callout-box info">
@@ -2017,12 +2023,12 @@
 </div>
 
 <hr>
-<h2 id="1-슈퍼카와-도심의-정체-개인의-속도와-거시-지표의-괴리"><a href="#1-슈퍼카와-도심의-정체-개인의-속도와-거시-지표의-괴리" class="heading-anchor" aria-hidden="true">#</a> 1. 슈퍼카와 도심의 정체: 개인의 속도와 거시 지표의 괴리</h2><p>시속 300km로 질주할 수 있는 최고 성능의 최신 슈퍼카를 막 출고했다고 상상해 보십시오. 가속 페달을 밟는 순간 온몸이 시트로 깊숙이 파묻히고, 엔진은 압도적인 폭발력을 뿜어냅니다. 그러나 차를 끌고 나온 곳이 출근길 도심 한복판의 꽉 막힌 도로라면 무슨 일이 벌어질까요? 제아무리 300km를 달릴 수 있는 기계라 한들, 결국 시속 10km로 기어가며 앞차의 꽁무니만 바라보아야 합니다.</p>
+<h2 id="1-슈퍼카와-도심의-정체-개인의-속도와-거시-지표의-괴리"><a href="#1-슈퍼카와-도심의-정체-개인의-속도와-거시-지표의-괴리" class="heading-anchor" aria-hidden="true">#</a> <span class="cf-num">1<span class="cf-sr">. </span></span>슈퍼카와 도심의 정체: 개인의 속도와 거시 지표의 괴리</h2><p>시속 300km로 질주할 수 있는 최고 성능의 최신 슈퍼카를 막 출고했다고 상상해 보십시오. 가속 페달을 밟는 순간 온몸이 시트로 깊숙이 파묻히고, 엔진은 압도적인 폭발력을 뿜어냅니다. 그러나 차를 끌고 나온 곳이 출근길 도심 한복판의 꽉 막힌 도로라면 무슨 일이 벌어질까요? 제아무리 300km를 달릴 수 있는 기계라 한들, 결국 시속 10km로 기어가며 앞차의 꽁무니만 바라보아야 합니다.</p>
 <p>오늘날 우리가 마주한 인공지능(AI)의 풍경이 정확히 이와 같습니다. 온 세상은 AI라는 기술적 슈퍼카의 탄생에 환호하며 문명사적 대전환을 이야기합니다. 하지만 한 발짝 물러서서 국가 전체의 거시적인 경제 생산성 지표를 들여다보면, 놀라울 정도로 자전거 속도의 제자리걸음을 반복하고 있습니다. 기술은 빛의 속도로 달리고 있는데, 거시 경제 지표는 왜 요지부동일까요?</p>
 <p>팟캐스트 진행자 알렉스 칸트로위츠는 이 역설을 증명하는 대표적인 실증 자료로 <strong>미국 댈러스 연방준비은행(Dallas Fed)의 최신 노동 생산성 연구</strong>를 제시합니다. 통계에 따르면 미국 노동 생산성은 2004년 이후 연간 환산 2.4% 성장률에 머물러 있습니다. 이는 앤스로픽(Anthropic) CEO 다리오 아모데이(Dario Amodei) 등이 공언했던 &quot;AI 도입에 따른 10%의 폭발적 GDP 성장&quot;과는 아득한 거리가 있는 수치입니다.</p>
 <p>이 &#39;슈퍼카와 막힌 도로의 괴리&#39;야말로 오늘날 기술 사회가 풀어야 할 가장 핵심적인 미스터리입니다. 개인이 일상과 현업에서 체감하는 압도적인 속도와, 기업 및 국가라는 거대한 조직체가 움직이는 물리적 속도 사이에 전례 없는 정면충돌이 일어나고 있는 것입니다.</p>
 <hr>
-<h2 id="2-싱글-플레이어-도구와-멀티플레이어-조직-100배의-코드가-30-출시로-꺾이는-이유"><a href="#2-싱글-플레이어-도구와-멀티플레이어-조직-100배의-코드가-30-출시로-꺾이는-이유" class="heading-anchor" aria-hidden="true">#</a> 2. 싱글 플레이어 도구와 멀티플레이어 조직: 100배의 코드가 30% 출시로 꺾이는 이유</h2><p>와튼 스쿨의 이선 몰릭(Ethan Mollick) 교수는 지표상 생산성 변화가 더딘 근본적인 원인으로, <strong>개인의 생산성 메커니즘과 조직의 생산성 메커니즘이 전혀 다른 차원에서 작동한다는 점</strong>을 지적합니다. 그가 제시한 소프트웨어 엔지니어링 업계의 실증 데이터는 매우 극명합니다.</p>
+<h2 id="2-싱글-플레이어-도구와-멀티플레이어-조직-100배의-코드가-30-출시로-꺾이는-이유"><a href="#2-싱글-플레이어-도구와-멀티플레이어-조직-100배의-코드가-30-출시로-꺾이는-이유" class="heading-anchor" aria-hidden="true">#</a> <span class="cf-num">2<span class="cf-sr">. </span></span>싱글 플레이어 도구와 멀티플레이어 조직: 100배의 코드가 30% 출시로 꺾이는 이유</h2><p>와튼 스쿨의 이선 몰릭(Ethan Mollick) 교수는 지표상 생산성 변화가 더딘 근본적인 원인으로, <strong>개인의 생산성 메커니즘과 조직의 생산성 메커니즘이 전혀 다른 차원에서 작동한다는 점</strong>을 지적합니다. 그가 제시한 소프트웨어 엔지니어링 업계의 실증 데이터는 매우 극명합니다.</p>
 <ul>
 <li><strong>개인 생산량의 폭증</strong>: 최근 AI 코딩 도구를 적극적으로 도입한 일부 뛰어난 프로그래머들은 예전보다 무려 <strong>100배 더 많은 코드</strong>를 작성하고 있습니다.</li>
 <li><strong>업계 전반의 평균치</strong>: 업계 전체를 평균 내어 보아도 코드 생산량은 기존 대비 <strong>20배 증가</strong>했습니다.</li>
@@ -2034,7 +2040,7 @@
 <p>일반 직장인의 일상으로 시선을 돌려도 마찬가지입니다. AI를 활용해 평소 며칠이 걸리던 기획안이나 분석 보고서를 단 1시간 만에 완벽하게 작성했다고 가정해 봅시다. 그러나 보고서를 완성한 순간부터 지루한 대기 행렬이 시작됩니다. 상사의 대면 결재를 받아야 하고, 법무팀의 규제 검토가 끝날 때까지 수일을 기다려야 하며, 사내 IT 보안팀이 승인 도장을 찍어줄 때까지 업무는 한 발자국도 나아가지 못합니다.</p>
 <p>내 개인의 작업 속도가 아무리 경이로워졌더라도, 회사가 일감을 나르고 처리하는 <strong>&#39;컨베이어 벨트&#39; 자체가 낡은 구시대의 방식에 머물러 있다면</strong> 개인의 초고속 산출물은 벨트 위에 층층이 쌓여 오히려 감당 불가능한 병목과 혼란을 초래할 뿐입니다.</p>
 <hr>
-<h2 id="3-잃어버린-경영의-근육-하버드의-40-우위와-85-roi의-착시"><a href="#3-잃어버린-경영의-근육-하버드의-40-우위와-85-roi의-착시" class="heading-anchor" aria-hidden="true">#</a> 3. 잃어버린 경영의 근육: 하버드의 40% 우위와 85% ROI의 착시</h2><p>물론 오늘날 대다수 기업이 AI 도입에 열을 올리고 있습니다. 통계에 따르면 현재 <strong>글로벌 대기업의 85%가 AI를 도입하여 긍정적인 투자 대비 수익률(ROI)을 거두고 있다고 응답</strong>합니다. 그러나 몰릭 교수는 이 85%라는 수치에 속아서는 안 된다고 경고합니다.</p>
+<h2 id="3-잃어버린-경영의-근육-하버드의-40-우위와-85-roi의-착시"><a href="#3-잃어버린-경영의-근육-하버드의-40-우위와-85-roi의-착시" class="heading-anchor" aria-hidden="true">#</a> <span class="cf-num">3<span class="cf-sr">. </span></span>잃어버린 경영의 근육: 하버드의 40% 우위와 85% ROI의 착시</h2><p>물론 오늘날 대다수 기업이 AI 도입에 열을 올리고 있습니다. 통계에 따르면 현재 <strong>글로벌 대기업의 85%가 AI를 도입하여 긍정적인 투자 대비 수익률(ROI)을 거두고 있다고 응답</strong>합니다. 그러나 몰릭 교수는 이 85%라는 수치에 속아서는 안 된다고 경고합니다.</p>
 <p>현재 기업들이 거두고 있는 ROI의 실체는, 회사의 근본적인 비즈니스 모델이나 생산성 구조가 폭발한 것이 아닙니다. 고객지원 부서의 운영 비용을 약간 아꼈거나, 직원 개인의 야근 시간을 조금 줄여준 정도의 &#39;미시적 비용 절감&#39;에 불과합니다. 이는 거시적 생산성 혁명과는 거리가 멉니다.</p>
 <div class="callout-box warning">
   <div class="callout-title">역사적 통찰: 20세기 미국 기업 경쟁력의 40%는 '신기술'이 아니라 '경영 재설계'였다</div>
@@ -2045,7 +2051,7 @@
 <p>그러나 지난 수십 년 동안 현대 기업들은 그 소중한 근육을 완전히 상실해 버렸습니다. 혁신적인 경영 시스템을 조직 내부에서 치열하게 고민하고 실험하기보다는, 유명 글로벌 컨설팅 회사에 외주를 주어 조직 개편안을 통째로 넘겨받거나, SAP나 오라클 같은 표준화된 상용 ERP 소프트웨어 패키지의 틀에 기업 프로세스를 억지로 끼워 맞추는 데 익숙해졌기 때문입니다.</p>
 <p>AI 시대에 진정한 거시적 생산성 폭발을 이뤄내려면, 마케터와 개발자, 기획자의 경계를 완전히 허물고 모든 직원이 AI를 조련하는 <strong>&#39;1인 빌더(Builder)&#39;</strong>가 되도록 사내 권한과 역할을 근본적으로 재조정해야 합니다. 그러나 임직원이 10만 명이 넘는 거대 관료제 기업에서 이러한 구조적 해체와 재조립을 완수하는 것은 최소 수년 이상의 지난한 시간이 소요되는 고통스러운 과제입니다.</p>
 <hr>
-<h2 id="4-역량-과잉과-추론기-패러다임-암산에서-연습장으로"><a href="#4-역량-과잉과-추론기-패러다임-암산에서-연습장으로" class="heading-anchor" aria-hidden="true">#</a> 4. 역량 과잉과 추론기 패러다임: 암산에서 연습장으로</h2><p>기업들이 낡은 조직 구조를 정비하는 데 그토록 긴 시간이 필요하다면, 기술은 기업들이 준비될 때까지 기다려줄까요? 당연히 그렇지 않습니다. 오히려 우리는 지금 당장 손에 쥐어진 AI의 능력조차 제대로 소화하지 못하고 있습니다. 몰릭 교수는 이 상태를 <strong>&#39;역량 과잉(Overcapacity)&#39;</strong>이라고 정의합니다.</p>
+<h2 id="4-역량-과잉과-추론기-패러다임-암산에서-연습장으로"><a href="#4-역량-과잉과-추론기-패러다임-암산에서-연습장으로" class="heading-anchor" aria-hidden="true">#</a> <span class="cf-num">4<span class="cf-sr">. </span></span>역량 과잉과 추론기 패러다임: 암산에서 연습장으로</h2><p>기업들이 낡은 조직 구조를 정비하는 데 그토록 긴 시간이 필요하다면, 기술은 기업들이 준비될 때까지 기다려줄까요? 당연히 그렇지 않습니다. 오히려 우리는 지금 당장 손에 쥐어진 AI의 능력조차 제대로 소화하지 못하고 있습니다. 몰릭 교수는 이 상태를 <strong>&#39;역량 과잉(Overcapacity)&#39;</strong>이라고 정의합니다.</p>
 <blockquote>
 <p><strong>역량 과잉(Overcapacity)의 정의</strong><br>기술이 품고 있는 내재적 잠재력과 문제 해결 능력이, 인간 개인과 기업 조직이 그것을 일상과 업무 프로세스에 수용하고 활용할 수 있는 역량을 아득히 초월해 버린 상태.</p>
 </blockquote>
@@ -2066,7 +2072,7 @@
 </ul>
 <p>여기에 화룡점정을 찍는 또 하나의 결정적 돌파구가 바로 <strong>&#39;도구(Tools)와의 결합&#39;</strong>입니다. 텍스트와 논리를 구성하는 AI의 두뇌가, 이제는 웹 브라우저를 열어 최신 정보를 검색하고, 마우스 커서를 움직여 사내 소프트웨어를 조작하며, 파이썬 코드를 백그라운드에서 직접 컴파일하고 실행하는 <strong>손과 발</strong>을 얻었습니다. 스스로 생각하고 현실의 도구를 제어하는 &#39;진짜 자율 에이전트&#39;가 탄생한 것입니다.</p>
 <hr>
-<h2 id="5-마찰의-종말-제로-토큰-비용과-기생적-비즈니스의-붕괴"><a href="#5-마찰의-종말-제로-토큰-비용과-기생적-비즈니스의-붕괴" class="heading-anchor" aria-hidden="true">#</a> 5. 마찰의 종말: 제로 토큰 비용과 기생적 비즈니스의 붕괴</h2><p>스스로 추론하고 컴퓨터를 자유자재로 다루는 개인용 에이전트들이 인류 사회에 수억 개씩 풀려난다면 경제 시스템에는 어떤 일이 벌어질까요? 몰릭 교수는 우리가 맞이할 가장 파괴적인 변화를 <strong>&#39;마찰의 종말(The End of Friction)&#39;</strong>이라고 단언합니다.</p>
+<h2 id="5-마찰의-종말-제로-토큰-비용과-기생적-비즈니스의-붕괴"><a href="#5-마찰의-종말-제로-토큰-비용과-기생적-비즈니스의-붕괴" class="heading-anchor" aria-hidden="true">#</a> <span class="cf-num">5<span class="cf-sr">. </span></span>마찰의 종말: 제로 토큰 비용과 기생적 비즈니스의 붕괴</h2><p>스스로 추론하고 컴퓨터를 자유자재로 다루는 개인용 에이전트들이 인류 사회에 수억 개씩 풀려난다면 경제 시스템에는 어떤 일이 벌어질까요? 몰릭 교수는 우리가 맞이할 가장 파괴적인 변화를 <strong>&#39;마찰의 종말(The End of Friction)&#39;</strong>이라고 단언합니다.</p>
 <p>경제학적 관점에서 이 현상을 이해하려면 비용 구조를 보아야 합니다. AI가 언어를 읽고 쓰는 기본 단위인 &#39;토큰(Token)&#39;의 처리 가격은 현재 극심한 초디플레이션을 겪으며 바닥으로 수직 낙하하고 있습니다. 이는 <strong>인간이 지적 노동을 기계에 위임하는 한계비용이 0에 수렴하고 있음</strong>을 의미합니다. 과거에는 돈이 아까워서, 혹은 내 시간이 너무 많이 들어서 포기했던 온갖 귀찮은 일들을 이제는 사실상 무제한으로 기계에 떠넘길 수 있게 된 것입니다.</p>
 <div class="callout-box danger">
   <div class="callout-title">기업을 향한 경고: '소비자의 귀찮음'에 기생하던 비즈니스의 종말</div>
@@ -2082,7 +2088,7 @@
 </ul>
 <p>어제까지 창고에 수조 원씩 안정적으로 쌓여 있던 은행 예치금이, 하룻밤 자고 일어났더니 썰물처럼 빠져나가는 사태가 매일 반복될 수 있습니다. <strong>인간의 수동성과 게으름에 기대어 수백 년간 유지되어 온 전통 금융의 뼈대 자체가 송두리째 붕괴</strong>할 수 있다는 엄중한 경고입니다.</p>
 <hr>
-<h2 id="6-인지적-하역의-덫-길치-증후군과-아날로그-교실의-역설"><a href="#6-인지적-하역의-덫-길치-증후군과-아날로그-교실의-역설" class="heading-anchor" aria-hidden="true">#</a> 6. 인지적 하역의 덫: 길치 증후군과 아날로그 교실의 역설</h2><p>마찰의 소멸은 비즈니스 세계뿐만 아니라 교육과 인간 지성의 가장 내밀한 영역까지 파고들고 있습니다. 몰릭 교수가 대학 교육 현장에서 발견한 사실은 대단히 충격적입니다. 학생들에게 최고 수준의 맞춤형 AI 튜터를 무제한으로 제공했더니, 학업 성취도가 오르기는커녕 오히려 <strong>비판적 사고력이 붕괴하는 치명적인 부작용</strong>이 나타났다는 점입니다.</p>
+<h2 id="6-인지적-하역의-덫-길치-증후군과-아날로그-교실의-역설"><a href="#6-인지적-하역의-덫-길치-증후군과-아날로그-교실의-역설" class="heading-anchor" aria-hidden="true">#</a> <span class="cf-num">6<span class="cf-sr">. </span></span>인지적 하역의 덫: 길치 증후군과 아날로그 교실의 역설</h2><p>마찰의 소멸은 비즈니스 세계뿐만 아니라 교육과 인간 지성의 가장 내밀한 영역까지 파고들고 있습니다. 몰릭 교수가 대학 교육 현장에서 발견한 사실은 대단히 충격적입니다. 학생들에게 최고 수준의 맞춤형 AI 튜터를 무제한으로 제공했더니, 학업 성취도가 오르기는커녕 오히려 <strong>비판적 사고력이 붕괴하는 치명적인 부작용</strong>이 나타났다는 점입니다.</p>
 <p>이 현상은 <strong>스마트폰 내비게이션의 보급과 정확히 궤를 같이합니다.</strong> 스마트폰 내비게이션이 나오기 전, 인류는 낯선 길을 갈 때 종이 지도를 들여다보고 주변 랜드마크를 기억하며 스스로 머릿속에 방향 감각과 공간 인지 지도를 구축했습니다. 그러나 화면이 가리키는 파란 화살표에 100% 경로 탐색을 의존하게 되면서, 인류는 스스로 길을 찾는 능력을 송두리째 상실한 심각한 &#39;길치&#39;가 되어버렸습니다.</p>
 <div class="callout-box warning">
   <div class="callout-title">인지적 하역(Cognitive Offloading)과 탈숙련화(Deskilling)</div>
@@ -2097,7 +2103,7 @@
 </ul>
 <p>이러한 마찰 없는 글쓰기의 범람은 사회 전체를 뒤흔들고 있습니다. 성직자들이 AI를 이용해 그럴듯한 설교문을 작성하고, 링크드인 같은 비즈니스 SNS에는 AI가 매끄럽게 다듬은 영혼 없는 통찰이 넘쳐납니다. 진정한 인생의 질곡과 경험에서 우러나온 지혜인지, 프롬프트에 맞춰 1초 만에 뽑아낸 대본인지 분간하기 어려운 <strong>&quot;똑똑한 사기꾼들의 시대&quot;</strong>가 도래한 것입니다.</p>
 <hr>
-<h2 id="7-보이지-않는-명령-자율-에이전트와-프롬프트-인젝션-시한폭탄"><a href="#7-보이지-않는-명령-자율-에이전트와-프롬프트-인젝션-시한폭탄" class="heading-anchor" aria-hidden="true">#</a> 7. 보이지 않는 명령: 자율 에이전트와 프롬프트 인젝션 시한폭탄</h2><p>가짜 글이나 얕은 지식의 범람보다 기술적으로 훨씬 더 공포스러운 위협이 도사리고 있습니다. 바로 개인 에이전트가 보편화되었을 때 발생할 <strong>보안 구조의 붕괴</strong>입니다.</p>
+<h2 id="7-보이지-않는-명령-자율-에이전트와-프롬프트-인젝션-시한폭탄"><a href="#7-보이지-않는-명령-자율-에이전트와-프롬프트-인젝션-시한폭탄" class="heading-anchor" aria-hidden="true">#</a> <span class="cf-num">7<span class="cf-sr">. </span></span>보이지 않는 명령: 자율 에이전트와 프롬프트 인젝션 시한폭탄</h2><p>가짜 글이나 얕은 지식의 범람보다 기술적으로 훨씬 더 공포스러운 위협이 도사리고 있습니다. 바로 개인 에이전트가 보편화되었을 때 발생할 <strong>보안 구조의 붕괴</strong>입니다.</p>
 <p>내 모든 번거로운 업무를 에이전트에게 전권 위임하려면, 필연적으로 에이전트에게 나의 개인 이메일함, 캘린더 일정, 은행 계좌, 의료 기록에 대한 전면적인 접근 권한을 넘겨주어야 합니다. 바로 이 지점에서 <strong>&#39;프롬프트 인젝션(Prompt Injection)&#39;</strong>이라는 치명적인 백도어가 작동합니다.</p>
 <div class="callout-box danger">
   <div class="callout-title">공포의 시나리오: 보이지 않는 흰색 글씨의 습격</div>
@@ -2109,7 +2115,7 @@
 <p>대중은 그동안 가짜 정치인 영상 같은 딥페이크(Deepfake)가 세상을 혼란에 빠뜨릴 것이라고 염려해 왔습니다. 하지만 딥페이크는 &#39;인간&#39;이라는 필터를 한 번 거칩니다. 사람이 눈으로 보고 &quot;어? 이거 가짜 아니야?&quot; 하고 의심하며 팩트체크를 시도할 수 있습니다.</p>
 <p>반면 프롬프트 인젝션은 차원이 다릅니다. <strong>인간의 시각적·논리적 개입(Human-in-the-loop)이 완전히 배제된 채</strong>, 내 전권을 위임받은 기계와 상대방 악성 기계가 백그라운드에서 은밀하게 소통하다가 순식간에 털려버리기 때문입니다. 우리는 마찰 없는 삶과 편리함을 얻기 위한 대가로, 개인의 프라이버시와 보안 전체를 검증되지 않은 거대한 도박판 위에 올려놓은 셈입니다.</p>
 <hr>
-<h2 id="8-생존-전략-양손잡이-조직과-과도기의-사회적-안전망"><a href="#8-생존-전략-양손잡이-조직과-과도기의-사회적-안전망" class="heading-anchor" aria-hidden="true">#</a> 8. 생존 전략: 양손잡이 조직과 과도기의 사회적 안전망</h2><p>기업의 비즈니스 모델이 뿌리째 흔들리고, 개인의 비판적 사고력이 퇴화하며, 보안 시스템마저 위태로운 이 거대한 대전환기 속에서, 개인과 기업은 당장 내일 출근하여 어떤 생존 전략을 짜야 할까요? 몰릭 교수는 조직과 개인 모두가 <strong>&#39;양손잡이(Ambidextrous)&#39;</strong>가 되어야 한다고 강조합니다.</p>
+<h2 id="8-생존-전략-양손잡이-조직과-과도기의-사회적-안전망"><a href="#8-생존-전략-양손잡이-조직과-과도기의-사회적-안전망" class="heading-anchor" aria-hidden="true">#</a> <span class="cf-num">8<span class="cf-sr">. </span></span>생존 전략: 양손잡이 조직과 과도기의 사회적 안전망</h2><p>기업의 비즈니스 모델이 뿌리째 흔들리고, 개인의 비판적 사고력이 퇴화하며, 보안 시스템마저 위태로운 이 거대한 대전환기 속에서, 개인과 기업은 당장 내일 출근하여 어떤 생존 전략을 짜야 할까요? 몰릭 교수는 조직과 개인 모두가 <strong>&#39;양손잡이(Ambidextrous)&#39;</strong>가 되어야 한다고 강조합니다.</p>
 <div class="table-wrapper" data-scroll-hint="좌우로 스크롤하여 확인" tabindex="0" role="region" aria-label="데이터 표"><table>
 <thead>
 <tr>
@@ -2138,7 +2144,7 @@
 <p>이러한 전환은 역사 속 1차 산업혁명의 전개 과정과 놀랍도록 닮아 있습니다. 거시적인 역사로 보면 증기기관의 등장은 인류 전체의 부와 생산성을 비약적으로 폭발시켰습니다. 그러나 그 과도기의 한복판을 살아가야 했던 당대의 평범한 직공과 수공업자들에게는 일자리를 잃고 삶의 터전이 파괴되는 극심한 고통이 수반되었으며, 이는 러다이트 운동이라는 사회적 폭발로 이어졌습니다.</p>
 <p>이번 AI 혁명 역시 장기적으로는 거시 경제 지표를 밀어 올릴 것입니다. 하지만 그 과정에서 발생할 수많은 직무의 해체와 노동자들의 혼란은 결코 피할 수 없습니다. 따라서 기술의 도입 속도에만 열광할 것이 아니라, <strong>그 과도기 속에서 소외되거나 뒤처지는 사람들을 보듬을 수 있는 사회적, 제도적 안전망을 어떻게 설계할 것인가</strong>를 정부와 기업이 함께 치열하게 고민해야 할 때입니다.</p>
 <hr>
-<h2 id="9-맺음말-사라진-마찰의-자리에-무엇을-채울-것인가"><a href="#9-맺음말-사라진-마찰의-자리에-무엇을-채울-것인가" class="heading-anchor" aria-hidden="true">#</a> 9. 맺음말: 사라진 마찰의 자리에 무엇을 채울 것인가</h2><p>지금까지의 논의를 돌아보면 한 가지 결론이 명확해집니다. 인공지능은 단순히 글을 조금 더 매끄럽게 써주거나 코드를 대신 짜주는 단순한 보조 도구가 결코 아닙니다. 그것은 낡은 관료제 조직의 시스템을 근본부터 뒤흔들고, 인간 사회를 지탱해 온 온갖 형태의 마찰을 소멸시켜 버릴 거대한 변혁의 주체입니다.</p>
+<h2 id="9-맺음말-사라진-마찰의-자리에-무엇을-채울-것인가"><a href="#9-맺음말-사라진-마찰의-자리에-무엇을-채울-것인가" class="heading-anchor" aria-hidden="true">#</a> <span class="cf-num">9<span class="cf-sr">. </span></span>맺음말: 사라진 마찰의 자리에 무엇을 채울 것인가</h2><p>지금까지의 논의를 돌아보면 한 가지 결론이 명확해집니다. 인공지능은 단순히 글을 조금 더 매끄럽게 써주거나 코드를 대신 짜주는 단순한 보조 도구가 결코 아닙니다. 그것은 낡은 관료제 조직의 시스템을 근본부터 뒤흔들고, 인간 사회를 지탱해 온 온갖 형태의 마찰을 소멸시켜 버릴 거대한 변혁의 주체입니다.</p>
 <p>그렇다면 모든 귀찮은 일들이 사라진 미래의 풍경 끝에서, 우리는 스스로에게 아주 도발적이고 본질적인 질문을 던져보아야 합니다.</p>
 <blockquote>
 <p><strong>우리를 인간답게 만드는 마지막 질문</strong><br>머지않은 미래에 당신의 충직한 개인 에이전트가 복잡한 금융 업무를 가장 완벽하게 처리해 주고, 짜증 나는 고객센터와의 환불 실랑이를 대신 싸워주며, 아이의 까다로운 숙제와 영혼을 위로하는 종교적 설교문까지 단 1초 만에 써내는 세상이 온다면—<br><strong>그리하여 우리 삶에 존재하던 모든 번거롭고 피곤한 마찰들이 완벽하게 증발해 버린다면, 과연 인간인 우리에게 남는 것은 무엇입니까?</strong></p>
@@ -2152,6 +2158,7 @@
       </section>
     </article>
   </main>
+  </div></div>
 
   <!-- Back to Top Button -->
   <button id="back-to-top" aria-label="맨 위로 가기" title="맨 위로 이동">
