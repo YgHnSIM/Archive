@@ -1,4 +1,4 @@
-# 요약 아카이브
+# 아카이브
 
 다른 어시스턴트가 만든 한국어 HTML 요약 페이지를 한곳에 모아 두는 **정적 아카이브**입니다.
 
@@ -87,7 +87,7 @@ python3 add_page.py --remove 20261006-01 --delete-file   # 복사본까지 삭�
 | 표식 | 위치 | 내용 |
 |------|------|------|
 | `<!-- archive-head:start … end -->` | `</head>` 앞 (`archive-fix` 블록보다 앞) | `../assets/archive-page.css`, `../assets/archive-tokens.css` 연결 |
-| `<!-- archive-header:start … end -->` | `<body>` 바로 뒤 | `← 요약 아카이브`, 제목(데스크톱), 날짜, #태그(누르면 목록이 그 태그로 걸러짐), 원문 ↗ |
+| `<!-- archive-header:start … end -->` | `<body>` 바로 뒤 | `← 아카이브`, 제목(데스크톱), 날짜, #태그(누르면 목록이 그 태그로 걸러짐), 원문 ↗ |
 | `<!-- archive-footer:start … end -->` | `</body>` 앞 | 아카이브 표시, 제목, 날짜, 태그, 원문, 목록으로/맨 위로 |
 
 내용은 `catalog.json`에서 가져오므로, 제목·태그·원문 주소를 바꾸면 `--edit`가 머리띠·꼬리말도 함께 고칩니다.

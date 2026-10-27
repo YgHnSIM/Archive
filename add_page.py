@@ -252,8 +252,8 @@ def render_header(entry):
     src_html = f'<a class="arc-src" href="{esc(src)}" rel="noopener">원문 ↗</a>' if src else ""
     return (
         f"{HDR_START} {AUTO_NOTE}\n"
-        f'<div class="arc-band" role="navigation" aria-label="요약 아카이브"><div class="arc-inner">'
-        f'<a class="arc-back" href="{up}index.html"><b>←</b>요약 아카이브</a>'
+        f'<div class="arc-band" role="navigation" aria-label="아카이브"><div class="arc-inner">'
+        f'<a class="arc-back" href="{up}index.html"><b>←</b>아카이브</a>'
         f'<span class="arc-crumb">{esc(entry["title"])}</span>'
         f'<span class="arc-meta"><time datetime="{esc(entry["date"])}">{kdate(entry["date"])}</time>'
         f'{tag_links(entry, up)}{src_html}</span>'
@@ -268,7 +268,7 @@ def render_footer(entry):
     return (
         f"\n{FTR_START} {AUTO_NOTE}\n"
         f'<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner">'
-        f'<div class="arc-foot-label">요약 아카이브</div>'
+        f'<div class="arc-foot-label">아카이브</div>'
         f'<div class="arc-foot-title">{esc(entry["title"])}</div>'
         f'<div class="arc-foot-meta"><time datetime="{esc(entry["date"])}">{kdate(entry["date"])}</time>'
         f'{tag_links(entry, up)}{src_html}</div>'
