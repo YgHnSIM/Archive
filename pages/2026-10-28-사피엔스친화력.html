@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light only">
+<title>마지막 인류는 왜 우리였나 — 2%의 이점, 긴 유년기, 친화력 가설, 그리고 우리 안에 남은 다른 인류</title>
+<meta name="description" content="30만 년 전 붐비던 인류의 행성에서 사피엔스만 남은 이유: 일곱 종의 공존, 네안데르탈인의 유물, 2%의 이점과 복리의 수학, 둥근 뇌, 자기 가축화와 낯선 이에 대한 관용, 고유 DNA 1.5~7%의 진실, 복습 퀴즈">
+<style>
+:root{color-scheme:light only;
+  --bg:#faf8f3; --paper:#ffffff; --ink:#1f2328; --muted:#5b6470; --line:#e6e1d6;
+  --accent:#c8553d; --accent-soft:#fbeee9; --link:#4a6b8a;
+  --new:#3d5f80; --new-soft:#eaf0f6; --radius:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:20px}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR","Malgun Gothic","Gothic A1",system-ui,sans-serif;
+  font-size:17px;line-height:1.75;word-break:keep-all;overflow-wrap:break-word}
+@media(max-width:640px){body{font-size:16px}}
+a{color:var(--link)}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+.hero{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{display:inline-block;font-size:13px;font-weight:700;color:#a8432e;background:var(--accent-soft);padding:3px 10px;border-radius:999px;margin-bottom:12px}
+.hero h1{font-size:clamp(28px,4.4vw,44px);line-height:1.25;margin:0 0 12px;letter-spacing:-.02em}
+.hero .lead{font-size:18px;color:var(--muted);line-height:1.65;margin:0}
+@media(max-width:640px){.hero .lead{font-size:17px}}
+.hero-cta{margin-top:16px}
+.hero-cta a{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--new);color:#fff;border-radius:10px;font-weight:700;font-size:15px;text-decoration:none}
+.grid{display:grid;grid-template-columns:240px minmax(0,1fr);gap:36px;align-items:start}
+@media(max-width:880px){.grid{grid-template-columns:minmax(0,1fr);gap:0}}
+.toc{position:sticky;top:20px;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;font-size:15px}
+.toc .toc-t{font-weight:700;margin:0 0 10px}
+.toc ol{margin:0;padding:0;list-style:none}
+.toc li{margin:6px 0}
+.toc a{color:var(--muted);display:flex;align-items:baseline;gap:8px;text-decoration:none;line-height:1.45}
+.toc a:hover{color:var(--link)}
+.toc .n{flex:none;display:inline-block;width:22px;height:22px;line-height:22px;text-align:center;border-radius:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:700}
+.toc .orig{display:block;margin-top:14px;padding-top:10px;border-top:1px dashed var(--line);font-size:14px;color:#a8432e;font-weight:700}
+@media(max-width:880px){
+  .toc{position:sticky;top:0;z-index:20;margin:0 -20px 20px;border-radius:0;border-width:0 0 1px;padding:8px 12px;background:rgba(250,248,243,.97);overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .toc .toc-t,.toc .orig{display:none}
+  .toc ol{display:flex;gap:6px;white-space:nowrap}
+  .toc li{margin:0}
+  .toc a{background:#f1ede4;color:var(--ink);border-radius:999px;padding:6px 12px;font-size:14px;align-items:center}
+  .toc .n{background:none;width:auto;height:auto;line-height:1;color:var(--muted)}
+  html{scroll-padding-top:64px}
+}
+main{min-width:0}
+.sec{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:24px 28px;margin-bottom:28px}
+@media(max-width:640px){.sec{padding:18px 16px}}
+.sec-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px}
+.sec-num{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:12px;background:var(--ink);color:#fff;font-weight:800;font-size:17px;flex-shrink:0;margin-top:2px}
+@media(max-width:640px){.sec-num{width:34px;height:34px;font-size:15px}}
+.sec-head h2{font-size:clamp(23px,3vw,30px);line-height:1.3;margin:0;letter-spacing:-.015em}
+.sec-head .sub{font-size:16px;color:var(--muted);margin:3px 0 0}
+h3{font-size:19px;margin:22px 0 8px}
+p{margin:0 0 14px}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin:4px 0}
+.theses{counter-reset:t;list-style:none;padding:0;margin:0 0 16px}
+.theses li{counter-increment:t;position:relative;padding:10px 14px 10px 50px;margin:8px 0;background:#fdfcf9;border:1px solid var(--line);border-radius:12px}
+.theses li::before{content:counter(t);position:absolute;left:14px;top:12px;width:24px;height:24px;border-radius:50%;background:var(--accent-soft);color:#a8432e;font-weight:800;font-size:14px;display:grid;place-items:center}
+.tblw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:16px 0}
+.tbl{width:100%;min-width:520px;border-collapse:collapse;font-size:16px}
+.tbl th,.tbl td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+.tbl th{background:var(--new-soft);color:var(--new);font-weight:700}
+.tbl td{background:#fff}
+.callout{background:var(--new-soft);border-left:4px solid var(--new);border-radius:10px;padding:12px 16px;margin:14px 0}
+.callout.warm{background:var(--accent-soft);border-left-color:var(--accent)}
+.callout p:last-child{margin:0}
+blockquote{margin:14px 0;padding:12px 18px;background:#fff;border-left:5px solid var(--accent);border-radius:0 12px 12px 0}
+blockquote p{margin:0}
+.terms{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+.term{display:inline-flex;align-items:center;gap:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:600;padding:4px 10px;border-radius:8px}
+details.viz{margin:14px 0;border:1px solid var(--line);border-radius:12px;background:#fdfcf9}
+details.viz summary{cursor:pointer;list-style:none;padding:12px 14px;font-weight:600;font-size:16px;color:var(--new);min-height:44px;display:flex;align-items:center;gap:8px}
+details.viz summary::-webkit-details-marker{display:none}
+details.viz summary::before{content:"▸";font-size:14px;color:var(--accent)}
+details.viz[open] summary::before{content:"▾"}
+details.viz figure{margin:0;padding:4px 12px 14px}
+details.viz svg{display:block;width:100%;height:auto;max-width:540px;margin:0 auto;font-family:"Pretendard","Noto Sans KR",sans-serif}
+details.viz figcaption{font-size:16px;color:var(--muted);line-height:1.6;margin-top:8px}
+svg .bx{fill:#fff;stroke:#5b6470;stroke-width:1.4}
+svg .bx2{fill:#eaf0f6;stroke:#3d5f80;stroke-width:1.4}
+svg .bx3{fill:#fbeee9;stroke:#c8553d;stroke-width:1.4}
+svg .t{fill:#1f2328;font-size:13.5px}
+svg .tb{fill:#1f2328;font-size:14px;font-weight:700}
+svg .tm{fill:#5b6470;font-size:12.5px}
+svg .ln{stroke:#5b6470;stroke-width:1.5;fill:none}
+svg .lnd{stroke:#5b6470;stroke-width:1.5;fill:none;stroke-dasharray:5 4}
+.sources{background:var(--new-soft);border:1px solid var(--line);border-radius:var(--radius);padding:18px 22px;margin-top:32px;font-size:15px;color:#3f4650}
+.sources h3{font-size:17px;color:var(--new);margin:0 0 8px}
+.sources ul{margin:0;padding-left:20px}
+@media(max-width:640px){.sources,.sec-head .sub{font-size:16px}}
+/* 복습 컴포넌트 표준 스타일 */
+.rv-h{font-size:19px;margin:22px 0 6px}
+.flips{display:grid;grid-template-columns:1fr;gap:8px;margin:10px 0}
+@media(min-width:640px){.flips{grid-template-columns:1fr 1fr}}
+.flip{font:inherit;text-align:left;width:100%;border:1.5px solid var(--line,#e6e1d6);background:#fdfcf9;border-radius:12px;padding:10px 14px;cursor:pointer;color:var(--ink,#1f2328);min-height:64px}
+.flip b{display:block;font-size:17px}
+.flip .m{display:none;font-size:16px;line-height:1.6;margin-top:4px}
+.flip .hint{font-size:13px;color:var(--muted,#5b6470)}
+.flip[aria-expanded="true"]{border-color:var(--new,#3d5f80);background:var(--new-soft,#eaf0f6)}
+.flip[aria-expanded="true"] .m{display:block}
+.flip[aria-expanded="true"] .hint{display:none}
+.cloze{list-style:none;margin:10px 0;padding:0}
+.cloze li{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:10px 14px;margin:8px 0;background:#fdfcf9;font-size:16px;line-height:1.8}
+.blank{font:inherit;font-size:16px;border:0;border-bottom:2px dashed var(--accent,#c8553d);background:var(--accent-soft,#fbeee9);color:#a8432e;border-radius:6px 6px 0 0;padding:0 8px;cursor:pointer;min-width:4.5em}
+.blank.shown{border-bottom-style:solid;background:var(--new-soft,#eaf0f6);color:var(--new,#3d5f80);font-weight:700}
+.rv-tools{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.rv-tools button{font:inherit;font-size:15px;border:1px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link,#4a6b8a)}
+.q{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:12px 14px;margin:10px 0;background:#fdfcf9}
+.q fieldset{border:0;margin:0;padding:0;min-width:0}
+.q legend{font-weight:700;padding:0;margin:0 0 8px;font-size:16.5px}
+.q button{display:block;width:100%;text-align:left;font:inherit;font-size:16px;border:1.5px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:8px 12px;margin:6px 0;cursor:pointer;color:var(--ink,#1f2328)}
+.q button.right{border-color:#2f6b45;background:#e6f1ea}
+.q button.wrong{border-color:#a2452f;background:#fbeee9}
+.q button[disabled]{cursor:default;opacity:1}
+.q .ex{margin:8px 0 0;font-size:16px;padding:8px 10px;border-radius:8px;background:var(--new-soft,#eaf0f6)}
+.score{font-size:17px;font-weight:800;margin:10px 0 0}
+.arc-back b,.arc-foot-label{color:#a8432e!important}
+</style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
+</head>
+<body>
+<!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="요약 아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>요약 아카이브</a><span class="arc-crumb">마지막 인류는 왜 우리였나 — 2%의 이점, 긴 유년기, 친화력 가설, 그리고 우리 안에 남은 다른 인류</span><span class="arc-meta"><time datetime="2026-10-28">2026년 10월 28일</time><a class="arc-tag" href="../index.html#tags=%EC%83%9D%EB%AC%BC%ED%95%99">#생물학</a><a class="arc-tag" href="../index.html#tags=%EC%A7%84%ED%99%94%EC%83%9D%EB%AC%BC%ED%95%99">#진화생물학</a><a class="arc-tag" href="../index.html#tags=%EA%B3%A0%EC%9C%A0%EC%A0%84%ED%95%99">#고유전학</a><a class="arc-tag" href="../index.html#tags=%EC%9A%94%EC%95%BD">#요약</a><a class="arc-src" href="https://yghnsim.github.io/Pages/articles/sapiens_last_human_two_percent.html" rel="noopener">원문 ↗</a></span></div></div>
+<!-- archive-header:end -->
+<div class="wrap">
+  <header class="hero">
+    <span class="eyebrow">New Scientist 해설 · 인류 진화와 2%의 이점</span>
+    <h1>마지막 인류는 왜 우리였나 — 2%의 이점, 긴 유년기, 친화력 가설, 그리고 우리 안에 남은 다른 인류</h1>
+    <p class="lead">30만 년 전 붐비던 인류의 행성에서 사피엔스만 남은 이유를, 하나의 결정적 무기가 아닌 작은 우위들이 복리처럼 쌓인 과정으로 다시 읽는다.</p>
+    <div class="hero-cta"><a href="https://yghnsim.github.io/Pages/articles/sapiens_last_human_two_percent.html">📚 Pages에서 심화 해설 전문 읽기 ↗</a></div>
+  </header>
+
+  <div class="grid">
+    <nav class="toc" aria-label="목차">
+      <p class="toc-t">목차</p>
+      <ol>
+        <li><a href="#s0"><span class="n">★</span>한눈에 보기</a></li>
+        <li><a href="#s1"><span class="n">1</span>진화 최악의 베팅: 30만 년 전의 지구</a></li>
+        <li><a href="#s2"><span class="n">2</span>그들도 이미 우리와 닮아 있었다</a></li>
+        <li><a href="#s3"><span class="n">3</span>2%의 이점과 복리의 수학</a></li>
+        <li><a href="#s4"><span class="n">4</span>우리를 구한 약점: 자기 가축화와 관용</a></li>
+        <li><a href="#s5"><span class="n">5</span>우리 안의 다른 인류</a></li>
+        <li><a href="#s6"><span class="n">6</span>정리와 비판적 읽기</a></li>
+        <li><a href="#rv"><span class="n">✔</span>복습 &amp; 퀴즈</a></li>
+      </ol>
+      <a class="orig" href="https://yghnsim.github.io/Pages/articles/sapiens_last_human_two_percent.html">심화 원문(Pages) ↗</a>
+    </nav>
+
+    <main id="content">
+      <section class="sec" id="s0">
+        <div class="sec-head"><span class="sec-num">★</span><div><h2>한눈에 보기</h2><p class="sub">결정적 한 방 대신 작은 우위의 복리 누적 — 5대 핵심 테제</p></div></div>
+        <ol class="theses">
+          <li><b>30만 년 전 사피엔스는 최고의 베팅이 아니었다.</b> 지구에는 최소 일곱 종의 인류가 공존했으며, 다른 인류는 각자의 혹한과 서식지에 이미 수십만 년간 적응해 온 반면 사피엔스는 검증되지 않은 신참이었습니다.</li>
+          <li><b>인지와 문화의 차이는 생각보다 작았다.</b> 네안데르탈인도 역청과 황토를 섞은 복합 접착제를 만들고 동굴 깊은 곳에 석순 구조물을 쌓았으며, 조상들은 서로를 짝으로 여겨 교배할 만큼 닮아 있었습니다.</li>
+          <li><b>결정적 무기 대신 '2%의 이점'이 복리로 작용했다.</b> 긴 유년기와 놀이, 둥근 뇌, 가벼운 체격 등 세대당 2%의 작은 우위가 세대를 거듭하며 복리(1.02<sup>n</sup>)처럼 누적되어 공간 확장의 거대한 파동을 일으켰습니다.</li>
+          <li><b>친화력과 낯선 이에 대한 관용이 광역 네트워크를 낳았다.</b> 자기 가축화 가설(논쟁적)과 유인원과 구별되는 '서로 지켜보기·낯선 이 관용'이 장거리 동맹과 지식 확산으로 이어졌습니다.</li>
+          <li><b>우리는 다른 고인류를 흡수한 것이 아니며, 지금도 완전히 혼자는 아니다.</b> 네안데르탈인은 정체성을 유지하다 소멸했으나 현대인 유전자 풀에 약 40%가 남아 있고, 우리 종에게만 고유한 DNA는 1.5~7%에 불과합니다.</li>
+        </ol>
+
+        <div class="tblw"><table class="tbl">
+          <thead><tr><th>흔한 서사</th><th>실제 그림</th></tr></thead>
+          <tbody>
+            <tr><td><b>우리가 더 똑똑했다</b></td><td>다른 인류도 접착제, 구조물, 선각의 흔적을 남겼습니다. 인지적 차이는 생각보다 좁습니다.</td></tr>
+            <tr><td><b>결정적인 한 가지 무기가 있었다</b></td><td>긴 유년기, 둥근 뇌, 체격, 양육, 네트워크 등 여러 '2% 후보 요인'이 복합 작용했습니다.</td></tr>
+            <tr><td><b>친화력이 우리를 구했다</b></td><td>자기 가축화는 새롭고 논쟁적이며 과학적으로 증명되지 않은 후보 중 하나입니다.</td></tr>
+            <tr><td><b>우리가 그들을 흡수했다</b></td><td>그들은 교배했으나 정체성을 유지했고, 약 4만 년 전 사라진 별개의 종입니다.</td></tr>
+            <tr><td><b>우리 DNA 대부분은 섞인 것이다</b></td><td>고유 DNA는 1.5~7%이고, 나머지 대부분은 공통 조상에게서 왔습니다. 혼혈 DNA는 개인 평균 약 2%입니다.</td></tr>
+          </tbody>
+        </table></div>
+
+        <div class="terms"><span class="term">진화최악의베팅</span><span class="term">2%의이점</span><span class="term">복리의수학</span><span class="term">긴유년기</span><span class="term">자기가축화</span><span class="term">낯선이관용</span><span class="term">고유DNA</span></div>
+      </section>
+
+      <section class="sec" id="s1">
+        <div class="sec-head"><span class="sec-num">1</span><div><h2>진화 최악의 베팅: 30만 년 전의 지구</h2><p class="sub">일곱 종 이상이 함께 살던 행성과 사고실험</p></div></div>
+        <p>오늘날 지구에 사는 인류는 모두 한 종, 호모 사피엔스뿐입니다. 그러나 진화사 전체로 보면 이 상황이 오히려 예외입니다. 30만 년 전 지구에는 털매머드와 검치호 같은 거대 포식자들 사이로 최소 일곱 종 이상의 인류가 공존하고 있었습니다.</p>
+
+        <div class="tblw"><table class="tbl">
+          <thead><tr><th>종</th><th>서식지</th><th>특징</th></tr></thead>
+          <tbody>
+            <tr><td><b>네안데르탈인</b></td><td>유럽·아시아</td><td>수십만 년 진화하며 혹한에 맞는 생리를 갖춤</td></tr>
+            <tr><td><b>데니소바인</b></td><td>동아시아</td><td>일부 증거상 크고 근육질, 일부는 1.9m (종 평균 아닌 제한된 표본 추정)</td></tr>
+            <tr><td><b>호모 에렉투스</b></td><td>동남아시아</td><td>이미 170만 년 생존, 아프리카를 떠난 것이 확실한 첫 인류</td></tr>
+            <tr><td><b>호모 플로레시엔시스</b></td><td>인도네시아의 섬</td><td>일부 성인은 키 109cm</td></tr>
+            <tr><td><b>호모 날레디</b></td><td>남아프리카</td><td>뇌가 우리의 3분의 1, 유인원 같은 어깨와 우리와 거의 같은 손</td></tr>
+            <tr><td><b>호모 루손엔시스</b></td><td>필리핀</td><td>거의 알려진 게 없는 가장 수수께끼 같은 종, 작은 종이었을 가능성</td></tr>
+            <tr><td><b>호모 사피엔스</b></td><td>아프리카</td><td>검증되지 않은 신참</td></tr>
+          </tbody>
+        </table></div>
+
+        <h3>외계인 도박사의 사고실험</h3>
+        <p>공정한 외계 관찰자가 30만 년 전 지구를 내려다보며 장차 지구를 지배할 종에 돈을 건다면 어디에 걸었을까요? 사피엔스는 당시 아프리카에 머물던 "검증되지 않은 동네 신참"이었습니다. 다른 대륙으로 퍼져 나가려면 이미 그곳 환경에 적응한 고인류들이 수십만 년 동안 풀어 온 문제를 밑바닥부터 새로 풀어야 했습니다. 가장 눈치 빠른 도박사라도 사피엔스가 최선의 베팅임을 알아보기 어려웠을 것입니다.</p>
+
+        <div class="callout"><p><b>사후 확신 편향 바로잡기:</b> 진화사를 승자의 관점으로만 서술하면 승자가 처음부터 우월했다고 가정하기 쉽습니다. 출발선이 비슷했다면 무엇이 작은 차이를 만들었는가를 묻는 것이 올바른 질문입니다.</p></div>
+
+        <h3>하나의 답이 통하지 않을 때</h3>
+        <p>기존 학계의 세 가설(아프리카 피난처 가설, 인구 가설, 운 가설)은 단독으로는 설명력이 부족합니다. 각 집단은 모두 수십만 년간 문제를 해결해 온 유연한 생존자들이었으므로, 결정적 한 방을 찾는 대신 <b>여러 작은 우위가 쌓인 과정</b>을 보아야 합니다.</p>
+        <div class="terms"><span class="term">호모사피엔스</span><span class="term">네안데르탈인</span><span class="term">데니소바인</span><span class="term">호모에렉투스</span><span class="term">호모날레디</span><span class="term">사후확신편향</span></div>
+      </section>
+
+      <section class="sec" id="s2">
+        <div class="sec-head"><span class="sec-num">2</span><div><h2>그들도 이미 우리와 닮아 있었다</h2><p class="sub">세 유물의 반전과 무너진 고정관념</p></div></div>
+        <p>2장은 놀라운 세 가지 유물을 제시합니다:</p>
+        <ul>
+          <li><b>약 4만 년 된 석기의 잔여물:</b> 역청(타르)과 황토가 섞여 있어 돌에는 붙고 사람 손 피부에는 붙지 않는 끈끈한 복합 접착제(르 무스티에 유적).</li>
+          <li><b>약 6만 년 된 하이에나 뼈의 눈금:</b> 선사시대의 표기 체계로 무언가를 세는 데 썼을 수도 있는 눈금.</li>
+          <li><b>약 17만 5천 년 전의 석순 원형 구조물:</b> 프랑스 브뤼니켈 동굴 깊은 곳에 횃불을 밝히고 석순으로 쌓은 지름 약 7m의 원형 구조.</li>
+        </ul>
+        <p>반전은 이 유물들이 모두 사피엔스가 아니라 <b>네안데르탈인의 유적</b>에서 나왔다는 사실입니다. 네안데르탈인이 덜 세련되고 발명을 못 한다는 옛 고정관념은 무너졌습니다.</p>
+
+        <div class="tblw"><table class="tbl">
+          <thead><tr><th>증거</th><th>실제 표현 수위</th><th>흔히 과장되는 방식</th></tr></thead>
+          <tbody>
+            <tr><td><b>역청·황토 접착제</b></td><td>"얼마나 영리한가"</td><td>"정밀한 비율과 온도를 다룬 화학 실험실"</td></tr>
+            <tr><td><b>하이에나 뼈 눈금</b></td><td>표기 체계일 "수도 있다"</td><td>"숫자를 기록한 기호"</td></tr>
+            <tr><td><b>석순 원형 구조물</b></td><td>의미는 "추측할 수밖에 없다"</td><td>"완벽한 협력과 상징 문화의 증거"</td></tr>
+            <tr><td><b>에렉투스 조개 선각</b></td><td>"약간의 단서"</td><td>"기하학적 조각 예술"</td></tr>
+            <tr><td><b>날레디 동굴</b></td><td>성별로 나뉜 공간 "일 수 있다" (발견 개체 20여 구 모두 여성)</td><td>"복잡한 장례 의식과 사회 규칙 확정"</td></tr>
+          </tbody>
+        </table></div>
+
+        <h3>가장 명확한 증거: 교배</h3>
+        <p>21세기 과학의 가장 큰 발견 중 하나는 사피엔스가 네안데르탈인, 데니소바인 등 다른 인류와 교배했다는 명확한 증거입니다. 서로를 짝으로 여길 만큼 닮아 있었다는 데 이보다 확실한 증거는 없습니다. 사회 구조, 협력, 기술의 격차는 생각보다 좁았습니다.</p>
+
+        <div class="callout warm"><p><b>2단계 논리:</b> 1단계는 "차이가 작았다"이고, 2단계는 "작은 차이도 누적되면 결정적이다"입니다. 1단계만 보면 단순 평등론에 빠지고, 2단계만 보면 옛 우월론으로 돌아갑니다. 두 단계를 모두 붙들어야 '2%의 이점'을 이해할 수 있습니다.</p></div>
+        <div class="terms"><span class="term">복합접착제</span><span class="term">브뤼니켈석순</span><span class="term">날레디동굴</span><span class="term">고인류교배</span><span class="term">표현수위</span></div>
+      </section>
+
+      <section class="sec" id="s3">
+        <div class="sec-head"><span class="sec-num">3</span><div><h2>2%의 이점과 복리의 수학</h2><p class="sub">놀이, 긴 유년기, 그리고 둥근 뇌</p></div></div>
+        <p>바퀴는 사피엔스가 홀로 남은 수천 년 뒤의 발명입니다. 하지만 초기 바퀴 달린 탈것의 증거 중 일부는 <b>수레의 축소 모형(장난감판 수레)</b>이었습니다. 문화 진화의 핵심 동력이 아이들의 창의적 놀이일 수 있다는 도발적 질문이 여기서 출발합니다.</p>
+
+        <h3>긴 유년기라는 사치</h3>
+        <p>인간은 다른 영장류나 고인류보다 훨씬 긴 유년기를 보냅니다. 네안데르탈인의 치아 성장선 연구는 그들의 유년기가 현생인류보다 짧았음을 시사합니다. 아이가 스스로 먹이를 구하는 시점이 늦어지는 것은 당장에는 손해이지만, 놀이를 통해 세상을 실험하고 새 도구를 발명하는 기간을 늘림으로써 장기적인 혁신의 발판이 되었습니다.</p>
+
+        <h3>왜 하필 2%인가 (복리의 수학)</h3>
+        <p>이 우위는 결코 100%의 압도적 우세가 아니었습니다. 생존 확률을 아주 조금 높였을 뿐이며, 연구자들은 이를 비공식적으로 <b>'2%의 이점'</b>이라 부릅니다. 한 세대에는 티가 나지 않지만, 세대를 거듭하며 복리로 쌓이면 판세를 완전히 뒤집습니다.</p>
+
+        <div class="tblw"><table class="tbl">
+          <thead><tr><th>세대 (n)</th><th>우위 집단 (1.02<sup>n</sup>)</th><th>상대 비율 (단순 복리 예시)</th><th>고고학적 환산 시간 (한 세대 25~30년)</th></tr></thead>
+          <tbody>
+            <tr><td><b>0세대</b></td><td>1.00</td><td>1.00 : 1</td><td>출발선</td></tr>
+            <tr><td><b>10세대</b></td><td>1.22</td><td>1.22 : 1</td><td>약 250~300년</td></tr>
+            <tr><td><b>25세대</b></td><td>1.64</td><td>1.64 : 1</td><td>약 600~750년</td></tr>
+            <tr><td><b>50세대</b></td><td>2.69</td><td>2.69 : 1</td><td>약 1,250~1,500년</td></tr>
+            <tr><td><b>100세대</b></td><td>7.24</td><td>7.24 : 1</td><td>약 2,500~3,000년</td></tr>
+            <tr><td><b>200세대</b></td><td>52.5</td><td>52.5 : 1</td><td>약 5,000~6,000년 (50배 격차)</td></tr>
+          </tbody>
+        </table></div>
+
+        <details class="viz"><summary>그림으로 보기: 복리와 공간 확장의 파동</summary><figure>
+          <svg viewBox="0 0 520 180" role="img" aria-label="세대당 작은 우위가 조금 더 빠른 인구 증가를 낳고, 공간적 확장의 파동을 일으켜 혼혈 효과를 압도하며 되돌리기 어려운 우세로 이어지는 흐름도">
+            <defs><marker id="ar1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#3d5f80"/></marker></defs>
+            <rect class="bx3" x="10" y="20" width="105" height="52" rx="10"/><text class="tb" x="62" y="42" text-anchor="middle">작은 우위</text><text class="tm" x="62" y="60" text-anchor="middle">(세대당 2%)</text>
+            <path class="ln" d="M115 46 L140 46" marker-end="url(#ar1)"/>
+            <rect class="bx" x="142" y="20" width="115" height="52" rx="10"/><text class="tb" x="199" y="42" text-anchor="middle">빠른 인구 증가</text><text class="tm" x="199" y="60" text-anchor="middle">복리의 수학</text>
+            <path class="ln" d="M257 46 L282 46" marker-end="url(#ar1)"/>
+            <rect class="bx2" x="284" y="20" width="115" height="52" rx="10"/><text class="tb" x="341" y="42" text-anchor="middle">공간 확장 파동</text><text class="tm" x="341" y="60" text-anchor="middle">지리적 전진</text>
+            <path class="ln" d="M399 46 L424 46" marker-end="url(#ar1)"/>
+            <rect class="bx2" x="426" y="20" width="85" height="52" rx="10"/><text class="tb" x="468" y="42" text-anchor="middle">압도적</text><text class="tb" x="468" y="60" text-anchor="middle">우세</text>
+            <path class="lnd" d="M341 72 L341 120 L199 120 L199 72" marker-end="url(#ar1)"/>
+            <text class="tm" x="270" y="112" text-anchor="middle">파동이 인구 성장을 재가속 (되돌리기 어려움)</text>
+          </svg>
+          <figcaption>처음 만난 집단은 대등했더라도 미세한 복리 우위가 공간 파동을 형성해 지는 쪽이 되돌릴 수 없게 만듭니다.</figcaption>
+        </figure></details>
+
+        <h3>크기가 아니라 모양: 둥근 뇌</h3>
+        <p>네안데르탈인의 뇌 용적은 사피엔스와 비슷했습니다. 차이는 모양에 있었습니다. 사피엔스의 뇌와 두개골은 축구공처럼 둥글고, 네안데르탈인은 럭비공처럼 길고 납작했습니다. 둥근 두개강은 <b>두정엽과 소뇌의 상당한 재구성</b>(기억, 주의, 자기 인식, 도구 사용과 관련)을 시사할 수 있습니다. 다만 뇌 연조직이 화석으로 보존되지 않으므로 아직 결정적인 결론은 아닙니다.</p>
+
+        <div class="tblw"><table class="tbl">
+          <thead><tr><th>후보 요인</th><th>근거</th><th>확신 수준</th></tr></thead>
+          <tbody>
+            <tr><td><b>긴 유년기와 놀이</b></td><td>치아 성장선의 빠른 발달 증거, 놀이와 혁신의 연결</td><td>"그저 하나의 아이디어"</td></tr>
+            <tr><td><b>둥근 뇌 (두개 형태)</b></td><td>두개골 모양 차이, 두정엽·소뇌 재구성 가능성</td><td>"결정적이지 않다"</td></tr>
+            <tr><td><b>가벼운 체격 &amp; 양육 성공률</b></td><td>에너지 소모 절감 및 성인 도달 비율 증가 언급</td><td>후보 요인</td></tr>
+            <tr><td><b>자기 가축화 &amp; 사회 네트워크</b></td><td>얼굴 형태 축소, BAZ1B 유전자, 네트워크 유적</td><td>"새롭고 논쟁적", "증명 아님"</td></tr>
+          </tbody>
+        </table></div>
+        <div class="terms"><span class="term">2%의이점</span><span class="term">복리의수학</span><span class="term">긴유년기</span><span class="term">치아성장선</span><span class="term">둥근뇌</span><span class="term">두정엽소뇌</span></div>
+      </section>
+
+      <section class="sec" id="s4">
+        <div class="sec-head"><span class="sec-num">4</span><div><h2>우리를 구한 약점: 자기 가축화와 관용</h2><p class="sub">친화력 가설, 외로움의 대가, 그리고 낯선 이에 대한 관용</p></div></div>
+        <p>인간은 고립되고 무시당하면 깊은 외로움과 우울에 빠집니다. 연구자들은 이 취약성이 <b>자기 가축화(self-domestication)</b>라는 독특한 진화 과정에서 비롯된 것은 아닌지 탐구합니다.</p>
+
+        <h3>자기 가축화 가설</h3>
+        <p>이 가설은 종이 항상 더 강하고 사나워지는 쪽으로만 진화하지 않으며, 온순하고 협력적인 개체가 선택될 수 있다고 봅니다(늑대가 개로 진화한 것과 유사). 사피엔스는 고인류보다 이빨이 작고 턱이 섬세하며, 눈썹뼈가 줄어들었습니다. 또한 얼굴 형태 형성에 관여하는 <b>BAZ1B 유전자</b>가 네안데르탈인·데니소바인의 판본과 다릅니다.</p>
+
+        <div class="callout warm"><p><b>주의:</b> 이 중 어느 것도 우리가 자기 가축화된 종임을 증명하지는 않습니다. 이 가설은 여전히 새롭고 논쟁적입니다.</p></div>
+
+        <div class="tblw"><table class="tbl">
+          <thead><tr><th>구분</th><th>말할 수 있는 것</th><th>확정되지 않은 것</th></tr></thead>
+          <tbody>
+            <tr><td><b>지위</b></td><td>새롭고 논쟁적인 가설</td><td>과학계가 확정한 정설</td></tr>
+            <tr><td><b>형태 변화</b></td><td>이빨 축소, 섬세한 턱, 눈썹뼈 소실</td><td>유아적 외모와 주둥이 단축의 확정</td></tr>
+            <tr><td><b>유전자</b></td><td>BAZ1B와의 연관, 고인류와 다른 판본</td><td>신경능선세포 발생 기제의 확정</td></tr>
+            <tr><td><b>인과 관계</b></td><td>"증명하지 않는다"</td><td>"온순함 선택 → 얼굴 축소"의 인과 확정</td></tr>
+            <tr><td><b>심리</b></td><td>외로움과 우울에 더 취약해졌을 "수도" 있다</td><td>소외 시 신체 고통을 느끼게 뇌가 진화 확정</td></tr>
+          </tbody>
+        </table></div>
+
+        <h3>관용: 지켜보고 지켜봐지기, 그리고 낯선 이에 대한 관용</h3>
+        <p>대부분의 대형 유인원은 다른 개체가 곁에서 자기를 쳐다보는 것을 견디지 못합니다(어미와 새끼 제외). 인간은 두 가지 결정적 관용을 발전시켰습니다:</p>
+        <ol>
+          <li><b>아는 이의 근접 관용:</b> 서로 곁에 머물며 지켜보고, 남이 나를 지켜보는 것을 견딤 → 모방을 통한 사회적 학습과 문화 전달의 기초.</li>
+          <li><b>낯선 이에 대한 관용:</b> 처음 보는 사람을 마주쳤을 때 공격하지 않고 조우함 → 장거리 동맹, 집단 밖 혼인, 자원 접근에 관한 정치적 합의 형성.</li>
+        </ol>
+        <p>※ 이 비교 대상은 <b>대형 유인원 및 영장류</b>입니다. 네안데르탈인이 낯선 이를 무조건 공격했다는 뜻은 아닙니다.</p>
+
+        <h3>4만 년 전의 냉각과 네트워크의 힘</h3>
+        <p>약 4만 년 전 지구 냉각기(빙하기 최정점인 2.6만~1.9만 년 전과는 다른 시기)에 네안데르탈인이 사라졌습니다. 사피엔스는 광역 사회 네트워크를 통해 혹독한 환경에서 자원과 기술을 나눌 수 있었고, 이것이 힘든 시기를 버텨내는 또 하나의 2% 우위가 되었을 가능성이 있습니다.</p>
+
+        <div class="callout"><p><b>'하나의 큰 원인'에 대한 경계:</b> 연구자는 진화를 볼 때 "하나의 큰 무기(협력, 기술, 친화력)"를 찾는 환원주의를 강하게 경계합니다. 친화력 역시 여러 복합 요인 중 하나일 뿐입니다.</p></div>
+        <div class="terms"><span class="term">자기가축화</span><span class="term">BAZ1B</span><span class="term">친화력가설</span><span class="term">근접관용</span><span class="term">낯선이관용</span><span class="term">사회네트워크</span></div>
+      </section>
+
+      <section class="sec" id="s5">
+        <div class="sec-head"><span class="sec-num">5</span><div><h2>우리 안의 다른 인류</h2><p class="sub">종의 정의, 흩어진 게놈, 그리고 고유 DNA 1.5~7%</p></div></div>
+        <p>종의 정의는 과학계에 30가지가 넘습니다. 가장 대중적인 <b>생물학적 종 개념</b>(성공적으로 교배 가능한 집단)에 따르면 네안데르탈인은 사피엔스의 아종으로 볼 수 있습니다. 그러나 네안데르탈인은 교배하면서도 자기 게놈과 형태적 정체성을 유지했고 약 4만 년 전 소멸했으므로 별개의 종으로 보는 견해도 팽팽합니다(수컷 혼혈 불임 정황 증거 존재).</p>
+
+        <div class="tblw"><table class="tbl">
+          <thead><tr><th>관점</th><th>근거</th><th>결론</th></tr></thead>
+          <tbody>
+            <tr><td><b>아종설</b></td><td>생물학적 종 개념, 실제 교배 성공</td><td>네안데르탈·데니소바는 사피엔스의 아종</td></tr>
+            <tr><td><b>별개 종설</b></td><td>교배 후에도 형태·게놈 정체성 유지, 수컷 불임 정황</td><td>약 4만 년 전 사라진 별개의 종</td></tr>
+            <tr><td><b>정리</b></td><td>종의 정의가 30가지 넘음</td><td>어느 한쪽으로 단정하지 않음</td></tr>
+          </tbody>
+        </table></div>
+
+        <h3>흩어진 조각들: 개인 2% vs 유전자 풀 40%</h3>
+        <p>오늘날 살아 있는 비아프리카인 개인의 게놈에서 네안데르탈인 유래 DNA는 평균 <b>약 2%</b>에 불과합니다. 하지만 사람마다 지닌 조각이 다릅니다. 오늘날 전 세계 인류 유전자 풀 전체를 모으면 <b>네안데르탈인 게놈의 약 40%</b>, <b>데니소바인 게놈의 약 10%</b>를 재구성할 수 있습니다.</p>
+
+        <h3>면역이라는 선물</h3>
+        <p>유라시아로 들어간 사피엔스는 네안데르탈인과의 혼혈을 통해 그들이 수십만 년간 그 땅에서 적응하며 진화시킨 <b>면역 관련 유전자</b>를 물려받았습니다. 큰 비중은 아니었지만 새로운 환경에서 질병을 극복하고 더 멀리 뻗어나가게 해 준 결정적 우위 중 하나였습니다.</p>
+
+        <h3>우리에게만 고유한 DNA는 얼마인가: 1.5~7%의 진실</h3>
+        <p>현대인 게놈 중 <b>오직 호모 사피엔스 계통에서만 새로 생겨 고유한 DNA는 약 1.5~7%</b>에 불과합니다. 이 수치를 "나머지 90% 이상이 고인류 혼혈"이라고 잘못 읽어서는 안 됩니다. 혼혈로 들어온 비율은 개인 평균 약 2%이며, 나머지 대다수는 고인류와 갈라지기 전 <b>공통 조상에게서 물려받은 DNA</b>입니다.</p>
+
+        <details class="viz"><summary>그림으로 보기: 현대인 게놈의 실제 구성</summary><figure>
+          <svg viewBox="0 0 500 160" role="img" aria-label="현대인 게놈은 대부분 공통 조상에게서 물려받은 DNA로 이루어져 있고, 사피엔스 고유 DNA는 1.5~7%, 혼혈 유래 고인류 DNA는 개인 평균 약 2%로 구성됨">
+            <rect class="bx" x="20" y="25" width="460" height="45" rx="8"/>
+            <path class="bx2" d="M28 25H405V70H28A8 8 0 0 1 20 62V33A8 8 0 0 1 28 25Z"/>
+            <rect class="bx3" x="405" y="25" width="40" height="45"/>
+            <path class="bx" d="M445 25H472A8 8 0 0 1 480 33V62A8 8 0 0 1 472 70H445Z" fill="#fff"/>
+            <text class="tb" x="200" y="52" text-anchor="middle">공통 조상에게서 물려받은 DNA (대부분, 90% 이상)</text>
+            <text class="tb" x="425" y="52" text-anchor="middle" fill="#c8553d">고유</text>
+            <text class="tb" x="462" y="52" text-anchor="middle">혼혈</text>
+            <path class="ln" d="M425 72 L425 105"/>
+            <text class="tm" x="425" y="122" text-anchor="middle">현생인류 고유: 1.5 ~ 7%</text>
+            <path class="ln" d="M462 72 L462 140"/>
+            <text class="tm" x="462" y="152" text-anchor="middle">혼혈 유래: 평균 약 2%</text>
+          </svg>
+          <figcaption>고유 DNA가 적다는 것은 우리가 대부분 섞였다는 뜻이 아니라, 고인류와 매우 깊은 진화적 공통 뿌리를 공유한다는 뜻입니다.</figcaption>
+        </figure></details>
+        <div class="terms"><span class="term">생물학적종개념</span><span class="term">네안데르탈게놈40%</span><span class="term">데니소바게놈10%</span><span class="term">면역유전자</span><span class="term">고유DNA</span></div>
+      </section>
+
+      <section class="sec" id="s6">
+        <div class="sec-head"><span class="sec-num">6</span><div><h2>정리와 비판적 읽기</h2><p class="sub">확신의 수위와 고인류학의 정직한 불확실성</p></div></div>
+        <p>사피엔스는 압도적으로 우월해서 혼자 남은 것이 아닙니다. 30만 년 전에는 일곱 종 이상의 인류 중 가장 약체였을 수도 있었으나, 긴 유년기, 놀이, 둥근 뇌, 사회 네트워크와 관용, 면역 유전자 획득 같은 <b>미세한 2%의 우위들이 수백 세대에 걸쳐 복리로 누적</b>되어 판세를 바꾸었습니다.</p>
+        <p>이 결론은 <b>확신의 수위를 엄격히 조절</b>해 읽어야 합니다:</p>
+        <ul>
+          <li>"일부 연구자", "~일 수 있다", "결정적이지 않다", "증명하지 않는다" 같은 조심스러운 단서들은 고인류학 연구의 실제 현실을 정직하게 반영합니다.</li>
+          <li>이야기를 극적으로 만들기 위해 단서를 지워 버리면 "친화력이라는 단 하나의 무기로 승리했다"거나 "네안데르탈인은 정밀 화학 실험실을 운영했다"는 왜곡된 신화가 탄생합니다.</li>
+          <li>마지막 인류가 왜 우리였는지에 대한 답은 결코 한 단어가 아니며, 작고 미묘한 여러 차이의 역사적 복리 합입니다.</li>
+        </ul>
+        <div class="terms"><span class="term">사후확신편향</span><span class="term">불확실성</span><span class="term">확신수위조절</span><span class="term">복합적궤적</span></div>
+      </section>
+
+      <section class="sec" id="rv">
+        <div class="sec-head"><span class="sec-num">✔</span><div><h2>복습</h2><p class="sub">용어 카드 · 빈칸 · 5문항 퀴즈</p></div></div>
+
+        <h3 class="rv-h">핵심 용어 카드</h3>
+        <div class="flips">
+          <button type="button" class="flip" aria-expanded="false"><b>2%의 이점</b><span class="hint">뜻 보기</span><span class="m">놀이나 유년기 연장처럼 한 세대에는 티가 나지 않지만 여러 세대에 걸쳐 복리(1.02<sup>n</sup>)처럼 쌓여 판세를 바꾼 작은 우위들을 가리키는 비공식 표현.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>자기 가축화 가설</b><span class="hint">뜻 보기</span><span class="m">종이 더 강해지는 대신 온순하고 협력적인 쪽으로 선택되었다는 가설. 작은 이빨, 섬세한 턱, BAZ1B 유전자 차이와 연결되나 아직 논쟁적이며 증명되지 않음.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>BAZ1B</b><span class="hint">뜻 보기</span><span class="m">얼굴 형태 형성과 연관되며 자기 가축화 가설에서 주목받는 유전자. 사피엔스의 판본은 네안데르탈인이나 데니소바인의 것과 꽤 다르다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>낯선 이에 대한 관용</b><span class="hint">뜻 보기</span><span class="m">처음 보는 타인과 공격 없이 마주쳐 동맹을 맺거나 교류하는 성향. 대형 유인원과 구별되는 인간 고유의 특성으로 광역 사회 네트워크를 가능하게 했다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>복합 접착제</b><span class="hint">뜻 보기</span><span class="m">르 무스티에 네안데르탈인 유적에서 발견된 역청(타르)과 황토의 혼합물. 돌에는 붙고 사람 손에는 붙지 않아 네안데르탈인의 복잡한 인지 능력을 증명한다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>두개강 구형화 (둥근 뇌)</b><span class="hint">뜻 보기</span><span class="m">사피엔스 뇌의 축구공처럼 둥근 형태. 럭비공처럼 길고 납작한 네안데르탈인 뇌와 대비되며 두정엽과 소뇌 재구성과 관련될 수 있다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>생물학적 종 개념</b><span class="hint">뜻 보기</span><span class="m">서로 성공적으로 교배해 생식 능력이 있는 자손을 낳을 수 있는 집단을 한 종으로 보는 정의. 30가지가 넘는 종 정의 중 가장 널리 쓰인다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>고유 DNA (1.5~7%)</b><span class="hint">뜻 보기</span><span class="m">고인류와의 공통 조상에게서 물려받은 것도, 혼혈로 들어온 것도 아닌, 오직 호모 사피엔스 계통에서만 새로 생겨 고정된 DNA 비율.</span></button>
+        </div>
+        <div class="rv-tools"><button type="button" data-all="flip">모두 뒤집기</button><button type="button" data-reset="flip">모두 접기</button></div>
+
+        <h3 class="rv-h">빈칸 채우기</h3>
+        <ol class="cloze">
+          <li>30만 년 전 지구에는 사피엔스 외에도 네안데르탈인, 데니소바인, 호모 에렉투스 등 최소 <button type="button" class="blank" data-a="일곱 종" aria-label="빈칸, 눌러서 답 보기">?</button> 이상의 인류가 함께 살고 있었다.</li>
+          <li>네안데르탈인 유적인 르 무스티에 석기에서는 돌에는 붙고 손에는 붙지 않는 역청과 <button type="button" class="blank" data-a="황토" aria-label="빈칸, 눌러서 답 보기">?</button>의 혼합 복합 접착제가 발견되었다.</li>
+          <li>네안데르탈인의 치아 성장선 분석은 현생인류에 비해 그들의 <button type="button" class="blank" data-a="유년기" aria-label="빈칸, 눌러서 답 보기">?</button>가 더 짧았음을 시사한다.</li>
+          <li>세대당 2%의 우위는 단순 복리 계산(1.02<sup>n</sup>)으로 200세대(약 5~6천 년)가 지나면 상대 인구 격차가 약 <button type="button" class="blank" data-a="52.5배" aria-label="빈칸, 눌러서 답 보기">?</button>로 벌어진다.</li>
+          <li>대형 유인원과 달리 인간은 서로를 지켜보는 것을 견디는 근접 관용과 처음 만난 이를 공격하지 않는 <button type="button" class="blank" data-a="낯선 이에 대한 관용" aria-label="빈칸, 눌러서 답 보기">?</button>을 지녔다.</li>
+          <li>현대인 개인 게놈에 남은 네안데르탈 DNA는 평균 약 2%이지만, 전 세계 인류 풀에 흩어진 조각을 합치면 게놈의 약 <button type="button" class="blank" data-a="40%" aria-label="빈칸, 눌러서 답 보기">?</button>에 이른다.</li>
+          <li>현대인 게놈 중 다른 고인류와 공유하지 않고 오직 우리 종에만 고유한 DNA는 약 <button type="button" class="blank" data-a="1.5~7%" aria-label="빈칸, 눌러서 답 보기">?</button>에 불과하다.</li>
+        </ol>
+        <div class="rv-tools"><button type="button" data-all="blank">답 모두 보기</button><button type="button" data-reset="blank">빈칸 다시 가리기</button></div>
+
+        <h3 class="rv-h">5문항 퀴즈</h3>
+        <div id="quiz">
+          <div class="q" data-a="1"><fieldset><legend class="qt">1. 30만 년 전 출발선에서 사피엔스의 처지로 옳은 것은?</legend>
+            <button type="button">가장 먼저 아프리카를 벗어나 전 대륙을 지배하고 있었다</button>
+            <button type="button">검증되지 않은 신참이었으며, 외계 도박사라도 사피엔스가 최선의 베팅임을 알아보기 어려웠다</button>
+            <button type="button">다른 고인류보다 뇌 용적이 압도적으로 커서 처음부터 승리가 예정되어 있었다</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="사피엔스는 30만 년 전 아프리카의 검증되지 않은 신참이었으며, 기존 고인류들이 수십만 년간 적응해 푼 문제를 새로 풀어야 하는 불리한 입장이었습니다."></p></div>
+
+          <div class="q" data-a="0"><fieldset><legend class="qt">2. 네안데르탈인 유적의 유물과 인지 능력에 대한 설명으로 가장 정확한 것은?</legend>
+            <button type="button">역청과 황토를 섞은 복합 접착제, 석순 원형 구조물 등은 그들이 발명과 학습에 능했음을 보여 준다</button>
+            <button type="button">온도와 비율을 정밀 제어한 고대의 화학 실험실을 운영했다</button>
+            <button type="button">사피엔스보다 훨씬 더 발달한 수학적 표기 체계와 문자 언어를 확립했다</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="복합 접착제와 동굴 구조물은 네안데르탈인이 발명에 능했음을 보여 줍니다. '정밀 화학 실험실'이나 '수학적 표기 확정' 등은 근거의 실제 수위를 과장한 것입니다."></p></div>
+
+          <div class="q" data-a="1"><fieldset><legend class="qt">3. 3장에서 제시된 '2%의 이점'과 인구 동태에 관한 설명으로 옳은 것은?</legend>
+            <button type="button">생존 확률을 두 배(100%)로 높여 주는 단 하나의 결정적인 무기였다</button>
+            <button type="button">놀이·뇌 모양 등 한 세대에는 티 나지 않는 미세한 우위가 복리(1.02^n)처럼 누적되어 큰 격차를 만들었다</button>
+            <button type="button">200세대가 지나도 상대 인구 비율에는 아무런 변화가 없었다</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="2%의 이점은 비공식 표현으로, 한 세대에는 드러나지 않지만 세대를 거쳐 복리로 쌓이며 공간 확장의 파동을 일으킨 작은 우위들의 누적을 뜻합니다."></p></div>
+
+          <div class="q" data-a="2"><fieldset><legend class="qt">4. '자기 가축화 가설'과 친화력에 대한 설명으로 옳은 것은?</legend>
+            <button type="button">과학계에서 완전히 증명되어 논쟁이 종결된 정설이다</button>
+            <button type="button">친화력이라는 하나의 결정적 요인 덕분에 사피엔스만 살아남았다고 결론지었다</button>
+            <button type="button">새롭고 논쟁적인 가설이며, 여러 형태적·유전적 특징이 우리를 가축화된 종으로 증명하지는 않는다고 선을 그었다</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="자기 가축화 가설은 논쟁적이며 증명되지 않았고, 친화력 역시 여러 2% 후보 중 하나일 뿐 '단 하나의 큰 원인'으로 보아서는 안 됩니다."></p></div>
+
+          <div class="q" data-a="2"><fieldset><legend class="qt">5. 현대인 게놈 속에 남은 고인류 DNA와 고유 DNA에 대한 설명으로 옳은 것은?</legend>
+            <button type="button">현대인 개인 게놈의 약 40%가 네안데르탈 DNA로 채워져 있다</button>
+            <button type="button">현생인류 고유 DNA가 1.5~7%라는 것은 나머지 90% 이상이 고인류와의 혼혈로 들어왔음을 뜻한다</button>
+            <button type="button">개인 평균 네안데르탈 DNA는 약 2%이지만 유전자 풀 전체에는 약 40%가 흩어져 있고, 고유 DNA를 뺀 나머지는 대부분 공통 조상에게서 온 것이다</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="개인 평균은 약 2%, 풀 전체에 흩어진 것이 약 40%입니다. 고유 DNA 1.5~7%를 제외한 대부분은 혼혈이 아니라 공통 조상에게서 물려받은 유산입니다."></p></div>
+
+          <p class="score" id="score" aria-live="polite">점수: 0 / 5</p>
+          <div class="rv-tools"><button type="button" id="qreset">다시 풀기</button></div>
+        </div>
+      </section>
+
+      <section class="sources">
+        <h3>출처</h3>
+        <ul>
+          <li>원 영상: New Scientist, 「The Collapse of Every Other Human Species」 — <a href="https://www.youtube.com/watch?v=-DC6QdEK-e4" rel="noopener">YouTube ↗</a></li>
+          <li>심화 해설 전문: <a href="https://yghnsim.github.io/Pages/articles/sapiens_last_human_two_percent.html">Pages — 마지막 인류는 왜 우리였나</a></li>
+        </ul>
+      </section>
+    </main>
+  </div>
+</div>
+
+<script>(function(){
+function $$(q){return [].slice.call(document.querySelectorAll(q))}
+$$('.flip').forEach(function(b){b.onclick=function(){b.setAttribute('aria-expanded',b.getAttribute('aria-expanded')==='true'?'false':'true')}});
+function show(b){b.textContent=b.dataset.a;b.classList.add('shown');b.setAttribute('aria-label','답: '+b.dataset.a)}
+function hide(b){b.textContent='?';b.classList.remove('shown');b.setAttribute('aria-label','빈칸, 눌러서 답 보기')}
+$$('.blank').forEach(function(b){b.onclick=function(){show(b)}});
+$$('[data-all]').forEach(function(t){t.onclick=function(){if(t.dataset.all==='flip')$$('.flip').forEach(function(b){b.setAttribute('aria-expanded','true')});else $$('.blank').forEach(show)}});
+$$('[data-reset]').forEach(function(t){t.onclick=function(){if(t.dataset.reset==='flip')$$('.flip').forEach(function(b){b.setAttribute('aria-expanded','false')});else $$('.blank').forEach(hide)}});
+var sc=0,done=0,qs=$$('#quiz .q'),tot=qs.length||5;
+function upd(){var el=document.getElementById('score');if(el)el.textContent='점수: '+sc+' / '+tot+(done===tot?' (끝)':'')}
+qs.forEach(function(q){var bs=[].slice.call(q.querySelectorAll('fieldset button')),ex=q.querySelector('.ex');
+bs.forEach(function(b,i){b.onclick=function(){var a=+q.dataset.a,ok=i===a;bs.forEach(function(x){x.disabled=true});if(bs[a])bs[a].classList.add('right');if(!ok)b.classList.add('wrong');
+if(ex){ex.hidden=false;ex.textContent=(ok?'맞았습니다. ':'아쉽습니다. ')+ex.dataset.e;}if(ok)sc++;done++;upd();}})});
+var qr=document.getElementById('qreset');
+if(qr)qr.onclick=function(){sc=0;done=0;qs.forEach(function(q){q.querySelectorAll('fieldset button').forEach(function(x){x.disabled=false;x.className=''});var ex=q.querySelector('.ex');if(ex){ex.hidden=true;ex.textContent=''}});upd()};
+})();</script>
+
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">요약 아카이브</div><div class="arc-foot-title">마지막 인류는 왜 우리였나 — 2%의 이점, 긴 유년기, 친화력 가설, 그리고 우리 안에 남은 다른 인류</div><div class="arc-foot-meta"><time datetime="2026-10-28">2026년 10월 28일</time><a class="arc-tag" href="../index.html#tags=%EC%83%9D%EB%AC%BC%ED%95%99">#생물학</a><a class="arc-tag" href="../index.html#tags=%EC%A7%84%ED%99%94%EC%83%9D%EB%AC%BC%ED%95%99">#진화생물학</a><a class="arc-tag" href="../index.html#tags=%EA%B3%A0%EC%9C%A0%EC%A0%84%ED%95%99">#고유전학</a><a class="arc-tag" href="../index.html#tags=%EC%9A%94%EC%95%BD">#요약</a> · <a href="https://yghnsim.github.io/Pages/articles/sapiens_last_human_two_percent.html" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body>
+</html>

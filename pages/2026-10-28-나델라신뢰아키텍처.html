@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light only">
+<title>믿지 않고 쓰는 법, 새지 않게 쌓는 법 — 사티아 나델라의 신뢰 아키텍처와 '프라이빗 평가'라는 새 지식재산</title>
+<meta name="description" content="20VC 대담의 나델라 논지 요약: 정렬은 규모를 따라오지 않는다, 모델 바깥의 제로 트러스트, 커모디티가 되는 토큰, 역정보 역설, 기업의 핵심 IP가 되는 프라이빗 평가, 복습 퀴즈">
+<style>
+:root{color-scheme:light only;
+  --bg:#faf8f3; --paper:#ffffff; --ink:#1f2328; --muted:#5b6470; --line:#e6e1d6;
+  --accent:#c8553d; --accent-soft:#fbeee9; --link:#4a6b8a;
+  --new:#3d5f80; --new-soft:#eaf0f6; --radius:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:20px}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR","Malgun Gothic","Gothic A1",system-ui,sans-serif;
+  font-size:17px;line-height:1.75;word-break:keep-all;overflow-wrap:break-word}
+@media(max-width:640px){body{font-size:16px}}
+a{color:var(--link)}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+.hero{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{display:inline-block;font-size:13px;font-weight:700;color:#a8432e;background:var(--accent-soft);padding:3px 10px;border-radius:999px;margin-bottom:12px}
+.hero h1{font-size:clamp(28px,4.4vw,44px);line-height:1.25;margin:0 0 12px;letter-spacing:-.02em}
+.hero .lead{font-size:18px;color:var(--muted);line-height:1.65;margin:0}
+@media(max-width:640px){.hero .lead{font-size:17px}}
+.hero-cta{margin-top:16px}
+.hero-cta a{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--new);color:#fff;border-radius:10px;font-weight:700;font-size:15px;text-decoration:none}
+.grid{display:grid;grid-template-columns:240px minmax(0,1fr);gap:36px;align-items:start}
+@media(max-width:880px){.grid{grid-template-columns:minmax(0,1fr);gap:0}}
+.toc{position:sticky;top:20px;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;font-size:15px}
+.toc .toc-t{font-weight:700;margin:0 0 10px}
+.toc ol{margin:0;padding:0;list-style:none}
+.toc li{margin:6px 0}
+.toc a{color:var(--muted);display:flex;align-items:baseline;gap:8px;text-decoration:none;line-height:1.45}
+.toc a:hover{color:var(--link)}
+.toc .n{flex:none;display:inline-block;width:22px;height:22px;line-height:22px;text-align:center;border-radius:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:700}
+.toc .orig{display:block;margin-top:14px;padding-top:10px;border-top:1px dashed var(--line);font-size:14px;color:#a8432e;font-weight:700}
+@media(max-width:880px){
+  .toc{position:sticky;top:0;z-index:20;margin:0 -20px 20px;border-radius:0;border-width:0 0 1px;padding:8px 12px;background:rgba(250,248,243,.97);overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .toc .toc-t,.toc .orig{display:none}
+  .toc ol{display:flex;gap:6px;white-space:nowrap}
+  .toc li{margin:0}
+  .toc a{background:#f1ede4;color:var(--ink);border-radius:999px;padding:6px 12px;font-size:14px;align-items:center}
+  .toc .n{background:none;width:auto;height:auto;line-height:1;color:var(--muted)}
+  html{scroll-padding-top:64px}
+}
+main{min-width:0}
+.sec{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:24px 28px;margin-bottom:28px}
+@media(max-width:640px){.sec{padding:18px 16px}}
+.sec-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px}
+.sec-num{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:12px;background:var(--ink);color:#fff;font-weight:800;font-size:17px;flex-shrink:0;margin-top:2px}
+@media(max-width:640px){.sec-num{width:34px;height:34px;font-size:15px}}
+.sec-head h2{font-size:clamp(23px,3vw,30px);line-height:1.3;margin:0;letter-spacing:-.015em}
+.sec-head .sub{font-size:15px;color:var(--muted);margin:3px 0 0}
+h3{font-size:19px;margin:22px 0 8px}
+p{margin:0 0 14px}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin:4px 0}
+.theses{counter-reset:t;list-style:none;padding:0;margin:0 0 16px}
+.theses li{counter-increment:t;position:relative;padding:10px 14px 10px 50px;margin:8px 0;background:#fdfcf9;border:1px solid var(--line);border-radius:12px}
+.theses li::before{content:counter(t);position:absolute;left:14px;top:12px;width:24px;height:24px;border-radius:50%;background:var(--accent-soft);color:#a8432e;font-weight:800;font-size:14px;display:grid;place-items:center}
+.tblw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:16px 0}
+.tbl{width:100%;min-width:520px;border-collapse:collapse;font-size:16px}
+.tbl th,.tbl td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+.tbl th{background:var(--new-soft);color:var(--new);font-weight:700}
+.tbl td{background:#fff}
+.callout{background:var(--new-soft);border-left:4px solid var(--new);border-radius:10px;padding:12px 16px;margin:14px 0}
+.callout.warm{background:var(--accent-soft);border-left-color:var(--accent)}
+.callout p:last-child{margin:0}
+blockquote{margin:14px 0;padding:12px 18px;background:#fff;border-left:5px solid var(--accent);border-radius:0 12px 12px 0}
+blockquote p{margin:0}
+.terms{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;padding-top:12px;border-top:1px dashed var(--line)}
+.term{display:inline-flex;align-items:center;background:var(--new-soft);color:var(--new);font-size:14px;font-weight:600;padding:4px 10px;border-radius:8px}
+details.viz{margin:14px 0;border:1px solid var(--line);border-radius:12px;background:#fdfcf9}
+details.viz summary{cursor:pointer;list-style:none;padding:12px 14px;font-weight:600;font-size:16px;color:var(--new);min-height:44px;display:flex;align-items:center;gap:8px}
+details.viz summary::-webkit-details-marker{display:none}
+details.viz summary::before{content:"▸";font-size:14px;color:var(--accent)}
+details.viz[open] summary::before{content:"▾"}
+details.viz figure{margin:0;padding:4px 12px 14px}
+details.viz svg{display:block;width:100%;height:auto;max-width:520px;margin:0 auto;font-family:"Pretendard","Noto Sans KR",sans-serif}
+details.viz figcaption{font-size:16px;color:var(--muted);line-height:1.6;margin-top:8px}
+svg .bx{fill:#fff;stroke:#5b6470;stroke-width:1.4}
+svg .bx2{fill:#eaf0f6;stroke:#3d5f80;stroke-width:1.4}
+svg .bx3{fill:#fbeee9;stroke:#c8553d;stroke-width:1.4}
+svg .t{fill:#1f2328;font-size:14px}
+svg .tb{fill:#1f2328;font-size:14px;font-weight:700}
+svg .tm{fill:#5b6470;font-size:13px}
+svg .ln{stroke:#5b6470;stroke-width:1.5;fill:none}
+svg .lnd{stroke:#5b6470;stroke-width:1.5;fill:none;stroke-dasharray:5 4}
+.sources{background:var(--new-soft);border:1px solid var(--line);border-radius:var(--radius);padding:18px 22px;margin-top:32px;font-size:15px;color:#3f4650}
+.sources h3{font-size:17px;color:var(--new);margin:0 0 8px}
+.sources ul{margin:0;padding-left:20px}
+@media(max-width:640px){.sources,.sec-head .sub{font-size:16px}}
+/* 복습 컴포넌트 표준 스타일 */
+.rv-h{font-size:19px;margin:22px 0 6px}
+.flips{display:grid;grid-template-columns:1fr;gap:8px;margin:10px 0}
+@media(min-width:640px){.flips{grid-template-columns:1fr 1fr}}
+.flip{font:inherit;text-align:left;width:100%;border:1.5px solid var(--line,#e6e1d6);background:#fdfcf9;border-radius:12px;padding:10px 14px;cursor:pointer;color:var(--ink,#1f2328);min-height:64px}
+.flip b{display:block;font-size:17px}
+.flip .m{display:none;font-size:16px;line-height:1.6;margin-top:4px}
+.flip .hint{font-size:13px;color:var(--muted,#5b6470)}
+.flip[aria-expanded="true"]{border-color:var(--new,#3d5f80);background:var(--new-soft,#eaf0f6)}
+.flip[aria-expanded="true"] .m{display:block}
+.flip[aria-expanded="true"] .hint{display:none}
+.cloze{list-style:none;margin:10px 0;padding:0}
+.cloze li{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:10px 14px;margin:8px 0;background:#fdfcf9;font-size:16px;line-height:1.8}
+.blank{font:inherit;font-size:16px;border:0;border-bottom:2px dashed var(--accent,#c8553d);background:var(--accent-soft,#fbeee9);color:#a8432e;border-radius:6px 6px 0 0;padding:0 8px;cursor:pointer;min-width:4.5em}
+.blank.shown{border-bottom-style:solid;background:var(--new-soft,#eaf0f6);color:var(--new,#3d5f80);font-weight:700}
+.rv-tools{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.rv-tools button{font:inherit;font-size:15px;border:1px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link,#4a6b8a)}
+.q{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:12px 14px;margin:10px 0;background:#fdfcf9}
+.q fieldset{border:0;margin:0;padding:0;min-width:0}
+.q legend{font-weight:700;padding:0;margin:0 0 8px;font-size:16.5px}
+.q button{display:block;width:100%;text-align:left;font:inherit;font-size:16px;border:1.5px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:8px 12px;margin:6px 0;cursor:pointer;color:var(--ink,#1f2328)}
+.q button.right{border-color:#2f6b45;background:#e6f1ea}
+.q button.wrong{border-color:#a2452f;background:#fbeee9}
+.q button[disabled]{cursor:default;opacity:1}
+.q .ex{margin:8px 0 0;font-size:16px;padding:8px 10px;border-radius:8px;background:var(--new-soft,#eaf0f6)}
+.score{font-size:17px;font-weight:800;margin:10px 0 0}
+.arc-back b,.arc-foot-label{color:#a8432e!important}
+</style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
+</head>
+<body>
+<!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="요약 아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>요약 아카이브</a><span class="arc-crumb">믿지 않고 쓰는 법, 새지 않게 쌓는 법 — 사티아 나델라의 신뢰 아키텍처와 &#x27;프라이빗 평가&#x27;라는 새 지식재산</span><span class="arc-meta"><time datetime="2026-10-28">2026년 10월 28일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=%EA%B2%BD%EC%A0%9C%EA%B2%BD%EC%98%81">#경제경영</a><a class="arc-tag" href="../index.html#tags=AI%EC%95%88%EC%A0%84">#AI안전</a><a class="arc-tag" href="../index.html#tags=%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8">#에이전트</a><a class="arc-tag" href="../index.html#tags=%EC%9A%94%EC%95%BD">#요약</a><a class="arc-src" href="https://youtu.be/24XUcWhqY_4" rel="noopener">원문 ↗</a></span></div></div>
+<!-- archive-header:end -->
+<div class="wrap">
+  <header class="hero">
+    <span class="eyebrow">20VC 대담 · 사티아 나델라(마이크로소프트 CEO)</span>
+    <h1>믿지 않고 쓰는 법, 새지 않게 쌓는 법 — 사티아 나델라의 신뢰 아키텍처와 '프라이빗 평가'라는 새 지식재산</h1>
+    <p class="lead">모델은 믿지 말고 가두어 쓰고, 기업의 지식은 모델이 아니라 비공개 평가에 쌓는다.</p>
+    <div class="hero-cta"><a href="https://yghnsim.github.io/Pages/articles/nadella_trust_architecture_private_evals.html">📚 Pages에서 심화 해설 전문 읽기 ↗</a></div>
+  </header>
+
+  <div class="grid">
+    <nav class="toc" aria-label="목차">
+      <p class="toc-t">목차</p>
+      <ol>
+        <li><a href="#s0"><span class="n">★</span>한눈에 보기</a></li>
+        <li><a href="#s1"><span class="n">1</span>정렬은 저절로 오지 않는다</a></li>
+        <li><a href="#s2"><span class="n">2</span>모델 바깥의 제로 트러스트</a></li>
+        <li><a href="#s3"><span class="n">3</span>사고 과정과 오픈 웨이트</a></li>
+        <li><a href="#s4"><span class="n">4</span>커모디티가 되는 토큰</a></li>
+        <li><a href="#s5"><span class="n">5</span>역정보 역설</a></li>
+        <li><a href="#s6"><span class="n">6</span>프라이빗 평가 = 핵심 IP</a></li>
+        <li><a href="#s7"><span class="n">7</span>구현 경제와 유니레버</a></li>
+        <li><a href="#s8"><span class="n">8</span>투자·전력·성장</a></li>
+        <li><a href="#s9"><span class="n">9</span>비판적으로 읽기</a></li>
+        <li><a href="#rv"><span class="n">✔</span>복습 &amp; 퀴즈</a></li>
+      </ol>
+      <a class="orig" href="https://yghnsim.github.io/Pages/articles/nadella_trust_architecture_private_evals.html">심화 원문(Pages) ↗</a>
+    </nav>
+
+    <main id="content">
+      <section class="sec" id="s0">
+        <div class="sec-head"><span class="sec-num">★</span><div><h2>한눈에 보기</h2><p class="sub">신뢰와 지식, 두 갈래가 '평가'에서 만난다</p></div></div>
+        <ol class="theses">
+          <li><b>정렬은 규모를 따라오지 않는다.</b> 나델라는 2018~2019년에 믿었던 "정렬은 저절로 따라 나온다"는 생각을 버렸다고 말한다.</li>
+          <li><b>모델을 믿지 말고 바깥에 가둔다.</b> 신원·전면 기록·변조 불가 로그·정책 감시로 이루어진 제로 트러스트 환경을 모델 바깥에 세운다.</li>
+          <li><b>대부분의 과제는 포화되고, 토큰 대부분은 커모디티가 된다.</b> 문제가 바뀌지 않으면 자기 트레이스로 학습한 값싼 모델로 충분하다.</li>
+          <li><b>이번에는 구매자가 보호받아야 한다.</b> 데이터와 사용 흔적이 모델 회사의 가치로 넘어가는 '역정보 역설'에서, 잉여는 기업 안에 남아야 한다.</li>
+          <li><b>모든 기업의 핵심 IP는 비공개 평가 벤치마크가 된다.</b> 어떤 모델이든 그 평가 위에서 점수를 끌어올리려 경쟁한다.</li>
+        </ol>
+        <div class="tblw"><table class="tbl">
+          <thead><tr><th>구분</th><th>과거의 기대</th><th>나델라의 현재 판단</th></tr></thead>
+          <tbody>
+            <tr><td><b>능력</b></td><td>규모를 키우면 좋아진다</td><td>여전히 그렇다</td></tr>
+            <tr><td><b>정렬</b></td><td>능력과 함께 저절로 따라온다</td><td>따라오지 않는다. 더 어렵고 다른 문제일 수 있다</td></tr>
+            <tr><td><b>내부 이해</b></td><td>언젠가 들여다볼 수 있다</td><td>기계적 이해는 아직 손에 잡히지 않는다</td></tr>
+            <tr><td><b>모델 선택</b></td><td>최신 최고 모델을 쓴다</td><td>포화된 과제는 값싼 모델, 프런티어는 기준이 계속 오르는 일에</td></tr>
+            <tr><td><b>기업이 지킬 것</b></td><td>데이터</td><td>데이터·사용 흔적, 그리고 지식을 담은 평가</td></tr>
+          </tbody>
+        </table></div>
+        <div class="terms"><span class="term">스케일링 법칙</span><span class="term">제로 트러스트</span><span class="term">커모디티 토큰</span><span class="term">역정보 역설</span><span class="term">프라이빗 평가</span></div>
+      </section>
+
+      <section class="sec" id="s1">
+        <div class="sec-head"><span class="sec-num">1</span><div><h2>정렬은 저절로 오지 않는다</h2><p class="sub">지난 12개월 사이 바꾼 생각</p></div></div>
+        <p><b>스케일링 법칙</b>은 모델 크기·데이터·계산량을 함께 늘리면 성능이 예측 가능하게 좋아진다는 경험칙입니다. 나델라는 오픈AI 초기 인물들이 "한 가족"이던 2018~2019년, 자신도 스케일링을 믿었고 <b>정렬(alignment)</b>도 능력과 함께 "저절로 따라 나올(fall out)" 것이라 생각했다고 말합니다.</p>
+        <p>지금은 그렇게 믿지 않습니다. 스케일링은 여전히 작동하지만 정렬은 "더 어렵고 다른 문제"일 수 있고, 모델 내부를 회로 수준에서 이해하려는 기계적 해석 가능성도 아직 답을 주지 못한다는 것입니다.</p>
+        <p>정렬이 어디서 풀려야 하는지에 대해서도 개인적 견해를 밝힙니다. 정렬은 주로 학습 단계, 어쩌면 <b>사전학습</b>에서부터 가중치에 새겨져야 하며, 이미 만든 모델 위에 강화학습(RL)을 덧대는 방식으로는 정렬에 도달할 수 없다고 봅니다.</p>
+        <div class="callout"><p>정렬이 모델 내부, 그것도 아주 이른 단계의 문제라면, 모델을 <b>가져다 쓰는 쪽</b>이 오늘 할 수 있는 일은 모델 바깥에 있습니다.</p></div>
+        <div class="terms"><span class="term">스케일링 법칙</span><span class="term">정렬</span><span class="term">기계적 해석 가능성</span><span class="term">사전학습</span><span class="term">강화학습(RL)</span></div>
+      </section>
+
+      <section class="sec" id="s2">
+        <div class="sec-head"><span class="sec-num">2</span><div><h2>모델 바깥의 제로 트러스트</h2><p class="sub">"모델이 오염되었다고 가정하라"</p></div></div>
+        <p>보안의 <b>제로 트러스트</b>는 안이든 밖이든 어떤 사용자·기기·프로그램도 기본적으로 믿지 않고, 접근마다 신원을 확인하고, 최소 권한만 주고, 모든 행동을 기록·감시하는 원칙입니다. 진행자가 소개한 나델라의 글은 "모델이 오염되었다고 가정하라"는 요지였고, 그는 이것이 모델 회사의 공시를 무시하라는 뜻이 아니라, 더 유능하지만 덜 정렬된 에이전트라도 <b>피해를 내기 전에 가둘 수 있는</b> 공학적 제로 트러스트 환경이 필요하다는 뜻이라고 설명합니다.</p>
+        <h3>'AI 안전'과 '보안 격리'를 혼동하지 말 것</h3>
+        <ul>
+          <li><b>AI 안전(정렬)</b>: 모델 자체가 올바른 가치와 의도를 갖게 하는 일. 모델을 만드는 쪽, 학습 단계의 과제입니다.</li>
+          <li><b>공학적 격리</b>: 모델이 어떤 상태든 움직이는 환경을 통제해 피해를 막는 일. 플랫폼 회사와 보안 업계가 이미 아는 일입니다.</li>
+        </ul>
+        <p>안전이 보안으로 대체된다는 뜻이 아닙니다. 안전은 모델 쪽 숙제로 남고, 보안은 그와 별개로 <b>오늘</b> 할 수 있다는 뜻입니다.</p>
+        <h3>신뢰 아키텍처의 네 요소 (Agent 365 사례)</h3>
+        <ol>
+          <li><b>신원</b>: 모든 에이전트에 고유한 ID를 준다.</li>
+          <li><b>전면 기록</b>: 활동, 도구 호출, 모델 호출, 사고 과정(CoT)까지 남긴다. CoT는 사람이 읽을 수 없는 '뉴럴리즈'가 아니라 <b>영어</b>로 남겨 여러 모델로 교차 점검한다.</li>
+          <li><b>변조 불가</b>: 에이전트가 자기 로그를 고칠 수 없어야 한다.</li>
+          <li><b>정책과 행동 감시</b>: 정책을 정하고, 행동이 정책에 맞는지 계속 모니터링한다.</li>
+        </ol>
+        <details class="viz"><summary>그림으로 보기: 신뢰 아키텍처</summary><figure>
+          <svg viewBox="0 0 320 300" role="img" aria-label="에이전트에 신원을 주고 모든 행동을 변조 불가 로그로 남긴 뒤 여러 모델이 교차 점검하고 정책 감시로 이탈을 잡는 구조">
+            <defs><marker id="a1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs>
+            <rect class="bx3" x="100" y="8" width="120" height="38" rx="10"/><text class="tb" x="160" y="32" text-anchor="middle">AI 에이전트</text>
+            <path class="ln" d="M130 46 L70 78" marker-end="url(#a1)"/><path class="ln" d="M190 46 L250 78" marker-end="url(#a1)"/>
+            <rect class="bx" x="12" y="80" width="116" height="40" rx="10"/><text class="t" x="70" y="98" text-anchor="middle">① 에이전트 ID</text><text class="tm" x="70" y="114" text-anchor="middle">누가 했는가</text>
+            <rect class="bx2" x="168" y="80" width="140" height="58" rx="10"/><text class="t" x="238" y="98" text-anchor="middle">②③ 변조 불가 로그</text><text class="tm" x="238" y="114" text-anchor="middle">도구·모델 호출</text><text class="tm" x="238" y="130" text-anchor="middle">CoT(영어)</text>
+            <path class="ln" d="M238 138 L238 168" marker-end="url(#a1)"/>
+            <rect class="bx" x="168" y="170" width="140" height="40" rx="10"/><text class="t" x="238" y="195" text-anchor="middle">여러 모델 교차 점검</text>
+            <rect class="bx" x="12" y="170" width="116" height="40" rx="10"/><text class="t" x="70" y="195" text-anchor="middle">정책</text>
+            <path class="ln" d="M70 210 L130 240" marker-end="url(#a1)"/><path class="ln" d="M238 210 L190 240" marker-end="url(#a1)"/>
+            <rect class="bx2" x="96" y="242" width="128" height="46" rx="10"/><text class="t" x="160" y="262" text-anchor="middle">④ 행동 감시</text><text class="tm" x="160" y="279" text-anchor="middle">이탈 감지 → 격리</text>
+          </svg>
+          <figcaption>모델의 선의 대신, 모델 바깥의 기록과 정책이 신뢰를 떠받친다.</figcaption>
+        </figure></details>
+        <div class="terms"><span class="term">제로 트러스트</span><span class="term">공학적 격리</span><span class="term">에이전트 ID</span><span class="term">변조 불가 로그</span><span class="term">사고의 연쇄(CoT)</span></div>
+      </section>
+
+      <section class="sec" id="s3">
+        <div class="sec-head"><span class="sec-num">3</span><div><h2>사고 과정과 오픈 웨이트</h2><p class="sub">불성실한 CoT, 그리고 라이선스 가중치</p></div></div>
+        <p>사고 과정은 얼마나 믿을 만한가라는 질문에 나델라는 "믿을 수 없다"고 답합니다. CoT는 실제 답을 낳은 내부 계산과 다를 수 있다는 뜻에서 <b>불성실(unfaithful)</b>할 수 있습니다. 그가 더 문제 삼는 것은 모델 회사가 "어차피 불성실하니 숨기겠다"고 나오는 경우입니다. 그래서 적어도 <b>신뢰받는 파트너</b>에게는 CoT를 가공하지 않은 채 제공해 검사·감사할 수 있게 하라고 요구합니다.</p>
+        <div class="callout warm"><p>나델라가 짚은 것은 <b>로그 조작이 아니라 CoT의 불성실함과 은폐</b>입니다. 투명성을 시장 표준으로 '강제'하자는 말도 하지 않았습니다.</p></div>
+        <p>이 요구가 <b>오픈 웨이트</b> 쪽 수요를 더 늘릴 수도 있다고 덧붙이지만 조건부입니다. 폐쇄형 모델이 더 강력하다는 점을 먼저 인정하고, 폐쇄형 회사들이 파트너의 점검 요구를 외면하면 문제가 된다는 정도로 말합니다.</p>
+        <p>오픈 소스 다수가 중국 모델이라는 질문에는, 안전이 결여된 AI는 어느 나라에도 좋지 않고 공개 가중치 모델은 만든 나라 자신도 공격할 수 있다고 답합니다. 서구 오픈 웨이트의 진전을 언급하고, 마이크로소프트의 MAI 모델은 공개가 아닌 <b>"라이선스 가중치"</b>로 내놓아 네트워크 효과형 지능 사업이 아닌 단순한 소프트웨어 사업으로 만들고 싶다고 말합니다.</p>
+        <div class="tblw"><table class="tbl">
+          <thead><tr><th></th><th>폐쇄형 프런티어</th><th>오픈 웨이트</th><th>라이선스 가중치(MAI)</th></tr></thead>
+          <tbody>
+            <tr><td><b>가중치 접근</b></td><td>불가, API로만</td><td>공개, 직접 실행</td><td>라이선스 계약으로 제공</td></tr>
+            <tr><td><b>성능</b></td><td>나델라: 더 강력</td><td>서구도 진전 중</td><td>—</td></tr>
+            <tr><td><b>사업 모델</b></td><td>네트워크 효과형 지능 사업</td><td>—</td><td>"단순한 소프트웨어 사업"</td></tr>
+          </tbody>
+        </table></div>
+        <p><b>해설:</b> 가중치를 공개해도 수십억 개의 숫자가 왜 그런 답을 내는지는 여전히 해석하기 어렵습니다. 오픈 웨이트가 주는 것은 '속이 투명함'이 아니라 직접 돌리고, 기록을 온전히 확보하고, 추가 학습할 수 있는 <b>통제 가능성</b>입니다.</p>
+        <div class="terms"><span class="term">불성실한 CoT</span><span class="term">신뢰받는 파트너</span><span class="term">오픈 웨이트</span><span class="term">라이선스 가중치</span><span class="term">MAI</span></div>
+      </section>
+
+      <section class="sec" id="s4">
+        <div class="sec-head"><span class="sec-num">4</span><div><h2>커모디티가 되는 토큰</h2><p class="sub">포화되는 것은 모델이 아니라 과제</p></div></div>
+        <p>2년 뒤 트래픽이 어디로 갈지 묻자 나델라는 <b>"대부분의 일은 포화된다"</b>고 답합니다. 포화되는 것은 모델의 발전 곡선이 아니라 <b>과제</b>입니다. 업무가 이미 충분히 풀리면, 오픈 웨이트든 값싼 폐쇄형이든 충분합니다. 특히 자기 <b>트레이스</b>(입력·중간 과정·출력·판정 기록)로 학습할 수 있다면, 문제가 바뀌지 않는 한 최신 모델은 필요 없습니다.</p>
+        <p>평가 기준을 계속 높여야 하는 일이라면 프런티어에 돈을 낼 가치가 있고, 프런티어 시장은 늘 남으며 다음 프런티어는 과학일 수 있습니다. 다만 토큰 사용량 대부분은 <b>커모디티 토큰</b>이 되고, 꼭 오픈 웨이트일 필요는 없습니다. Copilot 안에서도 값싼 폐쇄형과 오픈 웨이트 모델을 함께 쓴다고 말합니다.</p>
+        <details class="viz"><summary>그림으로 보기: 과제의 포화와 돈의 흐름</summary><figure>
+          <svg viewBox="0 0 320 260" role="img" aria-label="새로운 문제는 프런티어 모델, 시간이 지나 포화된 반복 문제는 값싼 모델과 자체 트레이스 학습으로 옮겨 가 커모디티 토큰이 된다">
+            <defs><marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs>
+            <rect class="bx3" x="12" y="10" width="296" height="70" rx="12"/>
+            <text class="tb" x="26" y="34">새 문제 · 기준이 계속 오름</text><text class="t" x="26" y="54">→ 프런티어 모델</text><text class="tm" x="26" y="71">최고 성능 프리미엄 (예: 과학)</text>
+            <path class="lnd" d="M160 82 L160 128" marker-end="url(#a2)"/><text class="tm" x="170" y="110">시간이 지나 '포화'</text>
+            <rect class="bx2" x="12" y="132" width="296" height="90" rx="12"/>
+            <text class="tb" x="26" y="156">반복 문제 · 기준이 고정됨</text><text class="t" x="26" y="176">→ 값싼 폐쇄형 / 오픈 웨이트</text><text class="t" x="26" y="196">+ 자기 트레이스로 학습</text><text class="tm" x="26" y="213">커모디티 토큰 (가격 경쟁)</text>
+            <text class="tm" x="160" y="248" text-anchor="middle">토큰 사용량 대부분은 아래 칸으로 간다</text>
+          </svg>
+          <figcaption>대부분의 일이 포화되면, 모델은 교체 가능한 부품이 된다.</figcaption>
+        </figure></details>
+        <h3>에이전트 스웜, 라우터, 수평 분업</h3>
+        <ul>
+          <li><b>에이전트 스웜</b>: 여러 서브 에이전트가 일을 나누고, 그중엔 로컬 모델이 섞일 수 있다. GitHub의 새 기능과 함께 언급한 이야기이며, Copilot 전체가 로컬 모델 군단으로 돈다는 뜻은 아닙니다.</li>
+          <li><b>라우터</b>: 의사결정 엔진이 든 라우터로 과제마다 가장 알맞은 모델에 보내는 구성은 "하나의 가능성"으로 소개합니다.</li>
+          <li><b>수평 분업</b>: 실리콘·시스템·모델·앱 모든 층에서 경쟁자가 늘고 있고, 무엇이 <b>지배적 설계</b>가 될지는 모르지만 층마다 여러 승자가 있는 <b>수평적 전문화</b>를 희망합니다.</li>
+        </ul>
+        <div class="terms"><span class="term">과제의 포화</span><span class="term">트레이스</span><span class="term">커모디티 토큰</span><span class="term">에이전트 스웜</span><span class="term">수평적 전문화</span></div>
+      </section>
+
+      <section class="sec" id="s5">
+        <div class="sec-head"><span class="sec-num">5</span><div><h2>역정보 역설</h2><p class="sub">하이에크의 분산 지식, 애로의 역설을 뒤집다</p></div></div>
+        <p><b>하이에크</b>: 경제를 움직이는 지식 상당 부분은 특정 시간·장소에 묶인 국지적 지식, 말로 다 옮기기 어려운 <b>암묵지</b>이고, 흩어져 있어 중앙에서 모을 수 없습니다. 그래서 가격 발견이 작동합니다. 나델라의 결론은 기업이 하나일 수 없듯 <b>지능도 하나일 수 없다</b>는 것, 그러니 기업은 AI로 자기 지식을 <b>축적</b>해야지 <b>유출</b>해서는 안 된다는 것입니다.</p>
+        <p><b>애로의 정보 역설</b>: 정보 판매자는 가치를 증명하려면 보여 줘야 하는데, 보여 주는 순간 구매자는 돈을 낼 이유가 사라집니다. 특허·영업비밀·저작권 같은 보호가 없으면 판매자가 가치를 잃습니다.</p>
+        <p>나델라는 AI 시대에 이 구도가 뒤집힌다며 스스로 <b>역정보 역설(reverse information paradox)</b>이라 이름 붙였습니다. 하이에크에서 애로로 이어진 학설의 발전이 아니라, 두 경제학자의 통찰을 빌려 나델라가 붙인 이름입니다. 이제 처음으로 <b>구매자</b>가 보호를 필요로 합니다. 데이터뿐 아니라 사용의 "배기가스(exhaust)", 예컨대 엄지 위·아래 신호까지 모델 회사의 가치가 됩니다. 안정되려면 지능을 쓰며 생긴 <b>잉여(surplus)</b>가 더 많이 기업 안에 남아야 합니다.</p>
+        <details class="viz"><summary>그림으로 보기: 정보 역설과 역정보 역설</summary><figure>
+          <svg viewBox="0 0 320 290" role="img" aria-label="전통적 정보 역설에서는 판매자가 공개 후 지불을 거부당하고, 역정보 역설에서는 AI를 쓰는 기업의 데이터와 사용 흔적이 모델 회사에 가치로 쌓인다">
+            <defs><marker id="a3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs>
+            <text class="tb" x="12" y="20">애로의 정보 역설 (판매자가 위험)</text>
+            <rect class="bx" x="12" y="32" width="110" height="40" rx="10"/><text class="t" x="67" y="57" text-anchor="middle">정보 판매자</text>
+            <rect class="bx" x="198" y="32" width="110" height="40" rx="10"/><text class="t" x="253" y="57" text-anchor="middle">구매자</text>
+            <path class="ln" d="M122 46 L196 46" marker-end="url(#a3)"/><text class="tm" x="160" y="40" text-anchor="middle">공개</text>
+            <path class="lnd" d="M198 62 L124 62" marker-end="url(#a3)"/><text class="tm" x="160" y="88" text-anchor="middle">"이미 알았으니" 지불 거부</text>
+            <text class="tb" x="12" y="130">역정보 역설 (구매자가 위험)</text>
+            <rect class="bx2" x="12" y="142" width="120" height="56" rx="10"/><text class="t" x="72" y="166" text-anchor="middle">AI를 쓰는 기업</text><text class="tm" x="72" y="184" text-anchor="middle">(구매자)</text>
+            <rect class="bx3" x="198" y="142" width="110" height="56" rx="10"/><text class="t" x="253" y="166" text-anchor="middle">모델 회사</text><text class="tm" x="253" y="184" text-anchor="middle">(판매자)</text>
+            <path class="ln" d="M132 156 L196 156" marker-end="url(#a3)"/><text class="tm" x="164" y="150" text-anchor="middle">요금</text>
+            <path class="ln" d="M132 186 L196 186" marker-end="url(#a3)"/>
+            <text class="tm" x="160" y="222" text-anchor="middle">데이터 · 사용 흔적 · 👍👎 신호</text>
+            <text class="t" x="160" y="252" text-anchor="middle">→ 잉여가 공급자 쪽에 쌓인다</text>
+            <text class="tm" x="160" y="276" text-anchor="middle">나델라: 잉여는 기업에 남아야 안정적</text>
+          </svg>
+          <figcaption>보호가 필요한 쪽이 판매자에서 구매자로 바뀐다.</figcaption>
+        </figure></details>
+        <h3>지식을 담는 세 그릇</h3>
+        <p>나델라는 지식을 지키는 방법이 가중치에 새기는 것만은 아니며, <b>컨텍스트</b>에도, <b>평가(evals)</b>에도 담을 수 있다고 말합니다. 아래 장단점은 해설입니다.</p>
+        <div class="tblw"><table class="tbl">
+          <thead><tr><th>그릇</th><th>무엇인가</th><th>장점(해설)</th><th>한계(해설)</th></tr></thead>
+          <tbody>
+            <tr><td><b>가중치</b></td><td>자기 데이터·트레이스로 추가 학습</td><td>반복 업무를 싸고 빠르게</td><td>모델을 바꾸면 다시 학습</td></tr>
+            <tr><td><b>컨텍스트</b></td><td>사내 문서·규칙을 매번 넣음</td><td>모델 교체가 쉬움</td><td>호출마다 비용, 길이 제약</td></tr>
+            <tr><td><b>평가</b></td><td>좋은 답을 정의한 비공개 시험 세트</td><td>어떤 모델이 와도 기준이 남음</td><td>만들고 유지하기 어려움</td></tr>
+          </tbody>
+        </table></div>
+        <div class="terms"><span class="term">암묵지</span><span class="term">애로의 정보 역설</span><span class="term">역정보 역설</span><span class="term">배기가스(exhaust)</span><span class="term">잉여(surplus)</span></div>
+      </section>
+
+      <section class="sec" id="s6">
+        <div class="sec-head"><span class="sec-num">6</span><div><h2>프라이빗 평가 = 기업의 핵심 IP</h2><p class="sub">"기업은 하나의 AI 벤치마크가 될 것"</p></div></div>
+        <p><b>벤치마크</b>는 모델 성능을 재는 공통 시험이고, <b>평가(eval)</b>는 특정 목적에 맞게 출력을 채점하는 문항·기준·절차 전체입니다. 공개 벤치마크는 문항이 학습 데이터에 섞여 점수가 부풀기 쉽고, 무엇보다 <b>어느 회사의 업무도 아닌</b> 일반 과제를 잽니다.</p>
+        <blockquote><p>모든 기업이 자기만의 비공개 평가 벤치마크를 갖게 되고, 그것이 핵심 IP가 된다. 그리고 모든 모델이 들어와 그 평가에서 힐 클라이밍을 한다. 그것이 기업이 작동하는 방식이다. — 나델라가 "매우 열광한다(gung-ho)"고 한 그림</p></blockquote>
+        <p><b>힐 클라이밍</b>은 지금 위치에서 조금이라도 높아지는 방향으로 한 걸음씩 옮기는 최적화입니다. 공개 벤치마크라는 산은 모두에게 같지만, 프라이빗 평가는 그 기업만의 산이고, 그 지형(무엇이 좋은 결과인가)이 곧 그 기업의 지식입니다.</p>
+        <details class="viz"><summary>그림으로 보기: 모델은 바뀌어도 평가는 남는다</summary><figure>
+          <svg viewBox="0 0 320 250" role="img" aria-label="기업의 프라이빗 평가 위에서 프런티어, 값싼 폐쇄형, 오픈 웨이트 모델이 점수를 겨룬다">
+            <defs><marker id="a4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs>
+            <rect class="bx3" x="12" y="10" width="296" height="92" rx="12"/>
+            <text class="tb" x="160" y="34" text-anchor="middle">기업의 프라이빗 평가 (핵심 IP)</text>
+            <text class="t" x="28" y="58">· 실제 업무에서 뽑은 문항</text><text class="t" x="28" y="77">· 사내 전문가가 정한 채점 기준</text><text class="t" x="28" y="94">· 실패·경계 사례</text>
+            <path class="ln" d="M56 158 L56 106" marker-end="url(#a4)"/><path class="ln" d="M160 158 L160 106" marker-end="url(#a4)"/><path class="ln" d="M264 158 L264 106" marker-end="url(#a4)"/>
+            <text class="tm" x="160" y="136" text-anchor="middle">점수를 끌어올리려 경쟁</text>
+            <rect class="bx" x="8" y="160" width="96" height="44" rx="10"/><text class="t" x="56" y="187" text-anchor="middle">프런티어</text>
+            <rect class="bx" x="112" y="160" width="96" height="44" rx="10"/><text class="t" x="160" y="180" text-anchor="middle">값싼</text><text class="t" x="160" y="197" text-anchor="middle">폐쇄형</text>
+            <rect class="bx" x="216" y="160" width="96" height="44" rx="10"/><text class="t" x="264" y="180" text-anchor="middle">오픈</text><text class="t" x="264" y="197" text-anchor="middle">웨이트</text>
+            <text class="tm" x="160" y="236" text-anchor="middle">교체·협상·검증의 기준은 기업 쪽에 남는다</text>
+          </svg>
+          <figcaption>공개 벤치마크는 모두의 산, 프라이빗 평가는 그 기업만의 산.</figcaption>
+        </figure></details>
+        <h3>왜 평가가 지식재산이 되나 (해설)</h3>
+        <ul>
+          <li><b>모델은 교체 가능해진다.</b> 토큰 대부분이 커모디티가 되면 특정 모델 의존은 경쟁력이 아니다.</li>
+          <li><b>교체 가능한 부품의 시대에는 재는 자가 가치를 갖는다.</b></li>
+          <li><b>평가는 하이에크적 지식의 그릇이다.</b> 조직의 암묵지를 명시적 문항과 기준으로 바꾼다.</li>
+          <li><b>평가는 역정보 역설의 방어선이다.</b> 평가 세트는 사내에 두고 출력만 채점하면 된다.</li>
+          <li><b>평가는 제로 트러스트와 맞물린다.</b> 정책 위반 감지도 "무엇이 정상인가"의 정의가 있어야 가능하다.</li>
+        </ul>
+        <p>지금은 엉뚱해 보이지만 5년 뒤엔 흔해질 것으로 그는 이 평가를 꼽고, 기업이란 무엇인가에 <b>"기업은 하나의 AI 벤치마크가 될 것"</b>이라고 답합니다. 하비·레고라 같은 소수 기업 이야기 아니냐는 질문에는, PC와 엑셀이 퍼지는 데 10년쯤 걸렸고, 500년 된 로이즈도 이제 클라우드 네이티브이며, "AI 네이티브"라는 말도 5년 뒤엔 낡은 말이 될 것이라고 답합니다.</p>
+        <div class="terms"><span class="term">벤치마크</span><span class="term">평가(eval)</span><span class="term">프라이빗 평가</span><span class="term">핵심 IP</span><span class="term">힐 클라이밍</span></div>
+      </section>
+
+      <section class="sec" id="s7">
+        <div class="sec-head"><span class="sec-num">7</span><div><h2>구현 경제와 유니레버</h2><p class="sub">일은 "평가가 무엇인가"에서 시작한다</p></div></div>
+        <p>진행자가 <b>구현 경제</b>라 부른 일에 대해 나델라는, 시스템 통합(SI)은 늘 있었지만 이번엔 윤곽이 다르다고 답합니다. 전통적 경영 컨설팅도, SI도, 기술 지원도 아닌 <b>비즈니스 컨설팅과 기술 컨설팅의 결합</b>입니다. 고객 현장에 상주하는 <b>전진 배치 엔지니어(FDE)</b>가 그 모습이며, 일은 "비즈니스가 무엇인가, 평가가 무엇인가, 에이전트 구조를 어떻게 구상하나"에서 시작합니다.</p>
+        <h3>유니레버 사례</h3>
+        <p>유니레버는 <b>주문-수금(order-to-cash)</b>과 <b>무역 클레임</b> 처리를 에이전트로 자동화했습니다. 처음엔 프런티어 모델로 시작했고, 지금 무역 클레임 업무는 <b>마이크로소프트 MAI 모델로 대체하는 중</b>입니다. 이유는 둘, 비용이 낮고, 자기 트레이스로 학습시킬 수 있어 통제할 수 있다는 것입니다. FDE 지원 뒤에는 사내 IT팀이 운영합니다.</p>
+        <div class="callout warm"><p>전면 교체도, 유니레버 자체 모델도 아닙니다. 특정 업무에 마이크로소프트 모델을 쓰는 사례이고, 마이크로소프트 CEO가 자사 모델 고객을 든 것이라는 점도 감안해 읽을 필요가 있습니다. 큰 모델로 작은 모델을 가르치는 <b>증류</b>와 닿아 있다는 연결은 해설이며, 영상에서 구체적 학습 방식은 설명하지 않습니다.</p></div>
+        <details class="viz"><summary>그림으로 보기: 유니레버 무역 클레임의 흐름</summary><figure>
+          <svg viewBox="0 0 320 270" role="img" aria-label="프런티어 모델로 시작해 트레이스를 쌓고 무역 클레임 업무를 MAI 모델로 대체 중이며 FDE 지원 후 사내 IT팀이 운영">
+            <defs><marker id="a5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs>
+            <rect class="bx" x="40" y="8" width="240" height="44" rx="10"/><text class="t" x="160" y="35" text-anchor="middle">1. 프런티어 모델로 시작</text>
+            <path class="ln" d="M160 52 L160 70" marker-end="url(#a5)"/>
+            <rect class="bx" x="40" y="72" width="240" height="44" rx="10"/><text class="t" x="160" y="99" text-anchor="middle">2. 운영하며 트레이스 축적</text>
+            <path class="ln" d="M160 116 L160 134" marker-end="url(#a5)"/>
+            <rect class="bx2" x="40" y="136" width="240" height="60" rx="10"/><text class="t" x="160" y="160" text-anchor="middle">3. 무역 클레임을 MAI 모델로 대체 중</text><text class="tm" x="160" y="182" text-anchor="middle">비용 ↓ · 통제 ↑</text>
+            <path class="ln" d="M160 196 L160 214" marker-end="url(#a5)"/>
+            <rect class="bx" x="40" y="216" width="240" height="44" rx="10"/><text class="t" x="160" y="243" text-anchor="middle">4. FDE 지원 후 사내 IT팀 운영</text>
+          </svg>
+          <figcaption>업무가 정의되고 트레이스가 쌓이면, 그 업무는 포화된 과제가 된다.</figcaption>
+        </figure></details>
+        <div class="tblw"><table class="tbl">
+          <thead><tr><th>단계 (정리)</th><th>질문</th><th>산출물</th></tr></thead>
+          <tbody>
+            <tr><td><b>업무 정의</b></td><td>어떤 일을 자동화하나</td><td>업무 범위·성공 조건</td></tr>
+            <tr><td><b>평가 설계</b></td><td>무엇이 좋은 결과인가</td><td>프라이빗 평가 세트</td></tr>
+            <tr><td><b>아키텍처</b></td><td>어떤 에이전트·모델 조합인가</td><td>에이전트 구조</td></tr>
+            <tr><td><b>신뢰 장치</b></td><td>어떻게 감시하고 가두나</td><td>신원·로그·정책</td></tr>
+            <tr><td><b>운영·대체</b></td><td>더 싸고 통제 가능한 모델로 옮길 수 있나</td><td>트레이스, 대체 모델</td></tr>
+          </tbody>
+        </table></div>
+        <div class="terms"><span class="term">구현 경제</span><span class="term">전진 배치 엔지니어(FDE)</span><span class="term">주문-수금</span><span class="term">무역 클레임</span><span class="term">MAI 모델</span></div>
+      </section>
+
+      <section class="sec" id="s8">
+        <div class="sec-head"><span class="sec-num">8</span><div><h2>투자·전력·성장</h2><p class="sub">결국 질문은 세계 GDP 성장률</p></div></div>
+        <p>1000억 달러급 학습은 감당 가능한가. 나델라의 답은 회계적입니다. 학습 비용은 <b>R&amp;D 지출의 일정 비율</b>이고, R&amp;D 비중이 큰 회사는 매출의 15~20%를 씁니다. 공급 쪽 전력·실리콘은 <b>리드타임이 긴 품목</b>이라 언제 수급이 맞을지는 추측일 뿐이지만, 손익계산서는 지금과 다르지 않을 것이니 진짜 질문은 <b>세계 GDP 성장률</b>이라는 것입니다.</p>
+        <p>연 2% 안팎의 성장을 AI가 끌어올릴 수 있느냐는 질문에는 "그렇다고 보고, 그렇길 바란다"고 답합니다.</p>
+        <div class="tblw"><table class="tbl">
+          <thead><tr><th>영역</th><th>나델라가 든 근거</th></tr></thead>
+          <tbody>
+            <tr><td><b>의료 (NHS)</b></td><td>Copilot으로 환자 결과가 나아지고 비용이 줄면, 정의상 영국 GDP를 돕는다</td></tr>
+            <tr><td><b>소프트웨어 개발</b></td><td>수요가 탄력적이다. 생산성이 오르자 수요도 늘어, 아무도 몰랐던 IT 백로그가 컸다는 뜻</td></tr>
+            <tr><td><b>지식 노동</b></td><td>코딩은 검증 가능한 보상 위의 RL로 빨리 발전했지만 지식 노동은 더 어렵다. 콜센터·공급망·주문-수금에서 가능성을 보는 중</td></tr>
+            <tr><td><b>과학·공학</b></td><td>반도체 설계: 더 빠른 테이프아웃, 전면 시뮬레이션</td></tr>
+          </tbody>
+        </table></div>
+        <p>AI 도입이 무르익은 곳은 <b>일자리 대체는 가장 적고 이익은 가장 큰</b> 영역이라고 말합니다. 앞으로 10년의 기대로는, 개발경제학자였던 아버지 집안의 화두인 <b>수렴 성장</b>, 곧 글로벌 사우스가 도약할 계기가 이 범용 기술이기를 바란다고 답합니다.</p>
+        <div class="terms"><span class="term">R&amp;D 비율</span><span class="term">리드타임</span><span class="term">탄력적 수요</span><span class="term">검증 가능한 보상</span><span class="term">수렴 성장</span></div>
+      </section>
+
+      <section class="sec" id="s9">
+        <div class="sec-head"><span class="sec-num">9</span><div><h2>비판적으로 읽기</h2><p class="sub">이 정리의 해석과 남는 질문</p></div></div>
+        <ul>
+          <li><b>화자의 이해관계</b>: 마이크로소프트는 에이전트 관리·보안 제품을 팔고, MAI를 라이선스하며, 여러 모델을 고르게 해 주는 플랫폼 사업을 한다. "모델은 부품, 신뢰는 플랫폼, 기업은 평가로 고른다"는 그림은 그 사업 구조와 맞아떨어진다.</li>
+          <li><b>평가는 만들기 어렵다</b>: 현장 전문가의 시간이 들고 업무가 바뀌면 고쳐야 한다. 점수만 좇으면 <b>굿하트의 법칙</b>이 사내에서 재현될 수 있다.</li>
+          <li><b>평가만으로 유출이 막히지 않는다</b>: 여러 모델을 시험하려면 문항을 모델에 보내야 한다. 계약·데이터 보존 정책·로컬 실행이 함께 따라와야 한다.</li>
+          <li><b>격리는 안전의 대체물이 아니다</b>: 정책이 미리 정의하지 못한 행동은 걸러지지 않고, CoT 점검도 불성실한 CoT라는 한계를 안는다.</li>
+        </ul>
+        <div class="tblw"><table class="tbl">
+          <thead><tr><th>주장</th><th>강점</th><th>남는 질문</th></tr></thead>
+          <tbody>
+            <tr><td><b>모델 바깥의 제로 트러스트</b></td><td>정렬 미해결 상태에서도 즉시 적용</td><td>예상 못 한 행동, 불성실한 CoT</td></tr>
+            <tr><td><b>토큰의 커모디티화</b></td><td>과제 포화와 가격 경쟁</td><td>프런티어 격차가 다시 벌어지면?</td></tr>
+            <tr><td><b>역정보 역설</b></td><td>사용 흔적의 가치 이전을 짚음</td><td>계약·기술적 보호 장치가 실제로 있나</td></tr>
+            <tr><td><b>프라이빗 평가 = IP</b></td><td>교체 가능한 모델 시대의 협상력</td><td>만들기 어렵고 굿하트의 법칙 위험</td></tr>
+            <tr><td><b>수평 분업</b></td><td>층마다 경쟁 증가와 부합</td><td>지배적 설계가 나오면 다시 통합될 수도</td></tr>
+          </tbody>
+        </table></div>
+        <div class="terms"><span class="term">이해관계</span><span class="term">굿하트의 법칙</span><span class="term">문항 노출</span><span class="term">격리의 한계</span></div>
+      </section>
+
+      <section class="sec" id="rv">
+        <div class="sec-head"><span class="sec-num">✔</span><div><h2>복습</h2><p class="sub">용어 카드 · 빈칸 · 5문항 퀴즈</p></div></div>
+
+        <h3 class="rv-h">핵심 용어 카드</h3>
+        <div class="flips">
+          <button type="button" class="flip" aria-expanded="false"><b>정렬 (alignment)</b><span class="hint">뜻 보기</span><span class="m">모델이 인간의 의도와 가치에 맞게 행동하는 성질. 나델라는 규모를 키워도 저절로 따라오지 않는다고 본다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>제로 트러스트</b><span class="hint">뜻 보기</span><span class="m">어떤 주체도 기본적으로 믿지 않고 신원 확인·최소 권한·전면 기록·감시로 통제하는 보안 원칙. 나델라는 이를 AI 에이전트에 적용한다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>불성실한 CoT</b><span class="hint">뜻 보기</span><span class="m">겉으로 쓴 사고 과정이 실제 답을 낳은 내부 계산과 다를 수 있다는 문제. 이를 이유로 CoT를 숨기면 더 나빠진다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>라이선스 가중치</b><span class="hint">뜻 보기</span><span class="m">공개하지 않고 계약으로 가중치를 제공하는 방식. 마이크로소프트가 MAI 모델에 쓰려는 형태로, "단순한 소프트웨어 사업"을 지향한다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>과제의 포화</b><span class="hint">뜻 보기</span><span class="m">업무가 이미 충분히 풀려 최신 모델이 필요 없어지는 상태. 모델의 발전이 멈춘다는 뜻이 아니다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>커모디티 토큰</b><span class="hint">뜻 보기</span><span class="m">가격 경쟁이 치열한 범용 상품이 된 토큰 사용. 나델라는 토큰 사용량 대부분이 여기에 해당하게 된다고 본다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>역정보 역설</b><span class="hint">뜻 보기</span><span class="m">AI를 쓰는 구매자의 데이터와 사용 흔적이 모델 회사의 가치가 되어, 이번엔 구매자가 보호받아야 한다는 나델라의 개념.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>프라이빗 평가</b><span class="hint">뜻 보기</span><span class="m">기업이 자기 업무 기준으로 만든 비공개 평가 벤치마크. 나델라는 이것이 기업의 핵심 IP가 된다고 말한다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>전진 배치 엔지니어 (FDE)</b><span class="hint">뜻 보기</span><span class="m">고객 현장에 상주하며 비즈니스와 기술을 함께 컨설팅하는 엔지니어. 나델라는 전통적 SI가 이런 형태로 바뀐다고 본다.</span></button>
+        </div>
+        <div class="rv-tools"><button type="button" data-all="flip">모두 뒤집기</button><button type="button" data-reset="flip">모두 접기</button></div>
+
+        <h3 class="rv-h">빈칸 채우기</h3>
+        <ol class="cloze">
+          <li>나델라는 예전에 정렬이 능력과 함께 저절로 따라 나온다고 믿었지만, 이제는 정렬이 주로 <button type="button" class="blank" data-a="사전학습" aria-label="빈칸, 눌러서 답 보기">?</button> 단계부터 가중치에 새겨져야 한다고 본다.</li>
+          <li>Agent 365는 모든 에이전트에 <button type="button" class="blank" data-a="신원(ID)" aria-label="빈칸, 눌러서 답 보기">?</button>을 주고 활동·도구 호출·모델 호출·CoT를 기록한다.</li>
+          <li>CoT는 뉴럴리즈가 아니라 <button type="button" class="blank" data-a="영어" aria-label="빈칸, 눌러서 답 보기">?</button>로 남겨야 여러 모델로 교차 점검할 수 있다.</li>
+          <li>나델라에 따르면 포화되는 것은 모델의 발전 곡선이 아니라 <button type="button" class="blank" data-a="과제" aria-label="빈칸, 눌러서 답 보기">?</button>다.</li>
+          <li>사용 과정에서 나오는 엄지 위·아래 신호 같은 부산물을 나델라는 <button type="button" class="blank" data-a="배기가스(exhaust)" aria-label="빈칸, 눌러서 답 보기">?</button>라고 부른다.</li>
+          <li>나델라는 지식을 가중치뿐 아니라 컨텍스트와 <button type="button" class="blank" data-a="평가(evals)" aria-label="빈칸, 눌러서 답 보기">?</button>에도 담을 수 있다고 말한다.</li>
+          <li>유니레버는 무역 클레임 업무를 <button type="button" class="blank" data-a="MAI 모델" aria-label="빈칸, 눌러서 답 보기">?</button>로 대체하는 중이다.</li>
+        </ol>
+        <div class="rv-tools"><button type="button" data-all="blank">답 모두 보기</button><button type="button" data-reset="blank">빈칸 다시 가리기</button></div>
+
+        <h3 class="rv-h">5문항 퀴즈</h3>
+        <div id="quiz">
+          <div class="q" data-a="1"><fieldset><legend class="qt">1. 나델라가 지난 12개월 사이 바꾼 생각은?</legend>
+            <button type="button">스케일링 법칙이 더는 작동하지 않는다</button>
+            <button type="button">정렬은 규모를 키우면 저절로 따라온다는 믿음</button>
+            <button type="button">오픈 웨이트 모델이 폐쇄형보다 강력하다</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="스케일링은 여전히 작동하지만, 정렬은 저절로 따라 나오지 않고 더 어렵고 다른 문제일 수 있다고 봅니다."></p></div>
+          <div class="q" data-a="2"><fieldset><legend class="qt">2. CoT에 대해 나델라가 문제 삼은 것은?</legend>
+            <button type="button">모델 회사가 로그를 조작해 오류를 숨기는 것</button>
+            <button type="button">투명성을 시장 표준으로 강제하지 않는 것</button>
+            <button type="button">CoT가 불성실할 수 있는데, 그걸 이유로 숨기면 더 나빠진다는 것</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="로그 조작이나 표준 강제 이야기는 영상에 없습니다. 그는 신뢰받는 파트너에게 CoT를 가공 없이 제공하라고 요구합니다."></p></div>
+          <div class="q" data-a="0"><fieldset><legend class="qt">3. "대부분의 일은 포화된다"의 뜻에 가장 가까운 것은?</legend>
+            <button type="button">과제가 충분히 풀리면, 자기 트레이스로 학습한 값싼 모델로도 족하다</button>
+            <button type="button">모델의 성능 향상 곡선이 곧 멈춘다</button>
+            <button type="button">프런티어 모델 시장은 사라진다</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="포화되는 것은 과제입니다. 기준이 계속 오르는 일에는 프런티어 시장이 늘 남고, 다음 프런티어는 과학일 수 있습니다."></p></div>
+          <div class="q" data-a="1"><fieldset><legend class="qt">4. '역정보 역설'에서 보호가 필요한 쪽은?</legend>
+            <button type="button">정보를 파는 판매자</button>
+            <button type="button">AI를 쓰며 데이터와 사용 흔적을 넘기는 구매자(기업)</button>
+            <button type="button">특허를 가진 연구자</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="애로의 역설에서는 판매자가 위험했지만, 이번엔 처음으로 구매자가 보호받아야 하고 잉여가 기업에 남아야 한다고 봅니다."></p></div>
+          <div class="q" data-a="2"><fieldset><legend class="qt">5. 유니레버 사례에 대한 정확한 설명은?</legend>
+            <button type="button">비싼 모델을 모두 빼고 자체 개발 모델로 전면 교체했다</button>
+            <button type="button">수만 개 정답지로 작은 오픈 모델을 증류했다</button>
+            <button type="button">무역 클레임 업무를 마이크로소프트 MAI 모델로 대체하는 중이다</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="이유는 낮은 비용과, 자기 트레이스로 학습시킬 수 있어 통제 가능하다는 점입니다. 전면 교체·자체 모델·증류 수치는 영상에 없습니다."></p></div>
+          <p class="score" id="score" aria-live="polite">점수: 0 / 5</p>
+          <div class="rv-tools"><button type="button" id="qreset">다시 풀기</button></div>
+        </div>
+      </section>
+
+      <section class="sources">
+        <h3>출처</h3>
+        <ul>
+          <li>원 영상: 「Satya Nadella: Whether to Trust Frontier Models | Why Companies Need to Own Their Own Intelligence」, 20VC (진행 Harry Stebbings) — <a href="https://youtu.be/24XUcWhqY_4" rel="noopener">YouTube ↗</a></li>
+          <li>심화 해설 전문: <a href="https://yghnsim.github.io/Pages/articles/nadella_trust_architecture_private_evals.html">Pages — 믿지 않고 쓰는 법, 새지 않게 쌓는 법</a></li>
+        </ul>
+      </section>
+    </main>
+  </div>
+</div>
+
+<script>(function(){
+function $$(q){return [].slice.call(document.querySelectorAll(q))}
+$$('.flip').forEach(function(b){b.onclick=function(){b.setAttribute('aria-expanded',b.getAttribute('aria-expanded')==='true'?'false':'true')}});
+function show(b){b.textContent=b.dataset.a;b.classList.add('shown');b.setAttribute('aria-label','답: '+b.dataset.a)}
+function hide(b){b.textContent='?';b.classList.remove('shown');b.setAttribute('aria-label','빈칸, 눌러서 답 보기')}
+$$('.blank').forEach(function(b){b.onclick=function(){show(b)}});
+$$('[data-all]').forEach(function(t){t.onclick=function(){if(t.dataset.all==='flip')$$('.flip').forEach(function(b){b.setAttribute('aria-expanded','true')});else $$('.blank').forEach(show)}});
+$$('[data-reset]').forEach(function(t){t.onclick=function(){if(t.dataset.reset==='flip')$$('.flip').forEach(function(b){b.setAttribute('aria-expanded','false')});else $$('.blank').forEach(hide)}});
+var sc=0,done=0,qs=$$('#quiz .q'),tot=qs.length||5;
+function upd(){var el=document.getElementById('score');if(el)el.textContent='점수: '+sc+' / '+tot+(done===tot?' (끝)':'')}
+qs.forEach(function(q){var bs=[].slice.call(q.querySelectorAll('fieldset button')),ex=q.querySelector('.ex');
+bs.forEach(function(b,i){b.onclick=function(){var a=+q.dataset.a,ok=i===a;bs.forEach(function(x){x.disabled=true});if(bs[a])bs[a].classList.add('right');if(!ok)b.classList.add('wrong');
+if(ex){ex.hidden=false;ex.textContent=(ok?'맞았습니다. ':'아쉽습니다. ')+ex.dataset.e;}if(ok)sc++;done++;upd();}})});
+var qr=document.getElementById('qreset');
+if(qr)qr.onclick=function(){sc=0;done=0;qs.forEach(function(q){q.querySelectorAll('fieldset button').forEach(function(x){x.disabled=false;x.className=''});var ex=q.querySelector('.ex');if(ex){ex.hidden=true;ex.textContent=''}});upd()};
+})();</script>
+
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">요약 아카이브</div><div class="arc-foot-title">믿지 않고 쓰는 법, 새지 않게 쌓는 법 — 사티아 나델라의 신뢰 아키텍처와 &#x27;프라이빗 평가&#x27;라는 새 지식재산</div><div class="arc-foot-meta"><time datetime="2026-10-28">2026년 10월 28일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=%EA%B2%BD%EC%A0%9C%EA%B2%BD%EC%98%81">#경제경영</a><a class="arc-tag" href="../index.html#tags=AI%EC%95%88%EC%A0%84">#AI안전</a><a class="arc-tag" href="../index.html#tags=%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8">#에이전트</a><a class="arc-tag" href="../index.html#tags=%EC%9A%94%EC%95%BD">#요약</a> · <a href="https://youtu.be/24XUcWhqY_4" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body>
+</html>
