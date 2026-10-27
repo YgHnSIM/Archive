@@ -49,6 +49,11 @@ header p{margin:4px 0 0;color:var(--muted);font-size:15px}
 .chip .n{font-size:12px;opacity:.65}
 .chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);font-weight:600}
 .chip[aria-pressed="true"] .n{opacity:.85}
+.chip-toggle{border:1px dashed var(--line);background:transparent;color:var(--muted);font-weight:500}
+.chip-toggle:hover{border-color:var(--accent);color:var(--ink);background:var(--card)}
+.tags.is-expanded{max-height:280px;overflow-y:auto;padding-right:4px}
+.tags.is-expanded::-webkit-scrollbar{width:6px}
+.tags.is-expanded::-webkit-scrollbar-thumb{background:var(--line);border-radius:4px}
 .status{margin:14px 0 4px;color:var(--muted);font-size:14px}
 .list{list-style:none;margin:8px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);
@@ -74,6 +79,7 @@ footer code{font-size:12px;display:inline-block;word-break:normal;overflow-wrap:
   .controls{padding-top:12px}
   .tags{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:4px;margin-right:-20px;padding-right:20px;scrollbar-width:none}
   .tags::-webkit-scrollbar{display:none}
+  .tags.is-expanded{flex-wrap:wrap;overflow-x:visible;overflow-y:auto;max-height:260px;margin-right:0;padding-right:0}
   .chip{flex:0 0 auto;min-height:40px}
   .btn .long{display:none}
 }
@@ -115,7 +121,7 @@ footer code{font-size:12px;display:inline-block;word-break:normal;overflow-wrap:
   "use strict";
   var DATA = Array.isArray(window.ARCHIVE_CATALOG) ? window.ARCHIVE_CATALOG : null;
   var $ = function(id){ return document.getElementById(id); };
-  var state = { q: "", tags: [], order: "desc" };
+  var state = { q: "", tags: [], order: "desc", tagsExpanded: false };
 
   function norm(s){ return String(s == null ? "" : s).normalize("NFC").toLocaleLowerCase("ko-KR"); }
   function pageHref(file){
@@ -183,15 +189,55 @@ footer code{font-size:12px;display:inline-block;word-break:normal;overflow-wrap:
     b.addEventListener("click", onClick);
     return b;
   }
+  var TAG_LIMIT = 12;
   function renderTags(){
     var box = $("tags"); box.textContent = "";
+    box.classList.toggle("is-expanded", !!state.tagsExpanded);
     box.appendChild(makeChip("전체", DATA.length, state.tags.length === 0, function(){ state.tags = []; update(); }));
-    allTags.forEach(function(t){
+
+    var canFold = allTags.length > TAG_LIMIT + 2;
+    var tagsToShow;
+    if (canFold && !state.tagsExpanded) {
+      tagsToShow = allTags.slice(0, TAG_LIMIT);
+      state.tags.forEach(function(t){
+        if (tagsToShow.indexOf(t) === -1 && allTags.indexOf(t) !== -1) tagsToShow.push(t);
+      });
+    } else {
+      tagsToShow = allTags;
+    }
+
+    tagsToShow.forEach(function(t){
       var on = state.tags.indexOf(t) !== -1;
       var c = makeChip(t, tagCount[t], on, function(){ toggleTag(t); });
       c.dataset.tag = t;
       box.appendChild(c);
     });
+
+    if (canFold) {
+      var toggleBtn = el("button", "chip chip-toggle");
+      toggleBtn.type = "button";
+      if (!state.tagsExpanded) {
+        var hiddenCount = allTags.length - tagsToShow.length;
+        toggleBtn.setAttribute("aria-expanded", "false");
+        toggleBtn.setAttribute("aria-label", "태그 더보기 (숨겨진 태그 " + hiddenCount + "개 펼치기)");
+        toggleBtn.appendChild(document.createTextNode("+ 더보기 "));
+        toggleBtn.appendChild(el("span", "n", "(" + hiddenCount + "개) ▾"));
+        toggleBtn.addEventListener("click", function(){
+          state.tagsExpanded = true;
+          renderTags();
+        });
+      } else {
+        toggleBtn.setAttribute("aria-expanded", "true");
+        toggleBtn.setAttribute("aria-label", "태그 접기");
+        toggleBtn.appendChild(document.createTextNode("접기 "));
+        toggleBtn.appendChild(el("span", "n", "▴"));
+        toggleBtn.addEventListener("click", function(){
+          state.tagsExpanded = false;
+          renderTags();
+        });
+      }
+      box.appendChild(toggleBtn);
+    }
   }
   function toggleTag(t){
     var i = state.tags.indexOf(t);
