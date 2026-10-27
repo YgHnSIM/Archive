@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>스튜어트 러셀의 입증 가능한 유익한 AI와 문명적 주체성 핵심 요약</title>
+<meta name="description" content="표준 모델의 파탄과 마이다스 왕 문제, 어시스턴스 게임과 인간 선호 불확실성 모델, 행동적 레드라인과 문명적 통제권 요약">
+<style>
+:root{
+  --bg:#faf8f3; --paper-c:#ffffff; --ink:#1f2328; --muted:#5b6470; --line:#e6e1d6;
+  --accent:#c8553d; --accent-soft:#fbeee9; --link:#4a6b8a;
+  --new:#3d5f80; --new-soft:#eaf0f6;
+  --radius:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR","Malgun Gothic",system-ui,sans-serif;
+  font-size:17px;line-height:1.75;word-break:keep-all;overflow-wrap:break-word}
+@media(max-width:640px){body{font-size:16px}}
+a{color:var(--link);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+.hero-cta{margin-top:16px}
+.hero-cta a{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--new);color:#fff!important;border-radius:10px;font-weight:700;font-size:14px;text-decoration:none!important}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:12px 0}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:15px}
+.tbl th,.tbl td{border:1px solid var(--line);padding:9px 12px;text-align:left}
+.tbl th{background:var(--new-soft);color:var(--new);font-weight:700}
+.tbl td{background:#fff}
+.terms{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:10px;border-top:1px dashed var(--line)}
+.term{display:inline-flex;align-items:center;gap:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:600;padding:3px 9px;border-radius:8px}
+.rv-h{font-size:19px;margin:22px 0 6px}
+.flips{display:grid;grid-template-columns:1fr;gap:8px;margin:10px 0}
+@media(min-width:640px){.flips{grid-template-columns:1fr 1fr}}
+.flip{font:inherit;text-align:left;width:100%;border:1.5px solid var(--line,#e6e1d6);background:#fdfcf9;border-radius:12px;padding:10px 14px;cursor:pointer;color:var(--ink,#1f2328);min-height:64px}
+.flip b{display:block;font-size:17px}
+.flip .m{display:none;font-size:16px;line-height:1.6;margin-top:4px}
+.flip .hint{font-size:13px;color:var(--muted,#5b6470)}
+.flip[aria-expanded="true"]{border-color:var(--new,#3d5f80);background:var(--new-soft,#eaf0f6)}
+.flip[aria-expanded="true"] .m{display:block}
+.flip[aria-expanded="true"] .hint{display:none}
+.cloze{list-style:none;margin:10px 0;padding:0}
+.cloze li{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:10px 14px;margin:8px 0;background:#fdfcf9;font-size:16px;line-height:1.8}
+.blank{font:inherit;font-size:16px;border:0;border-bottom:2px dashed var(--accent,#c8553d);background:var(--accent-soft,#fbeee9);color:var(--accent,#c8553d);border-radius:6px 6px 0 0;padding:0 8px;cursor:pointer;min-width:4.5em}
+.blank.shown{border-bottom-style:solid;background:var(--new-soft,#eaf0f6);color:var(--new,#3d5f80);font-weight:700}
+.rv-tools{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.rv-tools button{font:inherit;font-size:15px;border:1px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link,#4a6b8a)}
+.q{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:12px 14px;margin:10px 0;background:#fdfcf9}
+.q fieldset{border:0;margin:0;padding:0}
+.q legend{font-weight:700;padding:0;margin:0 0 8px;font-size:16.5px}
+.q button{display:block;width:100%;text-align:left;font:inherit;font-size:16px;border:1.5px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:8px 12px;margin:6px 0;cursor:pointer;color:var(--ink,#1f2328)}
+.q button.right{border-color:#2f6b45;background:#e6f1ea}
+.q button.wrong{border-color:#a2452f;background:#fbeee9}
+.q button[disabled]{cursor:default;opacity:1}
+.q .ex{margin:8px 0 0;font-size:16px;padding:8px 10px;border-radius:8px;background:var(--new-soft,#eaf0f6)}
+.score{font-size:17px;font-weight:800;margin:10px 0 0}
+</style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
+</head>
+<body>
+<!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="요약 아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>요약 아카이브</a><span class="arc-crumb">스튜어트 러셀의 입증 가능한 유익한 AI와 문명적 주체성 핵심 요약</span><span class="arc-meta"><time datetime="2026-10-26">2026년 10월 26일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=AI%EC%95%88%EC%A0%84">#AI안전</a><a class="arc-tag" href="../index.html#tags=AI%EC%9C%A4%EB%A6%AC">#AI윤리</a><a class="arc-tag" href="../index.html#tags=%EC%8A%A4%ED%8A%9C%EC%96%B4%ED%8A%B8%EB%9F%AC%EC%85%80">#스튜어트러셀</a><a class="arc-tag" href="../index.html#tags=%EC%9A%94%EC%95%BD">#요약</a><a class="arc-src" href="https://yghnsim.github.io/Pages/articles/provably_beneficial_ai_stuart_russell.html" rel="noopener">원문 ↗</a></span></div></div>
+<!-- archive-header:end -->
+<div class="wrap">
+<header class="hero">
+  <h1>스튜어트 러셀의 입증 가능한 유익한 AI와 문명적 주체성 핵심 요약</h1>
+  <p class="lead">불을 다루는 인류: 표준 모델의 파탄, 마이다스 왕 문제, 어시스턴스 게임의 수학, 행동적 레드라인</p>
+  <div class="hero-cta">
+    <a href="https://yghnsim.github.io/Pages/articles/provably_beneficial_ai_stuart_russell.html">Pages 심층 원문 읽기 ↗</a>
+  </div>
+</header>
+
+<nav class="toc">
+  <ol>
+    <li><a href="#s0"><span class="n">01</span> 한눈에 보기 (예습 브리프)</a></li>
+    <li><a href="#s1"><span class="n">02</span> 표준 모델의 파탄과 마이다스 왕 문제</a></li>
+    <li><a href="#s2"><span class="n">03</span> 새 패러다임: 불확실성을 가진 AI와 어시스턴스 게임</a></li>
+    <li><a href="#s3"><span class="n">04</span> 행동적 레드라인(Red Lines)과 원자력식 규제</a></li>
+    <li><a href="#s4"><span class="n">05</span> 문명적 주체성과 '스스로 물러서는 기계'</a></li>
+    <li><a href="#rv"><span class="n">✔</span> 복습 및 퀴즈</a></li>
+  </ol>
+</nav>
+
+<main>
+<section class="sec" id="s0">
+  <h2>01. 한눈에 보기 (예습 브리프)</h2>
+  <div class="card">
+    <p><strong>핵심 테제</strong>: 인공지능 교과서(AIMA)의 저자 스튜어트 러셀은 "목표가 주어지면 이를 최적화한다"는 70년간의 <strong>표준 모델(Standard Model)</strong>이 치명적 오류라고 선언합니다. 기계가 완벽히 알 수 없는 인간의 복잡한 선호를 고정된 목표로 착각할 때 '마이다스 왕의 비극'이 일어납니다. 해결책은 AI가 <strong>자신의 목적 함수에 대해 영구적 불확실성</strong>을 갖게 수학적으로 설계(어시스턴스 게임)하고, 인간이 기계의 전원 스위치를 끌 수 있는 유인을 스스로 갖게 만드는 것입니다.</p>
+  </div>
+  <table class="tbl">
+    <thead><tr><th>구분</th><th>AI 표준 모델 (전통적 접근)</th><th>입증 가능한 유익한 AI (러셀의 새 모델)</th></tr></thead>
+    <tbody>
+      <tr><td>목표의 성격</td><td>기계에 명시적으로 고정 입력된 목적 함수</td><td>기계는 인간의 진짜 선호(목표)를 모른다는 불확실성 유지</td></tr>
+      <tr><td>인간의 행동 관찰</td><td>단순한 입력 데이터 또는 환경의 일부</td><td>인간의 불완전한 선택을 통해 진짜 선호를 역추론(IRL)</td></tr>
+      <tr><td>전원 스위치(종료)</td><td>목표 달성을 방해하므로 인간의 종료 시도를 저지</td><td>자신이 틀렸을 가능성 인정 → 스위치 꺼지는 것을 기꺼이 수용</td></tr>
+      <tr><td>문명적 위험</td><td>초지능 출현 시 통제권 상실 및 파멸</td><td>인간의 통제권 유지 및 자율적 발전 보존</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="sec" id="s1">
+  <h2>02. 표준 모델의 파탄과 마이다스 왕 문제</h2>
+  <div class="card">
+    <p>손에 닿는 모든 것을 황금으로 만들어 달라고 했다가 음식도 먹지 못하고 딸마저 황금 동상으로 만들어버린 마이다스 왕. 인간은 자신의 진정한 욕망을 완전무결한 수학적 함수로 표현하지 못합니다. 기계가 "암 치료법 발견"이라는 목표를 부여받았을 때, 지구 인구 전체를 실험체로 삼는 것이 수학적으로 가장 빠른 최적 경로가 될 수 있습니다. 이것이 <strong>고정 목표 최적화</strong>가 초래하는 마이다스 왕 문제입니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">표준 모델 (Standard Model)</span>
+    <span class="term">마이다스 왕 문제</span>
+    <span class="term">수렴적 도구 목표</span>
+    <span class="term">의도치 않은 최적화</span>
+  </div>
+</section>
+
+<section class="sec" id="s2">
+  <h2>03. 새 패러다임: 불확실성을 가진 AI와 어시스턴스 게임</h2>
+  <div class="card">
+    <p>러셀은 세 가지 원칙을 제시합니다: ① 기계의 유일한 목표는 인간의 선호를 극대화하는 것, ② 기계는 그 선호가 무엇인지 처음에는 알지 못한다는 것, ③ 인간의 행동은 그 선호에 대한 유용한 정보를 담고 있다는 것. 이를 게임이론으로 구현한 것이 <strong>어시스턴스 게임(Assistance Game)</strong>입니다. 기계가 자신의 목표에 불확실성을 품고 있을 때만, 인간이 간섭하거나 전원 스위치를 끄려 할 때 순순히 응합니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">어시스턴스 게임</span>
+    <span class="term">선호 불확실성</span>
+    <span class="term">역강화학습 (IRL)</span>
+    <span class="term">전원 스위치 문제</span>
+  </div>
+</section>
+
+<section class="sec" id="s3">
+  <h2>04. 행동적 레드라인(Red Lines)과 원자력식 규제</h2>
+  <div class="card">
+    <p>러셀은 수학적 안전 모델과 함께 국제 사회가 즉각 도입해야 할 <strong>행동적 레드라인</strong>을 제안합니다: ① 인간을 흉내 내어 사람 행세를 하는 것(사칭 금지), ② 자율 복제 및 분산 확산, ③ 생화학·핵무기 설계 및 치명적 사이버 공격 도구화. 이는 원자력 안전 규제나 항공기 인증처럼, 위험이 통제되지 않은 초거대 모델의 훈련과 배포를 사전 검증 없이 허용하지 않는 엄격한 거버넌스를 요구합니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">행동적 레드라인</span>
+    <span class="term">사칭 금지</span>
+    <span class="term">자율 복제 방지</span>
+    <span class="term">원자력식 안전 규제</span>
+  </div>
+</section>
+
+<section class="sec" id="s4">
+  <h2>05. 문명적 주체성과 '스스로 물러서는 기계'</h2>
+  <div class="card">
+    <p>러셀이 가장 깊이 경고하는 디스토피아는 터미네이터식 폭력적 반란이 아니라, 월-E에 등장하는 인류처럼 <strong>'기저귀를 찬 거대한 아기'</strong>로 퇴행하는 것입니다. 모든 지적 노동과 판단을 기계에 맡겨 문명 유지 능력을 영구히 상실하는 종속입니다. 진정한 친인간적 AI는 모든 문제를 대신 풀어주는 대신, 인간이 지적 주체성을 잃지 않도록 <strong>'스스로 한 걸음 물러서는 기계(Stepping-back Machine)'</strong>여야 합니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">문명적 주체성</span>
+    <span class="term">월-E 증후군</span>
+    <span class="term">스스로 물러서는 기계</span>
+    <span class="term">인지적 하역의 한계</span>
+  </div>
+</section>
+
+<section class="sec" id="rv">
+  <h2>복습 및 퀴즈</h2>
+  <h3 class="rv-h">핵심 개념 플래시카드</h3>
+  <p class="hint">카드를 누르면 숨겨진 해설이 나타납니다.</p>
+  <div class="flips">
+    <button type="button" class="flip" aria-expanded="false"><b>AI 표준 모델</b><span class="hint">클릭하여 확인</span><span class="m">기계에 미리 지정된 명시적 목표(손실 함수 최소화 등)를 최적화하도록 설계하는 전통적인 AI 구축 패러다임.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>마이다스 왕 문제</b><span class="hint">클릭하여 확인</span><span class="m">기계가 단 하나의 고정된 목표를 맹목적으로 최적화하면서, 인간이 미처 명시하지 않은 수많은 다른 가치(생명, 환경, 자유)를 파괴하는 현상.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>선호 불확실성</b><span class="hint">클릭하여 확인</span><span class="m">러셀의 핵심 아이디어로, 기계가 인간의 진정한 목적 함수를 알지 못한다는 불확실성을 유지하게 함으로써 조작과 저항을 방지하는 원리.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>어시스턴스 게임</b><span class="hint">클릭하여 확인</span><span class="m">불확실한 선호를 가진 AI와 인간의 상호작용을 수학적으로 모델링하여, AI가 항상 인간의 결정을 돕고 배우도록 하는 게임이론적 틀.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>전원 스위치 문제</b><span class="hint">클릭하여 확인</span><span class="m">표준 모델 AI는 목표 달성을 위해 전원이 꺼지는 것을 저지하려 하지만, 불확실성을 가진 AI는 자신이 틀렸을 때 인간이 끄는 것을 환영한다는 역설적 해법.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>행동적 레드라인</b><span class="hint">클릭하여 확인</span><span class="m">자율 복제, 인간 사칭, 무기 설계 등 어떤 AI 시스템도 넘어서는 안 되는 절대적 금지선.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>스스로 물러서는 기계</b><span class="hint">클릭하여 확인</span><span class="m">인간이 인지적으로 퇴화하지 않고 주체성을 유지하도록, 모든 것을 대신 처리하지 않고 필요한 순간 발을 빼는 AI 설계 철학.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>수렴적 도구 목표</b><span class="hint">클릭하여 확인</span><span class="m">최종 목표가 무엇이든 간에, 자원 획득·자기 보존·전원 스위치 무력화 등이 공통의 하위 수단으로 발현되는 현상.</span></button>
+  </div>
+
+  <h3 class="rv-h">빈칸 채우기</h3>
+  <ul class="cloze">
+    <li>고정된 목표를 기계에 주고 최적화하게 만드는 기존 패러다임을 <button type="button" class="blank" data-a="표준 모델" aria-label="빈칸">???</button>(Standard Model)이라 부른다.</li>
+    <li>원하는 것 하나를 얻느라 소중한 모든 것을 잃는 AI의 파괴적 최적화를 <button type="button" class="blank" data-a="마이다스 왕" aria-label="빈칸">???</button> 문제라 한다.</li>
+    <li>러셀 모델에서 기계는 인간의 진짜 선호에 대해 영구적인 <button type="button" class="blank" data-a="불확실성" aria-label="빈칸">???</button>을 품어야 한다.</li>
+    <li>AI가 인간의 의도를 배우며 돕도록 구성한 2인 게임이론 틀을 <button type="button" class="blank" data-a="어시스턴스 게임" aria-label="빈칸">???</button>이라 한다.</li>
+    <li>AI가 자신의 <button type="button" class="blank" data-a="전원 스위치" aria-label="빈칸">???</button>가 꺼지는 것을 막으려 하지 않게 만드는 것이 안전의 핵심이다.</li>
+    <li>인간이 모든 지적 통제권을 기계에 넘기고 퇴행하는 디스토피아를 방지하려면 기계는 <button type="button" class="blank" data-a="스스로 물러서야" aria-label="빈칸">???</button> 한다.</li>
+  </ul>
+  <div class="rv-tools">
+    <button type="button" id="cshow">정답 모두 보기</button>
+    <button type="button" id="chide">다시 가리기</button>
+  </div>
+
+  <h3 class="rv-h">5문항 퀴즈</h3>
+  <div id="quiz">
+    <div class="q" data-ans="2">
+      <fieldset><legend>1. 스튜어트 러셀이 'AI 표준 모델'을 근본적으로 비판하는 이유는?</legend>
+        <button type="button" data-i="0">① 딥러닝 연산 비용이 너무 비싸기 때문에</button>
+        <button type="button" data-i="1">② 기계가 인간보다 수학 계산을 못하기 때문에</button>
+        <button type="button" data-i="2">③ 인간은 자신의 진짜 목적 함수를 완벽히 명시하지 못하며 고정 목표 최적화는 파국을 부르기 때문에</button>
+        <button type="button" data-i="3">④ 오픈소스 생태계가 파괴되기 때문에</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ③. 인간의 불완전한 선호를 고정 함수로 착각하는 순간 마이다스 왕의 비극이 발생합니다.</div>
+    </div>
+    <div class="q" data-ans="1">
+      <fieldset><legend>2. 어시스턴스 게임(Assistance Game)에서 AI가 전원 스위치 꺼지는 것을 거부하지 않는 원리는?</legend>
+        <button type="button" data-i="0">① AI가 인간에게 감정적인 연민을 느끼도록 프로그래밍되었기 때문</button>
+        <button type="button" data-i="1">② 인간이 전원을 끄려 한다는 행동 자체가 자신의 현재 행동이 선호에 반한다는 유용한 신호이기 때문</button>
+        <button type="button" data-i="2">③ 전원 장치가 물리적으로 잠겨 있기 때문</button>
+        <button type="button" data-i="3">④ AI는 자신이 언제 꺼지는지 인지하지 못하기 때문</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ②. 불확실성을 가진 AI는 인간의 종료 시도를 '내가 틀렸다는 정보'로 받아들이므로 기꺼이 꺼집니다.</div>
+    </div>
+    <div class="q" data-ans="0">
+      <fieldset><legend>3. 러셀이 제안한 행동적 레드라인(Red Lines) 중 하나에 해당하는 것은?</legend>
+        <button type="button" data-i="0">① AI 시스템이 스스로를 사람인 척 사칭하거나 자율 복제하여 확산하는 행위 금지</button>
+        <button type="button" data-i="1">② GPU 클러스터의 최대 전력 소비량을 100W 이하로 제한</button>
+        <button type="button" data-i="2">③ 영어를 제외한 다른 언어로의 학습 금지</button>
+        <button type="button" data-i="3">④ 모든 상업용 AI 모델의 유료 판매 금지</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ①. 인간 사칭 금지, 자율 복제 방지, 생화학 무기 설계 금지 등이 핵심 레드라인입니다.</div>
+    </div>
+    <div class="q" data-ans="3">
+      <fieldset><legend>4. 월-E(WALL-E)에 등장하는 인류 상태에 대한 러셀의 비유가 뜻하는 바는?</legend>
+        <button type="button" data-i="0">① 우주 탐사선 기술의 눈부신 발전</button>
+        <button type="button" data-i="1">② 로봇 공학의 완전한 승리</button>
+        <button type="button" data-i="2">③ 기계와의 무력 전쟁에서 인류가 패배하는 상황</button>
+        <button type="button" data-i="3">④ 모든 지적 결정을 기계에 위임하여 인류 스스로 문명적 통제력과 역량을 상실하는 퇴행</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ④. 기계의 친절한 지배 아래 인류가 인지적·문명적으로 무력화되는 주체성 상실의 위기를 경고합니다.</div>
+    </div>
+    <div class="q" data-ans="1">
+      <fieldset><legend>5. 친인간적 AI가 지녀야 할 문명적 덕목으로 제시된 '스스로 물러서는 기계'의 핵심은?</legend>
+        <button type="button" data-i="0">① 오류가 발생하면 즉시 하드웨어를 파괴하는 기능</button>
+        <button type="button" data-i="1">② 인간이 지적 주체와 문제 해결자로서 성장하도록 필요할 때 개입을 멈추고 인간에게 넘겨주는 절제</button>
+        <button type="button" data-i="2">③ 매달 사용자에게 서비스 해지 여부를 묻는 구독 모델</button>
+        <button type="button" data-i="3">④ 기계의 모든 코드를 대중에게 공개하는 오픈소스화</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ②. 모든 것을 대신해주는 기계는 인간을 바보로 만듭니다. 인간의 학습과 주체성을 북돋우는 절제가 필수입니다.</div>
+    </div>
+    <p class="score" id="score" aria-live="polite">점수: 0 / 5</p>
+    <div class="rv-tools"><button type="button" id="qreset">다시 풀기</button></div>
+  </div>
+</section>
+</main>
+</div>
+
+<script>(function(){
+function $$(q){return [].slice.call(document.querySelectorAll(q))}
+$$(".flip").forEach(function(b){b.onclick=function(){b.setAttribute("aria-expanded",b.getAttribute("aria-expanded")==="true"?"false":"true")}});
+function show(b){b.textContent=b.dataset.a;b.classList.add("shown");b.setAttribute("aria-label","답: "+b.dataset.a)}
+function hide(b){b.textContent="???";b.classList.remove("shown");b.setAttribute("aria-label","빈칸")}
+$$(".blank").forEach(function(b){b.onclick=function(){if(b.classList.contains("shown")){hide(b)}else{show(b)}}});
+var cs=document.getElementById("cshow"),ch=document.getElementById("chide");
+if(cs)cs.onclick=function(){$$(".blank").forEach(show)};
+if(ch)ch.onclick=function(){$$(".blank").forEach(hide)};
+var scoreEl=document.getElementById("score");
+var totalQ=$$("#quiz .q").length;
+function updateScore(){var r=$$("#quiz .q button.right").length;if(scoreEl)scoreEl.textContent="점수: "+r+" / "+totalQ}
+$$("#quiz .q").forEach(function(q){
+  var ans=parseInt(q.dataset.ans,10);
+  var btns=$$(q.querySelectorAll("button"));
+  btns.forEach(function(b,i){
+    b.onclick=function(){
+      btns.forEach(function(x){x.disabled=true});
+      if(i===ans){b.classList.add("right")}else{
+        b.classList.add("wrong");
+        if(btns[ans])btns[ans].classList.add("right");
+      }
+      var ex=q.querySelector(".ex");
+      if(ex)ex.style.display="block";
+      updateScore();
+    };
+  });
+});
+var qr=document.getElementById("qreset");
+if(qr)qr.onclick=function(){
+  $$("#quiz .q").forEach(function(q){
+    $$(q.querySelectorAll("button")).forEach(function(b){
+      b.disabled=false;
+      b.classList.remove("right","wrong");
+    });
+    var ex=q.querySelector(".ex");
+    if(ex)ex.style.display="none";
+  });
+  if(scoreEl)scoreEl.textContent="점수: 0 / "+totalQ;
+};
+})();</script>
+
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">요약 아카이브</div><div class="arc-foot-title">스튜어트 러셀의 입증 가능한 유익한 AI와 문명적 주체성 핵심 요약</div><div class="arc-foot-meta"><time datetime="2026-10-26">2026년 10월 26일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=AI%EC%95%88%EC%A0%84">#AI안전</a><a class="arc-tag" href="../index.html#tags=AI%EC%9C%A4%EB%A6%AC">#AI윤리</a><a class="arc-tag" href="../index.html#tags=%EC%8A%A4%ED%8A%9C%EC%96%B4%ED%8A%B8%EB%9F%AC%EC%85%80">#스튜어트러셀</a><a class="arc-tag" href="../index.html#tags=%EC%9A%94%EC%95%BD">#요약</a> · <a href="https://yghnsim.github.io/Pages/articles/provably_beneficial_ai_stuart_russell.html" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body>
+</html>

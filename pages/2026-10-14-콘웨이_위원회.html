@@ -1,451 +1,89 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Melvin E. Conway, How Do Committees Invent? (Datamation, 1968) 영한 대조본. 콘웨이 법칙의 원 논문.">
-    <title>How Do Committees Invent? - Melvin E. Conway (1968) 영한 대조</title>
-    <style>
-        :root {
-            --bg-body: #faf8f3;
-            --bg-card: #ffffff;
-            --bg-en: #ffffff;
-            --bg-ko: #fffdf9;
-            --text-main: #1f2328;
-            --text-muted: #5b6470;
-            --accent: #c8553d;
-            --accent-soft: #fbeee9;
-            --border-color: #e6e1d6;
-            --serif-font: 'Playfair Display', Georgia, serif;
-            --sans-en: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            --sans-ko: 'Pretendard', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', -apple-system, BlinkMacSystemFont, sans-serif;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            background-color: var(--bg-body);
-            color: var(--text-main);
-            font-family: var(--sans-ko);
-            line-height: 1.75;
-            padding-bottom: 5rem;
-        }
-
-        /* Top Sticky Bar */
-        .top-bar {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background: rgba(250, 248, 243, 0.92);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border-color);
-            padding: 0.75rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .top-bar-title {
-            font-weight: 700;
-            font-size: 0.95rem;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .badge {
-            background: var(--accent-soft);
-            color: var(--accent);
-            font-size: 0.75rem;
-            font-weight: 600;
-            padding: 0.2rem 0.6rem;
-            border-radius: 999px;
-            letter-spacing: 0.03em;
-        }
-
-        .view-controls {
-            display: flex;
-            gap: 0.4rem;
-            background: #f3efe6;
-            padding: 0.25rem;
-            border-radius: 0.5rem;
-        }
-
-        .view-btn {
-            border: none;
-            background: transparent;
-            padding: 0.4rem 0.85rem;
-            border-radius: 0.35rem;
-            font-size: 0.82rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            cursor: pointer;
-            transition: all 0.15s ease;
-            font-family: var(--sans-ko);
-        }
-
-        .view-btn.active {
-            background: #ffffff;
-            color: var(--accent);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-        }
-
-        /* Container */
-        .container {
-            max-width: 1200px;
-            margin: 2.5rem auto 0;
-            padding: 0 1.5rem;
-        }
-
-        /* Header Hero */
-        .hero {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 1rem;
-            padding: 3rem 3rem 2.5rem;
-            margin-bottom: 2.5rem;
-            box-shadow: 0 4px 20px -2px rgba(31, 35, 40, 0.04);
-        }
-
-        .journal-meta {
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: var(--accent);
-            margin-bottom: 1rem;
-        }
-
-        .hero-titles {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2.5rem;
-            align-items: baseline;
-            margin-bottom: 2rem;
-            padding-bottom: 2rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .hero h1.en-title {
-            font-family: var(--serif-font);
-            font-size: 2.6rem;
-            line-height: 1.15;
-            color: var(--text-main);
-        }
-
-        .hero h2.ko-title {
-            font-size: 2.1rem;
-            font-weight: 700;
-            line-height: 1.25;
-            color: #2a2e33;
-        }
-
-        .author-box {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2.5rem;
-            background: #faf8f3;
-            padding: 1.25rem 1.5rem;
-            border-radius: 0.75rem;
-            border-left: 4px solid var(--accent);
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-
-        .author-name {
-            font-weight: 700;
-            color: var(--text-main);
-            margin-bottom: 0.35rem;
-            font-size: 1rem;
-        }
-
-        /* Section Styling */
-        .section-block {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 1rem;
-            margin-bottom: 2.5rem;
-            overflow: hidden;
-            box-shadow: 0 2px 12px -2px rgba(31, 35, 40, 0.03);
-        }
-
-        .section-header {
-            background: #f3efe6;
-            padding: 1.1rem 2rem;
-            border-bottom: 1px solid var(--border-color);
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2.5rem;
-            align-items: center;
-        }
-
-        .section-header h3 {
-            font-size: 1.15rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-            color: #2a2e33;
-        }
-
-        .section-header h3.en-sec {
-            font-family: var(--sans-en);
-            color: var(--accent);
-        }
-
-        /* Bilingual Row */
-        .bilingual-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            border-bottom: 1px solid var(--border-color);
-            transition: background-color 0.15s ease;
-        }
-
-        .bilingual-row:last-child {
-            border-bottom: none;
-        }
-
-        .bilingual-row:hover {
-            background-color: #faf8f3;
-        }
-
-        .col-en, .col-ko {
-            padding: 1.5rem 2rem;
-        }
-
-        .col-en {
-            font-family: var(--sans-en);
-            font-size: 1rem;
-            line-height: 1.75;
-            color: #2a2e33;
-            border-right: 1px solid var(--border-color);
-        }
-
-        .col-ko {
-            font-family: var(--sans-ko);
-            font-size: 1rem;
-            line-height: 1.8;
-            color: #1f2328;
-            background-color: rgba(250, 248, 243, 0.4);
-        }
-
-        /* View Modes */
-        body.mode-en .col-ko,
-        body.mode-en .section-header .ko-sec,
-        body.mode-en .hero-titles .ko-title,
-        body.mode-en .author-box .ko-bio,
-        body.mode-en .fig-caption-ko {
-            display: none;
-        }
-
-        body.mode-en .bilingual-row,
-        body.mode-en .section-header,
-        body.mode-en .hero-titles,
-        body.mode-en .author-box,
-        body.mode-en .fig-captions {
-            grid-template-columns: 1fr;
-        }
-
-        body.mode-en .col-en {
-            border-right: none;
-            max-width: 780px;
-            margin: 0 auto;
-        }
-
-        body.mode-ko .col-en,
-        body.mode-ko .section-header .en-sec,
-        body.mode-ko .hero-titles .en-title,
-        body.mode-ko .author-box .en-bio,
-        body.mode-ko .fig-caption-en {
-            display: none;
-        }
-
-        body.mode-ko .bilingual-row,
-        body.mode-ko .section-header,
-        body.mode-ko .hero-titles,
-        body.mode-ko .author-box,
-        body.mode-ko .fig-captions {
-            grid-template-columns: 1fr;
-        }
-
-        body.mode-ko .col-ko {
-            max-width: 780px;
-            margin: 0 auto;
-            background: transparent;
-        }
-
-        /* Lists & Quotes inside columns */
-        ol.paper-list {
-            margin: 0.5rem 0 0.5rem 1.4rem;
-        }
-
-        ol.paper-list li {
-            margin-bottom: 0.5rem;
-            padding-left: 0.3rem;
-        }
-
-        .proof-quote {
-            border-left: 3px solid #a19a8c;
-            padding-left: 1.15rem;
-            color: #3a4048;
-            font-style: italic;
-        }
-
-        .col-ko .proof-quote {
-            font-style: normal;
-            border-left-color: var(--accent);
-        }
-
-        .conway-law-highlight {
-            background: linear-gradient(90deg, rgba(200, 85, 61, 0.08) 0%, rgba(200, 85, 61, 0.02) 100%);
-            border-left: 4px solid var(--accent);
-            padding: 1rem 1.25rem;
-            border-radius: 0 0.5rem 0.5rem 0;
-            font-weight: 500;
-            margin-bottom: 0.75rem;
-        }
-
-        sup.fn-ref {
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: var(--accent);
-            margin-left: 2px;
-        }
-
-        /* SVG Figure Containers */
-        .figure-container {
-            background: #faf8f3;
-            border-top: 1px solid var(--border-color);
-            border-bottom: 1px solid var(--border-color);
-            padding: 2.5rem 2rem;
-            text-align: center;
-        }
-
-        .figure-badge {
-            display: inline-block;
-            background: #2a2e33;
-            color: #ffffff;
-            font-size: 0.78rem;
-            font-weight: 700;
-            padding: 0.25rem 0.85rem;
-            border-radius: 999px;
-            margin-bottom: 1.25rem;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-        }
-
-        .svg-wrapper {
-            background: #ffffff;
-            border: 1px solid #d8d1c3;
-            border-radius: 0.85rem;
-            padding: 1.5rem;
-            max-width: 960px;
-            margin: 0 auto 1.5rem;
-            box-shadow: inset 0 1px 4px rgba(0,0,0,0.02);
-        }
-
-        .svg-wrapper svg {
-            width: 100%;
-            height: auto;
-            display: block;
-            margin: 0 auto;
-        }
-
-        .fig-captions {
-            max-width: 960px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            text-align: left;
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            background: #ffffff;
-            padding: 1.2rem 1.5rem;
-            border-radius: 0.65rem;
-            border: 1px solid var(--border-color);
-        }
-
-        /* Footnote Box */
-        .footnotes-card {
-            background: #f3efe6;
-            border: 1px solid var(--border-color);
-            border-radius: 0.85rem;
-            padding: 1.75rem 2rem;
-            margin-top: 2rem;
-            font-size: 0.88rem;
-            color: var(--text-muted);
-        }
-
-        .footnotes-card h4 {
-            color: var(--text-main);
-            margin-bottom: 1rem;
-            font-size: 0.95rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .fn-item {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            padding: 0.75rem 0;
-            border-top: 1px solid #d8d1c3;
-        }
-
-        @media (max-width: 860px) {
-            .hero-titles,
-            .author-box,
-            .section-header,
-            .bilingual-row,
-            .fig-captions,
-            .fn-item {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-            .col-en {
-                border-right: none;
-                border-bottom: 1px dashed var(--border-color);
-                padding-bottom: 1.25rem;
-            }
-            .col-ko {
-                padding-top: 1.25rem;
-            }
-            .top-bar {
-                padding: 0.75rem 1rem;
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-        }
-        /* 모바일 최적화 */
-        html{-webkit-text-size-adjust:100%}
-        body{overflow-wrap:break-word;word-break:keep-all}
-        img,svg{max-width:100%;height:auto}
-        table{display:block;max-width:100%;overflow-x:auto}
-        pre,code{white-space:pre-wrap;word-break:break-word}
-        .badge,sup.fn-ref,.figure-badge{font-size:13px}
-        @media (max-width: 640px){
-            .container{padding:0 12px;margin-top:1.25rem}
-            .hero{padding:1.5rem 1.1rem 1.25rem;border-radius:12px}
-            .hero h1.en-title{font-size:1.9rem}
-            .hero h2.ko-title{font-size:1.55rem}
-            .author-box{padding:1rem}
-            .figure-container{padding:1.5rem 0.75rem}
-            .svg-wrapper{padding:0.75rem}
-            .fig-captions,.footnotes-card{padding:1rem}
-            .top-bar{position:static;padding:0.6rem 12px}
-            .top-bar-title{flex-wrap:wrap;gap:0.4rem}
-            .view-controls{flex-wrap:wrap;width:100%}
-            .view-btn{flex:1 1 auto;min-height:40px;font-size:13px}
-        }
-    </style>
-<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
-<link rel="stylesheet" href="../assets/archive-page.css">
-<!-- archive-head:end -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>위원회는 어떻게 발명하는가: 멜빈 콘웨이(1968) 핵심 정리</title>
+<meta name="description" content="콘웨이의 1968년 논문 핵심 논증 7절 요약, 조직과 아키텍처의 준동형 원리, 핵심 용어 플래시카드와 5문항 복습 퀴즈">
+<style>
+:root{
+  --bg:#faf8f3; --paper:#ffffff; --ink:#1f2328; --muted:#5b6470; --line:#e6e1d6;
+  --accent:#c8553d; --accent-soft:#fbeee9; --link:#4a6b8a;
+  --new:#3d5f80; --new-soft:#eaf0f6;
+  --radius:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR","Malgun Gothic",system-ui,sans-serif;
+  font-size:17px;line-height:1.75;word-break:keep-all;overflow-wrap:break-word}
+@media(max-width:640px){body{font-size:16px}}
+a{color:var(--link);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+.hero{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{display:inline-block;font-size:13px;font-weight:700;color:var(--accent);background:var(--accent-soft);padding:3px 10px;border-radius:999px;margin-bottom:12px}
+.hero h1{font-size:28px;line-height:1.3;margin:0 0 12px;color:var(--ink)}
+.hero .lead{font-size:17px;color:var(--muted);line-height:1.65;margin:0}
+.hero-cta{margin-top:16px}
+.hero-cta a{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--new);color:#fff!important;border-radius:10px;font-weight:700;font-size:14px;text-decoration:none!important}
+.grid{display:grid;grid-template-columns:240px 1fr;gap:36px;align-items:start}
+@media(max-width:880px){.grid{grid-template-columns:1fr}}
+.toc{position:sticky;top:20px;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;font-size:14px}
+@media(max-width:880px){.toc{position:static;margin-bottom:24px}}
+.toc .toc-t{font-weight:700;margin:0 0 10px;color:var(--ink)}
+.toc ol{margin:0;padding:0;list-style:none}
+.toc li{margin:6px 0}
+.toc a{color:var(--muted);display:flex;align-items:center;gap:8px}
+.toc a:hover{color:var(--link)}
+.toc .n{display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:6px;background:var(--new-soft);color:var(--new);font-size:12px;font-weight:700}
+.toc .orig{display:block;margin-top:14px;padding-top:10px;border-top:1px dashed var(--line);font-size:13px;color:var(--accent);font-weight:700}
+.sec{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:24px 28px;margin-bottom:28px}
+@media(max-width:640px){.sec{padding:18px 16px}}
+.sec-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px}
+.sec-num{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:10px;background:var(--accent);color:#fff;font-weight:800;font-size:16px;flex-shrink:0}
+.sec-head h2{font-size:21px;line-height:1.3;margin:0;color:var(--ink)}
+.sec-head .sub{font-size:14px;color:var(--muted);margin:3px 0 0}
+p{margin:0 0 14px}
+p:last-child{margin-bottom:0}
+.tbl{width:100%;border-collapse:collapse;margin:16px 0;font-size:15px}
+.tbl th,.tbl td{border:1px solid var(--line);padding:10px 14px;text-align:left}
+.tbl th{background:var(--new-soft);color:var(--new);font-weight:700}
+.tbl td{background:#fff}
+.terms{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+.term{display:inline-flex;align-items:center;gap:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:600;padding:4px 10px;border-radius:8px}
+.viz{margin:18px 0;border:1px solid var(--line);border-radius:12px;background:var(--bg);padding:12px 16px}
+.viz summary{cursor:pointer;font-weight:700;color:var(--new);outline:none;user-select:none}
+.viz-body{margin-top:12px;display:flex;flex-direction:column;align-items:center}
+.sources{background:var(--new-soft);border:1px solid var(--line);border-radius:var(--radius);padding:18px 22px;margin-top:32px;font-size:14px;color:var(--muted)}
+.sources h3{font-size:15px;color:var(--new);margin:0 0 6px}
+/* 복습 컴포넌트 표준 스타일 */
+.rv-h{font-size:19px;margin:22px 0 6px}
+.flips{display:grid;grid-template-columns:1fr;gap:8px;margin:10px 0}
+@media(min-width:640px){.flips{grid-template-columns:1fr 1fr}}
+.flip{font:inherit;text-align:left;width:100%;border:1.5px solid var(--line,#e6e1d6);background:#fdfcf9;border-radius:12px;padding:10px 14px;cursor:pointer;color:var(--ink,#1f2328);min-height:64px}
+.flip b{display:block;font-size:17px}
+.flip .m{display:none;font-size:16px;line-height:1.6;margin-top:4px}
+.flip .hint{font-size:13px;color:var(--muted,#5b6470)}
+.flip[aria-expanded="true"]{border-color:var(--new,#3d5f80);background:var(--new-soft,#eaf0f6)}
+.flip[aria-expanded="true"] .m{display:block}
+.flip[aria-expanded="true"] .hint{display:none}
+.cloze{list-style:none;margin:10px 0;padding:0}
+.cloze li{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:10px 14px;margin:8px 0;background:#fdfcf9;font-size:16px;line-height:1.8}
+.blank{font:inherit;font-size:16px;border:0;border-bottom:2px dashed var(--accent,#c8553d);background:var(--accent-soft,#fbeee9);color:var(--accent,#c8553d);border-radius:6px 6px 0 0;padding:0 8px;cursor:pointer;min-width:4.5em}
+.blank.shown{border-bottom-style:solid;background:var(--new-soft,#eaf0f6);color:var(--new,#3d5f80);font-weight:700}
+.rv-tools{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.rv-tools button{font:inherit;font-size:15px;border:1px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link,#4a6b8a)}
+.q{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:12px 14px;margin:10px 0;background:#fdfcf9}
+.q fieldset{border:0;margin:0;padding:0}
+.q legend{font-weight:700;padding:0;margin:0 0 8px;font-size:16.5px}
+.q button{display:block;width:100%;text-align:left;font:inherit;font-size:16px;border:1.5px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:8px 12px;margin:6px 0;cursor:pointer;color:var(--ink,#1f2328)}
+.q button.right{border-color:#2f6b45;background:#e6f1ea}
+.q button.wrong{border-color:#a2452f;background:#fbeee9}
+.q button[disabled]{cursor:default;opacity:1}
+.q .ex{margin:8px 0 0;font-size:16px;padding:8px 10px;border-radius:8px;background:var(--new-soft,#eaf0f6)}
+.score{font-size:17px;font-weight:800;margin:10px 0 0}
+</style>
 <!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
 <style id="archive-mobile-css">
 :where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
@@ -459,1012 +97,369 @@
   :where(input,select,textarea){font-size:16px}
 }
 </style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
 </head>
 <body>
-
-    <!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
-<div class="arc-band" role="navigation" aria-label="요약 아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>요약 아카이브</a><span class="arc-crumb">How Do Committees Invent? - Melvin E. Conway (1968) 영한 대조</span><span class="arc-meta"><time datetime="2026-10-14">2026년 10월 14일</time><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99">#컴퓨터과학</a><a class="arc-tag" href="../index.html#tags=%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4%EA%B3%B5%ED%95%99">#소프트웨어공학</a><a class="arc-tag" href="../index.html#tags=%EC%A1%B0%EC%A7%81%EC%84%A4%EA%B3%84">#조직설계</a><a class="arc-tag" href="../index.html#tags=%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98">#아키텍처</a><a class="arc-tag" href="../index.html#tags=%EB%85%BC%EB%AC%B8%EB%A6%AC%EB%B7%B0">#논문리뷰</a></span></div></div>
+<!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="요약 아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>요약 아카이브</a><span class="arc-crumb">위원회는 어떻게 발명하는가: 멜빈 콘웨이(1968) 핵심 정리</span><span class="arc-meta"><time datetime="2026-10-14">2026년 10월 14일</time><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99">#컴퓨터과학</a><a class="arc-tag" href="../index.html#tags=%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4%EA%B3%B5%ED%95%99">#소프트웨어공학</a><a class="arc-tag" href="../index.html#tags=%EC%A1%B0%EC%A7%81%EC%84%A4%EA%B3%84">#조직설계</a><a class="arc-tag" href="../index.html#tags=%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98">#아키텍처</a><a class="arc-tag" href="../index.html#tags=%EB%85%BC%EB%AC%B8%EB%A6%AC%EB%B7%B0">#논문리뷰</a><a class="arc-src" href="https://yghnsim.github.io/Pages/articles/conway_1968_how_do_committees_invent.html" rel="noopener">원문 ↗</a></span></div></div>
 <!-- archive-header:end -->
-<header class="top-bar">
-        <div class="top-bar-title">
-            <span class="badge">DATAMATION • APRIL 1968</span>
-            <span>How Do Committees Invent? — Melvin E. Conway</span>
+<div class="wrap">
+  <header class="hero">
+    <span class="eyebrow">논문 핵심 요약 & 복습</span>
+    <h1>위원회는 어떻게 발명하는가: 멜빈 콘웨이(1968) 핵심 정리</h1>
+    <p class="lead">“시스템을 설계하는 조직은 그 조직의 의사소통 구조를 복제한 설계를 만들어낼 수밖에 없다.” 멜빈 콘웨이가 1968년 제기한 불후의 명제를 7개 절 요약, 조직과 아키텍처의 준동형 사상 도식, 핵심 용어 플래시카드, 5문항 퀴즈로 10분 만에 복습합니다.</p>
+    <div class="hero-cta">
+      <a href="https://yghnsim.github.io/Pages/articles/conway_1968_how_do_committees_invent.html">📚 Pages에서 영·한 대조 심화 전문 읽기 ↗</a>
+    </div>
+  </header>
+
+  <div class="grid">
+    <nav class="toc" aria-label="목차">
+      <p class="toc-t">목차</p>
+      <ol>
+        <li><a href="#s0"><span class="n">0</span>한눈에 보기</a></li>
+        <li><a href="#s1"><span class="n">1</span>시스템 설계의 정의</a></li>
+        <li><a href="#s2"><span class="n">2</span>설계의 4단계</a></li>
+        <li><a href="#s3"><span class="n">3</span>설계된 시스템</a></li>
+        <li><a href="#s4"><span class="n">4</span>두 개념의 연결</a></li>
+        <li><a href="#s5"><span class="n">5</span>조직 투영 사례</a></li>
+        <li><a href="#s6"><span class="n">6</span>시스템 관리</a></li>
+        <li><a href="#s7"><span class="n">7</span>콘웨이의 법칙</a></li>
+        <li><a href="#rv"><span class="n">✔</span>복습 & 퀴즈</a></li>
+      </ol>
+      <a class="orig" href="https://yghnsim.github.io/Pages/articles/conway_1968_how_do_committees_invent.html">심화 원문(Pages) ↗</a>
+    </nav>
+
+    <main id="content">
+      <section class="sec" id="s0">
+        <div class="sec-head">
+          <span class="sec-num">★</span>
+          <div>
+            <h2>한눈에 보기 (예습 브리프)</h2>
+            <p class="sub">콘웨이 법칙의 4단계 논증 사슬과 대응 구조</p>
+          </div>
         </div>
-        <div class="view-controls">
-            <button class="view-btn active" onclick="setMode('both', this)">영/한 대조 (Side-by-Side)</button>
-            <button class="view-btn" onclick="setMode('en', this)">English Only</button>
-            <button class="view-btn" onclick="setMode('ko', this)">한국어 번역만</button>
+        <p>1968년 멜빈 콘웨이(Melvin E. Conway)가 발표한 「How Do Committees Invent?」는 시스템 아키텍처와 인간 조직 간의 수학적·구조적 필연성을 규명한 소프트웨어 공학의 고전입니다. 핵심 논증 사슬은 다음과 같습니다.</p>
+        <table class="tbl">
+          <thead>
+            <tr>
+              <th>단계</th>
+              <th>조직적 차원</th>
+              <th>시스템적 차원</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>1. 예비 설계</strong></td>
+              <td>작업 분할을 위해 설계팀 조직 구성</td>
+              <td>시스템의 기본 구조(경계)를 가설로 설정</td>
+            </tr>
+            <tr>
+              <td><strong>2. 의사소통</strong></td>
+              <td>팀 간 의사소통 경로 형성 ($O$)</td>
+              <td>인터페이스 규격 협상 및 데이터 교환</td>
+            </tr>
+            <tr>
+              <td><strong>3. 준동형 사상</strong></td>
+              <td>의사소통이 없는 팀끼리는 조율 불가</td>
+              <td>경로가 없는 곳엔 서브시스템 간 경계 형성 ($S$)</td>
+            </tr>
+            <tr>
+              <td><strong>4. 구조 복제</strong></td>
+              <td>조직도 구조 (위원회의 형태)</td>
+              <td>최종 소프트웨어/하드웨어 아키텍처 반영</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="terms">
+          <span class="term">#준동형사상</span>
+          <span class="term">#의사소통네트워크</span>
+          <span class="term">#예비설계편향</span>
+          <span class="term">#해체가능시스템</span>
         </div>
-    </header>
-
-    <main class="container">
-
-        <!-- HERO HEADER -->
-        <section class="hero">
-            <div class="journal-meta">Classic Systems &amp; Software Architecture Paper (pp. 28–31)</div>
-            <div class="hero-titles">
-                <h1 class="en-title">HOW DO COMMITTEES INVENT?</h1>
-                <h2 class="ko-title">위원회는 어떻게 발명하는가?</h2>
-            </div>
-            <div class="author-box">
-                <div class="en-bio">
-                    <div class="author-name">by MELVIN E. CONWAY</div>
-                    Dr. Conway is manager, peripheral systems research, at Sperry Rand’s Univac Div., where he is working on recognition of continuous speech. He has previously been a research associate at Case Western Reserve Univ., and a software consultant. He has an MS in physics from CalTech and a PhD in math from Case.
-                </div>
-                <div class="ko-bio">
-                    <div class="author-name">저자: 멜빈 E. 콘웨이 (Melvin E. Conway)</div>
-                    콘웨이 박사는 스페리 랜드(Sperry Rand) 사 유니박(Univac) 사업부의 주변기기 시스템 연구 매니저로, 연속 음성 인식 연구를 수행하고 있다. 이전에는 케이스 웨스턴 리저브 대학교의 연구원 및 소프트웨어 컨설턴트로 활동했다. 칼텍(CalTech)에서 물리학 석사 학위를, 케이스(Case) 대학교에서 수학 박사 학위를 받았다.
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION 1: INTRODUCTION -->
-        <section class="section-block">
-            <div class="section-header">
-                <h3 class="en-sec">1. Introduction</h3>
-                <h3 class="ko-sec">1. 서론 (시스템 설계의 정의)</h3>
-            </div>
-
-            <div class="bilingual-row">
-                <div class="col-en">
-                    That kind of intellectual activity which creates a useful whole from its diverse parts may be called the <em>design of a system</em>. Whether the particular activity is the creation of specifications for a major weapon system, the formation of a recommendation to meet a social challenge, or the programming of a computer, the general activity is largely the same.
-                </div>
-                <div class="col-ko">
-                    다양한 부분들을 결합하여 하나의 유용한 전체를 만들어내는 지적 활동을 <strong>‘시스템 설계(design of a system)’</strong>라고 부를 수 있다. 그 구체적인 활동이 주요 무기 체계의 사양을 작성하는 것이든, 사회적 난제를 해결하기 위한 권고안을 마련하는 것이든, 혹은 컴퓨터를 프로그래밍하는 것이든 간에 전반적인 활동의 본질은 크게 다르지 않다.
-                </div>
-            </div>
-
-            <div class="bilingual-row">
-                <div class="col-en">
-                    Typically, the objective of a design organization is the creation and assembly of a document containing a coherently structured body of information. We may name this information the <em>system design</em>. It is typically produced for a <em>sponsor</em> who usually desires to carry out some activity guided by the system design. For example, a public official may wish to propose legislation to avert a recurrence of a recent disaster, so he appoints a team to explain the catastrophe. Or a manufacturer needs a new product and designates a product planning activity to specify what should be introduced.
-                </div>
-                <div class="col-ko">
-                    일반적으로 설계 조직의 목표는 일관성 있게 구조화된 정보 체계를 담은 문서를 작성하고 조립하는 것이다. 우리는 이 정보를 <strong>‘시스템 설계(system design)’</strong>라고 명명할 수 있다. 이는 대개 시스템 설계를 지침 삼아 특정 활동을 수행하고자 하는 <strong>‘스폰서(의뢰인)’</strong>를 위해 제작된다. 예를 들어, 한 공직자가 최근 발생한 재난의 재발을 막기 위해 법안을 발의하고자 참사를 규명할 팀을 임명할 수 있다. 혹은 제조업체가 신제품이 필요하여 어떤 제품을 출시해야 할지 구체화할 제품 기획 조직을 지정할 수도 있다.
-                </div>
-            </div>
-
-            <div class="bilingual-row">
-                <div class="col-en">
-                    The design organization may or may not be involved in the construction of the system it designs. Frequently, in public affairs, there are policies which discourage a group’s acting upon its own recommendations, whereas, in private industry, quite the opposite situation often prevails.
-                </div>
-                <div class="col-ko">
-                    설계 조직은 자신이 설계한 시스템을 실제로 구축하는 작업에 참여할 수도 있고 그렇지 않을 수도 있다. 공공 부문에서는 설계 그룹이 자신이 만든 권고안을 직접 집행하는 것을 지양하는 정책이 흔한 반면, 민간 산업에서는 정반대의 상황이 주를 이룬다.
-                </div>
-            </div>
-
-            <div class="bilingual-row">
-                <div class="col-en">
-                    It seems reasonable to suppose that the knowledge that one will have to carry out one’s own recommendations or that this task will fall to others, probably affects some design choices which the individual designer is called upon to make. Most design activity requires continually making choices. Many of these choices may be more than design decisions; they may also be personal decisions the designer makes about his own future. As we shall see later, the incentives which exist in a conventional management environment can motivate choices which subvert the intent of the sponsor.<sup class="fn-ref">[1]</sup>
-                </div>
-                <div class="col-ko">
-                    자신이 내놓은 권고안을 스스로 실행해야 한다는 사실, 혹은 그 과업이 타인에게 넘어간다는 사실을 미리 알고 있는 것은 개별 설계자가 내려야 하는 여러 설계상의 선택에 영향을 미칠 것이라 가정하는 것이 합리적이다. 대부분의 설계 활동은 끊임없는 선택을 요구한다. 이러한 선택 중 상당수는 단순한 설계 결정을 넘어, 설계자가 자신의 미래에 대해 내리는 개인적인 결정일 수도 있다. 뒤에서 살펴보겠지만, 전통적인 관리 환경에 존재하는 유인책(인센티브)들은 스폰서의 본래 의도를 훼손하는 선택을 부추길 수 있다.<sup class="fn-ref">[1]</sup>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION 2: STAGES OF DESIGN -->
-        <section class="section-block">
-            <div class="section-header">
-                <h3 class="en-sec">2. Stages of Design</h3>
-                <h3 class="ko-sec">2. 설계의 단계 (Stages of Design)</h3>
-            </div>
-
-            <div class="bilingual-row">
-                <div class="col-en">
-                    The initial stages of a design effort are concerned more with structuring of the design activity than with the system itself. The full-blown design activity cannot proceed until certain preliminary milestones are passed. These include:
-                    <ol class="paper-list">
-                        <li>Understanding of the boundaries, both on the design activity and on the system to be designed, placed by the sponsor and by the world’s realities.</li>
-                        <li>Achievement of a preliminary notion of the system’s organization so that design task groups can be meaningfully assigned.</li>
-                    </ol>
-                </div>
-                <div class="col-ko">
-                    설계 작업의 초기 단계는 시스템 그 자체보다 설계 활동을 어떻게 구조화할 것인가에 더 많은 관심을 둔다. 본격적인 설계 활동은 몇 가지 사전 이정표를 통과하기 전까지는 진행될 수 없다. 여기에는 다음이 포함된다:
-                    <ol class="paper-list">
-                        <li>스폰서와 현실 세계의 제약 조건에 의해 부여된, 설계 활동 및 설계 대상 시스템 양측 모두의 경계(한계)에 대한 이해.</li>
-                        <li>설계 태스크 그룹(작업반)들을 의미 있게 배정할 수 있도록 시스템 구조에 대한 예비적 개념(초안)을 확립하는 것.</li>
-                    </ol>
-                </div>
-            </div>
-
-            <div class="bilingual-row">
-                <div class="col-en">
-                    We shall see in detail later that the very act of organizing a design team means that certain design decisions have already been made, explicitly or otherwise. Given any design team organization, there is a class of design alternatives which cannot be effectively pursued by such an organization because the necessary communication paths do not exist. Therefore, there is no such thing as a design group which is both organized and unbiased.
-                </div>
-                <div class="col-ko">
-                    뒤에서 자세히 보겠지만, <strong>설계 팀을 조직하는 행위 그 자체는 명시적이든 암묵적이든 특정한 설계 결정이 이미 내려졌음을 의미한다.</strong> 어떤 형태로든 설계 팀의 조직 구조가 주어지면, 필요한 의사소통 경로가 존재하지 않기 때문에 해당 조직으로서는 효과적으로 추구할 수 없는 설계 대안들의 부류가 생겨난다. <strong>따라서 조직화되어 있으면서 동시에 편향되지 않은 설계 그룹이란 존재하지 않는다.</strong>
-                </div>
-            </div>
-
-            <div class="bilingual-row">
-                <div class="col-en">
-                    Once the organization of the design team is chosen, it is possible to delegate activities to the subgroups of the organization. Every time a delegation is made and somebody’s scope of inquiry is narrowed, the class of design alternatives which can be effectively pursued is also narrowed.
-                </div>
-                <div class="col-ko">
-                    설계 팀의 조직 구조가 결정되면, 조직 내 하위 그룹에 활동을 위임하는 것이 가능해진다. 업무가 위임되고 누군가의 탐구 범위가 좁혀질 때마다, 효과적으로 추구할 수 있는 설계 대안의 범위 또한 좁아진다.
-                </div>
-            </div>
-
-            <div class="bilingual-row">
-                <div class="col-en">
-                    Once scopes of activity are defined, a coordination problem is created. Coordination among task groups, although it appears to lower the productivity of the individual in the small group, provides the only possibility that the separate task groups will be able to consolidate their efforts into a unified system design.
-                </div>
-                <div class="col-ko">
-                    활동 범위가 정의되면 조율(coordination)의 문제가 발생한다. 작업 그룹 간의 조율은 비록 소그룹 내 개인의 생산성을 떨어뜨리는 것처럼 보일지라도, 분리된 작업 그룹들이 각자의 노력을 하나의 통합된 시스템 설계로 합칠 수 있게 해주는 유일한 가능성을 제공한다.
-                </div>
-            </div>
-
-            <div class="bilingual-row">
-                <div class="col-en">
-                    Thus the life cycle of a system design effort proceeds through the following general stages:
-                    <ol class="paper-list">
-                        <li>Drawing of boundaries according to the ground rules.</li>
-                        <li>Choice of a preliminary system concept.</li>
-                        <li>Organization of the design activity and delegation of tasks according to that concept.</li>
-                        <li>Coordination among delegated tasks.</li>
-                        <li>Consolidation of subdesigns into a single design.</li>
-                    </ol>
-                </div>
-                <div class="col-ko">
-                    따라서 시스템 설계 작업의 생명주기(life cycle)는 다음과 같은 일반적인 단계를 거쳐 진행된다:
-                    <ol class="paper-list">
-                        <li>기본 규칙에 따른 경계 설정.</li>
-                        <li>예비 시스템 개념(초안)의 선택.</li>
-                        <li>해당 개념에 따른 설계 활동의 조직화 및 과업 위임.</li>
-                        <li>위임된 과업들 간의 조율.</li>
-                        <li>하위 설계들을 단일 설계로 통합.</li>
-                    </ol>
-                </div>
-            </div>
-
-            <div class="bilingual-row">
-                <div class="col-en">
-                    It is possible that a given design activity will not proceed straight through this list. It might conceivably reorganize upon discovery of a new, and obviously superior, design concept; but such an appearance of uncertainty is unflattering, and the very act of voluntarily abandoning a creation is painful and expensive. Of course, from the vantage point of the historian, the process is continually repeating. This point of view has produced the observation that there’s never enough time to do something right, but there’s always enough time to do it over.
-                </div>
-                <div class="col-ko">
-                    주어진 설계 활동이 이 목록을 따라 일직선으로 진행되지 않을 수도 있다. 새롭고 명백히 우월한 설계 개념을 발견하여 조직을 개편할 수도 있겠지만, 그러한 불확실성을 드러내는 것은 달갑지 않은 일이며 자신이 만든 창작물을 자발적으로 폐기하는 행위 자체는 고통스럽고 비용이 많이 든다. 물론 역사가의 관점에서 보면 이 과정은 끊임없이 반복된다. 이러한 관점에서 <em>“무언가를 처음부터 제대로 할 시간은 결코 충분치 않지만, 다시 할 시간은 언제나 충분하다”</em>라는 촌철살인의 관찰이 탄생했다.
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION 3: THE DESIGNED SYSTEM & FIGURE 1 -->
-        <section class="section-block">
-            <div class="section-header">
-                <h3 class="en-sec">3. The Designed System</h3>
-                <h3 class="ko-sec">3. 설계된 시스템 (The Designed System)</h3>
-            </div>
-
-            <div class="bilingual-row">
-                <div class="col-en">
-                    Any system of consequence is structured from smaller subsystems which are interconnected. A description of a system, if it is to describe what goes on inside that system, must describe the system’s connections to the outside world, and it must delineate each of the subsystems and how they are interconnected. Dropping down one level, we can say the same for each of the subsystems, viewing it as a system. This reduction in scope can continue until we are down to a system which is simple enough to be understood without further subdivision.
-                </div>
-                <div class="col-ko">
-                    중요한 의미를 갖는 모든 시스템은 상호 연결된 더 작은 하위 시스템(subsystem)들로 구조화된다. 시스템에 대한 기술(description)이 그 내부에서 일어나는 일을 설명하려면, 시스템과 외부 세계와의 연결을 설명해야 하며 각 하위 시스템과 그것들이 상호 연결되는 방식을 그려내야 한다. 한 단계 아래로 내려가면, 각각의 하위 시스템을 하나의 시스템으로 간주하여 똑같은 말을 할 수 있다. 이러한 범위의 축소는 더 이상 세분화하지 않고도 이해할 수 있을 만큼 단순한 시스템에 도달할 때까지 계속될 수 있다.
-                </div>
-            </div>
-
-            <div class="bilingual-row">
-                <div class="col-en">
-                    <em>Examples.</em> A transcontinental public transportation system consists of buses, trains, airplanes, various types of right-of-way, parking lots, taxicabs, terminals, and so on. This is a very heterogeneous system; that is, the subsystems are quite diverse. Dropping down one level, an airplane, for example, may possess subsystems for structure, propulsion, power distribution, communication, and payload packaging. The propulsion subsystem has fuel, ignition, and starting subsystems, to name a few.
-                </div>
-                <div class="col-ko">
-                    <strong>예시.</strong> 대륙 횡단 대중교통 시스템은 버스, 기차, 비행기, 다양한 형태의 통행로, 주차장, 택시, 터미널 등으로 구성된다. 이는 매우 이질적인(heterogeneous) 시스템으로, 하위 시스템들이 상당히 다양하다. 한 단계 아래로 내려가서 예를 들어 비행기를 보면, 구조, 추진, 전력 분배, 통신 및 화물 적재를 위한 하위 시스템을 가질 수 있다. 추진 하위 시스템은 몇 가지만 꼽자면 연료, 점화, 시동 하위 시스템 등을 가진다.
-                </div>
-            </div>
-
-            <div class="bilingual-row">
-                <div class="col-en">
-                    It may be less obvious that a theory is a system in the same sense. It relates to the outside world of observed events where it must explain, or at least not contradict, them. It consists of subtheories which must relate to each other in the same way. For example, the investigation of an airplane crash attempts to produce a theory explaining a complex event. It can consist of subtheories describing the path of the aircraft, its radio communications, the manner of its damage, and its relationship to nearby objects at the time of the event. Each of these, in turn, is a story in itself which can be further broken down into finer detail down to the level of individual units of evidence.
-                </div>
-                <div class="col-ko">
-                    ‘이론(theory)’ 또한 같은 의미에서 하나의 시스템이라는 점은 덜 명확해 보일 수 있다. 이론은 관찰된 사건들이 존재하는 외부 세계와 관계를 맺으며, 그 사건들을 설명하거나 최소한 그것들과 모순되지 않아야 한다. 이론은 같은 방식으로 서로 관계를 맺어야 하는 하위 이론들로 구성된다. 예를 들어, 비행기 추락 사고 조사는 복잡한 사건을 설명하는 하나의 이론을 만들어내려 시도한다. 이 이론은 항공기의 비행경로, 무선 통신, 파손 형태, 사고 당시 주변 물체와의 관계를 설명하는 하위 이론들로 구성될 수 있다. 그리고 이들 각각은 그 자체로 하나의 이야기이며, 개별 증거 단위 수준에 이르기까지 더 미세한 세부 사항으로 쪼개질 수 있다.
-                </div>
-            </div>
-
-            <div class="bilingual-row">
-                <div class="col-en">
-                    <em>Linear graphs.</em> Fig. 1 illustrates this view of a system as a linear graph—a Tinker-Toy structure with branches (the lines) and nodes (the circles). Each node is a subsystem which communicates with other subsystems along the branches. In turn, each subsystem may contain a structure which may be similarly portrayed. The term <em>interface</em>, which is becoming popular among systems people, refers to the inter-subsystem communication path or branch represented by a line in Fig. 1. Alternatively, the interface is the plug or flange by which the path coming out of one node couples to the path coming out of another node.
-                </div>
-                <div class="col-ko">
-                    <strong>선형 그래프(Linear graphs).</strong> [그림 1]은 시스템을 선형 그래프—즉, 브랜치(가지/선)와 노드(마디/원)로 이루어진 팅커토이(Tinker-Toy, 조립식 완구) 구조—로 바라보는 관점을 보여준다. 각 노드는 브랜치를 따라 다른 하위 시스템과 통신하는 하위 시스템이다. 차례로 각 하위 시스템은 유사한 방식으로 묘사될 수 있는 내부 구조를 포함할 수 있다. 시스템 엔지니어들 사이에서 널리 쓰이기 시작한 <strong>‘인터페이스(interface)’</strong>라는 용어는 [그림 1]에서 선으로 표현된 하위 시스템 간의 통신 경로나 브랜치를 가리킨다. 또는 인터페이스는 한 노드에서 나오는 경로가 다른 노드에서 나오는 경로와 결합하는 플러그나 플랜지(연결 부위)를 의미하기도 한다.
-                </div>
-            </div>
-
-            <!-- SVG FIGURE 1 -->
-            <div class="figure-container">
-                <div class="figure-badge">Figure 1 • Linear Graph of a System and Its Subsystems</div>
-                <div class="svg-wrapper">
-                    <svg viewBox="0 0 820 560" xmlns="http://www.w3.org/2000/svg" font-family="'Inter', 'Noto Sans KR', sans-serif">
-                        <defs>
-                            <marker id="arrow-dashed" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                                <path d="M 0 1 L 8 5 L 0 9 z" fill="#d06a52"/>
-                            </marker>
-                            <marker id="arrow-label" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-                                <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#5b6470"/>
-                            </marker>
-                        </defs>
-
-                        <!-- Top System -->
-                        <g id="top-system">
-                            <circle cx="190" cy="65" r="24" fill="#fbeee9" stroke="#2a2e33" stroke-width="2.5"/>
-                            <!-- Interface 1 (down-left) -->
-                            <line x1="170" y1="78" x2="142" y2="95" stroke="#2a2e33" stroke-width="2.5"/>
-                            <line x1="138" y1="89" x2="146" y2="101" stroke="#2a2e33" stroke-width="2.5"/>
-                            <text x="125" y="102" font-size="14" font-weight="700" fill="#1f2328">1</text>
-                            <!-- Interface 2 (up-left) -->
-                            <line x1="173" y1="48" x2="148" y2="25" stroke="#2a2e33" stroke-width="2.5"/>
-                            <line x1="143" y1="30" x2="153" y2="20" stroke="#2a2e33" stroke-width="2.5"/>
-                            <text x="130" y="24" font-size="14" font-weight="700" fill="#1f2328">2</text>
-                            <!-- Interface 3 (up-right) -->
-                            <line x1="208" y1="50" x2="235" y2="30" stroke="#2a2e33" stroke-width="2.5"/>
-                            <line x1="230" y1="24" x2="240" y2="36" stroke="#2a2e33" stroke-width="2.5"/>
-                            <text x="245" y="28" font-size="14" font-weight="700" fill="#1f2328">3</text>
-                        </g>
-
-                        <!-- Explanation Box top-right -->
-                        <rect x="310" y="18" width="470" height="82" rx="8" fill="#faf8f3" stroke="#d8d1c3" stroke-width="1"/>
-                        <text x="328" y="42" font-size="13.5" font-weight="700" fill="#2a2e33">Figure 1: Hierarchical System Graph (시스템 계층 그래프)</text>
-                        <text x="328" y="63" font-size="12.5" fill="#5b6470">상단의 전체 시스템은 인터페이스 1, 2, 3을 통해 외부 세계와 통신합니다.</text>
-                        <text x="328" y="83" font-size="12.5" fill="#5b6470">중간 원은 주요 하위 시스템을, 하단은 하위 시스템 a와 b의 내부 상세를 보여줍니다.</text>
-
-                        <!-- Dashed expansion arrow from top system to middle -->
-                        <path d="M 205 90 Q 245 140 278 178" fill="none" stroke="#d06a52" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#arrow-dashed)"/>
-
-                        <!-- Middle Expanded System -->
-                        <g id="middle-system">
-                            <circle cx="380" cy="235" r="108" fill="#ffffff" stroke="#2a2e33" stroke-width="2.5"/>
-                            <!-- Internal branches -->
-                            <line x1="395" y1="185" x2="305" y2="232" stroke="#2a2e33" stroke-width="2.2"/>
-                            <line x1="395" y1="185" x2="368" y2="288" stroke="#2a2e33" stroke-width="2.2"/>
-                            <line x1="395" y1="185" x2="452" y2="262" stroke="#2a2e33" stroke-width="2.2"/>
-
-                            <!-- External interfaces 2, 3, 1 -->
-                            <line x1="395" y1="185" x2="328" y2="115" stroke="#2a2e33" stroke-width="2.2"/>
-                            <line x1="322" y1="120" x2="334" y2="110" stroke="#2a2e33" stroke-width="2.5"/>
-                            <text x="310" y="108" font-size="14" font-weight="700" fill="#1f2328">2</text>
-
-                            <line x1="395" y1="185" x2="458" y2="122" stroke="#2a2e33" stroke-width="2.2"/>
-                            <line x1="452" y1="116" x2="464" y2="128" stroke="#2a2e33" stroke-width="2.5"/>
-                            <text x="468" y="118" font-size="14" font-weight="700" fill="#1f2328">3</text>
-
-                            <line x1="368" y1="288" x2="290" y2="345" stroke="#2a2e33" stroke-width="2.2"/>
-                            <line x1="285" y1="339" x2="295" y2="351" stroke="#2a2e33" stroke-width="2.5"/>
-                            <text x="270" y="355" font-size="14" font-weight="700" fill="#1f2328">1</text>
-
-                            <!-- Branch labels 4 & 5 -->
-                            <text x="366" y="242" font-size="13.5" font-weight="700" fill="#c8553d">4</text>
-                            <text x="432" y="220" font-size="13.5" font-weight="700" fill="#c8553d">5</text>
-
-                            <!-- 4 Nodes inside middle system -->
-                            <circle cx="395" cy="185" r="20" fill="#faf8f3" stroke="#2a2e33" stroke-width="2.2"/>
-                            <circle cx="305" cy="232" r="20" fill="#faf8f3" stroke="#2a2e33" stroke-width="2.2"/>
-                            <circle cx="368" cy="288" r="20" fill="#fbeee9" stroke="#c8553d" stroke-width="2.5"/>
-                            <text x="368" y="293" text-anchor="middle" font-size="15" font-weight="700" fill="#2a2e33">a</text>
-                            <circle cx="452" cy="262" r="20" fill="#fbeee9" stroke="#c8553d" stroke-width="2.5"/>
-                            <text x="452" y="267" text-anchor="middle" font-size="15" font-weight="700" fill="#2a2e33">b</text>
-                        </g>
-
-                        <!-- Dashed expansion arrows to Subsystem a and Subsystem b -->
-                        <path d="M 368 310 Q 362 345 340 382" fill="none" stroke="#d06a52" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#arrow-dashed)"/>
-                        <path d="M 472 268 Q 545 310 585 375" fill="none" stroke="#d06a52" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#arrow-dashed)"/>
-
-                        <!-- Bottom Left: Subsystem a -->
-                        <g id="subsystem-a">
-                            <circle cx="235" cy="435" r="95" fill="#ffffff" stroke="#2a2e33" stroke-width="2.5"/>
-                            <!-- Interface 4 (top) -->
-                            <line x1="255" y1="370" x2="272" y2="322" stroke="#2a2e33" stroke-width="2.2"/>
-                            <line x1="265" y1="320" x2="279" y2="325" stroke="#2a2e33" stroke-width="2.5"/>
-                            <text x="275" y="312" font-size="14" font-weight="700" fill="#c8553d">4</text>
-
-                            <!-- Interface 1 (bottom-left) -->
-                            <line x1="185" y1="490" x2="122" y2="528" stroke="#2a2e33" stroke-width="2.2"/>
-                            <line x1="118" y1="521" x2="126" y2="535" stroke="#2a2e33" stroke-width="2.5"/>
-                            <text x="103" y="535" font-size="14" font-weight="700" fill="#1f2328">1</text>
-
-                            <!-- Internal edges of Subsystem a -->
-                            <line x1="175" y1="395" x2="255" y2="370" stroke="#2a2e33" stroke-width="2"/>
-                            <line x1="175" y1="395" x2="185" y2="490" stroke="#2a2e33" stroke-width="2"/>
-                            <line x1="175" y1="395" x2="298" y2="425" stroke="#2a2e33" stroke-width="2"/>
-                            <line x1="255" y1="370" x2="298" y2="425" stroke="#2a2e33" stroke-width="2"/>
-                            <line x1="185" y1="490" x2="245" y2="462" stroke="#2a2e33" stroke-width="2"/>
-                            <line x1="245" y1="462" x2="298" y2="425" stroke="#2a2e33" stroke-width="2"/>
-
-                            <!-- Nodes of Subsystem a -->
-                            <circle cx="175" cy="395" r="16" fill="#faf8f3" stroke="#2a2e33" stroke-width="2.2"/>
-                            <circle cx="255" cy="370" r="16" fill="#faf8f3" stroke="#2a2e33" stroke-width="2.2"/>
-                            <circle cx="298" cy="425" r="16" fill="#faf8f3" stroke="#2a2e33" stroke-width="2.2"/>
-                            <circle cx="245" cy="462" r="16" fill="#faf8f3" stroke="#2a2e33" stroke-width="2.2"/>
-                            <circle cx="185" cy="490" r="16" fill="#faf8f3" stroke="#2a2e33" stroke-width="2.2"/>
-
-                            <text x="235" y="552" text-anchor="middle" font-size="15" font-weight="700" fill="#1f2328">Subsystem a (하위 시스템 a)</text>
-                        </g>
-
-                        <!-- Bottom Right: Subsystem b -->
-                        <g id="subsystem-b">
-                            <circle cx="620" cy="435" r="95" fill="#ffffff" stroke="#2a2e33" stroke-width="2.5"/>
-                            <!-- Interface 5 (top-left) -->
-                            <line x1="585" y1="378" x2="555" y2="325" stroke="#2a2e33" stroke-width="2.2"/>
-                            <line x1="548" y1="329" x2="562" y2="321" stroke="#2a2e33" stroke-width="2.5"/>
-                            <text x="542" y="315" font-size="14" font-weight="700" fill="#c8553d">5</text>
-
-                            <!-- Internal edges of Subsystem b -->
-                            <line x1="585" y1="378" x2="652" y2="375" stroke="#2a2e33" stroke-width="2"/>
-                            <line x1="652" y1="375" x2="685" y2="435" stroke="#2a2e33" stroke-width="2"/>
-                            <line x1="685" y1="435" x2="565" y2="452" stroke="#2a2e33" stroke-width="2"/>
-                            <line x1="565" y1="452" x2="585" y2="378" stroke="#2a2e33" stroke-width="2"/>
-                            <line x1="565" y1="452" x2="632" y2="495" stroke="#2a2e33" stroke-width="2"/>
-
-                            <!-- Nodes of Subsystem b -->
-                            <circle cx="585" cy="378" r="16" fill="#faf8f3" stroke="#2a2e33" stroke-width="2.2"/>
-                            <circle cx="652" cy="375" r="16" fill="#faf8f3" stroke="#2a2e33" stroke-width="2.2"/>
-                            <circle cx="685" cy="435" r="16" fill="#faf8f3" stroke="#2a2e33" stroke-width="2.2"/>
-                            <circle cx="565" cy="452" r="16" fill="#faf8f3" stroke="#2a2e33" stroke-width="2.2"/>
-                            <circle cx="632" cy="495" r="16" fill="#faf8f3" stroke="#2a2e33" stroke-width="2.2"/>
-
-                            <text x="620" y="552" text-anchor="middle" font-size="15" font-weight="700" fill="#1f2328">Subsystem b (하위 시스템 b)</text>
-                        </g>
-
-                        <!-- Annotations: Interfaces, Nodes, Branches -->
-                        <text x="115" y="348" text-anchor="middle" font-size="13.5" font-weight="700" fill="#3a4048">Interfaces (인터페이스)</text>
-                        <path d="M 178 344 L 268 345" fill="none" stroke="#5b6470" stroke-width="1.5" marker-end="url(#arrow-label)"/>
-                        <path d="M 178 348 L 260 326" fill="none" stroke="#5b6470" stroke-width="1.5" marker-end="url(#arrow-label)"/>
-
-                        <text x="428" y="390" text-anchor="middle" font-size="13.5" font-weight="700" fill="#3a4048">Nodes (노드)</text>
-                        <path d="M 380 390 L 318 418" fill="none" stroke="#5b6470" stroke-width="1.5" marker-end="url(#arrow-label)"/>
-                        <path d="M 476 390 L 564 380" fill="none" stroke="#5b6470" stroke-width="1.5" marker-end="url(#arrow-label)"/>
-
-                        <text x="428" y="485" text-anchor="middle" font-size="13.5" font-weight="700" fill="#3a4048">Branches (브랜치)</text>
-                        <path d="M 372 482 L 222 478" fill="none" stroke="#5b6470" stroke-width="1.5" marker-end="url(#arrow-label)"/>
-                        <path d="M 484 482 L 592 476" fill="none" stroke="#5b6470" stroke-width="1.5" marker-end="url(#arrow-label)"/>
-                    </svg>
-                </div>
-                <div class="fig-captions">
-                    <div class="fig-caption-en">
-                        <strong>Figure 1.</strong> The system, shown at the top, communicates with the outside world through the three interfaces 1, 2, and 3. The middle figure shows the major subsystems, two of which (<em>a</em> and <em>b</em>) are shown in detail at the bottom.
-                    </div>
-                    <div class="fig-caption-ko">
-                        <strong>[그림 1]</strong> 상단에 표시된 시스템은 3개의 인터페이스(1, 2, 3)를 통해 외부 세계와 통신한다. 중간 그림은 주요 하위 시스템들을 보여주며, 그중 두 개(하위 시스템 a와 b)가 하단에 상세히 나타나 있다.
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION 4: RELATING THE TWO & FIGURE 2 -->
-        <section class="section-block">
-            <div class="section-header">
-                <h3 class="en-sec">4. Relating the Two</h3>
-                <h3 class="ko-sec">4. 두 개념의 연결 (시스템과 설계 조직의 관계)</h3>
-            </div>
-
-            <div class="bilingual-row">
-                <div class="col-en">
-                    The linear-graph notation is useful because it provides an abstraction which has the same form for the two entities we are considering: the design organization and the system it designs. This can be illustrated in Fig. 1 by replacing the following words:
-                    <ol class="paper-list">
-                        <li>Replace “system” by “committee.”</li>
-                        <li>Replace “subsystem” by “subcommittee.”</li>
-                        <li>Replace “interface” by “coordinator.”</li>
-                    </ol>
-                </div>
-                <div class="col-ko">
-                    선형 그래프 표기법이 유용한 이유는 우리가 고찰하고 있는 두 실체, 즉 <strong>‘설계 조직’</strong>과 <strong>‘그 조직이 설계하는 시스템’</strong> 모두에 대해 동일한 형태를 갖는 추상화를 제공하기 때문이다. 이는 [그림 1]에서 다음 단어들을 치환함으로써 설명될 수 있다:
-                    <ol class="paper-list">
-                        <li>“시스템(system)”을 <strong>“위원회(committee)”</strong>로 바꾼다.</li>
-                        <li>“하위 시스템(subsystem)”을 <strong>“소위원회(subcommittee)”</strong>로 바꾼다.</li>
-                        <li>“인터페이스(interface)”를 <strong>“조율자(coordinator)”</strong>로 바꾼다.</li>
-                    </ol>
-                </div>
-            </div>
-
-            <div class="bilingual-row">
-                <div class="col-en">
-                    Just as with systems, we find that design groups can be viewed at several levels of complication. The Federal Government, for example, is an excellent example of a design organization with enough complexity to satisfy any system engineer. This is a particularly interesting example for showing the similarity of the two concepts being studied here because the Federal Government is both a design organization (designing laws, treaties, and policies) and a designed system (the Constitution being the principal preliminary design document).
-                </div>
-                <div class="col-ko">
-                    시스템과 마찬가지로 설계 그룹 또한 여러 복잡도 수준에서 바라볼 수 있다. 예를 들어 미 연방 정부는 어떤 시스템 엔지니어라도 만족시킬 만큼 충분한 복잡성을 지닌 설계 조직의 훌륭한 사례다. 연방 정부는 (법률, 조약, 정책을 설계하는) ‘설계 조직’인 동시에 (헌법이 주요 예비 설계 문서인) ‘설계된 시스템’이기 때문에, 여기서 연구하는 두 개념의 유사성을 보여주는 특히 흥미로운 사례다.
-                </div>
-            </div>
-
-            <div class="bilingual-row">
-                <div class="col-en">
-                    <em>A basic relationship.</em> We are now in a position to address the fundamental question of this article: Is there any predictable relationship between the graph structure of a design organization and the graph structure of the system it designs? The answer is: Yes, the relationship is so simple that in some cases it is an identity. Consider the following “proof”:
-                </div>
-                <div class="col-ko">
-                    <strong>기본적인 관계.</strong> 이제 우리는 이 글의 근본적인 질문을 다룰 위치에 도달했다. <em>“설계 조직의 그래프 구조와 그 조직이 설계한 시스템의 그래프 구조 사이에 예측 가능한 관계가 존재하는가?”</em> 대답은 <strong>“그렇다”</strong>이며, 그 관계는 너무나 단순해서 어떤 경우에는 완전히 동일(항등, identity)하기까지 하다. 다음의 “증명”을 살펴보자:
-                </div>
-            </div>
-
-            <div class="bilingual-row">
-                <div class="col-en">
-                    <div class="proof-quote">
-                        Let us choose arbitrarily some system and the organization which designed it, and let us then choose equally arbitrarily some level of complication of the designed system for which we can draw a graph. (Our motivation for this arbitrariness is that if we succeed in demonstrating anything interesting, it will hold true for any design organization and level of complication.) Fig. 2 (p. 30) shows, for illustration purposes only, a structure to which the following statements may be related.
-                    </div>
-                </div>
-                <div class="col-ko">
-                    <div class="proof-quote">
-                        임의의 어떤 시스템과 그것을 설계한 조직을 선택하고, 마찬가지로 우리가 그래프를 그릴 수 있는 설계된 시스템의 특정 복잡도 수준을 임의로 선택해 보자. (이렇게 임의성을 부여하는 동기는, 만약 우리가 흥미로운 사실을 입증하는 데 성공한다면 그것이 모든 설계 조직과 모든 복잡도 수준에서 참으로 성립할 것이기 때문이다.) [그림 2]는 설명을 돕기 위한 목적으로 다음 진술들과 연관 지을 수 있는 구조를 보여준다.
-                    </div>
-                </div>
-            </div>
-
-            <div class="bilingual-row">
-                <div class="col-en">
-                    <div class="proof-quote">
-                        For any node <em>x</em> in the system we can identify a design group of the design organization which designed <em>x</em>; call this <em>X</em>. Therefore, by generalization of this process, for every node of the system we have a rule for finding a corresponding node of the design organization. Notice that this rule is not necessarily one-to-one; that is, the two subsystems might have been designed by a single design group.
-                    </div>
-                </div>
-                <div class="col-ko">
-                    <div class="proof-quote">
-                        시스템 내의 임의의 노드 <em>x</em>에 대해, 우리는 <em>x</em>를 설계한 설계 조직 내의 설계 그룹을 식별할 수 있으며 이를 <em>X</em>라고 부르자. 따라서 이 과정을 일반화하면, 시스템의 모든 노드에 대해 그에 대응하는 설계 조직의 노드를 찾는 규칙을 얻게 된다. 이 규칙이 반드시 일대일(one-to-one) 대응일 필요는 없다는 점에 유의하라. 즉, 두 개의 하위 시스템이 단일 설계 그룹에 의해 설계되었을 수도 있다.
-                    </div>
-                </div>
-            </div>
-
-            <div class="bilingual-row">
-                <div class="col-en">
-                    <div class="proof-quote">
-                        Interestingly, we can make a similar statement about branches. Take any two nodes <em>x</em> and <em>y</em> of the system. Either they are joined by a branch or they are not. (That is, either they communicate with each other in some way meaningful to the operation of the system or they do not.) If there is a branch, then the two (not necessarily distinct) design groups <em>X</em> and <em>Y</em> which designed the two nodes must have negotiated and agreed upon an interface specification to permit communication between the two corresponding nodes of the design organization. If, on the other hand, there is no branch between <em>x</em> and <em>y</em>, then the subsystems do not communicate with each other, there was nothing for the two corresponding design groups to negotiate, and therefore there is no branch between <em>X</em> and <em>Y</em>.<sup class="fn-ref">[*]</sup>
-                    </div>
-                </div>
-                <div class="col-ko">
-                    <div class="proof-quote">
-                        흥미롭게도 우리는 브랜치(연결선)에 대해서도 유사한 진술을 할 수 있다. 시스템의 임의의 두 노드 <em>x</em>와 <em>y</em>를 택하자. 두 노드는 브랜치로 연결되어 있거나 그렇지 않거나 둘 중 하나다. (즉, 시스템의 작동에 의미 있는 방식으로 서로 통신하거나 통신하지 않는다.) 만약 브랜치가 존재한다면, 두 노드를 설계한 (반드시 서로 다를 필요는 없는) 두 설계 그룹 <em>X</em>와 <em>Y</em>는 설계 조직의 대응하는 두 노드 간에 의사소통이 가능하도록 인터페이스 사양을 협상하고 합의했어야만 한다. 반대로 <em>x</em>와 <em>y</em> 사이에 브랜치가 없다면, 두 하위 시스템은 서로 통신하지 않으며, 대응하는 두 설계 그룹 간에 협상할 거리도 없었을 것이므로 <em>X</em>와 <em>Y</em> 사이에는 브랜치가 존재하지 않는다.<sup class="fn-ref">[*]</sup>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bilingual-row">
-                <div class="col-en">
-                    What have we just shown? Roughly speaking, we have demonstrated that there is a very close relationship between the structure of a system and the structure of the organization which designed it. In the not unusual case where each subsystem had its own separate design group, we find that the structures (i.e., the linear graphs) of the design group and the system are identical. In the case where some group designed more than one subsystem we find that the structure of the design organization is a collapsed version of the structure of the system, with the subsystems having the same design group collapsing into one node representing that group.
-                </div>
-                <div class="col-ko">
-                    우리가 방금 무엇을 증명했는가? 대략적으로 말해, 우리는 <strong>시스템의 구조와 그것을 설계한 조직의 구조 사이에 매우 밀접한 관계가 있음</strong>을 입증했다. 각 하위 시스템마다 별도의 전담 설계 그룹이 있는 흔한 경우, 설계 그룹과 시스템의 구조(즉, 선형 그래프)는 완전히 동일(identical)하다. 어떤 그룹이 둘 이상의 하위 시스템을 설계한 경우에는, 동일한 설계 그룹이 맡은 하위 시스템들이 그 그룹을 대표하는 하나의 노드로 합쳐지면서(collapsed), 설계 조직의 구조는 시스템 구조를 축약한 버전이 된다.
-                </div>
-            </div>
-
-            <div class="bilingual-row">
-                <div class="col-en">
-                    This kind of a structure-preserving relationship between two sets of things is called a <em>homomorphism</em>. Speaking as a mathematician might, we would say that there is a homomorphism from the linear graph of a system to the linear graph of its design organization.
-                </div>
-                <div class="col-ko">
-                    두 집합 사이에서 이처럼 구조를 보존하는 관계를 <strong>‘준동형 사상(homomorphism)’</strong>이라고 부른다. 수학자처럼 말하자면, <strong>“시스템의 선형 그래프에서 그 설계 조직의 선형 그래프로의 준동형 사상이 존재한다”</strong>고 할 수 있다.
-                </div>
-            </div>
-
-            <!-- SVG FIGURE 2 -->
-            <div class="figure-container">
-                <div class="figure-badge">Figure 2 • Homomorphism Between System &amp; Design Organization</div>
-                <div class="svg-wrapper">
-                    <svg viewBox="0 0 820 580" xmlns="http://www.w3.org/2000/svg" font-family="'Inter', 'Noto Sans KR', sans-serif">
-                        <defs>
-                            <marker id="map-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                                <path d="M 0 1 L 9 5 L 0 9 z" fill="#c8553d"/>
-                            </marker>
-                        </defs>
-
-                        <!-- Column Headers -->
-                        <text x="210" y="32" text-anchor="middle" font-size="15" font-weight="700" text-decoration="underline" fill="#1f2328">SYSTEM (시스템)</text>
-                        <text x="630" y="32" text-anchor="middle" font-size="15" font-weight="700" text-decoration="underline" fill="#1f2328">DESIGN ORGANIZATION (설계 조직)</text>
-
-                        <!-- Row 1: Top System & Designer -->
-                        <g id="fig2-top">
-                            <!-- Left: System -->
-                            <circle cx="210" cy="95" r="20" fill="#fbeee9" stroke="#2a2e33" stroke-width="2.5"/>
-                            <line x1="210" y1="115" x2="210" y2="142" stroke="#2a2e33" stroke-width="2.2"/>
-                            <line x1="204" y1="142" x2="216" y2="142" stroke="#2a2e33" stroke-width="2.5"/>
-                            <text x="210" y="158" text-anchor="middle" font-size="13" font-weight="700">1</text>
-
-                            <line x1="194" y1="82" x2="172" y2="62" stroke="#2a2e33" stroke-width="2.2"/>
-                            <line x1="167" y1="67" x2="177" y2="57" stroke="#2a2e33" stroke-width="2.5"/>
-                            <text x="160" y="58" font-size="13" font-weight="700">2</text>
-
-                            <line x1="226" y1="82" x2="248" y2="62" stroke="#2a2e33" stroke-width="2.2"/>
-                            <line x1="243" y1="57" x2="253" y2="67" stroke="#2a2e33" stroke-width="2.5"/>
-                            <text x="260" y="58" font-size="13" font-weight="700">3</text>
-
-                            <!-- Step 1 Text -->
-                            <text x="315" y="80" font-size="13" font-weight="600" fill="#2a2e33">1단계: 임의의 시스템(왼쪽)과</text>
-                            <text x="315" y="98" font-size="13" font-weight="600" fill="#2a2e33">그 설계 조직(오른쪽)을 선택한다.</text>
-                            <text x="315" y="116" font-size="12" fill="#737a83">(First, choose a system and its designer.)</text>
-
-                            <!-- Right: Design Org -->
-                            <circle cx="630" cy="95" r="20" fill="#fef3c7" stroke="#2a2e33" stroke-width="2.5"/>
-                            <line x1="630" y1="115" x2="630" y2="142" stroke="#2a2e33" stroke-width="2.2"/>
-                            <line x1="624" y1="142" x2="636" y2="142" stroke="#2a2e33" stroke-width="2.5"/>
-                            <line x1="614" y1="82" x2="592" y2="62" stroke="#2a2e33" stroke-width="2.2"/>
-                            <line x1="587" y1="67" x2="597" y2="57" stroke="#2a2e33" stroke-width="2.5"/>
-                            <line x1="646" y1="82" x2="668" y2="62" stroke="#2a2e33" stroke-width="2.2"/>
-                            <line x1="663" y1="57" x2="673" y2="67" stroke="#2a2e33" stroke-width="2.5"/>
-                        </g>
-
-                        <!-- Dashed arrow from Row 1 to Row 2 -->
-                        <path d="M 192 125 Q 170 165 182 200" fill="none" stroke="#d06a52" stroke-width="2" stroke-dasharray="5,4" marker-end="url(#arrow-dashed)"/>
-
-                        <!-- Row 2: Middle System Level -->
-                        <g id="fig2-middle">
-                            <circle cx="210" cy="265" r="78" fill="#ffffff" stroke="#2a2e33" stroke-width="2.2"/>
-                            <!-- Internal connections -->
-                            <line x1="168" y1="225" x2="210" y2="255" stroke="#2a2e33" stroke-width="2"/>
-                            <line x1="252" y1="225" x2="210" y2="255" stroke="#2a2e33" stroke-width="2"/>
-                            <line x1="210" y1="255" x2="210" y2="312" stroke="#2a2e33" stroke-width="2"/>
-                            <line x1="252" y1="225" x2="210" y2="312" stroke="#2a2e33" stroke-width="2"/>
-
-                            <!-- Interfaces 2, 3, 1 -->
-                            <line x1="168" y1="225" x2="132" y2="188" stroke="#2a2e33" stroke-width="2"/>
-                            <text x="120" y="185" font-size="13" font-weight="700">2</text>
-                            <line x1="252" y1="225" x2="288" y2="188" stroke="#2a2e33" stroke-width="2"/>
-                            <text x="296" y="185" font-size="13" font-weight="700">3</text>
-                            <line x1="210" y1="312" x2="210" y2="365" stroke="#2a2e33" stroke-width="2"/>
-                            <text x="210" y="382" text-anchor="middle" font-size="13" font-weight="700">1</text>
-
-                            <text x="197" y="288" font-size="12.5" font-weight="700" fill="#c8553d">4</text>
-                            <text x="240" y="278" font-size="12.5" font-weight="700" fill="#c8553d">5</text>
-
-                            <circle cx="168" cy="225" r="15" fill="#faf8f3" stroke="#2a2e33" stroke-width="2"/>
-                            <circle cx="252" cy="225" r="15" fill="#faf8f3" stroke="#2a2e33" stroke-width="2"/>
-                            <circle cx="210" cy="255" r="15" fill="#faf8f3" stroke="#2a2e33" stroke-width="2"/>
-                            <circle cx="210" cy="312" r="15" fill="#fbeee9" stroke="#c8553d" stroke-width="2.2"/>
-                            <text x="210" y="317" text-anchor="middle" font-size="13" font-weight="700">a</text>
-
-                            <text x="410" y="255" font-size="13" font-weight="600" fill="#2a2e33">2단계: 시스템 내부의 특정 복잡도</text>
-                            <text x="410" y="273" font-size="13" font-weight="600" fill="#2a2e33">수준(하단)을 선택하여 전개한다.</text>
-                            <text x="410" y="291" font-size="12" fill="#737a83">(Then choose some level of complication.)</text>
-                        </g>
-
-                        <!-- Dashed arrow from Subsystem a to Row 3 -->
-                        <path d="M 192 318 Q 130 375 170 435" fill="none" stroke="#d06a52" stroke-width="2" stroke-dasharray="5,4" marker-end="url(#arrow-dashed)"/>
-
-                        <!-- Row 3: Detailed Subsystem a (Left) and Corresponding Design Organization (Right) -->
-                        <g id="fig2-bottom">
-                            <!-- Left: Subsystem a nodes (z, z', y, x, left-node) -->
-                            <!-- Branches -->
-                            <line x1="210" y1="398" x2="210" y2="425" stroke="#2a2e33" stroke-width="2.2"/>
-                            <line x1="204" y1="398" x2="216" y2="398" stroke="#2a2e33" stroke-width="2.5"/>
-                            <text x="210" y="392" text-anchor="middle" font-size="12.5" font-weight="700" fill="#c8553d">4</text>
-
-                            <line x1="285" y1="435" x2="312" y2="412" stroke="#2a2e33" stroke-width="2.2"/>
-                            <line x1="308" y1="407" x2="316" y2="417" stroke="#2a2e33" stroke-width="2.5"/>
-                            <text x="322" y="408" font-size="12.5" font-weight="700" fill="#c8553d">5</text>
-
-                            <line x1="210" y1="425" x2="210" y2="478" stroke="#2a2e33" stroke-width="2.2"/>
-                            <line x1="285" y1="435" x2="210" y2="478" stroke="#2a2e33" stroke-width="2.2"/>
-                            <line x1="210" y1="478" x2="210" y2="532" stroke="#2a2e33" stroke-width="2.5"/>
-                            <line x1="142" y1="532" x2="210" y2="532" stroke="#2a2e33" stroke-width="2.2"/>
-                            <line x1="210" y1="532" x2="210" y2="562" stroke="#2a2e33" stroke-width="2.2"/>
-                            <line x1="204" y1="562" x2="216" y2="562" stroke="#2a2e33" stroke-width="2.5"/>
-                            <text x="222" y="568" font-size="12.5" font-weight="700">1</text>
-
-                            <!-- Nodes on Left -->
-                            <circle cx="210" cy="425" r="15" fill="#fbeee9" stroke="#2a2e33" stroke-width="2.2"/>
-                            <text x="210" y="430" text-anchor="middle" font-size="14" font-style="italic" font-weight="700">z</text>
-
-                            <circle cx="285" cy="435" r="15" fill="#fbeee9" stroke="#2a2e33" stroke-width="2.2"/>
-                            <text x="285" y="440" text-anchor="middle" font-size="14" font-style="italic" font-weight="700">z'</text>
-
-                            <circle cx="210" cy="478" r="15" fill="#fbeee9" stroke="#2a2e33" stroke-width="2.2"/>
-                            <text x="210" y="483" text-anchor="middle" font-size="14" font-style="italic" font-weight="700">y</text>
-
-                            <circle cx="210" cy="532" r="15" fill="#fbeee9" stroke="#2a2e33" stroke-width="2.2"/>
-                            <text x="210" y="537" text-anchor="middle" font-size="14" font-style="italic" font-weight="700">x</text>
-
-                            <circle cx="142" cy="532" r="15" fill="#faf8f3" stroke="#2a2e33" stroke-width="2.2"/>
-
-                            <!-- Interface x-y label -->
-                            <text x="75" y="508" font-size="13" font-weight="700" fill="#2a2e33">Interface x–y</text>
-                            <path d="M 162 504 L 204 504" fill="none" stroke="#5b6470" stroke-width="1.5" marker-end="url(#arrow-label)"/>
-
-                            <!-- Right: Design Organization nodes (Z, Y, X, left-node) -->
-                            <line x1="630" y1="398" x2="630" y2="425" stroke="#2a2e33" stroke-width="2.2"/>
-                            <line x1="624" y1="398" x2="636" y2="398" stroke="#2a2e33" stroke-width="2.5"/>
-                            <line x1="630" y1="425" x2="662" y2="405" stroke="#2a2e33" stroke-width="2.2"/>
-                            <line x1="658" y1="400" x2="666" y2="410" stroke="#2a2e33" stroke-width="2.5"/>
-
-                            <line x1="630" y1="425" x2="630" y2="478" stroke="#2a2e33" stroke-width="2.2"/>
-                            <line x1="630" y1="478" x2="630" y2="532" stroke="#2a2e33" stroke-width="2.5"/>
-                            <line x1="562" y1="532" x2="630" y2="532" stroke="#2a2e33" stroke-width="2.2"/>
-                            <line x1="630" y1="532" x2="630" y2="562" stroke="#2a2e33" stroke-width="2.2"/>
-                            <line x1="624" y1="562" x2="636" y2="562" stroke="#2a2e33" stroke-width="2.5"/>
-
-                            <circle cx="630" cy="425" r="15" fill="#fef3c7" stroke="#2a2e33" stroke-width="2.2"/>
-                            <text x="630" y="430" text-anchor="middle" font-size="14" font-weight="700">Z</text>
-
-                            <circle cx="630" cy="478" r="15" fill="#fef3c7" stroke="#2a2e33" stroke-width="2.2"/>
-                            <text x="630" y="483" text-anchor="middle" font-size="14" font-weight="700">Y</text>
-
-                            <circle cx="630" cy="532" r="15" fill="#fef3c7" stroke="#2a2e33" stroke-width="2.2"/>
-                            <text x="630" y="537" text-anchor="middle" font-size="14" font-weight="700">X</text>
-
-                            <circle cx="562" cy="532" r="15" fill="#faf8f3" stroke="#2a2e33" stroke-width="2.2"/>
-
-                            <!-- Coordinator X-Y label -->
-                            <text x="685" y="498" font-size="13" font-weight="700" fill="#2a2e33">Coordinator X–Y</text>
-                            <text x="685" y="515" font-size="12" fill="#5b6470">(조율자 X–Y)</text>
-                            <path d="M 680 504 L 636 504" fill="none" stroke="#5b6470" stroke-width="1.5" marker-end="url(#arrow-label)"/>
-
-                            <!-- Homomorphism "Designed by" curved arrows -->
-                            <path d="M 226 420 Q 420 365 612 418" fill="none" stroke="#c8553d" stroke-width="2" marker-end="url(#map-arrow)"/>
-                            <path d="M 302 432 Q 455 390 612 424" fill="none" stroke="#c8553d" stroke-width="2" marker-end="url(#map-arrow)"/>
-                            <path d="M 226 476 Q 420 455 612 476" fill="none" stroke="#c8553d" stroke-width="2" marker-end="url(#map-arrow)"/>
-                            <path d="M 226 530 Q 420 510 612 530" fill="none" stroke="#c8553d" stroke-width="2" marker-end="url(#map-arrow)"/>
-
-                            <rect x="330" y="472" width="210" height="42" rx="6" fill="#fbeee9" stroke="#f0cfc4"/>
-                            <text x="435" y="490" text-anchor="middle" font-size="12" font-weight="700" fill="#ad4430">“Designed by” correspondence</text>
-                            <text x="435" y="506" text-anchor="middle" font-size="11.5" fill="#8f3826">(누가 설계했는지를 나타내는 사상 화살표)</text>
-                        </g>
-                    </svg>
-                </div>
-                <div class="fig-captions">
-                    <div class="fig-caption-en">
-                        <strong>Figure 2.</strong> Here is an illustration of the strong relationship between the structure (graph) of a system (left) and the structure of the organization which designed it (right). Notice how both subsystems <em>z</em> and <em>z'</em> were designed by group <em>Z</em>, collapsing two nodes into one (a homomorphism).
-                    </div>
-                    <div class="fig-caption-ko">
-                        <strong>[그림 2]</strong> 시스템의 구조(왼쪽 그래프)와 그것을 설계한 조직의 구조(오른쪽 그래프) 사이의 강력한 관계(준동형 사상)를 보여주는 도해. 하위 시스템 <em>z</em>와 <em>z'</em>가 모두 설계 그룹 <em>Z</em>에 의해 설계되면서 두 노드가 하나의 노드로 축약된 것에 주목하라.
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION 5: SYSTEMS IMAGE THEIR DESIGN GROUPS & FIGURE 3 -->
-        <section class="section-block">
-            <div class="section-header">
-                <h3 class="en-sec">5. Systems Image Their Design Groups</h3>
-                <h3 class="ko-sec">5. 시스템은 자신을 설계한 그룹을 투영한다</h3>
-            </div>
-
-            <div class="bilingual-row">
-                <div class="col-en">
-                    It is an article of faith among experienced system designers that given any system design, someone someday will find a better one to do the same job. In other words, it is misleading and incorrect to speak of <em>the</em> design for a specific job, unless this is understood in the context of space, time, knowledge, and technology. The humility which this belief should impose on system designers is the only appropriate posture for those who read history or consult their memories.
-                </div>
-                <div class="col-ko">
-                    어떤 시스템 설계가 주어지더라도 언젠가 누군가는 동일한 작업을 수행하는 더 나은 설계를 찾아낼 것이라는 점은 숙련된 시스템 설계자들 사이에서 하나의 신조(article of faith)와도 같다. 다시 말해, 공간, 시간, 지식, 기술이라는 맥락 속에서 이해되는 것이 아닌 한, 특정 작업을 위한 <strong>‘유일무이한(the) 설계’</strong>를 운운하는 것은 오해의 소지가 있으며 부정확하다. 이러한 믿음이 시스템 설계자들에게 부여하는 겸손함이야말로 역사를 읽거나 자신의 기억을 되돌아보는 이들이 취해야 할 유일하게 적절한 자세다.
-                </div>
-            </div>
-
-            <div class="bilingual-row">
-                <div class="col-en">
-                    The design progress of computer translators of programming languages such as FORTRAN and COBOL is a case in point. In the middle fifties, when the prototypes of these languages appeared, their compilers were even more cumbersome objects than the giant (for then) computers which were required for their execution. Today, these translators are only historical curiosities, bearing no resemblance in design to today’s compilers. (We should take particular note of the fact that the quantum jumps in compiler design progress were associated with the appearance of new groups of people on territory previously trampled chiefly by computer manufacturers—first it was the tight little university research team, followed by the independent software house.)
-                </div>
-                <div class="col-ko">
-                    포트란(FORTRAN)이나 코볼(COBOL) 같은 프로그래밍 언어의 컴퓨터 번역기(컴파일러) 설계가 발전해 온 과정이 바로 적절한 사례다. 이들 언어의 프로토타입이 등장했던 1950년대 중반 당시, 그 컴파일러들은 그것을 실행하는 데 필요했던 (당시로서는) 거대한 컴퓨터보다도 훨씬 더 다루기 힘들고 거추장스러운 물건이었다. 오늘날 초기의 이 번역기들은 역사적 호기심의 대상일 뿐, 현대의 컴파일러와는 설계 면에서 어떤 유사점도 찾아볼 수 없다. (컴파일러 설계 발전의 비약적인 도약이, 이전에 주로 컴퓨터 제조업체들이 독점하던 영역에 새로운 부류의 사람들—처음에는 소규모의 긴밀한 대학 연구팀, 그다음에는 독립 소프트웨어 개발사(software house)—이 등장한 것과 맞물려 일어났다는 사실에 우리는 특별히 주목해야 한다.)
-                </div>
-            </div>
-
-            <div class="bilingual-row">
-                <div class="col-en">
-                    If, then, it is reasonable to assume that for any system requirement there is a family of system designs which will meet that requirement, we must also inquire whether the choice of design organization influences the process of selection of a system design from that family. If we believe our homomorphism, then we must agree that it does. <strong>To the extent that an organization is not completely flexible in its communication structure, that organization will stamp out an image of itself in every design it produces.</strong> The larger an organization is, the less flexibility it has and the more pronounced is the phenomenon.
-                </div>
-                <div class="col-ko">
-                    그렇다면 어떤 시스템 요구사항에 대해 그 요구사항을 충족할 수 있는 ‘시스템 설계들의군(family)’이 존재한다고 가정하는 것이 합리적일진대, 우리는 또한 설계 조직의 선택이 그 후보군 중에서 특정 시스템 설계를 선택하는 과정에 영향을 미치는지 질문해야만 한다. 우리가 앞서 증명한 준동형 사상(homomorphism)을 믿는다면, 실제로 영향을 미친다는 데 동의해야 한다. <strong>조직의 의사소통 구조가 완전히 유연하지 않은 한, 그 조직은 자신이 만들어내는 모든 설계에 자기 자신의 모습을 도장 찍듯 그대로 각인시킬 것이다.</strong> 조직의 규모가 클수록 유연성은 떨어지며, 이러한 현상은 더욱 두드러지게 나타난다.
-                </div>
-            </div>
-
-            <div class="bilingual-row">
-                <div class="col-en">
-                    <em>Examples.</em> A contract research organization had eight people who were to produce a COBOL and an ALGOL compiler. After some initial estimates of difficulty and time, five people were assigned to the COBOL job and three to the ALGOL job. The resulting COBOL compiler ran in five phases, the ALGOL compiler ran in three.
-                </div>
-                <div class="col-ko">
-                    <strong>예시 1 (컴파일러 팀).</strong> 한 위탁 연구 조직에 코볼(COBOL)과 알골(ALGOL) 컴파일러를 개발할 8명의 인원이 있었다. 난이도와 소요 시간에 대한 초기 추정을 거친 후, 코볼 작업에는 5명이, 알골 작업에는 3명이 배정되었다. 그 결과 완성된 <strong>코볼 컴파일러는 5단계(5 phases)로 실행되었고, 알골 컴파일러는 3단계(3 phases)로 실행되었다.</strong>
-                </div>
-            </div>
-
-            <div class="bilingual-row">
-                <div class="col-en">
-                    Two military services were directed by their Commander-in-Chief to develop a common weapon system to meet their respective needs. After great effort they produced a copy of their organization chart. (See Fig. 3a.)
-                </div>
-                <div class="col-ko">
-                    <strong>예시 2 (합동 무기 체계).</strong> 두 군종(예: 공군과 해군)이 최고사령관으로부터 각자의 요구를 충족할 수 있는 공통 무기 체계를 개발하라는 지시를 받았다. 각고의 노력 끝에 그들은 자신들의 조직도를 그대로 복사한 결과물을 만들어냈다. ([그림 3a] 참조.)
-                </div>
-            </div>
-
-            <div class="bilingual-row">
-                <div class="col-en">
-                    Consider the operating computer system in use solving a problem. At a high level of examination, it consists of three parts: the hardware, the system software, and the application program. (See Fig. 3b.) Corresponding to these subsystems are their respective designers: the computer manufacturer’s engineers, his system programmers, and the user’s application programmers. (Those rare instances where the system hardware and software tend to cooperate rather than merely tolerate each other are associated with manufacturers whose programmers and engineers bear a similar relationship.)
-                </div>
-                <div class="col-ko">
-                    <strong>예시 3 (컴퓨터 시스템).</strong> 문제를 해결하기 위해 가동 중인 컴퓨터 시스템을 생각해 보자. 높은 수준에서 살펴보면, 이는 하드웨어, 시스템 소프트웨어, 응용 프로그램이라는 세 부분으로 구성된다. ([그림 3b] 참조.) 이러한 하위 시스템들에는 각각의 설계자들이 대응한다. 즉, 컴퓨터 제조업체의 하드웨어 엔지니어, 제조업체의 시스템 프로그래머, 그리고 사용자 측의 응용 프로그래머가 그들이다. (시스템 하드웨어와 소프트웨어가 단순히 서로를 견뎌내는 수준을 넘어 긴밀히 협력하는 드문 사례들은, 소속 프로그래머와 엔지니어들이 실제로 그와 유사한 협력 관계를 맺고 있는 제조업체들과 관련이 있다.)
-                </div>
-            </div>
-
-            <!-- SVG FIGURE 3a & 3b -->
-            <div class="figure-container">
-                <div class="figure-badge">Figure 3a &amp; 3b • Two Examples of Identity of Structure</div>
-                <div class="svg-wrapper">
-                    <svg viewBox="0 0 840 520" xmlns="http://www.w3.org/2000/svg" font-family="'Inter', 'Noto Sans KR', sans-serif">
-                        <!-- Divider Line between 3a and 3b -->
-                        <line x1="40" y1="230" x2="800" y2="230" stroke="#e6e1d6" stroke-width="2"/>
-
-                        <!-- HEADERS -->
-                        <text x="230" y="30" text-anchor="middle" font-size="14.5" font-weight="700" text-decoration="underline" fill="#1f2328">SYSTEM (시스템 구조)</text>
-                        <text x="610" y="30" text-anchor="middle" font-size="14.5" font-weight="700" text-decoration="underline" fill="#1f2328">DESIGN ORGANIZATION (설계 조직 구조)</text>
-
-                        <!-- ================= 3a. A Weapon System ================= -->
-                        <g id="fig3a">
-                            <!-- Left Tree: System -->
-                            <text x="230" y="65" text-anchor="middle" font-size="13.5" font-weight="600" fill="#2a2e33">Common logistics (공통 군수지원)</text>
-                            <line x1="230" y1="92" x2="155" y2="155" stroke="#2a2e33" stroke-width="2.5"/>
-                            <line x1="230" y1="92" x2="305" y2="155" stroke="#2a2e33" stroke-width="2.5"/>
-                            <circle cx="230" cy="92" r="16" fill="#fbeee9" stroke="#c8553d" stroke-width="2.5"/>
-                            <circle cx="155" cy="155" r="16" fill="#fbeee9" stroke="#c8553d" stroke-width="2.5"/>
-                            <circle cx="305" cy="155" r="16" fill="#fbeee9" stroke="#c8553d" stroke-width="2.5"/>
-
-                            <text x="145" y="186" text-anchor="middle" font-size="12.5" font-weight="600" fill="#3a4048">Weapons special to Service A</text>
-                            <text x="145" y="202" text-anchor="middle" font-size="11.5" fill="#737a83">(A군 전용 무기)</text>
-
-                            <text x="315" y="186" text-anchor="middle" font-size="12.5" font-weight="600" fill="#3a4048">Weapons special to Service B</text>
-                            <text x="315" y="202" text-anchor="middle" font-size="11.5" fill="#737a83">(B군 전용 무기)</text>
-
-                            <!-- Right Tree: Design Organization -->
-                            <text x="610" y="65" text-anchor="middle" font-size="13.5" font-weight="600" fill="#2a2e33">Common logistics agency (합동 군수지원청)</text>
-                            <line x1="610" y1="92" x2="535" y2="155" stroke="#2a2e33" stroke-width="2.5"/>
-                            <line x1="610" y1="92" x2="685" y2="155" stroke="#2a2e33" stroke-width="2.5"/>
-                            <circle cx="610" cy="92" r="16" fill="#fef3c7" stroke="#d97706" stroke-width="2.5"/>
-                            <circle cx="535" cy="155" r="16" fill="#fef3c7" stroke="#d97706" stroke-width="2.5"/>
-                            <circle cx="685" cy="155" r="16" fill="#fef3c7" stroke="#d97706" stroke-width="2.5"/>
-
-                            <text x="535" y="186" text-anchor="middle" font-size="12.5" font-weight="600" fill="#3a4048">Service A (A군)</text>
-                            <text x="685" y="186" text-anchor="middle" font-size="12.5" font-weight="600" fill="#3a4048">Service B (B군)</text>
-
-                            <text x="420" y="215" text-anchor="middle" font-size="14" font-weight="700" fill="#1f2328">3a. A Weapon System (무기 체계)</text>
-                        </g>
-
-                        <!-- ================= 3b. A Computer System ================= -->
-                        <g id="fig3b">
-                            <!-- Left Vertical Chain: System -->
-                            <line x1="230" y1="285" x2="230" y2="455" stroke="#2a2e33" stroke-width="2.5"/>
-                            <circle cx="230" cy="285" r="16" fill="#fbeee9" stroke="#c8553d" stroke-width="2.5"/>
-                            <circle cx="230" cy="370" r="16" fill="#fbeee9" stroke="#c8553d" stroke-width="2.5"/>
-                            <circle cx="230" cy="455" r="16" fill="#fbeee9" stroke="#c8553d" stroke-width="2.5"/>
-
-                            <!-- Node Labels (Left of nodes) -->
-                            <text x="195" y="282" text-anchor="end" font-size="13" font-weight="600" fill="#2a2e33">Application program</text>
-                            <text x="195" y="298" text-anchor="end" font-size="11.5" fill="#737a83">(응용 프로그램)</text>
-
-                            <text x="195" y="367" text-anchor="end" font-size="13" font-weight="600" fill="#2a2e33">System software</text>
-                            <text x="195" y="383" text-anchor="end" font-size="11.5" fill="#737a83">(시스템 소프트웨어)</text>
-
-                            <text x="195" y="452" text-anchor="end" font-size="13" font-weight="600" fill="#2a2e33">System hardware</text>
-                            <text x="195" y="468" text-anchor="end" font-size="11.5" fill="#737a83">(시스템 하드웨어)</text>
-
-                            <!-- Interface Labels (Right of vertical branch) -->
-                            <path d="M 275 328 L 236 322" fill="none" stroke="#5b6470" stroke-width="1.5" marker-end="url(#arrow-label)"/>
-                            <text x="282" y="325" font-size="12.5" font-weight="600" fill="#c8553d">“Programming Language”</text>
-                            <text x="282" y="341" font-size="11.5" fill="#737a83">(프로그래밍 언어 인터페이스)</text>
-
-                            <path d="M 275 415 L 236 408" fill="none" stroke="#5b6470" stroke-width="1.5" marker-end="url(#arrow-label)"/>
-                            <text x="282" y="412" font-size="12.5" font-weight="600" fill="#c8553d">“Machine Language”</text>
-                            <text x="282" y="428" font-size="11.5" fill="#737a83">(기계어 인터페이스)</text>
-
-                            <!-- Right Vertical Chain: Design Organization -->
-                            <line x1="610" y1="285" x2="610" y2="455" stroke="#2a2e33" stroke-width="2.5"/>
-                            <!-- Dashed boundary between User and Mfr. -->
-                            <line x1="515" y1="328" x2="775" y2="328" stroke="#dc2626" stroke-width="1.8" stroke-dasharray="6,4"/>
-                            <text x="520" y="318" font-size="12" font-weight="700" fill="#dc2626">User (사용자 조직)</text>
-                            <text x="520" y="346" font-size="12" font-weight="700" fill="#dc2626">Mfr. (제조사 조직)</text>
-
-                            <circle cx="610" cy="285" r="16" fill="#fef3c7" stroke="#d97706" stroke-width="2.5"/>
-                            <circle cx="610" cy="370" r="16" fill="#fef3c7" stroke="#d97706" stroke-width="2.5"/>
-                            <circle cx="610" cy="455" r="16" fill="#fef3c7" stroke="#d97706" stroke-width="2.5"/>
-
-                            <text x="642" y="282" font-size="13" font-weight="600" fill="#2a2e33">User’s programmers</text>
-                            <text x="642" y="298" font-size="11.5" fill="#737a83">(사용자 측 응용 프로그래머)</text>
-
-                            <text x="642" y="367" font-size="13" font-weight="600" fill="#2a2e33">System programmers</text>
-                            <text x="642" y="383" font-size="11.5" fill="#737a83">(제조사 시스템 프로그래머)</text>
-
-                            <text x="642" y="452" font-size="13" font-weight="600" fill="#2a2e33">Engineers</text>
-                            <text x="642" y="468" font-size="11.5" fill="#737a83">(제조사 하드웨어 엔지니어)</text>
-
-                            <text x="420" y="502" text-anchor="middle" font-size="14" font-weight="700" fill="#1f2328">3b. A Computer System (컴퓨터 시스템)</text>
-                        </g>
-                    </svg>
-                </div>
-                <div class="fig-captions">
-                    <div class="fig-caption-en">
-                        <strong>Figure 3.</strong> Two examples of identity of structure between a system and its design organization: (3a) A multi-service weapon system mirroring the command structure, and (3b) A computer system’s layered architecture mirroring the division between user programmers, system programmers, and hardware engineers.
-                    </div>
-                    <div class="fig-caption-ko">
-                        <strong>[그림 3]</strong> 시스템과 그 설계 조직 간의 구조적 동일성(항등성)을 보여주는 두 가지 사례: (3a) 지휘 조직도를 그대로 복제한 군 합동 무기 체계, (3b) 사용자 측 프로그래머, 시스템 프로그래머, 하드웨어 엔지니어 간의 분업 구조를 그대로 반영한 컴퓨터 시스템 계층 구조.
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION 6: SYSTEM MANAGEMENT -->
-        <section class="section-block">
-            <div class="section-header">
-                <h3 class="en-sec">6. System Management</h3>
-                <h3 class="ko-sec">6. 시스템 관리 (System Management)</h3>
-            </div>
-
-            <div class="bilingual-row">
-                <div class="col-en">
-                    The structures of large systems tend to disintegrate during development, qualitatively more so than with small systems. This observation is strikingly evident when applied to the large military information systems of the last dozen years; these are some of the most complex objects devised by the mind of man. An activity called “system management” has sprung up partially in response to this tendency of systems to disintegrate. Let us examine the utility to system management of the concepts we have developed here.
-                </div>
-                <div class="col-ko">
-                    대규모 시스템의 구조는 개발 과정에서 와해(붕괴)되는 경향이 있으며, 이는 소규모 시스템에 비해 질적으로 훨씬 더 심각하게 나타난다. 이러한 관찰은 지난 십여 년간 개발된 대규모 군사 정보 시스템들에 적용해 볼 때 놀라울 정도로 자명해진다. 이 시스템들은 인간의 지성이 고안해 낸 가장 복잡한 결과물 중 일부다. 시스템이 이처럼 와해되는 경향에 부분적으로 대응하기 위해 <strong>“시스템 관리(system management)”</strong>라 불리는 활동이 생겨났다. 우리가 지금까지 전개한 개념들이 시스템 관리에 어떤 효용을 갖는지 살펴보자.
-                </div>
-            </div>
-
-            <div class="bilingual-row">
-                <div class="col-en">
-                    Why do large systems disintegrate? The process seems to occur in three steps, the first two of which are controllable and the third of which is a direct result of our homomorphism.
-                    <ol class="paper-list">
-                        <li>First, the realization by the initial designers that the system will be large, together with certain pressures in their organization, make irresistible the temptation to assign too many people to a design effort.</li>
-                        <li>Second, application of the conventional wisdom of management to a large design organization causes its communication structure to disintegrate.</li>
-                        <li>Third, the homomorphism insures that the structure of the system will reflect the disintegration which has occurred in the design organization.</li>
-                    </ol>
-                </div>
-                <div class="col-ko">
-                    대규모 시스템은 왜 와해되는가? 그 과정은 세 단계로 일어나는 것으로 보이며, 처음 두 단계는 통제 가능하지만 세 번째 단계는 우리가 증명한 준동형 사상(homomorphism)의 직접적인 결과다.
-                    <ol class="paper-list">
-                        <li><strong>첫째,</strong> 시스템이 거대해질 것이라는 초기 설계자들의 인식과 조직 내의 특정한 압박들이 맞물려, 설계 작업에 지나치게 많은 인원을 투입하려는 유혹을 뿌리칠 수 없게 만든다.</li>
-                        <li><strong>둘째,</strong> 대규모 설계 조직에 전통적인 관리 통념을 적용함으로써 조직의 의사소통 구조가 붕괴된다.</li>
-                        <li><strong>셋째,</strong> 준동형 사상에 의해 설계 조직에서 발생한 의사소통 구조의 붕괴가 시스템의 구조에 고스란히 반영된다.</li>
-                    </ol>
-                </div>
-            </div>
-
-            <div class="bilingual-row">
-                <div class="col-en">
-                    Let us first examine the tendency to overpopulate a design effort. It is a natural temptation of the initial designer—the one whose preliminary design concepts influence the organization of the design effort—to delegate tasks when the apparent complexity of the system approaches his limits of comprehension. This is the turning point in the course of the design. Either he struggles to reduce the system to comprehensibility and wins, or else he loses control of it. The outcome is almost predictable if there is schedule pressure and a budget to be managed.
-                </div>
-                <div class="col-ko">
-                    먼저 설계 작업에 과도한 인원을 투입하는 경향을 살펴보자. 예비 설계 개념을 통해 설계 작업의 조직화에 영향을 미치는 초기 설계자는, 시스템의 겉보기 복잡성이 자신의 이해 한계에 다다를 때 업무를 위임하고 싶어지는 자연스러운 유혹을 느낀다. 바로 이 지점이 설계 과정의 중대한 분기점(turning point)이다. 그가 시스템을 이해 가능한 수준으로 단순화하기 위해 고군분투하여 승리하느냐, 아니면 시스템에 대한 통제력을 상실하느냐가 여기서 갈린다. 만약 일정상의 압박과 집행해야 할 예산이 존재하는 상황이라면 그 결과는 거의 불 보듯 뻔하다.
-                </div>
-            </div>
-
-            <div class="bilingual-row">
-                <div class="col-en">
-                    A manager knows that he will be vulnerable to the charge of mismanagement if he misses his schedule without having applied all his resources. This knowledge creates a strong pressure on the initial designer who might prefer to wrestle with the design rather than fragment it by delegation, but he is made to feel that the cost of risk is too high to take the chance. Therefore, he is forced to delegate in order to bring more resources to bear.
-                </div>
-                <div class="col-ko">
-                    관리자는 자신이 가용한 모든 자원을 투입하지 않은 상태에서 일정을 놓치게 되면 관리 부실이라는 비난에 직면할 것임을 잘 알고 있다. 이러한 사실은 위임을 통해 설계를 파편화하기보다 스스로 설계와 씨름하기를 선호할지도 모를 초기 설계자에게 강력한 압박으로 작용한다. 결국 그는 위험을 감수하기에는 그 대가가 너무 크다고 느끼게 되며, 더 많은 자원을 동원하기 위해 어쩔 수 없이 업무를 위임하도록 내몰린다.
-                </div>
-            </div>
-
-            <div class="bilingual-row">
-                <div class="col-en">
-                    The following case illustrates another but related way in which the environment of the manager can be in conflict with the integrity of the system being designed. A manager must subcontract a crucial and difficult design task. He has a choice of two contractors, a small new organization which proposes an intuitively appealing approach for much less money than is budgeted, and an established but conventional outfit which is asking a more “realistic” fee. He knows that if the bright young organization fails to produce adequate results, he will be accused of mismanagement, whereas if the established outfit fails, it will be evidence that the problem is indeed a difficult one.
-                </div>
-                <div class="col-ko">
-                    다음 사례는 관리자가 처한 환경이 설계 중인 시스템의 무결성(온전함)과 어떻게 상충될 수 있는지를 보여주는 또 다른 관련된 방식이다. 한 관리자가 중요하고도 까다로운 설계 과업을 하청 주어야 한다. 그에게는 두 하청업체라는 선택지가 있다. 하나는 책정된 예산보다 훨씬 적은 비용으로 직관적으로 매력적인 접근법을 제안하는 작고 새로운 조직이고, 다른 하나는 더 “현실적인” 비용을 요구하는 기성 전통 조직이다. 관리자는 만약 그 총명한 신생 조직이 적절한 결과를 내놓지 못하면 자신이 관리 부실로 비난받을 것임을 안다. 반면 기성 조직이 실패한다면, 그것은 해당 문제가 실제로 매우 어려운 문제였다는 증거가 될 뿐이라는 사실을 알고 있다.
-                </div>
-            </div>
-
-            <div class="bilingual-row">
-                <div class="col-en">
-                    What is the difficulty here? A large part of it relates to the kind of reasoning about measurement of resources which arises from conventional accounting theory. According to this theory, the unit of resource is the dollar, and all resources must be measured using units of measurement which are convertible to the dollar. If the resource is human effort, the unit of measurement is the number of hours worked by each man times his hourly cost, summed up for the whole working force.
-                </div>
-                <div class="col-ko">
-                    여기서 문제의 핵심은 무엇인가? 상당 부분은 전통적인 회계 이론에서 비롯된 자원 측정 방식의 추론과 관련이 있다. 이 이론에 따르면 자원의 단위는 달러($)이며, 모든 자원은 달러로 환산 가능한 측정 단위를 사용해 계량되어야 한다. 자원이 인간의 노력인 경우, 측정 단위는 각 인원이 일한 시간 수에 시간당 비용을 곱한 뒤 이를 전체 인력에 대해 합산한 값이 된다.
-                </div>
-            </div>
-
-            <div class="bilingual-row">
-                <div class="col-en">
-                    One fallacy behind this calculation is the property of <em>linearity</em> which says that two men working for a year or one hundred men working for a week (at the same hourly cost per man) are resources of equal value. Assuming that two men and one hundred men cannot work in the same organizational structure (this is intuitively evident and will be discussed below) our homomorphism says that they will not design similar systems; therefore the value of their efforts may not even be comparable. From experience we know that the two men, if they are well chosen and survive the experience, will give us a better system. Assumptions which may be adequate for peeling potatoes and erecting brick walls fail for designing systems.
-                </div>
-                <div class="col-ko">
-                    이러한 계산 이면에 숨어 있는 한 가지 오류는, (인당 시간당 비용이 같을 때) <strong>2명이 1년 동안 일하는 것과 100명이 1주일 동안 일하는 것이 동일한 가치를 지닌 자원이라고 간주하는 ‘선형성(linearity)’의 가정</strong>이다. 2명과 100명이 동일한 조직 구조 안에서 일할 수 없다고 가정할 때(이는 직관적으로 자명하며 아래에서 논의할 것이다), 우리의 준동형 사상은 그들이 유사한 시스템을 설계하지 않을 것임을 말해준다. 따라서 그들 노력의 가치는 애초에 비교 대상조차 될 수 없다. 우리는 경험상 잘 선발된 2명이 그 과정을 견뎌낸다면 더 나은 시스템을 만들어낼 것임을 알고 있다. <strong>감자 껍질을 벗기거나 벽돌담을 쌓는 데에는 적합할지 모를 가정들이 시스템 설계에서는 완전히 실패한다.</strong>
-                </div>
-            </div>
-
-            <div class="bilingual-row">
-                <div class="col-en">
-                    Parkinson’s Law<sup class="fn-ref">[2]</sup> plays an important role in the overassignment of design effort. As long as the manager’s prestige and power are tied to the size of his budget, he will be motivated to expand his organization. This is an inappropriate motive in the management of a system design activity. Once the organization exists, of course, it will be used. Probably the greatest single common factor behind many poorly designed systems now in existence has been the availability of a design organization in need of work.
-                </div>
-                <div class="col-ko">
-                    파킨슨의 법칙(Parkinson’s Law)<sup class="fn-ref">[2]</sup>은 설계 작업의 과잉 인원 배정에 중요한 역할을 한다. 관리자의 명성과 권력이 그가 다루는 예산 규모와 결부되어 있는 한, 그는 자신의 조직을 확장하려는 동기를 갖게 된다. 이는 시스템 설계 활동을 관리하는 데 있어 부적절한 동기다. 물론 일단 조직이 만들어지면 어떻게든 활용되기 마련이다. <strong>현재 존재하는 수많은 조악하게 설계된 시스템들의 이면에 자리한 가장 큰 단일 공통 요인은 아마도 ‘일거리가 필요한 설계 조직이 이미 존재하고 있었다’는 사실일 것이다.</strong>
-                </div>
-            </div>
-
-            <div class="bilingual-row">
-                <div class="col-en">
-                    The second step in the disintegration of a system design—the fragmentation of the design organization’s communication structure—begins as soon as delegation has started. Elementary probability theory tells us that the number of possible communication paths in an organization is approximately half the square of the number of people in the organization. Even in a moderately small organization it becomes necessary to restrict communication in order that people can get some “work” done. Research which leads to techniques permitting more efficient communication among designers will play an extremely important role in the technology of system management.
-                </div>
-                <div class="col-ko">
-                    시스템 설계가 와해되는 두 번째 단계—설계 조직의 의사소통 구조가 파편화되는 현상—는 업무 위임이 시작되자마자 곧바로 시작된다. 기초 확률론에 따르면 조직 내에서 가능한 의사소통 경로의 수는 조직 인원수 제곱의 약 절반(<em>n(n-1)/2 ≈ n²/2</em>)에 달한다. 그리 크지 않은 규모의 조직에서조차 사람들이 소위 “업무”를 처리할 수 있게 하려면 의사소통을 제한하는 것이 불가피해진다. 설계자들 간에 보다 효율적인 의사소통을 가능케 하는 기법으로 이어지는 연구는 향후 시스템 관리 기술에서 지극히 중요한 역할을 할 것이다.
-                </div>
-            </div>
-
-            <div class="bilingual-row">
-                <div class="col-en">
-                    Common management practice places certain numerical constraints on the complexity of the linear graph which represents the administrative structure of a military-style organization. Specifically, each individual must have at most one superior and at most approximately seven subordinates. To the extent that organizational protocol restricts communication along lines of command, the communication structure of an organization will resemble its administrative structure. This is one reason why military-style organizations design systems which look like their organization charts.
-                </div>
-                <div class="col-ko">
-                    일반적인 관리 관행은 군대식 조직의 행정 구조를 나타내는 선형 그래프의 복잡성에 특정한 수치적 제약을 가한다. 구체적으로, 각 개인은 최대 1명의 상관과 최대 약 7명 내외의 부하 직원을 두어야 한다. 조직의 규율이 의사소통을 지휘 계통(명령 라인)을 따라서만 이루어지도록 제한하는 한, 조직의 의사소통 구조는 그 행정 구조와 닮게 된다. 이것이 바로 군대식 조직이 자기네 조직도와 똑같이 생긴 시스템을 설계하는 이유 중 하나다.
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION 7: CONCLUSION (CONWAY'S LAW) -->
-        <section class="section-block">
-            <div class="section-header">
-                <h3 class="en-sec">7. Conclusion (Conway’s Law)</h3>
-                <h3 class="ko-sec">7. 결론 (콘웨이의 법칙)</h3>
-            </div>
-
-            <div class="bilingual-row">
-                <div class="col-en">
-                    <div class="conway-law-highlight">
-                        <strong>The basic thesis of this article is that organizations which design systems (in the broad sense used here) are constrained to produce designs which are copies of the communication structures of these organizations.</strong>
-                    </div>
-                    We have seen that this fact has important implications for the management of system design. Primarily, we have found a criterion for the structuring of design organizations: a design effort should be organized according to the need for communication.
-                </div>
-                <div class="col-ko">
-                    <div class="conway-law-highlight">
-                        <strong>이 글의 기본 논지는 (여기서 사용된 넓은 의미에서의) 시스템을 설계하는 조직은 그 조직의 의사소통 구조를 그대로 복제한 설계를 만들어낼 수밖에 없도록 제약된다는 것이다.</strong>
-                    </div>
-                    우리는 이 사실이 시스템 설계 관리에 중요한 시사점을 갖는다는 것을 확인했다. 무엇보다도 우리는 설계 조직을 구조화하기 위한 하나의 기준을 발견했다. 즉, <strong>설계 작업은 의사소통의 필요에 따라 조직되어야 한다.</strong>
-                </div>
-            </div>
-
-            <div class="bilingual-row">
-                <div class="col-en">
-                    This criterion creates problems because the need to communicate at any time depends on the system concept in effect at that time. Because the design which occurs first is almost never the best possible, the prevailing system concept may need to change. Therefore, flexibility of organization is important to effective design.
-                </div>
-                <div class="col-ko">
-                    이 기준은 새로운 문제를 야기하는데, 왜냐하면 특정 시점에 필요한 의사소통은 그 시점에 유효한 시스템 개념에 좌우되기 때문이다. 가장 먼저 떠오른 설계가 최선의 설계인 경우는 거의 없으므로, 지배적인 시스템 개념은 변경되어야 할 수도 있다. <strong>따라서 효과적인 설계를 위해서는 조직의 유연성이 핵심적이다.</strong>
-                </div>
-            </div>
-
-            <div class="bilingual-row">
-                <div class="col-en">
-                    Ways must be found to reward design managers for keeping their organizations lean and flexible. There is need for a philosophy of system design management which is not based on the assumption that adding manpower simply adds to productivity. The development of such a philosophy promises to unearth basic questions about value of resources and techniques of communication which will need to be answered before our system-building technology can proceed with confidence.
-                </div>
-                <div class="col-ko">
-                    설계 관리자들이 자신의 조직을 작고 기민하며(lean) 유연하게 유지하는 것에 대해 보상할 수 있는 방안이 모색되어야 한다. 단순히 인력을 추가하면 생산성이 높아진다는 가정에 기반하지 않는 새로운 시스템 설계 관리 철학이 필요하다. 그러한 철학의 발전은 자원의 가치와 의사소통 기술에 관한 근본적인 질문들을 발굴해 낼 것이며, 우리의 시스템 구축 기술이 확신을 갖고 나아가기 위해서는 그 질문들에 대한 답이 먼저 이루어져야 할 것이다.
-                </div>
-            </div>
-        </section>
-
-        <!-- FOOTNOTES -->
-        <aside class="footnotes-card">
-            <h4>Footnotes &amp; References (각주 및 참고문헌)</h4>
-
-            <div class="fn-item">
-                <div class="col-en-fn">
-                    <strong>[1]</strong> A related, but much more comprehensive discussion of the behavior of system-designing organizations is found in John Kenneth Galbraith’s, <em>The New Industrial State</em> (Boston, Houghton Mifflin, 1967). See especially Chapter VI, “The Technostructure.” For a discussion of the problems which may arise when the design activity takes the form of a project in a functional environment, see C. J. Middleton, “How to Set Up a Project Organization,” <em>Harvard Business Review</em>, March-April, 1967, p. 73.
-                </div>
-                <div class="col-ko-fn">
-                    <strong>[1]</strong> 시스템 설계 조직의 행동에 관한 관련되면서도 훨씬 더 포괄적인 논의는 존 케네스 갤브레이스(John Kenneth Galbraith)의 <em>『새로운 산업국가(The New Industrial State)』</em> (Boston, Houghton Mifflin, 1967), 특히 제6장 “테크노스트럭처(The Technostructure)”를 참조하라. 기능 중심 환경에서 설계 활동이 프로젝트 형태를 띨 때 발생할 수 있는 문제에 대한 논의는 C. J. 미들턴(Middleton)의 “프로젝트 조직을 구축하는 방법(How to Set Up a Project Organization)” (<em>Harvard Business Review</em>, 1967년 3-4월호, p. 73)을 참조하라.
-                </div>
-            </div>
-
-            <div class="fn-item">
-                <div class="col-en-fn">
-                    <strong>[*]</strong> This claim may be viewed several ways. It may be trivial, hinging on the definition of meaningful negotiation. Or, it may be the result of the observation that one design group almost never will compromise its own design to meet the needs of another group unless absolutely imperative.
-                </div>
-                <div class="col-ko-fn">
-                    <strong>[*]</strong> 이 주장은 여러 관점에서 볼 수 있다. ‘의미 있는 협상’을 어떻게 정의하느냐에 달린 자명한(trivial) 이야기일 수도 있다. 혹은, 한 설계 그룹은 절대적으로 불가피한 경우가 아니면 다른 그룹의 요구를 맞추기 위해 자신들의 설계를 결코 타협하지 않는다는 관찰의 결과일 수도 있다.
-                </div>
-            </div>
-
-            <div class="fn-item">
-                <div class="col-en-fn">
-                    <strong>[2]</strong> (Numbered 3 in original text) C. Northcote Parkinson, <em>Parkinson’s Law and Other Studies in Administration</em> (Boston, Houghton Mifflin, 1957).
-                </div>
-                <div class="col-ko-fn">
-                    <strong>[2]</strong> (원문에서는 각주 번호 3으로 표기됨) C. 노스코트 파킨슨(C. Northcote Parkinson), <em>『파킨슨의 법칙과 행정에 관한 연구(Parkinson’s Law and Other Studies in Administration)』</em> (Boston, Houghton Mifflin, 1957).
-                </div>
-            </div>
-        </aside>
-
+      </section>
+
+      <section class="sec" id="s1">
+        <div class="sec-head">
+          <span class="sec-num">1</span>
+          <div>
+            <h2>시스템 설계의 정의</h2>
+            <p class="sub">다양한 부분들을 결합하여 유용한 전체를 만드는 지적 활동</p>
+          </div>
+        </div>
+        <p>콘웨이는 무기 체계 사양 작성, 사회 정책 수립, 컴퓨터 프로그래밍 모두 본질적으로 <strong>‘시스템 설계(System Design)’</strong>라는 동일한 지적 활동 범주에 속한다고 정의합니다. 설계 조직의 목표는 일관성 있게 구조화된 정보 문서를 작성하는 것이며, 이는 활동을 지시한 <strong>스폰서(Sponsor)</strong>를 위해 작성됩니다.</p>
+        <p>설계가 대규모일수록 한 사람이 모든 것을 감당할 수 없으므로 필연적으로 ‘위원회(Committee)’ 혹은 다수의 팀이 분할하여 참여하게 됩니다.</p>
+        <div class="terms">
+          <span class="term">시스템 설계</span>
+          <span class="term">스폰서</span>
+          <span class="term">지적 통합 활동</span>
+        </div>
+      </section>
+
+      <section class="sec" id="s2">
+        <div class="sec-head">
+          <span class="sec-num">2</span>
+          <div>
+            <h2>설계의 4단계</h2>
+            <p class="sub">조직 분할이 아키텍처 결정을 선행하는 역설</p>
+          </div>
+        </div>
+        <p>설계 과정은 4단계의 순환 과정을 거칩니다:</p>
+        <ol>
+          <li><strong>경계의 설정(Understanding):</strong> 해결해야 할 문제의 경계를 긋고 시스템의 기본 개념을 도출.</li>
+          <li><strong>조직의 분할(Delegation):</strong> 작업을 나눌 수 있도록 팀을 구성하고 책임을 배분.</li>
+          <li><strong>예비 설계의 고착(Commitment):</strong> 조직이 구성되는 순간, 각 팀에 배정된 영역이 곧 서브시스템의 분할 기준이 됨.</li>
+          <li><strong>세부 설계 및 통합(Realization):</strong> 각 팀이 담당 서브시스템을 상세화하고 최종 문서로 통합.</li>
+        </ol>
+        <p>문제는 2단계(조직 구성)가 3단계(예비 설계)를 영구히 구속한다는 점입니다. 일단 조직이 갈라지면, 조직의 경계를 넘나드는 대안 아키텍처는 검토조차 되지 못합니다.</p>
+        <div class="terms">
+          <span class="term">경계 설정</span>
+          <span class="term">조직 분할</span>
+          <span class="term">예비 설계 고착</span>
+        </div>
+      </section>
+
+      <section class="sec" id="s3">
+        <div class="sec-head">
+          <span class="sec-num">3</span>
+          <div>
+            <h2>설계된 시스템</h2>
+            <p class="sub">서브시스템과 인터페이스의 선형 그래프 모델</p>
+          </div>
+        </div>
+        <p>콘웨이는 시스템을 수학적으로 모델링합니다. 시스템은 상호 연동되는 부시스템(Subsystems)의 집합이며, 각 부시스템 사이에는 데이터나 제어가 오가는 <strong>인터페이스(Interface)</strong>가 존재합니다.</p>
+        <p>이를 수학의 <strong>선형 그래프(Linear Graph)</strong>로 표현하면, 정점(Node)은 부시스템이고, 간선(Edge)은 두 부시스템 간의 인터페이스입니다. 완전히 분리 가능한 시스템일수록 간선 수가 적고 모듈화 수준이 높습니다.</p>
+        <div class="terms">
+          <span class="term">선형 그래프</span>
+          <span class="term">인터페이스 간선</span>
+          <span class="term">모듈화</span>
+        </div>
+      </section>
+
+      <section class="sec" id="s4">
+        <div class="sec-head">
+          <span class="sec-num">4</span>
+          <div>
+            <h2>두 개념의 연결</h2>
+            <p class="sub">조직 그래프와 시스템 그래프의 준동형 사상 (Homomorphism)</p>
+          </div>
+        </div>
+        <p>두 서브시스템 간에 인터페이스가 존재하려면, 그 두 서브시스템을 만드는 두 팀 사이에 반드시 <strong>의사소통 경로</strong>가 열려 있어야 합니다. 반대로 두 팀 사이에 소통 경로가 없다면, 두 팀이 만든 모듈 간에는 상호작용하는 인터페이스가 성립할 수 없습니다.</p>
+        <p>따라서 설계 조직의 의사소통 그래프 $O$에서 시스템의 인터페이스 그래프 $S$로 가는 <strong>구조 보존 사상(준동형, Homomorphism)</strong>이 성립합니다. 조직에 존재하는 의사소통 장벽은 고스란히 시스템 아키텍처의 분리선이 됩니다.</p>
+        <details class="viz" open>
+          <summary>도식: 조직 네트워크와 아키텍처의 준동형 사상</summary>
+          <div class="viz-body">
+            <svg viewBox="0 0 540 180" width="100%" style="max-width:540px" role="img" aria-label="조직 구조와 아키텍처 구조의 준동형 사상 도식">
+              <rect x="10" y="10" width="230" height="160" rx="12" fill="#fdfcf9" stroke="#e6e1d6" stroke-width="1.5"/>
+              <text x="125" y="36" text-anchor="middle" font-size="14" font-weight="700" fill="#3d5f80">설계 조직 그래프 O</text>
+              <circle cx="60" cy="80" r="18" fill="#eaf0f6" stroke="#3d5f80" stroke-width="1.5"/>
+              <text x="60" y="85" text-anchor="middle" font-size="12" font-weight="700" fill="#3d5f80">팀 A</text>
+              <circle cx="190" cy="80" r="18" fill="#eaf0f6" stroke="#3d5f80" stroke-width="1.5"/>
+              <text x="190" y="85" text-anchor="middle" font-size="12" font-weight="700" fill="#3d5f80">팀 B</text>
+              <circle cx="125" cy="135" r="18" fill="#eaf0f6" stroke="#3d5f80" stroke-width="1.5"/>
+              <text x="125" y="140" text-anchor="middle" font-size="12" font-weight="700" fill="#3d5f80">팀 C</text>
+              <line x1="78" y1="80" x2="172" y2="80" stroke="#c8553d" stroke-width="2"/>
+              <line x1="73" y1="94" x2="112" y2="121" stroke="#c8553d" stroke-width="2"/>
+              <line x1="177" y1="94" x2="138" y2="121" stroke="#c8553d" stroke-width="2" stroke-dasharray="3,3"/>
+              
+              <path d="M 255 90 L 285 90" stroke="#5b6470" stroke-width="2"/>
+              <text x="270" y="80" text-anchor="middle" font-size="12" font-weight="700" fill="#5b6470">사상</text>
+
+              <rect x="300" y="10" width="230" height="160" rx="12" fill="#fdfcf9" stroke="#e6e1d6" stroke-width="1.5"/>
+              <text x="415" y="36" text-anchor="middle" font-size="14" font-weight="700" fill="#c8553d">시스템 인터페이스 그래프 S</text>
+              <rect x="330" y="65" width="48" height="30" rx="6" fill="#fbeee9" stroke="#c8553d" stroke-width="1.5"/>
+              <text x="354" y="85" text-anchor="middle" font-size="12" font-weight="700" fill="#c8553d">모듈 A</text>
+              <rect x="450" y="65" width="48" height="30" rx="6" fill="#fbeee9" stroke="#c8553d" stroke-width="1.5"/>
+              <text x="474" y="85" text-anchor="middle" font-size="12" font-weight="700" fill="#c8553d">모듈 B</text>
+              <rect x="390" y="120" width="48" height="30" rx="6" fill="#fbeee9" stroke="#c8553d" stroke-width="1.5"/>
+              <text x="414" y="140" text-anchor="middle" font-size="12" font-weight="700" fill="#c8553d">모듈 C</text>
+              <line x1="378" y1="80" x2="450" y2="80" stroke="#3d5f80" stroke-width="2"/>
+              <line x1="360" y1="95" x2="390" y2="120" stroke="#3d5f80" stroke-width="2"/>
+              <line x1="468" y1="95" x2="438" y2="120" stroke="#3d5f80" stroke-width="2" stroke-dasharray="3,3"/>
+            </svg>
+          </div>
+        </details>
+        <div class="terms">
+          <span class="term">준동형 사상</span>
+          <span class="term">조직 그래프</span>
+          <span class="term">인터페이스 그래프</span>
+        </div>
+      </section>
+
+      <section class="sec" id="s5">
+        <div class="sec-head">
+          <span class="sec-num">5</span>
+          <div>
+            <h2>조직 투영 사례</h2>
+            <p class="sub">COBOL 컴파일러(5개 패스)와 ALGOL 컴파일러(3개 패스)</p>
+          </div>
+        </div>
+        <p>콘웨이는 논문에서 유명한 컴파일러 제작 일화를 제시합니다. 계약 연구 조직에서 8명의 유능한 프로그래머에게 COBOL과 ALGOL 컴파일러를 각각 의뢰받았습니다.</p>
+        <ul>
+          <li><strong>COBOL 프로젝트:</strong> 5명이 투입되어 컴파일러를 5개 패스(Phase)로 설계·구현.</li>
+          <li><strong>ALGOL 프로젝트:</strong> 3명이 투입되어 컴파일러를 3개 패스로 설계·구현.</li>
+        </ul>
+        <p>언어 사양의 기술적 요구사항 때문이 아니라, 팀원들이 각자 일감을 나누어 갖는 가장 자연스러운 의사소통 방식을 택했기 때문에 컴파일러 파이프라인 단계 수가 팀원 수와 정확히 일치했던 것입니다.</p>
+        <div class="terms">
+          <span class="term">COBOL 5패스</span>
+          <span class="term">ALGOL 3패스</span>
+          <span class="term">파킨슨의 법칙</span>
+        </div>
+      </section>
+
+      <section class="sec" id="s6">
+        <div class="sec-head">
+          <span class="sec-num">6</span>
+          <div>
+            <h2>시스템 관리</h2>
+            <p class="sub">예비 설계의 함정과 유연한 조직 설계</p>
+          </div>
+        </div>
+        <p>관리자가 흔히 저지르는 실수는 충분한 조사 없이 예비 설계를 조기에 확정하고 조직을 세분화하여 고정해 버리는 것입니다. 조직이 굳어지면 아키텍처도 함께 굳어집니다.</p>
+        <p>콘웨이가 제시하는 해결책은 두 가지입니다:</p>
+        <ol>
+          <li><strong>의사소통 경로의 의도적 개방:</strong> 사일로를 부수고 팀 간 교류를 활성화할 것.</li>
+          <li><strong>해체 가능한 시스템(Decomposable Systems) 설계:</strong> 아키텍처 변경에 따라 조직 구조를 기민하게 재편할 수 있는 유연성을 확보할 것.</li>
+        </ol>
+        <div class="terms">
+          <span class="term">예비 설계 함정</span>
+          <span class="term">해체 가능한 시스템</span>
+          <span class="term">조직 유연성</span>
+        </div>
+      </section>
+
+      <section class="sec" id="s7">
+        <div class="sec-head">
+          <span class="sec-num">7</span>
+          <div>
+            <h2>결론: 콘웨이의 법칙</h2>
+            <p class="sub">법칙의 명문화와 역 콘웨이 전략</p>
+          </div>
+        </div>
+        <p>논문의 최종 결론은 오늘날 <strong>‘콘웨이의 법칙(Conway’s Law)’</strong>으로 불리는 불멸의 문장입니다:</p>
+        <blockquote>
+          “시스템을 설계하는 조직은 그 조직의 의사소통 구조를 복제한(isomorphic/homomorphic) 설계를 만들어낼 수밖에 없다.”
+        </blockquote>
+        <p>현대 마이크로서비스와 애자일에서 말하는 <strong>‘역 콘웨이 전략(Reverse Conway Maneuver)’</strong>—원하는 소프트웨어 아키텍처를 먼저 그리고, 그 구조대로 팀을 재배치하는 전략—의 이론적 기원이 바로 이 1968년 논문입니다.</p>
+        <div class="terms">
+          <span class="term">콘웨이의 법칙</span>
+          <span class="term">의사소통 구조 복제</span>
+          <span class="term">역 콘웨이 전략</span>
+        </div>
+      </section>
+
+      <section class="sec" id="rv">
+        <div class="sec-head"><span class="sec-num">✔</span><div><h2>복습</h2><p class="sub">본문 내용만으로 만든 암기·이해 점검</p></div></div>
+
+        <h3 class="rv-h">핵심 용어 카드</h3>
+        <p class="muted">카드를 누르면 뜻이 나옵니다.</p>
+        <div class="flips">
+          <button type="button" class="flip" aria-expanded="false"><b>준동형 사상 (Homomorphism)</b><span class="hint">뜻 보기</span><span class="m">설계 조직의 의사소통 그래프 구조가 최종 시스템 인터페이스 그래프 구조로 보존·투영되는 수학적 관계.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>선형 그래프 (Linear Graph)</b><span class="hint">뜻 보기</span><span class="m">정점(부시스템)과 간선(인터페이스)으로 시스템 구조를 모델링하는 수학적 도구.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>파킨슨의 법칙 (Parkinson’s Law)</b><span class="hint">뜻 보기</span><span class="m">일은 주어진 시간과 자원을 모두 채울 때까지 늘어난다는 원리로, 팀 규모가 아키텍처 크기를 부풀리는 현상 설명.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>COBOL vs ALGOL 사례</b><span class="hint">뜻 보기</span><span class="m">5명 팀은 5패스 컴파일러를, 3명 팀은 3패스 컴파일러를 만들었던 콘웨이의 실증 관찰 사례.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>예비 설계의 고착</b><span class="hint">뜻 보기</span><span class="m">조직 분할이 예비 설계를 영구히 확정하여 다른 대안적 설계를 탐색할 수 없게 만드는 현상.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>해체 가능한 시스템</b><span class="hint">뜻 보기</span><span class="m">모듈 간 결합도가 낮아 조직 재편이나 설계 변경에 유연하게 대응할 수 있는 아키텍처.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>역 콘웨이 전략</b><span class="hint">뜻 보기</span><span class="m">원하는 소프트웨어 아키텍처에 맞추어 팀과 조직의 의사소통 구조를 먼저 재배치하는 전략.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>스폰서 (Sponsor)</b><span class="hint">뜻 보기</span><span class="m">시스템 설계를 주문하고, 그 설계 문서를 바탕으로 실제 활동이나 생산을 수행하고자 하는 의뢰자.</span></button>
+        </div>
+        <div class="rv-tools"><button type="button" data-all="flip">모두 뒤집기</button><button type="button" data-reset="flip">모두 접기</button></div>
+
+        <h3 class="rv-h">빈칸 채우기</h3>
+        <p class="muted">빈칸을 누르면 답이 나옵니다.</p>
+        <ol class="cloze">
+          <li>시스템을 설계하는 조직은 그 조직의 <button type="button" class="blank" data-a="의사소통 구조" aria-label="빈칸, 눌러서 답 보기">?</button>를 복제한 설계를 생산해 낸다.</li>
+          <li>조직 그래프에서 시스템 인터페이스 그래프로의 대응 관계를 수학적으로 <button type="button" class="blank" data-a="준동형 사상" aria-label="빈칸, 눌러서 답 보기">?</button>(Homomorphism)이라 부른다.</li>
+          <li>콘웨이의 사례 연구에서 5명이 투입된 팀은 5개의 패스를 가진 <button type="button" class="blank" data-a="COBOL" aria-label="빈칸, 눌러서 답 보기">?</button> 컴파일러를 제작했다.</li>
+          <li>초기 조직 구성이 아키텍처 결정을 영구히 구속하는 문제를 <button type="button" class="blank" data-a="예비 설계" aria-label="빈칸, 눌러서 답 보기">?</button>의 고착이라 한다.</li>
+          <li>설계 변경에 유연하게 대응하기 위해 모듈 간 독립성을 극대화한 구조를 <button type="button" class="blank" data-a="해체 가능한" aria-label="빈칸, 눌러서 답 보기">?</button> 시스템이라 한다.</li>
+          <li>원하는 아키텍처에 맞게 조직을 먼저 설계하는 현대적 기법을 <button type="button" class="blank" data-a="역 콘웨이" aria-label="빈칸, 눌러서 답 보기">?</button> 전략이라 부른다.</li>
+        </ol>
+        <div class="rv-tools"><button type="button" data-all="blank">답 모두 보기</button><button type="button" data-reset="blank">빈칸 다시 가리기</button></div>
+
+        <h3 class="rv-h">5문항 퀴즈</h3>
+        <div id="quiz">
+          <div class="q" data-a="1">
+            <fieldset>
+              <legend class="qt">1. 멜빈 콘웨이가 정의한 ‘시스템 설계’의 성격으로 가장 알맞은 것은?</legend>
+              <button type="button">프로그래밍 언어의 구문 문법을 정의하는 하드웨어 작업</button>
+              <button type="button">다양한 부분들을 결합하여 유용한 전체를 만들어내는 지적 활동</button>
+              <button type="button">비용 절감을 위해 인력을 감축하는 관리 프로세스</button>
+            </fieldset>
+            <p class="ex" hidden aria-live="polite" data-e="콘웨이는 무기 체계, 정책, 소프트웨어 모두 유용한 전체를 만드는 지적 활동이라고 정의했습니다."></p>
+          </div>
+          <div class="q" data-a="0">
+            <fieldset>
+              <legend class="qt">2. 설계 과정에서 ‘조직 분할’이 초래하는 치명적인 부작용은 무엇인가?</legend>
+              <button type="button">예비 설계가 고착되어 조직 경계를 넘나드는 대안 아키텍처를 검토하기 어려워진다</button>
+              <button type="button">각 팀 간의 의사소통 비용이 0으로 줄어든다</button>
+              <button type="button">시스템의 서브시스템 개수가 강제로 1개로 축소된다</button>
+            </fieldset>
+            <p class="ex" hidden aria-live="polite" data-e="조직이 먼저 나눠지면 팀별 경계가 곧 모듈 경계로 고착되어 다른 설계 대안이 배제됩니다."></p>
+          </div>
+          <div class="q" data-a="2">
+            <fieldset>
+              <legend class="qt">3. 조직 그래프 $O$와 시스템 인터페이스 그래프 $S$ 간의 관계에 대한 설명으로 옳은 것은?</legend>
+              <button type="button">조직과 시스템 구조는 서로 완전히 독립적이며 아무런 관계가 없다</button>
+              <button type="button">두 팀 사이에 소통이 없어도 두 서브시스템 간에는 완벽한 인터페이스가 성립한다</button>
+              <button type="button">조직의 의사소통 구조가 시스템 인터페이스로 투영되는 준동형 사상이 성립한다</button>
+            </fieldset>
+            <p class="ex" hidden aria-live="polite" data-e="두 팀 사이에 의사소통 경로가 있어야 인터페이스가 성립하므로 구조 보존 사상(준동형)이 성립합니다."></p>
+          </div>
+          <div class="q" data-a="1">
+            <fieldset>
+              <legend class="qt">4. 8명의 프로그래머가 COBOL과 ALGOL 컴파일러를 만들었을 때 나타난 결과는?</legend>
+              <button type="button">COBOL 팀은 1개 패스, ALGOL 팀은 8개 패스로 구현했다</button>
+              <button type="button">COBOL(5명)은 5개 패스, ALGOL(3명)은 3개 패스 컴파일러를 구현했다</button>
+              <button type="button">두 팀 모두 인원수와 무관하게 2개 패스 컴파일러를 완성했다</button>
+            </fieldset>
+            <p class="ex" hidden aria-live="polite" data-e="투입된 인원수(5명, 3명)가 그대로 컴파일러 파이프라인 패스 수(5패스, 3패스)로 복제되었습니다."></p>
+          </div>
+          <div class="q" data-a="0">
+            <fieldset>
+              <legend class="qt">5. 현대 소프트웨어 공학에서 콘웨이의 법칙을 활용하는 ‘역 콘웨이 전략’이란?</legend>
+              <button type="button">원하는 아키텍처(마이크로서비스 등)에 맞춰 팀의 조직 및 소통 구조를 재편하는 것</button>
+              <button type="button">기존 조직도를 바꾸지 않고 코드를 억지로 끼워 맞추는 것</button>
+              <button type="button">모든 개발자가 단 하나의 단일 팀으로 통합되어 소통하는 것</button>
+            </fieldset>
+            <p class="ex" hidden aria-live="polite" data-e="역 콘웨이 전략은 지향하는 시스템 아키텍처를 먼저 정하고 그에 맞추어 조직 구조를 재배치합니다."></p>
+          </div>
+          <p class="score" id="score" aria-live="polite">점수: 0 / 5</p>
+          <div class="rv-tools"><button type="button" id="qreset">다시 풀기</button></div>
+        </div>
+      </section>
+
+      <section class="sources">
+        <h3>원문 출처 및 참고 문헌</h3>
+        <p>• Melvin E. Conway, 「How Do Committees Invent?」, <em>Datamation</em>, 14(4):28–31, April 1968.<br>
+        • 심화 원문 전문: <a href="https://yghnsim.github.io/Pages/articles/conway_1968_how_do_committees_invent.html">Pages — 위원회는 어떻게 발명하는가 (영·한 대조 심화 해설)</a></p>
+      </section>
     </main>
+  </div>
+</div>
 
-    <script>
-        function setMode(mode, btn) {
-            document.body.classList.remove('mode-en', 'mode-ko');
-            if (mode === 'en') {
-                document.body.classList.add('mode-en');
-            } else if (mode === 'ko') {
-                document.body.classList.add('mode-ko');
-            }
-            document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-        }
-    </script>
+<script>(function(){
+function $$(q){return [].slice.call(document.querySelectorAll(q))}
+$$('.flip').forEach(function(b){b.onclick=function(){b.setAttribute('aria-expanded',b.getAttribute('aria-expanded')==='true'?'false':'true')}});
+function show(b){b.textContent=b.dataset.a;b.classList.add('shown');b.setAttribute('aria-label','답: '+b.dataset.a)}
+function hide(b){b.textContent='?';b.classList.remove('shown');b.setAttribute('aria-label','빈칸, 눌러서 답 보기')}
+$$('.blank').forEach(function(b){b.onclick=function(){show(b)}});
+$$('[data-all]').forEach(function(t){t.onclick=function(){if(t.dataset.all==='flip')$$('.flip').forEach(function(b){b.setAttribute('aria-expanded','true')});else $$('.blank').forEach(show)}});
+$$('[data-reset]').forEach(function(t){t.onclick=function(){if(t.dataset.reset==='flip')$$('.flip').forEach(function(b){b.setAttribute('aria-expanded','false')});else $$('.blank').forEach(hide)}});
+var sc=0,done=0,qs=$$('#quiz .q'),tot=qs.length||5;
+function upd(){var el=document.getElementById('score');if(el)el.textContent='점수: '+sc+' / '+tot+(done===tot?' (끝)':'')}
+qs.forEach(function(q){var bs=[].slice.call(q.querySelectorAll('fieldset button')),ex=q.querySelector('.ex');
+bs.forEach(function(b,i){b.onclick=function(){var a=+q.dataset.a,ok=i===a;bs.forEach(function(x){x.disabled=true});if(bs[a])bs[a].classList.add('right');if(!ok)b.classList.add('wrong');
+if(ex){ex.hidden=false;ex.textContent=(ok?'맞았습니다. ':'아쉽습니다. ')+ex.dataset.e;}if(ok)sc++;done++;upd();}})});
+var qr=document.getElementById('qreset');
+if(qr)qr.onclick=function(){sc=0;done=0;qs.forEach(function(q){q.querySelectorAll('fieldset button').forEach(function(x){x.disabled=false;x.className=''});var ex=q.querySelector('.ex');if(ex){ex.hidden=true;ex.textContent=''}});upd()};
+})();</script>
 
 <!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
-<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">요약 아카이브</div><div class="arc-foot-title">How Do Committees Invent? - Melvin E. Conway (1968) 영한 대조</div><div class="arc-foot-meta"><time datetime="2026-10-14">2026년 10월 14일</time><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99">#컴퓨터과학</a><a class="arc-tag" href="../index.html#tags=%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4%EA%B3%B5%ED%95%99">#소프트웨어공학</a><a class="arc-tag" href="../index.html#tags=%EC%A1%B0%EC%A7%81%EC%84%A4%EA%B3%84">#조직설계</a><a class="arc-tag" href="../index.html#tags=%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98">#아키텍처</a><a class="arc-tag" href="../index.html#tags=%EB%85%BC%EB%AC%B8%EB%A6%AC%EB%B7%B0">#논문리뷰</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">요약 아카이브</div><div class="arc-foot-title">위원회는 어떻게 발명하는가: 멜빈 콘웨이(1968) 핵심 정리</div><div class="arc-foot-meta"><time datetime="2026-10-14">2026년 10월 14일</time><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99">#컴퓨터과학</a><a class="arc-tag" href="../index.html#tags=%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4%EA%B3%B5%ED%95%99">#소프트웨어공학</a><a class="arc-tag" href="../index.html#tags=%EC%A1%B0%EC%A7%81%EC%84%A4%EA%B3%84">#조직설계</a><a class="arc-tag" href="../index.html#tags=%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98">#아키텍처</a><a class="arc-tag" href="../index.html#tags=%EB%85%BC%EB%AC%B8%EB%A6%AC%EB%B7%B0">#논문리뷰</a> · <a href="https://yghnsim.github.io/Pages/articles/conway_1968_how_do_committees_invent.html" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
 <!-- archive-footer:end -->
 </body>
 </html>

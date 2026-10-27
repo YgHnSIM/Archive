@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>포인터와 메모리 모델 시리즈 핵심 요약: 랄프 융의 추상 기계 해설</title>
+<meta name="description" content="랄프 융의 포인터 메모리 모델 시리즈 요약: 추상 기계와 물리 하드웨어의 괴리, 포인터 출처(Provenance), 정수 캐스팅과 C/Rust의 메모리 안전성">
+<style>
+:root{
+  --bg:#faf8f3; --paper-c:#ffffff; --ink:#1f2328; --muted:#5b6470; --line:#e6e1d6;
+  --accent:#c8553d; --accent-soft:#fbeee9; --link:#4a6b8a;
+  --new:#3d5f80; --new-soft:#eaf0f6;
+  --radius:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR","Malgun Gothic",system-ui,sans-serif;
+  font-size:17px;line-height:1.75;word-break:keep-all;overflow-wrap:break-word}
+@media(max-width:640px){body{font-size:16px}}
+a{color:var(--link);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+.hero-cta{margin-top:16px}
+.hero-cta a{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--new);color:#fff!important;border-radius:10px;font-weight:700;font-size:14px;text-decoration:none!important}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:12px 0}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:15px}
+.tbl th,.tbl td{border:1px solid var(--line);padding:9px 12px;text-align:left}
+.tbl th{background:var(--new-soft);color:var(--new);font-weight:700}
+.tbl td{background:#fff}
+.terms{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:10px;border-top:1px dashed var(--line)}
+.term{display:inline-flex;align-items:center;gap:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:600;padding:3px 9px;border-radius:8px}
+.rv-h{font-size:19px;margin:22px 0 6px}
+.flips{display:grid;grid-template-columns:1fr;gap:8px;margin:10px 0}
+@media(min-width:640px){.flips{grid-template-columns:1fr 1fr}}
+.flip{font:inherit;text-align:left;width:100%;border:1.5px solid var(--line,#e6e1d6);background:#fdfcf9;border-radius:12px;padding:10px 14px;cursor:pointer;color:var(--ink,#1f2328);min-height:64px}
+.flip b{display:block;font-size:17px}
+.flip .m{display:none;font-size:16px;line-height:1.6;margin-top:4px}
+.flip .hint{font-size:13px;color:var(--muted,#5b6470)}
+.flip[aria-expanded="true"]{border-color:var(--new,#3d5f80);background:var(--new-soft,#eaf0f6)}
+.flip[aria-expanded="true"] .m{display:block}
+.flip[aria-expanded="true"] .hint{display:none}
+.cloze{list-style:none;margin:10px 0;padding:0}
+.cloze li{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:10px 14px;margin:8px 0;background:#fdfcf9;font-size:16px;line-height:1.8}
+.blank{font:inherit;font-size:16px;border:0;border-bottom:2px dashed var(--accent,#c8553d);background:var(--accent-soft,#fbeee9);color:var(--accent,#c8553d);border-radius:6px 6px 0 0;padding:0 8px;cursor:pointer;min-width:4.5em}
+.blank.shown{border-bottom-style:solid;background:var(--new-soft,#eaf0f6);color:var(--new,#3d5f80);font-weight:700}
+.rv-tools{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.rv-tools button{font:inherit;font-size:15px;border:1px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link,#4a6b8a)}
+.q{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:12px 14px;margin:10px 0;background:#fdfcf9}
+.q fieldset{border:0;margin:0;padding:0}
+.q legend{font-weight:700;padding:0;margin:0 0 8px;font-size:16.5px}
+.q button{display:block;width:100%;text-align:left;font:inherit;font-size:16px;border:1.5px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:8px 12px;margin:6px 0;cursor:pointer;color:var(--ink,#1f2328)}
+.q button.right{border-color:#2f6b45;background:#e6f1ea}
+.q button.wrong{border-color:#a2452f;background:#fbeee9}
+.q button[disabled]{cursor:default;opacity:1}
+.q .ex{margin:8px 0 0;font-size:16px;padding:8px 10px;border-radius:8px;background:var(--new-soft,#eaf0f6)}
+.score{font-size:17px;font-weight:800;margin:10px 0 0}
+</style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
+</head>
+<body>
+<!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="요약 아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>요약 아카이브</a><span class="arc-crumb">포인터와 메모리 모델 시리즈 핵심 요약: 랄프 융의 추상 기계 해설</span><span class="arc-meta"><time datetime="2026-10-26">2026년 10월 26일</time><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99">#컴퓨터과학</a><a class="arc-tag" href="../index.html#tags=%ED%8F%AC%EC%9D%B8%ED%84%B0">#포인터</a><a class="arc-tag" href="../index.html#tags=%EB%A9%94%EB%AA%A8%EB%A6%AC%EB%AA%A8%EB%8D%B8">#메모리모델</a><a class="arc-tag" href="../index.html#tags=C-Cpp">#C-Cpp</a><a class="arc-tag" href="../index.html#tags=%EC%9A%94%EC%95%BD">#요약</a><a class="arc-src" href="https://yghnsim.github.io/Pages/articles/pointer.html" rel="noopener">원문 ↗</a></span></div></div>
+<!-- archive-header:end -->
+<div class="wrap">
+<header class="hero">
+  <h1>포인터와 메모리 모델 시리즈 핵심 요약</h1>
+  <p class="lead">랄프 융(Ralf Jung)의 포인터 의미론: 단순한 정수가 아닌 추상 기계의 메모리 객체와 출처 모델</p>
+  <div class="hero-cta">
+    <a href="https://yghnsim.github.io/Pages/articles/pointer.html">Pages 심층 원문 읽기 ↗</a>
+  </div>
+</header>
+
+<nav class="toc">
+  <ol>
+    <li><a href="#s0"><span class="n">01</span> 한눈에 보기 (예습 브리프)</a></li>
+    <li><a href="#s1"><span class="n">02</span> 하드웨어 메모리와 언어 추상 기계의 근본적 괴리</a></li>
+    <li><a href="#s2"><span class="n">03</span> 포인터란 무엇인가: 정수 주소 vs 객체 식별자</a></li>
+    <li><a href="#s3"><span class="n">04</span> 출처(Provenance)의 상실과 캐스팅의 함정</a></li>
+    <li><a href="#s4"><span class="n">05</span> Rust와 C의 미래: Miri와 정형 검증 메모리 모델</a></li>
+    <li><a href="#rv"><span class="n">✔</span> 복습 및 퀴즈</a></li>
+  </ol>
+</nav>
+
+<main>
+<section class="sec" id="s0">
+  <h2>01. 한눈에 보기 (예습 브리프)</h2>
+  <div class="card">
+    <p><strong>핵심 테제</strong>: Rust 공식 메모리 모델 작업반 리드인 랄프 융(Ralf Jung) 교수의 시리즈는 "포인터는 정수가 아니다(Pointers Are Complicated)"라는 명제에서 출발합니다. 하드웨어 관점에서는 메모리가 거대한 바이트 배열이고 포인터는 단순한 번지수 정수이지만, 컴파일러가 최적화를 수행하는 <strong>추상 기계(Abstract Machine)</strong>에서 포인터는 반드시 특정 메모리 할당 객체와 결합된 <strong>출처(Provenance)</strong>를 가져야만 합니다. 이 사실을 무시한 저수준 트릭은 최적화 컴파일러에 의해 치명적인 미스컴파일레이션을 초래합니다.</p>
+  </div>
+  <table class="tbl">
+    <thead><tr><th>관점</th><th>단순 정수 주소 모델 (순진한 하드웨어관)</th><th>출처 기반 추상 기계 모델 (현대 프로그래밍 언어)</th></tr></thead>
+    <tbody>
+      <tr><td>메모리 형태</td><td>0부터 $2^{64}-1$까지의 연속된 평면 바이트 배열</td><td>독립적인 할당(Allocation) 객체들의 집합</td></tr>
+      <tr><td>포인터 표현</td><td>정수 번지 (예: 0x7fff5fbff8c0)</td><td>(할당 ID, 바이트 오프셋)의 튜플</td></tr>
+      <tr><td>정수 캐스팅</td><td>포인터와 정수 간의 자유로운 양방향 변환 허용</td><td>캐스팅 시 출처가 흐려지거나 주소 노출(Expose) 발생</td></tr>
+      <tr><td>안전성 검증</td><td>OS의 페이지 세그멘테이션 폴트(SIGSEGV)에만 의존</td><td>Miri 같은 추상 인터프리터를 통한 의미론적 정형 검증 가능</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="sec" id="s1">
+  <h2>02. 하드웨어 메모리와 언어 추상 기계의 근본적 괴리</h2>
+  <div class="card">
+    <p>C나 C++, Rust 같은 저수준 시스템 프로그래밍 언어는 하드웨어를 직접 제어하는 것처럼 보이지만, 실제로는 언어 명세가 규정한 <strong>추상 기계(Abstract Machine)</strong> 위에서 동작합니다. 컴파일러는 물리 하드웨어의 바이트 주소를 그대로 반영하는 것이 아니라, 추상 기계의 규칙(객체 유효성, 타입 규칙, 미정의 동작 금지)을 기반으로 코드를 최적화합니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">추상 기계 (Abstract Machine)</span>
+    <span class="term">물리 메모리</span>
+    <span class="term">의미론적 보장</span>
+    <span class="term">컴파일러 최적화 전제</span>
+  </div>
+</section>
+
+<section class="sec" id="s2">
+  <h2>03. 포인터란 무엇인가: 정수 주소 vs 객체 식별자</h2>
+  <div class="card">
+    <p>만약 포인터가 단순한 정수라면, 동적으로 할당되었다가 해제된 메모리의 주소와 새로 할당된 메모리의 주소가 우연히 같을 때, 이전 댕글링 포인터로 새 객체를 읽고 써도 합법이어야 합니다. 하지만 모든 언어 표준은 이를 <strong>Use-After-Free(정의되지 않은 동작)</strong>로 규정합니다. 포인터는 주소 숫자가 아니라 '특정 할당 생명주기'를 가리키는 객체 식별자이기 때문입니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">Use-After-Free (UAF)</span>
+    <span class="term">할당 생명주기</span>
+    <span class="term">댕글링 포인터</span>
+    <span class="term">공간적·시간적 안전성</span>
+  </div>
+</section>
+
+<section class="sec" id="s3">
+  <h2>04. 출처(Provenance)의 상실과 캐스팅의 함정</h2>
+  <div class="card">
+    <p>시스템 프로그래머들은 종종 포인터의 하위 비트에 플래그를 저장(태그드 포인터)하거나 정수로 변환하여 해시 테이블에 넣습니다. 이때 포인터를 정수로 바꾸는 순간 출처 정보가 소실됩니다. 컴파일러가 이 정수로부터 복원된 포인터를 어떻게 해석해야 하는지에 대해 오랫동안 명확한 규칙이 없었으며, 랄프 융과 연구진은 이를 정형화하기 위해 Stacked Borrows 및 Tree Borrows 모델을 제안했습니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">태그드 포인터 (Tagged Pointer)</span>
+    <span class="term">출처 소실</span>
+    <span class="term">Stacked Borrows</span>
+    <span class="term">Tree Borrows</span>
+  </div>
+</section>
+
+<section class="sec" id="s4">
+  <h2>05. Rust와 C의 미래: Miri와 정형 검증</h2>
+  <div class="card">
+    <p>Rust 생태계의 <strong>Miri</strong>는 Rust 미러 중간 표현(MIR)을 추상 기계 수준에서 인터프리트하여 포인터 출처 위반, UAF, 데이터 레이스, 앨리어싱 규칙 위반을 런타임에 완벽히 잡아내는 도구입니다. 랄프 융의 연구는 직관에 의존하던 포인터 프로그래밍을 수학적으로 증명 가능한 공학의 영역으로 끌어올렸습니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">Miri (Rust 인터프리터)</span>
+    <span class="term">MIR (Mid-level IR)</span>
+    <span class="term">정형 검증 (Formal Verification)</span>
+    <span class="term">메모리 모델 표준화</span>
+  </div>
+</section>
+
+<section class="sec" id="rv">
+  <h2>복습 및 퀴즈</h2>
+  <h3 class="rv-h">핵심 개념 플래시카드</h3>
+  <p class="hint">카드를 누르면 숨겨진 해설이 나타납니다.</p>
+  <div class="flips">
+    <button type="button" class="flip" aria-expanded="false"><b>추상 기계 (Abstract Machine)</b><span class="hint">클릭하여 확인</span><span class="m">프로그래밍 언어 표준이 정의하는 가상의 실행 환경으로, 물리적 CPU나 RAM의 세부 특성과 무관하게 프로그램의 올바른 동작을 규정함.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>Use-After-Free (UAF)</b><span class="hint">클릭하여 확인</span><span class="m">해제된 메모리 영역을 가리키는 댕글링 포인터를 통해 데이터에 접근하려 할 때 발생하는 치명적인 보안 취약점이자 정의되지 않은 동작.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>포인터 출처 (Provenance)</b><span class="hint">클릭하여 확인</span><span class="m">포인터가 어떤 메모리 할당 객체로부터 유도되었는지를 추적하는 메타데이터. 같은 주소라도 출처가 다르면 접근 권한이 없음.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>태그드 포인터 (Tagged Pointer)</b><span class="hint">클릭하여 확인</span><span class="m">메모리 정렬(Alignment) 특성상 항상 0인 포인터의 하위 비트들에 불리언 플래그나 메타데이터를 끼워 넣는 저수준 최적화 기법.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>Stacked Borrows</b><span class="hint">클릭하여 확인</span><span class="m">랄프 융이 제안한 Rust의 참조자 및 원시 포인터 앨리어싱 검증 모델로, 각 메모리 위치마다 허용된 접근 권한 스택을 관리함.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>Miri</b><span class="hint">클릭하여 확인</span><span class="m">Rust 컴파일러의 중간 표현(MIR)을 실행하면서 미정의 동작(UB)과 메모리 모델 위반을 전수 탐지하는 공식 미정의동작 인터프리터.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>공간적 안전성 (Spatial Safety)</b><span class="hint">클릭하여 확인</span><span class="m">포인터가 할당된 버퍼나 객체의 경계(Bounds)를 벗어나 읽거나 쓰지 못하도록 보장하는 성질.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>시간적 안전성 (Temporal Safety)</b><span class="hint">클릭하여 확인</span><span class="m">객체가 유효하게 존재하는 수명(Lifetime) 동안에만 포인터로 접근하고, 해제된 이후에는 접근하지 못하도록 보장하는 성질.</span></button>
+  </div>
+
+  <h3 class="rv-h">빈칸 채우기</h3>
+  <ul class="cloze">
+    <li>C/C++과 Rust 코드는 실제 CPU가 아닌 언어 표준의 <button type="button" class="blank" data-a="추상 기계" aria-label="빈칸">???</button>(Abstract Machine) 위에서 실행된다.</li>
+    <li>해제된 메모리 공간을 포인터로 다시 접근하는 버그를 <button type="button" class="blank" data-a="Use-After-Free" aria-label="빈칸">???</button>(UAF)라 한다.</li>
+    <li>포인터가 특정 메모리 할당과 맺고 있는 유효한 기원 정보를 <button type="button" class="blank" data-a="출처" aria-label="빈칸">???</button>(Provenance)라 부른다.</li>
+    <li>메모리 정렬로 남는 포인터 하위 비트에 정보를 저장하는 기법을 <button type="button" class="blank" data-a="태그드 포인터" aria-label="빈칸">???</button>라 한다.</li>
+    <li>Rust에서 미정의 동작과 포인터 앨리어싱 위반을 탐지하는 공식 인터프리터는 <button type="button" class="blank" data-a="Miri" aria-label="빈칸">???</button>이다.</li>
+    <li>버퍼 경계를 벗어나지 않는 안전성을 공간적 안전성이라 하고, 해제 후 접근하지 않는 안전성을 <button type="button" class="blank" data-a="시간적 안전성" aria-label="빈칸">???</button>이라 한다.</li>
+  </ul>
+  <div class="rv-tools">
+    <button type="button" id="cshow">정답 모두 보기</button>
+    <button type="button" id="chide">다시 가리기</button>
+  </div>
+
+  <h3 class="rv-h">5문항 퀴즈</h3>
+  <div id="quiz">
+    <div class="q" data-ans="1">
+      <fieldset><legend>1. 랄프 융(Ralf Jung)이 "포인터는 정수가 아니다"라고 단언한 핵심 이유는?</legend>
+        <button type="button" data-i="0">① 포인터는 문자로만 구성되어 있기 때문에</button>
+        <button type="button" data-i="1">② 동일한 주소 번짓수를 갖더라도 출처(할당 생명주기)가 다르면 접근 권한이 달라지기 때문에</button>
+        <button type="button" data-i="2">③ 컴퓨터 하드웨어에 주소 버스가 존재하지 않기 때문에</button>
+        <button type="button" data-i="3">④ 정수는 32비트이고 포인터는 8비트이기 때문에</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ②. 포인터는 주소 값뿐 아니라 자신이 파생된 할당 객체의 유효 범위를 나타내는 출처를 담고 있습니다.</div>
+    </div>
+    <div class="q" data-ans="2">
+      <fieldset><legend>2. 해제된 메모리의 주소에 새 객체가 우연히 같은 번지로 할당되었을 때 이전 포인터로 접근하면?</legend>
+        <button type="button" data-i="0">① 완벽히 합법적이고 권장되는 메모리 재활용 기법이다.</button>
+        <button type="button" data-i="1">② 컴파일러가 이전 데이터를 자동으로 복원해 준다.</button>
+        <button type="button" data-i="2">③ 주소가 같더라도 이전 포인터의 출처가 죽었으므로 Use-After-Free(미정의 동작)이다.</button>
+        <button type="button" data-i="3">④ 운영체제가 블루스크린을 띄우지 않으면 아무 문제 없다.</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ③. 포인터의 유효성은 주소 일치가 아니라 할당 생명주기(출처)에 종속되므로 명백한 UAF입니다.</div>
+    </div>
+    <div class="q" data-ans="0">
+      <fieldset><legend>3. Rust 공식 도구인 Miri의 주요 역할은?</legend>
+        <button type="button" data-i="0">① 소스 코드를 실행하면서 추상 기계 레벨에서 포인터 출처 위반 및 미정의 동작(UB)을 전수 탐지</button>
+        <button type="button" data-i="1">② 웹 프론트엔드 HTML을 렌더링하는 브라우저 엔진</button>
+        <button type="button" data-i="2">③ 데이터베이스 SQL 쿼리를 최적화하는 엔진</button>
+        <button type="button" data-i="3">④ Rust 바이너리를 C++ 코드로 역컴파일하는 도구</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ①. Miri는 MIR 수준에서 메모리 모델과 미정의 동작을 엄격히 검증하는 인터프리터입니다.</div>
+    </div>
+    <div class="q" data-ans="3">
+      <fieldset><legend>4. '태그드 포인터(Tagged Pointer)' 기법이 작동할 수 있는 하드웨어적 전제 조건은?</legend>
+        <button type="button" data-i="0">① 모든 포인터가 암호화되어 있을 것</button>
+        <button type="button" data-i="1">② CPU 클럭이 4GHz 이상일 것</button>
+        <button type="button" data-i="2">③ 운영체제가 32비트일 것</button>
+        <button type="button" data-i="3">④ 데이터 타입의 메모리 정렬(Alignment)로 인해 포인터 주소의 최하위 몇 비트가 항상 0일 것</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ④. 4바이트나 8바이트 정렬된 주소는 하위 2~3비트가 항상 0이므로 여기에 플래그를 저장할 수 있습니다.</div>
+    </div>
+    <div class="q" data-ans="1">
+      <fieldset><legend>5. 현대 시스템 프로그래밍에서 '시간적 메모리 안전성(Temporal Safety)'이 의미하는 것은?</legend>
+        <button type="button" data-i="0">① 프로그램의 실행 시간이 1초를 넘지 않도록 제한하는 것</button>
+        <button type="button" data-i="1">② 객체가 유효하게 할당되어 살아있는 수명 주기 내에서만 포인터 역참조를 허용하는 것</button>
+        <button type="button" data-i="2">③ 컴퓨터의 시스템 시계(타임스탬프)를 변조하지 못하게 막는 것</button>
+        <button type="button" data-i="3">④ 멀티스레드 환경에서 CPU 코어 간의 동기화를 금지하는 것</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ②. 공간적 안전성이 버퍼 경계를 지키는 것이라면, 시간적 안전성은 해제된 객체에 접근(UAF)하지 않는 것입니다.</div>
+    </div>
+    <p class="score" id="score" aria-live="polite">점수: 0 / 5</p>
+    <div class="rv-tools"><button type="button" id="qreset">다시 풀기</button></div>
+  </div>
+</section>
+</main>
+</div>
+
+<script>(function(){
+function $$(q){return [].slice.call(document.querySelectorAll(q))}
+$$(".flip").forEach(function(b){b.onclick=function(){b.setAttribute("aria-expanded",b.getAttribute("aria-expanded")==="true"?"false":"true")}});
+function show(b){b.textContent=b.dataset.a;b.classList.add("shown");b.setAttribute("aria-label","답: "+b.dataset.a)}
+function hide(b){b.textContent="???";b.classList.remove("shown");b.setAttribute("aria-label","빈칸")}
+$$(".blank").forEach(function(b){b.onclick=function(){if(b.classList.contains("shown")){hide(b)}else{show(b)}}});
+var cs=document.getElementById("cshow"),ch=document.getElementById("chide");
+if(cs)cs.onclick=function(){$$(".blank").forEach(show)};
+if(ch)ch.onclick=function(){$$(".blank").forEach(hide)};
+var scoreEl=document.getElementById("score");
+var totalQ=$$("#quiz .q").length;
+function updateScore(){var r=$$("#quiz .q button.right").length;if(scoreEl)scoreEl.textContent="점수: "+r+" / "+totalQ}
+$$("#quiz .q").forEach(function(q){
+  var ans=parseInt(q.dataset.ans,10);
+  var btns=$$(q.querySelectorAll("button"));
+  btns.forEach(function(b,i){
+    b.onclick=function(){
+      btns.forEach(function(x){x.disabled=true});
+      if(i===ans){b.classList.add("right")}else{
+        b.classList.add("wrong");
+        if(btns[ans])btns[ans].classList.add("right");
+      }
+      var ex=q.querySelector(".ex");
+      if(ex)ex.style.display="block";
+      updateScore();
+    };
+  });
+});
+var qr=document.getElementById("qreset");
+if(qr)qr.onclick=function(){
+  $$("#quiz .q").forEach(function(q){
+    $$(q.querySelectorAll("button")).forEach(function(b){
+      b.disabled=false;
+      b.classList.remove("right","wrong");
+    });
+    var ex=q.querySelector(".ex");
+    if(ex)ex.style.display="none";
+  });
+  if(scoreEl)scoreEl.textContent="점수: 0 / "+totalQ;
+};
+})();</script>
+
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">요약 아카이브</div><div class="arc-foot-title">포인터와 메모리 모델 시리즈 핵심 요약: 랄프 융의 추상 기계 해설</div><div class="arc-foot-meta"><time datetime="2026-10-26">2026년 10월 26일</time><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99">#컴퓨터과학</a><a class="arc-tag" href="../index.html#tags=%ED%8F%AC%EC%9D%B8%ED%84%B0">#포인터</a><a class="arc-tag" href="../index.html#tags=%EB%A9%94%EB%AA%A8%EB%A6%AC%EB%AA%A8%EB%8D%B8">#메모리모델</a><a class="arc-tag" href="../index.html#tags=C-Cpp">#C-Cpp</a><a class="arc-tag" href="../index.html#tags=%EC%9A%94%EC%95%BD">#요약</a> · <a href="https://yghnsim.github.io/Pages/articles/pointer.html" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body>
+</html>

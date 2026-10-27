@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>상자, 페이지, 점프, 메모지 핵심 요약: 포인터 없는 세계의 자기수정 코드</title>
+<meta name="description" content="메모리 상자, 프로그램 카운터(PC), 점프 명령과 포인터 부재 시절의 자기수정 코드(Self-modifying code) 필연성 요약">
+<style>
+:root{
+  --bg:#faf8f3; --paper-c:#ffffff; --ink:#1f2328; --muted:#5b6470; --line:#e6e1d6;
+  --accent:#c8553d; --accent-soft:#fbeee9; --link:#4a6b8a;
+  --new:#3d5f80; --new-soft:#eaf0f6;
+  --radius:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR","Malgun Gothic",system-ui,sans-serif;
+  font-size:17px;line-height:1.75;word-break:keep-all;overflow-wrap:break-word}
+@media(max-width:640px){body{font-size:16px}}
+a{color:var(--link);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+.hero-cta{margin-top:16px}
+.hero-cta a{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--new);color:#fff!important;border-radius:10px;font-weight:700;font-size:14px;text-decoration:none!important}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:12px 0}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:15px}
+.tbl th,.tbl td{border:1px solid var(--line);padding:9px 12px;text-align:left}
+.tbl th{background:var(--new-soft);color:var(--new);font-weight:700}
+.tbl td{background:#fff}
+.terms{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:10px;border-top:1px dashed var(--line)}
+.term{display:inline-flex;align-items:center;gap:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:600;padding:3px 9px;border-radius:8px}
+.rv-h{font-size:19px;margin:22px 0 6px}
+.flips{display:grid;grid-template-columns:1fr;gap:8px;margin:10px 0}
+@media(min-width:640px){.flips{grid-template-columns:1fr 1fr}}
+.flip{font:inherit;text-align:left;width:100%;border:1.5px solid var(--line,#e6e1d6);background:#fdfcf9;border-radius:12px;padding:10px 14px;cursor:pointer;color:var(--ink,#1f2328);min-height:64px}
+.flip b{display:block;font-size:17px}
+.flip .m{display:none;font-size:16px;line-height:1.6;margin-top:4px}
+.flip .hint{font-size:13px;color:var(--muted,#5b6470)}
+.flip[aria-expanded="true"]{border-color:var(--new,#3d5f80);background:var(--new-soft,#eaf0f6)}
+.flip[aria-expanded="true"] .m{display:block}
+.flip[aria-expanded="true"] .hint{display:none}
+.cloze{list-style:none;margin:10px 0;padding:0}
+.cloze li{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:10px 14px;margin:8px 0;background:#fdfcf9;font-size:16px;line-height:1.8}
+.blank{font:inherit;font-size:16px;border:0;border-bottom:2px dashed var(--accent,#c8553d);background:var(--accent-soft,#fbeee9);color:var(--accent,#c8553d);border-radius:6px 6px 0 0;padding:0 8px;cursor:pointer;min-width:4.5em}
+.blank.shown{border-bottom-style:solid;background:var(--new-soft,#eaf0f6);color:var(--new,#3d5f80);font-weight:700}
+.rv-tools{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.rv-tools button{font:inherit;font-size:15px;border:1px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link,#4a6b8a)}
+.q{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:12px 14px;margin:10px 0;background:#fdfcf9}
+.q fieldset{border:0;margin:0;padding:0}
+.q legend{font-weight:700;padding:0;margin:0 0 8px;font-size:16.5px}
+.q button{display:block;width:100%;text-align:left;font:inherit;font-size:16px;border:1.5px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:8px 12px;margin:6px 0;cursor:pointer;color:var(--ink,#1f2328)}
+.q button.right{border-color:#2f6b45;background:#e6f1ea}
+.q button.wrong{border-color:#a2452f;background:#fbeee9}
+.q button[disabled]{cursor:default;opacity:1}
+.q .ex{margin:8px 0 0;font-size:16px;padding:8px 10px;border-radius:8px;background:var(--new-soft,#eaf0f6)}
+.score{font-size:17px;font-weight:800;margin:10px 0 0}
+</style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
+</head>
+<body>
+<!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="요약 아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>요약 아카이브</a><span class="arc-crumb">상자, 페이지, 점프, 메모지 핵심 요약: 포인터 없는 세계의 자기수정 코드</span><span class="arc-meta"><time datetime="2026-10-26">2026년 10월 26일</time><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99">#컴퓨터과학</a><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B5%AC%EC%A1%B0">#컴퓨터구조</a><a class="arc-tag" href="../index.html#tags=%EB%A9%94%EB%AA%A8%EB%A6%AC%EB%AA%A8%EB%8D%B8">#메모리모델</a><a class="arc-tag" href="../index.html#tags=%ED%8F%AC%EC%9D%B8%ED%84%B0">#포인터</a><a class="arc-tag" href="../index.html#tags=%ED%8A%9C%ED%86%A0%EB%A6%AC%EC%96%BC">#튜토리얼</a><a class="arc-src" href="https://yghnsim.github.io/Pages/articles/box_page_jump_memo.html" rel="noopener">원문 ↗</a></span></div></div>
+<!-- archive-header:end -->
+<div class="wrap">
+<header class="hero">
+  <h1>상자, 페이지, 점프, 메모지 핵심 요약</h1>
+  <p class="lead">포인터가 없던 초기 컴퓨터의 멘탈 모델: 메모리 상자, 프로그램 카운터, 그리고 자기수정 코드의 탄생</p>
+  <div class="hero-cta">
+    <a href="https://yghnsim.github.io/Pages/articles/box_page_jump_memo.html">Pages 심층 원문 읽기 ↗</a>
+  </div>
+</header>
+
+<nav class="toc">
+  <ol>
+    <li><a href="#s0"><span class="n">01</span> 한눈에 보기 (예습 브리프)</a></li>
+    <li><a href="#s1"><span class="n">02</span> 상자와 번호표: 메모리와 절대 주소</a></li>
+    <li><a href="#s2"><span class="n">03</span> 페이지 넘기기와 점프: 프로그램 카운터(PC)의 보폭</a></li>
+    <li><a href="#s3"><span class="n">04</span> 포인터가 없던 시절의 딜레마: 배열 순회는 어떻게 했나</a></li>
+    <li><a href="#s4"><span class="n">05</span> 자기수정 코드(Self-modifying Code)와 간접 주소 지정의 발명</a></li>
+    <li><a href="#rv"><span class="n">✔</span> 복습 및 퀴즈</a></li>
+  </ol>
+</nav>
+
+<main>
+<section class="sec" id="s0">
+  <h2>01. 한눈에 보기 (예습 브리프)</h2>
+  <div class="card">
+    <p><strong>핵심 테제</strong>: 컴퓨터는 결국 네 가지 기본 비유로 동작합니다: <strong>상자(메모리 바이트)</strong>, <strong>페이지(명령어가 적힌 메모리 줄)</strong>, <strong>점프(프로그램 카운터 조작)</strong>, <strong>메모지(레지스터)</strong>. 초기 폰 노이만 구조 컴퓨터(EDSAC 등)에는 현대적인 간접 주소 지정(Indirect Addressing)이나 베이스 레지스터, 포인터 개념이 없었습니다. 따라서 배열의 다음 원소를 읽으려면 CPU가 실행 중인 기계어 명령어 자체의 피연산자 주소 비트를 직접 덧셈하여 고쳐 쓰는 <strong>'자기수정 코드(Self-modifying Code)'</strong>가 유일한 해법이었습니다.</p>
+  </div>
+  <table class="tbl">
+    <thead><tr><th>컴퓨팅 개념</th><th>일상적 멘탈 모델 비유</th><th>하드웨어적 실체</th><th>초기 컴퓨터의 한계 및 진화</th></tr></thead>
+    <tbody>
+      <tr><td>메모리 주소</td><td>번호가 매겨진 사물함 상자</td><td>RAM의 바이트 단위 고유 주소 번지</td><td>초기에는 절대 주소만 지정 가능 (재배치 불가)</td></tr>
+      <tr><td>실행 흐름</td><td>책장을 한 줄씩 넘기다 점프하기</td><td>프로그램 카운터 (PC, Instruction Pointer)</td><td>순차 실행 중 조건 분기(JMP, BNE)로 제어</td></tr>
+      <tr><td>배열 순회</td><td>옆 상자로 손 뻗기</td><td>포인터 간접 참조 (Indirect Addressing)</td><td>포인터가 없어 명령어 코드를 직접 수정해 주소를 1씩 증가</td></tr>
+      <tr><td>임시 기억</td><td>손에 쥔 메모지 포스트잇</td><td>CPU 범용 레지스터 (Accumulator 등)</td><td>메모리 접근 비용을 줄이는 초고속 내부 기억소자</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="sec" id="s1">
+  <h2>02. 상자와 번호표: 메모리와 절대 주소</h2>
+  <div class="card">
+    <p>컴퓨터 메모리는 번호(주소)가 0번부터 순서대로 매겨진 무수한 상자들의 일렬 배열입니다. CPU는 "50번 상자의 내용을 꺼내라", "100번 상자에 7을 넣어라" 같은 직접적인 주소 명령만을 이해했습니다. 이 상자 안에는 데이터(숫자, 문자)뿐만 아니라 CPU가 실행할 명령어 자체도 똑같은 형태로 들어갑니다(폰 노이만 구조).</p>
+  </div>
+  <div class="terms">
+    <span class="term">폰 노이만 구조</span>
+    <span class="term">메모리 상자 비유</span>
+    <span class="term">절대 주소</span>
+    <span class="term">프로그램과 데이터의 동일성</span>
+  </div>
+</section>
+
+<section class="sec" id="s2">
+  <h2>03. 페이지 넘기기와 점프: 프로그램 카운터(PC)</h2>
+  <div class="card">
+    <p>CPU는 쉬지 않고 '명령어 인출-해석-실행' 주기를 돕니다. 다음에 실행할 명령어 상자의 번호는 <strong>프로그램 카운터(PC)</strong>라는 특별한 메모지에 적혀 있습니다. 보통은 한 명령어가 끝나면 PC가 1씩 증가하며 다음 페이지로 넘어가지만, 루프나 if문을 만나면 PC에 엉뚱한 번호표를 덮어써서 저 멀리 다른 상자로 '점프(JUMP)'합니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">프로그램 카운터 (PC)</span>
+    <span class="term">인출-해석-실행 사이클</span>
+    <span class="term">무조건 점프 (JMP)</span>
+    <span class="term">조건부 분기 (Branch)</span>
+  </div>
+</section>
+
+<section class="sec" id="s3">
+  <h2>04. 포인터가 없던 시절의 딜레마: 배열 순회</h2>
+  <div class="card">
+    <p>현대 프로그래머는 <code>ptr++</code>이나 <code>arr[i]</code>로 배열을 쉽게 돕니다. 하지만 초기 하드웨어에는 "레지스터에 든 주소를 찾아가라"는 간접 명령이 없었고 오직 <code>LOAD 200</code>처럼 고정된 번지만 적을 수 있었습니다. 그렇다면 200번부터 299번까지 100개의 숫자를 더하려면 어떻게 해야 했을까요? <code>LOAD 200</code>, <code>LOAD 201</code>... 100줄의 명령어를 복사해 넣는 것 외에 반복문 루프를 도는 것은 불가능해 보였습니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">배열 순회의 난제</span>
+    <span class="term">간접 주소 지정의 부재</span>
+    <span class="term">고정 피연산자 (Immediate/Direct)</span>
+    <span class="term">루프의 벽</span>
+  </div>
+</section>
+
+<section class="sec" id="s4">
+  <h2>05. 자기수정 코드와 간접 주소 지정의 탄생</h2>
+  <div class="card">
+    <p>선구자들은 폰 노이만 구조의 특성(코드도 메모리에 저장된 데이터다)을 활용했습니다. 루프를 한 바퀴 돌 때마다, <code>LOAD 200</code> 명령어가 들어 있는 15번 메모리 상자를 불러내어 거기에 <code>+1</code>을 더한 뒤 다시 15번 상자에 저장했습니다. 그러면 다음 반복에서 그 명령어는 저절로 <code>LOAD 201</code>로 변신했습니다! 이것이 <strong>자기수정 코드(Self-modifying Code)</strong>이며, 이후 하드웨어 설계자들은 이를 대체하기 위해 인덱스 레지스터와 포인터 간접 주소 지정 방식을 발명했습니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">자기수정 코드 (Self-modifying Code)</span>
+    <span class="term">인덱스 레지스터 (Index Register)</span>
+    <span class="term">간접 주소 지정 (Indirect Addressing)</span>
+    <span class="term">현대 포인터의 탄생</span>
+  </div>
+</section>
+
+<section class="sec" id="rv">
+  <h2>복습 및 퀴즈</h2>
+  <h3 class="rv-h">핵심 개념 플래시카드</h3>
+  <p class="hint">카드를 누르면 숨겨진 해설이 나타납니다.</p>
+  <div class="flips">
+    <button type="button" class="flip" aria-expanded="false"><b>폰 노이만 구조</b><span class="hint">클릭하여 확인</span><span class="m">프로그램 코드(명령어)와 데이터가 동일한 물리 메모리 공간에 함께 저장되는 현대 컴퓨터 아키텍처의 근간.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>프로그램 카운터 (PC)</b><span class="hint">클릭하여 확인</span><span class="m">CPU가 다음번에 인출하여 실행할 명령어의 메모리 주소를 가리키고 있는 핵심 내부 레지스터.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>직접 주소 지정</b><span class="hint">클릭하여 확인</span><span class="m">명령어 자체에 피연산자가 저장된 메모리 번짓수를 고정된 숫자로 직접 명시하는 원시적 방식.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>자기수정 코드 (Self-modifying Code)</b><span class="hint">클릭하여 확인</span><span class="m">프로그램 실행 중에 CPU가 자기 자신의 기계어 명령어 비트를 메모리에서 수정하여 다음 실행 내용을 바꾸는 기법.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>인덱스 레지스터 (Index Register)</b><span class="hint">클릭하여 확인</span><span class="m">명령어에 적힌 기본 주소에 레지스터 값을 더해 유효 주소를 계산하도록 하드웨어 차원에서 지원된 최초의 주소 계산 장치.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>간접 주소 지정 (Indirect Addressing)</b><span class="hint">클릭하여 확인</span><span class="m">명령어가 가리키는 메모리 상자 안에 실제 데이터가 아니라 '진짜 데이터가 있는 또 다른 상자의 번호(포인터)'가 들어있는 방식.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>W^X (Write XOR Execute)</b><span class="hint">클릭하여 확인</span><span class="m">현대 운영체제의 보안 메커니즘으로, 메모리 페이지가 '쓰기 가능'하면서 동시에 '실행 가능'하지 못하게 차단하여 자기수정 코드를 원천 금지함.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>조건 분기 (Conditional Branch)</b><span class="hint">클릭하여 확인</span><span class="m">계산 결과가 0인지(Zero flag) 등의 플래그 상태에 따라 PC 값을 임의의 주소로 변경하여 점프하는 제어 흐름.</span></button>
+  </div>
+
+  <h3 class="rv-h">빈칸 채우기</h3>
+  <ul class="cloze">
+    <li>명령어와 데이터가 같은 메모리에 저장되는 아키텍처를 <button type="button" class="blank" data-a="폰 노이만" aria-label="빈칸">???</button> 구조라 부른다.</li>
+    <li>다음에 실행할 명령어 주소를 들고 있는 레지스터를 <button type="button" class="blank" data-a="프로그램 카운터" aria-label="빈칸">???</button>(PC)라 한다.</li>
+    <li>포인터가 없던 시절 실행 중인 명령어 자체를 고쳐 쓰던 코드를 <button type="button" class="blank" data-a="자기수정 코드" aria-label="빈칸">???</button>라 부른다.</li>
+    <li>상자 안에 데이터 대신 다른 상자의 번짓수를 넣어두는 방식을 <button type="button" class="blank" data-a="간접 주소 지정" aria-label="빈칸">???</button>이라 한다.</li>
+    <li>배열 순회를 하드웨어적으로 지원하기 위해 기준 주소에 오프셋을 더하도록 발명된 것은 <button type="button" class="blank" data-a="인덱스 레지스터" aria-label="빈칸">???</button>이다.</li>
+    <li>현대 OS는 보안을 위해 메모리의 쓰기와 실행 권한을 동시에 주지 않는 <button type="button" class="blank" data-a="W^X" aria-label="빈칸">???</button> 정책을 쓴다.</li>
+  </ul>
+  <div class="rv-tools">
+    <button type="button" id="cshow">정답 모두 보기</button>
+    <button type="button" id="chide">다시 가리기</button>
+  </div>
+
+  <h3 class="rv-h">5문항 퀴즈</h3>
+  <div id="quiz">
+    <div class="q" data-ans="2">
+      <fieldset><legend>1. 초기 폰 노이만 컴퓨터에서 '자기수정 코드'가 필요했던 결정적 이유는?</legend>
+        <button type="button" data-i="0">① 운영체제가 존재하지 않았기 때문에</button>
+        <button type="button" data-i="1">② 컴퓨터의 전원을 끌 수 없었기 때문에</button>
+        <button type="button" data-i="2">③ 하드웨어에 포인터(간접 주소 지정)가 없어 배열 순회 시 명령어의 주소 피연산자를 매번 직접 수정해야 했기 때문에</button>
+        <button type="button" data-i="3">④ 하드웨어가 16진수를 이해하지 못했기 때문에</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ③. 고정 주소 지정만 가능했기에 다음 원소를 읽으려면 실행할 명령어 자체를 고쳐야 했습니다.</div>
+    </div>
+    <div class="q" data-ans="0">
+      <fieldset><legend>2. CPU의 '프로그램 카운터(PC)'가 수행하는 본질적인 역할은?</legend>
+        <button type="button" data-i="0">① 다음에 인출하여 실행할 기계어 명령어의 메모리 주소를 가리킴</button>
+        <button type="button" data-i="1">② 지금까지 실행된 프로그램의 누적 개수를 화면에 출력함</button>
+        <button type="button" data-i="2">③ 컴퓨터의 날짜와 시간을 동기화함</button>
+        <button type="button" data-i="3">④ 하드디스크의 남은 용량을 카운트함</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ①. PC는 CPU가 메모리의 어떤 상자에서 명령을 꺼내올지 결정하는 나침반입니다.</div>
+    </div>
+    <div class="q" data-ans="1">
+      <fieldset><legend>3. 현대 컴퓨터에서 '포인터' 개념과 가장 직결되는 하드웨어 기능은?</legend>
+        <button type="button" data-i="0">① USB 포트</button>
+        <button type="button" data-i="1">② 간접 주소 지정(Indirect Addressing) 및 베이스/인덱스 레지스터 주소 덧셈</button>
+        <button type="button" data-i="2">③ 그래픽카드 레이트레이싱 코어</button>
+        <button type="button" data-i="3">④ 블루투스 안테나</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ②. 레지스터에 주소를 담고 그 주소가 가리키는 메모리를 찾아가는 간접 참조 기능입니다.</div>
+    </div>
+    <div class="q" data-ans="3">
+      <fieldset><legend>4. 오늘날 현대 운영체제에서 자기수정 코드를 엄격히 금지(W^X)하는 이유는?</legend>
+        <button type="button" data-i="0">① CPU가 너무 차가워지기 때문에</button>
+        <button type="button" data-i="1">② 프로그래밍 언어의 문법이 너무 길어지기 때문에</button>
+        <button type="button" data-i="2">③ 모니터 해상도를 떨어뜨리기 때문에</button>
+        <button type="button" data-i="3">④ 악성코드가 버퍼 오버플로우로 데이터 영역에 셸코드를 주입하고 실행하는 공격을 차단하기 위해</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ④. 데이터 메모리가 코드로 실행될 수 있으면 해킹에 매우 취약해지므로 쓰기/실행 권한을 배타적으로 분리합니다.</div>
+    </div>
+    <div class="q" data-ans="1">
+      <fieldset><legend>5. 폰 노이만 구조에서 '프로그램 코드'와 '데이터'의 관계에 대한 설명으로 옳은 것은?</legend>
+        <button type="button" data-i="0">① 코드는 오직 종이 테이프에만 존재하고 메모리에는 들어갈 수 없다.</button>
+        <button type="button" data-i="1">② 물리적으로 같은 메모리 공간에 동일한 비트(바이트) 형태로 공존한다.</button>
+        <button type="button" data-i="2">③ 코드는 32비트이고 데이터는 항상 1비트이다.</button>
+        <button type="button" data-i="3">④ 코드는 CPU 안에 영구 저장되어 절대 바꿀 수 없다.</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ②. 폰 노이만 구조의 혁신은 코드도 데이터처럼 메모리에 올려두고 읽고 쓸 수 있게 만든 점입니다.</div>
+    </div>
+    <p class="score" id="score" aria-live="polite">점수: 0 / 5</p>
+    <div class="rv-tools"><button type="button" id="qreset">다시 풀기</button></div>
+  </div>
+</section>
+</main>
+</div>
+
+<script>(function(){
+function $$(q){return [].slice.call(document.querySelectorAll(q))}
+$$(".flip").forEach(function(b){b.onclick=function(){b.setAttribute("aria-expanded",b.getAttribute("aria-expanded")==="true"?"false":"true")}});
+function show(b){b.textContent=b.dataset.a;b.classList.add("shown");b.setAttribute("aria-label","답: "+b.dataset.a)}
+function hide(b){b.textContent="???";b.classList.remove("shown");b.setAttribute("aria-label","빈칸")}
+$$(".blank").forEach(function(b){b.onclick=function(){if(b.classList.contains("shown")){hide(b)}else{show(b)}}});
+var cs=document.getElementById("cshow"),ch=document.getElementById("chide");
+if(cs)cs.onclick=function(){$$(".blank").forEach(show)};
+if(ch)ch.onclick=function(){$$(".blank").forEach(hide)};
+var scoreEl=document.getElementById("score");
+var totalQ=$$("#quiz .q").length;
+function updateScore(){var r=$$("#quiz .q button.right").length;if(scoreEl)scoreEl.textContent="점수: "+r+" / "+totalQ}
+$$("#quiz .q").forEach(function(q){
+  var ans=parseInt(q.dataset.ans,10);
+  var btns=$$(q.querySelectorAll("button"));
+  btns.forEach(function(b,i){
+    b.onclick=function(){
+      btns.forEach(function(x){x.disabled=true});
+      if(i===ans){b.classList.add("right")}else{
+        b.classList.add("wrong");
+        if(btns[ans])btns[ans].classList.add("right");
+      }
+      var ex=q.querySelector(".ex");
+      if(ex)ex.style.display="block";
+      updateScore();
+    };
+  });
+});
+var qr=document.getElementById("qreset");
+if(qr)qr.onclick=function(){
+  $$("#quiz .q").forEach(function(q){
+    $$(q.querySelectorAll("button")).forEach(function(b){
+      b.disabled=false;
+      b.classList.remove("right","wrong");
+    });
+    var ex=q.querySelector(".ex");
+    if(ex)ex.style.display="none";
+  });
+  if(scoreEl)scoreEl.textContent="점수: 0 / "+totalQ;
+};
+})();</script>
+
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">요약 아카이브</div><div class="arc-foot-title">상자, 페이지, 점프, 메모지 핵심 요약: 포인터 없는 세계의 자기수정 코드</div><div class="arc-foot-meta"><time datetime="2026-10-26">2026년 10월 26일</time><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99">#컴퓨터과학</a><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B5%AC%EC%A1%B0">#컴퓨터구조</a><a class="arc-tag" href="../index.html#tags=%EB%A9%94%EB%AA%A8%EB%A6%AC%EB%AA%A8%EB%8D%B8">#메모리모델</a><a class="arc-tag" href="../index.html#tags=%ED%8F%AC%EC%9D%B8%ED%84%B0">#포인터</a><a class="arc-tag" href="../index.html#tags=%ED%8A%9C%ED%86%A0%EB%A6%AC%EC%96%BC">#튜토리얼</a> · <a href="https://yghnsim.github.io/Pages/articles/box_page_jump_memo.html" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body>
+</html>

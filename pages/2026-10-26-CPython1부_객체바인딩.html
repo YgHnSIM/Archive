@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>파이썬 객체 생성과 바인딩의 기계적 실체 핵심 요약 (CPython 1부)</title>
+<meta name="description" content="CPython 힙 메모리 할당, PyObject 구조체와 ob_refcnt, 디스크립터 프로토콜(__get__)과 속성 룩업 체인 핵심 요약">
+<style>
+:root{
+  --bg:#faf8f3; --paper-c:#ffffff; --ink:#1f2328; --muted:#5b6470; --line:#e6e1d6;
+  --accent:#c8553d; --accent-soft:#fbeee9; --link:#4a6b8a;
+  --new:#3d5f80; --new-soft:#eaf0f6;
+  --radius:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR","Malgun Gothic",system-ui,sans-serif;
+  font-size:17px;line-height:1.75;word-break:keep-all;overflow-wrap:break-word}
+@media(max-width:640px){body{font-size:16px}}
+a{color:var(--link);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+.hero-cta{margin-top:16px}
+.hero-cta a{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--new);color:#fff!important;border-radius:10px;font-weight:700;font-size:14px;text-decoration:none!important}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:12px 0}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:15px}
+.tbl th,.tbl td{border:1px solid var(--line);padding:9px 12px;text-align:left}
+.tbl th{background:var(--new-soft);color:var(--new);font-weight:700}
+.tbl td{background:#fff}
+.terms{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:10px;border-top:1px dashed var(--line)}
+.term{display:inline-flex;align-items:center;gap:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:600;padding:3px 9px;border-radius:8px}
+.rv-h{font-size:19px;margin:22px 0 6px}
+.flips{display:grid;grid-template-columns:1fr;gap:8px;margin:10px 0}
+@media(min-width:640px){.flips{grid-template-columns:1fr 1fr}}
+.flip{font:inherit;text-align:left;width:100%;border:1.5px solid var(--line,#e6e1d6);background:#fdfcf9;border-radius:12px;padding:10px 14px;cursor:pointer;color:var(--ink,#1f2328);min-height:64px}
+.flip b{display:block;font-size:17px}
+.flip .m{display:none;font-size:16px;line-height:1.6;margin-top:4px}
+.flip .hint{font-size:13px;color:var(--muted,#5b6470)}
+.flip[aria-expanded="true"]{border-color:var(--new,#3d5f80);background:var(--new-soft,#eaf0f6)}
+.flip[aria-expanded="true"] .m{display:block}
+.flip[aria-expanded="true"] .hint{display:none}
+.cloze{list-style:none;margin:10px 0;padding:0}
+.cloze li{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:10px 14px;margin:8px 0;background:#fdfcf9;font-size:16px;line-height:1.8}
+.blank{font:inherit;font-size:16px;border:0;border-bottom:2px dashed var(--accent,#c8553d);background:var(--accent-soft,#fbeee9);color:var(--accent,#c8553d);border-radius:6px 6px 0 0;padding:0 8px;cursor:pointer;min-width:4.5em}
+.blank.shown{border-bottom-style:solid;background:var(--new-soft,#eaf0f6);color:var(--new,#3d5f80);font-weight:700}
+.rv-tools{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.rv-tools button{font:inherit;font-size:15px;border:1px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link,#4a6b8a)}
+.q{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:12px 14px;margin:10px 0;background:#fdfcf9}
+.q fieldset{border:0;margin:0;padding:0}
+.q legend{font-weight:700;padding:0;margin:0 0 8px;font-size:16.5px}
+.q button{display:block;width:100%;text-align:left;font:inherit;font-size:16px;border:1.5px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:8px 12px;margin:6px 0;cursor:pointer;color:var(--ink,#1f2328)}
+.q button.right{border-color:#2f6b45;background:#e6f1ea}
+.q button.wrong{border-color:#a2452f;background:#fbeee9}
+.q button[disabled]{cursor:default;opacity:1}
+.q .ex{margin:8px 0 0;font-size:16px;padding:8px 10px;border-radius:8px;background:var(--new-soft,#eaf0f6)}
+.score{font-size:17px;font-weight:800;margin:10px 0 0}
+</style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
+</head>
+<body>
+<!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="요약 아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>요약 아카이브</a><span class="arc-crumb">파이썬 객체 생성과 바인딩의 기계적 실체 핵심 요약 (CPython 1부)</span><span class="arc-meta"><time datetime="2026-10-26">2026년 10월 26일</time><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99">#컴퓨터과학</a><a class="arc-tag" href="../index.html#tags=Python">#Python</a><a class="arc-tag" href="../index.html#tags=CPython">#CPython</a><a class="arc-tag" href="../index.html#tags=%EB%A9%94%EB%AA%A8%EB%A6%AC%EB%AA%A8%EB%8D%B8">#메모리모델</a><a class="arc-tag" href="../index.html#tags=%EC%9A%94%EC%95%BD">#요약</a><a class="arc-src" href="https://yghnsim.github.io/Pages/articles/python_object_creation_and_binding.html" rel="noopener">원문 ↗</a></span></div></div>
+<!-- archive-header:end -->
+<div class="wrap">
+<header class="hero">
+  <h1>파이썬 객체 생성과 바인딩의 기계적 실체 핵심 요약 (CPython 1부)</h1>
+  <p class="lead">CPython 힙 메모리 할당, PyObject 구조체 헤더, 디스크립터 프로토콜(__get__)과 점(.) 연산자의 실체</p>
+  <div class="hero-cta">
+    <a href="https://yghnsim.github.io/Pages/articles/python_object_creation_and_binding.html">Pages 심층 원문 읽기 ↗</a>
+  </div>
+</header>
+
+<nav class="toc">
+  <ol>
+    <li><a href="#s0"><span class="n">01</span> 한눈에 보기 (예습 브리프)</a></li>
+    <li><a href="#s1"><span class="n">02</span> 모든 것은 PyObject다: C 구조체 헤더와 참조 횟수</a></li>
+    <li><a href="#s2"><span class="n">03</span> 인스턴스 생성 과정: __new__와 __init__의 CPython 내부</a></li>
+    <li><a href="#s3"><span class="n">04</span> 디스크립터 프로토콜: 파이썬 메서드 바인딩의 비밀</a></li>
+    <li><a href="#s4"><span class="n">05</span> 속성 룩업 체인(Attribute Lookup Chain) 5단계</a></li>
+    <li><a href="#rv"><span class="n">✔</span> 복습 및 퀴즈</a></li>
+  </ol>
+</nav>
+
+<main>
+<section class="sec" id="s0">
+  <h2>01. 한눈에 보기 (예습 브리프)</h2>
+  <div class="card">
+    <p><strong>핵심 테제</strong>: 파이썬에서 <code>a = MyClass()</code>를 실행하고 <code>a.method()</code>를 호출할 때 일어나는 모든 마법은 C 언어로 작성된 <strong>CPython 런타임의 메모리 구조체</strong>로 설명됩니다. 모든 파이썬 객체는 <code>PyObject</code> 헤더(참조 카운트 <code>ob_refcnt</code>와 타입 포인터 <code>ob_type</code>)를 가지며, 메서드 호출은 함수 객체의 <strong>디스크립터 프로토콜(<code>__get__</code>)</strong>이 동작하여 첫 번째 인자로 인스턴스(<code>self</code>)를 묶은 '바운드 메서드(Bound Method)' 객체를 즉석에서 생성하는 과정입니다.</p>
+  </div>
+  <table class="tbl">
+    <thead><tr><th>단계</th><th>파이썬 문법</th><th>CPython 내부 C 수준 구현</th><th>메모리 상태 변화</th></tr></thead>
+    <tbody>
+      <tr><td>객체 할당</td><td><code>cls.__new__(cls)</code></td><td><code>PyType_GenericNew()</code> → <code>PyObject_Malloc()</code></td><td>힙에 객체 크기만큼 메모리 블록 확보, 헤더 초기화</td></tr>
+      <tr><td>초기화</td><td><code>self.__init__(*args)</code></td><td>타입 슬롯 <code>tp_init</code> 호출</td><td>인스턴스 딕셔너리(<code>__dict__</code>)에 속성 슬롯 바인딩</td></tr>
+      <tr><td>속성 탐색</td><td><code>instance.attr</code></td><td><code>PyObject_GenericGetAttr()</code></td><td>데이터 디스크립터 → 인스턴스 <code>__dict__</code> → 비데이터 디스크립터 순서</td></tr>
+      <tr><td>메서드 바인딩</td><td><code>instance.method</code></td><td><code>function.__get__(instance, cls)</code></td><td>함수 포인터와 인스턴스를 래핑한 <code>PyMethodObject</code> 반환</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="sec" id="s1">
+  <h2>02. 모든 것은 PyObject다: C 구조체 헤더</h2>
+  <div class="card">
+    <p>CPython에서 정수, 문자열, 함수, 클래스 인스턴스 등 모든 객체는 예외 없이 <code>PyObject_HEAD</code> 매크로로 시작합니다. 64비트 시스템 기준으로 8바이트의 참조 횟수(<code>ssize_t ob_refcnt</code>)와 8바이트의 타입 객체 포인터(<code>struct _typeobject *ob_type</code>)가 16바이트를 차지합니다. 파이썬의 동적 타이핑은 이 <code>ob_type</code> 포인터를 런타임에 역참조하여 메서드 슬롯을 찾는 방식으로 작동합니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">PyObject 구조체</span>
+    <span class="term">ob_refcnt (참조 카운트)</span>
+    <span class="term">ob_type (타입 포인터)</span>
+    <span class="term">16바이트 공통 헤더</span>
+  </div>
+</section>
+
+<section class="sec" id="s2">
+  <h2>03. 인스턴스 생성 과정: __new__와 __init__</h2>
+  <div class="card">
+    <p>많은 입문자가 <code>__init__</code>이 생성자인 줄 알지만, 실제 인스턴스를 메모리에 만드는 것은 <code>__new__</code>입니다. C 수준에서 <code>tp_new</code> 슬롯이 호출되어 메모리를 할당하고 <code>ob_refcnt</code>를 1로 설정한 인스턴스를 반환하면, 비로소 <code>tp_init</code> 슬롯에 해당 인스턴스와 인자가 전달되어 필드를 초기화합니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">__new__ (객체 생성)</span>
+    <span class="term">__init__ (초기화)</span>
+    <span class="term">tp_new / tp_init 슬롯</span>
+    <span class="term">PyObject_Malloc</span>
+  </div>
+</section>
+
+<section class="sec" id="s3">
+  <h2>04. 디스크립터 프로토콜과 self 바인딩</h2>
+  <div class="card">
+    <p>파이썬의 함수(Function)는 <code>__get__</code> 메서드를 구현한 <strong>비데이터 디스크립터(Non-data Descriptor)</strong>입니다. 클래스에서 직접 <code>MyClass.func</code>을 조회하면 일반 함수가 나오지만, 인스턴스에서 <code>obj.func</code>을 조회하면 함수의 <code>__get__(obj, MyClass)</code>가 자동 호출되어 첫 번째 인자로 <code>obj</code>가 고정된 <code>MethodType</code> 래퍼가 생성됩니다. 이것이 <code>self</code>를 명시적으로 넘기지 않아도 넘어가는 기계적 원리입니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">디스크립터 프로토콜</span>
+    <span class="term">__get__ 메서드</span>
+    <span class="term">바운드 메서드 (Bound Method)</span>
+    <span class="term">self 자동 바인딩</span>
+  </div>
+</section>
+
+<section class="sec" id="s4">
+  <h2>05. 속성 룩업 체인(Attribute Lookup Chain)</h2>
+  <div class="card">
+    <p><code>obj.x</code>를 평가할 때 CPython의 <code>PyObject_GenericGetAttr</code> 함수는 엄격한 5단계 우선순위를 따릅니다: ① 클래스 MRO에서 <strong>데이터 디스크립터</strong>(<code>__set__</code> 또는 <code>__delete__</code> 보유) 탐색, ② 인스턴스의 <code>__dict__</code> 탐색, ③ 클래스 MRO에서 <strong>비데이터 디스크립터</strong>(함수 등) 탐색, ④ 클래스의 일반 속성 탐색, ⑤ 위가 모두 실패 시 <code>__getattr__</code> 호출. 이 규칙이 파이썬 객체 지향의 모든 동작을 결정합니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">속성 룩업 체인</span>
+    <span class="term">데이터 vs 비데이터 디스크립터</span>
+    <span class="term">__dict__ 우선순위</span>
+    <span class="term">__getattr__ 폴백</span>
+  </div>
+</section>
+
+<section class="sec" id="rv">
+  <h2>복습 및 퀴즈</h2>
+  <h3 class="rv-h">핵심 개념 플래시카드</h3>
+  <p class="hint">카드를 누르면 숨겨진 해설이 나타납니다.</p>
+  <div class="flips">
+    <button type="button" class="flip" aria-expanded="false"><b>PyObject</b><span class="hint">클릭하여 확인</span><span class="m">CPython에서 모든 파이썬 객체의 기본이 되는 C 구조체. 참조 카운트(ob_refcnt)와 타입 포인터(ob_type)를 가짐.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>__new__</b><span class="hint">클릭하여 확인</span><span class="m">실제 힙 메모리에 인스턴스 객체를 할당하고 반환하는 정적 메서드. 첫 번째 인자로 클래스(cls)를 받음.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>디스크립터 (Descriptor)</b><span class="hint">클릭하여 확인</span><span class="m">__get__, __set__, __delete__ 중 하나 이상의 메서드를 구현하여 속성 접근 동작을 사용자 정의하는 객체.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>데이터 디스크립터</b><span class="hint">클릭하여 확인</span><span class="m">__set__이나 __delete__가 정의된 디스크립터로, 인스턴스의 __dict__보다 속성 조회 우선순위가 높음. (예: property)</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>바운드 메서드 (Bound Method)</b><span class="hint">클릭하여 확인</span><span class="m">함수 객체가 디스크립터 __get__을 통해 인스턴스에 바인딩되어, 호출 시 인스턴스를 self로 자동 전달하는 래퍼 객체.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>ob_refcnt</b><span class="hint">클릭하여 확인</span><span class="m">해당 메모리 객체를 참조하고 있는 변수나 포인터의 개수로, 0이 되면 즉시 메모리 해제 대상이 됨.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>PyObject_GenericGetAttr</b><span class="hint">클릭하여 확인</span><span class="m">파이썬의 점(.) 속성 룩업 체인을 C 수준에서 구현한 핵심 런타임 함수.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>MRO (Method Resolution Order)</b><span class="hint">클릭하여 확인</span><span class="m">다중 상속 환경에서 클래스 속성과 메서드를 탐색하는 순서를 규정한 C3 선형화 알고리즘 기반 순서.</span></button>
+  </div>
+
+  <h3 class="rv-h">빈칸 채우기</h3>
+  <ul class="cloze">
+    <li>CPython 객체 헤더는 참조 횟수와 <button type="button" class="blank" data-a="ob_type" aria-label="빈칸">???</button> 포인터로 구성된다.</li>
+    <li>실제 메모리 할당을 담당하는 클래스 메서드는 <button type="button" class="blank" data-a="__new__" aria-label="빈칸">???</button>이다.</li>
+    <li>파이썬 함수가 인스턴스에 접근할 때 self를 묶어주는 메커니즘을 <button type="button" class="blank" data-a="디스크립터" aria-label="빈칸">???</button> 프로토콜이라 한다.</li>
+    <li>__set__이나 __delete__를 구현하여 인스턴스 __dict__보다 우선하는 디스크립터를 <button type="button" class="blank" data-a="데이터 디스크립터" aria-label="빈칸">???</button>라 부른다.</li>
+    <li>함수가 인스턴스와 결합되어 생성된 호출 가능 객체를 <button type="button" class="blank" data-a="바운드 메서드" aria-label="빈칸">???</button>라 한다.</li>
+    <li>정상적인 룩업이 모두 실패했을 때 최후에 호출되는 폴백 메서드는 <button type="button" class="blank" data-a="__getattr__" aria-label="빈칸">???</button>이다.</li>
+  </ul>
+  <div class="rv-tools">
+    <button type="button" id="cshow">정답 모두 보기</button>
+    <button type="button" id="chide">다시 가리기</button>
+  </div>
+
+  <h3 class="rv-h">5문항 퀴즈</h3>
+  <div id="quiz">
+    <div class="q" data-ans="1">
+      <fieldset><legend>1. 파이썬에서 `obj = MyClass()` 호출 시 실제로 인스턴스 메모리를 할당하는 메서드는?</legend>
+        <button type="button" data-i="0">① `__init__`</button>
+        <button type="button" data-i="1">② `__new__`</button>
+        <button type="button" data-i="2">③ `__call__`</button>
+        <button type="button" data-i="3">④ `__allocate__`</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ②. `__new__`가 객체 할당을 담당하고, `__init__`은 할당된 인스턴스를 초기화합니다.</div>
+    </div>
+    <div class="q" data-ans="0">
+      <fieldset><legend>2. 64비트 CPython에서 표준 `PyObject` 헤더가 차지하는 기본 메모리 크기는?</legend>
+        <button type="button" data-i="0">① 16바이트 (refcnt 8바이트 + ob_type 포인터 8바이트)</button>
+        <button type="button" data-i="1">② 4바이트</button>
+        <button type="button" data-i="2">③ 128바이트</button>
+        <button type="button" data-i="3">④ 0바이트 (헤더 없음)</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ①. 8바이트 참조 카운트와 8바이트 타입 포인터로 총 16바이트 헤더를 가집니다.</div>
+    </div>
+    <div class="q" data-ans="2">
+      <fieldset><legend>3. `obj.method()` 호출 시 `self` 인자가 자동으로 전달되는 원리는?</legend>
+        <button type="button" data-i="0">① 인터프리터가 소스 코드 문자열을 파싱해서 self를 텍스트로 끼워 넣는다.</button>
+        <button type="button" data-i="1">② 전역 변수 self에 obj를 복사해 둔다.</button>
+        <button type="button" data-i="2">③ 함수 객체의 디스크립터 `__get__`이 호출되어 인스턴스를 첫 인자로 묶은 바운드 메서드 객체를 반환하기 때문</button>
+        <button type="button" data-i="3">④ 파이썬 가상머신이 모든 함수를 C++ 클래스 메서드로 변환하기 때문</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ③. 디스크립터 프로토콜의 `__get__(obj, cls)`가 바운드 메서드를 생성합니다.</div>
+    </div>
+    <div class="q" data-ans="3">
+      <fieldset><legend>4. CPython 속성 룩업 체인에서 인스턴스의 `__dict__`보다 우선하여 탐색되는 것은?</legend>
+        <button type="button" data-i="0">① 일반 함수 메서드</button>
+        <button type="button" data-i="1">② `__getattr__` 메서드</button>
+        <button type="button" data-i="2">③ 클래스 전역 상수</button>
+        <button type="button" data-i="3">④ 클래스 MRO에 정의된 '데이터 디스크립터' (예: property)</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ④. `__set__`이 구현된 데이터 디스크립터는 인스턴스 딕셔너리보다 항상 높은 우선순위를 갖습니다.</div>
+    </div>
+    <div class="q" data-ans="1">
+      <fieldset><legend>5. 파이썬의 `@property` 데코레이터가 내부적으로 사용하는 핵심 기술은?</legend>
+        <button type="button" data-i="0">① 멀티스레드 락</button>
+        <button type="button" data-i="1">② 데이터 디스크립터 프로토콜 (`__get__`, `__set__` 구현)</button>
+        <button type="button" data-i="2">③ 바이트코드 동적 난독화</button>
+        <button type="button" data-i="3">④ 가비지 컬렉터 강제 호출</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ②. property 클래스는 대표적인 데이터 디스크립터 구현체입니다.</div>
+    </div>
+    <p class="score" id="score" aria-live="polite">점수: 0 / 5</p>
+    <div class="rv-tools"><button type="button" id="qreset">다시 풀기</button></div>
+  </div>
+</section>
+</main>
+</div>
+
+<script>(function(){
+function $$(q){return [].slice.call(document.querySelectorAll(q))}
+$$(".flip").forEach(function(b){b.onclick=function(){b.setAttribute("aria-expanded",b.getAttribute("aria-expanded")==="true"?"false":"true")}});
+function show(b){b.textContent=b.dataset.a;b.classList.add("shown");b.setAttribute("aria-label","답: "+b.dataset.a)}
+function hide(b){b.textContent="???";b.classList.remove("shown");b.setAttribute("aria-label","빈칸")}
+$$(".blank").forEach(function(b){b.onclick=function(){if(b.classList.contains("shown")){hide(b)}else{show(b)}}});
+var cs=document.getElementById("cshow"),ch=document.getElementById("chide");
+if(cs)cs.onclick=function(){$$(".blank").forEach(show)};
+if(ch)ch.onclick=function(){$$(".blank").forEach(hide)};
+var scoreEl=document.getElementById("score");
+var totalQ=$$("#quiz .q").length;
+function updateScore(){var r=$$("#quiz .q button.right").length;if(scoreEl)scoreEl.textContent="점수: "+r+" / "+totalQ}
+$$("#quiz .q").forEach(function(q){
+  var ans=parseInt(q.dataset.ans,10);
+  var btns=$$(q.querySelectorAll("button"));
+  btns.forEach(function(b,i){
+    b.onclick=function(){
+      btns.forEach(function(x){x.disabled=true});
+      if(i===ans){b.classList.add("right")}else{
+        b.classList.add("wrong");
+        if(btns[ans])btns[ans].classList.add("right");
+      }
+      var ex=q.querySelector(".ex");
+      if(ex)ex.style.display="block";
+      updateScore();
+    };
+  });
+});
+var qr=document.getElementById("qreset");
+if(qr)qr.onclick=function(){
+  $$("#quiz .q").forEach(function(q){
+    $$(q.querySelectorAll("button")).forEach(function(b){
+      b.disabled=false;
+      b.classList.remove("right","wrong");
+    });
+    var ex=q.querySelector(".ex");
+    if(ex)ex.style.display="none";
+  });
+  if(scoreEl)scoreEl.textContent="점수: 0 / "+totalQ;
+};
+})();</script>
+
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">요약 아카이브</div><div class="arc-foot-title">파이썬 객체 생성과 바인딩의 기계적 실체 핵심 요약 (CPython 1부)</div><div class="arc-foot-meta"><time datetime="2026-10-26">2026년 10월 26일</time><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99">#컴퓨터과학</a><a class="arc-tag" href="../index.html#tags=Python">#Python</a><a class="arc-tag" href="../index.html#tags=CPython">#CPython</a><a class="arc-tag" href="../index.html#tags=%EB%A9%94%EB%AA%A8%EB%A6%AC%EB%AA%A8%EB%8D%B8">#메모리모델</a><a class="arc-tag" href="../index.html#tags=%EC%9A%94%EC%95%BD">#요약</a> · <a href="https://yghnsim.github.io/Pages/articles/python_object_creation_and_binding.html" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body>
+</html>

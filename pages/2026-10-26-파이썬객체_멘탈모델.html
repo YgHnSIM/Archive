@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>파이썬 객체 메모리 모델과 멘탈 모델 핵심 요약</title>
+  <style>
+    :root {
+      --primary: #3b82f6;
+      --primary-light: #eff6ff;
+      --text: #1e293b;
+      --bg: #ffffff;
+      --code-bg: #f8fafc;
+      --border: #e2e8f0;
+      --accent: #eab308;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.7;
+      color: var(--text);
+      background: var(--bg);
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+    h1 {
+      font-size: 2rem;
+      color: #0f172a;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 0.75rem;
+      margin-top: 0;
+    }
+    h2 {
+      font-size: 1.4rem;
+      color: #0f172a;
+      margin-top: 2rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.4rem;
+    }
+    p, li {
+      font-size: 1.02rem;
+    }
+    .highlight-box {
+      background: var(--primary-light);
+      border-left: 4px solid var(--primary);
+      padding: 1rem 1.25rem;
+      margin: 1.5rem 0;
+      border-radius: 0 8px 8px 0;
+    }
+    .highlight-box p {
+      margin: 0;
+      font-weight: 500;
+    }
+    pre, code {
+      background: var(--code-bg);
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    }
+    code {
+      padding: 0.2em 0.4em;
+      border-radius: 4px;
+      font-size: 0.9em;
+      color: #be185d;
+    }
+    pre {
+      padding: 1rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+    }
+    pre code {
+      padding: 0;
+      color: inherit;
+      background: none;
+    }
+    .concept-card {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin: 1.25rem 0;
+    }
+    .concept-card h3 {
+      margin-top: 0;
+      color: #1e40af;
+    }
+    /* 복습 3종 표준 스타일 */
+    #rv {
+      margin-top: 3.5rem;
+      padding-top: 2rem;
+      border-top: 2px dashed #cbd5e1;
+    }
+    .rv-sec {
+      margin-bottom: 2.5rem;
+    }
+    .rv-sec h3 {
+      font-size: 1.25rem;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .guide-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 1.2rem;
+    }
+    .guide-box ol {
+      margin: 0;
+      padding-left: 1.4rem;
+    }
+    .guide-box li {
+      margin-bottom: 0.5rem;
+    }
+    details.qa-item {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      margin-bottom: 0.75rem;
+      padding: 0.75rem 1rem;
+      transition: all 0.2s ease;
+    }
+    details.qa-item[open] {
+      border-color: var(--primary);
+      background: #fdfefe;
+    }
+    details.qa-item summary {
+      font-weight: 600;
+      cursor: pointer;
+      color: #1e293b;
+      outline: none;
+    }
+    details.qa-item p {
+      margin: 0.75rem 0 0 0;
+      color: #475569;
+      font-size: 0.98rem;
+    }
+    .quiz-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+    .quiz-card p.q-text {
+      font-weight: 600;
+      margin-top: 0;
+      margin-bottom: 1rem;
+      color: #0f172a;
+    }
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .quiz-opt {
+      padding: 0.65rem 1rem;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      text-align: left;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .quiz-opt:hover {
+      background: #f1f5f9;
+      border-color: #94a3b8;
+    }
+    .quiz-feedback {
+      margin-top: 0.75rem;
+      padding: 0.75rem;
+      border-radius: 6px;
+      font-size: 0.92rem;
+      display: none;
+    }
+    .quiz-feedback.correct {
+      display: block;
+      background: #dcfce7;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+    }
+    .quiz-feedback.incorrect {
+      display: block;
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
+  </style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
+</head>
+<body>
+
+  <!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="요약 아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>요약 아카이브</a><span class="arc-crumb">파이썬 객체 메모리 모델과 멘탈 모델 핵심 요약</span><span class="arc-meta"><time datetime="2026-10-26">2026년 10월 26일</time><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99">#컴퓨터과학</a><a class="arc-tag" href="../index.html#tags=Python">#Python</a><a class="arc-tag" href="../index.html#tags=CPython">#CPython</a><a class="arc-tag" href="../index.html#tags=%EB%A9%94%EB%AA%A8%EB%A6%AC%EB%AA%A8%EB%8D%B8">#메모리모델</a><a class="arc-tag" href="../index.html#tags=%ED%8A%9C%ED%86%A0%EB%A6%AC%EC%96%BC">#튜토리얼</a><a class="arc-src" href="https://yghnsim.github.io/Pages/articles/python_object_mental_model.html" rel="noopener">원문 ↗</a></span></div></div>
+<!-- archive-header:end -->
+<h1>파이썬 객체 메모리 모델과 멘탈 모델 핵심 요약</h1>
+  
+  <div class="highlight-box">
+    <p><strong>핵심 명제:</strong> 파이썬에서 변수는 값을 담는 '상자'가 아니라, 힙(Heap) 메모리에 떠 있는 독립 객체(PyObject)를 가리키는 '이름표(포인터)'입니다. 인스턴스는 오직 데이터(속성)만 담으며, 메서드는 점(.) 연산자가 발동시키는 디스크립터 프로토콜에 의해 동적으로 합성됩니다.</p>
+  </div>
+
+  <h2>1. 상자 멘탈 모델에서 이름표 멘탈 모델로</h2>
+  <p>C 언어의 <code>int x = 10;</code>은 스택 프레임의 4바이트 상자에 직접 정수를 기록합니다. 반면 파이썬의 <code>x = 10</code>은 거대한 힙 공간에 <code>PyLongObject</code>를 할당하고, 네임스페이스 딕셔너리의 키 <code>'x'</code>에 해당 객체의 메모리 주소(포인터)를 연결합니다.</p>
+  <pre><code># 파이썬에서 변수 대입의 본질: 이름표 복사
+a = [1, 2, 3]
+b = a          # 리스트가 복사되는 것이 아니라, 동일 객체에 이름표 b가 추가됨
+b.append(4)
+print(a)       # [1, 2, 3, 4] -> a와 b는 물리적으로 같은 힙 주소를 가리킴!</code></pre>
+
+  <h2>2. 데이터와 로직의 분리와 Bound Method</h2>
+  <div class="concept-card">
+    <h3>클래스와 인스턴스의 물리적 분리</h3>
+    <ul>
+      <li><strong>인스턴스 메모리:</strong> 자신의 고유한 상태(인스턴스 변수)를 담는 <code>__dict__</code>와 클래스 포인터(<code>ob_type</code>)만 가집니다. 메서드 코드는 인스턴스에 복제되지 않습니다.</li>
+      <li><strong>클래스 메모리:</strong> 함수(로직)는 클래스 네임스페이스에 단 하나만 존재합니다.</li>
+      <li><strong>점(.) 연산자와 Bound Method:</strong> <code>obj.method()</code> 호출 시 파이썬은 디스크립터의 <code>__get__</code>을 발동시켜, 클래스에 있던 순수 함수에 <code>obj</code>를 첫 번째 인자(<code>self</code>)로 미리 결합한 일회용 'Bound Method' 객체를 즉석에서 생성합니다.</li>
+    </ul>
+  </div>
+
+  <!-- 복습 3종 표준 섹션 -->
+  <section id="rv">
+    <div class="rv-sec" id="rv-guide">
+      <h3>📚 예습 가이드 (Pre-reading Guide)</h3>
+      <div class="guide-box">
+        <p>파이썬 심화 튜토리얼을 읽기 전, 본인의 멘탈 모델을 점검해 보세요.</p>
+        <ol>
+          <li><code>a = b</code>를 실행할 때 메모리에서 정확히 어떤 연산(포인터 복사 vs 값 복사)이 일어나는가?</li>
+          <li>파이썬 클래스의 메서드 정의에 왜 항상 <code>self</code>라는 첫 번째 매개변수를 수동으로 적어야 하는가?</li>
+          <li>인스턴스 1,000개를 생성하면 메서드 함수 객체도 메모리에 1,000개가 복사되는가?</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="rv-sec" id="rv-qa">
+      <h3>💡 핵심 문답 5선 (Self-Review QA)</h3>
+      
+      <details class="qa-item">
+        <summary>Q1. 파이썬에서 '모든 것은 객체다'라는 말의 CPython 레벨 구현 의미는 무엇입니까?</summary>
+        <p>정수, 부동소수점, 문자열, 함수, 클래스 모듈까지 모든 데이터가 C 구조체인 <code>PyObject</code> 헤더(참조 카운트 <code>ob_refcnt</code>와 타입 포인터 <code>ob_type</code>)를 공유하는 힙 할당 블록이라는 뜻입니다.</p>
+      </details>
+
+      <details class="qa-item">
+        <summary>Q2. <code>is</code> 연산자와 <code>==</code> 연산자의 차이는 메모리 모델에서 어떻게 설명됩니까?</summary>
+        <p><code>is</code> 연산자는 두 이름표가 가리키는 힙 메모리 주소(<code>id()</code>)가 정확히 동일한지 비교하고, <code>==</code> 연산자는 객체 내부의 <code>__eq__</code> 메서드를 실행하여 담긴 값의 논리적 동등성을 비교합니다.</p>
+      </details>
+
+      <details class="qa-item">
+        <summary>Q3. 파이썬 메서드에서 <code>self</code>를 명시해야 하는 기계적 이유는 무엇입니까?</summary>
+        <p>파이썬의 메서드는 문법적인 특수 블록이 아니라 클래스에 등록된 일반 함수에 불과하기 때문입니다. 호출 시 런타임이 디스크립터 매커니즘을 통해 호출 주체 인스턴스를 첫 번째 인자로 넘겨주므로 함수 시그니처에 이를 받을 매개변수(관례상 <code>self</code>)가 필수적입니다.</p>
+      </details>
+
+      <details class="qa-item">
+        <summary>Q4. <code>Class.method(instance)</code>와 <code>instance.method()</code>의 실행 결과는 왜 동일합니까?</summary>
+        <p><code>instance.method()</code>가 실행될 때 점(.) 연산자가 내부적으로 <code>Class.__dict__['method'].__get__(instance, Class)</code>를 호출하여 <code>Class.method(instance, ...)</code>와 완벽히 동일한 호출 형태로 변환하기 때문입니다.</p>
+      </details>
+
+      <details class="qa-item">
+        <summary>Q5. 불변(Immutable) 객체(정수, 튜플)를 수정하려고 하면 왜 새 객체가 생성됩니까?</summary>
+        <p>불변 객체는 힙에 한 번 기록되면 바이트 변경이 금지되므로, <code>x += 1</code>과 같은 연산 시 기존 객체를 수정하는 대신 연산 결과 값을 가진 새로운 <code>PyLongObject</code>를 할당하고 이름표 <code>x</code>의 포인터만 교체하기 때문입니다.</p>
+      </details>
+    </div>
+
+    <div class="rv-sec" id="rv-quiz">
+      <h3>✍️ 확인 퀴즈 (Interactive Quiz)</h3>
+
+      <div class="quiz-card" data-ans="2">
+        <p class="q-text">Q1. 파이썬에서 <code>a = [1, 2]</code>, <code>b = a</code> 실행 후 <code>b.append(3)</code>을 실행했을 때 일어나는 현상으로 옳은 것은?</p>
+        <div class="quiz-options">
+          <button class="quiz-opt" type="button" data-val="1">b만 [1, 2, 3]이 되고 a는 [1, 2]로 유지된다.</button>
+          <button class="quiz-opt" type="button" data-val="2">a와 b가 동일한 힙 객체를 참조하므로 a도 [1, 2, 3]으로 관측된다.</button>
+          <button class="quiz-opt" type="button" data-val="3">타입 에러(TypeError)가 발생한다.</button>
+          <button class="quiz-opt" type="button" data-val="4">b는 새로운 복사본을 딥카피(Deepcopy)하여 분리된다.</button>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <div class="quiz-card" data-ans="3">
+        <p class="q-text">Q2. 어떤 클래스의 인스턴스를 1만 개 생성했을 때, 메서드 함수 객체는 메모리에 몇 개 존재하는가?</p>
+        <div class="quiz-options">
+          <button class="quiz-opt" type="button" data-val="1">1만 개 (각 인스턴스마다 함수 코드가 1벌씩 복제됨)</button>
+          <button class="quiz-opt" type="button" data-val="2">2만 개 (인스턴스와 클래스에 각각 복제됨)</button>
+          <button class="quiz-opt" type="button" data-val="3">단 1개 (클래스 네임스페이스에만 존재하며, 인스턴스는 데이터만 보관함)</button>
+          <button class="quiz-opt" type="button" data-val="4">0개 (JIT 컴파일러가 모두 인라인화하여 함수 객체는 제거됨)</button>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <div class="quiz-card" data-ans="1">
+        <p class="q-text">Q3. 인스턴스에서 <code>obj.do_something()</code>을 호출할 때 첫 번째 인자로 인스턴스 자신이 주입되도록 묶어주는 파이썬 내부 메커니즘은?</p>
+        <div class="quiz-options">
+          <button class="quiz-opt" type="button" data-val="1">디스크립터 프로토콜(Descriptor Protocol, <code>__get__</code>)</button>
+          <button class="quiz-opt" type="button" data-val="2">글로벌 인터프리터 락 (GIL)</button>
+          <button class="quiz-opt" type="button" data-val="3">가비지 컬렉터의 제너레이션 스캔</button>
+          <button class="quiz-opt" type="button" data-val="4">OS 가상 메모리의 MMU 변환</button>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      var cards = document.querySelectorAll(".quiz-card");
+      cards.forEach(function(card) {
+        var ans = card.getAttribute("data-ans");
+        var fb = card.querySelector(".quiz-feedback");
+        var opts = card.querySelectorAll(".quiz-opt");
+        opts.forEach(function(opt) {
+          opt.addEventListener("click", function() {
+            var val = this.getAttribute("data-val");
+            opts.forEach(function(b) {
+              b.style.borderColor = "#cbd5e1";
+              b.style.background = "#ffffff";
+            });
+            if (val === ans) {
+              this.style.borderColor = "#16a34a";
+              this.style.background = "#dcfce7";
+              fb.textContent = "정답입니다! 👏 원리와 일치하는 올바른 설명입니다.";
+              fb.className = "quiz-feedback correct";
+            } else {
+              this.style.borderColor = "#dc2626";
+              this.style.background = "#fee2e2";
+              fb.textContent = "틀렸습니다. 다시 고민해 보세요!";
+              fb.className = "quiz-feedback incorrect";
+            }
+          });
+        });
+      });
+    });
+  </script>
+
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">요약 아카이브</div><div class="arc-foot-title">파이썬 객체 메모리 모델과 멘탈 모델 핵심 요약</div><div class="arc-foot-meta"><time datetime="2026-10-26">2026년 10월 26일</time><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99">#컴퓨터과학</a><a class="arc-tag" href="../index.html#tags=Python">#Python</a><a class="arc-tag" href="../index.html#tags=CPython">#CPython</a><a class="arc-tag" href="../index.html#tags=%EB%A9%94%EB%AA%A8%EB%A6%AC%EB%AA%A8%EB%8D%B8">#메모리모델</a><a class="arc-tag" href="../index.html#tags=%ED%8A%9C%ED%86%A0%EB%A6%AC%EC%96%BC">#튜토리얼</a> · <a href="https://yghnsim.github.io/Pages/articles/python_object_mental_model.html" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body>
+</html>

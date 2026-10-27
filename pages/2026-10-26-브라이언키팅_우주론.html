@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>브라이언 키팅의 우주론과 과학철학 핵심 요약: 시간, 신, 시뮬레이션</title>
+<meta name="description" content="사이먼스 옵서버토리 우주배경복사 관측, 시간의 정의와 빅뱅 이전, 시뮬레이션 가설 비판, 반증 가능성과 실천적 불가지론 요약">
+<style>
+:root{
+  --bg:#faf8f3; --paper-c:#ffffff; --ink:#1f2328; --muted:#5b6470; --line:#e6e1d6;
+  --accent:#c8553d; --accent-soft:#fbeee9; --link:#4a6b8a;
+  --new:#3d5f80; --new-soft:#eaf0f6;
+  --radius:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR","Malgun Gothic",system-ui,sans-serif;
+  font-size:17px;line-height:1.75;word-break:keep-all;overflow-wrap:break-word}
+@media(max-width:640px){body{font-size:16px}}
+a{color:var(--link);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+.hero-cta{margin-top:16px}
+.hero-cta a{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--new);color:#fff!important;border-radius:10px;font-weight:700;font-size:14px;text-decoration:none!important}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:12px 0}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:15px}
+.tbl th,.tbl td{border:1px solid var(--line);padding:9px 12px;text-align:left}
+.tbl th{background:var(--new-soft);color:var(--new);font-weight:700}
+.tbl td{background:#fff}
+.terms{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:10px;border-top:1px dashed var(--line)}
+.term{display:inline-flex;align-items:center;gap:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:600;padding:3px 9px;border-radius:8px}
+.rv-h{font-size:19px;margin:22px 0 6px}
+.flips{display:grid;grid-template-columns:1fr;gap:8px;margin:10px 0}
+@media(min-width:640px){.flips{grid-template-columns:1fr 1fr}}
+.flip{font:inherit;text-align:left;width:100%;border:1.5px solid var(--line,#e6e1d6);background:#fdfcf9;border-radius:12px;padding:10px 14px;cursor:pointer;color:var(--ink,#1f2328);min-height:64px}
+.flip b{display:block;font-size:17px}
+.flip .m{display:none;font-size:16px;line-height:1.6;margin-top:4px}
+.flip .hint{font-size:13px;color:var(--muted,#5b6470)}
+.flip[aria-expanded="true"]{border-color:var(--new,#3d5f80);background:var(--new-soft,#eaf0f6)}
+.flip[aria-expanded="true"] .m{display:block}
+.flip[aria-expanded="true"] .hint{display:none}
+.cloze{list-style:none;margin:10px 0;padding:0}
+.cloze li{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:10px 14px;margin:8px 0;background:#fdfcf9;font-size:16px;line-height:1.8}
+.blank{font:inherit;font-size:16px;border:0;border-bottom:2px dashed var(--accent,#c8553d);background:var(--accent-soft,#fbeee9);color:var(--accent,#c8553d);border-radius:6px 6px 0 0;padding:0 8px;cursor:pointer;min-width:4.5em}
+.blank.shown{border-bottom-style:solid;background:var(--new-soft,#eaf0f6);color:var(--new,#3d5f80);font-weight:700}
+.rv-tools{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.rv-tools button{font:inherit;font-size:15px;border:1px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link,#4a6b8a)}
+.q{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:12px 14px;margin:10px 0;background:#fdfcf9}
+.q fieldset{border:0;margin:0;padding:0}
+.q legend{font-weight:700;padding:0;margin:0 0 8px;font-size:16.5px}
+.q button{display:block;width:100%;text-align:left;font:inherit;font-size:16px;border:1.5px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:8px 12px;margin:6px 0;cursor:pointer;color:var(--ink,#1f2328)}
+.q button.right{border-color:#2f6b45;background:#e6f1ea}
+.q button.wrong{border-color:#a2452f;background:#fbeee9}
+.q button[disabled]{cursor:default;opacity:1}
+.q .ex{margin:8px 0 0;font-size:16px;padding:8px 10px;border-radius:8px;background:var(--new-soft,#eaf0f6)}
+.score{font-size:17px;font-weight:800;margin:10px 0 0}
+</style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
+</head>
+<body>
+<!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="요약 아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>요약 아카이브</a><span class="arc-crumb">브라이언 키팅의 우주론과 과학철학 핵심 요약: 시간, 신, 시뮬레이션</span><span class="arc-meta"><time datetime="2026-10-26">2026년 10월 26일</time><a class="arc-tag" href="../index.html#tags=%EC%9E%90%EC%97%B0%EA%B3%BC%ED%95%99">#자연과학</a><a class="arc-tag" href="../index.html#tags=%EC%B2%A0%ED%95%99">#철학</a><a class="arc-tag" href="../index.html#tags=%EC%9A%B0%EC%A3%BC%EB%A1%A0">#우주론</a><a class="arc-tag" href="../index.html#tags=%EA%B3%BC%ED%95%99%EC%B2%A0%ED%95%99">#과학철학</a><a class="arc-tag" href="../index.html#tags=%EC%9D%B8%ED%84%B0%EB%B7%B0">#인터뷰</a><a class="arc-src" href="https://yghnsim.github.io/Pages/articles/brian_keating_cosmology_god_simulation.html" rel="noopener">원문 ↗</a></span></div></div>
+<!-- archive-header:end -->
+<div class="wrap">
+<header class="hero">
+  <h1>브라이언 키팅의 우주론과 과학철학 핵심 요약</h1>
+  <p class="lead">빅뱅의 잔향을 찾는 실험가의 통찰: 시간, 신, 시뮬레이션 가설, 그리고 반증 가능성의 윤리</p>
+  <div class="hero-cta">
+    <a href="https://yghnsim.github.io/Pages/articles/brian_keating_cosmology_god_simulation.html">Pages 심층 원문 읽기 ↗</a>
+  </div>
+</header>
+
+<nav class="toc">
+  <ol>
+    <li><a href="#s0"><span class="n">01</span> 한눈에 보기 (예습 브리프)</a></li>
+    <li><a href="#s1"><span class="n">02</span> 사이먼스 옵서버토리: 우주배경복사(CMB)와 빅뱅의 잔향</a></li>
+    <li><a href="#s2"><span class="n">03</span> 시간은 실재하는가: 빅뱅 이전의 의미와 엔트로피</a></li>
+    <li><a href="#s3"><span class="n">04</span> 시뮬레이션 가설과 미세조정: 과학인가 새로운 종교인가</a></li>
+    <li><a href="#s4"><span class="n">05</span> 실천하는 독실한 불가지론: 포퍼의 반증 가능성과 삶의 태도</a></li>
+    <li><a href="#rv"><span class="n">✔</span> 복습 및 퀴즈</a></li>
+  </ol>
+</nav>
+
+<main>
+<section class="sec" id="s0">
+  <h2>01. 한눈에 보기 (예습 브리프)</h2>
+  <div class="card">
+    <p><strong>핵심 테제</strong>: UC 샌디에이고의 관측 우주론학자 브라이언 키팅(Brian Keating)은 칠레 아타카마 고원의 사이먼스 옵서버토리에서 빅뱅 직후의 우주배경복사(CMB) 편광 신호를 추적하는 일선 실험가입니다. 그는 화려한 이론적 사변(다중우주, 시뮬레이션 가설)에 휘둘리지 않고, <strong>"증명(반증)할 수 없는 것은 안다고 말하지 않고, 쓸모 있는 것은 실천한다"</strong>는 엄격한 칼 포퍼적 반증주의와 실천적 불가지론을 제시합니다.</p>
+  </div>
+  <table class="tbl">
+    <thead><tr><th>주제</th><th>대중적 사변 / 이론 물리학계 일각</th><th>브라이언 키팅의 실험주의적 비판</th></tr></thead>
+    <tbody>
+      <tr><td>빅뱅 이전</td><td>양자 요동이나 다중우주를 통한 영원한 순환</td><td>북극점에서 더 북쪽을 묻는 것과 같은 무의미한 질문(시간의 시작)</td></tr>
+      <tr><td>시뮬레이션 가설</td><td>우리가 고등 문명의 컴퓨터 시뮬레이션일 확률이 높음</td><td>신(God)을 프로그래머로 바꾼 것뿐이며 반증 불가능한 사이비 과학</td></tr>
+      <tr><td>우주 미세조정</td><td>인간이 살기 위해 수많은 상수가 정밀 조율됨</td><td>관측선택 효과(인류 원리)일 뿐 초자연적 개입의 과학적 증거가 아님</td></tr>
+      <tr><td>종교와 과학</td><td>과학이 종교를 완전히 대체하여 무용화함</td><td>과학은 '어떻게(How)'를 다루고 종교와 도덕은 '왜(Why)'와 실천을 다룸</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="sec" id="s1">
+  <h2>02. 사이먼스 옵서버토리와 우주배경복사(CMB)</h2>
+  <div class="card">
+    <p>칠레 아타카마 사막 해발 5,200m에 건설된 사이먼스 옵서버토리(Simons Observatory)는 우주 탄생 38만 년 후에 방출된 최초의 빛, 즉 <strong>우주배경복사(CMB)</strong>의 B-모드 편광을 탐색합니다. 이는 초기 우주 급팽창(Inflation)이 만들어낸 원시 중력파의 직접적 흔적으로, 빅뱅의 '점화 스위치'가 무엇이었는지를 밝힐 최종 관측입니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">사이먼스 옵서버토리</span>
+    <span class="term">우주배경복사 (CMB)</span>
+    <span class="term">B-모드 편광</span>
+    <span class="term">원시 중력파</span>
+  </div>
+</section>
+
+<section class="sec" id="s2">
+  <h2>03. 시간은 실재하는가: 빅뱅 이전의 의미</h2>
+  <div class="card">
+    <p>스티븐 호킹의 유명한 비유처럼, "빅뱅 이전에는 무엇이 있었는가?"라는 질문은 "북극점에서 북쪽으로 1km 더 가면 어디인가?"를 묻는 것과 같습니다. 시간 자체가 시공간의 팽창과 함께 시작되었기 때문입니다. 키팅은 시간이란 사물의 변화와 엔트로피 증가를 기술하기 위해 인간이 사용하는 관계적 측정 도구라고 봅니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">북극점 비유</span>
+    <span class="term">시간의 화살</span>
+    <span class="term">열역학적 엔트로피</span>
+    <span class="term">관계적 시간관</span>
+  </div>
+</section>
+
+<section class="sec" id="s3">
+  <h2>04. 시뮬레이션 가설과 미세조정에 대한 반박</h2>
+  <div class="card">
+    <p>닉 보스트롬과 일론 머스크가 주장하는 '시뮬레이션 우주론'에 대해 키팅은 냉정합니다. 어떤 관측 결과가 나와도 "시뮬레이터가 그렇게 프로그래밍했다"고 둘러댈 수 있다면, 그것은 칼 포퍼가 말한 <strong>반증 불가능성(Unfalsifiability)</strong>의 덫에 빠진 종교적 믿음에 불과합니다. 신 대신 외계인 프로그래머를 앉힌 세속적 지적설계론일 뿐입니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">시뮬레이션 가설</span>
+    <span class="term">미세조정 논증 (Fine-tuning)</span>
+    <span class="term">칼 포퍼 (반증 가능성)</span>
+    <span class="term">세속적 지적설계론</span>
+  </div>
+</section>
+
+<section class="sec" id="s4">
+  <h2>05. 실천하는 독실한 불가지론</h2>
+  <div class="card">
+    <p>키팅은 자신을 <strong>'실천하는 독실한 불가지론자(Practicing Devout Agnostic)'</strong>라 부릅니다. 우주의 제1원인이나 사후세계는 인간의 이성으로 증명할 수 없음을 겸허히 인정하되, 유대교의 안식일(샤밧)과 공동체 전통 같은 규범적 실천은 삶을 풍요롭게 하므로 적극적으로 행합니다. 과학적 회의주의와 종교적 실천의 지혜로운 공존입니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">실천하는 불가지론</span>
+    <span class="term">안식일 (샤밧)의 쓸모</span>
+    <span class="term">인류 원리</span>
+    <span class="term">실험가의 겸양</span>
+  </div>
+</section>
+
+<section class="sec" id="rv">
+  <h2>복습 및 퀴즈</h2>
+  <h3 class="rv-h">핵심 개념 플래시카드</h3>
+  <p class="hint">카드를 누르면 숨겨진 해설이 나타납니다.</p>
+  <div class="flips">
+    <button type="button" class="flip" aria-expanded="false"><b>우주배경복사 (CMB)</b><span class="hint">클릭하여 확인</span><span class="m">빅뱅 후 약 38만 년 뒤 원자가 형성되며 우주 전체로 퍼져나간 태초의 빛 잔향. 현재는 절대온도 약 2.7K의 마이크로파로 관측됨.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>B-모드 편광</b><span class="hint">클릭하여 확인</span><span class="m">초기 우주의 급팽창(인플레이션)으로 발생한 원시 중력파가 우주배경복사에 남긴 소용돌이 형태의 편광 패턴.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>반증 가능성 (Falsifiability)</b><span class="hint">클릭하여 확인</span><span class="m">칼 포퍼가 제시한 과학과 비과학의 구획 기준. 어떤 이론이 과학적이려면 관측이나 실험을 통해 틀렸음을 입증할 방법이 존재해야 함.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>시뮬레이션 가설</b><span class="hint">클릭하여 확인</span><span class="m">우리가 사는 우주가 고도 문명에 의해 시뮬레이션되는 가상세계라는 가설. 키팅은 반증 불가능한 현대판 신화로 비판함.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>미세조정 (Fine-Tuning)</b><span class="hint">클릭하여 확인</span><span class="m">중력 상수나 미세구조 상수 등 우주의 물리 상수들이 생명체가 탄생할 수 있도록 극도로 정밀하게 조율되어 있다는 관찰.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>실천하는 불가지론</b><span class="hint">클릭하여 확인</span><span class="m">신의 존재나 사후세계를 안다고 확언하지 않으면서도, 도덕과 공동체를 세우는 전통적 규범과 의례는 적극적으로 실천하는 삶의 태도.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>북극점 비유</b><span class="hint">클릭하여 확인</span><span class="m">북극점에서 더 북쪽이 어디냐고 묻는 것이 무의미하듯, 시공간이 시작된 빅뱅 이전을 묻는 것은 물리적으로 성립할 수 없다는 비유.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>사이먼스 옵서버토리</b><span class="hint">클릭하여 확인</span><span class="m">칠레 아타카마 사막 고원에 구축된 세계 최대급의 관측 우주론 망원경 시설로, 원시 우주 신호를 탐색함.</span></button>
+  </div>
+
+  <h3 class="rv-h">빈칸 채우기</h3>
+  <ul class="cloze">
+    <li>빅뱅 38만 년 후 방출되어 우주 전체를 채우고 있는 태초의 빛을 <button type="button" class="blank" data-a="우주배경복사" aria-label="빈칸">???</button>(CMB)라 한다.</li>
+    <li>초기 인플레이션 중력파의 결정적 증거로 탐색되는 신호는 <button type="button" class="blank" data-a="B-모드 편광" aria-label="빈칸">???</button>이다.</li>
+    <li>칼 포퍼가 제시한 과학적 이론의 필수 조건은 <button type="button" class="blank" data-a="반증 가능성" aria-label="빈칸">???</button>이다.</li>
+    <li>빅뱅 이전을 묻는 것이 무의미함을 설명하는 대표적 공간 비유는 <button type="button" class="blank" data-a="북극점" aria-label="빈칸">???</button> 비유이다.</li>
+    <li>키팅은 시뮬레이션 가설이 신 대신 <button type="button" class="blank" data-a="프로그래머" aria-label="빈칸">???</button>를 대입한 반증 불가능한 종교에 불과하다고 지적했다.</li>
+    <li>신의 존재는 단언하지 않되 유대 전통의 쓸모 있는 의례는 행하는 입장을 실천하는 <button type="button" class="blank" data-a="불가지론" aria-label="빈칸">???</button>이라 한다.</li>
+  </ul>
+  <div class="rv-tools">
+    <button type="button" id="cshow">정답 모두 보기</button>
+    <button type="button" id="chide">다시 가리기</button>
+  </div>
+
+  <h3 class="rv-h">5문항 퀴즈</h3>
+  <div id="quiz">
+    <div class="q" data-ans="1">
+      <fieldset><legend>1. 브라이언 키팅이 이끄는 사이먼스 옵서버토리의 핵심 과학적 목표는?</legend>
+        <button type="button" data-i="0">① 화성에 물과 산소를 보내는 기지 건설</button>
+        <button type="button" data-i="1">② 우주배경복사(CMB)의 미세한 편광(B-mode)을 측정하여 빅뱅 직후 급팽창의 흔적 탐색</button>
+        <button type="button" data-i="2">③ 외계 행성의 전파 방송을 도청하는 세티(SETI) 프로젝트</button>
+        <button type="button" data-i="3">④ 소행성의 궤도를 인위적으로 수정하는 레이저 발사</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ②. CMB B-모드 편광은 원시 우주 인플레이션과 중력파의 지문을 찾는 핵심 관측입니다.</div>
+    </div>
+    <div class="q" data-ans="3">
+      <fieldset><legend>2. "빅뱅 이전에는 무엇이 있었는가?"라는 질문에 대한 현대 우주론의 답변은?</legend>
+        <button type="button" data-i="0">① 거대한 불타는 석탄 덩어리가 있었다.</button>
+        <button type="button" data-i="1">② 공룡들이 우주선을 타고 돌아다녔다.</button>
+        <button type="button" data-i="2">③ 평평한 지구 100개가 줄지어 있었다.</button>
+        <button type="button" data-i="3">④ 북극점에서 더 북쪽을 물을 수 없듯, 시간 자체가 빅뱅과 함께 정의되므로 물리적으로 성립하지 않는 질문이다.</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ④. 시간은 공간과 함께 빅뱅 순간에 시작된 물리량이므로 '빅뱅 이전'이란 표현 자체가 성립하지 않습니다.</div>
+    </div>
+    <div class="q" data-ans="0">
+      <fieldset><legend>3. 키팅이 닉 보스트롬 등의 '시뮬레이션 가설'을 과학으로 인정하지 않는 이유는?</legend>
+        <button type="button" data-i="0">① 어떤 관측 결과가 나오든 반증할 방법이 없는 비과학적 도그마이기 때문에</button>
+        <button type="button" data-i="1">② 비디오 게임 회사의 주가가 떨어질까 봐</button>
+        <button type="button" data-i="2">③ 컴퓨터가 양자역학을 계산할 수 없다는 정리가 증명되었기 때문에</button>
+        <button type="button" data-i="3">④ 망원경 렌즈에 컴퓨터 화면이 보이지 않기 때문에</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ①. 반증 불가능한 가설은 과학이 아니라 사변이나 종교의 영역에 머뭅니다.</div>
+    </div>
+    <div class="q" data-ans="2">
+      <fieldset><legend>4. 키팅의 과학철학적 태도를 가장 잘 요약한 명언은?</legend>
+        <button type="button" data-i="0">① "보이는 모든 것을 의심하고 아무것도 믿지 마라."</button>
+        <button type="button" data-i="1">② "모든 진리는 수학 방정식으로만 풀 수 있다."</button>
+        <button type="button" data-i="2">③ "증명할 수 없는 것은 안다고 말하지 않고, 쓸모 있는 것은 실천한다."</button>
+        <button type="button" data-i="3">④ "노벨상을 받지 못한 연구는 무가치하다."</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ③. 지식에 대해서는 정직한 겸양(반증주의)을 유지하고, 삶의 도덕과 규범에서는 지혜로운 실천을 취합니다.</div>
+    </div>
+    <div class="q" data-ans="1">
+      <fieldset><legend>5. 우주의 물리 상수들이 생명체 탄생에 절묘하게 들어맞는다는 '미세조정(Fine-Tuning)'에 대한 키팅의 견해는?</legend>
+        <button type="button" data-i="0">① 신이 인간만을 위해 우주를 창조했다는 결정적 과학적 증거이다.</button>
+        <button type="button" data-i="1">② 우리가 존재하는 우주만을 관측할 수밖에 없다는 관측선택 효과(인류 원리)를 고려해야 하며, 초자연적 입증이 아니다.</button>
+        <button type="button" data-i="2">③ 물리 상수는 매일 아침 무작위로 바뀐다.</button>
+        <button type="button" data-i="3">④ 인간의 뇌가 시각을 착각한 착시 현상이다.</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ②. 관측자가 존재하기 때문에 그러한 상수가 관측되는 선택 편향을 냉정히 분별해야 합니다.</div>
+    </div>
+    <p class="score" id="score" aria-live="polite">점수: 0 / 5</p>
+    <div class="rv-tools"><button type="button" id="qreset">다시 풀기</button></div>
+  </div>
+</section>
+</main>
+</div>
+
+<script>(function(){
+function $$(q){return [].slice.call(document.querySelectorAll(q))}
+$$(".flip").forEach(function(b){b.onclick=function(){b.setAttribute("aria-expanded",b.getAttribute("aria-expanded")==="true"?"false":"true")}});
+function show(b){b.textContent=b.dataset.a;b.classList.add("shown");b.setAttribute("aria-label","답: "+b.dataset.a)}
+function hide(b){b.textContent="???";b.classList.remove("shown");b.setAttribute("aria-label","빈칸")}
+$$(".blank").forEach(function(b){b.onclick=function(){if(b.classList.contains("shown")){hide(b)}else{show(b)}}});
+var cs=document.getElementById("cshow"),ch=document.getElementById("chide");
+if(cs)cs.onclick=function(){$$(".blank").forEach(show)};
+if(ch)ch.onclick=function(){$$(".blank").forEach(hide)};
+var scoreEl=document.getElementById("score");
+var totalQ=$$("#quiz .q").length;
+function updateScore(){var r=$$("#quiz .q button.right").length;if(scoreEl)scoreEl.textContent="점수: "+r+" / "+totalQ}
+$$("#quiz .q").forEach(function(q){
+  var ans=parseInt(q.dataset.ans,10);
+  var btns=$$(q.querySelectorAll("button"));
+  btns.forEach(function(b,i){
+    b.onclick=function(){
+      btns.forEach(function(x){x.disabled=true});
+      if(i===ans){b.classList.add("right")}else{
+        b.classList.add("wrong");
+        if(btns[ans])btns[ans].classList.add("right");
+      }
+      var ex=q.querySelector(".ex");
+      if(ex)ex.style.display="block";
+      updateScore();
+    };
+  });
+});
+var qr=document.getElementById("qreset");
+if(qr)qr.onclick=function(){
+  $$("#quiz .q").forEach(function(q){
+    $$(q.querySelectorAll("button")).forEach(function(b){
+      b.disabled=false;
+      b.classList.remove("right","wrong");
+    });
+    var ex=q.querySelector(".ex");
+    if(ex)ex.style.display="none";
+  });
+  if(scoreEl)scoreEl.textContent="점수: 0 / "+totalQ;
+};
+})();</script>
+
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">요약 아카이브</div><div class="arc-foot-title">브라이언 키팅의 우주론과 과학철학 핵심 요약: 시간, 신, 시뮬레이션</div><div class="arc-foot-meta"><time datetime="2026-10-26">2026년 10월 26일</time><a class="arc-tag" href="../index.html#tags=%EC%9E%90%EC%97%B0%EA%B3%BC%ED%95%99">#자연과학</a><a class="arc-tag" href="../index.html#tags=%EC%B2%A0%ED%95%99">#철학</a><a class="arc-tag" href="../index.html#tags=%EC%9A%B0%EC%A3%BC%EB%A1%A0">#우주론</a><a class="arc-tag" href="../index.html#tags=%EA%B3%BC%ED%95%99%EC%B2%A0%ED%95%99">#과학철학</a><a class="arc-tag" href="../index.html#tags=%EC%9D%B8%ED%84%B0%EB%B7%B0">#인터뷰</a> · <a href="https://yghnsim.github.io/Pages/articles/brian_keating_cosmology_god_simulation.html" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body>
+</html>

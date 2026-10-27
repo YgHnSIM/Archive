@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LLM 에이전트 스킬 아키텍처와 실전 엔지니어링 핵심 요약</title>
+<meta name="description" content="단일 거대 프롬프트의 한계 극복, 온디맨드 스킬 폴더(SKILL.md) 구조, 런타임 하네스와 점진적 컨텍스트 로딩 요약">
+<style>
+:root{
+  --bg:#faf8f3; --paper-c:#ffffff; --ink:#1f2328; --muted:#5b6470; --line:#e6e1d6;
+  --accent:#c8553d; --accent-soft:#fbeee9; --link:#4a6b8a;
+  --new:#3d5f80; --new-soft:#eaf0f6;
+  --radius:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR","Malgun Gothic",system-ui,sans-serif;
+  font-size:17px;line-height:1.75;word-break:keep-all;overflow-wrap:break-word}
+@media(max-width:640px){body{font-size:16px}}
+a{color:var(--link);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+.hero-cta{margin-top:16px}
+.hero-cta a{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--new);color:#fff!important;border-radius:10px;font-weight:700;font-size:14px;text-decoration:none!important}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:12px 0}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:15px}
+.tbl th,.tbl td{border:1px solid var(--line);padding:9px 12px;text-align:left}
+.tbl th{background:var(--new-soft);color:var(--new);font-weight:700}
+.tbl td{background:#fff}
+.terms{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:10px;border-top:1px dashed var(--line)}
+.term{display:inline-flex;align-items:center;gap:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:600;padding:3px 9px;border-radius:8px}
+.rv-h{font-size:19px;margin:22px 0 6px}
+.flips{display:grid;grid-template-columns:1fr;gap:8px;margin:10px 0}
+@media(min-width:640px){.flips{grid-template-columns:1fr 1fr}}
+.flip{font:inherit;text-align:left;width:100%;border:1.5px solid var(--line,#e6e1d6);background:#fdfcf9;border-radius:12px;padding:10px 14px;cursor:pointer;color:var(--ink,#1f2328);min-height:64px}
+.flip b{display:block;font-size:17px}
+.flip .m{display:none;font-size:16px;line-height:1.6;margin-top:4px}
+.flip .hint{font-size:13px;color:var(--muted,#5b6470)}
+.flip[aria-expanded="true"]{border-color:var(--new,#3d5f80);background:var(--new-soft,#eaf0f6)}
+.flip[aria-expanded="true"] .m{display:block}
+.flip[aria-expanded="true"] .hint{display:none}
+.cloze{list-style:none;margin:10px 0;padding:0}
+.cloze li{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:10px 14px;margin:8px 0;background:#fdfcf9;font-size:16px;line-height:1.8}
+.blank{font:inherit;font-size:16px;border:0;border-bottom:2px dashed var(--accent,#c8553d);background:var(--accent-soft,#fbeee9);color:var(--accent,#c8553d);border-radius:6px 6px 0 0;padding:0 8px;cursor:pointer;min-width:4.5em}
+.blank.shown{border-bottom-style:solid;background:var(--new-soft,#eaf0f6);color:var(--new,#3d5f80);font-weight:700}
+.rv-tools{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.rv-tools button{font:inherit;font-size:15px;border:1px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link,#4a6b8a)}
+.q{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:12px 14px;margin:10px 0;background:#fdfcf9}
+.q fieldset{border:0;margin:0;padding:0}
+.q legend{font-weight:700;padding:0;margin:0 0 8px;font-size:16.5px}
+.q button{display:block;width:100%;text-align:left;font:inherit;font-size:16px;border:1.5px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:8px 12px;margin:6px 0;cursor:pointer;color:var(--ink,#1f2328)}
+.q button.right{border-color:#2f6b45;background:#e6f1ea}
+.q button.wrong{border-color:#a2452f;background:#fbeee9}
+.q button[disabled]{cursor:default;opacity:1}
+.q .ex{margin:8px 0 0;font-size:16px;padding:8px 10px;border-radius:8px;background:var(--new-soft,#eaf0f6)}
+.score{font-size:17px;font-weight:800;margin:10px 0 0}
+</style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
+</head>
+<body>
+<!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="요약 아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>요약 아카이브</a><span class="arc-crumb">LLM 에이전트 스킬 아키텍처와 실전 엔지니어링 핵심 요약</span><span class="arc-meta"><time datetime="2026-10-26">2026년 10월 26일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99">#컴퓨터과학</a><a class="arc-tag" href="../index.html#tags=%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8">#에이전트</a><a class="arc-tag" href="../index.html#tags=%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4%EA%B3%B5%ED%95%99">#소프트웨어공학</a><a class="arc-tag" href="../index.html#tags=%EC%9A%94%EC%95%BD">#요약</a><a class="arc-src" href="https://yghnsim.github.io/Pages/articles/agent_skills_architecture.html" rel="noopener">원문 ↗</a></span></div></div>
+<!-- archive-header:end -->
+<div class="wrap">
+<header class="hero">
+  <h1>LLM 에이전트 스킬 아키텍처와 실전 엔지니어링 핵심 요약</h1>
+  <p class="lead">긴 프롬프트의 한계를 넘어: 온디맨드 스킬 패키징, SKILL.md 규격, 런타임 하네스 분리</p>
+  <div class="hero-cta">
+    <a href="https://yghnsim.github.io/Pages/articles/agent_skills_architecture.html">Pages 심층 원문 읽기 ↗</a>
+  </div>
+</header>
+
+<nav class="toc">
+  <ol>
+    <li><a href="#s0"><span class="n">01</span> 한눈에 보기 (예습 브리프)</a></li>
+    <li><a href="#s1"><span class="n">02</span> 왜 단일 프롬프트 엔지니어링은 끝났는가</a></li>
+    <li><a href="#s2"><span class="n">03</span> 오픈 표준 스킬 폴더 구조 (SKILL.md)</a></li>
+    <li><a href="#s3"><span class="n">04</span> 점진적 컨텍스트 로딩 (Progressive Loading)</a></li>
+    <li><a href="#s4"><span class="n">05</span> 도구 중립적 런타임 하네스와 거버넌스</a></li>
+    <li><a href="#rv"><span class="n">✔</span> 복습 및 퀴즈</a></li>
+  </ol>
+</nav>
+
+<main>
+<section class="sec" id="s0">
+  <h2>01. 한눈에 보기 (예습 브리프)</h2>
+  <div class="card">
+    <p><strong>핵심 테제</strong>: 시스템 프롬프트에 수천 줄의 업무 매뉴얼과 규칙을 전부 때려 넣던 "메가 프롬프트" 시대는 끝났습니다. 앤드류 응이 강조하듯 2026년 에이전트 엔지니어링의 표준은 <strong>'에이전트 스킬(Agent Skills)'</strong>입니다. 전문 지식과 스크립트, 예제를 독립된 디렉터리(<code>SKILL.md</code>)로 모듈화하고, 에이전트가 작업에 필요한 순간에만 동적으로 컨텍스트를 읽어 들이는 <strong>점진적 로딩(Progressive Disclosure)</strong> 구조가 핵심입니다.</p>
+  </div>
+  <table class="tbl">
+    <thead><tr><th>구분</th><th>레거시 방식 (단일 거대 프롬프트)</th><th>에이전트 스킬 아키텍처 (온디맨드 모듈화)</th></tr></thead>
+    <tbody>
+      <tr><td>지식 주입 방식</td><td>시스템 프롬프트에 모든 업무 지침 상시 탑재</td><td>메타데이터만 상시 노출, 본문은 필요 시 온디맨드 읽기</td></tr>
+      <tr><td>컨텍스트 소모</td><td>작업과 무관한 수만 토큰이 기본 낭비</td><td>최소한의 스킬 목록(수백 토큰)만 기본 소비</td></tr>
+      <tr><td>주의력(Attention)</td><td>정보 과부하로 지침 누락 및 환각 빈발</td><td>당면 과제에 필요한 스킬만 집중 로딩하여 정확도 극대화</td></tr>
+      <tr><td>유지보수성</td><td>단일 파일 비대화로 협업 및 버전 관리 불가능</td><td>기능별 독립 폴더로 Git 형상 관리 및 재사용 용이</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="sec" id="s1">
+  <h2>02. 왜 단일 프롬프트 엔지니어링은 끝났는가</h2>
+  <div class="card">
+    <p>LLM의 컨텍스트 윈도우가 100만 토큰으로 늘어났더라도, 프롬프트 길이가 길어질수록 중간 정보에 대한 주의력이 급격히 떨어지는 <strong>'중간 분실(Lost-in-the-Middle)'</strong> 현상이 발생합니다. 또한 토큰 비용이 매 턴마다 누적되고 응답 지연(TTFT)이 심각해집니다. 모듈화는 비용과 성능 모두에서 필수 불가결한 진화입니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">중간 분실 (Lost-in-the-Middle)</span>
+    <span class="term">주의력 저하 (Attention Dilution)</span>
+    <span class="term">TTFT 지연</span>
+    <span class="term">토큰 비용 누적</span>
+  </div>
+</section>
+
+<section class="sec" id="s2">
+  <h2>03. 오픈 표준 스킬 폴더 구조 (SKILL.md)</h2>
+  <div class="card">
+    <p>에이전트 스킬은 독립된 폴더 단위로 패키징됩니다: ① <code>SKILL.md</code>: YAML 프론트매터(name, description)와 마크다운 상세 지침, ② <code>scripts/</code>: 에이전트가 직접 호출하여 결정론적 연산을 수행할 도우미 스크립트, ③ <code>examples/</code>: Few-shot 퓨샷 예시, ④ <code>references/</code>: 상세 참조 문서. 이를 통해 지식과 실행 코드가 완결된 단위로 배포됩니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">SKILL.md 표준</span>
+    <span class="term">YAML 프론트매터</span>
+    <span class="term">결정론적 스크립트 분리</span>
+    <span class="term">Few-shot 패키징</span>
+  </div>
+</section>
+
+<section class="sec" id="s3">
+  <h2>04. 점진적 컨텍스트 로딩 (Progressive Loading)</h2>
+  <div class="card">
+    <p>에이전트가 부팅될 때 시스템 프롬프트에는 각 스킬의 <strong>이름과 1~2줄 설명(Description)</strong>만 주입됩니다. 에이전트는 사용자의 의도를 분석하여 해당 스킬이 필요하다고 판단되면, <code>read_file</code> 도구를 사용하여 <code>SKILL.md</code> 본문을 직접 읽어옵니다. 이 2단계 탐색 메커니즘을 통해 수백 개의 스킬이 있어도 컨텍스트를 오염시키지 않습니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">점진적 로딩 (Progressive Disclosure)</span>
+    <span class="term">2단계 디스패치</span>
+    <span class="term">컨텍스트 오염 방지</span>
+    <span class="term">스킬 트리거링</span>
+  </div>
+</section>
+
+<section class="sec" id="s4">
+  <h2>05. 도구 중립적 런타임 하네스와 거버넌스</h2>
+  <div class="card">
+    <p>스킬은 특정 LLM이나 특정 프레임워크에 종속되어서는 안 됩니다. 마크다운과 셸 스크립트라는 표준 형식으로 작성되어, Claude Code, Cursor, Antigravity 등 어떤 하네스 런타임에서도 동일하게 동작해야 합니다. 조직 수준에서는 중복 스킬 병합, 사용 빈도가 낮은 스킬의 가지치기(Pruning) 거버넌스가 운영의 핵심입니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">도구 중립성 (Tool Neutrality)</span>
+    <span class="term">런타임 하네스</span>
+    <span class="term">스킬 가지치기 (Pruning)</span>
+    <span class="term">조직 스킬 라이브러리</span>
+  </div>
+</section>
+
+<section class="sec" id="rv">
+  <h2>복습 및 퀴즈</h2>
+  <h3 class="rv-h">핵심 개념 플래시카드</h3>
+  <p class="hint">카드를 누르면 숨겨진 해설이 나타납니다.</p>
+  <div class="flips">
+    <button type="button" class="flip" aria-expanded="false"><b>에이전트 스킬 (Agent Skill)</b><span class="hint">클릭하여 확인</span><span class="m">특정 도메인의 절차, 지침, 실행 스크립트, 예시를 독립된 디렉터리로 묶어 온디맨드로 로딩하는 지식 패키지.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>점진적 로딩 (Progressive Disclosure)</b><span class="hint">클릭하여 확인</span><span class="m">평소에는 최소한의 메타데이터(이름·설명)만 띄워두고, 실제 필요할 때만 상세 문서를 읽어오는 2단계 로딩 기법.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>중간 분실 (Lost-in-the-Middle)</b><span class="hint">클릭하여 확인</span><span class="m">프롬프트가 너무 길어질 때 LLM이 앞부분이나 뒷부분에 비해 중간에 위치한 지침을 망각하거나 무시하는 현상.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>SKILL.md</b><span class="hint">클릭하여 확인</span><span class="m">에이전트 스킬의 핵심 파일로, YAML 머리말(name, description)과 상세한 마크다운 행동 지침으로 구성됨.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>런타임 하네스 (Runtime Harness)</b><span class="hint">클릭하여 확인</span><span class="m">LLM 모델 바깥에서 도구 실행, 스킬 탐색, 대화 히스토리 관리, 파일 샌드박스를 제공하는 실행 환경 틀.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>결정론적 스크립트 분리</b><span class="hint">클릭하여 확인</span><span class="m">LLM의 확률적 생성에 맡기지 않고, 정확성이 요구되는 복잡한 계산이나 정규식 처리를 별도 스크립트(scripts/)로 분리하여 실행하는 전략.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>도구 중립성 (Tool Neutrality)</b><span class="hint">클릭하여 확인</span><span class="m">특정 벤더나 특정 파이썬 라이브러리에 묶이지 않고 표준 파일과 셸 명령으로 이식성을 보장하는 성질.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>스킬 가지치기 (Pruning)</b><span class="hint">클릭하여 확인</span><span class="m">중복되거나 사용되지 않는 스킬을 정리하여 에이전트의 선택 혼란과 컨텍스트 낭비를 줄이는 관리 기법.</span></button>
+  </div>
+
+  <h3 class="rv-h">빈칸 채우기</h3>
+  <ul class="cloze">
+    <li>온디맨드로 필요한 전문 지식을 로딩하는 패키지 표준을 <button type="button" class="blank" data-a="에이전트 스킬" aria-label="빈칸">???</button>이라 부른다.</li>
+    <li>프롬프트가 길어질 때 중간 정보를 놓치는 현상을 <button type="button" class="blank" data-a="중간 분실" aria-label="빈칸">???</button>(Lost-in-the-Middle)이라 한다.</li>
+    <li>스킬 폴더의 메타데이터와 지침을 담는 표준 명세 파일명은 <button type="button" class="blank" data-a="SKILL.md" aria-label="빈칸">???</button>이다.</li>
+    <li>평소엔 설명만 노출하고 필요 시 본문을 읽는 2단계 방식을 <button type="button" class="blank" data-a="점진적 로딩" aria-label="빈칸">???</button>이라 한다.</li>
+    <li>에이전트를 감싸고 실행과 도구 호출을 중재하는 외부 틀을 런타임 <button type="button" class="blank" data-a="하네스" aria-label="빈칸">???</button>(Harness)라 부른다.</li>
+    <li>불필요하거나 중복된 스킬을 지속적으로 정리하는 유지보수 작업을 스킬 <button type="button" class="blank" data-a="가지치기" aria-label="빈칸">???</button>(Pruning)라 한다.</li>
+  </ul>
+  <div class="rv-tools">
+    <button type="button" id="cshow">정답 모두 보기</button>
+    <button type="button" id="chide">다시 가리기</button>
+  </div>
+
+  <h3 class="rv-h">5문항 퀴즈</h3>
+  <div id="quiz">
+    <div class="q" data-ans="1">
+      <fieldset><legend>1. 수만 줄의 업무 지침을 시스템 프롬프트에 직접 다 넣는 '메가 프롬프트'의 가장 큰 폐해는?</legend>
+        <button type="button" data-i="0">① 하드디스크 용량이 부족해진다.</button>
+        <button type="button" data-i="1">② 매 턴마다 토큰 비용이 폭증하고, 주의력 분산(중간 분실)으로 지침 누락과 환각이 발생한다.</button>
+        <button type="button" data-i="2">③ 파이썬 인터프리터가 작동을 멈춘다.</button>
+        <button type="button" data-i="3">④ 인터넷 브라우저 쿠키가 모두 삭제된다.</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ②. 컨텍스트가 너무 크면 LLM의 지시 준수율이 급감하고 비용과 지연시간이 폭증합니다.</div>
+    </div>
+    <div class="q" data-ans="3">
+      <fieldset><legend>2. 표준 '에이전트 스킬' 아키텍처의 점진적 로딩(Progressive Disclosure) 작동 방식은?</legend>
+        <button type="button" data-i="0">① 모든 스킬 파일을 컴퓨터 시작 시 RAM에 전부 압축 해제한다.</button>
+        <button type="button" data-i="1">② 매일 자정에만 스킬을 업데이트한다.</button>
+        <button type="button" data-i="2">③ 사용자가 스킬 이름을 직접 타이핑하지 않으면 절대 로딩하지 않는다.</button>
+        <button type="button" data-i="3">④ 시스템 프롬프트에는 스킬 목록과 짧은 요약만 노출하고, 에이전트가 필요할 때 해당 SKILL.md 본문을 읽어 들인다.</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ④. 2단계 로딩을 통해 평소 컨텍스트를 극도로 가볍게 유지합니다.</div>
+    </div>
+    <div class="q" data-ans="0">
+      <fieldset><legend>3. 스킬 패키지 내부에 'scripts/' 디렉터리를 두어 셸/파이썬 스크립트를 배치하는 이유는?</legend>
+        <button type="button" data-i="0">① LLM의 확률적 생성 대신 결정론적이고 정확한 연산(파싱, 검증 등)을 스크립트로 신속히 수행하기 위해</button>
+        <button type="button" data-i="1">② 해킹 프로그램을 백그라운드에서 돌리기 위해</button>
+        <button type="button" data-i="2">③ 텍스트 파일을 음성 파일로 변환하기 위해</button>
+        <button type="button" data-i="3">④ GPU 드라이버를 재설치하기 위해</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ①. 복잡한 정형 작업은 LLM에게 맡기지 않고 검증된 코드로 실행하는 것이 훨씬 안전하고 저렴합니다.</div>
+    </div>
+    <div class="q" data-ans="2">
+      <fieldset><legend>4. 에이전트 스킬의 '도구 중립성(Tool Neutrality)'이 보장할 때의 이점은?</legend>
+        <button type="button" data-i="0">① 도구를 전혀 사용하지 않고 오직 생각만 한다.</button>
+        <button type="button" data-i="1">② 특정 LLM 벤더에 평생 종속될 수 있다.</button>
+        <button type="button" data-i="2">③ 표준 마크다운/스크립트 기반이므로 어떤 에이전트 하네스(Claude Code, Antigravity 등)에서도 그대로 재사용된다.</button>
+        <button type="button" data-i="3">④ 윈도우 95에서도 동작한다.</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ③. 오픈 표준 형식으로 작성된 스킬은 실행 환경이나 모델이 바뀌어도 높은 이식성을 유지합니다.</div>
+    </div>
+    <div class="q" data-ans="1">
+      <fieldset><legend>5. 조직 차원에서 '스킬 가지치기(Pruning)'를 주기적으로 수행해야 하는 이유는?</legend>
+        <button type="button" data-i="0">① 스킬 폴더가 10개를 넘으면 파일 시스템이 깨지기 때문에</button>
+        <button type="button" data-i="1">② 중복되거나 낡은 스킬이 많아지면 에이전트가 어떤 스킬을 쓸지 판단 혼란(Decision Paralysis)을 겪기 때문에</button>
+        <button type="button" data-i="2">③ 라이선스 비용을 절약하기 위해</button>
+        <button type="button" data-i="3">④ 모든 스킬을 영어로만 통일하기 위해</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ②. 스킬 목록이 너무 방대하고 중복되면 모델이 잘못된 스킬을 선택하는 트리거 오류가 증가합니다.</div>
+    </div>
+    <p class="score" id="score" aria-live="polite">점수: 0 / 5</p>
+    <div class="rv-tools"><button type="button" id="qreset">다시 풀기</button></div>
+  </div>
+</section>
+</main>
+</div>
+
+<script>(function(){
+function $$(q){return [].slice.call(document.querySelectorAll(q))}
+$$(".flip").forEach(function(b){b.onclick=function(){b.setAttribute("aria-expanded",b.getAttribute("aria-expanded")==="true"?"false":"true")}});
+function show(b){b.textContent=b.dataset.a;b.classList.add("shown");b.setAttribute("aria-label","답: "+b.dataset.a)}
+function hide(b){b.textContent="???";b.classList.remove("shown");b.setAttribute("aria-label","빈칸")}
+$$(".blank").forEach(function(b){b.onclick=function(){if(b.classList.contains("shown")){hide(b)}else{show(b)}}});
+var cs=document.getElementById("cshow"),ch=document.getElementById("chide");
+if(cs)cs.onclick=function(){$$(".blank").forEach(show)};
+if(ch)ch.onclick=function(){$$(".blank").forEach(hide)};
+var scoreEl=document.getElementById("score");
+var totalQ=$$("#quiz .q").length;
+function updateScore(){var r=$$("#quiz .q button.right").length;if(scoreEl)scoreEl.textContent="점수: "+r+" / "+totalQ}
+$$("#quiz .q").forEach(function(q){
+  var ans=parseInt(q.dataset.ans,10);
+  var btns=$$(q.querySelectorAll("button"));
+  btns.forEach(function(b,i){
+    b.onclick=function(){
+      btns.forEach(function(x){x.disabled=true});
+      if(i===ans){b.classList.add("right")}else{
+        b.classList.add("wrong");
+        if(btns[ans])btns[ans].classList.add("right");
+      }
+      var ex=q.querySelector(".ex");
+      if(ex)ex.style.display="block";
+      updateScore();
+    };
+  });
+});
+var qr=document.getElementById("qreset");
+if(qr)qr.onclick=function(){
+  $$("#quiz .q").forEach(function(q){
+    $$(q.querySelectorAll("button")).forEach(function(b){
+      b.disabled=false;
+      b.classList.remove("right","wrong");
+    });
+    var ex=q.querySelector(".ex");
+    if(ex)ex.style.display="none";
+  });
+  if(scoreEl)scoreEl.textContent="점수: 0 / "+totalQ;
+};
+})();</script>
+
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">요약 아카이브</div><div class="arc-foot-title">LLM 에이전트 스킬 아키텍처와 실전 엔지니어링 핵심 요약</div><div class="arc-foot-meta"><time datetime="2026-10-26">2026년 10월 26일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99">#컴퓨터과학</a><a class="arc-tag" href="../index.html#tags=%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8">#에이전트</a><a class="arc-tag" href="../index.html#tags=%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4%EA%B3%B5%ED%95%99">#소프트웨어공학</a><a class="arc-tag" href="../index.html#tags=%EC%9A%94%EC%95%BD">#요약</a> · <a href="https://yghnsim.github.io/Pages/articles/agent_skills_architecture.html" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body>
+</html>

@@ -15,10 +15,390 @@ window.ARCHIVE_CATALOG = [
     "date": "2026-10-27",
     "file": "pages/2026-10-27-AI슈퍼카.html",
     "added": "2026-10-27T03:55:43+09:00",
-    "source_name": "2026-10-27-AI슈퍼카.html",
-    "source_sha256": "2d2782648f439f4155541de32ebe66f45abe38fbb809e8269e53bd0eadfc9204",
-    "source_path_sha256": "6cfb4c1f38ee1f75d8bb730fc61f6ac9784365d079c02e9ddc6bed10e8f2be30",
-    "source_url": "https://yghnsim.github.io/Pages/articles/ai_supercar_organizational_bottleneck.html"
+    "source_name": "new_2026-10-27-AI슈퍼카.html",
+    "source_sha256": "9d0f8f2b5fb834d2edea37b0335aa42260272c5d7797684b9981c3bb6591d6b6",
+    "source_path_sha256": "1c62848650b2bc5e1663df81f02fc123cdbca63b06e16be48cafa980db73de30",
+    "source_url": "https://yghnsim.github.io/Pages/articles/ai_supercar_organizational_bottleneck.html",
+    "updated": "2026-10-27T18:54:54+09:00"
+  },
+  {
+    "id": "20261026-20",
+    "title": "파이썬 객체 메모리 모델과 멘탈 모델 핵심 요약",
+    "summary": "변수는 이름표다, CPython 힙 메모리와 PyObject, 데이터와 로직의 분리 및 Bound Method 탄생 원리 요약",
+    "tags": [
+      "컴퓨터과학",
+      "Python",
+      "CPython",
+      "메모리모델",
+      "튜토리얼"
+    ],
+    "date": "2026-10-26",
+    "file": "pages/2026-10-26-파이썬객체_멘탈모델.html",
+    "added": "2026-10-27T19:36:15+09:00",
+    "source_name": "2026-10-26-파이썬객체_멘탈모델.html",
+    "source_sha256": "899a73b44e803e11930d9208a3ce170b7fa3a63167ba1a2a47011aec9ed0038c",
+    "source_path_sha256": "eaf24bb3a2a32e23d049d544601ba2109fdabe37cfc60d0a14068bb11578cce8",
+    "source_url": "https://yghnsim.github.io/Pages/articles/python_object_mental_model.html"
+  },
+  {
+    "id": "20261026-19",
+    "title": "AI 점수는 왜 같은 모델인데도 갈릴까: 하네스 패턴과 상태 연속성 핵심 요약",
+    "summary": "GPT-6 Astra 사례로 보는 런타임 하네스 영향력, 메모리 연속성과 번들 vs 오픈 아키텍처 선택 요약",
+    "tags": [
+      "AI",
+      "컴퓨터과학",
+      "에이전트",
+      "소프트웨어공학",
+      "요약"
+    ],
+    "date": "2026-10-26",
+    "file": "pages/2026-10-26-아스트라_하네스패턴.html",
+    "added": "2026-10-27T19:35:18+09:00",
+    "source_name": "2026-10-26-아스트라_하네스패턴.html",
+    "source_sha256": "d3d2e5c84b029dbb275e0fcd1112fca064135d4c4dc17c5955e99378f24f28d3",
+    "source_path_sha256": "687196939448bb83af1e60515bf293dc420cddb6e05bcc63a3676d03820ea78d",
+    "source_url": "https://yghnsim.github.io/Pages/articles/astra_harness_pattern.html"
+  },
+  {
+    "id": "20261026-18",
+    "title": "에이전트 함대 그래프 아키텍처 핵심 요약: 사슬에서 그래프로",
+    "summary": "멀티스텝 에이전트 사슬의 대기 시간 제거, 노드와 간선 기반 DAG 병렬 실행, 팬아웃·검증·모델 티어링 요약",
+    "tags": [
+      "AI",
+      "컴퓨터과학",
+      "에이전트",
+      "아키텍처",
+      "요약"
+    ],
+    "date": "2026-10-26",
+    "file": "pages/2026-10-26-에이전트함대_그래프.html",
+    "added": "2026-10-27T19:34:21+09:00",
+    "source_name": "2026-10-26-에이전트함대_그래프.html",
+    "source_sha256": "0e477f574c12564b3418a8d64f00c1be86c68c1becb0e64544068b03f652c434",
+    "source_path_sha256": "665bf3313e1a7c31c85ed617086ccddd86f8c7362bc06203fa2f61dd2c767861",
+    "source_url": "https://yghnsim.github.io/Pages/articles/agent_fleet_graph_roadmap.html"
+  },
+  {
+    "id": "20261026-17",
+    "title": "LLM 에이전트 스킬 아키텍처와 실전 엔지니어링 핵심 요약",
+    "summary": "단일 거대 프롬프트의 한계 극복, 온디맨드 스킬 폴더(SKILL.md) 구조, 런타임 하네스와 점진적 컨텍스트 로딩 요약",
+    "tags": [
+      "AI",
+      "컴퓨터과학",
+      "에이전트",
+      "소프트웨어공학",
+      "요약"
+    ],
+    "date": "2026-10-26",
+    "file": "pages/2026-10-26-에이전트스킬_아키텍처.html",
+    "added": "2026-10-27T19:33:00+09:00",
+    "source_name": "2026-10-26-에이전트스킬_아키텍처.html",
+    "source_sha256": "544104218096cb20e6da7596eb9b6d47e43a9f0fbcd19f61b54b99b6eba3986a",
+    "source_path_sha256": "8edffb1671930210f4f0e257975d4fcca5437e901bad53ffd3542fdc2b0b14cd",
+    "source_url": "https://yghnsim.github.io/Pages/articles/agent_skills_architecture.html"
+  },
+  {
+    "id": "20261026-16",
+    "title": "CPU와 DRAM 메모리 인터페이스 핵심 요약: 구조와 구현",
+    "summary": "메모리 컨트롤러, PHY 계층, DDR 버스와 DRAM 내부 뱅크·행 버퍼 구조, 레이턴시 타이밍(tCAS, tRCD, tRP) 요약",
+    "tags": [
+      "컴퓨터과학",
+      "컴퓨터구조",
+      "메모리모델",
+      "요약"
+    ],
+    "date": "2026-10-26",
+    "file": "pages/2026-10-26-CPU_DRAM_인터페이스.html",
+    "added": "2026-10-27T19:30:38+09:00",
+    "source_name": "2026-10-26-CPU_DRAM_인터페이스.html",
+    "source_sha256": "a70d68cdee0ded5d1b88d9e11f9d338e774c26261a20ddcace7ab7e603e48e78",
+    "source_path_sha256": "95a591e483554d93b6a8d3dfc4dff313873005991d15a311a45459f5b3a2d6dc",
+    "source_url": "https://yghnsim.github.io/Pages/articles/cpu_dram_memory_interface.html"
+  },
+  {
+    "id": "20261026-15",
+    "title": "가비지 컬렉션 심화 분석 핵심 요약: 수동 관리에서 마크 앤 스윕까지",
+    "summary": "수동 메모리 관리(malloc/free)의 한계, 참조 카운팅 순환 참조 문제, 트리시클릭 GC와 마크 앤 스윕(Mark & Sweep) 알고리즘 요약",
+    "tags": [
+      "컴퓨터과학",
+      "가비지컬렉션",
+      "메모리모델",
+      "프로그래밍언어",
+      "요약"
+    ],
+    "date": "2026-10-26",
+    "file": "pages/2026-10-26-가비지컬렉션_마크앤스윕.html",
+    "added": "2026-10-27T19:29:36+09:00",
+    "source_name": "2026-10-26-가비지컬렉션_마크앤스윕.html",
+    "source_sha256": "4bc992943fd5b987cebab44dfb6f3885d1a244f3077cfe46cf455cb32d792399",
+    "source_path_sha256": "1b759b37299734f377fc08f7aaddb3837ff037b84ab2beb25fb539e1f69c7241",
+    "source_url": "https://yghnsim.github.io/Pages/articles/garbage_collection_mark_and_sweep.html"
+  },
+  {
+    "id": "20261026-14",
+    "title": "파이썬 호출 가능 객체와 실행 엔진 핵심 요약 (CPython 2부)",
+    "summary": "바이트코드 CALL부터 tp_call, vectorcall 최적화, 프레임 평가 루프와 인터프리터 스택 동작 메커니즘 요약",
+    "tags": [
+      "컴퓨터과학",
+      "Python",
+      "CPython",
+      "시스템프로그래밍",
+      "요약"
+    ],
+    "date": "2026-10-26",
+    "file": "pages/2026-10-26-CPython2부_실행엔진.html",
+    "added": "2026-10-27T19:28:15+09:00",
+    "source_name": "2026-10-26-CPython2부_실행엔진.html",
+    "source_sha256": "5cf45cbd483a3e333369879ff8ce0a6baf80244c9f8a5b02ba9cd68fd4f3ada9",
+    "source_path_sha256": "5ac443a832429a5c3d8c8121fc2ec2f0a82d8719e979af1e758658889cd29b1b",
+    "source_url": "https://yghnsim.github.io/Pages/articles/python_callable_and_execution_engine.html"
+  },
+  {
+    "id": "20261026-13",
+    "title": "파이썬 객체 생성과 바인딩의 기계적 실체 핵심 요약 (CPython 1부)",
+    "summary": "CPython 힙 메모리 할당, PyObject 구조체와 ob_refcnt, 디스크립터 프로토콜(__get__)과 속성 룩업 체인 핵심 요약",
+    "tags": [
+      "컴퓨터과학",
+      "Python",
+      "CPython",
+      "메모리모델",
+      "요약"
+    ],
+    "date": "2026-10-26",
+    "file": "pages/2026-10-26-CPython1부_객체바인딩.html",
+    "added": "2026-10-27T19:27:18+09:00",
+    "source_name": "2026-10-26-CPython1부_객체바인딩.html",
+    "source_sha256": "e1650e3b01fa1578d6a514578f203aa397051827c38ef07d88040328b733a7e3",
+    "source_path_sha256": "6773b6555899760dbebe981fbdd9e57495759f2b984b9b39929a5778480a21ae",
+    "source_url": "https://yghnsim.github.io/Pages/articles/python_object_creation_and_binding.html"
+  },
+  {
+    "id": "20261026-12",
+    "title": "코딩 에이전트 직접 만들기 워크숍 핵심 요약: 300줄 루프와 도구 호출",
+    "summary": "Go 언어로 작성하는 300줄 코딩 에이전트 루프, 도구 호출(Tool Use), 대화 컨텍스트 관리와 롤백 전략 핵심 요약",
+    "tags": [
+      "AI",
+      "컴퓨터과학",
+      "에이전트",
+      "Go",
+      "튜토리얼"
+    ],
+    "date": "2026-10-26",
+    "file": "pages/2026-10-26-코딩에이전트_워크숍.html",
+    "added": "2026-10-27T19:25:58+09:00",
+    "source_name": "2026-10-26-코딩에이전트_워크숍.html",
+    "source_sha256": "6a627b9695aa73c9905f0da0031cf83f921897053b27e137d640f854062f8848",
+    "source_path_sha256": "a7a1bd44911f8f757106683b61c71065ed2d4bd9896e1ca101fc111a24fa74bd",
+    "source_url": "https://yghnsim.github.io/Pages/articles/build_a_coding_agent_workshop.html"
+  },
+  {
+    "id": "20261026-11",
+    "title": "브라이언 키팅의 우주론과 과학철학 핵심 요약: 시간, 신, 시뮬레이션",
+    "summary": "사이먼스 옵서버토리 우주배경복사 관측, 시간의 정의와 빅뱅 이전, 시뮬레이션 가설 비판, 반증 가능성과 실천적 불가지론 요약",
+    "tags": [
+      "자연과학",
+      "철학",
+      "우주론",
+      "과학철학",
+      "인터뷰"
+    ],
+    "date": "2026-10-26",
+    "file": "pages/2026-10-26-브라이언키팅_우주론.html",
+    "added": "2026-10-27T19:24:13+09:00",
+    "source_name": "2026-10-26-브라이언키팅_우주론.html",
+    "source_sha256": "90898f006d897edecfa86009c21028e340c2da0aad29daab3db40919a0bd0ac0",
+    "source_path_sha256": "841a84742ce3988f9097574696b9539578bd3e981d6284136ac7e185384b4e79",
+    "source_url": "https://yghnsim.github.io/Pages/articles/brian_keating_cosmology_god_simulation.html"
+  },
+  {
+    "id": "20261026-10",
+    "title": "상자, 페이지, 점프, 메모지 핵심 요약: 포인터 없는 세계의 자기수정 코드",
+    "summary": "메모리 상자, 프로그램 카운터(PC), 점프 명령과 포인터 부재 시절의 자기수정 코드(Self-modifying code) 필연성 요약",
+    "tags": [
+      "컴퓨터과학",
+      "컴퓨터구조",
+      "메모리모델",
+      "포인터",
+      "튜토리얼"
+    ],
+    "date": "2026-10-26",
+    "file": "pages/2026-10-26-상자페이지점프메모지.html",
+    "added": "2026-10-27T19:22:53+09:00",
+    "source_name": "2026-10-26-상자페이지점프메모지.html",
+    "source_sha256": "7d8bb3e08f843f84db56e482ac01d33d5daea464f0794ce9406dfa5c758d7f57",
+    "source_path_sha256": "0ca6a0ae3eae59a82fe1be11771e278035f7b1f0c552f67c8f05df2bf8a4414d",
+    "source_url": "https://yghnsim.github.io/Pages/articles/box_page_jump_memo.html"
+  },
+  {
+    "id": "20261026-09",
+    "title": "바다 민족과 기원전 1177년 후기 청동기 붕괴 핵심 요약",
+    "summary": "기원전 1177년 청동기 문명 붕괴와 바다 민족 침입설의 연구사, 기후변화·가뭄·지진·교역망 단절의 복합 시스템 붕괴 요약",
+    "tags": [
+      "역사",
+      "고대사",
+      "청동기시대",
+      "군사사",
+      "요약"
+    ],
+    "date": "2026-10-26",
+    "file": "pages/2026-10-26-바다민족_1177.html",
+    "added": "2026-10-27T19:21:39+09:00",
+    "source_name": "2026-10-26-바다민족_1177.html",
+    "source_sha256": "a57b4125361be95375b15622287fe9e41fd5b14697548227a5dfa8f12ec9ea67",
+    "source_path_sha256": "6744ff9c66b2edee48ffcfceb3e264e88ae18fca71b4a84b3ce9fbd828b7f010",
+    "source_url": "https://yghnsim.github.io/Pages/articles/sea_peoples_1177_collapse.html"
+  },
+  {
+    "id": "20261026-08",
+    "title": "포인터와 메모리 모델 시리즈 핵심 요약: 랄프 융의 추상 기계 해설",
+    "summary": "랄프 융의 포인터 메모리 모델 시리즈 요약: 추상 기계와 물리 하드웨어의 괴리, 포인터 출처(Provenance), 정수 캐스팅과 C/Rust의 메모리 안전성",
+    "tags": [
+      "컴퓨터과학",
+      "포인터",
+      "메모리모델",
+      "C-Cpp",
+      "요약"
+    ],
+    "date": "2026-10-26",
+    "file": "pages/2026-10-26-포인터_메모리모델.html",
+    "added": "2026-10-27T19:20:23+09:00",
+    "source_name": "2026-10-26-포인터_메모리모델.html",
+    "source_sha256": "7f340872ba0780508ed8ebcb061883e1078da66ee2efc475e105ad55058ba391",
+    "source_path_sha256": "1fa97ca48b0dda376d76c3bed32b58eba0476a9bc3d877a2af20bc7b622fe8a2",
+    "source_url": "https://yghnsim.github.io/Pages/articles/pointer.html"
+  },
+  {
+    "id": "20261026-07",
+    "title": "페르시아만의 지각변동과 지정학 핵심 요약: 비대칭 전쟁과 에너지 금융",
+    "summary": "가자 전쟁 이후 서아시아 지정학 재편, 저항의 축 비대칭 전략, 페트로달러와 위안화 결제, 호르무즈·홍해 해양 통제권 요약",
+    "tags": [
+      "역사",
+      "사회과학",
+      "지정학",
+      "국제정치경제학",
+      "요약"
+    ],
+    "date": "2026-10-26",
+    "file": "pages/2026-10-26-페르시아만_지정학.html",
+    "added": "2026-10-27T19:19:18+09:00",
+    "source_name": "2026-10-26-페르시아만_지정학.html",
+    "source_sha256": "96107f05d361813b630f4d3c63beb3045a17194dac8aa27b39a48a2e3cae529c",
+    "source_path_sha256": "e2ce74fb854c2b3d0147347a882894fcfcbdd8011ca2cb00b90dbcafff61e7e1",
+    "source_url": "https://yghnsim.github.io/Pages/articles/persian_gulf_tectonic_shifts_red_team.html"
+  },
+  {
+    "id": "20261026-06",
+    "title": "포인터의 혈통과 컴파일러의 보이지 않는 전쟁 핵심 요약",
+    "summary": "앨리어싱, 포인터 출처(Provenance), GVN 최적화 사고, 지연 경계 검사와 ISO/IEC TS 6010:2025 표준화 핵심 요약",
+    "tags": [
+      "컴퓨터과학",
+      "포인터",
+      "메모리모델",
+      "컴파일러",
+      "요약"
+    ],
+    "date": "2026-10-26",
+    "file": "pages/2026-10-26-포인터혈통_컴파일러.html",
+    "added": "2026-10-27T19:18:04+09:00",
+    "source_name": "2026-10-26-포인터혈통_컴파일러.html",
+    "source_sha256": "0dd08487490880e43e5daea186955327d31cc427089d3c2ed5e9b948faaab931",
+    "source_path_sha256": "830ac255d7af9dc117e822455a3975b61b99ce8599e729d793c0d3d0ced84e5f",
+    "source_url": "https://yghnsim.github.io/Pages/articles/pointer_provenance_war.html"
+  },
+  {
+    "id": "20261026-05",
+    "title": "소프트웨어 공학의 과정·원칙·목표(1975) 핵심 요약: 3차원 큐브 모델",
+    "summary": "더글러스 로스·굿이너프·어바인의 1975년 고전 논문 요약: 4대 목표, 7대 원칙, 5단계 프로세스의 직교 큐브 모델과 모듈화·추상화 계보",
+    "tags": [
+      "컴퓨터과학",
+      "소프트웨어공학",
+      "아키텍처",
+      "컴퓨터과학사",
+      "요약"
+    ],
+    "date": "2026-10-26",
+    "file": "pages/2026-10-26-소프트웨어공학1975.html",
+    "added": "2026-10-27T19:16:54+09:00",
+    "source_name": "2026-10-26-소프트웨어공학1975.html",
+    "source_sha256": "d68acea9f7b962ef213a3f190528d34aad0099b337b1b50c87ee32cd96122f94",
+    "source_path_sha256": "2bc74bc2f413dac00c0a25c490cbf3df86afa4dc3676f8b358785f381ee54998",
+    "source_url": "https://yghnsim.github.io/Pages/articles/software_engineering_framework_1975.html"
+  },
+  {
+    "id": "20261026-04",
+    "title": "우리 근로계약서에 직무가 비어 있는 이유 핵심 요약: 멤버십형 고용과 노동법제",
+    "summary": "하마구치 게이이치로의 멤버십형 고용론, 직무형과의 비교, 공백의 석판과 법원의 양손 타협(해고권 남용 vs 배치전환 재량), 한일 노동법 비교 요약",
+    "tags": [
+      "노동법",
+      "비교노동법",
+      "해고법제",
+      "조직설계",
+      "요약"
+    ],
+    "date": "2026-10-26",
+    "file": "pages/2026-10-26-멤버십형고용.html",
+    "added": "2026-10-27T19:15:37+09:00",
+    "source_name": "2026-10-26-멤버십형고용.html",
+    "source_sha256": "149404834394cf4a3220073e089d1e0c7683cd938a3abbe1e0f6e44d074bbc63",
+    "source_path_sha256": "b8574c9c5c12c0b46390dacd622ac079052b04acbaef255b214edf1d315a21e6",
+    "source_url": "https://yghnsim.github.io/Pages/articles/membership_employment_japan_korea.html"
+  },
+  {
+    "id": "20261026-03",
+    "title": "스튜어트 러셀의 입증 가능한 유익한 AI와 문명적 주체성 핵심 요약",
+    "summary": "표준 모델의 파탄과 마이다스 왕 문제, 어시스턴스 게임과 인간 선호 불확실성 모델, 행동적 레드라인과 문명적 통제권 요약",
+    "tags": [
+      "AI",
+      "AI안전",
+      "AI윤리",
+      "스튜어트러셀",
+      "요약"
+    ],
+    "date": "2026-10-26",
+    "file": "pages/2026-10-26-러셀_유익한AI.html",
+    "added": "2026-10-27T19:14:40+09:00",
+    "source_name": "2026-10-26-러셀_유익한AI.html",
+    "source_sha256": "923404b8a26fdc3f81ffeac58f1908815dedd01b96dd3ee3df0fd47d163d8b46",
+    "source_path_sha256": "aa864b4180da01b1ad8954797380cce522eaf5daf595f6ccab8806ade35aa923",
+    "source_url": "https://yghnsim.github.io/Pages/articles/provably_beneficial_ai_stuart_russell.html"
+  },
+  {
+    "id": "20261026-02",
+    "title": "미국과 독일 노동법의 기능적 비교 핵심 요약: 같은 해고, 정반대의 법",
+    "summary": "임의고용 대 해고보호법, 배타적 교섭 대 공동결정·사업장평의회, 오케스트라형 규범과 재즈밴드형 자율의 비교 노동법 핵심 요약",
+    "tags": [
+      "노동법",
+      "비교노동법",
+      "독일노동법",
+      "미국노동법",
+      "요약"
+    ],
+    "date": "2026-10-26",
+    "file": "pages/2026-10-26-미독노동법_비교.html",
+    "added": "2026-10-27T19:13:47+09:00",
+    "source_name": "2026-10-26-미독노동법_비교.html",
+    "source_sha256": "ad3bed91a72fa4fe59e9cc2f7a0ab75b9ce940120066273725ce08a1785a7cfd",
+    "source_path_sha256": "94cabf865b7afb7d4cb9a3b3f3cfd4046c332c2af6faeed86131b523ade26b0e",
+    "source_url": "https://yghnsim.github.io/Pages/articles/us_germany_labor_law_comparison.html"
+  },
+  {
+    "id": "20261026-01",
+    "title": "휴고 진츠하이머와 종속성 개념의 계보 핵심 요약",
+    "summary": "휴고 진츠하이머의 종속노동 사상, 로마법 노무 임대차부터 독일 민법, 인격적·경제적 종속성의 분화와 현대 플랫폼 노동에서의 타인결정성 논의 요약",
+    "tags": [
+      "노동법",
+      "노동법사",
+      "종속성",
+      "독일노동법",
+      "요약"
+    ],
+    "date": "2026-10-26",
+    "file": "pages/2026-10-26-진츠하이머_종속성계보.html",
+    "added": "2026-10-27T19:12:51+09:00",
+    "source_name": "2026-10-26-진츠하이머_종속성계보.html",
+    "source_sha256": "0cf66e93acee2de4c33eb4321c9dd7fb81478e17af1450374da9888aa4530cad",
+    "source_path_sha256": "336c69d0310e3f8f6e78c433a8c454c6c44e011211e0aad9232a6fffc43fa040",
+    "source_url": "https://yghnsim.github.io/Pages/articles/sinzheimer_subordination_genealogy.html"
   },
   {
     "id": "20261025-02",
@@ -34,10 +414,11 @@ window.ARCHIVE_CATALOG = [
     "date": "2026-10-25",
     "file": "pages/2026-10-25-매카시LISP.html",
     "added": "2026-10-25T04:18:57+09:00",
-    "source_name": "2026-10-25-매카시LISP.html",
-    "source_sha256": "6c246220c9de0cdbd6133cb7c6479a5f3261f05252eb61edaa0d1fbe73bbdc73",
-    "source_path_sha256": "8c29fc3c0b7cf23df50f8dbfbd94052b26ff163e079c75bea3323f6c4d4da2fe",
-    "source_url": "https://pages.cs.wisc.edu/~horwitz/CS704-NOTES/PAPERS/mccarthy.pdf"
+    "source_name": "new_2026-10-25-매카시LISP.html",
+    "source_sha256": "a95977b13968a55db2485582a88dc38efc3bc6afa9bafe8144d5ff065f14868f",
+    "source_path_sha256": "21b218832cc80df144decb0948b3035c9e4ff1e3ed7500d89b704c8ed95aae75",
+    "source_url": "https://yghnsim.github.io/Pages/articles/mccarthy_1960_lisp_recursive_functions.html",
+    "updated": "2026-10-27T18:50:41+09:00"
   },
   {
     "id": "20261025-01",
@@ -53,9 +434,11 @@ window.ARCHIVE_CATALOG = [
     "date": "2026-10-25",
     "file": "pages/2026-10-25-뵘야코피니.html",
     "added": "2026-10-25T02:46:03+09:00",
-    "source_name": "bohm-jacopini-learn.html",
-    "source_sha256": "490b109589dbfff68a88223c31475e8344dc563ed958ca3aa3619328cb0672c0",
-    "source_path_sha256": "56c00ccc4cc8ce1ac3558d61b2573fdd8ee2d122b46ef490b374b4feaea22a41"
+    "source_name": "new_2026-10-25-뵘야코피니.html",
+    "source_sha256": "3e702b2b58b0fd4e887678d1a07d070f2ed76c063a15c79ae8a344337429f7b5",
+    "source_path_sha256": "803c94a81a701ae92556c0977a40525996182a6f65d0a622c0210348ff90b678",
+    "source_url": "https://yghnsim.github.io/Pages/articles/bohm_jacopini_1966_structured_theorem.html",
+    "updated": "2026-10-27T18:53:00+09:00"
   },
   {
     "id": "20261022-02",
@@ -71,11 +454,11 @@ window.ARCHIVE_CATALOG = [
     "date": "2026-10-22",
     "file": "pages/2026-10-22-언어모델압축.html",
     "added": "2026-10-22T22:47:13+09:00",
-    "source_name": "lmv2.html",
-    "source_sha256": "8fdad8567b7600353612318f8a16e70d1eed54e1945835037c83eeb870eb7da8",
-    "source_path_sha256": "a32716f02f68873e9d8e217c4420bf9e712b14d6537017223bac119ea3f96516",
+    "source_name": "new_2026-10-22-언어모델압축.html",
+    "source_sha256": "de1ea389e338e1a862d7be2a92ab072ca647cba9453b05a3e319fbf227d2dd09",
+    "source_path_sha256": "7bec7156192615f13808a33ae5525b9b436ebc8b0c423f150331f8807d4ebfba",
     "source_url": "https://yghnsim.github.io/Pages/articles/language_modeling_compression_intelligence.html",
-    "updated": "2026-10-23T02:04:37+09:00"
+    "updated": "2026-10-27T18:56:38+09:00"
   },
   {
     "id": "20261022-01",
@@ -91,9 +474,11 @@ window.ARCHIVE_CATALOG = [
     "date": "2026-10-22",
     "file": "pages/2026-10-22-데니스노블.html",
     "added": "2026-10-22T17:09:44+09:00",
-    "source_name": "noble-interview-essay.html",
-    "source_sha256": "1345e35915e917d138ad06faafc32ecde7c4d2e897ce2fc738ff2c67b9dfbe11",
-    "source_path_sha256": "abedeb3b61a101cfa78c872c62feca5e8042de687298b39c3e535bff1164c9b9"
+    "source_name": "2026-10-22-데니스노블.html",
+    "source_sha256": "908956a3645906f6428b4ea603811950a789232762e054a6d21b9dcd045ef305",
+    "source_path_sha256": "e992c24fd8864e0f843ef0901ab9a0a45152a4d08d0761efecadca1bfa0aa936",
+    "source_url": "https://yghnsim.github.io/Pages/articles/noble_genes_not_blueprint.html",
+    "updated": "2026-10-27T19:04:42+09:00"
   },
   {
     "id": "20261020-01",
@@ -226,12 +611,13 @@ window.ARCHIVE_CATALOG = [
     "source_name": "생명계산_학습가이드.html",
     "source_sha256": "21bdfb5c19d36082c1a6b1918caf4e23495743be2b3e225f17ae70d0323e884b",
     "source_path_sha256": "d88d12f541b0966ad7da23ad770299e32e2ddc13f0ffd5daf9cc5ff7294eac4b",
-    "tokens": false
+    "tokens": false,
+    "source_url": "https://yghnsim.github.io/Pages/articles/life_computation_symbiogenesis_agi.html"
   },
   {
     "id": "20261014-01",
-    "title": "How Do Committees Invent? - Melvin E. Conway (1968) 영한 대조",
-    "summary": "Melvin E. Conway의 1968년 논문 「How Do Committees Invent?」 영한 대조. 시스템 설계는 그것을 만든 조직의 소통 구조를 닮는다는 콘웨이 법칙의 원전.",
+    "title": "위원회는 어떻게 발명하는가: 멜빈 콘웨이(1968) 핵심 정리",
+    "summary": "콘웨이의 1968년 논문 핵심 논증 7절 요약, 조직과 아키텍처의 준동형 원리, 핵심 용어 플래시카드와 5문항 복습 퀴즈",
     "tags": [
       "컴퓨터과학",
       "소프트웨어공학",
@@ -242,10 +628,11 @@ window.ARCHIVE_CATALOG = [
     "date": "2026-10-14",
     "file": "pages/2026-10-14-콘웨이_위원회.html",
     "added": "2026-10-14T17:22:15+09:00",
-    "source_name": "콘웨이_위원회.html",
-    "source_sha256": "b9d39102ead5705714895275f4ddedfa70abe29e43d5e40ef29ff317d209a996",
-    "source_path_sha256": "7fb82adedcbf4ecf7406df98b6df4818c758d5162a55f55c6324fce913ccd7a0",
-    "tokens": false
+    "source_name": "new_2026-10-14-콘웨이_위원회.html",
+    "source_sha256": "6d002bd2e3dd569b9232e4ea6b1009f1ac7c5937d4ffa0c89ffba7bd5ead9119",
+    "source_path_sha256": "6ea2ba88753a264d14a46238038d368a493f380eae4f18d0858af1710e7ab8fb",
+    "source_url": "https://yghnsim.github.io/Pages/articles/conway_1968_how_do_committees_invent.html",
+    "updated": "2026-10-27T18:46:17+09:00"
   },
   {
     "id": "20261013-03",
@@ -281,10 +668,11 @@ window.ARCHIVE_CATALOG = [
     "date": "2026-10-13",
     "file": "pages/2026-10-13-생명계산.html",
     "added": "2026-10-13T17:43:39+09:00",
-    "source_name": "생명계산.html",
-    "source_sha256": "3538279a68e6e8ede758e36ba81bf9bb3d65346fec4147dab03b52bb501cbc22",
-    "source_path_sha256": "11d2b5e7e5e3bcde2d3ece3d6ba747b94e60e7be4919de5915a2c2d9a00699e7",
-    "source_url": "https://yghnsim.github.io/Pages/articles/life_computation_symbiogenesis_agi.html"
+    "source_name": "2026-10-13-생명계산.html",
+    "source_sha256": "148c1768d977b89d6df52550a1fd8130c83602b3a5dc5b4e64b3e9e134d035d9",
+    "source_path_sha256": "0a9f792748fff611e9b0283a594f6a46b40ecdebd7ee640eac8be6137341d45b",
+    "source_url": "https://yghnsim.github.io/Pages/articles/life_computation_symbiogenesis_agi.html",
+    "updated": "2026-10-27T19:05:02+09:00"
   },
   {
     "id": "20261013-01",
@@ -299,10 +687,11 @@ window.ARCHIVE_CATALOG = [
     "date": "2026-10-13",
     "file": "pages/2026-10-13-디지털장인정신.html",
     "added": "2026-10-13T02:58:30+09:00",
-    "source_name": "디지털장인정신.html",
-    "source_sha256": "35b8cdca03ea84c34f8a5b892f26aad8b5d214eb3f37ad48c5589914c97ac2ab",
-    "source_path_sha256": "aaddbc868ef390d6f513c0125c8f521aa4bb550a04ddeb221e43ee089364df09",
-    "source_url": "https://youtu.be/GLvFTMtw4Jk"
+    "source_name": "2026-10-13-디지털장인정신.html",
+    "source_sha256": "0eb2a54c2afd7d728edfab15a9e7562024ca774a0b5f016970da3ff67268c8ef",
+    "source_path_sha256": "d8420e798cbd02faef53041856956758c476b66de169bc87fcf4273c348addb1",
+    "source_url": "https://yghnsim.github.io/Pages/articles/digital_craftsmanship_ai_era.html",
+    "updated": "2026-10-27T19:05:50+09:00"
   },
   {
     "id": "20261012-01",
@@ -335,10 +724,11 @@ window.ARCHIVE_CATALOG = [
     "date": "2026-10-11",
     "file": "pages/2026-10-11-서양문명.html",
     "added": "2026-10-11T14:15:38+09:00",
-    "source_name": "서양문명.html",
-    "source_sha256": "6deeec9633c9a3ec9616bd1314392897647ec8f20d45c93bbfea4f9806e0d21e",
-    "source_path_sha256": "7d86e73bf846ed26aad1f113b011d8d4049cb6f8178d22200a24a52499565555",
-    "source_url": "https://yghnsim.github.io/Pages/articles/western_civilization_vine_not_tree.html"
+    "source_name": "2026-10-11-서양문명.html",
+    "source_sha256": "342e9365b3c7285d53000fd80b4451da5d36a2a33be406a9220a69a45e9991c5",
+    "source_path_sha256": "90b31e43a4384a8d1575a1c5bdb9866df2ec16413a416b407ddcf36e300806f8",
+    "source_url": "https://yghnsim.github.io/Pages/articles/western_civilization_vine_not_tree.html",
+    "updated": "2026-10-27T19:05:57+09:00"
   },
   {
     "id": "20261011-04",
@@ -354,11 +744,11 @@ window.ARCHIVE_CATALOG = [
     "date": "2026-10-11",
     "file": "pages/2026-10-11-이익과주가.html",
     "added": "2026-10-11T10:04:47+09:00",
-    "source_name": "이익과주가_v2.html",
-    "source_sha256": "7c1f04151b53f267a3574a5c3aa4506a8c99cd717cfa221481157d3e4e846b43",
-    "source_path_sha256": "ab685173aedd4afe5fc2c0932441f63bf0b0daa4a48a838352168eb90b2aaaaf",
+    "source_name": "2026-10-11-이익과주가.html",
+    "source_sha256": "907124e8d14424cef0f553e2ab8f79132adcabc78185bd55c1dc624df7b22622",
+    "source_path_sha256": "f9539af4762b702c8663311b3b5c830e1c2f737ffdcb984818c27c7fdb43a25f",
     "source_url": "https://yghnsim.github.io/Pages/articles/earnings_cashflows_stock_prices_ai_storm.html",
-    "updated": "2026-10-11T17:51:18+09:00"
+    "updated": "2026-10-27T19:06:06+09:00"
   },
   {
     "id": "20261011-03",
@@ -374,10 +764,11 @@ window.ARCHIVE_CATALOG = [
     "date": "2026-10-11",
     "file": "pages/2026-10-11-한비자.html",
     "added": "2026-10-11T03:41:22+09:00",
-    "source_name": "한비자.html",
-    "source_sha256": "79bb99515004890bd06f514a1c19d043f0e6f38ead08487bc6a49a35b649027a",
-    "source_path_sha256": "fe176bb7856900614a3824ff66dd3c641bb8429844aa0c5cfac53046ca92b00a",
-    "source_url": "https://yghnsim.github.io/Pages/articles/hanfeizi_legalist_philosophy_fa_shu_shi.html"
+    "source_name": "2026-10-11-한비자.html",
+    "source_sha256": "3a236c523d7972abad84fd0f93088b166e80b5378f1e02fba3f814af41333920",
+    "source_path_sha256": "98da2c2b90fca9add801179e559f560eaa87fcee4eb4ccae0eb7aa7c60d69965",
+    "source_url": "https://yghnsim.github.io/Pages/articles/hanfeizi_legalist_philosophy_fa_shu_shi.html",
+    "updated": "2026-10-27T19:06:38+09:00"
   },
   {
     "id": "20261011-02",
@@ -393,10 +784,11 @@ window.ARCHIVE_CATALOG = [
     "date": "2026-10-11",
     "file": "pages/2026-10-11-카공족.html",
     "added": "2026-10-11T02:46:21+09:00",
-    "source_name": "카공족.html",
-    "source_sha256": "4bbbfb6cb5f989f3cdcad97299e1a4f6f4a5617237a7f4e0ef577eeae057abb3",
-    "source_path_sha256": "436b0e7abc9e342e829ef967168b7e6d68f95e7d8acc00ebffeb0c34ade3e28a",
-    "source_url": "https://yghnsim.github.io/Pages/articles/cagongjok_breakeven_obstruction_of_business.html"
+    "source_name": "2026-10-11-카공족.html",
+    "source_sha256": "569cded5342662f2e12c9af6f3234ebf0e8a7de306db7b14aa4c2ae1033b75fc",
+    "source_path_sha256": "00a968ac584c6a037b7f1fadb06fc89c3b7056cba634945e7acb8c4b5720d122",
+    "source_url": "https://yghnsim.github.io/Pages/articles/cagongjok_breakeven_obstruction_of_business.html",
+    "updated": "2026-10-27T19:06:45+09:00"
   },
   {
     "id": "20261011-01",
@@ -450,10 +842,11 @@ window.ARCHIVE_CATALOG = [
     "date": "2026-10-09",
     "file": "pages/2026-10-09-알고리즘통제_타율성.html",
     "added": "2026-10-09T05:29:20+09:00",
-    "source_name": "알고리즘통제_타율성_10분요약.html",
-    "source_sha256": "ad254cd408c825531ddf61ec73c3b4c0428c87a5fc6a1c0914b91dc644cf3163",
-    "source_path_sha256": "5805cc07a65918114edfce1a1d84dc40710a56deab94db3a6f9282df65f45e0b",
-    "source_url": "https://yghnsim.github.io/Pages/articles/algorithmic_control_heteronomy.html"
+    "source_name": "2026-10-09-알고리즘통제_타율성.html",
+    "source_sha256": "322b76071460165701aaee89751eba9bd955fac845b7ba85569c882ac75b3e3e",
+    "source_path_sha256": "ff9d2fb326f73a2650b57b56a7fd6c6d525b9943d17f7c15520839290e9a60fd",
+    "source_url": "https://yghnsim.github.io/Pages/articles/algorithmic_control_heteronomy.html",
+    "updated": "2026-10-27T19:07:00+09:00"
   },
   {
     "id": "20261008-01",
@@ -504,8 +897,10 @@ window.ARCHIVE_CATALOG = [
     "date": "2026-10-06",
     "file": "pages/2026-10-06-좋은추상화.html",
     "added": "2026-10-06T12:40:32+09:00",
-    "source_sha256": "894cbc0fbfb7459b7622b46a22e17f0c438b52ea89d890b9da0a4dcacd519007",
-    "source_name": "좋은추상화_정리.html",
-    "source_path_sha256": "0ca481a66960c27bcde2d30fee75e40f3447edb9c61c6fa0f909e64bb89b1904"
+    "source_sha256": "06b5587ff44b7f3d86210e4c82b9e0a4cb8348e1e4f3a9978998f422026e091d",
+    "source_name": "2026-10-06-좋은추상화.html",
+    "source_path_sha256": "4dd69e82cfdc8e4968a2134dcaffaca3d2a9ee5e2a6ffa83f6d7da33717994ad",
+    "updated": "2026-10-27T19:07:11+09:00",
+    "source_url": "https://yghnsim.github.io/Pages/articles/end_of_understanding_good_abstractions.html"
   }
 ];

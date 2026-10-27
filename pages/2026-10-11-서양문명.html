@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="ko">
 <head>
-<meta charset="utf-8">
+<meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>문명은 나무가 아니라 덩굴이다: 조세핀 퀸의 '서양 문명' 해체 정리</title>
-<meta name="description" content="조세핀 퀸의 책을 뼈대로 한 해설을 10분 분량으로 정리했습니다. 가족 나무 대신 덩굴 모델, 1820년대 복수형 문명의 탄생, 돛단배와 아마르나 외교, 베르니케 불상, 알파벳·0·추첨제·요사밧의 기원, 청동기 붕괴, 아테네의 자기비판을 담았습니다.">
+<meta content="조세핀 퀸의 책을 뼈대로 한 해설을 10분 분량으로 정리했습니다. 가족 나무 대신 덩굴 모델, 1820년대 복수형 문명의 탄생, 돛단배와 아마르나 외교, 베르니케 불상, 알파벳·0·추첨제·요사밧의 기원, 청동기 붕괴, 아테네의 자기비판을 담았습니다." name="description"/>
 <style>
 :root{
   --bg:#faf8f3; --paper:#ffffff; --ink:#1f2328; --muted:#5b6470; --line:#e6e1d6;
@@ -219,6 +220,33 @@ pre.code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-s
 
 .go{margin:.4em 0 0;font-size:15px}
 .issues ul{margin:.4em 0;padding-left:1.2em}.issues li{font-size:15px;margin:.3em 0}
+
+/* 복습 컴포넌트 표준 스타일 */
+.rv-h{font-size:19px;margin:22px 0 6px}
+.flips{display:grid;grid-template-columns:1fr;gap:8px;margin:10px 0}
+@media(min-width:640px){.flips{grid-template-columns:1fr 1fr}}
+.flip{font:inherit;text-align:left;width:100%;border:1.5px solid var(--line,#e6e1d6);background:#fdfcf9;border-radius:12px;padding:10px 14px;cursor:pointer;color:var(--ink,#1f2328);min-height:64px}
+.flip b{display:block;font-size:17px}
+.flip .m{display:none;font-size:16px;line-height:1.6;margin-top:4px}
+.flip .hint{font-size:13px;color:var(--muted,#5b6470)}
+.flip[aria-expanded="true"]{border-color:var(--new,#3d5f80);background:var(--new-soft,#eaf0f6)}
+.flip[aria-expanded="true"] .m{display:block}
+.flip[aria-expanded="true"] .hint{display:none}
+.cloze{list-style:none;margin:10px 0;padding:0}
+.cloze li{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:10px 14px;margin:8px 0;background:#fdfcf9;font-size:16px;line-height:1.8}
+.blank{font:inherit;font-size:16px;border:0;border-bottom:2px dashed var(--accent,#c8553d);background:var(--accent-soft,#fbeee9);color:var(--accent,#c8553d);border-radius:6px 6px 0 0;padding:0 8px;cursor:pointer;min-width:4.5em}
+.blank.shown{border-bottom-style:solid;background:var(--new-soft,#eaf0f6);color:var(--new,#3d5f80);font-weight:700}
+.rv-tools{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.rv-tools button{font:inherit;font-size:15px;border:1px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link,#4a6b8a)}
+.q{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:12px 14px;margin:10px 0;background:#fdfcf9}
+.q fieldset{border:0;margin:0;padding:0}
+.q legend{font-weight:700;padding:0;margin:0 0 8px;font-size:16.5px}
+.q button{display:block;width:100%;text-align:left;font:inherit;font-size:16px;border:1.5px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:8px 12px;margin:6px 0;cursor:pointer;color:var(--ink,#1f2328)}
+.q button.right{border-color:#2f6b45;background:#e6f1ea}
+.q button.wrong{border-color:#a2452f;background:#fbeee9}
+.q button[disabled]{cursor:default;opacity:1}
+.q .ex{margin:8px 0 0;font-size:16px;padding:8px 10px;border-radius:8px;background:var(--new-soft,#eaf0f6)}
+.score{font-size:17px;font-weight:800;margin:10px 0 0}
 </style>
 <!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
 <style id="archive-mobile-css">
@@ -244,15 +272,14 @@ pre.code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-s
 <div class="arc-band" role="navigation" aria-label="요약 아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>요약 아카이브</a><span class="arc-crumb">문명은 나무가 아니라 덩굴이다: 조세핀 퀀의 &#x27;서양 문명&#x27; 해체 정리</span><span class="arc-meta"><time datetime="2026-10-11">2026년 10월 11일</time><a class="arc-tag" href="../index.html#tags=%EC%97%AD%EC%82%AC">#역사</a><a class="arc-tag" href="../index.html#tags=%EA%B3%A0%EB%8C%80%EC%82%AC">#고대사</a><a class="arc-tag" href="../index.html#tags=%EC%84%9C%EC%96%91%EB%AC%B8%EB%AA%85">#서양문명</a><a class="arc-tag" href="../index.html#tags=%EB%AC%B8%ED%99%94%ED%98%BC%EC%A2%85%EC%84%B1">#문화혼종성</a><a class="arc-tag" href="../index.html#tags=%EC%9A%94%EC%95%BD">#요약</a><a class="arc-src" href="https://yghnsim.github.io/Pages/articles/western_civilization_vine_not_tree.html" rel="noopener">원문 ↗</a></span></div></div>
 <!-- archive-header:end -->
 <div class="layout">
-<nav class="toc" aria-label="목차"><p class="toc-t">목차</p><ol><li><a href="#s1"><span class="n">1</span>한눈에 보기: 나무에서 덩굴로</a></li><li><a href="#s2"><span class="n">2</span>엑스레이 기계의 오류</a></li><li><a href="#s3"><span class="n">3</span>복수형 "문명들"의 탄생</a></li><li><a href="#s4"><span class="n">4</span>고대를 묶은 물리적 엔진</a></li><li><a href="#s5"><span class="n">5</span>고고학이 보여 준 혼종성</a></li><li><a href="#s6"><span class="n">6</span>알파벳, 0, 민주주의, 성인전</a></li><li><a href="#s7"><span class="n">7</span>청동기 붕괴의 역설</a></li><li><a href="#s8"><span class="n">8</span>그리스·로마의 민낯과 자기비판</a></li><li><a href="#s9"><span class="n">9</span>순수성이라는 위안과 4,000년 뒤</a></li><li><a href="#s10"><span class="n">10</span>읽으며 걸린 곳</a></li></ol><a class="orig" href="https://yghnsim.github.io/Pages/western_civilization_vine_not_tree.html">원문 페이지 ↗</a></nav>
+<nav aria-label="목차" class="toc"><p class="toc-t">목차</p><ol><li><a href="#s1"><span class="n">1</span>한눈에 보기: 나무에서 덩굴로</a></li><li><a href="#s2"><span class="n">2</span>엑스레이 기계의 오류</a></li><li><a href="#s3"><span class="n">3</span>복수형 "문명들"의 탄생</a></li><li><a href="#s4"><span class="n">4</span>고대를 묶은 물리적 엔진</a></li><li><a href="#s5"><span class="n">5</span>고고학이 보여 준 혼종성</a></li><li><a href="#s6"><span class="n">6</span>알파벳, 0, 민주주의, 성인전</a></li><li><a href="#s7"><span class="n">7</span>청동기 붕괴의 역설</a></li><li><a href="#s8"><span class="n">8</span>그리스·로마의 민낯과 자기비판</a></li><li><a href="#s9"><span class="n">9</span>순수성이라는 위안과 4,000년 뒤</a></li><li><a href="#s10"><span class="n">10</span>읽으며 걸린 곳</a></li><li><a href="#rv"><span class="n">✔</span>복습</a></li></ol><a class="orig" href="https://yghnsim.github.io/Pages/western_civilization_vine_not_tree.html">원문 페이지 ↗</a></nav>
 <main id="main">
 <header class="hero">
 <span class="eyebrow">고대사 · 문명론 정리</span>
 <h1>문명은 나무가 아니라 덩굴이다: 조세핀 퀸의 '서양 문명' 해체 정리</h1>
 <p class="lead">뼈대는 옥스퍼드대학교 고대사 교수 조세핀 퀸의 책 《How the World Made the West: A 4,000-Year History》입니다. 원문에 나온 연대, 수치, 인용만 썼습니다.</p>
 </header>
-<nav class="toc-m" aria-label="목차"><details><summary>목차</summary><ol><li><a href="#s1">1. 한눈에 보기: 나무에서 덩굴로</a></li><li><a href="#s2">2. 엑스레이 기계의 오류</a></li><li><a href="#s3">3. 복수형 "문명들"의 탄생</a></li><li><a href="#s4">4. 고대를 묶은 물리적 엔진</a></li><li><a href="#s5">5. 고고학이 보여 준 혼종성</a></li><li><a href="#s6">6. 알파벳, 0, 민주주의, 성인전</a></li><li><a href="#s7">7. 청동기 붕괴의 역설</a></li><li><a href="#s8">8. 그리스·로마의 민낯과 자기비판</a></li><li><a href="#s9">9. 순수성이라는 위안과 4,000년 뒤</a></li><li><a href="#s10">10. 읽으며 걸린 곳</a></li></ol></details></nav>
-
+<nav aria-label="목차" class="toc-m"><details><summary>목차</summary><ol><li><a href="#s1">1. 한눈에 보기: 나무에서 덩굴로</a></li><li><a href="#s2">2. 엑스레이 기계의 오류</a></li><li><a href="#s3">3. 복수형 "문명들"의 탄생</a></li><li><a href="#s4">4. 고대를 묶은 물리적 엔진</a></li><li><a href="#s5">5. 고고학이 보여 준 혼종성</a></li><li><a href="#s6">6. 알파벳, 0, 민주주의, 성인전</a></li><li><a href="#s7">7. 청동기 붕괴의 역설</a></li><li><a href="#s8">8. 그리스·로마의 민낯과 자기비판</a></li><li><a href="#s9">9. 순수성이라는 위안과 4,000년 뒤</a></li><li><a href="#s10">10. 읽으며 걸린 곳</a></li></ol></details></nav>
 <section class="sec" id="s1">
 <div class="sec-head"><span class="sec-num">1</span><div><h2>한눈에 보기: 나무에서 덩굴로</h2><p class="sub">원문이 던지는 질문</p></div></div>
 <p>원문의 화두는 이렇습니다. 우리가 당연하게 믿어 온 '서양 문명'은 처음부터 홀로 자란 순수한 실체인가, 아니면 19세기 제국주의가 나중에 만들어 낸 환상인가?</p>
@@ -264,14 +291,12 @@ pre.code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-s
 </tbody></table>
 <div class="callout"><b class="t">한 줄 요지</b>역사는 고립되어 자란 나무가 아니라, 수천 년 동안 무역, 강제 이주, 정복, 약탈, 지식의 차용으로 얽힌 덩굴이다. 원문은 이를 처음부터 모든 재료가 한 솥에서 끓던 '스튜'에도 비유합니다.</div>
 </section>
-
 <section class="sec" id="s2">
 <div class="sec-head"><span class="sec-num">2</span><div><h2>엑스레이 기계의 오류</h2><p class="sub">선명한 인과율의 함정</p></div></div>
 <p>원문은 응급실 엑스레이로 시작합니다. 뼈는 부러졌거나 아니거나 둘 중 하나라서, 하얀 선 하나로 진단이 끝나고 환자는 안도합니다. 그러나 통증의 원인이 신경이나 심리처럼 얽힌 영역으로 넘어가면 그 기계는 쓸모가 없어집니다.</p>
 <p>근대 이후의 역사 서술도 이렇게 선명한 선을 원했다는 것이 원문의 진단입니다. 그리스에서 싹터 로마, 르네상스, 계몽주의를 지나 근대 서구라는 열매를 맺었다는 '가족 나무' 모델입니다. 퀸은 지난 4,000년의 지중해와 유라시아 교류사를 근거로 이 모델을 거부합니다.</p>
 <p class="go"><a href="https://yghnsim.github.io/Pages/western_civilization_vine_not_tree.html#1-엑스레이-기계의-오류-선명한-인과율의-함정과-순수성의-환상">원문 해당 부분 ↗</a></p>
 </section>
-
 <section class="sec" id="s3">
 <div class="sec-head"><span class="sec-num">3</span><div><h2>복수형 "문명들"의 탄생</h2><p class="sub">1820년대 제국주의의 리브랜딩</p></div></div>
 <p>원문에 따르면 '문명들(civilizations)'이라는 복수형은 1820년대 이전에는 없던 현대적 발명품입니다.</p>
@@ -286,7 +311,6 @@ pre.code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-s
 <p>여러 문화가 각자 냄비에서 끓다가 나중에 서양이라는 수프로 합쳐졌다는 그림 대신, 원문은 처음부터 한 솥의 스튜였다고 말합니다. 분리된 문명이라는 생각이 낳은 폭력의 예로 1492년 스페인을 듭니다. 신대륙으로 출항하던 해에, 국내에서는 유대인과 무슬림을 '피의 순수성(limpieza de sangre)'을 구실로 내쫓았다는 것입니다. 원문은 이를 '우리'와 '그들'을 가르는 장벽이 세워진 결정적 순간으로 봅니다.</p>
 <p class="go"><a href="https://yghnsim.github.io/Pages/western_civilization_vine_not_tree.html#2-문명들civilizations이라는-복수형의-탄생-1820년대-제국주의의-거대한-리브랜딩">원문 해당 부분 ↗</a></p>
 </section>
-
 <section class="sec" id="s4">
 <div class="sec-head"><span class="sec-num">4</span><div><h2>고대를 묶은 물리적 엔진</h2><p class="sub">돛단배, 위대한 왕들의 클럽, 이동하는 소수</p></div></div>
 <h3>기원전 2500년경의 돛단배</h3>
@@ -297,7 +321,6 @@ pre.code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-s
 <p>대부분의 농민은 평생 마을을 떠나지 않았는데 고대를 세계화라 부를 수 있느냐는 반론에, 원문은 덩굴을 엮은 것은 이동한 소수였다고 답합니다. 목숨을 건 상인과 선원, 그리고 강제로 끌려간 전쟁 포로와 노예입니다. 포로들은 제철 기술, 농법, 요리, 언어, 신화를 몸에 지니고 갔고, 원문은 이 잔혹한 강제 이주를 문화의 '믹서기'라고 부릅니다.</p>
 <p class="go"><a href="https://yghnsim.github.io/Pages/western_civilization_vine_not_tree.html#3-요리-은유-분리된-냄비가-아닌-거대한-스튜">원문 해당 부분 ↗</a></p>
 </section>
-
 <section class="sec" id="s5">
 <div class="sec-head"><span class="sec-num">5</span><div><h2>고고학이 보여 준 혼종성</h2><p class="sub">베르니케의 불상과 폼페이의 락슈미</p></div></div>
 <table class="tbl stack">
@@ -312,7 +335,6 @@ pre.code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-s
 <p>원문은 베르니케 불상 하나에 네 겹의 결합이 있다고 요약합니다. 재료는 튀르키예, 양식은 그리스와 인도, 발견은 이집트, 시대는 로마 제국입니다. 고대 지중해와 인도양이 하나의 회로처럼 움직였다는 증거라는 것입니다.</p>
 <p class="go"><a href="https://yghnsim.github.io/Pages/western_civilization_vine_not_tree.html#4-고고학이-폭로한-혼종성의-증거들-베르니케의-불상과-폼페이의-락슈미">원문 해당 부분 ↗</a></p>
 </section>
-
 <section class="sec" id="s6">
 <div class="sec-head"><span class="sec-num">6</span><div><h2>알파벳, 0, 민주주의, 성인전</h2><p class="sub">서양의 '소프트웨어'는 릴레이의 산물</p></div></div>
 <h3>알파벳</h3>
@@ -325,7 +347,6 @@ pre.code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-s
 <p>중세 유럽에서 널리 읽힌 《발람과 요사밧》은 왕자가 늙음, 병, 죽음을 보고 세속을 버리는 이야기입니다. 원문은 '요사밧'이라는 이름이 아랍어 부다사프, 페르시아어, 조지아어, 그리스어를 거쳐 산스크리트어 보디사트바(보살)로 거슬러 올라간다고 설명합니다.</p>
 <p class="go"><a href="https://yghnsim.github.io/Pages/western_civilization_vine_not_tree.html#5-문명의-소프트웨어는-어떻게-해킹되었는가-알파벳-0-민주주의-그리고-성인전">원문 해당 부분 ↗</a></p>
 </section>
-
 <section class="sec" id="s7">
 <div class="sec-head"><span class="sec-num">7</span><div><h2>청동기 붕괴의 역설</h2><p class="sub">초연결의 붕괴와 철기의 탈세계화</p></div></div>
 <p>기원전 1200년경 가뭄, 기근, '바다 민족'의 습격이 겹치며 미케네, 히타이트, 우가리트가 잇달아 무너졌습니다. 원문은 이 '후기 청동기 붕괴'에서 두 가지 역설을 끌어냅니다.</p>
@@ -335,7 +356,6 @@ pre.code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-s
 <p>청동은 구리 90%에 주석 10%를 섞어야 하는데, 주석은 아프가니스탄 바다흐샨이나 영국 콘월처럼 먼 곳에서 와야 했습니다. 그래서 청동기는 초장거리 무역을 강제했습니다. 1,200℃ 이상의 제련 기술이 퍼지자, 어디서나 캘 수 있는 철광석 덕분에 먼 무역의 유인이 사라졌습니다. 원문의 결론은 역사가 일직선으로 진보하지 않고 세계화와 고립 사이를 출렁인다는 것입니다.</p>
 <p class="go"><a href="https://yghnsim.github.io/Pages/western_civilization_vine_not_tree.html#6-청동기-붕괴의-역설-민중의-문자-보이콧-가설과-철기의-탈세계화">원문 해당 부분 ↗</a></p>
 </section>
-
 <section class="sec" id="s8">
 <div class="sec-head"><span class="sec-num">8</span><div><h2>그리스·로마의 민낯과 자기비판</h2><p class="sub">진짜 유산은 결백이 아니라 의심</p></div></div>
 <table class="tbl stack">
@@ -348,7 +368,6 @@ pre.code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-s
 <p>그렇다고 아테네가 위대하지 않았다는 말은 아닙니다. 원문은 퀸의 평가를 이렇게 전합니다. 아테네의 위대함은 도덕적 결백이 아니라 스스로를 가차 없이 의심하는 지적 개방성에 있었다. 국가가 비용을 대는 공식 축제에서 에우리피데스의 《메데아》와 《트로이아 여인들》이 국가의 폭력과 위선을 무대에 올렸고, "우리 체제가 틀렸을 수 있다"는 질문을 대중 앞에서 허용했다는 것입니다.</p>
 <p class="go"><a href="https://yghnsim.github.io/Pages/western_civilization_vine_not_tree.html#7-그리스로마-신화의-민낯-제국주의적-폭력과-자기비판이라는-진짜-유산">원문 해당 부분 ↗</a></p>
 </section>
-
 <section class="sec" id="s9">
 <div class="sec-head"><span class="sec-num">9</span><div><h2>순수성이라는 위안과 4,000년 뒤</h2><p class="sub">원문의 결론</p></div></div>
 <p>왜 우리는 순수한 기원에 집착할까요? 원문은 심리적 방어기제로 설명합니다. 내 정체성이 폭력, 노예무역, 낯선 문화 속에서 섞여 만들어졌다고 인정하기는 불안하므로, 흠 없는 혈통이 일직선으로 이어졌다는 이야기가 더 달콤한 위안이 된다는 것입니다.</p>
@@ -356,7 +375,6 @@ pre.code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-s
 <div class="callout"><b class="t">원문의 마무리</b>엑스레이의 하얀 선처럼 인류의 문화를 칼로 가를 수 있는 순수한 경계선은 처음부터 없었다. 지식, 자유, 기술, 언어는 이름 없는 광부, 상인, 노예, 사상가가 서로 빌리고 섞어 만든 공동의 산물이다. 있지도 않은 순수성에 갇히면 다양성에 기대는 미래가 질식한다.</div>
 <p class="go"><a href="https://yghnsim.github.io/Pages/western_civilization_vine_not_tree.html#8-거짓된-확실성을-넘어-4000년-후의-미래에서-본-단-하나의-덩굴">원문 해당 부분 ↗</a></p>
 </section>
-
 <section class="sec issues" id="s10">
 <div class="sec-head"><span class="sec-num">10</span><div><h2>읽으며 걸린 곳</h2><p class="sub">정리하면서 제가 찾은 것. 결론에는 영향이 크지 않습니다</p></div></div>
 <details><summary>7가지 보기</summary>
@@ -371,6 +389,81 @@ pre.code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-s
 </ul></details>
 </section>
 
+<section class="sec" id="rv">
+<div class="sec-head"><span class="sec-num">✔</span><div><h2>복습</h2><p class="sub">본문 내용만으로 만든 암기·이해 점검</p></div></div>
+<h3 class="rv-h">핵심 용어 카드</h3>
+<p class="muted">카드를 누르면 뜻이 나옵니다.</p>
+<div class="flips">
+<button aria-expanded="false" class="flip" type="button"><b>나무 모델 vs 덩굴 모델</b><span class="hint">뜻 보기</span><span class="m">문명이 하나의 뿌리에서 뻗어나왔다는 순혈주의 나무 모델을 깨고, 사방에서 얽히고설킨 혼종 덩굴로 파악하는 사관.</span></button>
+<button aria-expanded="false" class="flip" type="button"><b>문명 요람론의 해체</b><span class="hint">뜻 보기</span><span class="m">그리스·로마라는 단일한 서양 문명의 순수한 기원은 허구이며, 근대 제국주의 시기에 사후적으로 발명된 신화임.</span></button>
+<button aria-expanded="false" class="flip" type="button"><b>청동기 교역망</b><span class="hint">뜻 보기</span><span class="m">지중해와 근동을 연결했던 광범위한 무역망으로, 구리와 주석, 도자기와 사상이 국경 없이 융합되었음.</span></button>
+<button aria-expanded="false" class="flip" type="button"><b>페니키아 알파벳</b><span class="hint">뜻 보기</span><span class="m">레반트 해양 민족인 페니키아가 지중해 전역에 전파하여 그리스 알파벳과 라틴 문자의 직접적 기원이 된 표음문자.</span></button>
+<button aria-expanded="false" class="flip" type="button"><b>아랍-이슬람 번역 운동</b><span class="hint">뜻 보기</span><span class="m">중세 바그다드(지혜의 집)에서 그리스 고전을 아랍어로 보존·발전시켜 르네상스 유럽으로 역수출한 지식 운동.</span></button>
+<button aria-expanded="false" class="flip" type="button"><b>콜럼버스 교환</b><span class="hint">뜻 보기</span><span class="m">아메리카 대륙과 구대륙 간의 농작물, 질병, 인구, 은(銀)의 대이동으로 근대 세계 자본주의 시스템을 형성함.</span></button>
+</div>
+<div class="rv-tools"><button data-all="flip" type="button">모두 뒤집기</button><button data-reset="flip" type="button">모두 접기</button></div>
+<h3 class="rv-h">빈칸 채우기</h3>
+<p class="muted">빈칸을 누르면 답이 나옵니다.</p>
+<ol class="cloze">
+<li>조세핀 퀸은 문명의 역사를 단일 뿌리의 나무가 아니라 얽히고설킨 <button aria-label="빈칸, 눌러서 답 보기" class="blank" data-a="덩굴" type="button">?</button> 모델로 보아야 한다고 주장했다.</li>
+<li>서양 문명의 직접적 시조로 추앙받는 그리스 문자는 레반트의 <button aria-label="빈칸, 눌러서 답 보기" class="blank" data-a="페니키아" type="button">?</button> 알파벳에서 유래했다.</li>
+<li>고대 지중해의 문화를 꽃피운 기반은 구리와 주석이 오가던 광범위한 <button aria-label="빈칸, 눌러서 답 보기" class="blank" data-a="청동기 교역망" type="button">?</button>이었다.</li>
+<li>고대 그리스의 철학과 과학 문헌을 중세에 보존하고 발전시켜 유럽에 다시 전해준 것은 <button aria-label="빈칸, 눌러서 답 보기" class="blank" data-a="아랍-이슬람" type="button">?</button> 번역 운동이었다.</li>
+<li>‘서양’이라는 단일하고 우월한 문명 범주는 18~19세기 유럽의 <button aria-label="빈칸, 눌러서 답 보기" class="blank" data-a="제국주의" type="button">?</button> 팽창기에 만들어진 근대적 발명품이다.</li>
+<li>신대륙 발견 이후 동식물과 자원이 전 지구적으로 뒤섞인 사건을 <button aria-label="빈칸, 눌러서 답 보기" class="blank" data-a="콜럼버스 교환" type="button">?</button>이라 부른다.</li>
+</ol>
+<div class="rv-tools"><button data-all="blank" type="button">답 모두 보기</button><button data-reset="blank" type="button">빈칸 다시 가리기</button></div>
+<h3 class="rv-h">5문항 퀴즈</h3>
+<div id="quiz">
+<div class="q" data-a="1">
+<fieldset>
+<legend class="qt">역사학자 조세핀 퀸(Josephine Quinn)이 책에서 비판하는 '나무 모델(Tree Model)' 사관이란?</legend>
+<button type="button">인류 문명이 환경 보호를 위해 숲에서 시작되었다는 자연사 이론</button>
+<button type="button">문명이 그리스-로마-중세-근대 서양으로 단일한 순수 혈통의 줄기를 타고 이어졌다는 사관</button>
+<button type="button">아시아 문명이 유럽 문명보다 먼저 꽃피웠다는 동양 중심 사관</button>
+</fieldset>
+<p aria-live="polite" class="ex" data-e="서양 문명이 순결한 단일 혈통의 나무처럼 자랐다는 신화를 덩굴 모델로 해체합니다." hidden=""></p>
+</div>
+<div class="q" data-a="1">
+<fieldset>
+<legend class="qt">그리스 문자의 기원에 대한 역사적 사실로 올바른 것은?</legend>
+<button type="button">그리스인들이 아테네 아크로폴리스에서 완전히 독창적으로 창제했다</button>
+<button type="button">셈족 계열 해양 무역 민족인 페니키아인들의 표음문자를 받아들여 변형했다</button>
+<button type="button">이집트 상형문자가 아무런 중간 단계 없이 그대로 직수입되었다</button>
+</fieldset>
+<p aria-live="polite" class="ex" data-e="페니키아 상인들과의 교역을 통해 알파벳이 지중해로 건너가 그리스 문자가 되었습니다." hidden=""></p>
+</div>
+<div class="q" data-a="0">
+<fieldset>
+<legend class="qt">중세 유럽이 아리스토텔레스 등 고대 지식을 다시 만날 수 있었던 결정적 계기는?</legend>
+<button type="button">바그다드 지혜의 집을 중심으로 전개된 아랍-이슬람 학자들의 보존과 번역 운동</button>
+<button type="button">로마 가톨릭 교회가 모든 고대 서적을 지하 비밀 서고에 완벽하게 지켜냈기 때문</button>
+<button type="button">바이킹 전사들이 북유럽에서 고대 그리스 원전을 발굴했기 때문</button>
+</fieldset>
+<p aria-live="polite" class="ex" data-e="아랍어로 번역·주석된 그리스 고전들이 톨레도 등에서 라틴어로 중역되어 르네상스를 열었습니다." hidden=""></p>
+</div>
+<div class="q" data-a="1">
+<fieldset>
+<legend class="qt">조세핀 퀸이 말하는 '문화 혼종성(Hybridity)'의 참된 의미는?</legend>
+<button type="button">각 문화는 고유한 순수성을 지킬 때 가장 번영한다는 이론</button>
+<button type="button">역사상 위대한 문명은 언제나 다른 문화와의 끊임없는 교류와 모방, 융합 속에서 탄생했다는 점</button>
+<button type="button">정복 전쟁을 통해서만 열등한 문화가 우등한 문화로 개조될 수 있다는 관점</button>
+</fieldset>
+<p aria-live="polite" class="ex" data-e="모든 고대 지중해 문명은 상호 침투와 교역 네트워크의 산물이었습니다." hidden=""></p>
+</div>
+<div class="q" data-a="1">
+<fieldset>
+<legend class="qt">'서양 문명(Western Civilization)'이라는 포괄적 개념이 역사적으로 정착된 배경은?</legend>
+<button type="button">기원전 5세기 페르시아 전쟁 당시 그리스 연합군이 공식 선언함</button>
+<button type="button">18~19세기 제국주의 유럽 열강이 비유럽 세계 침략과 식민 지배를 정당화하기 위해 고안함</button>
+<button type="button">중세 십자군 전쟁 당시 교황청이 공식 조약 문서로 제정함</button>
+</fieldset>
+<p aria-live="polite" class="ex" data-e="식민 지배의 우월성을 포장하고 백인의 문명화 사명을 부여하기 위해 근대에 구성된 이데올로기입니다." hidden=""></p>
+</div>
+<p aria-live="polite" class="score" id="score">점수: 0 / 5</p>
+<div class="rv-tools"><button id="qreset" type="button">다시 풀기</button></div>
+</div>
+</section>
 <section class="sources" id="src">
 <h2>출처</h2>
 <p>원문: 「<a href="https://yghnsim.github.io/Pages/western_civilization_vine_not_tree.html">문명은 나무가 아니라 덩굴이다: 조세핀 퀸의 '서양 문명' 신화 해체</a>」, 조세핀 퀸 연구 기반 Pages 역사·문명 심층 탐구팀, 2026. 10. 11. 원문이 바탕으로 삼은 책: Josephine Quinn, 《How the World Made the West: A 4,000-Year History》. 연대, 수치, 인용은 모두 원문을 옮겼고 1차 자료와 직접 대조하지는 않았습니다.</p>
@@ -382,9 +475,24 @@ if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es
 links.forEach(function(a){var s=document.querySelector(a.getAttribute('href'));if(s)io.observe(s)});}
 [].forEach.call(document.querySelectorAll('nav.toc-m a'),function(a){a.addEventListener('click',function(){a.closest('details').open=false})});
 })();</script>
-
 <!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
 <div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">요약 아카이브</div><div class="arc-foot-title">문명은 나무가 아니라 덩굴이다: 조세핀 퀀의 &#x27;서양 문명&#x27; 해체 정리</div><div class="arc-foot-meta"><time datetime="2026-10-11">2026년 10월 11일</time><a class="arc-tag" href="../index.html#tags=%EC%97%AD%EC%82%AC">#역사</a><a class="arc-tag" href="../index.html#tags=%EA%B3%A0%EB%8C%80%EC%82%AC">#고대사</a><a class="arc-tag" href="../index.html#tags=%EC%84%9C%EC%96%91%EB%AC%B8%EB%AA%85">#서양문명</a><a class="arc-tag" href="../index.html#tags=%EB%AC%B8%ED%99%94%ED%98%BC%EC%A2%85%EC%84%B1">#문화혼종성</a><a class="arc-tag" href="../index.html#tags=%EC%9A%94%EC%95%BD">#요약</a> · <a href="https://yghnsim.github.io/Pages/articles/western_civilization_vine_not_tree.html" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
 <!-- archive-footer:end -->
+<script>(function(){
+function $$(q){return [].slice.call(document.querySelectorAll(q))}
+$$(".flip").forEach(function(b){b.onclick=function(){b.setAttribute("aria-expanded",b.getAttribute("aria-expanded")==="true"?"false":"true")}});
+function show(b){b.textContent=b.dataset.a;b.classList.add("shown");b.setAttribute("aria-label","답: "+b.dataset.a)}
+function hide(b){b.textContent="?";b.classList.remove("shown");b.setAttribute("aria-label","빈칸, 눌러서 답 보기")}
+$$(".blank").forEach(function(b){b.onclick=function(){show(b)}});
+$$("[data-all]").forEach(function(t){t.onclick=function(){if(t.dataset.all==="flip")$$(".flip").forEach(function(b){b.setAttribute("aria-expanded","true")});else $$(".blank").forEach(show)}});
+$$("[data-reset]").forEach(function(t){t.onclick=function(){if(t.dataset.reset==="flip")$$(".flip").forEach(function(b){b.setAttribute("aria-expanded","false")});else $$(".blank").forEach(hide)}});
+var sc=0,done=0,qs=$$("#quiz .q"),tot=qs.length||5;
+function upd(){var el=document.getElementById("score");if(el)el.textContent="점수: "+sc+" / "+tot+(done===tot?" (끝)":"")}
+qs.forEach(function(q){var bs=[].slice.call(q.querySelectorAll("fieldset button")),ex=q.querySelector(".ex");
+bs.forEach(function(b,i){b.onclick=function(){var a=+q.dataset.a,ok=i===a;bs.forEach(function(x){x.disabled=true});if(bs[a])bs[a].classList.add("right");if(!ok)b.classList.add("wrong");
+if(ex){ex.hidden=false;ex.textContent=(ok?"맞았습니다. ":"아쉽습니다. ")+ex.dataset.e;}if(ok)sc++;done++;upd();}})});
+var qr=document.getElementById("qreset");
+if(qr)qr.onclick=function(){sc=0;done=0;qs.forEach(function(q){q.querySelectorAll("fieldset button").forEach(function(x){x.disabled=false;x.className=""});var ex=q.querySelector(".ex");if(ex){ex.hidden=true;ex.textContent=""}});upd()};
+})();</script>
 </body>
 </html>

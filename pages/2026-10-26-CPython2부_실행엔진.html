@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>파이썬 호출 가능 객체와 실행 엔진 핵심 요약 (CPython 2부)</title>
+<meta name="description" content="바이트코드 CALL부터 tp_call, vectorcall 최적화, 프레임 평가 루프와 인터프리터 스택 동작 메커니즘 요약">
+<style>
+:root{
+  --bg:#faf8f3; --paper-c:#ffffff; --ink:#1f2328; --muted:#5b6470; --line:#e6e1d6;
+  --accent:#c8553d; --accent-soft:#fbeee9; --link:#4a6b8a;
+  --new:#3d5f80; --new-soft:#eaf0f6;
+  --radius:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR","Malgun Gothic",system-ui,sans-serif;
+  font-size:17px;line-height:1.75;word-break:keep-all;overflow-wrap:break-word}
+@media(max-width:640px){body{font-size:16px}}
+a{color:var(--link);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+.hero-cta{margin-top:16px}
+.hero-cta a{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--new);color:#fff!important;border-radius:10px;font-weight:700;font-size:14px;text-decoration:none!important}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:12px 0}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:15px}
+.tbl th,.tbl td{border:1px solid var(--line);padding:9px 12px;text-align:left}
+.tbl th{background:var(--new-soft);color:var(--new);font-weight:700}
+.tbl td{background:#fff}
+.terms{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:10px;border-top:1px dashed var(--line)}
+.term{display:inline-flex;align-items:center;gap:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:600;padding:3px 9px;border-radius:8px}
+.rv-h{font-size:19px;margin:22px 0 6px}
+.flips{display:grid;grid-template-columns:1fr;gap:8px;margin:10px 0}
+@media(min-width:640px){.flips{grid-template-columns:1fr 1fr}}
+.flip{font:inherit;text-align:left;width:100%;border:1.5px solid var(--line,#e6e1d6);background:#fdfcf9;border-radius:12px;padding:10px 14px;cursor:pointer;color:var(--ink,#1f2328);min-height:64px}
+.flip b{display:block;font-size:17px}
+.flip .m{display:none;font-size:16px;line-height:1.6;margin-top:4px}
+.flip .hint{font-size:13px;color:var(--muted,#5b6470)}
+.flip[aria-expanded="true"]{border-color:var(--new,#3d5f80);background:var(--new-soft,#eaf0f6)}
+.flip[aria-expanded="true"] .m{display:block}
+.flip[aria-expanded="true"] .hint{display:none}
+.cloze{list-style:none;margin:10px 0;padding:0}
+.cloze li{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:10px 14px;margin:8px 0;background:#fdfcf9;font-size:16px;line-height:1.8}
+.blank{font:inherit;font-size:16px;border:0;border-bottom:2px dashed var(--accent,#c8553d);background:var(--accent-soft,#fbeee9);color:var(--accent,#c8553d);border-radius:6px 6px 0 0;padding:0 8px;cursor:pointer;min-width:4.5em}
+.blank.shown{border-bottom-style:solid;background:var(--new-soft,#eaf0f6);color:var(--new,#3d5f80);font-weight:700}
+.rv-tools{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.rv-tools button{font:inherit;font-size:15px;border:1px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link,#4a6b8a)}
+.q{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:12px 14px;margin:10px 0;background:#fdfcf9}
+.q fieldset{border:0;margin:0;padding:0}
+.q legend{font-weight:700;padding:0;margin:0 0 8px;font-size:16.5px}
+.q button{display:block;width:100%;text-align:left;font:inherit;font-size:16px;border:1.5px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:8px 12px;margin:6px 0;cursor:pointer;color:var(--ink,#1f2328)}
+.q button.right{border-color:#2f6b45;background:#e6f1ea}
+.q button.wrong{border-color:#a2452f;background:#fbeee9}
+.q button[disabled]{cursor:default;opacity:1}
+.q .ex{margin:8px 0 0;font-size:16px;padding:8px 10px;border-radius:8px;background:var(--new-soft,#eaf0f6)}
+.score{font-size:17px;font-weight:800;margin:10px 0 0}
+</style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
+</head>
+<body>
+<!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="요약 아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>요약 아카이브</a><span class="arc-crumb">파이썬 호출 가능 객체와 실행 엔진 핵심 요약 (CPython 2부)</span><span class="arc-meta"><time datetime="2026-10-26">2026년 10월 26일</time><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99">#컴퓨터과학</a><a class="arc-tag" href="../index.html#tags=Python">#Python</a><a class="arc-tag" href="../index.html#tags=CPython">#CPython</a><a class="arc-tag" href="../index.html#tags=%EC%8B%9C%EC%8A%A4%ED%85%9C%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D">#시스템프로그래밍</a><a class="arc-tag" href="../index.html#tags=%EC%9A%94%EC%95%BD">#요약</a><a class="arc-src" href="https://yghnsim.github.io/Pages/articles/python_callable_and_execution_engine.html" rel="noopener">원문 ↗</a></span></div></div>
+<!-- archive-header:end -->
+<div class="wrap">
+<header class="hero">
+  <h1>파이썬 호출 가능 객체와 실행 엔진 핵심 요약 (CPython 2부)</h1>
+  <p class="lead">바이트코드 CALL부터 tp_call, vectorcall 최적화, 프레임 스택과 CPython 실행 평가 루프 해부</p>
+  <div class="hero-cta">
+    <a href="https://yghnsim.github.io/Pages/articles/python_callable_and_execution_engine.html">Pages 심층 원문 읽기 ↗</a>
+  </div>
+</header>
+
+<nav class="toc">
+  <ol>
+    <li><a href="#s0"><span class="n">01</span> 한눈에 보기 (예습 브리프)</a></li>
+    <li><a href="#s1"><span class="n">02</span> 호출 가능 객체(Callable)의 조건: tp_call 슬롯</a></li>
+    <li><a href="#s2"><span class="n">03</span> 호출 오버헤드의 주범: 튜플/딕셔너리 패킹과 vectorcall 혁신</a></li>
+    <li><a href="#s3"><span class="n">04</span> 바이트코드 수준의 호출: CALL_FUNCTION에서 _PyEval_EvalFrameDefault까지</a></li>
+    <li><a href="#s4"><span class="n">05</span> 인터프리터 프레임 스택과 제너레이터 실행 일시 중단</a></li>
+    <li><a href="#rv"><span class="n">✔</span> 복습 및 퀴즈</a></li>
+  </ol>
+</nav>
+
+<main>
+<section class="sec" id="s0">
+  <h2>01. 한눈에 보기 (예습 브리프)</h2>
+  <div class="card">
+    <p><strong>핵심 테제</strong>: 파이썬에서 괄호 <code>()</code>를 붙여 호출할 수 있는 모든 것(함수, 클래스, 메서드, <code>__call__</code> 구현체)은 C 수준에서 해당 객체의 타입에 <code>tp_call</code> 또는 현대적인 <strong><code>vectorcall</code></strong> 함수 포인터가 등록된 <strong>호출 가능 객체(Callable)</strong>입니다. CPython은 전통적인 임시 튜플·딕셔너리 생성 오버헤드를 없애기 위해 C 배열 포인터로 인자를 직접 전달하는 <code>vectorcall</code> 프로토콜(PEP 590)을 도입하여 함수 호출 속도를 비약적으로 향상시켰습니다.</p>
+  </div>
+  <table class="tbl">
+    <thead><tr><th>구분</th><th>전통적 호출 방식 (tp_call)</th><th>현대적 고속 호출 방식 (vectorcall, PEP 590)</th></tr></thead>
+    <tbody>
+      <tr><td>인자 전달 형태</td><td>위치 인자 <code>PyTuple</code> + 키워드 인자 <code>PyDict</code></td><td>C 포인터 배열 <code>PyObject *const *args</code></td></tr>
+      <tr><td>메모리 할당 오버헤드</td><td>호출할 때마다 임시 튜플·딕셔너리 힙 할당 발생</td><td>스택의 C 배열을 그대로 넘겨 힙 할당 제로(0)</td></tr>
+      <tr><td>바이트코드 처리</td><td><code>CALL_FUNCTION</code> 복잡한 인자 언패킹</td><td>특화 바이트코드 <code>CALL</code> 직접 디스패치</td></tr>
+      <tr><td>적용 대상</td><td>레거시 C 확장 모듈 및 구형 타입</td><td>내장 함수, 파이썬 함수, 메서드 래퍼 전반</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="sec" id="s1">
+  <h2>02. 호출 가능 객체의 조건: tp_call 슬롯</h2>
+  <div class="card">
+    <p>파이썬 객체 <code>x</code> 뒤에 괄호를 붙여 <code>x(a, b)</code>를 실행할 수 있는 이유는 <code>x->ob_type->tp_call</code> 슬롯에 C 함수 포인터가 채워져 있기 때문입니다. 만약 사용자 정의 클래스에 <code>def __call__(self):</code>를 선언하면, CPython은 해당 클래스의 <code>tp_call</code> 슬롯에 <code>slot_tp_call</code> 래퍼 함수를 연결하여 인스턴스를 호출 가능 객체로 만듭니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">tp_call 슬롯</span>
+    <span class="term">__call__ 특수 메서드</span>
+    <span class="term">PyCallable_Check</span>
+    <span class="term">호출 가능 여부 판정</span>
+  </div>
+</section>
+
+<section class="sec" id="s2">
+  <h2>03. 호출 오버헤드의 주범과 vectorcall 혁신</h2>
+  <div class="card">
+    <p>파이썬 3.7 이전에는 <code>func(1, 2)</code>를 호출하기만 해도 <code>(1, 2)</code> 튜플을 힙에 만들고 해제하는 불필요한 GC 부하가 있었습니다. <strong>vectorcall (PEP 590)</strong>은 호출 규약을 개혁하여 스택 프레임에 이미 존재하는 인자 포인터 배열을 그대로 함수에 넘김으로써 임시 객체 생성을 완전히 제거했습니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">PEP 590</span>
+    <span class="term">vectorcall 프로토콜</span>
+    <span class="term">힙 할당 제거</span>
+    <span class="term">임시 튜플 오버헤드</span>
+  </div>
+</section>
+
+<section class="sec" id="s3">
+  <h2>04. 바이트코드 수준의 호출: CALL에서 프레임 진입까지</h2>
+  <div class="card">
+    <p>파이썬 컴파일러는 호출 표현식을 만나면 인자들을 스택에 푸시한 뒤 <code>CALL</code> 바이트코드를 내보냅니다. CPython의 거대한 루프인 <code>_PyEval_EvalFrameDefault</code> 함수 안에서 <code>CALL</code>은 타깃 객체의 vectorcall 오프셋을 확인하여 C 함수면 직접 C 포인터를 점프하고, 파이썬 함수면 새 <strong>인터프리터 프레임(_PyInterpreterFrame)</strong>을 스택에 푸시합니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">CALL 바이트코드</span>
+    <span class="term">_PyEval_EvalFrameDefault</span>
+    <span class="term">인터프리터 스택</span>
+    <span class="term">C 콜스택 vs 파이썬 프레임</span>
+  </div>
+</section>
+
+<section class="sec" id="s4">
+  <h2>05. 프레임 스택과 제너레이터의 일시 중단</h2>
+  <div class="card">
+    <p>파이썬 3.11부터 도입된 가벼운 프레임 구조는 C 콜스택과 파이썬 논리 프레임을 깔끔하게 분리했습니다. 함수가 <code>yield</code>를 만나면 프레임의 명령어 포인터(IP)와 로컬 변수 상태를 힙에 보존한 채 C 루프를 빠져나오고, <code>next()</code>로 재호출되면 이전 IP 지점부터 실행을 즉시 재개합니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">_PyInterpreterFrame</span>
+    <span class="term">제너레이터 (yield)</span>
+    <span class="term">명령어 포인터 보존</span>
+    <span class="term">파이썬 3.11 프레임 경량화</span>
+  </div>
+</section>
+
+<section class="sec" id="rv">
+  <h2>복습 및 퀴즈</h2>
+  <h3 class="rv-h">핵심 개념 플래시카드</h3>
+  <p class="hint">카드를 누르면 숨겨진 해설이 나타납니다.</p>
+  <div class="flips">
+    <button type="button" class="flip" aria-expanded="false"><b>tp_call</b><span class="hint">클릭하여 확인</span><span class="m">CPython 타입 객체(PyTypeObject)에서 객체의 괄호 () 호출을 처리하는 C 함수 포인터 슬롯.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>vectorcall (PEP 590)</b><span class="hint">클릭하여 확인</span><span class="m">임시 튜플이나 딕셔너리를 할당하지 않고, C 포인터 배열을 통해 인자를 직접 넘겨 호출 속도를 극대화한 고속 호출 프로토콜.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>_PyEval_EvalFrameDefault</b><span class="hint">클릭하여 확인</span><span class="m">CPython 인터프리터의 심장부로, 바이트코드를 하나씩 인출하여 평가하는 거대한 switch-case 실행 루프 함수.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>_PyInterpreterFrame</b><span class="hint">클릭하여 확인</span><span class="m">파이썬 함수 호출마다 생성되는 논리적 실행 프레임. 로컬 변수, 평가 스택, 코드 객체(co_code) 포인터를 관리함.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>CALL 바이트코드</b><span class="hint">클릭하여 확인</span><span class="m">파이썬 3.11+에서 호출 인자 개수를 인자로 받아 호출 가능 객체를 평가 스택에서 꺼내 실행하는 통합 호출 옵코드.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>__call__</b><span class="hint">클릭하여 확인</span><span class="m">일반 인스턴스 객체를 함수처럼 호출 가능하게 만들어주는 파이썬 매직 메서드.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>평가 스택 (Evaluation Stack)</b><span class="hint">클릭하여 확인</span><span class="m">바이트코드 실행 중 피연산자를 푸시하고 팝하며 중간 연산 결과를 임시 보관하는 CPython 스택.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>제너레이터 일시 중단</b><span class="hint">클릭하여 확인</span><span class="m">yield 지점에서 인터프리터 프레임의 실행 위치와 변수 스택을 보존하고 C 함수를 반환하는 메커니즘.</span></button>
+  </div>
+
+  <h3 class="rv-h">빈칸 채우기</h3>
+  <ul class="cloze">
+    <li>객체의 호출 가능 여부를 결정하는 타입 슬롯은 <button type="button" class="blank" data-a="tp_call" aria-label="빈칸">???</button>이다.</li>
+    <li>임시 튜플 없이 C 포인터 배열로 인자를 넘기는 고속 호출 프로토콜은 <button type="button" class="blank" data-a="vectorcall" aria-label="빈칸">???</button>(PEP 590)이다.</li>
+    <li>CPython 바이트코드를 순회하며 실행하는 핵심 루프 함수는 <button type="button" class="blank" data-a="_PyEval_EvalFrameDefault" aria-label="빈칸">???</button>이다.</li>
+    <li>클래스 인스턴스를 호출 가능하게 만들려면 <button type="button" class="blank" data-a="__call__" aria-label="빈칸">???</button> 메서드를 구현해야 한다.</li>
+    <li>파이썬 함수 실행 시 로컬 변수와 스택을 담는 메모리 단위를 인터프리터 <button type="button" class="blank" data-a="프레임" aria-label="빈칸">???</button>(Frame)이라 부른다.</li>
+    <li>제너레이터 함수는 <button type="button" class="blank" data-a="yield" aria-label="빈칸">???</button> 키워드를 만나면 프레임 상태를 보존한 채 일시 중단된다.</li>
+  </ul>
+  <div class="rv-tools">
+    <button type="button" id="cshow">정답 모두 보기</button>
+    <button type="button" id="chide">다시 가리기</button>
+  </div>
+
+  <h3 class="rv-h">5문항 퀴즈</h3>
+  <div id="quiz">
+    <div class="q" data-ans="1">
+      <fieldset><legend>1. CPython에서 어떤 객체를 `obj()` 형태로 호출할 수 있는지 판별하는 기준은?</legend>
+        <button type="button" data-i="0">① 객체의 변수명이 'def'로 시작하는지 여부</button>
+        <button type="button" data-i="1">② 객체의 타입(ob_type) 구조체에 `tp_call` 함수 포인터가 등록되어 있는지 여부</button>
+        <button type="button" data-i="2">③ 메모리 주소가 짝수인지 여부</button>
+        <button type="button" data-i="3">④ 객체의 파일 크기가 1KB 이상인지 여부</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ②. CPython 런타임은 타입 슬롯의 `tp_call` 포인터 유무로 호출 가능성을 판정합니다.</div>
+    </div>
+    <div class="q" data-ans="2">
+      <fieldset><legend>2. PEP 590 'vectorcall' 도입으로 얻게 된 가장 큰 성능상 이점은?</legend>
+        <button type="button" data-i="0">① 파이썬 코드가 자동으로 C++로 컴파일된다.</button>
+        <button type="button" data-i="1">② 인터넷 연결 속도가 2배 빨라진다.</button>
+        <button type="button" data-i="2">③ 함수 호출 시 위치/키워드 인자를 담기 위한 임시 튜플 및 딕셔너리 힙 할당이 제거됨</button>
+        <button type="button" data-i="3">④ 가비지 컬렉터가 완전히 비활성화된다.</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ③. C 배열 포인터를 직접 전달하여 불필요한 임시 객체 생성 오버헤드를 없앴습니다.</div>
+    </div>
+    <div class="q" data-ans="0">
+      <fieldset><legend>3. CPython 바이트코드 평가 루프(`_PyEval_EvalFrameDefault`)의 실제 구현 구조는?</legend>
+        <button type="button" data-i="0">① 옵코드(Opcode) 번호에 따라 case 레이블로 점프하는 거대한 switch-case 루프</button>
+        <button type="button" data-i="1">② SQL 데이터베이스 테이블 조회 루프</button>
+        <button type="button" data-i="2">③ 자바스크립트 V8 엔진을 매번 실행하는 브리지</button>
+        <button type="button" data-i="3">④ 운영체제 시스템 콜만 반복 호출하는 커널 루프</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ①. 인터프리터의 기본 구조는 바이트코드를 하나씩 꺼내 분기하는 거대한 C 루프입니다.</div>
+    </div>
+    <div class="q" data-ans="3">
+      <fieldset><legend>4. 사용자 정의 클래스 인스턴스를 함수처럼 `instance(1, 2)`로 호출하려면 구현해야 하는 매직 메서드는?</legend>
+        <button type="button" data-i="0">① `__invoke__`</button>
+        <button type="button" data-i="1">② `__run__`</button>
+        <button type="button" data-i="2">③ `__execute__`</button>
+        <button type="button" data-i="3">④ `__call__`</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ④. `__call__` 메서드를 구현하면 클래스의 `tp_call` 슬롯이 채워져 인스턴스 호출이 가능해집니다.</div>
+    </div>
+    <div class="q" data-ans="1">
+      <fieldset><legend>5. 제너레이터 함수가 `yield`를 만났을 때 CPython 인터프리터 내부에서 일어나는 일은?</legend>
+        <button type="button" data-i="0">① 메모리를 즉시 강제 포맷한다.</button>
+        <button type="button" data-i="1">② 현재 실행 프레임의 바이트코드 오프셋과 평가 스택을 보존한 채 C 평가 루프를 빠져나와 값을 반환함</button>
+        <button type="button" data-i="2">③ 백그라운드 스레드를 새로 생성하여 무한 대기한다.</button>
+        <button type="button" data-i="3">④ 파이썬 프로세스를 일시 중지(SIGSTOP)시킨다.</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ②. 프레임의 실행 상태를 그대로 힙에 남겨두고 복귀하므로 이후 next()로 재개할 수 있습니다.</div>
+    </div>
+    <p class="score" id="score" aria-live="polite">점수: 0 / 5</p>
+    <div class="rv-tools"><button type="button" id="qreset">다시 풀기</button></div>
+  </div>
+</section>
+</main>
+</div>
+
+<script>(function(){
+function $$(q){return [].slice.call(document.querySelectorAll(q))}
+$$(".flip").forEach(function(b){b.onclick=function(){b.setAttribute("aria-expanded",b.getAttribute("aria-expanded")==="true"?"false":"true")}});
+function show(b){b.textContent=b.dataset.a;b.classList.add("shown");b.setAttribute("aria-label","답: "+b.dataset.a)}
+function hide(b){b.textContent="???";b.classList.remove("shown");b.setAttribute("aria-label","빈칸")}
+$$(".blank").forEach(function(b){b.onclick=function(){if(b.classList.contains("shown")){hide(b)}else{show(b)}}});
+var cs=document.getElementById("cshow"),ch=document.getElementById("chide");
+if(cs)cs.onclick=function(){$$(".blank").forEach(show)};
+if(ch)ch.onclick=function(){$$(".blank").forEach(hide)};
+var scoreEl=document.getElementById("score");
+var totalQ=$$("#quiz .q").length;
+function updateScore(){var r=$$("#quiz .q button.right").length;if(scoreEl)scoreEl.textContent="점수: "+r+" / "+totalQ}
+$$("#quiz .q").forEach(function(q){
+  var ans=parseInt(q.dataset.ans,10);
+  var btns=$$(q.querySelectorAll("button"));
+  btns.forEach(function(b,i){
+    b.onclick=function(){
+      btns.forEach(function(x){x.disabled=true});
+      if(i===ans){b.classList.add("right")}else{
+        b.classList.add("wrong");
+        if(btns[ans])btns[ans].classList.add("right");
+      }
+      var ex=q.querySelector(".ex");
+      if(ex)ex.style.display="block";
+      updateScore();
+    };
+  });
+});
+var qr=document.getElementById("qreset");
+if(qr)qr.onclick=function(){
+  $$("#quiz .q").forEach(function(q){
+    $$(q.querySelectorAll("button")).forEach(function(b){
+      b.disabled=false;
+      b.classList.remove("right","wrong");
+    });
+    var ex=q.querySelector(".ex");
+    if(ex)ex.style.display="none";
+  });
+  if(scoreEl)scoreEl.textContent="점수: 0 / "+totalQ;
+};
+})();</script>
+
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">요약 아카이브</div><div class="arc-foot-title">파이썬 호출 가능 객체와 실행 엔진 핵심 요약 (CPython 2부)</div><div class="arc-foot-meta"><time datetime="2026-10-26">2026년 10월 26일</time><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99">#컴퓨터과학</a><a class="arc-tag" href="../index.html#tags=Python">#Python</a><a class="arc-tag" href="../index.html#tags=CPython">#CPython</a><a class="arc-tag" href="../index.html#tags=%EC%8B%9C%EC%8A%A4%ED%85%9C%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D">#시스템프로그래밍</a><a class="arc-tag" href="../index.html#tags=%EC%9A%94%EC%95%BD">#요약</a> · <a href="https://yghnsim.github.io/Pages/articles/python_callable_and_execution_engine.html" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body>
+</html>

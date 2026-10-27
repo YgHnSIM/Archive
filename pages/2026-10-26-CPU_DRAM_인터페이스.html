@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CPU와 DRAM 메모리 인터페이스 핵심 요약: 구조와 구현</title>
+<meta name="description" content="메모리 컨트롤러, PHY 계층, DDR 버스와 DRAM 내부 뱅크·행 버퍼 구조, 레이턴시 타이밍(tCAS, tRCD, tRP) 요약">
+<style>
+:root{
+  --bg:#faf8f3; --paper-c:#ffffff; --ink:#1f2328; --muted:#5b6470; --line:#e6e1d6;
+  --accent:#c8553d; --accent-soft:#fbeee9; --link:#4a6b8a;
+  --new:#3d5f80; --new-soft:#eaf0f6;
+  --radius:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR","Malgun Gothic",system-ui,sans-serif;
+  font-size:17px;line-height:1.75;word-break:keep-all;overflow-wrap:break-word}
+@media(max-width:640px){body{font-size:16px}}
+a{color:var(--link);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+.hero-cta{margin-top:16px}
+.hero-cta a{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--new);color:#fff!important;border-radius:10px;font-weight:700;font-size:14px;text-decoration:none!important}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:12px 0}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:15px}
+.tbl th,.tbl td{border:1px solid var(--line);padding:9px 12px;text-align:left}
+.tbl th{background:var(--new-soft);color:var(--new);font-weight:700}
+.tbl td{background:#fff}
+.terms{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:10px;border-top:1px dashed var(--line)}
+.term{display:inline-flex;align-items:center;gap:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:600;padding:3px 9px;border-radius:8px}
+.rv-h{font-size:19px;margin:22px 0 6px}
+.flips{display:grid;grid-template-columns:1fr;gap:8px;margin:10px 0}
+@media(min-width:640px){.flips{grid-template-columns:1fr 1fr}}
+.flip{font:inherit;text-align:left;width:100%;border:1.5px solid var(--line,#e6e1d6);background:#fdfcf9;border-radius:12px;padding:10px 14px;cursor:pointer;color:var(--ink,#1f2328);min-height:64px}
+.flip b{display:block;font-size:17px}
+.flip .m{display:none;font-size:16px;line-height:1.6;margin-top:4px}
+.flip .hint{font-size:13px;color:var(--muted,#5b6470)}
+.flip[aria-expanded="true"]{border-color:var(--new,#3d5f80);background:var(--new-soft,#eaf0f6)}
+.flip[aria-expanded="true"] .m{display:block}
+.flip[aria-expanded="true"] .hint{display:none}
+.cloze{list-style:none;margin:10px 0;padding:0}
+.cloze li{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:10px 14px;margin:8px 0;background:#fdfcf9;font-size:16px;line-height:1.8}
+.blank{font:inherit;font-size:16px;border:0;border-bottom:2px dashed var(--accent,#c8553d);background:var(--accent-soft,#fbeee9);color:var(--accent,#c8553d);border-radius:6px 6px 0 0;padding:0 8px;cursor:pointer;min-width:4.5em}
+.blank.shown{border-bottom-style:solid;background:var(--new-soft,#eaf0f6);color:var(--new,#3d5f80);font-weight:700}
+.rv-tools{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.rv-tools button{font:inherit;font-size:15px;border:1px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link,#4a6b8a)}
+.q{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:12px 14px;margin:10px 0;background:#fdfcf9}
+.q fieldset{border:0;margin:0;padding:0}
+.q legend{font-weight:700;padding:0;margin:0 0 8px;font-size:16.5px}
+.q button{display:block;width:100%;text-align:left;font:inherit;font-size:16px;border:1.5px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:8px 12px;margin:6px 0;cursor:pointer;color:var(--ink,#1f2328)}
+.q button.right{border-color:#2f6b45;background:#e6f1ea}
+.q button.wrong{border-color:#a2452f;background:#fbeee9}
+.q button[disabled]{cursor:default;opacity:1}
+.q .ex{margin:8px 0 0;font-size:16px;padding:8px 10px;border-radius:8px;background:var(--new-soft,#eaf0f6)}
+.score{font-size:17px;font-weight:800;margin:10px 0 0}
+</style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
+</head>
+<body>
+<!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="요약 아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>요약 아카이브</a><span class="arc-crumb">CPU와 DRAM 메모리 인터페이스 핵심 요약: 구조와 구현</span><span class="arc-meta"><time datetime="2026-10-26">2026년 10월 26일</time><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99">#컴퓨터과학</a><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B5%AC%EC%A1%B0">#컴퓨터구조</a><a class="arc-tag" href="../index.html#tags=%EB%A9%94%EB%AA%A8%EB%A6%AC%EB%AA%A8%EB%8D%B8">#메모리모델</a><a class="arc-tag" href="../index.html#tags=%EC%9A%94%EC%95%BD">#요약</a><a class="arc-src" href="https://yghnsim.github.io/Pages/articles/cpu_dram_memory_interface.html" rel="noopener">원문 ↗</a></span></div></div>
+<!-- archive-header:end -->
+<div class="wrap">
+<header class="hero">
+  <h1>CPU와 DRAM 메모리 인터페이스 핵심 요약</h1>
+  <p class="lead">하드웨어 관점의 메모리 접근: 메모리 컨트롤러(MC), DFI와 DDR PHY, DRAM 내부 뱅크 아키텍처와 타이밍 파라미터</p>
+  <div class="hero-cta">
+    <a href="https://yghnsim.github.io/Pages/articles/cpu_dram_memory_interface.html">Pages 심층 원문 읽기 ↗</a>
+  </div>
+</header>
+
+<nav class="toc">
+  <ol>
+    <li><a href="#s0"><span class="n">01</span> 한눈에 보기 (예습 브리프)</a></li>
+    <li><a href="#s1"><span class="n">02</span> 전체 연결 구조: CPU 코어에서 DRAM 셀까지</a></li>
+    <li><a href="#s2"><span class="n">03</span> 메모리 컨트롤러(MC)의 역할: 중재, 스케줄링, 프로토콜 변환</a></li>
+    <li><a href="#s3"><span class="n">04</span> DRAM 내부 3차원 구조: 채널, 랭크, 칩, 뱅크, 행 버퍼</a></li>
+    <li><a href="#s4"><span class="n">05</span> 핵심 타이밍 파라미터(tRCD, tCAS, tRP)와 행 버퍼 히트/미스</a></li>
+    <li><a href="#rv"><span class="n">✔</span> 복습 및 퀴즈</a></li>
+  </ol>
+</nav>
+
+<main>
+<section class="sec" id="s0">
+  <h2>01. 한눈에 보기 (예습 브리프)</h2>
+  <div class="card">
+    <p><strong>핵심 테제</strong>: CPU가 메모리에서 64바이트 캐시 라인을 가져오는 작업은 단순한 전선 연결이 아닙니다. CPU 내부의 캐시 미스 발생 시, <strong>메모리 컨트롤러(MC)</strong>가 요청을 받아 주소를 채널·랭크·뱅크·행·열로 디코딩하고, <strong>DFI 인터페이스</strong>를 거쳐 <strong>DDR PHY</strong>의 고속 아날로그 신호로 변환합니다. DRAM 내부에서는 <strong>커패시터 전하</strong>를 감지 증폭기(Sense Amplifier) 행 버퍼로 끌어올린 뒤(ACT), 열 주소를 읽어(READ) 버스트로 뿜어냅니다.</p>
+  </div>
+  <table class="tbl">
+    <thead><tr><th>계층</th><th>핵심 구성 요소</th><th>담당 역할 및 특징</th></tr></thead>
+    <tbody>
+      <tr><td>디지털 제어 계층</td><td>메모리 컨트롤러 (MC, Memory Controller)</td><td>요청 큐잉, 재정렬(FR-FCFS), 커맨드 스케줄링, 리프레시 관리</td></tr>
+      <tr><td>물리 변환 계층</td><td>DDR PHY & DFI (DRAM Future Interface)</td><td>디지털 커맨드를 고속 차동 전기 신호(DDR 버스)로 변환, 클록 타이밍 보정</td></tr>
+      <tr><td>물리 저장 계층</td><td>DRAM 칩 (채널 > 랭크 > 뱅크 > 행/열)</td><td>1T1C(1트랜지스터 1커패시터) 전하 저장, 파괴적 읽기 및 재충전</td></tr>
+      <tr><td>데이터 임시 버퍼</td><td>행 버퍼 (Row Buffer / Sense Amplifiers)</td><td>활성화된 1개 행(Row, 통상 8KB) 데이터를 상주시켜 고속 열 읽기 지원</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="sec" id="s1">
+  <h2>02. 전체 연결 구조: 코어에서 셀까지</h2>
+  <div class="card">
+    <p>CPU 코어의 L1/L2/L3 캐시에서 미스가 발생하면 시스템 버스(AXI/NOC)를 통해 온칩 메모리 컨트롤러로 요청이 전달됩니다. 메모리 컨트롤러는 표준화된 DFI(DDR PHY Interface)를 통해 PHY 블록을 제어하며, PHY는 PCB 기판의 64비트 데이터 버스(DQ)와 커맨드/어드레스(CA) 핀을 구동합니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">캐시 미스 (Cache Miss)</span>
+    <span class="term">메모리 컨트롤러 (MC)</span>
+    <span class="term">DFI 표준</span>
+    <span class="term">DDR PHY</span>
+  </div>
+</section>
+
+<section class="sec" id="s2">
+  <h2>03. 메모리 컨트롤러의 지능적 스케줄링</h2>
+  <div class="card">
+    <p>DRAM은 들어온 순서대로 처리하는 것보다, 이미 열려 있는 행(Row)에 대한 요청을 먼저 모아서 처리하는 것이 훨씬 빠릅니다. 메모리 컨트롤러는 <strong>FR-FCFS (First-Ready First-Come First-Served)</strong> 알고리즘을 사용하여 행 버퍼 히트(Row Buffer Hit)를 극대화하고 버스 반전 오버헤드를 최소화합니다. 또한 커패시터 누설 전류를 보충하기 위해 주기적으로 <strong>리프레시(REFRESH)</strong> 명령을 발행합니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">FR-FCFS 스케줄링</span>
+    <span class="term">행 버퍼 히트 (Row Hit)</span>
+    <span class="term">DRAM 리프레시 (tREFI)</span>
+    <span class="term">커맨드 재정렬</span>
+  </div>
+</section>
+
+<section class="sec" id="s3">
+  <h2>04. DRAM 내부의 3차원 계층 구조</h2>
+  <div class="card">
+    <p>DRAM은 단일 칩이 아니라 병렬 계층 구조를 이룹니다: ① <strong>채널(Channel)</strong>: 독립된 64비트 버스, ② <strong>랭크(Rank)</strong>: 동시에 64비트 폭을 구성하는 칩들의 묶음, ③ <strong>뱅크(Bank)</strong>: 칩 내부에서 독립적으로 행을 활성화할 수 있는 격리된 서브어레이, ④ <strong>행과 열(Row & Column)</strong>: 셀 매트릭스의 격자 주소입니다. 현대 DDR5는 채널당 32비트 서브채널 2개로 분할하여 대역폭 효율을 극대화했습니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">채널 (Channel)</span>
+    <span class="term">랭크 (Rank)</span>
+    <span class="term">뱅크 (Bank)</span>
+    <span class="term">DDR5 듀얼 서브채널</span>
+  </div>
+</section>
+
+<section class="sec" id="s4">
+  <h2>05. 핵심 타이밍 파라미터 (tRCD, tCAS, tRP)</h2>
+  <div class="card">
+    <p>DRAM 읽기 과정은 3대 핵심 타이밍으로 결정됩니다: ① <strong>tRCD (RAS to CAS Delay)</strong>: 행을 선택하여 감지 증폭기로 올리는 데 걸리는 시간(ACTIVATE 후 READ까지 지연), ② <strong>tCAS (또는 CL, Column Access Strobe)</strong>: 열 주소를 지정하고 데이터가 DQ 버스에 나타날 때까지의 시간, ③ <strong>tRP (Row Precharge Time)</strong>: 열려 있던 행을 닫고 비트라인을 프리차지하는 시간. 행 버퍼 미스 시에는 <code>tRP + tRCD + tCAS</code>의 긴 지연이 누적됩니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">tRCD (행 활성화 지연)</span>
+    <span class="term">tCAS / CL (열 읽기 지연)</span>
+    <span class="term">tRP (프리차지 시간)</span>
+    <span class="term">행 버퍼 미스 지연</span>
+  </div>
+</section>
+
+<section class="sec" id="rv">
+  <h2>복습 및 퀴즈</h2>
+  <h3 class="rv-h">핵심 개념 플래시카드</h3>
+  <p class="hint">카드를 누르면 숨겨진 해설이 나타납니다.</p>
+  <div class="flips">
+    <button type="button" class="flip" aria-expanded="false"><b>메모리 컨트롤러 (MC)</b><span class="hint">클릭하여 확인</span><span class="m">CPU 코어의 메모리 읽기/쓰기 요청을 받아 DRAM 명령 프로토콜(ACT, PRE, RD, WR)로 변환하고 스케줄링하는 핵심 하드웨어 블록.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>DDR PHY</b><span class="hint">클릭하여 확인</span><span class="m">메모리 컨트롤러의 디지털 신호를 PCB 신호선 상의 고속 아날로그 전기 신호로 송수신하는 물리 계층 인터페이스.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>행 버퍼 (Row Buffer)</b><span class="hint">클릭하여 확인</span><span class="m">DRAM 뱅크 내부의 감지 증폭기(Sense Amplifier) 배열로, 활성화된 단 하나의 행(보통 수 KB) 데이터를 캐싱하고 있는 임시 버퍼.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>행 버퍼 히트 (Row Hit)</b><span class="hint">클릭하여 확인</span><span class="m">요청된 메모리 주소가 행 버퍼에 이미 열려 있는 행과 일치하여, tRCD나 tRP 지연 없이 tCAS만으로 즉시 읽을 수 있는 상태.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>tRCD</b><span class="hint">클릭하여 확인</span><span class="m">행을 활성화(ACT)하여 행 버퍼로 올린 후, 열 읽기(READ) 명령을 내릴 수 있을 때까지 기다려야 하는 최소 클록 지연 시간.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>tCAS (CL)</b><span class="hint">클릭하여 확인</span><span class="m">READ 명령을 내린 후 실제 데이터 버스(DQ)에 첫 번째 데이터 비트가 출력될 때까지 걸리는 레이턴시.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>tRP (Precharge Time)</b><span class="hint">클릭하여 확인</span><span class="m">현재 열려 있는 행을 닫고 비트라인 전압을 중간 레벨로 충전(Precharge)하여 다음 행을 열 준비를 마치는 데 걸리는 시간.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>FR-FCFS 스케줄링</b><span class="hint">클릭하여 확인</span><span class="m">이미 열린 행에 대한 요청을 먼저 처리(First-Ready)하고, 그 외에는 도착 순서(First-Come)대로 처리하는 지능형 메모리 요청 큐잉 기법.</span></button>
+  </div>
+
+  <h3 class="rv-h">빈칸 채우기</h3>
+  <ul class="cloze">
+    <li>CPU의 메모리 요청을 DRAM 하드웨어 명령어로 번역하는 장치는 <button type="button" class="blank" data-a="메모리 컨트롤러" aria-label="빈칸">???</button>(MC)이다.</li>
+    <li>DRAM에서 활성화된 1개 행의 데이터를 들고 있는 감지증폭기 배열을 <button type="button" class="blank" data-a="행 버퍼" aria-label="빈칸">???</button>(Row Buffer)라 부른다.</li>
+    <li>행 활성화(ACT)부터 열 읽기(READ)까지 걸리는 시간을 <button type="button" class="blank" data-a="tRCD" aria-label="빈칸">???</button>라 한다.</li>
+    <li>열 읽기 명령(READ) 후 데이터 버스에 출력이 나올 때까지의 지연을 <button type="button" class="blank" data-a="tCAS" aria-label="빈칸">???</button>(CL)라 한다.</li>
+    <li>열려 있는 행을 닫고 전압을 초기화하는 시간을 <button type="button" class="blank" data-a="tRP" aria-label="빈칸">???</button>(프리차지)라 한다.</li>
+    <li>행 버퍼 히트를 우선 처리하는 대표적인 스케줄링 알고리즘은 <button type="button" class="blank" data-a="FR-FCFS" aria-label="빈칸">???</button>이다.</li>
+  </ul>
+  <div class="rv-tools">
+    <button type="button" id="cshow">정답 모두 보기</button>
+    <button type="button" id="chide">다시 가리기</button>
+  </div>
+
+  <h3 class="rv-h">5문항 퀴즈</h3>
+  <div id="quiz">
+    <div class="q" data-ans="2">
+      <fieldset><legend>1. CPU와 DRAM 사이에 '메모리 컨트롤러(Memory Controller)'가 반드시 필요한 이유는?</legend>
+        <button type="button" data-i="0">① CPU가 영어를 쓰는데 DRAM은 일본어를 쓰기 때문에</button>
+        <button type="button" data-i="1">② 전력을 100% 절감하기 위해</button>
+        <button type="button" data-i="2">③ DRAM의 복잡한 3차원 주소 지정, 타이밍 제약(tRCD 등), 주기적 리프레시를 하드웨어적으로 관리해야 하기 때문에</button>
+        <button type="button" data-i="3">④ 모니터 화면에 그래픽을 출력하기 위해</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ③. DRAM은 단순한 저장소가 아니라 프리차지, 활성화, 리프레시 등 엄격한 아날로그 제약 조건을 관리해야 합니다.</div>
+    </div>
+    <div class="q" data-ans="1">
+      <fieldset><legend>2. '행 버퍼 히트(Row Buffer Hit)'가 발생했을 때 읽기 지연 시간은 어떻게 되는가?</legend>
+        <button type="button" data-i="0">① tRP + tRCD + tCAS 전체 지연이 소요된다.</button>
+        <button type="button" data-i="1">② 이미 행이 감지 증폭기에 열려 있으므로 tRP와 tRCD가 생략되고 tCAS(CL)만 소요된다.</button>
+        <button type="button" data-i="2">③ 레이턴시가 무조건 0ns가 된다.</button>
+        <button type="button" data-i="3">④ DRAM 전원이 자동으로 꺼진다.</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ②. 이미 활성화된 행 버퍼에서 열 주소만 골라내면 되므로 가장 빠른 응답 속도를 얻습니다.</div>
+    </div>
+    <div class="q" data-ans="0">
+      <fieldset><legend>3. DRAM의 '1T1C' 구조에서 주기적인 '리프레시(REFRESH)'가 필수적인 이유는?</legend>
+        <button type="button" data-i="0">① 커패시터에 저장된 전하가 시간이 지나면 미세한 누설 전류로 방전되어 데이터가 소실되기 때문에</button>
+        <button type="button" data-i="1">② 트랜지스터가 과열되는 것을 방지하기 위해</button>
+        <button type="button" data-i="2">③ 컴퓨터 바이러스를 청소하기 위해</button>
+        <button type="button" data-i="3">④ RAM 용량을 매 시간마다 2배로 늘리기 위해</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ①. DRAM(Dynamic RAM)은 커패시터 누설 때문에 전하를 주기적으로 재충전해야만 기억을 유지합니다.</div>
+    </div>
+    <div class="q" data-ans="3">
+      <fieldset><legend>4. 메모리 컨트롤러의 'FR-FCFS' 스케줄링이 추구하는 주된 목표는?</legend>
+        <button type="button" data-i="0">① 운영체제의 보안 패치를 자동 설치하는 것</button>
+        <button type="button" data-i="1">② 네트워크 패킷 전송을 가속하는 것</button>
+        <button type="button" data-i="2">③ 무조건 가장 오래 기다린 요청만 처리하는 것</button>
+        <button type="button" data-i="3">④ 이미 행 버퍼가 열려 있는 요청을 우선 처리하여 행 버퍼 히트율과 메모리 대역폭을 극대화하는 것</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ④. First-Ready 전략은 행 활성화/프리차지 오버헤드를 줄여 실효 대역폭을 크게 높입니다.</div>
+    </div>
+    <div class="q" data-ans="1">
+      <fieldset><legend>5. 행 버퍼 미스(Row Buffer Conflict/Miss)가 났을 때 올바른 DRAM 명령어 처리 순서는?</legend>
+        <button type="button" data-i="0">① READ → WRITE → PRECHARGE</button>
+        <button type="button" data-i="1">② PRECHARGE(이전 행 닫기) → ACTIVATE(새 행 열기) → READ(열 읽기)</button>
+        <button type="button" data-i="2">③ ACTIVATE → PRECHARGE → REFRESH</button>
+        <button type="button" data-i="3">④ REFRESH → READ → ACTIVATE</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ②. 다른 행이 열려 있으므로 먼저 기존 행을 닫고(PRE), 새 행을 활성화(ACT)한 뒤 읽기(RD)를 수행합니다.</div>
+    </div>
+    <p class="score" id="score" aria-live="polite">점수: 0 / 5</p>
+    <div class="rv-tools"><button type="button" id="qreset">다시 풀기</button></div>
+  </div>
+</section>
+</main>
+</div>
+
+<script>(function(){
+function $$(q){return [].slice.call(document.querySelectorAll(q))}
+$$(".flip").forEach(function(b){b.onclick=function(){b.setAttribute("aria-expanded",b.getAttribute("aria-expanded")==="true"?"false":"true")}});
+function show(b){b.textContent=b.dataset.a;b.classList.add("shown");b.setAttribute("aria-label","답: "+b.dataset.a)}
+function hide(b){b.textContent="???";b.classList.remove("shown");b.setAttribute("aria-label","빈칸")}
+$$(".blank").forEach(function(b){b.onclick=function(){if(b.classList.contains("shown")){hide(b)}else{show(b)}}});
+var cs=document.getElementById("cshow"),ch=document.getElementById("chide");
+if(cs)cs.onclick=function(){$$(".blank").forEach(show)};
+if(ch)ch.onclick=function(){$$(".blank").forEach(hide)};
+var scoreEl=document.getElementById("score");
+var totalQ=$$("#quiz .q").length;
+function updateScore(){var r=$$("#quiz .q button.right").length;if(scoreEl)scoreEl.textContent="점수: "+r+" / "+totalQ}
+$$("#quiz .q").forEach(function(q){
+  var ans=parseInt(q.dataset.ans,10);
+  var btns=$$(q.querySelectorAll("button"));
+  btns.forEach(function(b,i){
+    b.onclick=function(){
+      btns.forEach(function(x){x.disabled=true});
+      if(i===ans){b.classList.add("right")}else{
+        b.classList.add("wrong");
+        if(btns[ans])btns[ans].classList.add("right");
+      }
+      var ex=q.querySelector(".ex");
+      if(ex)ex.style.display="block";
+      updateScore();
+    };
+  });
+});
+var qr=document.getElementById("qreset");
+if(qr)qr.onclick=function(){
+  $$("#quiz .q").forEach(function(q){
+    $$(q.querySelectorAll("button")).forEach(function(b){
+      b.disabled=false;
+      b.classList.remove("right","wrong");
+    });
+    var ex=q.querySelector(".ex");
+    if(ex)ex.style.display="none";
+  });
+  if(scoreEl)scoreEl.textContent="점수: 0 / "+totalQ;
+};
+})();</script>
+
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">요약 아카이브</div><div class="arc-foot-title">CPU와 DRAM 메모리 인터페이스 핵심 요약: 구조와 구현</div><div class="arc-foot-meta"><time datetime="2026-10-26">2026년 10월 26일</time><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99">#컴퓨터과학</a><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B5%AC%EC%A1%B0">#컴퓨터구조</a><a class="arc-tag" href="../index.html#tags=%EB%A9%94%EB%AA%A8%EB%A6%AC%EB%AA%A8%EB%8D%B8">#메모리모델</a><a class="arc-tag" href="../index.html#tags=%EC%9A%94%EC%95%BD">#요약</a> · <a href="https://yghnsim.github.io/Pages/articles/cpu_dram_memory_interface.html" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body>
+</html>

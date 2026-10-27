@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>휴고 진츠하이머와 종속성 개념의 계보 핵심 요약</title>
+<meta name="description" content="휴고 진츠하이머의 종속노동 사상, 로마법 노무 임대차부터 독일 민법, 인격적·경제적 종속성의 분화와 현대 플랫폼 노동에서의 타인결정성 논의 요약">
+<style>
+:root{
+  --bg:#faf8f3; --paper-c:#ffffff; --ink:#1f2328; --muted:#5b6470; --line:#e6e1d6;
+  --accent:#c8553d; --accent-soft:#fbeee9; --link:#4a6b8a;
+  --new:#3d5f80; --new-soft:#eaf0f6;
+  --radius:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR","Malgun Gothic",system-ui,sans-serif;
+  font-size:17px;line-height:1.75;word-break:keep-all;overflow-wrap:break-word}
+@media(max-width:640px){body{font-size:16px}}
+a{color:var(--link);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+.hero-cta{margin-top:16px}
+.hero-cta a{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--new);color:#fff!important;border-radius:10px;font-weight:700;font-size:14px;text-decoration:none!important}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:12px 0}
+.guide{background:var(--accent-soft);border-left:4px solid var(--accent);padding:10px 14px;border-radius:0 8px 8px 0;margin:12px 0;font-size:15px}
+.int{background:var(--new-soft);border-left:4px solid var(--new);padding:10px 14px;border-radius:0 8px 8px 0;margin:12px 0}
+.badge{display:inline-block;font-size:12px;font-weight:700;padding:2px 8px;border-radius:6px;margin-bottom:6px}
+.b-int{background:var(--new);color:#fff}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:15px}
+.tbl th,.tbl td{border:1px solid var(--line);padding:9px 12px;text-align:left}
+.tbl th{background:var(--new-soft);color:var(--new);font-weight:700}
+.tbl td{background:#fff}
+.terms{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:10px;border-top:1px dashed var(--line)}
+.term{display:inline-flex;align-items:center;gap:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:600;padding:3px 9px;border-radius:8px}
+.rv-h{font-size:19px;margin:22px 0 6px}
+.flips{display:grid;grid-template-columns:1fr;gap:8px;margin:10px 0}
+@media(min-width:640px){.flips{grid-template-columns:1fr 1fr}}
+.flip{font:inherit;text-align:left;width:100%;border:1.5px solid var(--line,#e6e1d6);background:#fdfcf9;border-radius:12px;padding:10px 14px;cursor:pointer;color:var(--ink,#1f2328);min-height:64px}
+.flip b{display:block;font-size:17px}
+.flip .m{display:none;font-size:16px;line-height:1.6;margin-top:4px}
+.flip .hint{font-size:13px;color:var(--muted,#5b6470)}
+.flip[aria-expanded="true"]{border-color:var(--new,#3d5f80);background:var(--new-soft,#eaf0f6)}
+.flip[aria-expanded="true"] .m{display:block}
+.flip[aria-expanded="true"] .hint{display:none}
+.cloze{list-style:none;margin:10px 0;padding:0}
+.cloze li{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:10px 14px;margin:8px 0;background:#fdfcf9;font-size:16px;line-height:1.8}
+.blank{font:inherit;font-size:16px;border:0;border-bottom:2px dashed var(--accent,#c8553d);background:var(--accent-soft,#fbeee9);color:var(--accent,#c8553d);border-radius:6px 6px 0 0;padding:0 8px;cursor:pointer;min-width:4.5em}
+.blank.shown{border-bottom-style:solid;background:var(--new-soft,#eaf0f6);color:var(--new,#3d5f80);font-weight:700}
+.rv-tools{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.rv-tools button{font:inherit;font-size:15px;border:1px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link,#4a6b8a)}
+.q{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:12px 14px;margin:10px 0;background:#fdfcf9}
+.q fieldset{border:0;margin:0;padding:0}
+.q legend{font-weight:700;padding:0;margin:0 0 8px;font-size:16.5px}
+.q button{display:block;width:100%;text-align:left;font:inherit;font-size:16px;border:1.5px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:8px 12px;margin:6px 0;cursor:pointer;color:var(--ink,#1f2328)}
+.q button.right{border-color:#2f6b45;background:#e6f1ea}
+.q button.wrong{border-color:#a2452f;background:#fbeee9}
+.q button[disabled]{cursor:default;opacity:1}
+.q .ex{margin:8px 0 0;font-size:16px;padding:8px 10px;border-radius:8px;background:var(--new-soft,#eaf0f6)}
+.score{font-size:17px;font-weight:800;margin:10px 0 0}
+</style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
+</head>
+<body>
+<!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="요약 아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>요약 아카이브</a><span class="arc-crumb">휴고 진츠하이머와 종속성 개념의 계보 핵심 요약</span><span class="arc-meta"><time datetime="2026-10-26">2026년 10월 26일</time><a class="arc-tag" href="../index.html#tags=%EB%85%B8%EB%8F%99%EB%B2%95">#노동법</a><a class="arc-tag" href="../index.html#tags=%EB%85%B8%EB%8F%99%EB%B2%95%EC%82%AC">#노동법사</a><a class="arc-tag" href="../index.html#tags=%EC%A2%85%EC%86%8D%EC%84%B1">#종속성</a><a class="arc-tag" href="../index.html#tags=%EB%8F%85%EC%9D%BC%EB%85%B8%EB%8F%99%EB%B2%95">#독일노동법</a><a class="arc-tag" href="../index.html#tags=%EC%9A%94%EC%95%BD">#요약</a><a class="arc-src" href="https://yghnsim.github.io/Pages/articles/sinzheimer_subordination_genealogy.html" rel="noopener">원문 ↗</a></span></div></div>
+<!-- archive-header:end -->
+<div class="wrap">
+<header class="hero">
+  <h1>휴고 진츠하이머와 종속성 개념의 계보 핵심 요약</h1>
+  <p class="lead">타인의 처분권 아래의 노동: 로마법 노무 임대차부터 독일 바이마르 노동헌법, 그리고 플랫폼 시대의 타인결정성까지</p>
+  <div class="hero-cta">
+    <a href="https://yghnsim.github.io/Pages/articles/sinzheimer_subordination_genealogy.html">Pages 심층 원문 읽기 ↗</a>
+  </div>
+</header>
+
+<nav class="toc">
+  <ol>
+    <li><a href="#s0"><span class="n">01</span> 한눈에 보기 (예습 브리프)</a></li>
+    <li><a href="#s1"><span class="n">02</span> 민법에서 노동법으로: 인격과 노동의 분리 불가능성</a></li>
+    <li><a href="#s2"><span class="n">03</span> 종속성의 분화: 인격적 종속과 경제적 종속</a></li>
+    <li><a href="#s3"><span class="n">04</span> 동아시아로의 전파: 일본과 한국 판례의 지휘·감독 도식</a></li>
+    <li><a href="#s4"><span class="n">05</span> 플랫폼 노동과 타인결정성: 100년 만의 진츠하이머 재소환</a></li>
+    <li><a href="#rv"><span class="n">✔</span> 복습 및 퀴즈</a></li>
+  </ol>
+</nav>
+
+<main>
+<section class="sec" id="s0">
+  <h2>01. 한눈에 보기 (예습 브리프)</h2>
+  <div class="card">
+    <p><strong>핵심 테제</strong>: "노동을 하는 사람은 재산을 내주는 것이 아니라 자기 자신을 내준다." 독일 노동법의 창시자 휴고 진츠하이머는 노동력의 인격적 결합성 때문에 민법의 형식적 대등성이 노동관계를 설명할 수 없다고 보았습니다. 노동계약의 본질은 '타인의 처분권 아래에 자신을 두는 종속노동'이며, 이에 대한 해법은 국가의 보호뿐 아니라 <strong>노동자의 집단적 자기결정(단체협약)</strong>을 통해 권력 불균형을 상쇄하는 데 있었습니다.</p>
+  </div>
+  <table class="tbl">
+    <thead><tr><th>구분</th><th>로마법·민법 (물권/채권)</th><th>진츠하이머의 노동법학</th><th>현대 판례 (한국·독일 좁은 해석)</th></tr></thead>
+    <tbody>
+      <tr><td>계약 성격</td><td>노무 임대차 (물건처럼 노동력 대여)</td><td>타인의 처분권 아래 자신을 넘김</td><td>사용종속관계 (인격적 지휘·감독)</td></tr>
+      <tr><td>당사자 지위</td><td>형식적으로 평등한 법률 주체</td><td>실질적 복종·권력 관계 발생</td><td>사용자의 구체적 지시를 받는 노무자</td></tr>
+      <tr><td>종속의 해법</td><td>계약 자유 원칙 (해지·손해배상)</td><td>집단적 자치 (단체협약·노동헌법)</td><td>개별 보호법규 강행 적용 (퇴직금·해고제한)</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="sec" id="s1">
+  <h2>02. 민법에서 노동법으로: 인격과 노동의 분리 불가능성</h2>
+  <div class="card">
+    <p>19세기 유럽 사법체계는 로마법의 <code>locatio conductio operarum</code>(노무 임대차)을 계승하여 노동을 물건 빌려주듯 파는 계약으로 보았습니다. 그러나 필립 로트마르와 휴고 진츠하이머는 물건은 소유자와 분리될 수 있지만 노동은 사람의 몸·시간·인격과 분리될 수 없다는 점을 갈파했습니다. 노동계약을 맺는 순간 인간은 사용자라는 사적 권력의 처분권 하에 편입됩니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">노무 임대차</span>
+    <span class="term">타인의 처분권</span>
+    <span class="term">종속노동 (Abhängige Arbeit)</span>
+    <span class="term">인격적 분리 불가능성</span>
+  </div>
+</section>
+
+<section class="sec" id="s2">
+  <h2>03. 종속성의 분화: 인격적 종속과 경제적 종속</h2>
+  <div class="card">
+    <p>진츠하이머에게 종속성은 총체적 현상이었으나, 바이마르 헌법 제165조 제정 이후 독일 법학은 이를 <strong>인격적 종속(persönliche Abhängigkeit)</strong>과 <strong>경제적 종속(wirtschaftliche Abhängigkeit)</strong>으로 분리했습니다. 전자는 시간과 장소, 업무 지시를 통제받는 상태이고, 후자는 생계와 소득을 전적으로 특정 사용자에게 의존하는 상태입니다. 독일 판례는 노동법 적용 대상을 점차 인격적 종속으로 좁혔고, 경제적 종속만 있는 자는 '유사근로자(Arbeitnehmerähnliche Person)'라는 별도 범주로 분리했습니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">인격적 종속</span>
+    <span class="term">경제적 종속</span>
+    <span class="term">유사근로자</span>
+    <span class="term">바이마르 헌법 제165조</span>
+  </div>
+</section>
+
+<section class="sec" id="s3">
+  <h2>04. 동아시아로의 전파: 일본과 한국 판례의 지휘·감독 도식</h2>
+  <div class="card">
+    <p>독일의 종속성 논의는 일본을 거쳐 한국 노동법 체계에 이식되었습니다. 한국 대법원(2006다78720 등)은 근로기준법상 근로자를 판단할 때 계약의 형식보다 실질에 있어 '종속적인 관계에서 노무를 제공했는지'를 묻는 9가지 종합 판단 요소를 확립했습니다. 그러나 현실 재판에서는 '상당한 지휘·감독'이라는 인격적·조직적 지시 여부가 과도한 결정적 비중을 차지하여 새로운 형태의 노무제공자들을 배제하는 부작용을 낳았습니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">대법원 2006다78720</span>
+    <span class="term">상당한 지휘·감독</span>
+    <span class="term">근로기준법상 근로자</span>
+    <span class="term">종속적 관계 종합판단</span>
+  </div>
+</section>
+
+<section class="sec" id="s4">
+  <h2>05. 플랫폼 노동과 타인결정성: 100년 만의 진츠하이머 재소환</h2>
+  <div class="card">
+    <p>알고리즘 배차, 평점 기반 불이익, 호출 거절 시 계정 정지 등 플랫폼 환경에서는 인간 상사의 직접 지시가 없더라도 강력한 노동 통제가 작동합니다. 최근 노동법학(박은정·백승호·이승윤 2026 등)은 직접 지휘감독을 묻는 좁은 도식에서 벗어나, 업무 규칙과 보상 구조를 타인이 일방적으로 결정하는 <strong>'타인결정성(Heteronomy)'</strong> 개념으로 진츠하이머의 '타인의 처분권' 테제를 현대에 복원하고 있습니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">알고리즘 통제</span>
+    <span class="term">타인결정성 (Heteronomy)</span>
+    <span class="term">플랫폼 노동</span>
+    <span class="term">처분권의 현대적 복원</span>
+  </div>
+</section>
+
+<section class="sec" id="rv">
+  <h2>복습 및 퀴즈</h2>
+  <h3 class="rv-h">핵심 개념 플래시카드</h3>
+  <p class="hint">카드를 누르면 숨겨진 해설이 나타납니다.</p>
+  <div class="flips">
+    <button type="button" class="flip" aria-expanded="false"><b>휴고 진츠하이머</b><span class="hint">클릭하여 확인</span><span class="m">바이마르 공화국 시기 독일 노동법의 체계를 세운 법학자로, 노동은 인격과 분리될 수 없으며 노동계약은 타인의 처분권 하에 들어가는 종속노동임을 천명함.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>노무 임대차 (로마법)</b><span class="hint">클릭하여 확인</span><span class="m">물건을 대여하듯 노동력을 시장에서 거래하는 로마법 채권 계약 유형으로, 노동자와 노동력의 인격적 결합성을 간과함.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>타인의 처분권 아래의 노동</b><span class="hint">클릭하여 확인</span><span class="m">진츠하이머가 정의한 종속노동의 본질. 노동자가 자신의 몸과 시간, 행동을 사용자의 지배와 처분에 맡기는 상태.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>인격적 종속성</b><span class="hint">클릭하여 확인</span><span class="m">사용자가 근로자의 노동 과정에 대해 구체적인 작업 지시, 시간·장소 지정, 징계권 등을 행사하여 구속하는 관계.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>경제적 종속성</b><span class="hint">클릭하여 확인</span><span class="m">특정 사업주에 생계와 소득을 전적으로 의존하여 경제적으로 자율적인 시장 교섭력을 상실한 상태.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>유사근로자</b><span class="hint">클릭하여 확인</span><span class="m">독일 노동법에서 인격적 종속성은 약하지만 경제적 종속성이 강한 독립 노무자를 일부 노동보호법 적용 대상으로 포섭하는 범주.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>상당한 지휘·감독</b><span class="hint">클릭하여 확인</span><span class="m">한국 대법원이 근로자성 판정 시 핵심으로 삼는 표지. 과거 직접적·구체적 지휘에서 점차 포괄적·간접적 지휘로 유연화되는 추세임.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>타인결정성</b><span class="hint">클릭하여 확인</span><span class="m">직접적 지휘·감독이 없더라도 일의 방식, 배차 규칙, 가격, 제재 등을 타방 당사자가 알고리즘 등을 통해 일방적으로 결정하는 상태.</span></button>
+  </div>
+
+  <h3 class="rv-h">빈칸 채우기</h3>
+  <ul class="cloze">
+    <li>진츠하이머는 노동을 하는 사람은 재산이 아니라 <button type="button" class="blank" data-a="자기 자신" aria-label="빈칸">???</button>을(를) 내주는 것이라고 보았다.</li>
+    <li>로마법의 <button type="button" class="blank" data-a="노무 임대차" aria-label="빈칸">???</button> 개념은 노동력을 물건처럼 빌려주는 계약으로 파악하였다.</li>
+    <li>진츠하이머가 제시한 종속노동의 본질은 타인의 <button type="button" class="blank" data-a="처분권" aria-label="빈칸">???</button> 아래에서 행해지는 노동이다.</li>
+    <li>독일 법학은 종속성을 인격적 종속과 <button type="button" class="blank" data-a="경제적 종속" aria-label="빈칸">???</button>(으)로 분리하였다.</li>
+    <li>한국 대법원은 근로자성 판단 시 실질적인 <button type="button" class="blank" data-a="상당한 지휘·감독" aria-label="빈칸">???</button> 여부를 핵심 표지로 삼는다.</li>
+    <li>현대 플랫폼 노동 분석에서는 알고리즘에 의해 노동 조건이 결정되는 <button type="button" class="blank" data-a="타인결정성" aria-label="빈칸">???</button> 개념이 주목받고 있다.</li>
+  </ul>
+  <div class="rv-tools">
+    <button type="button" id="cshow">정답 모두 보기</button>
+    <button type="button" id="chide">다시 가리기</button>
+  </div>
+
+  <h3 class="rv-h">5문항 퀴즈</h3>
+  <div id="quiz">
+    <div class="q" data-ans="2">
+      <fieldset><legend>1. 휴고 진츠하이머가 노동법을 민법과 분리해야 한다고 주장한 근본적 이유는?</legend>
+        <button type="button" data-i="0">① 노동조합의 정치 활동을 전면 금지하기 위해</button>
+        <button type="button" data-i="1">② 노무 임대차 계약의 법적 효력을 강화하기 위해</button>
+        <button type="button" data-i="2">③ 노동은 인격과 분리될 수 없어 계약 체결 시 사적 권력 관계가 발생하기 때문에</button>
+        <button type="button" data-i="3">④ 국가가 모든 임금을 직접 책정해야 하기 때문에</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ③. 진츠하이머는 물건과 달리 노동력은 인간 인격과 분리될 수 없으므로 필연적으로 권력 복종 관계가 생긴다고 보았습니다.</div>
+    </div>
+    <div class="q" data-ans="1">
+      <fieldset><legend>2. 바이마르 헌법 제165조와 관련된 진츠하이머의 핵심 구상은?</legend>
+        <button type="button" data-i="0">① 사기업의 완전한 국유화</button>
+        <button type="button" data-i="1">② 노동자의 집단적 자치와 경영 참여를 통한 경제민주주의 (노동헌법)</button>
+        <button type="button" data-i="2">③ 단체교섭권의 전면적 폐지</button>
+        <button type="button" data-i="3">④ 민법상의 계약자유 원칙으로의 회귀</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ②. 진츠하이머는 단체협약과 노동자평의회를 통해 경제 영역에서도 민주주의를 구현하는 노동헌법을 구상했습니다.</div>
+    </div>
+    <div class="q" data-ans="0">
+      <fieldset><legend>3. 독일 판례가 종속성 개념을 '인격적 종속'으로 축소하면서 발생한 결과는?</legend>
+        <button type="button" data-i="0">① 경제적으로 의존하지만 작업 지시가 덜한 노무자들이 근로자 범위에서 배제됨</button>
+        <button type="button" data-i="1">② 모든 자영업자가 근로기준법상 근로자로 인정됨</button>
+        <button type="button" data-i="2">③ 노동조합의 단체행동권이 완전히 박탈됨</button>
+        <button type="button" data-i="3">④ 로마법의 노무 임대차가 폐지됨</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ①. 인격적 종속으로 좁힘으로써 경제적 종속만 있는 자는 유사근로자라는 예외적 범주로 밀려나 온전한 노동법 보호를 받지 못하게 되었습니다.</div>
+    </div>
+    <div class="q" data-ans="3">
+      <fieldset><legend>4. 한국 대법원(2006다78720)의 근로자성 판단 기준에 대한 설명으로 옳은 것은?</legend>
+        <button type="button" data-i="0">① 기본급이나 고정급이 정해져 있지 않으면 근로자성을 무조건 부정한다.</button>
+        <button type="button" data-i="1">② 4대 보험에 가입되어 있지 않으면 근로자로 볼 수 없다.</button>
+        <button type="button" data-i="2">③ 계약서의 형식적 명칭(도급·위임)이 실질 노무 관계보다 우선한다.</button>
+        <button type="button" data-i="3">④ 계약 형식과 무관하게 실질에 있어 사용종속관계가 있는지 여러 요소를 종합 판단한다.</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ③은 틀리고 ④가 맞습니다. 법원은 형식보다 실질을 중시하며, 기본급 유무 등은 사용자가 우월한 지위에서 임의로 정하기 쉬워 부수적 사정으로 봅니다.</div>
+    </div>
+    <div class="q" data-ans="1">
+      <fieldset><legend>5. 플랫폼 노동에서 '타인결정성' 개념이 등장하게 된 직접적 배경은?</legend>
+        <button type="button" data-i="0">① 플랫폼 기업들이 노동자들에게 전속적 출퇴근 명령을 내리기 시작해서</button>
+        <button type="button" data-i="1">② 인간 상사의 직접 지시가 없더라도 알고리즘이 배차·단가·제재를 일방 결정하기 때문</button>
+        <button type="button" data-i="2">③ 플랫폼 노동자들의 소득이 정규직보다 월등히 높아져서</button>
+        <button type="button" data-i="3">④ 전 세계 법원이 플랫폼 노동을 완전한 자영업으로 판결했기 때문</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ②. 직접 지휘감독 표지로는 포착하기 힘든 알고리즘적 통제와 일방적 조건 결정을 진츠하이머식 '타인의 처분권'으로 재해석한 것입니다.</div>
+    </div>
+    <p class="score" id="score" aria-live="polite">점수: 0 / 5</p>
+    <div class="rv-tools"><button type="button" id="qreset">다시 풀기</button></div>
+  </div>
+</section>
+</main>
+</div>
+
+<script>(function(){
+function $$(q){return [].slice.call(document.querySelectorAll(q))}
+$$(".flip").forEach(function(b){b.onclick=function(){b.setAttribute("aria-expanded",b.getAttribute("aria-expanded")==="true"?"false":"true")}});
+function show(b){b.textContent=b.dataset.a;b.classList.add("shown");b.setAttribute("aria-label","답: "+b.dataset.a)}
+function hide(b){b.textContent="???";b.classList.remove("shown");b.setAttribute("aria-label","빈칸")}
+$$(".blank").forEach(function(b){b.onclick=function(){if(b.classList.contains("shown")){hide(b)}else{show(b)}}});
+var cs=document.getElementById("cshow"),ch=document.getElementById("chide");
+if(cs)cs.onclick=function(){$$(".blank").forEach(show)};
+if(ch)ch.onclick=function(){$$(".blank").forEach(hide)};
+var scoreEl=document.getElementById("score");
+var totalQ=$$("#quiz .q").length;
+function updateScore(){var r=$$("#quiz .q button.right").length;if(scoreEl)scoreEl.textContent="점수: "+r+" / "+totalQ}
+$$("#quiz .q").forEach(function(q){
+  var ans=parseInt(q.dataset.ans,10);
+  var btns=$$(q.querySelectorAll("button"));
+  btns.forEach(function(b,i){
+    b.onclick=function(){
+      btns.forEach(function(x){x.disabled=true});
+      if(i===ans){b.classList.add("right")}else{
+        b.classList.add("wrong");
+        if(btns[ans])btns[ans].classList.add("right");
+      }
+      var ex=q.querySelector(".ex");
+      if(ex)ex.style.display="block";
+      updateScore();
+    };
+  });
+});
+var qr=document.getElementById("qreset");
+if(qr)qr.onclick=function(){
+  $$("#quiz .q").forEach(function(q){
+    $$(q.querySelectorAll("button")).forEach(function(b){
+      b.disabled=false;
+      b.classList.remove("right","wrong");
+    });
+    var ex=q.querySelector(".ex");
+    if(ex)ex.style.display="none";
+  });
+  if(scoreEl)scoreEl.textContent="점수: 0 / "+totalQ;
+};
+})();</script>
+
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">요약 아카이브</div><div class="arc-foot-title">휴고 진츠하이머와 종속성 개념의 계보 핵심 요약</div><div class="arc-foot-meta"><time datetime="2026-10-26">2026년 10월 26일</time><a class="arc-tag" href="../index.html#tags=%EB%85%B8%EB%8F%99%EB%B2%95">#노동법</a><a class="arc-tag" href="../index.html#tags=%EB%85%B8%EB%8F%99%EB%B2%95%EC%82%AC">#노동법사</a><a class="arc-tag" href="../index.html#tags=%EC%A2%85%EC%86%8D%EC%84%B1">#종속성</a><a class="arc-tag" href="../index.html#tags=%EB%8F%85%EC%9D%BC%EB%85%B8%EB%8F%99%EB%B2%95">#독일노동법</a><a class="arc-tag" href="../index.html#tags=%EC%9A%94%EC%95%BD">#요약</a> · <a href="https://yghnsim.github.io/Pages/articles/sinzheimer_subordination_genealogy.html" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body>
+</html>

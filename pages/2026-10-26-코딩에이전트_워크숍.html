@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>코딩 에이전트 직접 만들기 워크숍 핵심 요약: 300줄 루프와 도구 호출</title>
+<meta name="description" content="Go 언어로 작성하는 300줄 코딩 에이전트 루프, 도구 호출(Tool Use), 대화 컨텍스트 관리와 롤백 전략 핵심 요약">
+<style>
+:root{
+  --bg:#faf8f3; --paper-c:#ffffff; --ink:#1f2328; --muted:#5b6470; --line:#e6e1d6;
+  --accent:#c8553d; --accent-soft:#fbeee9; --link:#4a6b8a;
+  --new:#3d5f80; --new-soft:#eaf0f6;
+  --radius:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR","Malgun Gothic",system-ui,sans-serif;
+  font-size:17px;line-height:1.75;word-break:keep-all;overflow-wrap:break-word}
+@media(max-width:640px){body{font-size:16px}}
+a{color:var(--link);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+.hero-cta{margin-top:16px}
+.hero-cta a{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--new);color:#fff!important;border-radius:10px;font-weight:700;font-size:14px;text-decoration:none!important}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:12px 0}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:15px}
+.tbl th,.tbl td{border:1px solid var(--line);padding:9px 12px;text-align:left}
+.tbl th{background:var(--new-soft);color:var(--new);font-weight:700}
+.tbl td{background:#fff}
+.terms{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:10px;border-top:1px dashed var(--line)}
+.term{display:inline-flex;align-items:center;gap:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:600;padding:3px 9px;border-radius:8px}
+.rv-h{font-size:19px;margin:22px 0 6px}
+.flips{display:grid;grid-template-columns:1fr;gap:8px;margin:10px 0}
+@media(min-width:640px){.flips{grid-template-columns:1fr 1fr}}
+.flip{font:inherit;text-align:left;width:100%;border:1.5px solid var(--line,#e6e1d6);background:#fdfcf9;border-radius:12px;padding:10px 14px;cursor:pointer;color:var(--ink,#1f2328);min-height:64px}
+.flip b{display:block;font-size:17px}
+.flip .m{display:none;font-size:16px;line-height:1.6;margin-top:4px}
+.flip .hint{font-size:13px;color:var(--muted,#5b6470)}
+.flip[aria-expanded="true"]{border-color:var(--new,#3d5f80);background:var(--new-soft,#eaf0f6)}
+.flip[aria-expanded="true"] .m{display:block}
+.flip[aria-expanded="true"] .hint{display:none}
+.cloze{list-style:none;margin:10px 0;padding:0}
+.cloze li{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:10px 14px;margin:8px 0;background:#fdfcf9;font-size:16px;line-height:1.8}
+.blank{font:inherit;font-size:16px;border:0;border-bottom:2px dashed var(--accent,#c8553d);background:var(--accent-soft,#fbeee9);color:var(--accent,#c8553d);border-radius:6px 6px 0 0;padding:0 8px;cursor:pointer;min-width:4.5em}
+.blank.shown{border-bottom-style:solid;background:var(--new-soft,#eaf0f6);color:var(--new,#3d5f80);font-weight:700}
+.rv-tools{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.rv-tools button{font:inherit;font-size:15px;border:1px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link,#4a6b8a)}
+.q{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:12px 14px;margin:10px 0;background:#fdfcf9}
+.q fieldset{border:0;margin:0;padding:0}
+.q legend{font-weight:700;padding:0;margin:0 0 8px;font-size:16.5px}
+.q button{display:block;width:100%;text-align:left;font:inherit;font-size:16px;border:1.5px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:8px 12px;margin:6px 0;cursor:pointer;color:var(--ink,#1f2328)}
+.q button.right{border-color:#2f6b45;background:#e6f1ea}
+.q button.wrong{border-color:#a2452f;background:#fbeee9}
+.q button[disabled]{cursor:default;opacity:1}
+.q .ex{margin:8px 0 0;font-size:16px;padding:8px 10px;border-radius:8px;background:var(--new-soft,#eaf0f6)}
+.score{font-size:17px;font-weight:800;margin:10px 0 0}
+</style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
+</head>
+<body>
+<!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="요약 아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>요약 아카이브</a><span class="arc-crumb">코딩 에이전트 직접 만들기 워크숍 핵심 요약: 300줄 루프와 도구 호출</span><span class="arc-meta"><time datetime="2026-10-26">2026년 10월 26일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99">#컴퓨터과학</a><a class="arc-tag" href="../index.html#tags=%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8">#에이전트</a><a class="arc-tag" href="../index.html#tags=Go">#Go</a><a class="arc-tag" href="../index.html#tags=%ED%8A%9C%ED%86%A0%EB%A6%AC%EC%96%BC">#튜토리얼</a><a class="arc-src" href="https://yghnsim.github.io/Pages/articles/build_a_coding_agent_workshop.html" rel="noopener">원문 ↗</a></span></div></div>
+<!-- archive-header:end -->
+<div class="wrap">
+<header class="hero">
+  <h1>코딩 에이전트 직접 만들기 워크숍 핵심 요약</h1>
+  <p class="lead">프레임워크 없이 이해하는 에이전트의 밑바닥: 300줄 Go 루프, 도구 호출 스키마, 샌드박스와 컨텍스트 롤백</p>
+  <div class="hero-cta">
+    <a href="https://yghnsim.github.io/Pages/articles/build_a_coding_agent_workshop.html">Pages 심층 원문 읽기 ↗</a>
+  </div>
+</header>
+
+<nav class="toc">
+  <ol>
+    <li><a href="#s0"><span class="n">01</span> 한눈에 보기 (예습 브리프)</a></li>
+    <li><a href="#s1"><span class="n">02</span> 에이전트의 본질: ReAct 루프의 300줄 실체</a></li>
+    <li><a href="#s2"><span class="n">03</span> 도구 호출(Tool Use)과 JSON Schema 바인딩</a></li>
+    <li><a href="#s3"><span class="n">04</span> 안전한 환경: 샌드박스 실행과 파일 시스템 롤백</a></li>
+    <li><a href="#s4"><span class="n">05</span> 컨텍스트 윈도우 관리와 히스토리 압축</a></li>
+    <li><a href="#rv"><span class="n">✔</span> 복습 및 퀴즈</a></li>
+  </ol>
+</nav>
+
+<main>
+<section class="sec" id="s0">
+  <h2>01. 한눈에 보기 (예습 브리프)</h2>
+  <div class="card">
+    <p><strong>핵심 테제</strong>: LangChain이나 AutoGen 같은 복잡한 프레임워크 뒤에 숨겨진 코딩 에이전트의 본질은 사실 <strong>300줄 남짓의 무한 루프(While Loop)</strong>에 불과합니다. 모델에게 시스템 프롬프트와 도구 목록(JSON Schema)을 전달하고, 모델의 도구 호출 응답을 가로채 로컬에서 실행(파일 읽기/쓰기, 셸 실행)한 뒤, 그 결과를 다시 대화 메시지에 주입하여 다음 행동을 묻는 사이클입니다.</p>
+  </div>
+  <table class="tbl">
+    <thead><tr><th>단계</th><th>작업 내용</th><th>핵심 엔지니어링 고려 사항</th></tr></thead>
+    <tbody>
+      <tr><td>1. 프롬프트 & 스키마</td><td>작업 지시와 도구 명세(JSON Schema) 정의</td><td>도구 설명문의 명확성, 모델의 함수 호출 정확도 좌우</td></tr>
+      <tr><td>2. 모델 호출</td><td>대화 히스토리를 전달하여 LLM 응답 수신</td><td>도구 호출(tool_calls) 발생 여부 분기 판정</td></tr>
+      <tr><td>3. 로컬 도구 디스패치</td><td>명령 실행(bash), 파일 조작(read/write)</td><td>샌드박스 격리, 타임아웃, 위험 명령어 필터링</td></tr>
+      <tr><td>4. 결과 주입 및 루프</td><td>실행 stdout/stderr를 Tool 메시지로 추가 후 재호출</td><td>컨텍스트 토큰 초과 방지, 반복 루프 감지</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="sec" id="s1">
+  <h2>02. 에이전트의 본질: ReAct 루프의 실체</h2>
+  <div class="card">
+    <p>에이전트 루프의 뼈대는 <strong>ReAct (Reasoning + Acting)</strong>입니다: ① 추론(생각) → ② 행동(도구 선택 및 인자 생성) → ③ 관찰(도구 실행 결과 수신). 종료 조건은 모델이 더 이상 도구 호출을 생성하지 않고 일반 텍스트 답변을 반환하거나, 사전에 정의된 최대 반복 횟수(예: 30회)에 도달하는 것입니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">ReAct 패턴</span>
+    <span class="term">에이전트 루프</span>
+    <span class="term">종료 조건</span>
+    <span class="term">무한 루프 방지</span>
+  </div>
+</section>
+
+<section class="sec" id="s2">
+  <h2>03. 도구 호출(Tool Use)과 JSON Schema</h2>
+  <div class="card">
+    <p>코딩 에이전트가 갖추어야 할 4대 필수 도구는 <code>read_file</code>, <code>write_file</code>, <code>list_dir</code>, <code>execute_command</code>입니다. 도구 인자는 정형화된 JSON Schema로 선언되며, 모델은 이 스키마에 맞춰 정확한 키와 타입을 반환해야 합니다. 파싱 실패 시 모델에게 에러 메시지를 돌려주어 스스로 교정(Self-Correction)하게 유도합니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">JSON Schema</span>
+    <span class="term">함수 호출 (Function Calling)</span>
+    <span class="term">자가 교정 (Self-Correction)</span>
+    <span class="term">4대 필수 도구</span>
+  </div>
+</section>
+
+<section class="sec" id="s3">
+  <h2>04. 안전한 환경: 샌드박스와 롤백 전략</h2>
+  <div class="card">
+    <p>에이전트가 위험한 명령어(<code>rm -rf /</code> 등)를 실행하거나 네트워크 포트를 여는 것을 막기 위해 컨테이너 격리나 Linux seccomp 샌드박스를 적용합니다. 또한 잘못된 코드를 수정했을 때 원래 상태로 복원할 수 있도록 Git 기반의 워크트리 스냅샷이나 커밋 롤백 메커니즘을 내장해야 합니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">샌드박스 격리</span>
+    <span class="term">위험 명령어 필터링</span>
+    <span class="term">Git 스냅샷 롤백</span>
+    <span class="term">작업 디렉터리 한정</span>
+  </div>
+</section>
+
+<section class="sec" id="s4">
+  <h2>05. 컨텍스트 윈도우 관리와 히스토리 압축</h2>
+  <div class="card">
+    <p>파일 수십 개를 읽고 빌드 로그 수천 줄이 누적되면 LLM의 컨텍스트 한도를 초과합니다. 워크숍 코드는 대화 히스토리가 임계치에 도달했을 때, 오래된 도구 실행 결과(출력 로그)를 요약문으로 치환하거나 슬라이딩 윈도우 방식으로 오래된 중간 단계를 압축하여 성능 저하를 방지합니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">컨텍스트 윈도우 임계치</span>
+    <span class="term">대화 요약 (Summarization)</span>
+    <span class="term">슬라이딩 윈도우</span>
+    <span class="term">비용 최적화</span>
+  </div>
+</section>
+
+<section class="sec" id="rv">
+  <h2>복습 및 퀴즈</h2>
+  <h3 class="rv-h">핵심 개념 플래시카드</h3>
+  <p class="hint">카드를 누르면 숨겨진 해설이 나타납니다.</p>
+  <div class="flips">
+    <button type="button" class="flip" aria-expanded="false"><b>ReAct 패턴</b><span class="hint">클릭하여 확인</span><span class="m">LLM이 추론(Reason)과 행동(Action), 관찰(Observation)을 번갈아 수행하며 복잡한 문제를 해결해 나가는 기본 패러다임.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>도구 호출 (Tool Calling)</b><span class="hint">클릭하여 확인</span><span class="m">LLM이 직접 코드를 실행하지 않고, 실행할 도구 이름과 JSON 인자를 정형화된 규격으로 출력하여 호스트 애플리케이션에 위임하는 기능.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>에이전트 루프 (Agent Loop)</b><span class="hint">클릭하여 확인</span><span class="m">모델 호출 → 도구 실행 → 결과 수신 → 재호출을 목표가 완수될 때까지 반복하는 핵심 제어 루프.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>샌드박스 (Sandbox)</b><span class="hint">클릭하여 확인</span><span class="m">에이전트가 실행하는 명령어가 호스트 시스템을 파괴하거나 유출하지 못하도록 파일 시스템과 네트워크를 격리한 안전 구역.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>자가 교정 (Self-Correction)</b><span class="hint">클릭하여 확인</span><span class="m">도구 호출 인자가 잘못되었거나 컴파일 에러가 났을 때, 에러 로그를 피드백으로 받아 에이전트가 다음 루프에서 코드를 고치는 동작.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>컨텍스트 압축</b><span class="hint">클릭하여 확인</span><span class="m">누적된 빌드 로그나 이전 파일 내용 중 중요하지 않은 부분을 요약하거나 잘라내어 토큰 한도를 보존하는 기법.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>JSON Schema</b><span class="hint">클릭하여 확인</span><span class="m">도구의 매개변수 타입, 필수 여부, 설명문을 명시하여 모델이 올바른 인자 구조를 생성하도록 강제하는 표준 명세.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>스냅샷 롤백</b><span class="hint">클릭하여 확인</span><span class="m">에이전트가 잘못된 파일 수정을 연쇄적으로 일으켰을 때 이전 정상 커밋이나 상태로 되돌리는 안전장치.</span></button>
+  </div>
+
+  <h3 class="rv-h">빈칸 채우기</h3>
+  <ul class="cloze">
+    <li>추론과 행동, 관찰을 번갈아 수행하는 에이전트 패턴을 <button type="button" class="blank" data-a="ReAct" aria-label="빈칸">???</button> 패턴이라 한다.</li>
+    <li>도구 매개변수의 형식과 설명을 규정하는 표준 명세는 <button type="button" class="blank" data-a="JSON Schema" aria-label="빈칸">???</button>이다.</li>
+    <li>에이전트가 실행하는 프로세스를 호스트와 격리하는 안전 환경을 <button type="button" class="blank" data-a="샌드박스" aria-label="빈칸">???</button>라 부른다.</li>
+    <li>컴파일 에러가 발생했을 때 에이전트가 스스로 실수를 바로잡는 과정을 <button type="button" class="blank" data-a="자가 교정" aria-label="빈칸">???</button>(Self-Correction)이라 한다.</li>
+    <li>토큰 한도 초과를 막기 위해 이전 도구 실행 결과를 간추리는 기법을 컨텍스트 <button type="button" class="blank" data-a="압축" aria-label="빈칸">???</button>(요약)이라 한다.</li>
+    <li>에이전트 루프의 종료 조건은 모델이 더 이상 <button type="button" class="blank" data-a="도구 호출" aria-label="빈칸">???</button>을 요청하지 않고 답변을 낼 때이다.</li>
+  </ul>
+  <div class="rv-tools">
+    <button type="button" id="cshow">정답 모두 보기</button>
+    <button type="button" id="chide">다시 가리기</button>
+  </div>
+
+  <h3 class="rv-h">5문항 퀴즈</h3>
+  <div id="quiz">
+    <div class="q" data-ans="1">
+      <fieldset><legend>1. 프레임워크 없는 코딩 에이전트의 핵심 아키텍처를 가장 정확히 설명한 것은?</legend>
+        <button type="button" data-i="0">① 수천 개의 파이썬 클래스가 상속된 거대한 분산 클러스터</button>
+        <button type="button" data-i="1">② LLM 호출, 도구 실행, 결과 피드백을 반복하는 300줄 내외의 제어 루프</button>
+        <button type="button" data-i="2">③ GPU 칩셋을 직접 조작하는 C 언어 드라이버</button>
+        <button type="button" data-i="3">④ 사용자의 음성을 텍스트로 변환하는 오디오 필터</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ②. 에이전트의 실체는 LLM의 함수 호출 응답을 로컬에서 실행하고 되돌려주는 단순한 루프입니다.</div>
+    </div>
+    <div class="q" data-ans="2">
+      <fieldset><legend>2. 코딩 에이전트에게 '도구 호출(Tool Use)'이 필수적인 근본 이유는?</legend>
+        <button type="button" data-i="0">① LLM이 스스로 컴퓨터 CPU를 제어할 수 없기 때문에</button>
+        <button type="button" data-i="1">② 그래픽카드의 전력을 절약하기 위해</button>
+        <button type="button" data-i="2">③ LLM 자체는 파일 시스템이나 외부 셸에 접근할 수 없는 텍스트 생성기이므로, 실제 파일 읽기/수정을 위해 호스트 환경과 상호작용해야 하기 때문</button>
+        <button type="button" data-i="3">④ 인터넷 브라우저를 띄우지 못하게 막기 위해</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ③. LLM은 환경 격리된 언어 모델이므로 실제 디스크와 통신하기 위해 도구 호출 추상화가 필요합니다.</div>
+    </div>
+    <div class="q" data-ans="0">
+      <fieldset><legend>3. 도구 실행 시 '샌드박스 격리'가 부재할 경우 발생하는 가장 위험한 사고는?</legend>
+        <button type="button" data-i="0">① 에이전트가 호스트 루트 디렉터리를 삭제(rm -rf /)하거나 민감한 환경변수·키를 외부로 전송</button>
+        <button type="button" data-i="1">② 모니터 화면의 글꼴이 변경됨</button>
+        <button type="button" data-i="2">③ 마우스 커서의 반응 속도가 약간 느려짐</button>
+        <button type="button" data-i="3">④ 컴파일 시간이 1초 지연됨</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ①. 신뢰할 수 없는 모델 명령을 호스트 권한으로 직접 실행하면 파괴적 재앙이 일어납니다.</div>
+    </div>
+    <div class="q" data-ans="3">
+      <fieldset><legend>4. 에이전트 루프가 무한히 도는 '무한 루프(Infinite Loop)'를 방지하는 표준 기법은?</legend>
+        <button type="button" data-i="0">① 컴퓨터 전원 코드를 뽑는다.</button>
+        <button type="button" data-i="1">② 모델에게 루프를 돌지 말라고 기도한다.</button>
+        <button type="button" data-i="2">③ 프롬프트 길이를 1자로 제한한다.</button>
+        <button type="button" data-i="3">④ 최대 루프 횟수(Max Iterations) 설정 및 동일 도구 반복 호출 감지</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ④. 고정된 반복 한도 카운터와 타임아웃을 설정하여 자원 낭비와 폭주를 차단합니다.</div>
+    </div>
+    <div class="q" data-ans="1">
+      <fieldset><legend>5. 도구 실행 결과로 수만 줄의 빌드 로그가 나왔을 때 에이전트 시스템이 취해야 할 조치는?</legend>
+        <button type="button" data-i="0">① 로그 전체를 무조건 10번 복사해서 붙여넣는다.</button>
+        <button type="button" data-i="1">② 에러가 발생한 마지막 수십 줄만 자르거나(Truncation), 요약 모델을 통해 압축하여 주입한다.</button>
+        <button type="button" data-i="2">③ 즉시 에이전트 소스 코드를 삭제한다.</button>
+        <button type="button" data-i="3">④ 로그를 음성 파일로 변환하여 재생한다.</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ②. 컨텍스트 윈도우 폭증을 막고 핵심 디버깅 정보만 모델에 전달하기 위해 트렁케이션 및 요약이 필수입니다.</div>
+    </div>
+    <p class="score" id="score" aria-live="polite">점수: 0 / 5</p>
+    <div class="rv-tools"><button type="button" id="qreset">다시 풀기</button></div>
+  </div>
+</section>
+</main>
+</div>
+
+<script>(function(){
+function $$(q){return [].slice.call(document.querySelectorAll(q))}
+$$(".flip").forEach(function(b){b.onclick=function(){b.setAttribute("aria-expanded",b.getAttribute("aria-expanded")==="true"?"false":"true")}});
+function show(b){b.textContent=b.dataset.a;b.classList.add("shown");b.setAttribute("aria-label","답: "+b.dataset.a)}
+function hide(b){b.textContent="???";b.classList.remove("shown");b.setAttribute("aria-label","빈칸")}
+$$(".blank").forEach(function(b){b.onclick=function(){if(b.classList.contains("shown")){hide(b)}else{show(b)}}});
+var cs=document.getElementById("cshow"),ch=document.getElementById("chide");
+if(cs)cs.onclick=function(){$$(".blank").forEach(show)};
+if(ch)ch.onclick=function(){$$(".blank").forEach(hide)};
+var scoreEl=document.getElementById("score");
+var totalQ=$$("#quiz .q").length;
+function updateScore(){var r=$$("#quiz .q button.right").length;if(scoreEl)scoreEl.textContent="점수: "+r+" / "+totalQ}
+$$("#quiz .q").forEach(function(q){
+  var ans=parseInt(q.dataset.ans,10);
+  var btns=$$(q.querySelectorAll("button"));
+  btns.forEach(function(b,i){
+    b.onclick=function(){
+      btns.forEach(function(x){x.disabled=true});
+      if(i===ans){b.classList.add("right")}else{
+        b.classList.add("wrong");
+        if(btns[ans])btns[ans].classList.add("right");
+      }
+      var ex=q.querySelector(".ex");
+      if(ex)ex.style.display="block";
+      updateScore();
+    };
+  });
+});
+var qr=document.getElementById("qreset");
+if(qr)qr.onclick=function(){
+  $$("#quiz .q").forEach(function(q){
+    $$(q.querySelectorAll("button")).forEach(function(b){
+      b.disabled=false;
+      b.classList.remove("right","wrong");
+    });
+    var ex=q.querySelector(".ex");
+    if(ex)ex.style.display="none";
+  });
+  if(scoreEl)scoreEl.textContent="점수: 0 / "+totalQ;
+};
+})();</script>
+
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">요약 아카이브</div><div class="arc-foot-title">코딩 에이전트 직접 만들기 워크숍 핵심 요약: 300줄 루프와 도구 호출</div><div class="arc-foot-meta"><time datetime="2026-10-26">2026년 10월 26일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99">#컴퓨터과학</a><a class="arc-tag" href="../index.html#tags=%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8">#에이전트</a><a class="arc-tag" href="../index.html#tags=Go">#Go</a><a class="arc-tag" href="../index.html#tags=%ED%8A%9C%ED%86%A0%EB%A6%AC%EC%96%BC">#튜토리얼</a> · <a href="https://yghnsim.github.io/Pages/articles/build_a_coding_agent_workshop.html" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body>
+</html>

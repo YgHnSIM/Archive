@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>미국과 독일 노동법의 기능적 비교 핵심 요약: 같은 해고, 정반대의 법</title>
+<meta name="description" content="임의고용 대 해고보호법, 배타적 교섭 대 공동결정·사업장평의회, 오케스트라형 규범과 재즈밴드형 자율의 비교 노동법 핵심 요약">
+<style>
+:root{
+  --bg:#faf8f3; --paper-c:#ffffff; --ink:#1f2328; --muted:#5b6470; --line:#e6e1d6;
+  --accent:#c8553d; --accent-soft:#fbeee9; --link:#4a6b8a;
+  --new:#3d5f80; --new-soft:#eaf0f6;
+  --radius:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR","Malgun Gothic",system-ui,sans-serif;
+  font-size:17px;line-height:1.75;word-break:keep-all;overflow-wrap:break-word}
+@media(max-width:640px){body{font-size:16px}}
+a{color:var(--link);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+.hero-cta{margin-top:16px}
+.hero-cta a{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--new);color:#fff!important;border-radius:10px;font-weight:700;font-size:14px;text-decoration:none!important}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:12px 0}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:15px}
+.tbl th,.tbl td{border:1px solid var(--line);padding:9px 12px;text-align:left}
+.tbl th{background:var(--new-soft);color:var(--new);font-weight:700}
+.tbl td{background:#fff}
+.terms{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:10px;border-top:1px dashed var(--line)}
+.term{display:inline-flex;align-items:center;gap:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:600;padding:3px 9px;border-radius:8px}
+.rv-h{font-size:19px;margin:22px 0 6px}
+.flips{display:grid;grid-template-columns:1fr;gap:8px;margin:10px 0}
+@media(min-width:640px){.flips{grid-template-columns:1fr 1fr}}
+.flip{font:inherit;text-align:left;width:100%;border:1.5px solid var(--line,#e6e1d6);background:#fdfcf9;border-radius:12px;padding:10px 14px;cursor:pointer;color:var(--ink,#1f2328);min-height:64px}
+.flip b{display:block;font-size:17px}
+.flip .m{display:none;font-size:16px;line-height:1.6;margin-top:4px}
+.flip .hint{font-size:13px;color:var(--muted,#5b6470)}
+.flip[aria-expanded="true"]{border-color:var(--new,#3d5f80);background:var(--new-soft,#eaf0f6)}
+.flip[aria-expanded="true"] .m{display:block}
+.flip[aria-expanded="true"] .hint{display:none}
+.cloze{list-style:none;margin:10px 0;padding:0}
+.cloze li{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:10px 14px;margin:8px 0;background:#fdfcf9;font-size:16px;line-height:1.8}
+.blank{font:inherit;font-size:16px;border:0;border-bottom:2px dashed var(--accent,#c8553d);background:var(--accent-soft,#fbeee9);color:var(--accent,#c8553d);border-radius:6px 6px 0 0;padding:0 8px;cursor:pointer;min-width:4.5em}
+.blank.shown{border-bottom-style:solid;background:var(--new-soft,#eaf0f6);color:var(--new,#3d5f80);font-weight:700}
+.rv-tools{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.rv-tools button{font:inherit;font-size:15px;border:1px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link,#4a6b8a)}
+.q{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:12px 14px;margin:10px 0;background:#fdfcf9}
+.q fieldset{border:0;margin:0;padding:0}
+.q legend{font-weight:700;padding:0;margin:0 0 8px;font-size:16.5px}
+.q button{display:block;width:100%;text-align:left;font:inherit;font-size:16px;border:1.5px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:8px 12px;margin:6px 0;cursor:pointer;color:var(--ink,#1f2328)}
+.q button.right{border-color:#2f6b45;background:#e6f1ea}
+.q button.wrong{border-color:#a2452f;background:#fbeee9}
+.q button[disabled]{cursor:default;opacity:1}
+.q .ex{margin:8px 0 0;font-size:16px;padding:8px 10px;border-radius:8px;background:var(--new-soft,#eaf0f6)}
+.score{font-size:17px;font-weight:800;margin:10px 0 0}
+</style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
+</head>
+<body>
+<!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="요약 아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>요약 아카이브</a><span class="arc-crumb">미국과 독일 노동법의 기능적 비교 핵심 요약: 같은 해고, 정반대의 법</span><span class="arc-meta"><time datetime="2026-10-26">2026년 10월 26일</time><a class="arc-tag" href="../index.html#tags=%EB%85%B8%EB%8F%99%EB%B2%95">#노동법</a><a class="arc-tag" href="../index.html#tags=%EB%B9%84%EA%B5%90%EB%85%B8%EB%8F%99%EB%B2%95">#비교노동법</a><a class="arc-tag" href="../index.html#tags=%EB%8F%85%EC%9D%BC%EB%85%B8%EB%8F%99%EB%B2%95">#독일노동법</a><a class="arc-tag" href="../index.html#tags=%EB%AF%B8%EA%B5%AD%EB%85%B8%EB%8F%99%EB%B2%95">#미국노동법</a><a class="arc-tag" href="../index.html#tags=%EC%9A%94%EC%95%BD">#요약</a><a class="arc-src" href="https://yghnsim.github.io/Pages/articles/us_germany_labor_law_comparison.html" rel="noopener">원문 ↗</a></span></div></div>
+<!-- archive-header:end -->
+<div class="wrap">
+<header class="hero">
+  <h1>미국과 독일 노동법의 기능적 비교 핵심 요약</h1>
+  <p class="lead">같은 해고, 정반대의 법: 임의고용(Employment-at-will)과 해고보호법(KSchG), 배타적 교섭과 이원적 노사협력의 구조 비교</p>
+  <div class="hero-cta">
+    <a href="https://yghnsim.github.io/Pages/articles/us_germany_labor_law_comparison.html">Pages 심층 원문 읽기 ↗</a>
+  </div>
+</header>
+
+<nav class="toc">
+  <ol>
+    <li><a href="#s0"><span class="n">01</span> 한눈에 보기 (예습 브리프)</a></li>
+    <li><a href="#s1"><span class="n">02</span> 해고 법제: 임의고용 vs 해고보호법(KSchG)</a></li>
+    <li><a href="#s2"><span class="n">03</span> 집단적 노사관계: 배타적 교섭 vs 이원적 공동결정제</a></li>
+    <li><a href="#s3"><span class="n">04</span> 근로시간과 휴가: 법정보장 vs 시장 계약</a></li>
+    <li><a href="#s4"><span class="n">05</span> 플랫폼 노동과 오분류 대응 비교</a></li>
+    <li><a href="#rv"><span class="n">✔</span> 복습 및 퀴즈</a></li>
+  </ol>
+</nav>
+
+<main>
+<section class="sec" id="s0">
+  <h2>01. 한눈에 보기 (예습 브리프)</h2>
+  <div class="card">
+    <p><strong>핵심 테제</strong>: 출근했더니 책상 위에 종이 상자가 놓여 있고 이유 없이 해고 통보를 받는 상황. 미국에서는 대개 <strong>합법(임의고용 원칙)</strong>이지만, 독일에서는 대개 <strong>무효(해고보호법상 사회적 정당성 요건)</strong>입니다. 독일은 국가 법률과 산별노조·사업장평의회가 촘촘한 악보를 써주는 '클래식 오케스트라'라면, 미국은 연방이 최소 리듬만 깔고 개별 계약과 사법 소송이 변주하는 '재즈밴드' 구조를 취합니다.</p>
+  </div>
+  <table class="tbl">
+    <thead><tr><th>비교 영역</th><th>미국 (재즈밴드형 자율·사후소송)</th><th>독일 (오케스트라형 법정·사전협의)</th></tr></thead>
+    <tbody>
+      <tr><td>해고 원칙</td><td>임의고용 (Employment-at-will, 이유 불요)</td><td>해고보호법 (사회적 정당성 필수: 긴급한 경영상·인적·행태상)</td></tr>
+      <tr><td>해고 예외/통제</td><td>차별금지법 위반, 공공정책 예외 (사후 입증책임 원고)</td><td>사업장평의회 사전 청문 필수, 사회적 고려(Sozialauswahl) 심사</td></tr>
+      <tr><td>노사관계 구조</td><td>NLRA 배타적 교섭대표제 (사업장 단위 노조)</td><td>이원적 구조: 산별 단체협약 + 사업장평의회(공동결정)</td></tr>
+      <tr><td>유급휴가 보장</td><td>연방법상 0일 (완전 계약 자유)</td><td>연방휴가법상 연 최소 20~24일 법정보장</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="sec" id="s1">
+  <h2>02. 해고 법제: 임의고용 vs 해고보호법(KSchG)</h2>
+  <div class="card">
+    <p>미국의 <strong>임의고용(Employment-at-will)</strong>은 명시적 계약이 없는 한 사용자나 노동자 누구나 언제든 정당한 이유 없이 계약을 해지할 수 있는 원칙입니다. 몬태나주를 제외한 49개 주가 채택하며, 인종·성별·장애 차별 등 법률상 금지사유가 아닌 한 해고는 유효합니다. 반면 독일은 근로자 10인 초과 사업장에서 6개월 이상 근속한 자에게 <strong>해고보호법(KSchG)</strong>이 적용되며, 해고 전 사업장평의회 사전 청문을 거쳐야 하고, 사회적 정당성(경영상 이유 시 근속연수·부양가족 등을 따지는 '사회적 선발')을 엄격히 입증해야 합니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">임의고용 (Employment-at-will)</span>
+    <span class="term">해고보호법 (KSchG)</span>
+    <span class="term">사회적 정당성</span>
+    <span class="term">사회적 선발 (Sozialauswahl)</span>
+  </div>
+</section>
+
+<section class="sec" id="s2">
+  <h2>03. 집단적 노사관계: 배타적 교섭 vs 이원적 공동결정제</h2>
+  <div class="card">
+    <p>미국 전국노동관계법(NLRA)은 과반수 지지를 얻은 단일 노조가 교섭단위 전체를 대표하는 <strong>배타적 교섭대표제(Exclusive Representation)</strong>를 운영합니다. 노조가 없는 사업장에서는 노동자 대표 기구가 존재하지 않습니다. 반면 독일은 노동조합이 산별 단위로 사용자동맹과 임금 단체협약을 맺고, 사업장 단위에서는 노조 가입 여부와 무관하게 전 직원이 선출하는 <strong>사업장평의회(Betriebsrat)</strong>가 인사·복지·작업방식을 공동결정하는 <strong>이원적 체계(Dual System)</strong>를 이룹니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">배타적 교섭대표제 (NLRA)</span>
+    <span class="term">사업장평의회 (Betriebsrat)</span>
+    <span class="term">이원적 노사관계</span>
+    <span class="term">공동결정제 (Mitbestimmung)</span>
+  </div>
+</section>
+
+<section class="sec" id="s3">
+  <h2>04. 근로시간과 휴가: 법정보장 vs 시장 계약</h2>
+  <div class="card">
+    <p>미국 공정근로기준법(FLSA)은 주 40시간 초과 시 1.5배의 연장수당(Overtime)을 규정할 뿐, 법정 최대 근로시간이나 법정 연차유급휴가 의무가 전혀 없습니다(유급휴가 연방법 0일). 반면 독일은 근로시간법(ArbZG)을 통해 1일 8시간(최대 10시간), 휴식시간 11시간을 강제하며, 연방휴가법(BUrlG)에 따라 주 5일제 기준 연간 최소 20일의 유급휴가를 국가가 법으로 보장합니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">공정근로기준법 (FLSA)</span>
+    <span class="term">연장근로수당 (1.5배)</span>
+    <span class="term">근로시간법 (ArbZG)</span>
+    <span class="term">연방휴가법 (BUrlG)</span>
+  </div>
+</section>
+
+<section class="sec" id="s4">
+  <h2>05. 플랫폼 노동과 오분류 대응 비교</h2>
+  <div class="card">
+    <p>독립계약자 오분류 문제에 대해 캘리포니아주는 <strong>ABC 테스트(AB5)</strong>를 도입하여 A(통제로부터의 자유), B(통상 사업 외 업무), C(독립적 직업 영위)를 모두 입증하지 못하면 피고용인으로 추정했습니다(이후 주민발의 Proposition 22로 예외 신설). 독일은 근로자 추정제 도입보다는 노동사회부 가이드라인과 연방노동법원 판례를 통해 플랫폼의 실질적 시간·장소 지휘 여부를 심사하며, 자영인에 대해서도 사회보험(연금) 적용을 확대하는 기능적 절충을 취하고 있습니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">오분류 (Misclassification)</span>
+    <span class="term">ABC 테스트 (AB5)</span>
+    <span class="term">Proposition 22</span>
+    <span class="term">유사근로자 사회보험</span>
+  </div>
+</section>
+
+<section class="sec" id="rv">
+  <h2>복습 및 퀴즈</h2>
+  <h3 class="rv-h">핵심 개념 플래시카드</h3>
+  <p class="hint">카드를 누르면 숨겨진 해설이 나타납니다.</p>
+  <div class="flips">
+    <button type="button" class="flip" aria-expanded="false"><b>임의고용 원칙</b><span class="hint">클릭하여 확인</span><span class="m">미국 고용법의 기본 원칙으로, 특별한 계약이 없는 한 사용자나 노동자 누구나 언제든 정당한 이유 없이도 해고 및 퇴사가 가능한 법리.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>해고보호법 (KSchG)</b><span class="hint">클릭하여 확인</span><span class="m">독일의 대표적 노동법령으로, 6개월 이상 근속한 10인 초과 사업장 노동자에게 사회적 정당성 없는 해고를 원천 무효로 규정함.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>사회적 선발 (Sozialauswahl)</b><span class="hint">클릭하여 확인</span><span class="m">독일 경영상 해고 시 사용자가 해고 대상자를 고를 때 근속연수, 연령, 부양의무, 장애 여부를 반드시 점수화하여 보호 필요성이 낮은 자를 골라야 하는 의무.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>배타적 교섭대표제</b><span class="hint">클릭하여 확인</span><span class="m">미국 NLRA의 핵심 제도로, 투표를 통해 과반수 지지를 얻은 단일 노동조합만이 해당 교섭단위의 유일한 교섭 권한을 독점하는 구조.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>사업장평의회 (Betriebsrat)</b><span class="hint">클릭하여 확인</span><span class="m">독일 사업장 조직법(BetrVG)에 따라 근로자 5인 이상 사업장에서 전 직원이 선출하는 기구로, 인사·작업환경에 법정 공동결정권을 행사함.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>공정근로기준법 (FLSA)</b><span class="hint">클릭하여 확인</span><span class="m">미국의 대표적 근로조건 연방법으로, 최저임금과 주 40시간 초과 시 연장근로수당(타임앤어하프)을 규율함.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>연방휴가법 (BUrlG)</b><span class="hint">클릭하여 확인</span><span class="m">독일 연방법으로, 전 노동자에게 연간 최소 20영업일(주5일제 기준)의 유급휴가를 의무화함.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>ABC 테스트</b><span class="hint">클릭하여 확인</span><span class="m">미국 캘리포니아주 등에서 플랫폼 노동자 오분류를 방지하기 위해 사용자가 입증해야 하는 3가지 엄격한 독립계약자 판단 요건.</span></button>
+  </div>
+
+  <h3 class="rv-h">빈칸 채우기</h3>
+  <ul class="cloze">
+    <li>미국 대부분의 주에서 채택하는 고용 해지 기본 원리는 <button type="button" class="blank" data-a="임의고용" aria-label="빈칸">???</button>(Employment-at-will) 원칙이다.</li>
+    <li>독일 해고보호법은 6개월 이상 근속하고 <button type="button" class="blank" data-a="10인 초과" aria-label="빈칸">???</button> 사업장의 근로자에게 적용된다.</li>
+    <li>독일 경영상 해고 시 부양의무, 근속기간 등을 고려해야 하는 절차를 <button type="button" class="blank" data-a="사회적 선발" aria-label="빈칸">???</button>(Sozialauswahl)이라 한다.</li>
+    <li>미국 NLRA의 대표적 노조 교섭 방식은 단일 노조에 독점권을 주는 <button type="button" class="blank" data-a="배타적 교섭대표제" aria-label="빈칸">???</button>이다.</li>
+    <li>독일 사업장에서 전 직원이 선출하여 공동결정권을 행사하는 조직은 <button type="button" class="blank" data-a="사업장평의회" aria-label="빈칸">???</button>(Betriebsrat)이다.</li>
+    <li>미국 연방법(FLSA)상 강제되는 연차 유급휴가 일수는 <button type="button" class="blank" data-a="0일" aria-label="빈칸">???</button>이다.</li>
+  </ul>
+  <div class="rv-tools">
+    <button type="button" id="cshow">정답 모두 보기</button>
+    <button type="button" id="chide">다시 가리기</button>
+  </div>
+
+  <h3 class="rv-h">5문항 퀴즈</h3>
+  <div id="quiz">
+    <div class="q" data-ans="1">
+      <fieldset><legend>1. 미국의 '임의고용(Employment-at-will)' 원칙에 대한 설명 중 옳은 것은?</legend>
+        <button type="button" data-i="0">① 해고 시 반드시 30일 전에 서면 통고를 해야 한다.</button>
+        <button type="button" data-i="1">② 계약이나 법률상 금지사유가 없는 한 사용자는 아무런 이유 없이도 근로자를 해고할 수 있다.</button>
+        <button type="button" data-i="2">③ 근로자는 자유롭게 사직할 수 없고 손해배상 책임을 진다.</button>
+        <button type="button" data-i="3">④ 미국 50개 주 전체가 법률로 임의고용을 전면 금지하고 있다.</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ②. 임의고용 원칙 하에서는 명시적 약정이 없는 한 쌍방 모두 이유 없이 해고·사직할 수 있습니다.</div>
+    </div>
+    <div class="q" data-ans="2">
+      <fieldset><legend>2. 독일 해고보호법(KSchG)상 경영상 이유에 의한 해고 시 필수적인 검토 단계는?</legend>
+        <button type="button" data-i="0">① 주지사의 행정 승인 취득</button>
+        <button type="button" data-i="1">② 근로자의 자발적 사직서 징구</button>
+        <button type="button" data-i="2">③ 부양의무·근속기간·연령 등을 따지는 사회적 선발(Sozialauswahl)</button>
+        <button type="button" data-i="3">③ 무조건 최저 연령 근로자 우선 해고</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ③. 독일 경영상 해고는 사회적 보호 필요성이 가장 적은 자를 객관적 점수로 선발해야만 유효합니다.</div>
+    </div>
+    <div class="q" data-ans="0">
+      <fieldset><legend>3. 독일 노사관계의 '이원적 체계(Dual System)'를 가장 잘 설명한 것은?</legend>
+        <button type="button" data-i="0">① 초기업(산별) 단위의 단체협약과 사업장 단위의 사업장평의회(공동결정) 분립</button>
+        <button type="button" data-i="1">② 사용자와 노동자 2인으로만 구성된 이사회</button>
+        <button type="button" data-i="2">③ 정규직 노조와 비정규직 노조의 대립 구조</button>
+        <button type="button" data-i="3">④ 법원 판결과 행정명령의 이원적 집행</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ①. 독일은 산별 노조가 바깥에서 임금을 교섭하고, 사업장 내부에서는 법정 평의회가 평화의무를 지며 협력합니다.</div>
+    </div>
+    <div class="q" data-ans="3">
+      <fieldset><legend>4. 미국 공정근로기준법(FLSA)과 독일 근로시간법(ArbZG)의 근로시간 규율 차이는?</legend>
+        <button type="button" data-i="0">① 미국은 1일 8시간 초과 노동을 형사처벌한다.</button>
+        <button type="button" data-i="1">② 독일은 연장근로에 대해 수당을 지급하지 않아도 된다.</button>
+        <button type="button" data-i="2">③ 미국은 법정 유급휴가를 연간 15일 강제한다.</button>
+        <button type="button" data-i="3">④ 미국은 주 40시간 초과 시 할증수당을 요구할 뿐 상한 규제가 없으나, 독일은 1일 최대 상한(10시간)을 법으로 제한한다.</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ④. 미국 FLSA는 시간 상한 없이 돈(1.5배 수당)으로 규율하지만, 독일은 건강권 관점에서 시간 자체를 법률로 묶습니다.</div>
+    </div>
+    <div class="q" data-ans="1">
+      <fieldset><legend>5. 캘리포니아주가 플랫폼 노동자 오분류를 막기 위해 도입했던 기준은?</legend>
+        <button type="button" data-i="0">① 경제적 의존도 테스트</button>
+        <button type="button" data-i="1">② ABC 테스트 (AB5)</button>
+        <button type="button" data-i="2">③ 임의고용 면제 테스트</button>
+        <button type="button" data-i="3">④ 단체교섭 참여도 테스트</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ②. ABC 세 가지 요건을 통과하지 못하면 무조건 근로자로 추정하는 엄격한 기준입니다.</div>
+    </div>
+    <p class="score" id="score" aria-live="polite">점수: 0 / 5</p>
+    <div class="rv-tools"><button type="button" id="qreset">다시 풀기</button></div>
+  </div>
+</section>
+</main>
+</div>
+
+<script>(function(){
+function $$(q){return [].slice.call(document.querySelectorAll(q))}
+$$(".flip").forEach(function(b){b.onclick=function(){b.setAttribute("aria-expanded",b.getAttribute("aria-expanded")==="true"?"false":"true")}});
+function show(b){b.textContent=b.dataset.a;b.classList.add("shown");b.setAttribute("aria-label","답: "+b.dataset.a)}
+function hide(b){b.textContent="???";b.classList.remove("shown");b.setAttribute("aria-label","빈칸")}
+$$(".blank").forEach(function(b){b.onclick=function(){if(b.classList.contains("shown")){hide(b)}else{show(b)}}});
+var cs=document.getElementById("cshow"),ch=document.getElementById("chide");
+if(cs)cs.onclick=function(){$$(".blank").forEach(show)};
+if(ch)ch.onclick=function(){$$(".blank").forEach(hide)};
+var scoreEl=document.getElementById("score");
+var totalQ=$$("#quiz .q").length;
+function updateScore(){var r=$$("#quiz .q button.right").length;if(scoreEl)scoreEl.textContent="점수: "+r+" / "+totalQ}
+$$("#quiz .q").forEach(function(q){
+  var ans=parseInt(q.dataset.ans,10);
+  var btns=$$(q.querySelectorAll("button"));
+  btns.forEach(function(b,i){
+    b.onclick=function(){
+      btns.forEach(function(x){x.disabled=true});
+      if(i===ans){b.classList.add("right")}else{
+        b.classList.add("wrong");
+        if(btns[ans])btns[ans].classList.add("right");
+      }
+      var ex=q.querySelector(".ex");
+      if(ex)ex.style.display="block";
+      updateScore();
+    };
+  });
+});
+var qr=document.getElementById("qreset");
+if(qr)qr.onclick=function(){
+  $$("#quiz .q").forEach(function(q){
+    $$(q.querySelectorAll("button")).forEach(function(b){
+      b.disabled=false;
+      b.classList.remove("right","wrong");
+    });
+    var ex=q.querySelector(".ex");
+    if(ex)ex.style.display="none";
+  });
+  if(scoreEl)scoreEl.textContent="점수: 0 / "+totalQ;
+};
+})();</script>
+
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">요약 아카이브</div><div class="arc-foot-title">미국과 독일 노동법의 기능적 비교 핵심 요약: 같은 해고, 정반대의 법</div><div class="arc-foot-meta"><time datetime="2026-10-26">2026년 10월 26일</time><a class="arc-tag" href="../index.html#tags=%EB%85%B8%EB%8F%99%EB%B2%95">#노동법</a><a class="arc-tag" href="../index.html#tags=%EB%B9%84%EA%B5%90%EB%85%B8%EB%8F%99%EB%B2%95">#비교노동법</a><a class="arc-tag" href="../index.html#tags=%EB%8F%85%EC%9D%BC%EB%85%B8%EB%8F%99%EB%B2%95">#독일노동법</a><a class="arc-tag" href="../index.html#tags=%EB%AF%B8%EA%B5%AD%EB%85%B8%EB%8F%99%EB%B2%95">#미국노동법</a><a class="arc-tag" href="../index.html#tags=%EC%9A%94%EC%95%BD">#요약</a> · <a href="https://yghnsim.github.io/Pages/articles/us_germany_labor_law_comparison.html" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body>
+</html>

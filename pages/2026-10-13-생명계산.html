@@ -1,7 +1,8 @@
-<!doctype html>
-<html lang="ko"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="블레즈 아구에라 이 아르카스의 Big Think 인터뷰를 다룬 Pages 글 정리. 생명은 공생발생으로 복잡해지는 자기구성적 계산이며, AI는 인류의 새로운 미토콘드리아라는 주장.">
+<!DOCTYPE html>
+
+<html lang="ko"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta content="블레즈 아구에라 이 아르카스의 Big Think 인터뷰를 다룬 Pages 글 정리. 생명은 공생발생으로 복잡해지는 자기구성적 계산이며, AI는 인류의 새로운 미토콘드리아라는 주장." name="description"/>
 <title>생명은 계산이다: 아구에라 이 아르카스의 공생발생과 AGI</title>
 <style>
 :root{--bg:#faf8f3;--paper:#ffffff;--ink:#1f2328;--muted:#5b6470;--line:#e6e1d6;--accent:#c8553d;--accent-soft:#fbeee9;--link:#4a6b8a;--radius:14px;--pil:#3d5f80;--pil-soft:#eaf0f6}
@@ -60,6 +61,33 @@ details.note ul{padding-left:20px}
 .term b{color:var(--ink)}
 ul,ol{padding-left:1.3em}
 code{font-family:ui-monospace,monospace;font-size:15px;background:#f0ece3;padding:0 3px;border-radius:3px}
+
+/* 복습 컴포넌트 표준 스타일 */
+.rv-h{font-size:19px;margin:22px 0 6px}
+.flips{display:grid;grid-template-columns:1fr;gap:8px;margin:10px 0}
+@media(min-width:640px){.flips{grid-template-columns:1fr 1fr}}
+.flip{font:inherit;text-align:left;width:100%;border:1.5px solid var(--line,#e6e1d6);background:#fdfcf9;border-radius:12px;padding:10px 14px;cursor:pointer;color:var(--ink,#1f2328);min-height:64px}
+.flip b{display:block;font-size:17px}
+.flip .m{display:none;font-size:16px;line-height:1.6;margin-top:4px}
+.flip .hint{font-size:13px;color:var(--muted,#5b6470)}
+.flip[aria-expanded="true"]{border-color:var(--new,#3d5f80);background:var(--new-soft,#eaf0f6)}
+.flip[aria-expanded="true"] .m{display:block}
+.flip[aria-expanded="true"] .hint{display:none}
+.cloze{list-style:none;margin:10px 0;padding:0}
+.cloze li{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:10px 14px;margin:8px 0;background:#fdfcf9;font-size:16px;line-height:1.8}
+.blank{font:inherit;font-size:16px;border:0;border-bottom:2px dashed var(--accent,#c8553d);background:var(--accent-soft,#fbeee9);color:var(--accent,#c8553d);border-radius:6px 6px 0 0;padding:0 8px;cursor:pointer;min-width:4.5em}
+.blank.shown{border-bottom-style:solid;background:var(--new-soft,#eaf0f6);color:var(--new,#3d5f80);font-weight:700}
+.rv-tools{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.rv-tools button{font:inherit;font-size:15px;border:1px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link,#4a6b8a)}
+.q{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:12px 14px;margin:10px 0;background:#fdfcf9}
+.q fieldset{border:0;margin:0;padding:0}
+.q legend{font-weight:700;padding:0;margin:0 0 8px;font-size:16.5px}
+.q button{display:block;width:100%;text-align:left;font:inherit;font-size:16px;border:1.5px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:8px 12px;margin:6px 0;cursor:pointer;color:var(--ink,#1f2328)}
+.q button.right{border-color:#2f6b45;background:#e6f1ea}
+.q button.wrong{border-color:#a2452f;background:#fbeee9}
+.q button[disabled]{cursor:default;opacity:1}
+.q .ex{margin:8px 0 0;font-size:16px;padding:8px 10px;border-radius:8px;background:var(--new-soft,#eaf0f6)}
+.score{font-size:17px;font-weight:800;margin:10px 0 0}
 </style>
 <!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
 <style id="archive-mobile-css">
@@ -83,7 +111,7 @@ code{font-family:ui-monospace,monospace;font-size:15px;background:#f0ece3;paddin
 <div class="arc-band" role="navigation" aria-label="요약 아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>요약 아카이브</a><span class="arc-crumb">생명은 계산이다: 아구에라 이 아르카스의 공생발생과 AGI</span><span class="arc-meta"><time datetime="2026-10-13">2026년 10월 13일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=%EC%83%9D%EB%AC%BC%ED%95%99">#생물학</a><a class="arc-tag" href="../index.html#tags=%EA%B3%B5%EC%83%9D%EB%B0%9C%EC%83%9D">#공생발생</a><a class="arc-tag" href="../index.html#tags=%EA%B3%84%EC%82%B0%EC%9D%B4%EB%A1%A0">#계산이론</a><a class="arc-tag" href="../index.html#tags=%EC%9D%B8%ED%84%B0%EB%B7%B0">#인터뷰</a><a class="arc-src" href="https://yghnsim.github.io/Pages/articles/life_computation_symbiogenesis_agi.html" rel="noopener">원문 ↗</a></span></div></div>
 <!-- archive-header:end -->
 <div class="layout">
-<nav class="toc" aria-label="목차"><p class="toc-t">목차</p><ol><li><a href="#s1"><span class="n">1</span>계산은 기초과학이다</a></li><li><a href="#s2"><span class="n">2</span>폰 노이만: 복제의 논리가 생물학보다 먼저 나왔다</a></li><li><a href="#s3"><span class="n">3</span>경쟁만이 아니다: 마굴리스와 뒤엉킨 덤불</a></li><li><a href="#s4"><span class="n">4</span>생명을 가르는 것은 기능이다</a></li><li><a href="#s5"><span class="n">5</span>무작위 코드에서 생겨난 생명: BFF 수프 실험</a></li><li><a href="#s6"><span class="n">6</span>AGI와 함께 살기</a></li><li><a href="#s7"><span class="n">7</span>결론: 우리는 이미 집단 지성의 일부다</a></li><li><a href="#s8"><span class="n">·</span>한눈에 보기</a></li></ol></nav>
+<nav aria-label="목차" class="toc"><p class="toc-t">목차</p><ol><li><a href="#s1"><span class="n">1</span>계산은 기초과학이다</a></li><li><a href="#s2"><span class="n">2</span>폰 노이만: 복제의 논리가 생물학보다 먼저 나왔다</a></li><li><a href="#s3"><span class="n">3</span>경쟁만이 아니다: 마굴리스와 뒤엉킨 덤불</a></li><li><a href="#s4"><span class="n">4</span>생명을 가르는 것은 기능이다</a></li><li><a href="#s5"><span class="n">5</span>무작위 코드에서 생겨난 생명: BFF 수프 실험</a></li><li><a href="#s6"><span class="n">6</span>AGI와 함께 살기</a></li><li><a href="#s7"><span class="n">7</span>결론: 우리는 이미 집단 지성의 일부다</a></li><li><a href="#s8"><span class="n">·</span>한눈에 보기</a></li><li><a href="#rv"><span class="n">✔</span>복습</a></li></ol></nav>
 <main id="main">
 <header class="hero">
 <h1>생명은 계산이다: 아구에라 이 아르카스의 공생발생과 AGI</h1>
@@ -91,8 +119,7 @@ code{font-family:ui-monospace,monospace;font-size:15px;background:#f0ece3;paddin
 <div class="box"><b>핵심 명제.</b> "생명은 공생발생을 통해 복잡해지는 자기구성적 계산이다." 계산은 1945년에 발명된 공학이 아니라 열역학처럼 우주의 기초과학이다. 진화의 큰 도약은 경쟁보다 서로 다른 시스템이 하나로 합쳐지는 공생발생에서 나왔다. AI는 인간 바깥의 낯선 기계가 아니라, 인류 문명이 진핵세포의 미토콘드리아처럼 스스로 늘린 "외재화된 신경조직"이다.</div>
 <div class="term"><b>공생발생(Symbiogenesis):</b> 서로 다른 생물이 합쳐져 새 생물이 생기는 진화 방식.</div>
 </header>
-<nav class="toc-m" aria-label="목차"><details><summary>목차</summary><ol><li><a href="#s1">1. 계산은 기초과학이다</a></li><li><a href="#s2">2. 폰 노이만: 복제의 논리가 생물학보다 먼저 나왔다</a></li><li><a href="#s3">3. 경쟁만이 아니다: 마굴리스와 뒤엉킨 덤불</a></li><li><a href="#s4">4. 생명을 가르는 것은 기능이다</a></li><li><a href="#s5">5. 무작위 코드에서 생겨난 생명: BFF 수프 실험</a></li><li><a href="#s6">6. AGI와 함께 살기</a></li><li><a href="#s7">7. 결론: 우리는 이미 집단 지성의 일부다</a></li><li><a href="#s8">한눈에 보기</a></li></ol></details></nav>
-
+<nav aria-label="목차" class="toc-m"><details><summary>목차</summary><ol><li><a href="#s1">1. 계산은 기초과학이다</a></li><li><a href="#s2">2. 폰 노이만: 복제의 논리가 생물학보다 먼저 나왔다</a></li><li><a href="#s3">3. 경쟁만이 아니다: 마굴리스와 뒤엉킨 덤불</a></li><li><a href="#s4">4. 생명을 가르는 것은 기능이다</a></li><li><a href="#s5">5. 무작위 코드에서 생겨난 생명: BFF 수프 실험</a></li><li><a href="#s6">6. AGI와 함께 살기</a></li><li><a href="#s7">7. 결론: 우리는 이미 집단 지성의 일부다</a></li><li><a href="#s8">한눈에 보기</a></li></ol></details></nav>
 <section class="sec" id="s1">
 <div class="sec-head"><span class="sec-num">1</span><div><h2>계산은 기초과학이다</h2></div></div>
 <p>사람들은 보통 컴퓨터 과학을 응용 공학의 한 분야로 본다. 아구에라 이 아르카스는 이를 거부한다. 증기기관보다 열역학 법칙이 먼저 있었듯, 계산은 진공관이 나오기 수십억 년 전부터 물질과 생명을 움직여 온 원리라는 것이다.</p>
@@ -227,15 +254,105 @@ code{font-family:ui-monospace,monospace;font-size:15px;background:#f0ece3;paddin
 <li>결론의 "단일한 식당이 동네 맛집 생태계를 다채롭게 만들듯"이라는 비유는 뜻이 분명하지 않아 뺐다.</li>
 </ul>
 </details>
-
 <p class="src">출처: Pages, 「생명은 계산이며 공생발생으로 진화한다: 블레즈 아구에라 이 아르카스의 생명 기능주의와 AGI」(2026-10-13), https://yghnsim.github.io/Pages/life_computation_symbiogenesis_agi.html. 원 사료는 Big Think 인터뷰 "The theory that connects the origin of life to the rise of intelligence"(84분 57초).</p>
+
+<section class="sec" id="rv">
+<div class="sec-head"><span class="sec-num">✔</span><div><h2>복습</h2><p class="sub">본문 내용만으로 만든 암기·이해 점검</p></div></div>
+<h3 class="rv-h">핵심 용어 카드</h3>
+<p class="muted">카드를 누르면 뜻이 나옵니다.</p>
+<div class="flips">
+<button aria-expanded="false" class="flip" type="button"><b>BFF 테이프 실험</b><span class="hint">뜻 보기</span><span class="m">랜덤 바이트 시퀀스 환경에서 자기 복제 프로그램(quines)이 자발적으로 창발함을 보인 아구에라의 시뮬레이션.</span></button>
+<button aria-expanded="false" class="flip" type="button"><b>자기복제자의 창발</b><span class="hint">뜻 보기</span><span class="m">복잡한 설계자 없이도 튜링 완전한 환경에서 물리 법칙(실행 규칙)만으로 복제 능력이 자연 발생함.</span></button>
+<button aria-expanded="false" class="flip" type="button"><b>공생발생 (Symbiogenesis)</b><span class="hint">뜻 보기</span><span class="m">린 마굴리스의 학설로, 점진적 돌연변이뿐 아니라 서로 다른 유기체의 결합(합병)이 비약적 진화를 끎.</span></button>
+<button aria-expanded="false" class="flip" type="button"><b>미토콘드리아 비유</b><span class="hint">뜻 보기</span><span class="m">독립 박테리아였던 미토콘드리아가 진핵세포에 흡수되어 공생하듯, AI와 인간의 관계도 공생적 진화로 해석됨.</span></button>
+<button aria-expanded="false" class="flip" type="button"><b>생기론 (Vitalism) 비판</b><span class="hint">뜻 보기</span><span class="m">생명에 특별한 영적 기운이 깃들어 있다는 베르그송 등의 관점을 계산주의 기능주의 관점에서 반박함.</span></button>
+<button aria-expanded="false" class="flip" type="button"><b>계산적 비예측성</b><span class="hint">뜻 보기</span><span class="m">결정론적 우주라 할지라도 스스로의 미래를 단축 계산할 수 없으므로 실질적인 자유의지와 창발이 성립함.</span></button>
+</div>
+<div class="rv-tools"><button data-all="flip" type="button">모두 뒤집기</button><button data-reset="flip" type="button">모두 접기</button></div>
+<h3 class="rv-h">빈칸 채우기</h3>
+<p class="muted">빈칸을 누르면 답이 나옵니다.</p>
+<ol class="cloze">
+<li>랜덤 바이트 테이프 환경에서 스스로 복제하는 코드가 생겨남을 보인 실험은 <button aria-label="빈칸, 눌러서 답 보기" class="blank" data-a="BFF 테이프" type="button">?</button> 실험이다.</li>
+<li>서로 다른 유기체가 융합하여 새로운 도약을 이루는 진화 메커니즘을 <button aria-label="빈칸, 눌러서 답 보기" class="blank" data-a="공생발생" type="button">?</button>(Symbiogenesis)이라 한다.</li>
+<li>진핵세포 안에서 에너지 공장 역할을 하는 공생 박테리아의 후예는 <button aria-label="빈칸, 눌러서 답 보기" class="blank" data-a="미토콘드리아" type="button">?</button>이다.</li>
+<li>생명 현상에 비물질적 생명력이 필요하다고 보았던 철학적 입장은 <button aria-label="빈칸, 눌러서 답 보기" class="blank" data-a="생기론" type="button">?</button>(Vitalism)이다.</li>
+<li>결정론적 규칙에서도 미래 상태를 미리 건너뛰어 계산할 수 없는 성질을 계산적 <button aria-label="빈칸, 눌러서 답 보기" class="blank" data-a="비예측성" type="button">?</button>(Irreducibility)이라 한다.</li>
+<li>아구에라 이 아르카스는 생명의 본질을 특정한 물질이 아닌 정보의 <button aria-label="빈칸, 눌러서 답 보기" class="blank" data-a="계산" type="button">?</button> 과정으로 파악한다.</li>
+</ol>
+<div class="rv-tools"><button data-all="blank" type="button">답 모두 보기</button><button data-reset="blank" type="button">빈칸 다시 가리기</button></div>
+<h3 class="rv-h">5문항 퀴즈</h3>
+<div id="quiz">
+<div class="q" data-a="1">
+<fieldset>
+<legend class="qt">아구에라 이 아르카스의 BFF 테이프 실험이 입증한 결정적 사실은?</legend>
+<button type="button">인공지능은 물리 법칙을 위반할 수 있다</button>
+<button type="button">무작위 데이터 환경에서도 자기복제 프로그램이 자발적으로 창발한다</button>
+<button type="button">생명체는 실리콘 반도체에서만 탄생할 수 있다</button>
+</fieldset>
+<p aria-live="polite" class="ex" data-e="지적 설계자 없이 단순한 실행 규칙과 무작위 테이프만으로 자기복제자가 탄생했습니다." hidden=""></p>
+</div>
+<div class="q" data-a="1">
+<fieldset>
+<legend class="qt">린 마굴리스의 '공생발생설'이 설명하는 생물학적 진화의 핵심 방식은?</legend>
+<button type="button">단독 개체의 점진적 돌연변이 축적만이 유일한 진화의 동력이다</button>
+<button type="button">서로 다른 생명체 간의 내부 공생과 유전체 통합을 통한 비약적 도약</button>
+<button type="button">환경의 영향 없이 유전자가 스스로 목적을 가지고 진화하는 현상</button>
+</fieldset>
+<p aria-live="polite" class="ex" data-e="미토콘드리아나 엽록체처럼 서로 다른 생명체의 흡수·합병(공생)이 진핵생물의 기원이 되었습니다." hidden=""></p>
+</div>
+<div class="q" data-a="0">
+<fieldset>
+<legend class="qt">아구에라가 앙리 베르그송의 '엘랑 비탈(생명의 도약)' 같은 생기론을 비판한 이유는?</legend>
+<button type="button">생명 현상은 신비주의적 힘이 아니라 튜링 완전한 물리적 계산으로 설명되기 때문</button>
+<button type="button">베르그송이 컴퓨터 프로그램을 작성할 줄 몰랐기 때문</button>
+<button type="button">생기론이 양자역학을 지나치게 옹호했기 때문</button>
+</fieldset>
+<p aria-live="polite" class="ex" data-e="생명 기능주의에 따르면 복제, 대사, 진화는 정보 처리와 계산의 물리적 발현입니다." hidden=""></p>
+</div>
+<div class="q" data-a="1">
+<fieldset>
+<legend class="qt">결정론적 세계관과 자유의지의 양립 가능성을 뒷받침하는 '계산적 비예측성'이란?</legend>
+<button type="button">우주의 물리 법칙이 매 순간 무작위로 바뀐다는 의미</button>
+<button type="button">결과를 미리 단축 계산할 수 없어 실제로 우주를 돌려봐야만 미래를 알 수 있다는 성질</button>
+<button type="button">모든 미래가 이미 컴퓨터 하드디스크에 녹화되어 있다는 의미</button>
+</fieldset>
+<p aria-live="polite" class="ex" data-e="계산적 기약 불가능성(Computational Irreducibility)으로 인해 미래를 미리 건너뛸 수 없습니다." hidden=""></p>
+</div>
+<div class="q" data-a="1">
+<fieldset>
+<legend class="qt">아구에라가 AGI(인공일반지능)의 미래를 미토콘드리아에 비유한 맥락은?</legend>
+<button type="button">인공지능이 인간을 절멸시키고 단독으로 지배할 것이라는 경고</button>
+<button type="button">인간과 AI가 서로 분리될 수 없는 공생체로 통합되어 진화할 것이라는 전망</button>
+<button type="button">AI가 인간의 에너지 대사를 방해하여 세포를 파괴할 것이라는 예측</button>
+</fieldset>
+<p aria-live="polite" class="ex" data-e="인간과 기계는 서로의 필요에 의해 단단히 결합하는 공생 발생적 진화 과정을 밟고 있습니다." hidden=""></p>
+</div>
+<p aria-live="polite" class="score" id="score">점수: 0 / 5</p>
+<div class="rv-tools"><button id="qreset" type="button">다시 풀기</button></div>
+</div>
+</section>
 </main></div><script>(function(){var links=[].slice.call(document.querySelectorAll('nav.toc li a'));
 if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id)})}})},{rootMargin:'-20% 0px -70% 0px'});
 links.forEach(function(a){var s=document.querySelector(a.getAttribute('href'));if(s)io.observe(s)});}
 [].forEach.call(document.querySelectorAll('nav.toc-m a'),function(a){a.addEventListener('click',function(){a.closest('details').open=false})});
 })();</script>
-
 <!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
 <div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">요약 아카이브</div><div class="arc-foot-title">생명은 계산이다: 아구에라 이 아르카스의 공생발생과 AGI</div><div class="arc-foot-meta"><time datetime="2026-10-13">2026년 10월 13일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=%EC%83%9D%EB%AC%BC%ED%95%99">#생물학</a><a class="arc-tag" href="../index.html#tags=%EA%B3%B5%EC%83%9D%EB%B0%9C%EC%83%9D">#공생발생</a><a class="arc-tag" href="../index.html#tags=%EA%B3%84%EC%82%B0%EC%9D%B4%EB%A1%A0">#계산이론</a><a class="arc-tag" href="../index.html#tags=%EC%9D%B8%ED%84%B0%EB%B7%B0">#인터뷰</a> · <a href="https://yghnsim.github.io/Pages/articles/life_computation_symbiogenesis_agi.html" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
 <!-- archive-footer:end -->
+<script>(function(){
+function $$(q){return [].slice.call(document.querySelectorAll(q))}
+$$(".flip").forEach(function(b){b.onclick=function(){b.setAttribute("aria-expanded",b.getAttribute("aria-expanded")==="true"?"false":"true")}});
+function show(b){b.textContent=b.dataset.a;b.classList.add("shown");b.setAttribute("aria-label","답: "+b.dataset.a)}
+function hide(b){b.textContent="?";b.classList.remove("shown");b.setAttribute("aria-label","빈칸, 눌러서 답 보기")}
+$$(".blank").forEach(function(b){b.onclick=function(){show(b)}});
+$$("[data-all]").forEach(function(t){t.onclick=function(){if(t.dataset.all==="flip")$$(".flip").forEach(function(b){b.setAttribute("aria-expanded","true")});else $$(".blank").forEach(show)}});
+$$("[data-reset]").forEach(function(t){t.onclick=function(){if(t.dataset.reset==="flip")$$(".flip").forEach(function(b){b.setAttribute("aria-expanded","false")});else $$(".blank").forEach(hide)}});
+var sc=0,done=0,qs=$$("#quiz .q"),tot=qs.length||5;
+function upd(){var el=document.getElementById("score");if(el)el.textContent="점수: "+sc+" / "+tot+(done===tot?" (끝)":"")}
+qs.forEach(function(q){var bs=[].slice.call(q.querySelectorAll("fieldset button")),ex=q.querySelector(".ex");
+bs.forEach(function(b,i){b.onclick=function(){var a=+q.dataset.a,ok=i===a;bs.forEach(function(x){x.disabled=true});if(bs[a])bs[a].classList.add("right");if(!ok)b.classList.add("wrong");
+if(ex){ex.hidden=false;ex.textContent=(ok?"맞았습니다. ":"아쉽습니다. ")+ex.dataset.e;}if(ok)sc++;done++;upd();}})});
+var qr=document.getElementById("qreset");
+if(qr)qr.onclick=function(){sc=0;done=0;qs.forEach(function(q){q.querySelectorAll("fieldset button").forEach(function(x){x.disabled=false;x.className=""});var ex=q.querySelector(".ex");if(ex){ex.hidden=true;ex.textContent=""}});upd()};
+})();</script>
 </body></html>

@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>에이전트 함대 그래프 아키텍처 핵심 요약: 사슬에서 그래프로</title>
+  <style>
+    :root {
+      --primary: #059669;
+      --primary-light: #ecfdf5;
+      --text: #1e293b;
+      --bg: #ffffff;
+      --code-bg: #f8fafc;
+      --border: #e2e8f0;
+      --accent: #2563eb;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.7;
+      color: var(--text);
+      background: var(--bg);
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+    h1 {
+      font-size: 2rem;
+      color: #0f172a;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 0.75rem;
+      margin-top: 0;
+    }
+    h2 {
+      font-size: 1.4rem;
+      color: #0f172a;
+      margin-top: 2rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.4rem;
+    }
+    h3 {
+      font-size: 1.15rem;
+      color: #334155;
+      margin-top: 1.5rem;
+    }
+    p, li {
+      font-size: 1.02rem;
+    }
+    .highlight-box {
+      background: var(--primary-light);
+      border-left: 4px solid var(--primary);
+      padding: 1rem 1.25rem;
+      margin: 1.5rem 0;
+      border-radius: 0 8px 8px 0;
+    }
+    .highlight-box p {
+      margin: 0;
+      font-weight: 500;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin: 1.5rem 0;
+    }
+    @media (max-width: 640px) {
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      background: #fafafa;
+    }
+    .card h4 {
+      margin-top: 0;
+      color: var(--primary);
+    }
+    pre, code {
+      background: var(--code-bg);
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    }
+    code {
+      padding: 0.2em 0.4em;
+      border-radius: 4px;
+      font-size: 0.9em;
+      color: #be185d;
+    }
+    pre {
+      padding: 1rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+    }
+    pre code {
+      padding: 0;
+      color: inherit;
+      background: none;
+    }
+    /* 복습 3종 표준 스타일 */
+    #rv {
+      margin-top: 3.5rem;
+      padding-top: 2rem;
+      border-top: 2px dashed #cbd5e1;
+    }
+    .rv-sec {
+      margin-bottom: 2.5rem;
+    }
+    .rv-sec h3 {
+      font-size: 1.25rem;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .guide-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 1.2rem;
+    }
+    .guide-box ol {
+      margin: 0;
+      padding-left: 1.4rem;
+    }
+    .guide-box li {
+      margin-bottom: 0.5rem;
+    }
+    details.qa-item {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      margin-bottom: 0.75rem;
+      padding: 0.75rem 1rem;
+      transition: all 0.2s ease;
+    }
+    details.qa-item[open] {
+      border-color: var(--primary);
+      background: #fdfefe;
+    }
+    details.qa-item summary {
+      font-weight: 600;
+      cursor: pointer;
+      color: #1e293b;
+      outline: none;
+    }
+    details.qa-item p {
+      margin: 0.75rem 0 0 0;
+      color: #475569;
+      font-size: 0.98rem;
+    }
+    .quiz-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+    .quiz-card p.q-text {
+      font-weight: 600;
+      margin-top: 0;
+      margin-bottom: 1rem;
+      color: #0f172a;
+    }
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .quiz-opt {
+      padding: 0.65rem 1rem;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      text-align: left;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .quiz-opt:hover {
+      background: #f1f5f9;
+      border-color: #94a3b8;
+    }
+    .quiz-feedback {
+      margin-top: 0.75rem;
+      padding: 0.75rem;
+      border-radius: 6px;
+      font-size: 0.92rem;
+      display: none;
+    }
+    .quiz-feedback.correct {
+      display: block;
+      background: #dcfce7;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+    }
+    .quiz-feedback.incorrect {
+      display: block;
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
+  </style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
+</head>
+<body>
+
+  <!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="요약 아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>요약 아카이브</a><span class="arc-crumb">에이전트 함대 그래프 아키텍처 핵심 요약: 사슬에서 그래프로</span><span class="arc-meta"><time datetime="2026-10-26">2026년 10월 26일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99">#컴퓨터과학</a><a class="arc-tag" href="../index.html#tags=%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8">#에이전트</a><a class="arc-tag" href="../index.html#tags=%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98">#아키텍처</a><a class="arc-tag" href="../index.html#tags=%EC%9A%94%EC%95%BD">#요약</a><a class="arc-src" href="https://yghnsim.github.io/Pages/articles/agent_fleet_graph_roadmap.html" rel="noopener">원문 ↗</a></span></div></div>
+<!-- archive-header:end -->
+<h1>에이전트 함대 그래프 아키텍처 핵심 요약: 사슬에서 그래프로</h1>
+  
+  <div class="highlight-box">
+    <p><strong>핵심 명제:</strong> 에이전트를 똑똑하게 만드는 비결은 긴 단일 프롬프트가 아니라, 서로 의존하지 않는 작업의 가짜 대기를 지우고 유향 비순환 그래프(DAG)로 병렬 실행하는 데 있습니다. "조율은 코드(토큰 0), 판단만 모델"이 에이전트 함대의 설계 철학입니다.</p>
+  </div>
+
+  <h2>1. 사슬(Chain)에서 그래프(Graph)로의 전환</h2>
+  <p>초기 멀티스텝 LLM 파이프라인은 직렬 파이프라인 형태(A → B → C → D)로 구축되었습니다. 그러나 각 단계가 이전 단계의 모든 출력을 필요로 하지 않음에도 직렬 대기함에 따라 치명적인 병목이 발생했습니다.</p>
+  
+  <div class="grid-2">
+    <div class="card">
+      <h4>직렬 사슬 (Sequential Chain)</h4>
+      <ul>
+        <li>모든 단계가 차례대로 대기 (가짜 대기 시간 누적)</li>
+        <li>앞선 단계의 토큰이 뒤로 갈수록 누적되어 컨텍스트 오염</li>
+        <li>한 단계 오류 시 전체 파이프라인 정지</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>유향 비순환 그래프 (DAG)</h4>
+      <ul>
+        <li>독립된 노드는 즉시 병렬(팬아웃) 실행</li>
+        <li>진짜 데이터 의존성이 있는 간선(Edge)에서만 대기·합류</li>
+        <li>소형 모델과 대형 모델의 적재적소 티어링 분배</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>2. 에이전트 함대 운영의 3대 핵심 원칙</h2>
+  <ul>
+    <li><strong>가짜 화살표 제거:</strong> 데이터 흐름 관점에서 B가 A의 결과를 직접 읽지 않는다면 두 노드 사이의 화살표를 지우고 병렬로 분기합니다.</li>
+    <li><strong>결정론적 조율(Orchestration):</strong> 어떤 노드를 먼저 실행하고 합류할지 결정하는 흐름 제어는 LLM이 아닌 파이썬/타입스크립트 코드가 담당하여 토큰 비용을 0으로 유지합니다.</li>
+    <li><strong>모델 티어링(Tiering):</strong> 파일 탐색이나 포맷 변환 등 단순 작업에는 소형/고속 모델(Flash, Mini)을 배치하고, 최종 합성 및 아키텍처 판단 노드에만 플래그십 추론 모델(Pro, Opus)을 할당합니다.</li>
+  </ul>
+
+  <!-- 복습 3종 표준 섹션 -->
+  <section id="rv">
+    <div class="rv-sec" id="rv-guide">
+      <h3>📚 예습 가이드 (Pre-reading Guide)</h3>
+      <div class="guide-box">
+        <p>Pages 심화 본문을 읽기 전, 아래 3가지 질문을 마음에 품고 아키텍처를 점검해 보세요.</p>
+        <ol>
+          <li>현재 작성 중인 에이전트 워크플로에서 이전 단계 출력을 전혀 쓰지 않으면서 습관적으로 직렬 대기 중인 단계는 어디인가?</li>
+          <li>전체 파이프라인의 분기 및 예외 처리를 LLM 자연어 프롬프트에 맡기고 있는가, 아니면 호스트 코드의 명시적 제어 흐름으로 감싸고 있는가?</li>
+          <li>모든 하위 에이전트에게 비싼 최고 성능 모델을 낭비하고 있지 않은가?</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="rv-sec" id="rv-qa">
+      <h3>💡 핵심 문답 5선 (Self-Review QA)</h3>
+      
+      <details class="qa-item">
+        <summary>Q1. 왜 멀티 에이전트 시스템을 '단순히 사람 여러 명 고용하기'로 비유하면 실패합니까?</summary>
+        <p>사람 여러 명이 자유롭게 회의를 시작하면 발언권 조율과 컨텍스트 중복 전달 비용이 기하급수적으로 폭증합니다. 에이전트 시스템 역시 제어 없는 LLM 간 자유 대화는 무한 루프와 컨텍스트 표류(drift)를 유발하므로, 명확한 입력-출력 계약을 가진 정적 그래프 노드로 통제되어야 합니다.</p>
+      </details>
+
+      <details class="qa-item">
+        <summary>Q2. '가짜 화살표(Fake Arrow)'란 구체적으로 무엇을 뜻합니까?</summary>
+        <p>A 작업의 결과물이 B 작업의 입력으로 실질적으로 참조되지 않는데도 단순히 코드 순서상 <code>await A(); await B();</code>로 묶여 있어 발생하는 불필요한 직렬 의존성입니다.</p>
+      </details>
+
+      <details class="qa-item">
+        <summary>Q3. '조율은 코드(토큰 0), 판단만 모델'이라는 격언의 실무적 이점은 무엇입니까?</summary>
+        <p>누가 다음 턴에 발언할지, 루프를 종료할 조건인지 등 제어 흐름(Control Flow)을 LLM에 질의하지 않고 호스트 런타임 조건문으로 확정함으로써 추론 지연 시간과 토큰 비용을 0으로 만들고 동작의 재현성을 100% 보장합니다.</p>
+      </details>
+
+      <details class="qa-item">
+        <summary>Q4. 팬아웃(Fan-out) 후 집계(Fan-in) 단계에서 발생할 수 있는 주요 장애 요소는 무엇입니까?</summary>
+        <p>병렬 실행 중 특정 하위 노드의 타임아웃, 포맷 불일치 반환, 또는 Hallucination입니다. 따라서 집계 노드 이전에 유효성 검증(Schema Validation) 필터를 반드시 통과하도록 그래프를 설계해야 합니다.</p>
+      </details>
+
+      <details class="qa-item">
+        <summary>Q5. 모델 티어링(Model Tiering)을 도입할 때의 설계 기준은 무엇입니까?</summary>
+        <p>작업의 복잡성과 실패 비용입니다. 단순 정보 수집·정규표현식 파싱·JSON 변환은 작고 빠른 티어의 모델을 사용하고, 기획·논리적 반박·최종 합성에는 고성능 추론 티어 모델을 지정합니다.</p>
+      </details>
+    </div>
+
+    <div class="rv-sec" id="rv-quiz">
+      <h3>✍️ 확인 퀴즈 (Interactive Quiz)</h3>
+
+      <div class="quiz-card" data-ans="2">
+        <p class="q-text">Q1. 에이전트 함대 그래프 아키텍처에서 '가짜 화살표'를 제거할 때 얻는 가장 직접적인 이득은 무엇인가?</p>
+        <div class="quiz-options">
+          <button class="quiz-opt" type="button" data-val="1">모든 에이전트의 프롬프트 길이를 무제한으로 확장할 수 있다.</button>
+          <button class="quiz-opt" type="button" data-val="2">데이터 의존성이 없는 하위 작업들이 병렬 팬아웃되어 전체 응답 대기 시간이 획기적으로 단축된다.</button>
+          <button class="quiz-opt" type="button" data-val="3">LLM 모델 파라미터가 자동으로 양자화되어 메모리가 절약된다.</button>
+          <button class="quiz-opt" type="button" data-val="4">런타임에서 파이썬 코드를 전혀 쓰지 않고 오직 자연어로만 시스템을 구동할 수 있다.</button>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <div class="quiz-card" data-ans="3">
+        <p class="q-text">Q2. 에이전트 워크플로 제어(Control Flow) 설계 시 가장 권장되는 접근 방식은?</p>
+        <div class="quiz-options">
+          <button class="quiz-opt" type="button" data-val="1">중앙 LLM 관리자가 매 턴마다 자연어로 어떤 에이전트를 깨울지 회의를 주재한다.</button>
+          <button class="quiz-opt" type="button" data-val="2">모든 에이전트가 단일 채팅방에 들어가 공유 컨텍스트를 누적한다.</button>
+          <button class="quiz-opt" type="button" data-val="3">호스트 코드(Node.js/Python)가 노드 간 라우팅과 종료 조건을 토큰 비용 없이 결정론적으로 제어한다.</button>
+          <button class="quiz-opt" type="button" data-val="4">결과 검증 없이 가능한 한 많은 에이전트를 재귀적으로 무한 호출한다.</button>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <div class="quiz-card" data-ans="1">
+        <p class="q-text">Q3. 모델 티어링(Model Tiering) 관점에서 코드베이스 파일 트리 탐색 및 정적 문서 수집에 가장 적합한 모델 배치는?</p>
+        <div class="quiz-options">
+          <button class="quiz-opt" type="button" data-val="1">속도가 빠르고 토큰 단가가 저렴한 고속·경량 모델 (Flash, Mini 등)</button>
+          <button class="quiz-opt" type="button" data-val="2">가장 많은 추론 연산을 수행하는 최고가 플래그십 모델</button>
+          <button class="quiz-opt" type="button" data-val="3">코드베이스를 직접 학습한 로컬 파인튜닝 전용 GPU 클러스터만 허용</button>
+          <button class="quiz-opt" type="button" data-val="4">모델을 전혀 쓰지 않고 오직 사용자가 직접 수동 복사-붙여넣기</button>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      var cards = document.querySelectorAll(".quiz-card");
+      cards.forEach(function(card) {
+        var ans = card.getAttribute("data-ans");
+        var fb = card.querySelector(".quiz-feedback");
+        var opts = card.querySelectorAll(".quiz-opt");
+        opts.forEach(function(opt) {
+          opt.addEventListener("click", function() {
+            var val = this.getAttribute("data-val");
+            opts.forEach(function(b) {
+              b.style.borderColor = "#cbd5e1";
+              b.style.background = "#ffffff";
+            });
+            if (val === ans) {
+              this.style.borderColor = "#16a34a";
+              this.style.background = "#dcfce7";
+              fb.textContent = "정답입니다! 👏 원리와 일치하는 올바른 설명입니다.";
+              fb.className = "quiz-feedback correct";
+            } else {
+              this.style.borderColor = "#dc2626";
+              this.style.background = "#fee2e2";
+              fb.textContent = "틀렸습니다. 다시 고민해 보세요!";
+              fb.className = "quiz-feedback incorrect";
+            }
+          });
+        });
+      });
+    });
+  </script>
+
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">요약 아카이브</div><div class="arc-foot-title">에이전트 함대 그래프 아키텍처 핵심 요약: 사슬에서 그래프로</div><div class="arc-foot-meta"><time datetime="2026-10-26">2026년 10월 26일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99">#컴퓨터과학</a><a class="arc-tag" href="../index.html#tags=%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8">#에이전트</a><a class="arc-tag" href="../index.html#tags=%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98">#아키텍처</a><a class="arc-tag" href="../index.html#tags=%EC%9A%94%EC%95%BD">#요약</a> · <a href="https://yghnsim.github.io/Pages/articles/agent_fleet_graph_roadmap.html" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body>
+</html>

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI 점수는 왜 같은 모델인데도 갈릴까: 하네스 패턴과 상태 연속성 핵심 요약</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-light: #eff6ff;
+      --text: #1e293b;
+      --bg: #ffffff;
+      --code-bg: #f8fafc;
+      --border: #e2e8f0;
+      --accent: #059669;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.7;
+      color: var(--text);
+      background: var(--bg);
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+    h1 {
+      font-size: 2rem;
+      color: #0f172a;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 0.75rem;
+      margin-top: 0;
+    }
+    h2 {
+      font-size: 1.4rem;
+      color: #0f172a;
+      margin-top: 2rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.4rem;
+    }
+    p, li {
+      font-size: 1.02rem;
+    }
+    .highlight-box {
+      background: var(--primary-light);
+      border-left: 4px solid var(--primary);
+      padding: 1rem 1.25rem;
+      margin: 1.5rem 0;
+      border-radius: 0 8px 8px 0;
+    }
+    .highlight-box p {
+      margin: 0;
+      font-weight: 500;
+    }
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+    }
+    .comparison-table th, .comparison-table td {
+      border: 1px solid var(--border);
+      padding: 0.75rem 1rem;
+      text-align: left;
+    }
+    .comparison-table th {
+      background: #f8fafc;
+      font-weight: 600;
+    }
+    /* 복습 3종 표준 스타일 */
+    #rv {
+      margin-top: 3.5rem;
+      padding-top: 2rem;
+      border-top: 2px dashed #cbd5e1;
+    }
+    .rv-sec {
+      margin-bottom: 2.5rem;
+    }
+    .rv-sec h3 {
+      font-size: 1.25rem;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .guide-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 1.2rem;
+    }
+    .guide-box ol {
+      margin: 0;
+      padding-left: 1.4rem;
+    }
+    .guide-box li {
+      margin-bottom: 0.5rem;
+    }
+    details.qa-item {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      margin-bottom: 0.75rem;
+      padding: 0.75rem 1rem;
+      transition: all 0.2s ease;
+    }
+    details.qa-item[open] {
+      border-color: var(--primary);
+      background: #fdfefe;
+    }
+    details.qa-item summary {
+      font-weight: 600;
+      cursor: pointer;
+      color: #1e293b;
+      outline: none;
+    }
+    details.qa-item p {
+      margin: 0.75rem 0 0 0;
+      color: #475569;
+      font-size: 0.98rem;
+    }
+    .quiz-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+    .quiz-card p.q-text {
+      font-weight: 600;
+      margin-top: 0;
+      margin-bottom: 1rem;
+      color: #0f172a;
+    }
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .quiz-opt {
+      padding: 0.65rem 1rem;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      text-align: left;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .quiz-opt:hover {
+      background: #f1f5f9;
+      border-color: #94a3b8;
+    }
+    .quiz-feedback {
+      margin-top: 0.75rem;
+      padding: 0.75rem;
+      border-radius: 6px;
+      font-size: 0.92rem;
+      display: none;
+    }
+    .quiz-feedback.correct {
+      display: block;
+      background: #dcfce7;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+    }
+    .quiz-feedback.incorrect {
+      display: block;
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
+  </style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
+</head>
+<body>
+
+  <!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="요약 아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>요약 아카이브</a><span class="arc-crumb">AI 점수는 왜 같은 모델인데도 갈릴까: 하네스 패턴과 상태 연속성 핵심 요약</span><span class="arc-meta"><time datetime="2026-10-26">2026년 10월 26일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99">#컴퓨터과학</a><a class="arc-tag" href="../index.html#tags=%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8">#에이전트</a><a class="arc-tag" href="../index.html#tags=%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4%EA%B3%B5%ED%95%99">#소프트웨어공학</a><a class="arc-tag" href="../index.html#tags=%EC%9A%94%EC%95%BD">#요약</a><a class="arc-src" href="https://yghnsim.github.io/Pages/articles/astra_harness_pattern.html" rel="noopener">원문 ↗</a></span></div></div>
+<!-- archive-header:end -->
+<h1>AI 점수는 왜 같은 모델인데도 갈릴까: 하네스 패턴과 상태 연속성 핵심 요약</h1>
+  
+  <div class="highlight-box">
+    <p><strong>핵심 명제:</strong> AI 벤치마크 점수는 모델 단독의 '순수 지능'이 아니라, 모델을 둘러싼 '실행 환경(하네스)'과의 합작품입니다. GPT-6 Astra가 표준 하네스에서 62.7%, 프로바이더 어댑터에서 99.9%를 기록한 것은 런타임 상태 관리와 도구 연결의 중요성을 증명합니다.</p>
+  </div>
+
+  <h2>1. 같은 엔진, 극단적으로 갈린 점수</h2>
+  <p>복잡한 다단계 추론과 과제 해결을 평가하는 ARC-AGI-3 벤치마크에서, 동일한 가중치(Weights)의 GPT-6 Astra 모델이 실행 환경에 따라 극단적인 점수 격차를 보였습니다.</p>
+  
+  <table class="comparison-table">
+    <thead>
+      <tr>
+        <th>구분</th>
+        <th>표준 하네스 (Standard Harness)</th>
+        <th>Provider Adapter (제품형 환경)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>ARC-AGI-3 점수</strong></td>
+        <td>62.7%</td>
+        <td><strong>99.9%</strong></td>
+      </tr>
+      <tr>
+        <td><strong>상태(기억) 관리</strong></td>
+        <td>매 턴 독립 호출 또는 최소 컨텍스트</td>
+        <td>실패 궤적 보존, 중간 추론 상태 누적</td>
+      </tr>
+      <tr>
+        <td><strong>도구 상호작용</strong></td>
+        <td>단순 텍스트 입출력 프로토콜</td>
+        <td>동적 코드 실행, 스크래치패드 메모리 주입</td>
+      </tr>
+      <tr>
+        <td><strong>비유</strong></td>
+        <td>벌거벗은 자동차 엔진 테스트</td>
+        <td>운전석, 내비게이션, 오토파일럿이 장착된 완성차</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>2. 런타임 하네스(Harness)의 3대 핵심 역할</h2>
+  <ul>
+    <li><strong>기억(상태) 연속성 보장:</strong> 에이전트가 이전 단계에서 시도했다가 실패한 코드나 추론 경로를 기억하여 무한 루프나 동일 오류 반복을 방지합니다.</li>
+    <li><strong>도구 및 샌드박스 중계:</strong> 파일 읽기/쓰기, 컴파일러 호출, 웹 검색 등의 결과를 LLM이 가장 해석하기 쉬운 구조적 포맷으로 정제하여 전달합니다.</li>
+    <li><strong>번들 vs 오픈 선택의 기로:</strong> 벤더가 제공하는 완성형 번들 어댑터는 빠른 도입과 높은 초기 성능을 보장하지만 벤더 종속(Lock-in)을 초래합니다. 반면 자체 오픈 하네스는 엔지니어링 비용이 들지만 장기적인 통제권과 모델 교체 유연성을 확보해 줍니다.</li>
+  </ul>
+
+  <!-- 복습 3종 표준 섹션 -->
+  <section id="rv">
+    <div class="rv-sec" id="rv-guide">
+      <h3>📚 예습 가이드 (Pre-reading Guide)</h3>
+      <div class="guide-box">
+        <p>본격적인 시스템 구축 전, 우리 팀의 AI 도입 전략에 대해 아래 질문을 던져보세요.</p>
+        <ol>
+          <li>우리 조직은 벤치마크 점수표의 수치만을 보고 모델을 평가하고 있지 않은가?</li>
+          <li>우리의 프롬프트 엔지니어링 노력이 실은 런타임 하네스가 담당해야 할 '상태 관리 부재'를 땜질하고 있는 것은 아닌가?</li>
+          <li>특정 모델 공급자의 독점 어댑터에 지나치게 의존하여 추후 다른 오픈소스나 경쟁 모델로의 전환 비용이 너무 높아지지 않았는가?</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="rv-sec" id="rv-qa">
+      <h3>💡 핵심 문답 5선 (Self-Review QA)</h3>
+      
+      <details class="qa-item">
+        <summary>Q1. AI 모델에서 '하네스(Harness)'란 구체적으로 무엇을 의미합니까?</summary>
+        <p>순수 언어모델 API 호출 앞뒤에서 시스템 프롬프트를 구성하고, 도구 실행 결과를 연결하며, 대화 히스토리와 중간 추론 상태를 유지·관리해 주는 소프트웨어 실행 프레임워크입니다.</p>
+      </details>
+
+      <details class="qa-item">
+        <summary>Q2. 왜 표준 하네스에서는 62.7%에 불과했던 모델이 프로바이더 어댑터에서는 99.9%를 달성했습니까?</summary>
+        <p>과제 해결 과정에서 발생한 실패 피드백을 효과적으로 요약하여 다음 턴의 프롬프트에 주입하고, 적절한 중간 연산 도구(샌드박스 등)를 최적화된 형태로 제공했기 때문입니다.</p>
+      </details>
+
+      <details class="qa-item">
+        <summary>Q3. '상태(State) 연속성'이 깨지면 에이전트에 어떤 현상이 나타납니까?</summary>
+        <p>방금 전에 실패했던 잘못된 파이썬 스크립트나 명령어를 다음 턴에서 똑같이 다시 시도하는 등 무한 루프에 빠지거나 작업 목표를 상실하게 됩니다.</p>
+      </details>
+
+      <details class="qa-item">
+        <summary>Q4. '번들 어댑터(Bundled Adapter)'의 장점과 치명적 단점은 무엇입니까?</summary>
+        <p>장점은 즉시 상용 수준의 고성능을 누릴 수 있다는 점이지만, 단점은 내부 로직이 블랙박스여서 벤더 종속성이 생기고 다른 모델로 쉽게 갈아탈 수 없다는 점입니다.</p>
+      </details>
+
+      <details class="qa-item">
+        <summary>Q5. 엔지니어링 팀이 모델 벤치마크를 해석할 때 견지해야 할 원칙은 무엇입니까?</summary>
+        <p>"모델 이름이 곧 성능이 아니다. 그 점수가 어떤 런타임 하네스와 도구 세팅 위에서 측정된 것인지(프로토콜)를 반드시 함께 확인해야 한다"는 원칙입니다.</p>
+      </details>
+    </div>
+
+    <div class="rv-sec" id="rv-quiz">
+      <h3>✍️ 확인 퀴즈 (Interactive Quiz)</h3>
+
+      <div class="quiz-card" data-ans="3">
+        <p class="q-text">Q1. GPT-6 Astra의 벤치마크 결과가 업계에 준 가장 중요한 엔지니어링 교훈은 무엇인가?</p>
+        <div class="quiz-options">
+          <button class="quiz-opt" type="button" data-val="1">오직 모델 파라미터 크기만이 최종 작업 성능을 결정한다.</button>
+          <button class="quiz-opt" type="button" data-val="2">모든 AI 소프트웨어는 파이썬 대신 C 언어로만 작성되어야 한다.</button>
+          <button class="quiz-opt" type="button" data-val="3">관측 성능은 모델 가중치뿐 아니라 모델을 둘러싼 런타임 하네스(실행 환경) 설계에 크게 좌우된다.</button>
+          <button class="quiz-opt" type="button" data-val="4">벤치마크 점수는 모델 제조사의 조작이므로 전혀 신뢰할 수 없다.</button>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <div class="quiz-card" data-ans="2">
+        <p class="q-text">Q2. 에이전트 하네스에서 '상태(State) 연속성'을 유지해야 하는 가장 주된 이유는?</p>
+        <div class="quiz-options">
+          <button class="quiz-opt" type="button" data-val="1">토큰 소비량을 매 턴마다 10배씩 늘리기 위해</button>
+          <button class="quiz-opt" type="button" data-val="2">이전 시도의 실패 원인과 중간 계산 결과를 이어받아 시행착오를 수렴시키기 위해</button>
+          <button class="quiz-opt" type="button" data-val="3">모든 에이전트의 대화 로그를 외부에 실시간 공개하기 위해</button>
+          <button class="quiz-opt" type="button" data-val="4">모델 가중치를 런타임에서 영구 수정하기 위해</button>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <div class="quiz-card" data-ans="4">
+        <p class="q-text">Q3. 벤더가 제공하는 전용 Provider Adapter 대신 독자적인 오픈 하네스를 구축하는 가장 핵심적인 이유는?</p>
+        <div class="quiz-options">
+          <button class="quiz-opt" type="button" data-val="1">초기 개발 비용과 인건비를 0으로 만들기 위해</button>
+          <button class="quiz-opt" type="button" data-val="2">별도의 평가(Evals) 절차를 완전히 생략할 수 있어서</button>
+          <button class="quiz-opt" type="button" data-val="3">모델 제조사가 망하더라도 신경 쓰지 않기 위해</button>
+          <button class="quiz-opt" type="button" data-val="4">특정 벤더 종속(Lock-in)을 탈피하고, 모델 교체 유연성과 런타임 통제권을 확보하기 위해</button>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      var cards = document.querySelectorAll(".quiz-card");
+      cards.forEach(function(card) {
+        var ans = card.getAttribute("data-ans");
+        var fb = card.querySelector(".quiz-feedback");
+        var opts = card.querySelectorAll(".quiz-opt");
+        opts.forEach(function(opt) {
+          opt.addEventListener("click", function() {
+            var val = this.getAttribute("data-val");
+            opts.forEach(function(b) {
+              b.style.borderColor = "#cbd5e1";
+              b.style.background = "#ffffff";
+            });
+            if (val === ans) {
+              this.style.borderColor = "#16a34a";
+              this.style.background = "#dcfce7";
+              fb.textContent = "정답입니다! 👏 원리와 일치하는 올바른 설명입니다.";
+              fb.className = "quiz-feedback correct";
+            } else {
+              this.style.borderColor = "#dc2626";
+              this.style.background = "#fee2e2";
+              fb.textContent = "틀렸습니다. 다시 고민해 보세요!";
+              fb.className = "quiz-feedback incorrect";
+            }
+          });
+        });
+      });
+    });
+  </script>
+
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">요약 아카이브</div><div class="arc-foot-title">AI 점수는 왜 같은 모델인데도 갈릴까: 하네스 패턴과 상태 연속성 핵심 요약</div><div class="arc-foot-meta"><time datetime="2026-10-26">2026년 10월 26일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99">#컴퓨터과학</a><a class="arc-tag" href="../index.html#tags=%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8">#에이전트</a><a class="arc-tag" href="../index.html#tags=%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4%EA%B3%B5%ED%95%99">#소프트웨어공학</a><a class="arc-tag" href="../index.html#tags=%EC%9A%94%EC%95%BD">#요약</a> · <a href="https://yghnsim.github.io/Pages/articles/astra_harness_pattern.html" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body>
+</html>

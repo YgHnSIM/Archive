@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>우리 근로계약서에 직무가 비어 있는 이유 핵심 요약: 멤버십형 고용과 노동법제</title>
+<meta name="description" content="하마구치 게이이치로의 멤버십형 고용론, 직무형과의 비교, 공백의 석판과 법원의 양손 타협(해고권 남용 vs 배치전환 재량), 한일 노동법 비교 요약">
+<style>
+:root{
+  --bg:#faf8f3; --paper-c:#ffffff; --ink:#1f2328; --muted:#5b6470; --line:#e6e1d6;
+  --accent:#c8553d; --accent-soft:#fbeee9; --link:#4a6b8a;
+  --new:#3d5f80; --new-soft:#eaf0f6;
+  --radius:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR","Malgun Gothic",system-ui,sans-serif;
+  font-size:17px;line-height:1.75;word-break:keep-all;overflow-wrap:break-word}
+@media(max-width:640px){body{font-size:16px}}
+a{color:var(--link);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+.hero-cta{margin-top:16px}
+.hero-cta a{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--new);color:#fff!important;border-radius:10px;font-weight:700;font-size:14px;text-decoration:none!important}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:12px 0}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:15px}
+.tbl th,.tbl td{border:1px solid var(--line);padding:9px 12px;text-align:left}
+.tbl th{background:var(--new-soft);color:var(--new);font-weight:700}
+.tbl td{background:#fff}
+.terms{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:10px;border-top:1px dashed var(--line)}
+.term{display:inline-flex;align-items:center;gap:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:600;padding:3px 9px;border-radius:8px}
+.rv-h{font-size:19px;margin:22px 0 6px}
+.flips{display:grid;grid-template-columns:1fr;gap:8px;margin:10px 0}
+@media(min-width:640px){.flips{grid-template-columns:1fr 1fr}}
+.flip{font:inherit;text-align:left;width:100%;border:1.5px solid var(--line,#e6e1d6);background:#fdfcf9;border-radius:12px;padding:10px 14px;cursor:pointer;color:var(--ink,#1f2328);min-height:64px}
+.flip b{display:block;font-size:17px}
+.flip .m{display:none;font-size:16px;line-height:1.6;margin-top:4px}
+.flip .hint{font-size:13px;color:var(--muted,#5b6470)}
+.flip[aria-expanded="true"]{border-color:var(--new,#3d5f80);background:var(--new-soft,#eaf0f6)}
+.flip[aria-expanded="true"] .m{display:block}
+.flip[aria-expanded="true"] .hint{display:none}
+.cloze{list-style:none;margin:10px 0;padding:0}
+.cloze li{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:10px 14px;margin:8px 0;background:#fdfcf9;font-size:16px;line-height:1.8}
+.blank{font:inherit;font-size:16px;border:0;border-bottom:2px dashed var(--accent,#c8553d);background:var(--accent-soft,#fbeee9);color:var(--accent,#c8553d);border-radius:6px 6px 0 0;padding:0 8px;cursor:pointer;min-width:4.5em}
+.blank.shown{border-bottom-style:solid;background:var(--new-soft,#eaf0f6);color:var(--new,#3d5f80);font-weight:700}
+.rv-tools{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.rv-tools button{font:inherit;font-size:15px;border:1px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link,#4a6b8a)}
+.q{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:12px 14px;margin:10px 0;background:#fdfcf9}
+.q fieldset{border:0;margin:0;padding:0}
+.q legend{font-weight:700;padding:0;margin:0 0 8px;font-size:16.5px}
+.q button{display:block;width:100%;text-align:left;font:inherit;font-size:16px;border:1.5px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:8px 12px;margin:6px 0;cursor:pointer;color:var(--ink,#1f2328)}
+.q button.right{border-color:#2f6b45;background:#e6f1ea}
+.q button.wrong{border-color:#a2452f;background:#fbeee9}
+.q button[disabled]{cursor:default;opacity:1}
+.q .ex{margin:8px 0 0;font-size:16px;padding:8px 10px;border-radius:8px;background:var(--new-soft,#eaf0f6)}
+.score{font-size:17px;font-weight:800;margin:10px 0 0}
+</style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
+</head>
+<body>
+<!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="요약 아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>요약 아카이브</a><span class="arc-crumb">우리 근로계약서에 직무가 비어 있는 이유 핵심 요약: 멤버십형 고용과 노동법제</span><span class="arc-meta"><time datetime="2026-10-26">2026년 10월 26일</time><a class="arc-tag" href="../index.html#tags=%EB%85%B8%EB%8F%99%EB%B2%95">#노동법</a><a class="arc-tag" href="../index.html#tags=%EB%B9%84%EA%B5%90%EB%85%B8%EB%8F%99%EB%B2%95">#비교노동법</a><a class="arc-tag" href="../index.html#tags=%ED%95%B4%EA%B3%A0%EB%B2%95%EC%A0%9C">#해고법제</a><a class="arc-tag" href="../index.html#tags=%EC%A1%B0%EC%A7%81%EC%84%A4%EA%B3%84">#조직설계</a><a class="arc-tag" href="../index.html#tags=%EC%9A%94%EC%95%BD">#요약</a><a class="arc-src" href="https://yghnsim.github.io/Pages/articles/membership_employment_japan_korea.html" rel="noopener">원문 ↗</a></span></div></div>
+<!-- archive-header:end -->
+<div class="wrap">
+<header class="hero">
+  <h1>우리 근로계약서에 직무가 비어 있는 이유 핵심 요약</h1>
+  <p class="lead">공백의 석판, 멤버십형 고용, 법원의 양손 타협: 왜 우리는 특정 일을 계약하지 않고 회사에 들어가는가</p>
+  <div class="hero-cta">
+    <a href="https://yghnsim.github.io/Pages/articles/membership_employment_japan_korea.html">Pages 심층 원문 읽기 ↗</a>
+  </div>
+</header>
+
+<nav class="toc">
+  <ol>
+    <li><a href="#s0"><span class="n">01</span> 한눈에 보기 (예습 브리프)</a></li>
+    <li><a href="#s1"><span class="n">02</span> 공백의 석판: 멤버십형 고용 vs 직무형 고용</a></li>
+    <li><a href="#s2"><span class="n">03</span> 일본 고용의 삼종신기와 전시 총동원체제의 기원</a></li>
+    <li><a href="#s3"><span class="n">04</span> 법원의 양손 타협: 해고 제한과 포괄적 전직 명령권</a></li>
+    <li><a href="#s4"><span class="n">05</span> 한국 노동법제의 계승과 독자적 분화</a></li>
+    <li><a href="#rv"><span class="n">✔</span> 복습 및 퀴즈</a></li>
+  </ol>
+</nav>
+
+<main>
+<section class="sec" id="s0">
+  <h2>01. 한눈에 보기 (예습 브리프)</h2>
+  <div class="card">
+    <p><strong>핵심 테제</strong>: 한국과 일본의 대기업 공채 정규직 근로계약서에는 구체적 담당 직무가 명시되지 않고 공란이거나 '회사가 명하는 업무'로 적힙니다. 하마구치 게이이치로는 이를 <strong>'공백의 석판(멤버십형 고용)'</strong>이라 부릅니다. 특정 직무를 사고파는 서구식 '직무형 고용'과 달리, 노동자는 회사라는 공동체의 '회원권(멤버십)'을 얻고 노동력 처분권을 포괄 위임합니다. 법원은 <strong>한 손으로는 정당한 이유 없는 해고를 원천 차단</strong>하고, <strong>다른 손으로는 회사의 무제한적 인사이동(배치전환) 재량</strong>을 인정해주는 거대한 사법적 교환을 성립시켰습니다.</p>
+  </div>
+  <table class="tbl">
+    <thead><tr><th>구분</th><th>직무형 고용 (Job-type, 서구 모델)</th><th>멤버십형 고용 (Membership-type, 한·일 모델)</th></tr></thead>
+    <tbody>
+      <tr><td>계약 대상</td><td>직무기술서(Job Description)에 명시된 특정 직무</td><td>회사 구성원 자격(멤버십) 및 포괄적 노무제공</td></tr>
+      <tr><td>임금 결정</td><td>직무급 (동일노동 동일임금, 직무 가치 기준)</td><td>속인급/연공급 (근속연수, 연령, 생활보장)</td></tr>
+      <tr><td>배치전환/이동</td><td>원칙적 불가 (근로자의 개별적 동의 필수)</td><td>원칙적 허용 (경영상 필요 시 광범위한 재량권 인정)</td></tr>
+      <tr><td>직무 소멸 시</td><td>해당 직무 폐지 시 계약 종료(정리해고)</td><td>다른 부서 재배치 의무 선행 (해고 회피 노력 필수)</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="sec" id="s1">
+  <h2>02. 공백의 석판: 멤버십형 고용 vs 직무형 고용</h2>
+  <div class="card">
+    <p>서구 노동법의 근간은 특정 업무와 그에 상응하는 임금을 교환하는 직무형 계약입니다. 반면 한국과 일본은 신규 졸자를 '회사'에 입사시킨 뒤 오리엔테이션과 순환보직을 통해 어떤 부서에든 보냅니다. 계약서에 적힌 직무 공백은 회사가 상황에 따라 유연하게 인력을 재배치할 수 있는 법적 공백을 제공합니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">멤버십형 고용</span>
+    <span class="term">직무형 고용</span>
+    <span class="term">공백의 석판</span>
+    <span class="term">정기공채</span>
+  </div>
+</section>
+
+<section class="sec" id="s2">
+  <h2>03. 일본 고용의 삼종신기와 전시 총동원체제의 기원</h2>
+  <div class="card">
+    <p>종신고용, 연공서열, 기업별 노동조합이라는 <strong>일본적 고용의 3대 특징(삼종신기)</strong>은 일본의 고유 전통이 아니라 1940년대 전시 총동원체제와 전후 산별노조 좌절 과정에서 형성되었습니다. 가족을 부양할 수 있는 생활급(임금령)과 이직 금지 조치가 전후 경제성장기와 맞물려 '회사 공동체' 모델로 정착했습니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">고용 삼종신기</span>
+    <span class="term">종신고용</span>
+    <span class="term">연공급</span>
+    <span class="term">기업별 노동조합</span>
+  </div>
+</section>
+
+<section class="sec" id="s3">
+  <h2>04. 법원의 양손 타협: 해고 제한과 포괄적 전직 명령권</h2>
+  <div class="card">
+    <p>서구식 노동법전을 들여온 일본과 한국에서, 법원은 현실과 법전의 괴리를 판례로 메웠습니다. 일본 최고재판소와 한국 대법원은 <strong>해고권 남용 법리</strong>를 세워 사용자의 임의해고를 엄격히 제한(근로기준법 제23조 '정당한 이유')하는 대신, <strong>도아 페인트 판결</strong> 등으로 회사의 폭넓은 전보·배치전환 재량권을 보장해주었습니다. 즉, 잘리지 않는 대신 어디로든 발령 날 각오를 해야 하는 교환입니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">해고권 남용 법리</span>
+    <span class="term">도아 페인트 판결</span>
+    <span class="term">배치전환 재량권</span>
+    <span class="term">사법적 에뮬레이션</span>
+  </div>
+</section>
+
+<section class="sec" id="s4">
+  <h2>05. 한국 노동법제의 계승과 독자적 분화</h2>
+  <div class="card">
+    <p>한국은 일본의 멤버십형 고용 관행과 판례 법리를 계승했으나, 몇 가지 결정적 지점에서 갈라졌습니다: ① 외환위기(1997) 이후 정리해고 요건(법 제24조)의 명문화, ② 취업규칙 불이익 변경 시 '사회통념상 합리성' 법리를 대법원 전원합의체(2023)로 폐기하고 동의 원칙을 복원, ③ 공채 축소와 수시채용 확대로 인한 계약과 현실의 균열 심화입니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">경영상 이유에 의한 해고</span>
+    <span class="term">취업규칙 불이익변경</span>
+    <span class="term">대법원 2023 전원합의체</span>
+    <span class="term">수시채용 전환</span>
+  </div>
+</section>
+
+<section class="sec" id="rv">
+  <h2>복습 및 퀴즈</h2>
+  <h3 class="rv-h">핵심 개념 플래시카드</h3>
+  <p class="hint">카드를 누르면 숨겨진 해설이 나타납니다.</p>
+  <div class="flips">
+    <button type="button" class="flip" aria-expanded="false"><b>멤버십형 고용</b><span class="hint">클릭하여 확인</span><span class="m">구체적 직무를 정하지 않고 기업의 구성원 자격을 취득하며, 포괄적 노무 지휘권을 부여하고 장기 고용을 전제하는 고용 방식.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>직무형 고용</b><span class="hint">클릭하여 확인</span><span class="m">특정한 직무기술서(Job Description)를 바탕으로 해당 업무를 수행하기 위해 체결되는 서구식 고용 계약.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>공백의 석판</b><span class="hint">클릭하여 확인</span><span class="m">하마구치 게이이치로가 명명한 개념으로, 근로계약서 상 직무 내용이 비어 있어 회사의 재배치 재량을 허용하는 상태.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>일본 고용 삼종신기</b><span class="hint">클릭하여 확인</span><span class="m">종신고용(정년보장), 연공서열 임금(호봉제), 기업별 노동조합이라는 일본식 고용 모델의 3대 지주.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>법원의 양손 타협</b><span class="hint">클릭하여 확인</span><span class="m">해고는 극도로 어렵게 제한하는 대신(왼손), 기업의 전보·배치전환 권한은 폭넓게 인정해주는(오른손) 사법적 절충.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>도아 페인트(東亜ペイント) 판결</b><span class="hint">클릭하여 확인</span><span class="m">근로계약상 직무나 근무지 한정이 없는 한, 통상 감수해야 할 생활상 불이익을 넘지 않으면 전근 명령이 정당하다고 인정한 일본의 리딩 판결.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>취업규칙 합리성 법리</b><span class="hint">클릭하여 확인</span><span class="m">노조 동의가 없더라도 취업규칙 변경이 사회통념상 합리성이 있으면 유효하다는 과거 법리로, 한국 대법원은 2023년 전원합의체로 이를 폐기함.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>해고 회피 노력 의무</b><span class="hint">클릭하여 확인</span><span class="m">멤버십형 고용에서 특정 직무가 없어지더라도 즉시 해고할 수 없고 다른 부서로 전환배치하는 등의 노력을 다해야 하는 의무.</span></button>
+  </div>
+
+  <h3 class="rv-h">빈칸 채우기</h3>
+  <ul class="cloze">
+    <li>하마구치 게이이치로는 한일 대기업 근로계약의 직무 미지정 상태를 <button type="button" class="blank" data-a="공백의 석판" aria-label="빈칸">???</button>이라 표현했다.</li>
+    <li>구성원 지위를 사고파는 고용을 <button type="button" class="blank" data-a="멤버십형" aria-label="빈칸">???</button> 고용이라 한다.</li>
+    <li>일본 고용의 삼종신기는 종신고용, 연공서열, 그리고 <button type="button" class="blank" data-a="기업별 노동조합" aria-label="빈칸">???</button>이다.</li>
+    <li>법원은 해고를 엄격히 제한하는 대신 회사의 폭넓은 <button type="button" class="blank" data-a="배치전환" aria-label="빈칸">???</button>(전보) 재량을 인정했다.</li>
+    <li>일본에서 근무지 한정이 없는 근로자에 대한 전근 명령의 유효성을 확립한 리딩 판결은 <button type="button" class="blank" data-a="도아 페인트" aria-label="빈칸">???</button> 판결이다.</li>
+    <li>2023년 한국 대법원 전원합의체는 취업규칙 불이익 변경 시 <button type="button" class="blank" data-a="사회통념상 합리성" aria-label="빈칸">???</button> 법리를 폐기하였다.</li>
+  </ul>
+  <div class="rv-tools">
+    <button type="button" id="cshow">정답 모두 보기</button>
+    <button type="button" id="chide">다시 가리기</button>
+  </div>
+
+  <h3 class="rv-h">5문항 퀴즈</h3>
+  <div id="quiz">
+    <div class="q" data-ans="1">
+      <fieldset><legend>1. '직무형 고용'과 비교할 때 '멤버십형 고용'의 가장 큰 계약상 특징은?</legend>
+        <button type="button" data-i="0">① 입사 첫날부터 퇴직금이 전액 일시불로 지급된다.</button>
+        <button type="button" data-i="1">② 근로계약서에 구체적 직무나 근무 장소가 한정되지 않고 포괄적으로 체결된다.</button>
+        <button type="button" data-i="2">③ 매달 직무 기술서에 따라 임금이 재산정된다.</button>
+        <button type="button" data-i="3">④ 고용보험에 가입할 수 없다.</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ②. 멤버십형 고용은 특정 일(Job)이 아니라 회사 조직 구성원으로서의 자격을 맺는 계약입니다.</div>
+    </div>
+    <div class="q" data-ans="3">
+      <fieldset><legend>2. 멤버십형 고용에서 특정 직무나 부서가 폐지되었을 때 사용자의 법적 의무는?</legend>
+        <button type="button" data-i="0">① 해당 부서 근로자를 이유 불문하고 즉시 정리해고한다.</button>
+        <button type="button" data-i="1">② 퇴직금을 지급하지 않고 계약을 해지할 수 있다.</button>
+        <button type="button" data-i="2">③ 직무형 고용처럼 자동 실직 처리된다.</button>
+        <button type="button" data-i="3">④ 사내 다른 부서로의 재배치, 교육훈련 등 해고회피 노력을 다해야 한다.</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ④. 사람을 보고 뽑은 멤버십 계약이므로 특정 일이 없어져도 다른 일을 찾아 재배치할 의무가 부과됩니다.</div>
+    </div>
+    <div class="q" data-ans="0">
+      <fieldset><legend>3. 법원의 '양손 타협'에서 오른손(회사에 인정해 준 권한)에 해당하는 것은?</legend>
+        <button type="button" data-i="0">① 업무상 필요성에 기초한 광범위한 인사발령 및 배치전환 재량권</button>
+        <button type="button" data-i="1">② 임금을 최저임금 이하로 깎을 수 있는 재량권</button>
+        <button type="button" data-i="2">③ 노동조합 설립을 거부할 수 있는 권한</button>
+        <button type="button" data-i="3">④ 야근 수당을 영구히 미지급할 수 있는 권한</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ①. 해고를 막아주는 대가로 사내 배치전환 명령권을 폭넓게 긍정해 주었습니다.</div>
+    </div>
+    <div class="q" data-ans="2">
+      <fieldset><legend>4. 일본의 도아 페인트(東亜ペイント) 판결이 내린 결론의 요지는?</legend>
+        <button type="button" data-i="0">① 근로자의 가족이 아프면 어떠한 전근도 무효이다.</button>
+        <button type="button" data-i="1">② 페인트 공장 노동자는 모두 자영업자이다.</button>
+        <button type="button" data-i="2">③ 계약상 근무지 한정이 없다면 통상 감수할 수준의 생활상 불이익은 전근 명령의 권리남용이 아니다.</button>
+        <button type="button" data-i="3">④ 정규직 노동자에게는 전근 명령을 내릴 수 없다.</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ③. 배치전환 재량권을 폭넓게 인정하여 멤버십형 고용의 인사이동 법리를 확립했습니다.</div>
+    </div>
+    <div class="q" data-ans="1">
+      <fieldset><legend>5. 2023년 한국 대법원 전원합의체 판결이 노동법상 일으킨 중요한 변화는?</legend>
+        <button type="button" data-i="0">① 모든 근로계약서에 직무기술서 첨부를 의무화했다.</button>
+        <button type="button" data-i="1">② 근로자 동의 없는 취업규칙 불이익 변경에서 '사회통념상 합리성' 예외를 원칙적으로 폐기했다.</button>
+        <button type="button" data-i="2">③ 연공서열형 호봉제를 전면 불법화했다.</button>
+        <button type="button" data-i="3">④ 정규직 공채 제도를 금지했다.</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ②. 근로기준법 제94조의 집단적 동의권을 엄격히 보장하기 위해 판례 법리를 변경했습니다.</div>
+    </div>
+    <p class="score" id="score" aria-live="polite">점수: 0 / 5</p>
+    <div class="rv-tools"><button type="button" id="qreset">다시 풀기</button></div>
+  </div>
+</section>
+</main>
+</div>
+
+<script>(function(){
+function $$(q){return [].slice.call(document.querySelectorAll(q))}
+$$(".flip").forEach(function(b){b.onclick=function(){b.setAttribute("aria-expanded",b.getAttribute("aria-expanded")==="true"?"false":"true")}});
+function show(b){b.textContent=b.dataset.a;b.classList.add("shown");b.setAttribute("aria-label","답: "+b.dataset.a)}
+function hide(b){b.textContent="???";b.classList.remove("shown");b.setAttribute("aria-label","빈칸")}
+$$(".blank").forEach(function(b){b.onclick=function(){if(b.classList.contains("shown")){hide(b)}else{show(b)}}});
+var cs=document.getElementById("cshow"),ch=document.getElementById("chide");
+if(cs)cs.onclick=function(){$$(".blank").forEach(show)};
+if(ch)ch.onclick=function(){$$(".blank").forEach(hide)};
+var scoreEl=document.getElementById("score");
+var totalQ=$$("#quiz .q").length;
+function updateScore(){var r=$$("#quiz .q button.right").length;if(scoreEl)scoreEl.textContent="점수: "+r+" / "+totalQ}
+$$("#quiz .q").forEach(function(q){
+  var ans=parseInt(q.dataset.ans,10);
+  var btns=$$(q.querySelectorAll("button"));
+  btns.forEach(function(b,i){
+    b.onclick=function(){
+      btns.forEach(function(x){x.disabled=true});
+      if(i===ans){b.classList.add("right")}else{
+        b.classList.add("wrong");
+        if(btns[ans])btns[ans].classList.add("right");
+      }
+      var ex=q.querySelector(".ex");
+      if(ex)ex.style.display="block";
+      updateScore();
+    };
+  });
+});
+var qr=document.getElementById("qreset");
+if(qr)qr.onclick=function(){
+  $$("#quiz .q").forEach(function(q){
+    $$(q.querySelectorAll("button")).forEach(function(b){
+      b.disabled=false;
+      b.classList.remove("right","wrong");
+    });
+    var ex=q.querySelector(".ex");
+    if(ex)ex.style.display="none";
+  });
+  if(scoreEl)scoreEl.textContent="점수: 0 / "+totalQ;
+};
+})();</script>
+
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">요약 아카이브</div><div class="arc-foot-title">우리 근로계약서에 직무가 비어 있는 이유 핵심 요약: 멤버십형 고용과 노동법제</div><div class="arc-foot-meta"><time datetime="2026-10-26">2026년 10월 26일</time><a class="arc-tag" href="../index.html#tags=%EB%85%B8%EB%8F%99%EB%B2%95">#노동법</a><a class="arc-tag" href="../index.html#tags=%EB%B9%84%EA%B5%90%EB%85%B8%EB%8F%99%EB%B2%95">#비교노동법</a><a class="arc-tag" href="../index.html#tags=%ED%95%B4%EA%B3%A0%EB%B2%95%EC%A0%9C">#해고법제</a><a class="arc-tag" href="../index.html#tags=%EC%A1%B0%EC%A7%81%EC%84%A4%EA%B3%84">#조직설계</a><a class="arc-tag" href="../index.html#tags=%EC%9A%94%EC%95%BD">#요약</a> · <a href="https://yghnsim.github.io/Pages/articles/membership_employment_japan_korea.html" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body>
+</html>

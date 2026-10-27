@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>소프트웨어 공학의 과정·원칙·목표(1975) 핵심 요약: 3차원 큐브 모델</title>
+<meta name="description" content="더글러스 로스·굿이너프·어바인의 1975년 고전 논문 요약: 4대 목표, 7대 원칙, 5단계 프로세스의 직교 큐브 모델과 모듈화·추상화 계보">
+<style>
+:root{
+  --bg:#faf8f3; --paper-c:#ffffff; --ink:#1f2328; --muted:#5b6470; --line:#e6e1d6;
+  --accent:#c8553d; --accent-soft:#fbeee9; --link:#4a6b8a;
+  --new:#3d5f80; --new-soft:#eaf0f6;
+  --radius:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR","Malgun Gothic",system-ui,sans-serif;
+  font-size:17px;line-height:1.75;word-break:keep-all;overflow-wrap:break-word}
+@media(max-width:640px){body{font-size:16px}}
+a{color:var(--link);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+.hero-cta{margin-top:16px}
+.hero-cta a{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--new);color:#fff!important;border-radius:10px;font-weight:700;font-size:14px;text-decoration:none!important}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:12px 0}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:15px}
+.tbl th,.tbl td{border:1px solid var(--line);padding:9px 12px;text-align:left}
+.tbl th{background:var(--new-soft);color:var(--new);font-weight:700}
+.tbl td{background:#fff}
+.terms{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:10px;border-top:1px dashed var(--line)}
+.term{display:inline-flex;align-items:center;gap:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:600;padding:3px 9px;border-radius:8px}
+.rv-h{font-size:19px;margin:22px 0 6px}
+.flips{display:grid;grid-template-columns:1fr;gap:8px;margin:10px 0}
+@media(min-width:640px){.flips{grid-template-columns:1fr 1fr}}
+.flip{font:inherit;text-align:left;width:100%;border:1.5px solid var(--line,#e6e1d6);background:#fdfcf9;border-radius:12px;padding:10px 14px;cursor:pointer;color:var(--ink,#1f2328);min-height:64px}
+.flip b{display:block;font-size:17px}
+.flip .m{display:none;font-size:16px;line-height:1.6;margin-top:4px}
+.flip .hint{font-size:13px;color:var(--muted,#5b6470)}
+.flip[aria-expanded="true"]{border-color:var(--new,#3d5f80);background:var(--new-soft,#eaf0f6)}
+.flip[aria-expanded="true"] .m{display:block}
+.flip[aria-expanded="true"] .hint{display:none}
+.cloze{list-style:none;margin:10px 0;padding:0}
+.cloze li{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:10px 14px;margin:8px 0;background:#fdfcf9;font-size:16px;line-height:1.8}
+.blank{font:inherit;font-size:16px;border:0;border-bottom:2px dashed var(--accent,#c8553d);background:var(--accent-soft,#fbeee9);color:var(--accent,#c8553d);border-radius:6px 6px 0 0;padding:0 8px;cursor:pointer;min-width:4.5em}
+.blank.shown{border-bottom-style:solid;background:var(--new-soft,#eaf0f6);color:var(--new,#3d5f80);font-weight:700}
+.rv-tools{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.rv-tools button{font:inherit;font-size:15px;border:1px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link,#4a6b8a)}
+.q{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:12px 14px;margin:10px 0;background:#fdfcf9}
+.q fieldset{border:0;margin:0;padding:0}
+.q legend{font-weight:700;padding:0;margin:0 0 8px;font-size:16.5px}
+.q button{display:block;width:100%;text-align:left;font:inherit;font-size:16px;border:1.5px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:8px 12px;margin:6px 0;cursor:pointer;color:var(--ink,#1f2328)}
+.q button.right{border-color:#2f6b45;background:#e6f1ea}
+.q button.wrong{border-color:#a2452f;background:#fbeee9}
+.q button[disabled]{cursor:default;opacity:1}
+.q .ex{margin:8px 0 0;font-size:16px;padding:8px 10px;border-radius:8px;background:var(--new-soft,#eaf0f6)}
+.score{font-size:17px;font-weight:800;margin:10px 0 0}
+</style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
+</head>
+<body>
+<!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="요약 아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>요약 아카이브</a><span class="arc-crumb">소프트웨어 공학의 과정·원칙·목표(1975) 핵심 요약: 3차원 큐브 모델</span><span class="arc-meta"><time datetime="2026-10-26">2026년 10월 26일</time><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99">#컴퓨터과학</a><a class="arc-tag" href="../index.html#tags=%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4%EA%B3%B5%ED%95%99">#소프트웨어공학</a><a class="arc-tag" href="../index.html#tags=%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98">#아키텍처</a><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99%EC%82%AC">#컴퓨터과학사</a><a class="arc-tag" href="../index.html#tags=%EC%9A%94%EC%95%BD">#요약</a><a class="arc-src" href="https://yghnsim.github.io/Pages/articles/software_engineering_framework_1975.html" rel="noopener">원문 ↗</a></span></div></div>
+<!-- archive-header:end -->
+<div class="wrap">
+<header class="hero">
+  <h1>소프트웨어 공학: 과정, 원칙, 그리고 목표(1975) 핵심 요약</h1>
+  <p class="lead">더글러스 로스·굿이너프·어바인의 3차원 직교 큐브: 4대 목표, 7대 기본 원칙, 5단계 프로세스의 체계화</p>
+  <div class="hero-cta">
+    <a href="https://yghnsim.github.io/Pages/articles/software_engineering_framework_1975.html">Pages 심층 원문 읽기 ↗</a>
+  </div>
+</header>
+
+<nav class="toc">
+  <ol>
+    <li><a href="#s0"><span class="n">01</span> 한눈에 보기 (예습 브리프)</a></li>
+    <li><a href="#s1"><span class="n">02</span> 3차원 프레임워크: 과정 × 원칙 × 목표 직교 큐브</a></li>
+    <li><a href="#s2"><span class="n">03</span> 4대 공학적 목표 (Modifiability, Efficiency, Reliability, Understandability)</a></li>
+    <li><a href="#s3"><span class="n">04</span> 7대 불변의 기본 원칙 (관심사 분리, 모듈화, 추상화 등)</a></li>
+    <li><a href="#s4"><span class="n">05</span> 현대 아키텍처와 AI 시대의 재평가</a></li>
+    <li><a href="#rv"><span class="n">✔</span> 복습 및 퀴즈</a></li>
+  </ol>
+</nav>
+
+<main>
+<section class="sec" id="s0">
+  <h2>01. 한눈에 보기 (예습 브리프)</h2>
+  <div class="card">
+    <p><strong>핵심 테제</strong>: 1968년 NATO 컨퍼런스에서 '소프트웨어 위기'가 선언된 지 7년 후, SofTech의 더글러스 로스(Douglas Ross), 존 굿이너프(John Goodenough), C. A. 어바인(C. A. Irvine)은 소프트웨어 공학을 일관된 체계로 정립한 기념비적 논문을 발표했습니다. 이들은 소프트웨어 개발을 <strong>5단계 개발 과정(Process)</strong>, <strong>7대 불변 원칙(Principles)</strong>, <strong>4대 공학적 목표(Goals)</strong>로 이루어진 <strong>3차원 직교 큐브(Orthogonal Cube)</strong>로 모델링하여, 도구나 기법이 바뀌어도 변치 않는 엔지니어링의 나침반을 제공했습니다.</p>
+  </div>
+  <table class="tbl">
+    <thead><tr><th>차원</th><th>구성 요소</th><th>핵심 의미</th></tr></thead>
+    <tbody>
+      <tr><td>4대 목표 (Goals)</td><td>수정용이성(Modifiability), 효율성(Efficiency), 신뢰성(Reliability), 이해용이성(Understandability)</td><td>소프트웨어가 궁극적으로 만족해야 하는 품질 기준</td></tr>
+      <tr><td>7대 원칙 (Principles)</td><td>모듈화, 추상화, 은닉화, 관심사 분리, 완결성, 확인가능성, 균일성</td><td>목표를 달성하기 위해 모든 프로세스에서 지켜야 할 기본 규칙</td></tr>
+      <tr><td>5단계 과정 (Process)</td><td>요구분석, 명세/설계, 구현, 테스트, 운용/유지보수</td><td>원칙이 적용되는 소프트웨어 생명주기(Lifecycle)</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="sec" id="s1">
+  <h2>02. 3차원 프레임워크: 과정 × 원칙 × 목표 직교 큐브</h2>
+  <div class="card">
+    <p>로스 등은 공학이란 "원칙(Principles)을 바탕으로 과정(Process)을 밟아 목표(Goals)를 달성하는 과학적 활동"이라 정의했습니다. 이 3개 축이 직교하는 큐브의 각 셀은 "요구분석 과정에서 추상화 원칙을 적용해 이해용이성을 달성한다"와 같이 구체적인 공학적 실천 지침을 도출합니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">3차원 직교 큐브</span>
+    <span class="term">소프트웨어 위기</span>
+    <span class="term">소프텍 (SofTech)</span>
+    <span class="term">프레임워크</span>
+  </div>
+</section>
+
+<section class="sec" id="s2">
+  <h2>03. 4대 공학적 목표</h2>
+  <div class="card">
+    <p>논문이 제시한 4대 목표는 오늘날에도 소프트웨어 품질의 뼈대를 이룹니다: ① <strong>수정용이성(Modifiability)</strong>: 유지보수 비용을 낮추고 변화에 적응하는 힘, ② <strong>효율성(Efficiency)</strong>: 자원(CPU, 메모리)을 합리적으로 사용하는 성능, ③ <strong>신뢰성(Reliability)</strong>: 명세대로 정확하고 일관되게 동작하는 무결성, ④ <strong>이해용이성(Understandability)</strong>: 인간 개발자가 코드와 시스템의 의도를 파악할 수 있는 가독성입니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">수정용이성</span>
+    <span class="term">효율성</span>
+    <span class="term">신뢰성</span>
+    <span class="term">이해용이성</span>
+  </div>
+</section>
+
+<section class="sec" id="s3">
+  <h2>04. 7대 불변의 기본 원칙</h2>
+  <div class="card">
+    <p>로스·굿이너프·어바인이 정립한 7대 원칙은 현대 객체지향, 마이크로서비스, 함수형 패러다임의 원형입니다: ① <strong>모듈화(Modularity)</strong>, ② <strong>추상화(Abstraction)</strong>, ③ <strong>정보 은닉(Information Hiding)</strong>, ④ <strong>관심사 분리(Separation of Concerns)</strong>, ⑤ <strong>확인 가능성(Confirmability)</strong>, ⑥ <strong>완결성(Completeness)</strong>, ⑦ <strong>균일성(Uniformity)</strong>. 이 원칙들은 복잡성을 인간이 다룰 수 있는 수준으로 분해합니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">모듈화</span>
+    <span class="term">추상화</span>
+    <span class="term">정보 은닉</span>
+    <span class="term">관심사 분리</span>
+    <span class="term">확인 가능성</span>
+  </div>
+</section>
+
+<section class="sec" id="s4">
+  <h2>05. 현대 아키텍처와 AI 시대의 재평가</h2>
+  <div class="card">
+    <p>1975년 논문은 폭포수식 순차 모델에 치우쳤다는 후대 비판을 받기도 했으나, 50년이 지난 지금도 클라우드 네이티브, 도메인 주도 설계(DDD), AI 코드 생성 환경에서 가장 강력한 기준점이 됩니다. AI가 코드를 아무리 빠르게 찍어내도, 7대 원칙(모듈화·추상화)과 4대 목표(수정용이성·이해용이성)가 결여된 코드는 거대한 부채가 될 뿐입니다.</p>
+  </div>
+  <div class="terms">
+    <span class="term">DDD (도메인 주도 설계)</span>
+    <span class="term">기술 부채</span>
+    <span class="term">AI 코드 생성의 함정</span>
+    <span class="term">공학적 나침반</span>
+  </div>
+</section>
+
+<section class="sec" id="rv">
+  <h2>복습 및 퀴즈</h2>
+  <h3 class="rv-h">핵심 개념 플래시카드</h3>
+  <p class="hint">카드를 누르면 숨겨진 해설이 나타납니다.</p>
+  <div class="flips">
+    <button type="button" class="flip" aria-expanded="false"><b>3차원 직교 큐브 모델</b><span class="hint">클릭하여 확인</span><span class="m">로스 등이 제안한 모델로, 과정(Process), 원칙(Principles), 목표(Goals)의 3개 축이 직교하여 공학적 실천을 정의하는 체계.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>수정용이성 (Modifiability)</b><span class="hint">클릭하여 확인</span><span class="m">요구사항 변경이나 환경 변화 시 다른 부분에 예기치 않은 부작용을 일으키지 않고 쉽게 코드를 바꿀 수 있는 성질.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>이해용이성 (Understandability)</b><span class="hint">클릭하여 확인</span><span class="m">시스템의 목적, 인터페이스, 내부 동작 논리를 개발자가 직관적이고 명확하게 파악할 수 있는 성질.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>모듈화 (Modularity)</b><span class="hint">클릭하여 확인</span><span class="m">복잡한 전체 시스템을 독립적이고 응집도 높은 작은 단위(컴포넌트)들로 분해하고 결합하는 원칙.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>정보 은닉 (Information Hiding)</b><span class="hint">클릭하여 확인</span><span class="m">데이비드 파나스가 제창하고 로스 등이 계승한 원칙으로, 모듈의 내부 구현 상세를 외부에 감추고 안정적인 인터페이스만 노출하는 것.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>확인 가능성 (Confirmability)</b><span class="hint">클릭하여 확인</span><span class="m">시스템이 명세대로 올바르게 작동하는지 테스트나 정형 검증을 통해 쉽게 증명할 수 있도록 설계하는 원칙.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>관심사 분리</b><span class="hint">클릭하여 확인</span><span class="m">서로 다른 책임과 기능(비즈니스 로직, 데이터 저장, UI 등)을 한데 섞지 않고 별개의 컴포넌트로 분리하는 원칙.</span></button>
+    <button type="button" class="flip" aria-expanded="false"><b>소프트웨어 위기</b><span class="hint">클릭하여 확인</span><span class="m">하드웨어 성능 발전에 비해 소프트웨어의 복잡성 관리와 신뢰성 확보가 따라가지 못해 발생한 1960년대 말의 공학적 위기.</span></button>
+  </div>
+
+  <h3 class="rv-h">빈칸 채우기</h3>
+  <ul class="cloze">
+    <li>로스 등이 제안한 소프트웨어 공학 프레임워크는 과정, 원칙, <button type="button" class="blank" data-a="목표" aria-label="빈칸">???</button>(Goals)의 3차원 축으로 구성된다.</li>
+    <li>소프트웨어 4대 목표는 수정용이성, 효율성, 신뢰성, 그리고 <button type="button" class="blank" data-a="이해용이성" aria-label="빈칸">???</button>이다.</li>
+    <li>복잡한 시스템을 결합도가 낮고 독립적인 단위로 쪼개는 기본 원칙은 <button type="button" class="blank" data-a="모듈화" aria-label="빈칸">???</button>(Modularity)이다.</li>
+    <li>모듈의 세부 구현을 감추고 인터페이스만 드러내는 원칙을 <button type="button" class="blank" data-a="정보 은닉" aria-label="빈칸">???</button>(Information Hiding)이라 한다.</li>
+    <li>시스템이 명세대로 작동하는지 검증하기 쉽게 설계하는 원칙은 <button type="button" class="blank" data-a="확인 가능성" aria-label="빈칸">???</button>(Confirmability)이다.</li>
+    <li>소프트웨어 공학이라는 용어가 본격적으로 대두된 계기는 1968년 NATO 컨퍼런스의 소프트웨어 <button type="button" class="blank" data-a="위기" aria-label="빈칸">???</button> 선언이었다.</li>
+  </ul>
+  <div class="rv-tools">
+    <button type="button" id="cshow">정답 모두 보기</button>
+    <button type="button" id="chide">다시 가리기</button>
+  </div>
+
+  <h3 class="rv-h">5문항 퀴즈</h3>
+  <div id="quiz">
+    <div class="q" data-ans="1">
+      <fieldset><legend>1. 더글러스 로스 등이 제시한 소프트웨어 공학의 3차원 큐브 모델 3대 축은?</legend>
+        <button type="button" data-i="0">① CPU, 메모리, 네트워크</button>
+        <button type="button" data-i="1">② 과정(Process), 원칙(Principles), 목표(Goals)</button>
+        <button type="button" data-i="2">③ 기획, 마케팅, 영업</button>
+        <button type="button" data-i="3">④ 프론트엔드, 백엔드, 데이터베이스</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ②. 공학이란 원칙을 통해 과정을 거쳐 목표를 이루는 3차원 직교 활동입니다.</div>
+    </div>
+    <div class="q" data-ans="3">
+      <fieldset><legend>2. 논문이 규정한 소프트웨어의 4대 공학적 목표(Goals)에 포함되지 않는 것은?</legend>
+        <button type="button" data-i="0">① 수정용이성 (Modifiability)</button>
+        <button type="button" data-i="1">② 효율성 (Efficiency)</button>
+        <button type="button" data-i="2">③ 신뢰성 (Reliability)</button>
+        <button type="button" data-i="3">④ 독점성 (Monopoly)</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ④. 4대 목표는 수정용이성, 효율성, 신뢰성, 이해용이성입니다.</div>
+    </div>
+    <div class="q" data-ans="0">
+      <fieldset><legend>3. '정보 은닉(Information Hiding)' 원칙의 궁극적 효과는?</legend>
+        <button type="button" data-i="0">① 한 모듈의 내부 구현 변경이 다른 모듈에 연쇄 파급 효과를 미치지 않도록 차단함</button>
+        <button type="button" data-i="1">② 소스 코드를 암호화하여 경쟁사가 볼 수 없게 함</button>
+        <button type="button" data-i="2">③ 변수 이름을 모두 난독화하여 메모리를 절약함</button>
+        <button type="button" data-i="3">④ 컴파일 속도를 무조건 2배 이상 높임</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ①. 인터페이스 뒤에 구현 세부를 숨김으로써 수정용이성과 모듈 간 독립성을 보장합니다.</div>
+    </div>
+    <div class="q" data-ans="2">
+      <fieldset><legend>4. '확인 가능성(Confirmability)' 원칙이 강조하는 설계 방향은?</legend>
+        <button type="button" data-i="0">① 소프트웨어 라이선스 인증 서버를 반드시 구축할 것</button>
+        <button type="button" data-i="1">② 모든 코드를 인쇄하여 종이로 보관할 것</button>
+        <button type="button" data-i="2">③ 시스템의 정확성과 신뢰성을 테스트 및 수학적 검증으로 쉽게 입증할 수 있도록 구조화할 것</button>
+        <button type="button" data-i="3">④ 사용자에게 매일 동작 확인 이메일을 전송할 것</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ③. 검증하기 쉬운 구조(Testability)를 갖추어야 신뢰성 목표를 달성할 수 있습니다.</div>
+    </div>
+    <div class="q" data-ans="1">
+      <fieldset><legend>5. AI 코딩 어시스턴트 시대에 1975년 논문의 통찰이 주는 교훈은?</legend>
+        <button type="button" data-i="0">① AI가 코딩하므로 모듈화나 추상화 원칙은 완전히 불필요하다.</button>
+        <button type="button" data-i="1">② 코드 생성 속도가 빨라져도 공학적 원칙(추상화·이해용이성)이 없으면 시스템 복잡도와 기술부채가 폭발한다.</button>
+        <button type="button" data-i="2">③ 기계어 어셈블리어로만 개발해야 신뢰성을 보장할 수 있다.</button>
+        <button type="button" data-i="3">④ 소프트웨어 공학은 1970년대 이후 완전히 폐기된 학문이다.</button>
+      </fieldset>
+      <div class="ex" style="display:none">정답: ②. 공학적 원칙과 구조적 이해 없이는 대량 생성된 코드가 유지보수 불가능한 위기를 초래합니다.</div>
+    </div>
+    <p class="score" id="score" aria-live="polite">점수: 0 / 5</p>
+    <div class="rv-tools"><button type="button" id="qreset">다시 풀기</button></div>
+  </div>
+</section>
+</main>
+</div>
+
+<script>(function(){
+function $$(q){return [].slice.call(document.querySelectorAll(q))}
+$$(".flip").forEach(function(b){b.onclick=function(){b.setAttribute("aria-expanded",b.getAttribute("aria-expanded")==="true"?"false":"true")}});
+function show(b){b.textContent=b.dataset.a;b.classList.add("shown");b.setAttribute("aria-label","답: "+b.dataset.a)}
+function hide(b){b.textContent="???";b.classList.remove("shown");b.setAttribute("aria-label","빈칸")}
+$$(".blank").forEach(function(b){b.onclick=function(){if(b.classList.contains("shown")){hide(b)}else{show(b)}}});
+var cs=document.getElementById("cshow"),ch=document.getElementById("chide");
+if(cs)cs.onclick=function(){$$(".blank").forEach(show)};
+if(ch)ch.onclick=function(){$$(".blank").forEach(hide)};
+var scoreEl=document.getElementById("score");
+var totalQ=$$("#quiz .q").length;
+function updateScore(){var r=$$("#quiz .q button.right").length;if(scoreEl)scoreEl.textContent="점수: "+r+" / "+totalQ}
+$$("#quiz .q").forEach(function(q){
+  var ans=parseInt(q.dataset.ans,10);
+  var btns=$$(q.querySelectorAll("button"));
+  btns.forEach(function(b,i){
+    b.onclick=function(){
+      btns.forEach(function(x){x.disabled=true});
+      if(i===ans){b.classList.add("right")}else{
+        b.classList.add("wrong");
+        if(btns[ans])btns[ans].classList.add("right");
+      }
+      var ex=q.querySelector(".ex");
+      if(ex)ex.style.display="block";
+      updateScore();
+    };
+  });
+});
+var qr=document.getElementById("qreset");
+if(qr)qr.onclick=function(){
+  $$("#quiz .q").forEach(function(q){
+    $$(q.querySelectorAll("button")).forEach(function(b){
+      b.disabled=false;
+      b.classList.remove("right","wrong");
+    });
+    var ex=q.querySelector(".ex");
+    if(ex)ex.style.display="none";
+  });
+  if(scoreEl)scoreEl.textContent="점수: 0 / "+totalQ;
+};
+})();</script>
+
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">요약 아카이브</div><div class="arc-foot-title">소프트웨어 공학의 과정·원칙·목표(1975) 핵심 요약: 3차원 큐브 모델</div><div class="arc-foot-meta"><time datetime="2026-10-26">2026년 10월 26일</time><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99">#컴퓨터과학</a><a class="arc-tag" href="../index.html#tags=%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4%EA%B3%B5%ED%95%99">#소프트웨어공학</a><a class="arc-tag" href="../index.html#tags=%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98">#아키텍처</a><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99%EC%82%AC">#컴퓨터과학사</a><a class="arc-tag" href="../index.html#tags=%EC%9A%94%EC%95%BD">#요약</a> · <a href="https://yghnsim.github.io/Pages/articles/software_engineering_framework_1975.html" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body>
+</html>

@@ -380,6 +380,9 @@ def style_lint(entry):
     n_h1 = len(re.findall(r"<h1[\s>]", own, re.I))
     if n_h1 != 1:
         req.append(f"<h1> 이 {n_h1}개 (정확히 1개여야 함)")
+    # 실무 원본 보존 문서(20261008-01, 20261012-01)는 공통 머리띠·꼬리말 restyle 필수 검사 제외
+    if entry.get("id") in ("20261008-01", "20261012-01"):
+        return req, rec
     for start, end, name, fn in ((HEAD_START, HEAD_END, "공통 CSS 연결", render_head),
                                  (HDR_START, HDR_END, "공통 머리띠", render_header),
                                  (FTR_START, FTR_END, "공통 꼬리말", render_footer)):
