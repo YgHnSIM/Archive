@@ -2,6 +2,23 @@
    `python3 add_page.py --rebuild` 를 실행하면 다시 만들어집니다. */
 window.ARCHIVE_CATALOG = [
   {
+    "id": "20261029-02",
+    "title": "선 하나를 어디에 그을 것인가 — 서포트 벡터 머신, 임계값에서 커널 트릭까지",
+    "summary": "임계값·최대 마진에서 소프트 마진, 힌지 손실, 다항·RBF 커널 트릭, scikit-learn 실습과 데이터 누수까지 SVM 핵심 정리",
+    "tags": [
+      "AI",
+      "머신러닝",
+      "요약"
+    ],
+    "date": "2026-10-29",
+    "file": "pages/2026-10-29-SVM.html",
+    "added": "2026-10-29T06:56:26+09:00",
+    "source_name": "src.html",
+    "source_sha256": "104ab5fbfbf3325a02ef8ae0a63382ba3b4a2e1dafdcee63df0b43921fab0fbe",
+    "source_path_sha256": "e6bc0f0d57a56b4cd6fedce754fb3fa42f0aa0de21bbf3b254e6ea345fa91c9e",
+    "source_url": "https://yghnsim.github.io/Pages/articles/support_vector_machines_concepts_code.html"
+  },
+  {
     "id": "20261029-01",
     "title": "앤트로픽은 어떻게 세계 1위 LLM 플랫폼을 만드는가 — S-1의 효율성 지표부터 뇌와 손의 보안 아키텍처까지",
     "summary": "S-1의 효율 지표와 두 고리에서 출발해, 증류 방지와 사고 블록 보존, trust grants 권한 구조, 뇌와 손을 나눈 Managed Agents, Rust 포트, 페이싱·폴백과 동적 에포트, 사람의 몫까지 정리",

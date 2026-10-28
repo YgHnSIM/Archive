@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light only">
+<title>선 하나를 어디에 그을 것인가 — 서포트 벡터 머신, 임계값에서 커널 트릭까지</title>
+<meta name="description" content="SVM 요약: 임계값과 마진, 이상치와 소프트 마진, 서포트 벡터와 초평면, 차원 올리기, 다항·RBF 커널, 커널 트릭, scikit-learn 코드 68%, 복습 퀴즈">
+<style>
+:root{color-scheme:light only;
+  --bg:#faf8f3; --paper:#ffffff; --ink:#1f2328; --muted:#5b6470; --line:#e6e1d6;
+  --accent:#c8553d; --accent-soft:#fbeee9; --link:#4a6b8a;
+  --new:#3d5f80; --new-soft:#eaf0f6; --radius:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:20px}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR","Malgun Gothic","Gothic A1",system-ui,sans-serif;
+  font-size:17px;line-height:1.75;word-break:keep-all;overflow-wrap:break-word}
+@media(max-width:640px){body{font-size:16px}}
+a{color:var(--link)}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+.hero{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{display:inline-block;font-size:13px;font-weight:700;color:#a8432e;background:var(--accent-soft);padding:3px 10px;border-radius:999px;margin-bottom:12px}
+.hero h1{font-size:clamp(28px,4.4vw,44px);line-height:1.25;margin:0 0 12px;letter-spacing:-.02em}
+.hero .lead{font-size:18px;color:var(--muted);line-height:1.65;margin:0}
+@media(max-width:640px){.hero .lead{font-size:17px}}
+.hero-cta{margin-top:16px}
+.hero-cta a{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--new);color:#fff;border-radius:10px;font-weight:700;font-size:15px;text-decoration:none}
+.grid{display:grid;grid-template-columns:240px minmax(0,1fr);gap:36px;align-items:start}
+@media(max-width:880px){.grid{grid-template-columns:minmax(0,1fr);gap:0}}
+.toc{position:sticky;top:20px;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;font-size:15px}
+.toc .toc-t{font-weight:700;margin:0 0 10px}
+.toc ol{margin:0;padding:0;list-style:none}
+.toc li{margin:6px 0}
+.toc a{color:var(--muted);display:flex;align-items:baseline;gap:8px;text-decoration:none;line-height:1.45}
+.toc a:hover{color:var(--link)}
+.toc .n{flex:none;display:inline-block;width:22px;height:22px;line-height:22px;text-align:center;border-radius:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:700}
+.toc .orig{display:block;margin-top:14px;padding-top:10px;border-top:1px dashed var(--line);font-size:14px;color:#a8432e;font-weight:700}
+@media(max-width:880px){
+  .toc{position:sticky;top:0;z-index:20;margin:0 -20px 20px;border-radius:0;border-width:0 0 1px;padding:8px 12px;background:rgba(250,248,243,.97);overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .toc .toc-t,.toc .orig{display:none}
+  .toc ol{display:flex;gap:6px;white-space:nowrap}
+  .toc li{margin:0}
+  .toc a{background:#f1ede4;color:var(--ink);border-radius:999px;padding:6px 12px;font-size:14px;align-items:center}
+  .toc .n{background:none;width:auto;height:auto;line-height:1;color:var(--muted)}
+  html{scroll-padding-top:64px}
+}
+main{min-width:0}
+.sec{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:24px 28px;margin-bottom:28px}
+@media(max-width:640px){.sec{padding:18px 16px}}
+.sec-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px}
+.sec-num{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:12px;background:var(--ink);color:#fff;font-weight:800;font-size:17px;flex-shrink:0;margin-top:2px}
+@media(max-width:640px){.sec-num{width:34px;height:34px;font-size:15px}}
+.sec-head h2{font-size:clamp(23px,3vw,30px);line-height:1.3;margin:0;letter-spacing:-.015em}
+.sec-head .sub{font-size:16px;color:var(--muted);margin:3px 0 0}
+h3{font-size:19px;margin:22px 0 8px}
+p{margin:0 0 14px}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin:4px 0}
+.theses{counter-reset:t;list-style:none;padding:0;margin:0 0 16px}
+.theses li{counter-increment:t;position:relative;padding:10px 14px 10px 50px;margin:8px 0;background:#fdfcf9;border:1px solid var(--line);border-radius:12px}
+.theses li::before{content:counter(t);position:absolute;left:14px;top:12px;width:24px;height:24px;border-radius:50%;background:var(--accent-soft);color:#a8432e;font-weight:800;font-size:14px;display:grid;place-items:center}
+.tblw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:16px 0}
+.tbl{width:100%;min-width:520px;border-collapse:collapse;font-size:16px}
+.tbl th,.tbl td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+.tbl th{background:var(--new-soft);color:var(--new);font-weight:700}
+.tbl td{background:#fff}
+.callout{background:var(--new-soft);border-left:4px solid var(--new);border-radius:10px;padding:12px 16px;margin:14px 0}
+.callout.warm{background:var(--accent-soft);border-left-color:var(--accent)}
+.callout p:last-child{margin:0}
+blockquote{margin:14px 0;padding:12px 18px;background:#fff;border-left:5px solid var(--accent);border-radius:0 12px 12px 0}
+blockquote p{margin:0}
+.terms{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+.term{display:inline-flex;align-items:center;gap:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:600;padding:4px 10px;border-radius:8px}
+details.viz{margin:14px 0;border:1px solid var(--line);border-radius:12px;background:#fdfcf9}
+details.viz summary{cursor:pointer;list-style:none;padding:12px 14px;font-weight:600;font-size:16px;color:var(--new);min-height:44px;display:flex;align-items:center;gap:8px}
+details.viz summary::-webkit-details-marker{display:none}
+details.viz summary::before{content:"▸";font-size:14px;color:var(--accent)}
+details.viz[open] summary::before{content:"▾"}
+details.viz figure{margin:0;padding:4px 12px 14px}
+details.viz svg{display:block;width:100%;height:auto;max-width:400px;margin:0 auto;font-family:"Pretendard","Noto Sans KR",sans-serif}
+details.viz figcaption{font-size:16px;color:var(--muted);line-height:1.6;margin-top:8px}
+svg .bx{fill:#fff;stroke:#5b6470;stroke-width:1.4}
+svg .bx2{fill:#eaf0f6;stroke:#3d5f80;stroke-width:1.4}
+svg .bx3{fill:#fbeee9;stroke:#c8553d;stroke-width:1.4}
+svg .t{fill:#1f2328;font-size:18px}
+svg .tb{fill:#1f2328;font-size:18px;font-weight:700}
+svg .tm{fill:#4a525c;font-size:17.5px}
+svg .ln{stroke:#5b6470;stroke-width:1.5;fill:none}
+svg .lnd{stroke:#5b6470;stroke-width:1.5;fill:none;stroke-dasharray:5 4}
+.sources{background:var(--new-soft);border:1px solid var(--line);border-radius:var(--radius);padding:18px 22px;margin-top:32px;font-size:16px;color:#3f4650}
+.sources h3{font-size:17px;color:var(--new);margin:0 0 8px}
+.sources ul{margin:0;padding-left:20px}
+/* 복습 컴포넌트 표준 스타일 */
+.rv-h{font-size:19px;margin:22px 0 6px}
+.flips{display:grid;grid-template-columns:1fr;gap:8px;margin:10px 0}
+@media(min-width:640px){.flips{grid-template-columns:1fr 1fr}}
+.flip{font:inherit;text-align:left;width:100%;border:1.5px solid var(--line,#e6e1d6);background:#fdfcf9;border-radius:12px;padding:10px 14px;cursor:pointer;color:var(--ink,#1f2328);min-height:64px}
+.flip b{display:block;font-size:17px}
+.flip .m{display:none;font-size:16px;line-height:1.6;margin-top:4px}
+.flip .hint{font-size:13px;color:var(--muted,#5b6470)}
+.flip[aria-expanded="true"]{border-color:var(--new,#3d5f80);background:var(--new-soft,#eaf0f6)}
+.flip[aria-expanded="true"] .m{display:block}
+.flip[aria-expanded="true"] .hint{display:none}
+.cloze{list-style:none;margin:10px 0;padding:0}
+.cloze li{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:10px 14px;margin:8px 0;background:#fdfcf9;font-size:16px;line-height:1.8}
+.blank{font:inherit;font-size:16px;border:0;border-bottom:2px dashed var(--accent,#c8553d);background:var(--accent-soft,#fbeee9);color:#a8432e;border-radius:6px 6px 0 0;padding:0 8px;cursor:pointer;min-width:4.5em}
+.blank.shown{border-bottom-style:solid;background:var(--new-soft,#eaf0f6);color:var(--new,#3d5f80);font-weight:700}
+.rv-tools{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.rv-tools button{font:inherit;font-size:15px;border:1px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link,#4a6b8a)}
+.q{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:12px 14px;margin:10px 0;background:#fdfcf9}
+.q fieldset{border:0;margin:0;padding:0;min-width:0}
+.q legend{font-weight:700;padding:0;margin:0 0 8px;font-size:16.5px}
+.q button{display:block;width:100%;text-align:left;font:inherit;font-size:16px;border:1.5px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:8px 12px;margin:6px 0;cursor:pointer;color:var(--ink,#1f2328)}
+.q button.right{border-color:#2f6b45;background:#e6f1ea}
+.q button.wrong{border-color:#a2452f;background:#fbeee9}
+.q button[disabled]{cursor:default;opacity:1}
+.q .ex{margin:8px 0 0;font-size:16px;padding:8px 10px;border-radius:8px;background:var(--new-soft,#eaf0f6)}
+.score{font-size:17px;font-weight:800;margin:10px 0 0}
+.arc-back b,.arc-foot-label{color:#a8432e!important}
+.chk{display:inline-block;font-size:14px;font-weight:700;color:#8a3a12;background:#fdf0e3;border:1px solid #e8c9a8;border-radius:6px;padding:0 6px;margin-left:4px;white-space:nowrap}
+pre{background:#f6f4ee;border:1px solid var(--line);border-radius:10px;padding:12px 14px;overflow-x:auto;-webkit-overflow-scrolling:touch;margin:14px 0;font-size:16px;line-height:1.6}
+pre code{font-family:"JetBrains Mono","D2Coding",ui-monospace,Menlo,Consolas,monospace;color:#1f2328;white-space:pre}
+code{font-family:"JetBrains Mono","D2Coding",ui-monospace,Menlo,Consolas,monospace;font-size:.92em;background:#f3efe6;border-radius:4px;padding:0 4px}
+pre code{background:none;padding:0;font-size:inherit}
+@media(max-width:640px){pre{margin:12px -4px}}
+</style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
+</head>
+<body>
+<!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>아카이브</a><span class="arc-crumb">선 하나를 어디에 그을 것인가 — 서포트 벡터 머신, 임계값에서 커널 트릭까지</span><span class="arc-meta"><time datetime="2026-10-29">2026년 10월 29일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=%EB%A8%B8%EC%8B%A0%EB%9F%AC%EB%8B%9D">#머신러닝</a><a class="arc-tag" href="../index.html#tags=%EC%9A%94%EC%95%BD">#요약</a><a class="arc-src" href="https://yghnsim.github.io/Pages/articles/support_vector_machines_concepts_code.html" rel="noopener">원문 ↗</a></span></div></div>
+<!-- archive-header:end -->
+<div class="wrap">
+  <header class="hero">
+    <span class="eyebrow">머신러닝 해설 · 서포트 벡터 머신</span>
+    <h1>선 하나를 어디에 그을 것인가 — 서포트 벡터 머신, 임계값에서 커널 트릭까지</h1>
+    <p class="lead">경계는 가장 가까운 점들이 정하고, 조금 틀리기를 허용해야 견고해지며, 가를 수 없으면 차원을 올리되 계산은 커널 트릭으로 아낀다.</p>
+    <div class="hero-cta"><a href="https://yghnsim.github.io/Pages/articles/support_vector_machines_concepts_code.html">📚 Pages에서 심화 해설 전문 읽기 ↗</a></div>
+  </header>
+  <div class="grid">
+    <nav class="toc" aria-label="목차">
+      <p class="toc-t">목차</p>
+      <ol>
+        <li><a href="#s0"><span class="n">★</span>한눈에 보기</a></li>
+        <li><a href="#s1"><span class="n">1</span>임계값과 마진</a></li>
+        <li><a href="#s2"><span class="n">2</span>이상치와 소프트 마진</a></li>
+        <li><a href="#s3"><span class="n">3</span>서포트 벡터와 초평면</a></li>
+        <li><a href="#s4"><span class="n">4</span>차원 올리기</a></li>
+        <li><a href="#s5"><span class="n">5</span>다항 커널과 RBF</a></li>
+        <li><a href="#s6"><span class="n">6</span>커널 트릭</a></li>
+        <li><a href="#s7"><span class="n">7</span>코드: poly SVC 68%</a></li>
+        <li><a href="#s8"><span class="n">8</span>보이지 않는 모델 그리기</a></li>
+        <li><a href="#s9"><span class="n">9</span>계보와 실무 지침</a></li>
+        <li><a href="#rv"><span class="n">✔</span>복습 &amp; 퀴즈</a></li>
+      </ol>
+      <a class="orig" href="https://yghnsim.github.io/Pages/articles/support_vector_machines_concepts_code.html">심화 원문(Pages) ↗</a>
+    </nav>
+    <main id="content">
+      <section class="sec" id="s0">
+        <div class="sec-head"><span class="sec-num">★</span><div><h2>한눈에 보기</h2><p class="sub">앞 방법의 실패가 다음 방법을 부른다</p></div></div>
+        <ol class="theses">
+          <li><b>마진은 경계에서 가장 가까운 점까지의 거리다.</b> 두 가장자리 관측의 정중앙에 경계를 두면 마진이 최대가 된다(최대 마진 분류기).</li>
+          <li><b>오분류를 허용해야 이상치에 둔감해진다.</b> 하드 마진은 편향이 낮지만 분산이 높다. 소프트 마진은 훈련에서 조금 틀리고 테스트에서 많이 맞힌다. 얼마나 허용할지는 교차검증으로 고른다.</li>
+          <li><b>경계를 정하는 것은 서포트 벡터다.</b> 마진 경계 위·안쪽·오분류 영역의 점들만 경계를 지탱한다. 분류기는 1차원에서 점, 2차원에서 직선, 3차원에서 평면, 그 이상에서 초평면이다.</li>
+          <li><b>가를 수 없으면 차원을 올린다.</b> 가운데만 치유되는 투여량 데이터도 x²를 더하면 포물선 위에서 직선 하나로 나뉜다. 변환은 다항·RBF 커널이 체계적으로 정한다.</li>
+          <li><b>커널 트릭은 변환하지 않고 변환한 것처럼 계산한다.</b> 대가는 고차원 좌표가 없어 그릴 수 없다는 것. 손으로 x²를 만든 선형 커널 모델이 poly 커널과 같은 68%를 내며 이를 확인시킨다.</li>
+        </ol>
+        <div class="tblw"><table class="tbl">
+          <thead><tr><th>비교</th><th>최대 마진 분류기</th><th>서포트 벡터 분류기</th><th>서포트 벡터 머신</th></tr></thead>
+          <tbody>
+            <tr><td><b>마진</b></td><td>오분류 불허</td><td>소프트 마진</td><td>고차원에서의 소프트 마진</td></tr>
+            <tr><td><b>이상치</b></td><td>극도로 민감</td><td>강건함</td><td>강건함</td></tr>
+            <tr><td><b>편향·분산</b></td><td>낮은 편향, 높은 분산</td><td>편향 조금↑, 분산↓</td><td>커널·마진 선택으로 균형</td></tr>
+            <tr><td><b>작동 공간</b></td><td>원래 차원</td><td>원래 차원</td><td>고차원(또는 무한 차원)</td></tr>
+            <tr><td><b>비선형 중첩</b></td><td>불가능</td><td>불가능</td><td>가능</td></tr>
+            <tr><td><b>고르는 값</b></td><td>없음</td><td>허용할 침범 수 (C)</td><td>커널 종류, 차수 d, γ, C</td></tr>
+          </tbody>
+        </table></div>
+        <details class="viz"><summary>그림으로 보기: 선형 분류기의 계보</summary><figure><svg viewBox="0 0 280 320" role="img" aria-label="단순 임계값, 최대 마진 분류기, 서포트 벡터 분류기, 서포트 벡터 머신으로 앞 방법의 실패가 다음 방법을 부른다"><defs><marker id="a17" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="62" rx="10"/><text class="tb" x="140" y="34" text-anchor="middle">단순 임계값</text><text class="tm" x="140" y="58" text-anchor="middle">임의 위치 → 어색한 오분류</text><line class="ln" x1="140" y1="70" x2="140" y2="88" marker-end="url(#a17)"/><rect class="bx" x="10" y="90" width="260" height="62" rx="10"/><text class="tb" x="140" y="116" text-anchor="middle">최대 마진</text><text class="tm" x="140" y="140" text-anchor="middle">이상치에 경계가 왜곡</text><line class="ln" x1="140" y1="152" x2="140" y2="170" marker-end="url(#a17)"/><rect class="bx" x="10" y="172" width="260" height="62" rx="10"/><text class="tb" x="140" y="198" text-anchor="middle">SVC</text><text class="tm" x="140" y="222" text-anchor="middle">겹친 샌드위치는 못 가름</text><line class="ln" x1="140" y1="234" x2="140" y2="252" marker-end="url(#a17)"/><rect class="bx2" x="10" y="254" width="260" height="62" rx="10"/><text class="tb" x="140" y="280" text-anchor="middle">SVM</text><text class="tm" x="140" y="304" text-anchor="middle">고차원 + 커널 트릭</text></svg><figcaption>각 단계는 앞 방법이 구체적으로 실패하는 장면에서 시작한다.</figcaption></figure></details>
+        <div class="terms"><span class="term">마진</span><span class="term">소프트 마진</span><span class="term">서포트 벡터</span><span class="term">초평면</span><span class="term">커널</span><span class="term">커널 트릭</span></div>
+      </section>
+
+      <section class="sec" id="s1">
+        <div class="sec-head"><span class="sec-num">1</span><div><h2>임계값과 마진</h2><p class="sub">선 하나 긋기의 어려움</p></div></div>
+        <p>생쥐의 체중 하나로 비만 여부를 가른다고 합시다. 가벼운 비비만 생쥐는 왼쪽, 무거운 비만 생쥐는 오른쪽에 모이고, 그 사이 어딘가에 <b>임계값</b>을 둡니다. 임계값을 비비만 군집 바로 옆에 두면, 비비만 쪽에 훨씬 가까운 새 생쥐가 임계값 오른쪽이라는 이유로 '비만'이 됩니다.</p>
+        <details class="viz"><summary>그림으로 보기: 임의의 임계값 vs 중점 임계값</summary><figure><svg viewBox="0 0 280 300" role="img" aria-label="임계값을 비비만 군집 바로 옆에 두면 가까운 새 점이 비만으로 판정되고, 두 가장자리 관측의 중점에 두면 비비만으로 판정된다"><defs><marker id="a1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="24" text-anchor="middle">임의의 임계값</text><line x1="12" y1="64" x2="268" y2="64" stroke="#5b6470" stroke-width="2"/><circle cx="24" cy="64" r="7" fill="#c8553d"/><circle cx="44" cy="64" r="7" fill="#c8553d"/><circle cx="64" cy="64" r="7" fill="#c8553d"/><circle cx="84" cy="64" r="7" fill="#c8553d"/><circle cx="176" cy="64" r="7" fill="#2f6b45"/><circle cx="196" cy="64" r="7" fill="#2f6b45"/><circle cx="216" cy="64" r="7" fill="#2f6b45"/><circle cx="240" cy="64" r="7" fill="#2f6b45"/><line x1="98" y1="40" x2="98" y2="88" stroke="#c8553d" stroke-width="3"/><circle cx="120" cy="64" r="8" fill="#fff"/><circle cx="120" cy="64" r="8" fill="none" stroke="#1f2328" stroke-width="2"/><text class="tm" x="120" y="112" text-anchor="middle">새 점 → 비만 판정</text><text class="tb" x="140" y="160" text-anchor="middle">중점 임계값</text><line x1="12" y1="200" x2="268" y2="200" stroke="#5b6470" stroke-width="2"/><circle cx="24" cy="200" r="7" fill="#c8553d"/><circle cx="44" cy="200" r="7" fill="#c8553d"/><circle cx="64" cy="200" r="7" fill="#c8553d"/><circle cx="84" cy="200" r="7" fill="#c8553d"/><circle cx="176" cy="200" r="7" fill="#2f6b45"/><circle cx="196" cy="200" r="7" fill="#2f6b45"/><circle cx="216" cy="200" r="7" fill="#2f6b45"/><circle cx="240" cy="200" r="7" fill="#2f6b45"/><line x1="130" y1="176" x2="130" y2="224" stroke="#3d5f80" stroke-width="3"/><circle cx="120" cy="200" r="8" fill="none" stroke="#1f2328" stroke-width="2"/><text class="tm" x="140" y="248" text-anchor="middle">새 점 → 비비만 판정</text><circle cx="30" cy="282" r="7" fill="#c8553d"/><text class="tm" x="42" y="288" text-anchor="start">비비만</text><circle cx="150" cy="282" r="7" fill="#2f6b45"/><text class="tm" x="162" y="288" text-anchor="start">비만</text></svg><figcaption>두 가장자리 관측의 중점에 두면, 왼쪽 새 점은 반드시 비비만 쪽에 더 가깝다.</figcaption></figure></details>
+        <p>해법은 비비만의 가장 무거운 점과 비만의 가장 가벼운 점, 두 <b>가장자리 관측의 정중앙</b>에 임계값을 두는 것입니다. 이때 경계에서 가장 가까운 관측점까지의 최단 거리가 <b>마진</b>입니다. 중점에서 조금만 옮겨도 한쪽 거리가 줄어 마진이 작아지므로, 중점에서 마진이 최대가 됩니다.</p>
+        <details class="viz"><summary>그림으로 보기: 마진과 최대 마진</summary><figure><svg viewBox="0 0 280 250" role="img" aria-label="두 가장자리 관측의 정중앙에 임계값을 두면 양쪽 거리, 곧 마진이 같고 최대가 된다"><defs><marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><line x1="12" y1="90" x2="268" y2="90" stroke="#5b6470" stroke-width="2"/><circle cx="24" cy="90" r="7" fill="#c8553d"/><circle cx="44" cy="90" r="7" fill="#c8553d"/><circle cx="64" cy="90" r="7" fill="#c8553d"/><circle cx="84" cy="90" r="7" fill="#c8553d"/><circle cx="176" cy="90" r="7" fill="#2f6b45"/><circle cx="196" cy="90" r="7" fill="#2f6b45"/><circle cx="216" cy="90" r="7" fill="#2f6b45"/><circle cx="240" cy="90" r="7" fill="#2f6b45"/><line x1="130" y1="50" x2="130" y2="130" stroke="#3d5f80" stroke-width="3"/><circle cx="84" cy="90" r="12" fill="none" stroke="#1f2328" stroke-width="2"/><circle cx="176" cy="90" r="12" fill="none" stroke="#1f2328" stroke-width="2"/><line class="ln" x1="128" y1="40" x2="90" y2="40" marker-end="url(#a2)"/><line class="ln" x1="132" y1="40" x2="170" y2="40" marker-end="url(#a2)"/><text class="tm" x="108" y="30" text-anchor="middle">마진</text><text class="tm" x="152" y="30" text-anchor="middle">마진</text><text class="tm" x="84" y="160" text-anchor="middle">가장자리</text><text class="tm" x="176" y="160" text-anchor="middle">가장자리</text><text class="tb" x="130" y="196" text-anchor="middle">중점 = 최대 마진</text><text class="tm" x="140" y="232" text-anchor="middle">옮기면 한쪽이 좁아진다</text></svg><figcaption>마진 = 경계에서 가장 가까운 훈련 관측점까지의 최단 거리.</figcaption></figure></details>
+        <p>마진을 가장 크게 확보하는 경계를 찾는 알고리즘이 <b>최대 마진 분류기</b>입니다. 도로 폭을 최대로 넓혀 차선을 한가운데 긋는 것과 같아, 새 관측이 약간의 노이즈를 안고 와도 오분류될 위험이 작습니다.</p>
+        <div class="terms"><span class="term">임계값</span><span class="term">가장자리 관측</span><span class="term">마진</span><span class="term">최대 마진 분류기</span></div>
+      </section>
+
+      <section class="sec" id="s2">
+        <div class="sec-head"><span class="sec-num">2</span><div><h2>이상치와 소프트 마진</h2><p class="sub">오분류를 허용할 용기, 편향-분산</p></div></div>
+        <p>최대 마진 분류기는 훈련 데이터에서 단 하나의 오분류도 허용하지 않습니다(<b>하드 마진</b>). 그래서 비만 군집 바로 앞까지 온 비비만 이상치 하나가 가장자리 기준점이 되고, 임계값이 비만 쪽으로 밀려 정상 영역의 새 생쥐를 '비만'으로 틀립니다.</p>
+        <details class="viz"><summary>그림으로 보기: 이상치 하나가 경계를 무너뜨린다</summary><figure><svg viewBox="0 0 280 300" role="img" aria-label="이상치 하나가 있으면 하드 마진 임계값이 비만 쪽으로 밀려 새 점을 틀리고, 소프트 마진은 이상치를 틀린 것으로 두고 중점으로 돌아간다"><defs><marker id="a3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="24" text-anchor="middle">하드 마진: 이상치에 끌려감</text><line x1="12" y1="70" x2="268" y2="70" stroke="#5b6470" stroke-width="2"/><circle cx="24" cy="70" r="7" fill="#c8553d"/><circle cx="44" cy="70" r="7" fill="#c8553d"/><circle cx="64" cy="70" r="7" fill="#c8553d"/><circle cx="160" cy="70" r="7" fill="#c8553d"/><circle cx="176" cy="70" r="7" fill="#2f6b45"/><circle cx="196" cy="70" r="7" fill="#2f6b45"/><circle cx="216" cy="70" r="7" fill="#2f6b45"/><circle cx="240" cy="70" r="7" fill="#2f6b45"/><circle cx="160" cy="70" r="12" fill="none" stroke="#1f2328" stroke-width="2"/><line x1="168" y1="46" x2="168" y2="94" stroke="#c8553d" stroke-width="3"/><circle cx="110" cy="70" r="8" fill="none" stroke="#1f2328" stroke-width="2"/><text class="tm" x="110" y="118" text-anchor="middle">새 점 → 비만(오류)</text><text class="tb" x="140" y="168" text-anchor="middle">소프트 마진: 이상치 무시</text><line x1="12" y1="214" x2="268" y2="214" stroke="#5b6470" stroke-width="2"/><circle cx="24" cy="214" r="7" fill="#c8553d"/><circle cx="44" cy="214" r="7" fill="#c8553d"/><circle cx="64" cy="214" r="7" fill="#c8553d"/><circle cx="160" cy="214" r="7" fill="#c8553d"/><circle cx="176" cy="214" r="7" fill="#2f6b45"/><circle cx="196" cy="214" r="7" fill="#2f6b45"/><circle cx="216" cy="214" r="7" fill="#2f6b45"/><circle cx="240" cy="214" r="7" fill="#2f6b45"/><line x1="120" y1="190" x2="120" y2="238" stroke="#3d5f80" stroke-width="3"/><circle cx="104" cy="214" r="8" fill="none" stroke="#1f2328" stroke-width="2"/><text class="tm" x="140" y="262" text-anchor="middle">이상치 1개는 틀리지만</text><text class="tm" x="140" y="286" text-anchor="middle">새 점은 바르게 판정</text></svg><figcaption>이상치 하나를 '틀린 것'으로 인정하면, 경계는 건강한 중점으로 돌아온다.</figcaption></figure></details>
+        <p>역설적인 결론: <b>이상치에 휘둘리지 않으려면 훈련 데이터에서 일부 오분류를 의도적으로 허용해야 합니다.</b> 이것이 <b>편향-분산 트레이드오프</b>의 기하학입니다.</p>
+        <details class="viz"><summary>그림으로 보기: 편향-분산 트레이드오프</summary><figure><svg viewBox="0 0 280 268" role="img" aria-label="하드 마진은 편향이 낮고 분산이 높아 과적합되고, 소프트 마진은 편향이 조금 높지만 분산이 크게 낮아 일반화된다"><defs><marker id="a4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx3" x="6" y="10" width="130" height="180" rx="10"/><text class="tb" x="71" y="38" text-anchor="middle">하드 마진</text><text class="t" x="71" y="74" text-anchor="middle">편향 낮음</text><text class="t" x="71" y="104" text-anchor="middle">분산 높음</text><text class="tm" x="71" y="140" text-anchor="middle">과적합</text><text class="tm" x="71" y="170" text-anchor="middle">오분류 0개</text><rect class="bx2" x="144" y="10" width="130" height="180" rx="10"/><text class="tb" x="209" y="38" text-anchor="middle">소프트 마진</text><text class="t" x="209" y="74" text-anchor="middle">편향 조금↑</text><text class="t" x="209" y="104" text-anchor="middle">분산 크게↓</text><text class="tm" x="209" y="140" text-anchor="middle">일반화</text><text class="tm" x="209" y="170" text-anchor="middle">일부 오분류 허용</text><text class="tm" x="140" y="226" text-anchor="middle">훈련에서 조금 틀리고</text><text class="tm" x="140" y="252" text-anchor="middle">테스트에서 많이 맞힌다</text></svg><figcaption>훈련 데이터에서 조금 틀리고, 테스트 데이터에서 많이 맞힌다.</figcaption></figure></details>
+        <p>오분류를 허용할 때, 점과 임계값 사이의 거리를 <b>소프트 마진</b>이라 합니다. 점이 마진 안으로 들어오거나 임계값을 넘어 오분류되는 것을 용인합니다. 얼마나 허용할지는 주관이 아니라 <b>교차검증</b>으로 정합니다. 여러 허용 수준을 바꿔 가며 학습에 쓰지 않은 데이터를 가장 잘 맞히는 것을 고릅니다.</p>
+        <div class="callout"><p><b>[보충] 표준 교과서의 언어</b>: 분류기를 <i>f</i>(<b>x</b>) = <b>w</b>·<b>x</b> + <i>b</i>, 표지를 <i>y</i> ∈ {−1, +1}로 두면 두 마진 경계 사이 폭은 2/‖<b>w</b>‖입니다.</p>
+        <ul>
+          <li>하드 마진: ½‖<b>w</b>‖² 최소화, 조건 <i>y<sub>i</sub></i>(<b>w</b>·<b>x</b><sub><i>i</i></sub> + <i>b</i>) ≥ 1</li>
+          <li>소프트 마진: ½‖<b>w</b>‖² + <i>C</i>Σ<i>ξ<sub>i</sub></i> 최소화, 조건 <i>y<sub>i</sub></i>(<b>w</b>·<b>x</b><sub><i>i</i></sub> + <i>b</i>) ≥ 1 − <i>ξ<sub>i</sub></i>, <i>ξ<sub>i</sub></i> ≥ 0</li>
+        </ul>
+        <p>슬랙 <i>ξ<sub>i</sub></i>가 0이면 마진 밖, 0~1이면 마진 안이지만 올바른 쪽, 1보다 크면 오분류입니다. 최적해에서 <i>ξ<sub>i</sub></i> = max(0, 1 − <i>y<sub>i</sub>f</i>(<b>x</b><sub><i>i</i></sub>)), 곧 <b>힌지 손실</b>이 됩니다. <i>C</i>가 클수록 하드 마진에 가깝고, 작을수록 마진이 넓어집니다. 실무에서는 <i>C</i>를 교차검증으로 고릅니다(scikit-learn 기본값 <i>C</i> = 1).</p></div>
+        <details class="viz"><summary>그림으로 보기: C가 마진을 바꾼다 [보충]</summary><figure><svg viewBox="0 0 280 252" role="img" aria-label="C가 작으면 마진이 넓고 침범을 많이 허용하며, C가 크면 마진이 좁아 하드 마진에 가까워진다"><defs><marker id="a5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="71" y="22" text-anchor="middle">작은 C</text><rect x="6" y="32" width="130" height="150" fill="#fff" stroke="#e6e1d6"/><line x1="26" y1="172" x2="116" y2="42" stroke="#3d5f80" stroke-width="3"/><line x1="0" y1="172" x2="90" y2="42" stroke="#3d5f80" stroke-width="1.5" stroke-dasharray="5 4"/><line x1="52" y1="172" x2="142" y2="42" stroke="#3d5f80" stroke-width="1.5" stroke-dasharray="5 4"/><circle cx="18" cy="60" r="6" fill="#c8553d"/><circle cx="28" cy="90" r="6" fill="#c8553d"/><circle cx="20" cy="128" r="6" fill="#c8553d"/><circle cx="46" cy="70" r="6" fill="#c8553d"/><circle cx="124" cy="150" r="6" fill="#2f6b45"/><circle cx="110" cy="170" r="6" fill="#2f6b45"/><circle cx="126" cy="110" r="6" fill="#2f6b45"/><circle cx="98" cy="160" r="6" fill="#2f6b45"/><circle cx="58" cy="110" r="6" fill="#c8553d"/><circle cx="58" cy="110" r="10" fill="none" stroke="#1f2328" stroke-width="2"/><circle cx="82" cy="96" r="6" fill="#2f6b45"/><circle cx="82" cy="96" r="10" fill="none" stroke="#1f2328" stroke-width="2"/><circle cx="72" cy="140" r="6" fill="#2f6b45"/><circle cx="72" cy="140" r="10" fill="none" stroke="#1f2328" stroke-width="2"/><text class="tb" x="209" y="22" text-anchor="middle">큰 C</text><rect x="144" y="32" width="130" height="150" fill="#fff" stroke="#e6e1d6"/><line x1="164" y1="172" x2="254" y2="42" stroke="#3d5f80" stroke-width="3"/><line x1="156" y1="172" x2="246" y2="42" stroke="#3d5f80" stroke-width="1.5" stroke-dasharray="5 4"/><line x1="172" y1="172" x2="262" y2="42" stroke="#3d5f80" stroke-width="1.5" stroke-dasharray="5 4"/><circle cx="156" cy="60" r="6" fill="#c8553d"/><circle cx="166" cy="90" r="6" fill="#c8553d"/><circle cx="158" cy="128" r="6" fill="#c8553d"/><circle cx="184" cy="70" r="6" fill="#c8553d"/><circle cx="262" cy="150" r="6" fill="#2f6b45"/><circle cx="248" cy="170" r="6" fill="#2f6b45"/><circle cx="264" cy="110" r="6" fill="#2f6b45"/><circle cx="236" cy="160" r="6" fill="#2f6b45"/><circle cx="204" cy="104" r="6" fill="#2f6b45"/><circle cx="204" cy="104" r="10" fill="none" stroke="#1f2328" stroke-width="2"/><text class="tm" x="71" y="212" text-anchor="middle">넓은 마진</text><text class="tm" x="71" y="236" text-anchor="middle">침범 많이 허용</text><text class="tm" x="209" y="212" text-anchor="middle">좁은 마진</text><text class="tm" x="209" y="236" text-anchor="middle">하드에 가까움</text></svg><figcaption>동그라미 친 점이 마진 안으로 들어온 서포트 벡터다.</figcaption></figure></details>
+        <details class="viz"><summary>그림으로 보기: 힌지 손실 [보충]</summary><figure><svg viewBox="0 0 280 236" role="img" aria-label="힌지 손실은 y·f(x)가 1 이상이면 0이고, 1보다 작아질수록 직선으로 커진다"><defs><marker id="a6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><line x1="20" y1="190" x2="270" y2="190" stroke="#5b6470" stroke-width="2"/><line x1="120" y1="200" x2="120" y2="20" stroke="#e6e1d6" stroke-width="1.5"/><line x1="60" y1="200" x2="60" y2="16" stroke="#5b6470" stroke-width="2"/><polyline points="20,106.66666666666667 120,190 270,190" fill="none" stroke="#c8553d" stroke-width="3.5"/><text class="tm" x="120" y="222" text-anchor="middle">1</text><text class="tm" x="60" y="222" text-anchor="middle">0</text><text class="tm" x="210" y="222" text-anchor="middle">y·f(x)</text><text class="tb" x="172" y="80" text-anchor="middle">max(0, 1−y·f)</text><text class="tm" x="204" y="176" text-anchor="middle">손실 0</text><text class="tm" x="100" y="40" text-anchor="start">오분류</text></svg><figcaption>올바른 쪽으로 마진 밖(y·f ≥ 1)이면 손실이 없고, 침범할수록 선형으로 커진다.</figcaption></figure></details>
+        <div class="terms"><span class="term">하드 마진</span><span class="term">이상치</span><span class="term">편향-분산</span><span class="term">소프트 마진</span><span class="term">교차검증</span><span class="term">슬랙 변수</span><span class="term">힌지 손실</span><span class="term">C</span></div>
+      </section>
+
+      <section class="sec" id="s3">
+        <div class="sec-head"><span class="sec-num">3</span><div><h2>서포트 벡터와 초평면</h2><p class="sub">선·면·초평면, 차원의 언어</p></div></div>
+        <p>소프트 마진으로 경계를 정하는 분류기가 <b>서포트 벡터 분류기(SVC)</b>입니다. 마진 경계에 걸치거나, 마진 안쪽이나 오분류 영역에 있는 점들이 <b>서포트 벡터</b>입니다. (해설) 바깥의 수많은 점을 빼거나 옮겨도 경계는 그대로이고, 기울기·절편·마진 폭은 이 소수의 점이 지탱합니다.</p>
+        <details class="viz"><summary>그림으로 보기: 2차원 SVC: 직선과 서포트 벡터</summary><figure><svg viewBox="0 0 280 310" role="img" aria-label="2차원에서 서포트 벡터 분류기는 직선이고 양쪽 평행한 점선이 마진 경계이며, 경계 위와 안쪽 점이 서포트 벡터다"><defs><marker id="a7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect x="10" y="10" width="260" height="230" fill="#fff" stroke="#e6e1d6"/><line x1="40" y1="236" x2="230" y2="14" stroke="#3d5f80" stroke-width="3"/><line x1="12" y1="236" x2="202" y2="14" stroke="#3d5f80" stroke-width="1.5" stroke-dasharray="5 4"/><line x1="68" y1="236" x2="258" y2="14" stroke="#3d5f80" stroke-width="1.5" stroke-dasharray="5 4"/><circle cx="30" cy="60" r="7" fill="#c8553d"/><circle cx="50" cy="110" r="7" fill="#c8553d"/><circle cx="80" cy="40" r="7" fill="#c8553d"/><circle cx="30" cy="170" r="7" fill="#c8553d"/><circle cx="100" cy="90" r="7" fill="#c8553d"/><circle cx="220" cy="200" r="7" fill="#2f6b45"/><circle cx="180" cy="220" r="7" fill="#2f6b45"/><circle cx="250" cy="130" r="7" fill="#2f6b45"/><circle cx="210" cy="160" r="7" fill="#2f6b45"/><circle cx="170" cy="180" r="7" fill="#2f6b45"/><circle cx="112" cy="120" r="7" fill="#c8553d"/><circle cx="112" cy="120" r="12" fill="none" stroke="#1f2328" stroke-width="2"/><circle cx="150" cy="170" r="7" fill="#2f6b45"/><circle cx="150" cy="170" r="12" fill="none" stroke="#1f2328" stroke-width="2"/><circle cx="178" cy="108" r="7" fill="#c8553d"/><circle cx="178" cy="108" r="12" fill="none" stroke="#1f2328" stroke-width="2"/><text class="tm" x="140" y="270" text-anchor="middle">○ = 서포트 벡터</text><text class="tm" x="140" y="296" text-anchor="middle">점선 = 마진 경계</text></svg><figcaption>키를 더해 2차원이 되면 분류기는 직선, 마진은 양쪽 평행선이 된다.</figcaption></figure></details>
+        <div class="callout warm"><p>같은 성질이 장점이자 약점입니다. 깔끔히 나뉘면 소수의 점만 기억하면 되지만, 그 소수가 이상치면 분류기 전체가 끌려갑니다. 겹침이 심하면 '소수'가 아닙니다. 뒤의 혈당 데이터에서는 훈련 데이터 796개 중 532개가 서포트 벡터입니다.</p></div>
+        <p>나이를 더한 3차원에서 분류기는 <b>평면</b>이 되고, 혈압까지 더한 4차원은 그릴 수 없습니다. 수학은 이들을 모두 자기 공간보다 한 차원 낮은 <b>평평한 아핀 부분공간</b>, 곧 <b>초평면</b>이라 부릅니다.</p>
+        <details class="viz"><summary>그림으로 보기: 차원별 분류기의 모양</summary><figure><svg viewBox="0 0 280 256" role="img" aria-label="특성이 1차원이면 분류기는 점, 2차원이면 직선, 3차원이면 평면, N차원이면 N−1차원 초평면이다"><defs><marker id="a8" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="6" y="10" width="96" height="48" rx="10"/><text class="t" x="54" y="41" text-anchor="middle">1차원</text><line class="ln" x1="104" y1="34" x2="140" y2="34" marker-end="url(#a8)"/><rect class="bx2" x="144" y="10" width="130" height="48" rx="10"/><text class="tb" x="209" y="41" text-anchor="middle">점</text><rect class="bx" x="6" y="72" width="96" height="48" rx="10"/><text class="t" x="54" y="103" text-anchor="middle">2차원</text><line class="ln" x1="104" y1="96" x2="140" y2="96" marker-end="url(#a8)"/><rect class="bx2" x="144" y="72" width="130" height="48" rx="10"/><text class="tb" x="209" y="103" text-anchor="middle">직선</text><rect class="bx" x="6" y="134" width="96" height="48" rx="10"/><text class="t" x="54" y="165" text-anchor="middle">3차원</text><line class="ln" x1="104" y1="158" x2="140" y2="158" marker-end="url(#a8)"/><rect class="bx2" x="144" y="134" width="130" height="48" rx="10"/><text class="tb" x="209" y="165" text-anchor="middle">평면</text><rect class="bx" x="6" y="196" width="96" height="48" rx="10"/><text class="t" x="54" y="227" text-anchor="middle">N차원</text><line class="ln" x1="104" y1="220" x2="140" y2="220" marker-end="url(#a8)"/><rect class="bx2" x="144" y="196" width="130" height="48" rx="10"/><text class="tb" x="209" y="227" text-anchor="middle">초평면 (N−1)</text></svg><figcaption>점·직선·평면은 모두 같은 선형 분할 경계면이다. 그릴 수 없을 때 '초평면'이라 부를 뿐이다.</figcaption></figure></details>
+        <div class="terms"><span class="term">서포트 벡터 분류기</span><span class="term">서포트 벡터</span><span class="term">아핀 부분공간</span><span class="term">초평면</span></div>
+      </section>
+
+      <section class="sec" id="s4">
+        <div class="sec-head"><span class="sec-num">4</span><div><h2>차원 올리기</h2><p class="sub">골디락스 문제와 SVM의 세 단계</p></div></div>
+        <p>약 투여량이 너무 적으면 효과가 없고, 너무 많으면 독성 때문에 치유되지 않으며, 중간일 때만 치유됩니다. 치유 구간이 가운데 끼인 <b>골디락스 문제</b>입니다. 1차원 수직선 위에서는 임계값을 어디에 두어도 대량의 오분류가 생겨, SVC는 무력합니다.</p>
+        <p>SVM의 발상은 <b>"1차원에서 못 가르면 2차원으로 들어 올리자"</b>입니다. 새 검사 없이 투여량 <i>x</i>를 제곱해 세로축 <i>y</i> = <i>x</i>²로 삼습니다(예: 0.5 → (0.5, 0.25)). 점들이 포물선 위에 놓이고, 아래로 볼록한 곡선 덕에 가운데 치유 환자가 양 끝보다 아래에 있어 <b>비스듬한 직선 하나</b>로 나뉩니다.</p>
+        <details class="viz"><summary>그림으로 보기: 골디락스 데이터를 포물선으로 들어 올리기</summary><figure><svg viewBox="0 0 280 306" role="img" aria-label="1차원 투여량 데이터는 가운데만 치유라 점 하나로 가를 수 없지만, 투여량의 제곱을 세로축으로 두면 포물선 위에 놓여 직선 하나로 나뉜다"><defs><marker id="a9" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="22" text-anchor="middle">1차원: 점 하나로 못 가름</text><line x1="12" y1="56" x2="268" y2="56" stroke="#5b6470" stroke-width="2"/><circle cx="20" cy="56" r="7" fill="#c8553d"/><circle cx="40" cy="56" r="7" fill="#c8553d"/><circle cx="60" cy="56" r="7" fill="#c8553d"/><circle cx="110" cy="56" r="7" fill="#2f6b45"/><circle cx="130" cy="56" r="7" fill="#2f6b45"/><circle cx="150" cy="56" r="7" fill="#2f6b45"/><circle cx="200" cy="56" r="7" fill="#c8553d"/><circle cx="225" cy="56" r="7" fill="#c8553d"/><circle cx="250" cy="56" r="7" fill="#c8553d"/><text class="tb" x="140" y="100" text-anchor="middle">2차원: (x, x²)로 들어 올림</text><circle cx="20" cy="290" r="7" fill="#c8553d"/><circle cx="40" cy="288" r="7" fill="#c8553d"/><circle cx="60" cy="283" r="7" fill="#c8553d"/><circle cx="110" cy="263" r="7" fill="#2f6b45"/><circle cx="130" cy="251" r="7" fill="#2f6b45"/><circle cx="150" cy="237" r="7" fill="#2f6b45"/><circle cx="200" cy="192" r="7" fill="#c8553d"/><circle cx="225" cy="164" r="7" fill="#c8553d"/><circle cx="250" cy="133" r="7" fill="#c8553d"/><line x1="40" y1="304" x2="260" y2="160" stroke="#3d5f80" stroke-width="3"/><text class="tm" x="96" y="150" text-anchor="middle">직선 아래 = 치유</text><text class="tm" x="96" y="176" text-anchor="middle">직선 위 = 미치유</text></svg><figcaption>추가된 차원은 새 정보가 아니라 기존 데이터를 재해석해 '지어낸' 것이다. 표현이 바뀌자 선형 분리가 가능해졌다.</figcaption></figure></details>
+        <details class="viz"><summary>그림으로 보기: SVM의 세 단계</summary><figure><svg viewBox="0 0 280 232" role="img" aria-label="SVM의 세 단계: 저차원에서 시작해 고차원으로 매핑하고 그곳에서 선형 서포트 벡터 분류기를 찾는다"><defs><marker id="a10" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="20" y="8" width="240" height="64" rx="10"/><text class="tb" x="140" y="36" text-anchor="middle">① 저차원</text><text class="tm" x="140" y="60" text-anchor="middle">선형 분리 불가</text><line class="ln" x1="140" y1="72" x2="140" y2="90" marker-end="url(#a10)"/><rect class="bx" x="20" y="92" width="240" height="64" rx="10"/><text class="tb" x="140" y="120" text-anchor="middle">② 고차원으로</text><text class="tm" x="140" y="144" text-anchor="middle">x² 등을 더해 매핑</text><line class="ln" x1="140" y1="156" x2="140" y2="174" marker-end="url(#a10)"/><rect class="bx2" x="20" y="176" width="240" height="64" rx="10"/><text class="tb" x="140" y="204" text-anchor="middle">③ 선형 SVC</text><text class="tm" x="140" y="228" text-anchor="middle">초평면으로 가름</text></svg><figcaption>새 환자도 똑같이 제곱해 점을 찍고, 직선의 위인지 아래인지만 보면 된다.</figcaption></figure></details>
+        <div class="terms"><span class="term">골디락스 문제</span><span class="term">차원 올리기</span><span class="term">포물선</span><span class="term">표현</span><span class="term">고차원 매핑</span></div>
+      </section>
+
+      <section class="sec" id="s5">
+        <div class="sec-head"><span class="sec-num">5</span><div><h2>다항 커널과 RBF</h2><p class="sub">차수 d와 가중 최근접 이웃</p></div></div>
+        <p>왜 하필 <i>x</i>²인가? 변환 규칙은 무한히 많고, 매번 감으로 지어낼 수는 없습니다. SVM은 고차원 분류기를 체계적으로 찾는 <b>커널 함수</b>를 씁니다.</p>
+        <p><b>다항 커널</b>의 핵심 파라미터는 차수 <i>d</i>입니다. 최적의 <i>d</i>는 1, 2, 3…을 대입해 보며 <b>교차검증</b>으로 고릅니다. [보충] 식은 <i>K</i>(<i>a</i>, <i>b</i>) = (<i>a</i>·<i>b</i> + <i>r</i>)<sup><i>d</i></sup>이고, <i>r</i>은 코드의 <code>coef0</code>입니다. scikit-learn은 계수 γ를 붙이며, 표준화한 특성 하나를 쓰는 뒤의 예에서는 기본값 <code>gamma='scale'</code>이 γ = 1이 됩니다.</p>
+        <details class="viz"><summary>그림으로 보기: 다항 커널의 차수 d</summary><figure><svg viewBox="0 0 280 268" role="img" aria-label="다항 커널의 차수 d가 1이면 선형, 2면 제곱 차원, 3이면 세제곱 차원까지 더하며 최적의 d는 교차검증으로 고른다"><defs><marker id="a11" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx3" x="6" y="8" width="70" height="44" rx="10"/><text class="tb" x="41" y="37" text-anchor="middle">d=1</text><rect class="bx" x="84" y="8" width="190" height="44" rx="10"/><text class="t" x="179" y="37" text-anchor="middle">원래 공간 (선형)</text><rect class="bx3" x="6" y="66" width="70" height="44" rx="10"/><text class="tb" x="41" y="95" text-anchor="middle">d=2</text><rect class="bx" x="84" y="66" width="190" height="44" rx="10"/><text class="t" x="179" y="95" text-anchor="middle">x² 차원 추가</text><rect class="bx3" x="6" y="124" width="70" height="44" rx="10"/><text class="tb" x="41" y="153" text-anchor="middle">d=3</text><rect class="bx" x="84" y="124" width="190" height="44" rx="10"/><text class="t" x="179" y="153" text-anchor="middle">x³까지 추가</text><rect class="bx3" x="6" y="182" width="70" height="44" rx="10"/><text class="tb" x="41" y="211" text-anchor="middle">d≥4</text><rect class="bx" x="84" y="182" width="190" height="44" rx="10"/><text class="t" x="179" y="211" text-anchor="middle">더 높은 차원</text><text class="tm" x="140" y="256" text-anchor="middle">최적 d는 교차검증으로</text></svg><figcaption>d = 1은 단순 선형 분류기와 같다.</figcaption></figure></details>
+        <p><b>RBF(방사형) 커널</b>은 scikit-learn <code>SVC</code>의 기본 커널로, 데이터를 <b>무한 차원</b>으로 매핑해 분류기를 찾습니다. 그릴 수 없지만, 새 점을 분류할 때는 <b>가중 최근접 이웃</b>처럼 행동합니다. 가까운 이웃은 큰 영향을, 먼 이웃은 작은 영향을 줍니다.</p>
+        <div class="callout"><p><b>[보충]</b> <i>K</i>(<b>x</b><sub><i>i</i></sub>, <b>x</b><sub><i>j</i></sub>) = exp(−γ‖<b>x</b><sub><i>i</i></sub> − <b>x</b><sub><i>j</i></sub>‖²). 영향력은 거리의 제곱에 대해 지수적으로 줄어듭니다. γ가 크면 아주 가까운 이웃만 보아 경계가 굴곡지고 과적합 위험이 커지며, 작으면 단순한 경계가 됩니다. 실무에서는 γ와 <i>C</i>를 함께 교차검증으로 고릅니다.</p></div>
+        <details class="viz"><summary>그림으로 보기: RBF 커널: 가까운 이웃의 목소리와 γ</summary><figure><svg viewBox="0 0 280 340" role="img" aria-label="RBF 커널은 가중 최근접 이웃처럼 가까운 이웃에 큰 가중치를 주고, 감마가 작으면 단순한 경계, 크면 굴곡진 경계로 과적합 위험이 커진다"><defs><marker id="a12" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><circle cx="140" cy="100" r="40" fill="#eaf0f6" stroke="#3d5f80" stroke-width="1.5"/><circle cx="140" cy="100" r="80" fill="none" stroke="#3d5f80" stroke-width="1.2" stroke-dasharray="5 4"/><circle cx="140" cy="100" r="9" fill="#fff" stroke="#1f2328" stroke-width="2.5"/><circle cx="118" cy="86" r="7" fill="#2f6b45"/><circle cx="160" cy="118" r="7" fill="#2f6b45"/><circle cx="150" cy="74" r="7" fill="#2f6b45"/><circle cx="70" cy="60" r="7" fill="#c8553d"/><circle cx="220" cy="140" r="7" fill="#c8553d"/><circle cx="200" cy="40" r="7" fill="#c8553d"/><circle cx="80" cy="160" r="7" fill="#c8553d"/><text class="tm" x="140" y="206" text-anchor="middle">가까운 이웃 = 큰 가중치</text><text class="tm" x="140" y="232" text-anchor="middle">먼 이웃 = 작은 가중치</text><rect class="bx2" x="6" y="250" width="130" height="80" rx="10"/><text class="tb" x="71" y="278" text-anchor="middle">작은 γ</text><text class="tm" x="71" y="306" text-anchor="middle">단순한 경계</text><rect class="bx3" x="144" y="250" width="130" height="80" rx="10"/><text class="tb" x="209" y="278" text-anchor="middle">큰 γ</text><text class="tm" x="209" y="306" text-anchor="middle">굴곡·과적합</text></svg><figcaption>무한 차원의 외피 속에, 가까운 이웃에 귀를 기울인다는 상식적 원리가 있다.</figcaption></figure></details>
+        <div class="terms"><span class="term">커널 함수</span><span class="term">다항 커널</span><span class="term">차수 d</span><span class="term">coef0</span><span class="term">RBF 커널</span><span class="term">무한 차원</span><span class="term">가중 최근접 이웃</span><span class="term">γ</span></div>
+      </section>
+
+      <section class="sec" id="s6">
+        <div class="sec-head"><span class="sec-num">6</span><div><h2>커널 트릭</h2><p class="sub">변환하지 않고 변환한 것처럼</p></div></div>
+        <p>SVM이 실제로 <i>x</i>², <i>x</i>³…을 계산해 거대한 고차원 표를 만든다고 상상하기 쉽지만, 틀렸습니다. 현실의 SVM은 고차원 변환을 <b>한 번도 수행하지 않습니다.</b> <b>커널 트릭</b>은 원래 좌표만으로, 데이터가 고차원에 매핑됐을 때의 두 점 사이 관계(내적)를 계산합니다. 개념은 그대로 "고차원에서 SVC를 찾는다"이고, 옮기는 계산만 생략합니다.</p>
+        <div class="callout"><p><b>[보충] 작은 예</b>: <i>r</i> = ½, <i>d</i> = 2이면 (<i>ab</i> + ½)² = <i>a</i>²<i>b</i>² + <i>ab</i> + ¼ = (<i>a</i>², <i>a</i>, ½)·(<i>b</i>², <i>b</i>, ½). <i>a</i> = 1, <i>b</i> = 2이면 양쪽 모두 6.25입니다. 세 번째 좌표 ½은 모든 점에서 같아 분류에 영향을 주지 않으므로, 실질적으로 (<i>x</i>, <i>x</i>²) 평면에서 선을 긋는 것과 같습니다.</p></div>
+        <details class="viz"><summary>그림으로 보기: 커널 트릭: 두 길, 같은 값</summary><figure><svg viewBox="0 0 280 286" role="img" aria-label="다항 커널 (ab+1/2)의 제곱은 좌표 (x², x, 1/2)의 내적과 같아, 좌표를 만들지 않아도 같은 값 6.25를 얻는다"><defs><marker id="a13" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="6" y="8" width="268" height="84" rx="10"/><text class="tb" x="140" y="36" text-anchor="middle">원래 값 a=1, b=2</text><text class="t" x="140" y="70" text-anchor="middle">(ab + ½)² = 6.25</text><line class="ln" x1="80" y1="92" x2="80" y2="120" marker-end="url(#a13)"/><line class="ln" x1="200" y1="92" x2="200" y2="120" marker-end="url(#a13)"/><rect class="bx2" x="6" y="124" width="130" height="86" rx="10"/><text class="tb" x="71" y="152" text-anchor="middle">커널 트릭</text><text class="tm" x="71" y="182" text-anchor="middle">좌표 안 만듦</text><rect class="bx3" x="144" y="124" width="130" height="86" rx="10"/><text class="tb" x="209" y="152" text-anchor="middle">직접 변환</text><text class="tm" x="209" y="182" text-anchor="middle">(x², x, ½)</text><text class="t" x="209" y="234" text-anchor="middle">4 + 2 + 0.25</text><text class="tb" x="140" y="270" text-anchor="middle">두 길 모두 6.25</text></svg><figcaption>이것이 투여량 예와 뒤의 코드 실험을 잇는 다리다.</figcaption></figure></details>
+        <ul>
+          <li><b>계산량을 줄인다</b>: 고차원 좌표를 만들고 저장하는 비용 없이 원래 좌표로 몇 번의 연산만 한다.</li>
+          <li><b>무한 차원을 가능하게 한다</b>: 어떤 컴퓨터도 무한 차원 좌표를 담을 수 없지만, 커널 트릭 덕에 RBF를 쓸 수 있다.</li>
+        </ul>
+        <div class="callout warm"><p><b>대가: 보이지 않는 모델.</b> 학습 후에도 고차원 좌표는 메모리에 애초에 없습니다. 그래서 고차원 산점도와 결정 평면을 <code>plt.plot</code>으로 그릴 수 없고, 보려면 손으로 변환해야 합니다.</p></div>
+        <div class="terms"><span class="term">커널 트릭</span><span class="term">내적</span><span class="term">계산량</span><span class="term">보이지 않는 모델</span></div>
+      </section>
+
+      <section class="sec" id="s7">
+        <div class="sec-head"><span class="sec-num">7</span><div><h2>코드: poly SVC 68%</h2><p class="sub">데이터 준비, 스케일링, 누수</p></div></div>
+        <p>데이터는 995행의 <code>data_diabetes.csv</code>(당뇨 없음 497, 있음 498)이고 열은 <code>glucose</code>(20~70 정수, 학습용 값), <code>bloodpressure</code>, <code>diabetes</code>(0/1)입니다. 정상(0)은 혈당 중간에 몰리고 당뇨(1)는 양 끝에 퍼져 투여량 예와 같은 구조지만, 가운데에서 크게 겹칩니다. 결측치가 없음을 확인하고 혈당 하나만 <i>X</i>로 씁니다.</p>
+        <pre><code>import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.svm import SVC
+from sklearn.metrics import accuracy_score
+
+df = pd.read_csv("data_diabetes.csv")
+X = df.drop(['diabetes', 'bloodpressure'], axis=1)
+y = df['diabetes']</code></pre>
+        <p><code>SVC</code>는 <i>y</i>를 1차원 배열로 기대합니다(<code>df['diabetes']</code>는 Series, <code>df[['diabetes']]</code>는 데이터프레임). 또 '분류기'인 <code>SVC</code>가 '머신' 모듈 <code>sklearn.svm</code>에 있고, 커널을 지정하면 SVM 전체를 수행합니다.</p>
+        <p>80/20으로 나누고(<code>test_size=0.2, random_state=42</code>) 표준화합니다. (해설) 마진과 커널이 거리·내적으로 계산되므로, 단위가 다르면 숫자가 큰 특성이 결과를 좌우합니다.</p>
+        <pre><code>X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+scaler = StandardScaler().set_output(transform="pandas")
+X_train_scaled = scaler.fit_transform(X_train)  # 훈련만 fit
+X_test_scaled = scaler.transform(X_test)        # 테스트는 transform만</code></pre>
+        <details class="viz"><summary>그림으로 보기: 데이터 누수 차단</summary><figure><svg viewBox="0 0 280 236" role="img" aria-label="스케일러는 훈련 데이터로만 fit_transform하고, 테스트 데이터는 그 통계로 transform만 한다"><defs><marker id="a14" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx2" x="6" y="8" width="130" height="60" rx="10"/><text class="tb" x="71" y="44" text-anchor="middle">훈련 80%</text><rect class="bx3" x="144" y="8" width="130" height="60" rx="10"/><text class="tb" x="209" y="44" text-anchor="middle">테스트 20%</text><line class="ln" x1="71" y1="68" x2="71" y2="98" marker-end="url(#a14)"/><rect class="bx" x="6" y="100" width="130" height="60" rx="10"/><text class="t" x="71" y="126" text-anchor="middle">fit_</text><text class="t" x="71" y="150" text-anchor="middle">transform</text><line class="ln" x1="209" y1="68" x2="209" y2="98" marker-end="url(#a14)"/><rect class="bx" x="144" y="100" width="130" height="60" rx="10"/><text class="t" x="209" y="136" text-anchor="middle">transform</text><path class="lnd" d="M136 130 L142 130" marker-end="url(#a14)"/><text class="tm" x="140" y="196" text-anchor="middle">평균·표준편차는</text><text class="tm" x="140" y="222" text-anchor="middle">훈련 데이터에서만</text></svg><figcaption>테스트 세트는 '미지의 미래 데이터'다. 그 분포를 미리 엿보면 정직한 평가가 깨진다.</figcaption></figure></details>
+        <p>스케일링 후 혈당 20~70은 대략 −4~4 안쪽(훈련 약 −3.7~3.9, 테스트 약 −3.7~3.1)으로 줄고, 분포 모양은 그대로입니다.</p>
+        <pre><code>poly_model = SVC(kernel='poly', degree=2, coef0=0.5)
+poly_model.fit(X_train_scaled, y_train)
+y_pred = poly_model.predict(X_test_scaled)
+poly_cm = pd.crosstab(y_test, y_pred,
+                      rownames=['Actual'], colnames=['Predicted'])
+poly_acc = accuracy_score(y_test, y_pred)</code></pre>
+        <p><code>degree=2</code>는 제곱 차원을 더하는 2차 변환, <code>coef0=0.5</code>는 커널의 상수 <i>r</i>입니다.</p>
+        <details class="viz"><summary>그림으로 보기: 혼동 행렬과 정확도</summary><figure><svg viewBox="0 0 280 240" role="img" aria-label="다항 커널 SVC의 혼동 행렬은 실제 0 중 74 정답 19 오답, 실제 1 중 62 정답 44 오답이고 정확도는 136/199로 약 68%다"><defs><marker id="a15" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tm" x="176" y="22" text-anchor="middle">예측 0</text><text class="tm" x="244" y="22" text-anchor="middle">예측 1</text><rect class="bx2" x="142" y="34" width="64" height="58" rx="10"/><text class="tb" x="174" y="71" text-anchor="middle">74</text><rect class="bx3" x="210" y="34" width="64" height="58" rx="10"/><text class="tb" x="242" y="71" text-anchor="middle">19</text><rect class="bx3" x="142" y="98" width="64" height="58" rx="10"/><text class="tb" x="174" y="135" text-anchor="middle">44</text><rect class="bx2" x="210" y="98" width="64" height="58" rx="10"/><text class="tb" x="242" y="135" text-anchor="middle">62</text><text class="tm" x="70" y="70" text-anchor="middle">실제 0 (93)</text><text class="tm" x="70" y="134" text-anchor="middle">실제 1 (106)</text><text class="tb" x="140" y="196" text-anchor="middle">정확도 136/199</text><text class="tb" x="140" y="224" text-anchor="middle">≈ 68%</text></svg><figcaption>정상 93명 중 74명, 당뇨 106명 중 62명을 맞혔다.</figcaption></figure></details>
+        <p>68%는 높지 않지만, 가운데가 크게 겹친 데이터입니다. (해설) 같은 분할에서 훈련 데이터로 고른 최선의 임계값 하나는 테스트 약 57%, 전부 다수 클래스(1)로 찍으면 약 53%(106/199)입니다. 혈당 하나로 68%는 "훌륭하진 않지만 형편없지도 않은" 결과이고, 성능 숫자는 데이터 구조와 함께 읽어야 합니다.</p>
+        <div class="terms"><span class="term">StandardScaler</span><span class="term">데이터 누수</span><span class="term">fit_transform</span><span class="term">kernel='poly'</span><span class="term">혼동 행렬</span><span class="term">정확도</span></div>
+      </section>
+
+      <section class="sec" id="s8">
+        <div class="sec-head"><span class="sec-num">8</span><div><h2>보이지 않는 모델 그리기</h2><p class="sub">수동 제곱 + 선형 커널, 기울기와 절편</p></div></div>
+        <p><code>poly_model</code>은 좌표를 계산하지 않아 그릴 수 없습니다. 그래서 <b>직접 <code>glucose^2</code> 열을 만들고 가장 단순한 선형 커널</b>을 돌립니다. 선형 커널은 아무 변환 없이 주어진 좌표에서 최적의 직선만 긋습니다.</p>
+        <pre><code>X_linear_train = X_train_scaled.copy()
+X_linear_train["glucose^2"] = X_train_scaled["glucose"] ** 2
+X_linear_test = X_test_scaled.copy()
+X_linear_test["glucose^2"] = X_test_scaled["glucose"] ** 2
+
+linear_model = SVC(kernel='linear')
+linear_model.fit(X_linear_train, y_train)
+y_pred_linear = linear_model.predict(X_linear_test)</code></pre>
+        <div class="tblw"><table class="tbl">
+          <thead><tr><th>비교</th><th>poly 커널 (degree=2)</th><th>x² 열 + 선형 커널</th></tr></thead>
+          <tbody>
+            <tr><td><b>기법</b></td><td>커널 트릭 (좌표 없음)</td><td>2차원 명시적 매핑</td></tr>
+            <tr><td><b>혼동 행렬</b></td><td>[[74, 19], [44, 62]]</td><td>[[74, 19], [44, 62]] (동일)</td></tr>
+            <tr><td><b>정확도</b></td><td>68.34%</td><td>68.34% (동일)</td></tr>
+          </tbody>
+        </table></div>
+        <p>테스트 199건 각각의 예측도 모두 같습니다. 커널 트릭은 "고차원으로 옮겨 선을 긋는 일"을 계산만 줄여 그대로 해냅니다.</p>
+        <div class="callout warm"><p><b>[보충] 언제나 같은가?</b> 커널 쪽에는 상수 좌표 ½의 가중치가 정규화 항에 함께 들어가고, <code>coef0</code>나 γ가 달라지면 <i>x</i>와 <i>x</i>² 좌표의 상대적 크기도 달라집니다. "언제나 똑같다"기보다 "같은 공간에서 거의 같은 선을 찾아 이 데이터에서는 예측이 모두 일치했다"가 정확합니다.</p></div>
+        <p>scikit-learn은 기울기·절편 대신 가중치 <b>w</b>와 편향 <i>b</i>를 줍니다. <i>w</i><sub>0</sub><i>x</i> + <i>w</i><sub>1</sub><i>y</i> + <i>b</i> = 0을 <i>y</i>에 대해 풀면 기울기 = −<i>w</i><sub>0</sub>/<i>w</i><sub>1</sub>, 절편 = −<i>b</i>/<i>w</i><sub>1</sub>입니다. 실제 값은 <i>w</i><sub>0</sub> ≈ 0.949, <i>w</i><sub>1</sub> ≈ 1.750, <i>b</i> ≈ −1.121이라 <b>기울기 ≈ −0.542, 절편 ≈ 0.640</b>입니다.</p>
+        <pre><code>w = linear_model.coef_[0]        # [w0, w1]
+b = linear_model.intercept_[0]   # 편향 b
+slope = -w[0] / w[1]             # -0.542
+y_intercept = -b / w[1]          #  0.640</code></pre>
+        <details class="viz"><summary>그림으로 보기: 포물선 위의 빨간 직선</summary><figure><svg viewBox="0 0 280 326" role="img" aria-label="표준화 혈당 x와 x 제곱 평면에서 점들은 포물선 위에 놓이고, 기울기 −0.542 절편 0.640의 빨간 직선 아래 구간이 클래스 0으로 판정된다"><defs><marker id="a16" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><line x1="10" y1="250" x2="270" y2="250" stroke="#5b6470" stroke-width="1.5"/><line x1="140" y1="256" x2="140" y2="14" stroke="#5b6470" stroke-width="1.5"/><polyline points="17,27 22,47 28,66 34,84 39,101 45,117 50,132 56,146 62,160 67,172 73,184 78,194 84,204 90,213 95,221 101,227 106,233 112,238 118,243 123,246 129,248 134,250 140,250 146,250 151,248 157,246 162,243 168,238 174,233 179,227 185,221 190,213 196,204 202,194 207,184 213,172 218,160 224,146 230,132 235,117 241,101 246,84 252,66 258,47 263,27" fill="none" stroke="#5b6470" stroke-width="1.5" stroke-dasharray="4 4"/><circle cx="90" cy="213" r="6" fill="#e8a04a"/><circle cx="112" cy="238" r="6" fill="#e8a04a"/><circle cx="129" cy="248" r="6" fill="#e8a04a"/><circle cx="146" cy="250" r="6" fill="#e8a04a"/><circle cx="162" cy="243" r="6" fill="#e8a04a"/><g stroke="#3d5f80" stroke-width="2.5"><line x1="23" y1="61" x2="33" y2="71"/><line x1="23" y1="71" x2="33" y2="61"/></g><g stroke="#3d5f80" stroke-width="2.5"><line x1="45" y1="127" x2="55" y2="137"/><line x1="45" y1="137" x2="55" y2="127"/></g><g stroke="#3d5f80" stroke-width="2.5"><line x1="62" y1="167" x2="72" y2="177"/><line x1="62" y1="177" x2="72" y2="167"/></g><g stroke="#3d5f80" stroke-width="2.5"><line x1="191" y1="199" x2="201" y2="209"/><line x1="191" y1="209" x2="201" y2="199"/></g><g stroke="#3d5f80" stroke-width="2.5"><line x1="213" y1="155" x2="223" y2="165"/><line x1="213" y1="165" x2="223" y2="155"/></g><g stroke="#3d5f80" stroke-width="2.5"><line x1="241" y1="79" x2="251" y2="89"/><line x1="241" y1="89" x2="251" y2="79"/></g><g stroke="#3d5f80" stroke-width="2.5"><line x1="96" y1="222" x2="106" y2="232"/><line x1="96" y1="232" x2="106" y2="222"/></g><g stroke="#3d5f80" stroke-width="2.5"><line x1="146" y1="243" x2="156" y2="253"/><line x1="146" y1="253" x2="156" y2="243"/></g><line x1="17" y1="166" x2="230" y2="260" stroke="#c8553d" stroke-width="3"/><text class="tb" x="140" y="284" text-anchor="middle">y = −0.542x + 0.640</text><text class="tm" x="140" y="312" text-anchor="middle">아래(−1.1 ~ 0.6) = 0</text></svg><figcaption>주황 원 = 정상(0), 파란 x = 당뇨(1). 바닥 근처에 섞인 1이 위음성 44건이다.</figcaption></figure></details>
+        <p>표준화 혈당은 0을 중심으로 음수·양수가 모두 있어 점들이 U자 포물선을 따릅니다. 빨간 직선은 포물선 바닥을 비스듬히 가로지르고, 직선 아래(표준화 혈당 약 −1.1~0.6)는 클래스 0, 위는 클래스 1로 판정됩니다. 1차원에서 가운데와 양 끝으로 갈라져 있던 데이터가 직선 하나로 나뉘는 장면입니다.</p>
+        <div class="terms"><span class="term">수동 특성 공학</span><span class="term">kernel='linear'</span><span class="term">coef_</span><span class="term">intercept_</span><span class="term">기울기·절편</span><span class="term">위음성</span></div>
+      </section>
+
+      <section class="sec" id="s9">
+        <div class="sec-head"><span class="sec-num">9</span><div><h2>계보와 실무 지침</h2><p class="sub">코드에서 챙길 다섯 가지</p></div></div>
+        <ol>
+          <li><b>특성을 스케일링하라</b>: 거리와 내적으로 계산하므로 단위가 큰 특성이 결과를 좌우한다.</li>
+          <li><b>스케일러는 훈련 데이터로만 학습하라</b>: <code>fit_transform(X_train)</code>과 <code>transform(X_test)</code>의 엄격한 분리.</li>
+          <li><b>숫자 뒤의 분포를 먼저 보라</b>: 68%만 보면 실망스럽지만, 임계값 하나로는 57% 남짓이다.</li>
+          <li><b>그려야 하면 수동 특성을 설계하라</b>: 다항 특성 + 선형 커널로 기울기와 절편을 꺼낸다.</li>
+          <li><b>용어의 계층을 구분하라</b>: 서포트 벡터 분류기는 고른 공간에서 선 긋기, SVM은 차원을 올린 뒤 선 긋기. <code>SVC</code>는 커널을 주면 SVM 전체를 수행한다.</li>
+        </ol>
+        <div class="terms"><span class="term">스케일링</span><span class="term">누수 방지</span><span class="term">분포 먼저</span><span class="term">수동 특성</span><span class="term">용어 계층</span></div>
+      </section>
+
+      <section class="sec" id="rv">
+        <div class="sec-head"><span class="sec-num">✔</span><div><h2>복습</h2><p class="sub">용어 카드 · 빈칸 · 5문항 퀴즈</p></div></div>
+        <h3 class="rv-h">핵심 용어 카드</h3>
+        <div class="flips">
+          <button type="button" class="flip" aria-expanded="false"><b>마진</b><span class="hint">뜻 보기</span><span class="m">분류 경계면에서 가장 가까운 훈련 관측점까지의 최단 거리. 두 가장자리 관측의 정중앙에서 최대가 된다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>하드 마진</b><span class="hint">뜻 보기</span><span class="m">훈련 데이터에서 오분류를 하나도 허용하지 않는 마진. 편향은 낮지만 이상치에 극도로 민감해 분산이 높다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>소프트 마진</b><span class="hint">뜻 보기</span><span class="m">점이 마진 안으로 들어오거나 오분류되는 것을 허용하는 마진. 허용 정도(C)는 교차검증으로 고른다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>서포트 벡터</b><span class="hint">뜻 보기</span><span class="m">마진 경계 위, 마진 안쪽, 오분류 영역에 있는 점. 이 점들만이 경계의 위치와 마진 폭을 지탱한다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>초평면</b><span class="hint">뜻 보기</span><span class="m">자기 공간보다 한 차원 낮은 평평한 아핀 부분공간. 1차원에선 점, 2차원에선 직선, 3차원에선 평면이다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>힌지 손실</b><span class="hint">뜻 보기</span><span class="m">max(0, 1 − y·f(x)). 올바른 쪽으로 마진 밖이면 0이고, 침범할수록 선형으로 커진다. 소프트 마진의 슬랙과 같다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>다항 커널</b><span class="hint">뜻 보기</span><span class="m">(a·b + r)^d. 차수 d만큼 차원을 올린 공간의 관계를 계산한다. d는 교차검증으로 고른다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>RBF 커널</b><span class="hint">뜻 보기</span><span class="m">무한 차원으로 매핑하는 커널. 실제로는 가까운 이웃에 큰 가중치를 주는 가중 최근접 이웃처럼 행동하며, γ가 클수록 경계가 굴곡진다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>커널 트릭</b><span class="hint">뜻 보기</span><span class="m">데이터를 실제로 변환하지 않고 원래 좌표만으로 고차원에서의 내적을 계산하는 기법. 대가로 고차원 좌표가 없어 그릴 수 없다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>데이터 누수</b><span class="hint">뜻 보기</span><span class="m">테스트 데이터의 정보가 학습에 새어 드는 것. 스케일러는 훈련 데이터로만 fit하고 테스트에는 transform만 한다.</span></button>
+        </div>
+        <div class="rv-tools"><button type="button" data-all="flip">모두 뒤집기</button><button type="button" data-reset="flip">모두 접기</button></div>
+        <h3 class="rv-h">빈칸 채우기</h3>
+        <ol class="cloze">
+          <li>마진은 두 가장자리 관측의 <button type="button" class="blank" data-a="정중앙" aria-label="빈칸, 눌러서 답 보기">?</button>에 경계를 둘 때 최대가 된다.</li>
+          <li>이상치에 둔감해지려면 훈련 데이터에서 일부 <button type="button" class="blank" data-a="오분류" aria-label="빈칸, 눌러서 답 보기">?</button>를 허용해야 한다.</li>
+          <li>소프트 마진에서 허용할 침범 정도는 <button type="button" class="blank" data-a="교차검증" aria-label="빈칸, 눌러서 답 보기">?</button>으로 고른다.</li>
+          <li>표준 정식화에서 두 마진 경계 사이의 폭은 2/‖<b>w</b>‖이므로, 마진을 넓히는 일은 <button type="button" class="blank" data-a="‖w‖를 줄이는" aria-label="빈칸, 눌러서 답 보기">?</button> 일과 같다.</li>
+          <li>가운데만 치유되는 투여량 데이터는 <button type="button" class="blank" data-a="x²" aria-label="빈칸, 눌러서 답 보기">?</button>를 세로축으로 더하면 직선 하나로 나뉜다.</li>
+          <li>RBF 커널은 새 점을 분류할 때 <button type="button" class="blank" data-a="가중 최근접 이웃" aria-label="빈칸, 눌러서 답 보기">?</button>처럼 행동한다.</li>
+          <li>poly 커널 모델과 x² 열 + 선형 커널 모델은 같은 정확도 약 <button type="button" class="blank" data-a="68%" aria-label="빈칸, 눌러서 답 보기">?</button>를 냈다.</li>
+          <li>결정 직선의 기울기는 −<i>w</i><sub>0</sub>/<i>w</i><sub>1</sub>, 절편은 <button type="button" class="blank" data-a="−b/w₁" aria-label="빈칸, 눌러서 답 보기">?</button>이다.</li>
+        </ol>
+        <div class="rv-tools"><button type="button" data-all="blank">답 모두 보기</button><button type="button" data-reset="blank">빈칸 다시 가리기</button></div>
+        <h3 class="rv-h">5문항 퀴즈</h3>
+        <div id="quiz">
+          <div class="q" data-a="1"><fieldset><legend class="qt">1. 최대 마진 분류기의 약점은?</legend>
+            <button type="button">경계를 항상 한쪽 군집에 붙여 그린다</button>
+            <button type="button">오분류를 허용하지 않아 이상치 하나에 경계가 끌려간다</button>
+            <button type="button">2차원 이상에서는 쓸 수 없다</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="하드 마진은 이상치를 가장자리 기준점으로 삼아 경계가 밀려납니다. 편향은 낮지만 분산이 높아 과적합됩니다."></p></div>
+          <div class="q" data-a="2"><fieldset><legend class="qt">2. 서포트 벡터에 대한 설명으로 옳은 것은?</legend>
+            <button type="button">모든 훈련 데이터가 경계를 똑같이 결정한다</button>
+            <button type="button">경계에서 가장 먼 점들이다</button>
+            <button type="button">마진 경계 위·안쪽·오분류 영역의 점들이 경계를 지탱한다</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="바깥 점을 빼거나 옮겨도 경계는 그대로입니다. 다만 겹침이 심한 혈당 데이터에서는 796개 중 532개가 서포트 벡터였습니다."></p></div>
+          <div class="q" data-a="0"><fieldset><legend class="qt">3. 골디락스 투여량 데이터를 SVM은 어떻게 가르나?</legend>
+            <button type="button">투여량을 제곱한 축을 더해 포물선 위에서 직선으로 가른다</button>
+            <button type="button">새로운 혈액 검사로 두 번째 특성을 측정한다</button>
+            <button type="button">임계값을 두 개 그어 가운데를 잘라 낸다</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="새 정보 없이 기존 투여량을 x²로 재해석해 차원을 올립니다. 표현이 바뀌자 선형 분리가 가능해집니다."></p></div>
+          <div class="q" data-a="1"><fieldset><legend class="qt">4. 커널 트릭에 대한 설명으로 옳은 것은?</legend>
+            <button type="button">고차원 좌표를 모두 계산해 저장한 뒤 초평면을 찾는다</button>
+            <button type="button">변환 없이 원래 좌표로 고차원의 내적을 계산하며, 그래서 고차원 모델을 그릴 수 없다</button>
+            <button type="button">RBF 커널에는 쓸 수 없다</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="계산량을 줄이고 무한 차원의 RBF를 가능하게 하지만, 좌표가 없어 결정 평면을 시각화할 수 없습니다."></p></div>
+          <div class="q" data-a="2"><fieldset><legend class="qt">5. 혈당 데이터 실험에서 정확도 68%를 바르게 읽은 것은?</legend>
+            <button type="button">임계값 하나보다 못한 실패한 모델이다</button>
+            <button type="button">스케일링을 빼면 더 높아진다</button>
+            <button type="button">가운데가 크게 겹친 데이터에서 임계값 하나(약 57%)보다 나은 결과다</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="전부 다수 클래스로 찍으면 약 53%, 최선의 임계값 하나는 약 57%입니다. 성능 숫자는 데이터 구조와 함께 읽어야 합니다."></p></div>
+          <p class="score" id="score" aria-live="polite">점수: 0 / 5</p>
+          <div class="rv-tools"><button type="button" id="qreset">다시 풀기</button></div>
+        </div>
+      </section>
+
+      <section class="sources">
+        <h3>출처</h3>
+        <ul>
+          <li>심화 해설 전문: <a href="https://yghnsim.github.io/Pages/articles/support_vector_machines_concepts_code.html">Pages — 선 하나를 어디에 그을 것인가</a></li>
+          <li>C. Cortes &amp; V. Vapnik, "Support-Vector Networks", <i>Machine Learning</i> 20 (1995)</li>
+          <li>scikit-learn, <a href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html" rel="noopener">sklearn.svm.SVC 문서 ↗</a></li>
+        </ul>
+      </section>
+    </main>
+  </div>
+</div>
+
+<script>(function(){
+function $$(q){return [].slice.call(document.querySelectorAll(q))}
+$$('.flip').forEach(function(b){b.onclick=function(){b.setAttribute('aria-expanded',b.getAttribute('aria-expanded')==='true'?'false':'true')}});
+function show(b){b.textContent=b.dataset.a;b.classList.add('shown');b.setAttribute('aria-label','답: '+b.dataset.a)}
+function hide(b){b.textContent='?';b.classList.remove('shown');b.setAttribute('aria-label','빈칸, 눌러서 답 보기')}
+$$('.blank').forEach(function(b){b.onclick=function(){show(b)}});
+$$('[data-all]').forEach(function(t){t.onclick=function(){if(t.dataset.all==='flip')$$('.flip').forEach(function(b){b.setAttribute('aria-expanded','true')});else $$('.blank').forEach(show)}});
+$$('[data-reset]').forEach(function(t){t.onclick=function(){if(t.dataset.reset==='flip')$$('.flip').forEach(function(b){b.setAttribute('aria-expanded','false')});else $$('.blank').forEach(hide)}});
+var sc=0,done=0,qs=$$('#quiz .q'),tot=qs.length||5;
+function upd(){var el=document.getElementById('score');if(el)el.textContent='점수: '+sc+' / '+tot+(done===tot?' (끝)':'')}
+qs.forEach(function(q){var bs=[].slice.call(q.querySelectorAll('fieldset button')),ex=q.querySelector('.ex');
+bs.forEach(function(b,i){b.onclick=function(){var a=+q.dataset.a,ok=i===a;bs.forEach(function(x){x.disabled=true});if(bs[a])bs[a].classList.add('right');if(!ok)b.classList.add('wrong');
+if(ex){ex.hidden=false;ex.textContent=(ok?'맞았습니다. ':'아쉽습니다. ')+ex.dataset.e;}if(ok)sc++;done++;upd();}})});
+var qr=document.getElementById('qreset');
+if(qr)qr.onclick=function(){sc=0;done=0;qs.forEach(function(q){q.querySelectorAll('fieldset button').forEach(function(x){x.disabled=false;x.className=''});var ex=q.querySelector('.ex');if(ex){ex.hidden=true;ex.textContent=''}});upd()};
+})();</script>
+
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">아카이브</div><div class="arc-foot-title">선 하나를 어디에 그을 것인가 — 서포트 벡터 머신, 임계값에서 커널 트릭까지</div><div class="arc-foot-meta"><time datetime="2026-10-29">2026년 10월 29일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=%EB%A8%B8%EC%8B%A0%EB%9F%AC%EB%8B%9D">#머신러닝</a><a class="arc-tag" href="../index.html#tags=%EC%9A%94%EC%95%BD">#요약</a> · <a href="https://yghnsim.github.io/Pages/articles/support_vector_machines_concepts_code.html" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body>
+</html>
