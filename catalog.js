@@ -2,6 +2,25 @@
    `python3 add_page.py --rebuild` 를 실행하면 다시 만들어집니다. */
 window.ARCHIVE_CATALOG = [
   {
+    "id": "20261029-01",
+    "title": "앤트로픽은 어떻게 세계 1위 LLM 플랫폼을 만드는가 — S-1의 효율성 지표부터 뇌와 손의 보안 아키텍처까지",
+    "summary": "S-1의 효율 지표와 두 고리에서 출발해, 증류 방지와 사고 블록 보존, trust grants 권한 구조, 뇌와 손을 나눈 Managed Agents, Rust 포트, 페이싱·폴백과 동적 에포트, 사람의 몫까지 정리",
+    "tags": [
+      "AI",
+      "에이전트",
+      "AI안전",
+      "앤트로픽",
+      "요약"
+    ],
+    "date": "2026-10-29",
+    "file": "pages/2026-10-29-앤트로픽플랫폼.html",
+    "added": "2026-10-29T05:32:34+09:00",
+    "source_name": "src.html",
+    "source_sha256": "e421203fe65be3ab857d5aff6a951f9cee16be02975f0d5828ef72a43f325e45",
+    "source_path_sha256": "4ff332c64804f156140a0938f023115a47b0c700d1d1d925c2525d593fe331d8",
+    "source_url": "https://yghnsim.github.io/Pages/articles/how-anthropic-ships-claude-platform.html"
+  },
+  {
     "id": "20261028-02",
     "title": "마지막 인류는 왜 우리였나 — 2%의 이점, 긴 유년기, 친화력 가설, 그리고 우리 안에 남은 다른 인류",
     "summary": "30만 년 전 붐비던 인류의 행성에서 사피엔스만 남은 이유를, 결정적 한 방 대신 긴 유년기와 놀이, 둥근 뇌, 낯선 이에 대한 관용과 2% 우위의 복리 누적으로 정리",

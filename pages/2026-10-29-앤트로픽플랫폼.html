@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light only">
+<title>앤트로픽은 어떻게 세계 1위 LLM 플랫폼을 만드는가 — S-1의 효율성 지표부터 뇌와 손의 보안 아키텍처까지</title>
+<meta name="description" content="앤트로픽 플랫폼 요약: S-1 효율과 두 고리, 출시 파이프라인, 증류 방지, trust grants, 뇌와 손의 분리, Rust 포트, 페이싱과 폴백, 사람의 몫, 복습 퀴즈">
+<style>
+:root{color-scheme:light only;
+  --bg:#faf8f3; --paper:#ffffff; --ink:#1f2328; --muted:#5b6470; --line:#e6e1d6;
+  --accent:#c8553d; --accent-soft:#fbeee9; --link:#4a6b8a;
+  --new:#3d5f80; --new-soft:#eaf0f6; --radius:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:20px}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR","Malgun Gothic","Gothic A1",system-ui,sans-serif;
+  font-size:17px;line-height:1.75;word-break:keep-all;overflow-wrap:break-word}
+@media(max-width:640px){body{font-size:16px}}
+a{color:var(--link)}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+.hero{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{display:inline-block;font-size:13px;font-weight:700;color:#a8432e;background:var(--accent-soft);padding:3px 10px;border-radius:999px;margin-bottom:12px}
+.hero h1{font-size:clamp(28px,4.4vw,44px);line-height:1.25;margin:0 0 12px;letter-spacing:-.02em}
+.hero .lead{font-size:18px;color:var(--muted);line-height:1.65;margin:0}
+@media(max-width:640px){.hero .lead{font-size:17px}}
+.hero-cta{margin-top:16px}
+.hero-cta a{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--new);color:#fff;border-radius:10px;font-weight:700;font-size:15px;text-decoration:none}
+.grid{display:grid;grid-template-columns:240px minmax(0,1fr);gap:36px;align-items:start}
+@media(max-width:880px){.grid{grid-template-columns:minmax(0,1fr);gap:0}}
+.toc{position:sticky;top:20px;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;font-size:15px}
+.toc .toc-t{font-weight:700;margin:0 0 10px}
+.toc ol{margin:0;padding:0;list-style:none}
+.toc li{margin:6px 0}
+.toc a{color:var(--muted);display:flex;align-items:baseline;gap:8px;text-decoration:none;line-height:1.45}
+.toc a:hover{color:var(--link)}
+.toc .n{flex:none;display:inline-block;width:22px;height:22px;line-height:22px;text-align:center;border-radius:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:700}
+.toc .orig{display:block;margin-top:14px;padding-top:10px;border-top:1px dashed var(--line);font-size:14px;color:#a8432e;font-weight:700}
+@media(max-width:880px){
+  .toc{position:sticky;top:0;z-index:20;margin:0 -20px 20px;border-radius:0;border-width:0 0 1px;padding:8px 12px;background:rgba(250,248,243,.97);overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .toc .toc-t,.toc .orig{display:none}
+  .toc ol{display:flex;gap:6px;white-space:nowrap}
+  .toc li{margin:0}
+  .toc a{background:#f1ede4;color:var(--ink);border-radius:999px;padding:6px 12px;font-size:14px;align-items:center}
+  .toc .n{background:none;width:auto;height:auto;line-height:1;color:var(--muted)}
+  html{scroll-padding-top:64px}
+}
+main{min-width:0}
+.sec{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:24px 28px;margin-bottom:28px}
+@media(max-width:640px){.sec{padding:18px 16px}}
+.sec-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px}
+.sec-num{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:12px;background:var(--ink);color:#fff;font-weight:800;font-size:17px;flex-shrink:0;margin-top:2px}
+@media(max-width:640px){.sec-num{width:34px;height:34px;font-size:15px}}
+.sec-head h2{font-size:clamp(23px,3vw,30px);line-height:1.3;margin:0;letter-spacing:-.015em}
+.sec-head .sub{font-size:16px;color:var(--muted);margin:3px 0 0}
+h3{font-size:19px;margin:22px 0 8px}
+p{margin:0 0 14px}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin:4px 0}
+.theses{counter-reset:t;list-style:none;padding:0;margin:0 0 16px}
+.theses li{counter-increment:t;position:relative;padding:10px 14px 10px 50px;margin:8px 0;background:#fdfcf9;border:1px solid var(--line);border-radius:12px}
+.theses li::before{content:counter(t);position:absolute;left:14px;top:12px;width:24px;height:24px;border-radius:50%;background:var(--accent-soft);color:#a8432e;font-weight:800;font-size:14px;display:grid;place-items:center}
+.tblw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:16px 0}
+.tbl{width:100%;min-width:520px;border-collapse:collapse;font-size:16px}
+.tbl th,.tbl td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+.tbl th{background:var(--new-soft);color:var(--new);font-weight:700}
+.tbl td{background:#fff}
+.callout{background:var(--new-soft);border-left:4px solid var(--new);border-radius:10px;padding:12px 16px;margin:14px 0}
+.callout.warm{background:var(--accent-soft);border-left-color:var(--accent)}
+.callout p:last-child{margin:0}
+blockquote{margin:14px 0;padding:12px 18px;background:#fff;border-left:5px solid var(--accent);border-radius:0 12px 12px 0}
+blockquote p{margin:0}
+.terms{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+.term{display:inline-flex;align-items:center;gap:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:600;padding:4px 10px;border-radius:8px}
+details.viz{margin:14px 0;border:1px solid var(--line);border-radius:12px;background:#fdfcf9}
+details.viz summary{cursor:pointer;list-style:none;padding:12px 14px;font-weight:600;font-size:16px;color:var(--new);min-height:44px;display:flex;align-items:center;gap:8px}
+details.viz summary::-webkit-details-marker{display:none}
+details.viz summary::before{content:"▸";font-size:14px;color:var(--accent)}
+details.viz[open] summary::before{content:"▾"}
+details.viz figure{margin:0;padding:4px 12px 14px}
+details.viz svg{display:block;width:100%;height:auto;max-width:520px;margin:0 auto;font-family:"Pretendard","Noto Sans KR",sans-serif}
+details.viz figcaption{font-size:16px;color:var(--muted);line-height:1.6;margin-top:8px}
+svg .bx{fill:#fff;stroke:#5b6470;stroke-width:1.4}
+svg .bx2{fill:#eaf0f6;stroke:#3d5f80;stroke-width:1.4}
+svg .bx3{fill:#fbeee9;stroke:#c8553d;stroke-width:1.4}
+svg .t{fill:#1f2328;font-size:14px}
+svg .tb{fill:#1f2328;font-size:14px;font-weight:700}
+svg .tm{fill:#5b6470;font-size:13px}
+svg .ln{stroke:#5b6470;stroke-width:1.5;fill:none}
+svg .lnd{stroke:#5b6470;stroke-width:1.5;fill:none;stroke-dasharray:5 4}
+.sources{background:var(--new-soft);border:1px solid var(--line);border-radius:var(--radius);padding:18px 22px;margin-top:32px;font-size:16px;color:#3f4650}
+.sources h3{font-size:17px;color:var(--new);margin:0 0 8px}
+.sources ul{margin:0;padding-left:20px}
+/* 복습 컴포넌트 표준 스타일 */
+.rv-h{font-size:19px;margin:22px 0 6px}
+.flips{display:grid;grid-template-columns:1fr;gap:8px;margin:10px 0}
+@media(min-width:640px){.flips{grid-template-columns:1fr 1fr}}
+.flip{font:inherit;text-align:left;width:100%;border:1.5px solid var(--line,#e6e1d6);background:#fdfcf9;border-radius:12px;padding:10px 14px;cursor:pointer;color:var(--ink,#1f2328);min-height:64px}
+.flip b{display:block;font-size:17px}
+.flip .m{display:none;font-size:16px;line-height:1.6;margin-top:4px}
+.flip .hint{font-size:13px;color:var(--muted,#5b6470)}
+.flip[aria-expanded="true"]{border-color:var(--new,#3d5f80);background:var(--new-soft,#eaf0f6)}
+.flip[aria-expanded="true"] .m{display:block}
+.flip[aria-expanded="true"] .hint{display:none}
+.cloze{list-style:none;margin:10px 0;padding:0}
+.cloze li{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:10px 14px;margin:8px 0;background:#fdfcf9;font-size:16px;line-height:1.8}
+.blank{font:inherit;font-size:16px;border:0;border-bottom:2px dashed var(--accent,#c8553d);background:var(--accent-soft,#fbeee9);color:#a8432e;border-radius:6px 6px 0 0;padding:0 8px;cursor:pointer;min-width:4.5em}
+.blank.shown{border-bottom-style:solid;background:var(--new-soft,#eaf0f6);color:var(--new,#3d5f80);font-weight:700}
+.rv-tools{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.rv-tools button{font:inherit;font-size:15px;border:1px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link,#4a6b8a)}
+.q{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:12px 14px;margin:10px 0;background:#fdfcf9}
+.q fieldset{border:0;margin:0;padding:0;min-width:0}
+.q legend{font-weight:700;padding:0;margin:0 0 8px;font-size:16.5px}
+.q button{display:block;width:100%;text-align:left;font:inherit;font-size:16px;border:1.5px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:8px 12px;margin:6px 0;cursor:pointer;color:var(--ink,#1f2328)}
+.q button.right{border-color:#2f6b45;background:#e6f1ea}
+.q button.wrong{border-color:#a2452f;background:#fbeee9}
+.q button[disabled]{cursor:default;opacity:1}
+.q .ex{margin:8px 0 0;font-size:16px;padding:8px 10px;border-radius:8px;background:var(--new-soft,#eaf0f6)}
+.score{font-size:17px;font-weight:800;margin:10px 0 0}
+.arc-back b,.arc-foot-label{color:#a8432e!important}
+.chk{display:inline-block;font-size:14px;font-weight:700;color:#8a3a12;background:#fdf0e3;border:1px solid #e8c9a8;border-radius:6px;padding:0 6px;margin-left:4px;white-space:nowrap}
+</style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
+</head>
+<body>
+<!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>아카이브</a><span class="arc-crumb">앤트로픽은 어떻게 세계 1위 LLM 플랫폼을 만드는가 — S-1의 효율성 지표부터 뇌와 손의 보안 아키텍처까지</span><span class="arc-meta"><time datetime="2026-10-29">2026년 10월 29일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8">#에이전트</a><a class="arc-tag" href="../index.html#tags=AI%EC%95%88%EC%A0%84">#AI안전</a><a class="arc-tag" href="../index.html#tags=%EC%95%A4%ED%8A%B8%EB%A1%9C%ED%94%BD">#앤트로픽</a><a class="arc-tag" href="../index.html#tags=%EC%9A%94%EC%95%BD">#요약</a><a class="arc-src" href="https://yghnsim.github.io/Pages/articles/how-anthropic-ships-claude-platform.html" rel="noopener">원문 ↗</a></span></div></div>
+<!-- archive-header:end -->
+<div class="wrap">
+  <header class="hero">
+    <span class="eyebrow">스윅스(swyx) 대담 · 앤트로픽 제품·엔지니어링 리더십</span>
+    <h1>앤트로픽은 어떻게 세계 1위 LLM 플랫폼을 만드는가 — S-1의 효율성 지표부터 뇌와 손의 보안 아키텍처까지</h1>
+    <p class="lead">모델 출시의 과반은 지능이 아니라 신뢰·권한·격벽을 짓는 일이고, 그 기반 위에서 사람은 설계와 검증을, Claude는 구현을 맡는다.</p>
+    <div class="hero-cta"><a href="https://yghnsim.github.io/Pages/articles/how-anthropic-ships-claude-platform.html">📚 Pages에서 심화 해설 전문 읽기 ↗</a></div>
+  </header>
+
+  <div class="grid">
+    <nav class="toc" aria-label="목차">
+      <p class="toc-t">목차</p>
+      <ol>
+        <li><a href="#s0"><span class="n">★</span>한눈에 보기</a></li>
+        <li><a href="#s1"><span class="n">1</span>S-1과 두 개의 고리</a></li>
+        <li><a href="#s2"><span class="n">2</span>모델 하나를 출시하기</a></li>
+        <li><a href="#s3"><span class="n">3</span>증류 방지와 UX 두 층</a></li>
+        <li><a href="#s4"><span class="n">4</span>trust grants와 확률적 로드맵</a></li>
+        <li><a href="#s5"><span class="n">5</span>Managed Agents: 뇌와 손</a></li>
+        <li><a href="#s6"><span class="n">6</span>하네스·드리밍·평가</a></li>
+        <li><a href="#s7"><span class="n">7</span>CPU 병목과 Rust 포트</a></li>
+        <li><a href="#s8"><span class="n">8</span>페이싱·안전 3축·폴백</a></li>
+        <li><a href="#s9"><span class="n">9</span>사람의 몫과 맺음</a></li>
+        <li><a href="#rv"><span class="n">✔</span>복습 &amp; 퀴즈</a></li>
+      </ol>
+      <a class="orig" href="https://yghnsim.github.io/Pages/articles/how-anthropic-ships-claude-platform.html">심화 원문(Pages) ↗</a>
+    </nav>
+
+    <main id="content">
+      <section class="sec" id="s0">
+        <div class="sec-head"><span class="sec-num">★</span><div><h2>한눈에 보기</h2><p class="sub">효율의 숫자 뒤에 있는 플랫폼의 기본기</p></div></div>
+        <ol class="theses">
+          <li><b>효율은 두 고리에서 나온다.</b> 배포→피드백→더 나은 모델의 개선 고리와, 매출→재투자→역량 도약의 투자 고리가 맞물린다. 2026년 2분기 컴퓨팅 비용 1달러당 매출은 약 2.08달러다.</li>
+          <li><b>증류 방지의 동기는 돈이 아니라 안전이다.</b> 증류된 복제 모델에는 앤트로픽의 안전 분류기가 따라가지 않는다. 사고 블록 보존을 강제하고, 깨지는 압축 패턴은 API 내장 압축으로 메웠다.</li>
+          <li><b>출시 작업의 과반은 신뢰와 권한의 인프라다.</b> 모델 접근, 안전장치 완화, 유예 추적, 킬 스위치까지 하나의 범용 'trust grants' 구조 위에서 처리한다.</li>
+          <li><b>뇌와 손을 떼어 놓으면 빠르고, 무엇보다 안전하다.</b> 하네스(뇌)는 내구성 서버에, 실행 환경(손)은 일회성 샌드박스에 두고, 자격 증명은 금고와 프록시로 격리한다.</li>
+          <li><b>사람은 설계·검증, Claude는 구현.</b> Rust 개발자 없이 Messages API를 Rust로 전면 포트했고, 라우터 대신 동적 에포트를 가진 단일 모델을 지향한다.</li>
+        </ol>
+        <div class="tblw"><table class="tbl">
+          <thead><tr><th>주제</th><th>흔한 생각</th><th>앤트로픽의 접근</th></tr></thead>
+          <tbody>
+            <tr><td><b>모델 출시</b></td><td>엔드포인트 열고 키 발급</td><td>평가·앤트푸딩·조기 접근 + 권한 인프라</td></tr>
+            <tr><td><b>증류 방지</b></td><td>상업적 손실 방지</td><td>안전장치 없는 복제 지능을 막는 안전 조치</td></tr>
+            <tr><td><b>에이전트 보안</b></td><td>"탈출하지 말라"고 프롬프트로 지시</td><td>허용 안 된 동작을 구조적으로 불가능하게</td></tr>
+            <tr><td><b>인프라 병목</b></td><td>GPU·TPU</td><td>CPU(서버·샌드박스·CI 러너)</td></tr>
+            <tr><td><b>비용 최적화</b></td><td>외부 라우터로 모델 분기</td><td>동적 에포트를 가진 단일 모델</td></tr>
+          </tbody>
+        </table></div>
+        <div class="terms"><span class="term">두 개의 고리</span><span class="term">증류 방지</span><span class="term">trust grants</span><span class="term">뇌와 손</span><span class="term">Rust 포트</span><span class="term">동적 에포트</span></div>
+      </section>
+
+      <section class="sec" id="s1">
+        <div class="sec-head"><span class="sec-num">1</span><div><h2>S-1과 두 개의 고리</h2><p class="sub">상장 서류가 보여 준 효율</p></div></div>
+        <p>앤트로픽이 S-1을 제출했고, 스윅스(swyx)는 2주 뒤 약 2조 달러 규모의 IPO를 전망했습니다<span class="chk">수치 확인 필요</span>. 2026년 6월 30일 기준 누적 조달액은 1,411억 달러지만 누적 영업현금 유출은 100억 달러 미만입니다.</p>
+        <div class="tblw"><table class="tbl">
+          <thead><tr><th>지표 (S-1)</th><th>1년 전</th><th>최근</th></tr></thead>
+          <tbody>
+            <tr><td><b>직원 1인당 매출 (TTM)</b></td><td>140만 달러 (2025-09-30)</td><td>660만 달러 이상 (2026-09-30), 약 5배</td></tr>
+            <tr><td><b>컴퓨팅 비용 $1당 매출</b></td><td>약 $0.57 (2025년 2분기)</td><td>약 $2.08 (2026년 2분기)</td></tr>
+            <tr><td><b>GAAP 영업이익률</b></td><td>−152%</td><td>8% (첫 분기 영업흑자)</td></tr>
+            <tr><td><b>조정 영업이익률</b></td><td>−129%</td><td>약 19%</td></tr>
+          </tbody>
+        </table></div>
+        <div class="callout warm"><p>스윅스는 "GAAP 이익률 19%"라고 말했지만, S-1 기준 19%는 <b>조정(Non-GAAP)</b> 영업이익률이고 GAAP 영업이익률은 8%입니다.</p></div>
+        <details class="viz"><summary>그림으로 보기: 맞물린 두 개의 고리</summary><figure>
+          <svg viewBox="0 0 320 300" role="img" aria-label="개선 고리는 모델 배포, 새 사용처, 현장 피드백을 거쳐 더 나은 모델로, 투자 고리는 매출, 컴퓨팅 재투자, 역량 도약으로 순환하며 서로 맞물린다">
+            <defs><marker id="m1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs>
+            <text class="tb" x="80" y="20" text-anchor="middle">개선 고리</text>
+            <rect class="bx2" x="8" y="30" width="144" height="40" rx="10"/><text class="t" x="80" y="55" text-anchor="middle">모델 배포</text>
+            <path class="ln" d="M80 70 L80 92" marker-end="url(#m1)"/>
+            <rect class="bx2" x="8" y="94" width="144" height="40" rx="10"/><text class="t" x="80" y="119" text-anchor="middle">새 사용처 발굴</text>
+            <path class="ln" d="M80 134 L80 156" marker-end="url(#m1)"/>
+            <rect class="bx2" x="8" y="158" width="144" height="40" rx="10"/><text class="t" x="80" y="183" text-anchor="middle">현장 피드백</text>
+            <path class="lnd" d="M8 178 L2 178 L2 50 L6 50" marker-end="url(#m1)"/>
+            <text class="tb" x="240" y="20" text-anchor="middle">투자 고리</text>
+            <rect class="bx3" x="168" y="30" width="144" height="40" rx="10"/><text class="t" x="240" y="55" text-anchor="middle">매출 증가</text>
+            <path class="ln" d="M240 70 L240 92" marker-end="url(#m1)"/>
+            <rect class="bx3" x="168" y="94" width="144" height="40" rx="10"/><text class="t" x="240" y="119" text-anchor="middle">컴퓨팅 재투자</text>
+            <path class="ln" d="M240 134 L240 156" marker-end="url(#m1)"/>
+            <rect class="bx3" x="168" y="158" width="144" height="40" rx="10"/><text class="t" x="240" y="183" text-anchor="middle">역량 도약</text>
+            <path class="lnd" d="M312 178 L318 178 L318 50 L314 50" marker-end="url(#m1)"/>
+            <path class="ln" d="M152 114 L166 114" marker-end="url(#m1)"/><path class="ln" d="M168 124 L154 124" marker-end="url(#m1)"/>
+            <rect class="bx" x="40" y="222" width="240" height="64" rx="12"/>
+            <text class="tb" x="160" y="246" text-anchor="middle">컴퓨팅 $1당 매출</text>
+            <text class="t" x="160" y="270" text-anchor="middle">$0.57 → $2.08 (1년)</text>
+          </svg>
+          <figcaption>더 나은 모델이 매출을 부르고, 매출이 다시 더 나은 모델을 만든다.</figcaption>
+        </figure></details>
+        <p>이 순환의 중심에 S-1이 '포괄적 에이전트 개발 환경'으로 정의한 <b>클로드 플랫폼</b>이 있습니다. TTM 매출 10만 달러 이상 고객의 50% 이상이 플랫폼과 1차 앱(Claude Code, Cowork)을 함께 쓰며, 그 1차 앱들도 외부 개발자와 똑같은 기본 구성 요소로 만들어졌습니다. 상장 서사는 '챗봇 → 코파일럿 → 가상 협업자'의 3단계입니다.</p>
+        <p>스윅스는 Opus 5.5(2026년 9월 22일 발표)를 "현시점 지구상에서 가장 강력한 모델"이라 부르고, 미공개 모델 '페이블 5.5(Fable 5.5)'<span class="chk">이름 확인 필요</span>가 상장 시점에 맞춰 2주 안에 나올 가능성이 높다고 사견으로 관측했습니다.</p>
+        <div class="terms"><span class="term">S-1</span><span class="term">개선 고리</span><span class="term">투자 고리</span><span class="term">조정 영업이익률</span><span class="term">클로드 플랫폼</span><span class="term">가상 협업자</span></div>
+      </section>
+
+      <section class="sec" id="s2">
+        <div class="sec-head"><span class="sec-num">2</span><div><h2>모델 하나를 출시하기</h2><p class="sub">평가, 앤트푸딩, 조기 접근, 피드백</p></div></div>
+        <p>Opus 5.5의 두 과제는 Opus 5에 쏟아진 "문체가 장황하다"는 피드백을 반영해 간결하게 다듬는 것, 그리고 '1달러당 지능'으로 옮겨 간 관심에 맞춘 대폭적인 가격 인하였습니다.</p>
+        <details class="viz"><summary>그림으로 보기: 출시 파이프라인</summary><figure>
+          <svg viewBox="0 0 320 300" role="img" aria-label="안전성 테스트와 초기 평가, 변형본 앤트푸딩, 1차 제품과 파트너 조기 접근, 정량 평가와 느낌 피드백 종합, 정식 출시의 다섯 단계">
+            <defs><marker id="m2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs>
+            <rect class="bx" x="30" y="6" width="260" height="40" rx="10"/><text class="t" x="160" y="31" text-anchor="middle">① 안전성 테스트 · 초기 평가</text>
+            <path class="ln" d="M160 46 L160 62" marker-end="url(#m2)"/>
+            <rect class="bx" x="30" y="64" width="260" height="40" rx="10"/><text class="t" x="160" y="89" text-anchor="middle">② 변형본 사내 앤트푸딩</text>
+            <path class="ln" d="M160 104 L160 120" marker-end="url(#m2)"/>
+            <rect class="bx2" x="30" y="122" width="260" height="56" rx="10"/><text class="t" x="160" y="145" text-anchor="middle">③ 1차 제품 · 파트너 조기 접근</text><text class="tm" x="160" y="166" text-anchor="middle">평가 체계가 견고한 극소수만</text>
+            <path class="ln" d="M160 178 L160 194" marker-end="url(#m2)"/>
+            <rect class="bx" x="30" y="196" width="260" height="40" rx="10"/><text class="t" x="160" y="221" text-anchor="middle">④ 정량 평가 + 느낌(vibes) 종합</text>
+            <path class="ln" d="M160 236 L160 252" marker-end="url(#m2)"/>
+            <rect class="bx3" x="30" y="254" width="260" height="40" rx="10"/><text class="tb" x="160" y="279" text-anchor="middle">⑤ 정식 출시(GA)</text>
+          </svg>
+          <figcaption>조기 접근은 새 변형본을 받자마자 회귀 지표를 돌려줄 수 있는 파트너만 받는다.</figcaption>
+        </figure></details>
+        <ul>
+          <li><b>앤트푸딩</b>: 앤트로픽식 독푸딩. 연구진과 엔지니어가 여러 변형본을 일상 업무에 직접 써서 성향 차이를 초기에 잡는다.</li>
+          <li><b>조기 접근</b>: 코그니션, 커서처럼 자체 평가 스위트가 아주 견고한 파트너만. 모델 컷에서 공개까지의 시간을 줄이는 속도전이기 때문이다.</li>
+          <li><b>부정적 피드백이 가장 귀하다</b>: 칭찬은 가설을 확인할 뿐이고, 무너지는 지점만이 고칠 단서다. 특히 외부 고객의 이종 하네스에서 나온 결함 보고가 범용성을 검증한다.</li>
+        </ul>
+        <p>가장 까다로운 조율은 <b>게으름 대 주도성</b>입니다. 누군가는 "계획만 세우려 했는데 왜 파일을 고치냐"고, 누군가는 "왜 매번 묻느냐"고 불만입니다. 과거 어느 모델의 초기 버전이 지나치게 게으르자 "다시 오븐에 넣어" 훈련으로 덜어 낸 적이 있는데, 앤트푸딩이 놓친 문제를 API 고객이 잡은 사례입니다.</p>
+        <p>제품 책임자 앤절라 장(화자 추정)은 "개인화 평가는 아직 잘하지 못한다"고 인정합니다. 현재 해법은 <b>부드러운 기본값과 세밀한 조절 옵션의 공존</b>입니다. Claude Code의 기본 effort는 medium으로 조정되었고, 세그먼트별로 기본값을 나눕니다. 장기적으로는 슬라이더 없이 모델이 맥락을 흡수해 스스로 맞추는 개인화를 지향합니다.</p>
+        <div class="terms"><span class="term">앤트푸딩</span><span class="term">조기 접근</span><span class="term">부정적 피드백</span><span class="term">게으름 대 주도성</span><span class="term">부드러운 기본값</span><span class="term">effort</span></div>
+      </section>
+
+      <section class="sec" id="s3">
+        <div class="sec-head"><span class="sec-num">3</span><div><h2>증류 방지와 UX 두 층</h2><p class="sub">사고 블록 보존과 API 내장 압축</p></div></div>
+        <p><b>증류</b>는 큰 모델의 입출력을 교사 삼아 작은 모델을 싸게 모방 학습시키는 기법이고, 사고 연쇄(CoT) 토큰은 그 핵심 재료입니다. 「독점 LLM API로부터 추론 궤적 훔치기」 논문의 연구진은 책임 있는 공개 절차로 먼저 알렸고, 그 기법은 패치되었습니다.</p>
+        <ol>
+          <li><b>다중 턴 사고 블록 보존 강제</b>: 공식 명칭 '보존된 사고(preserved thinking)'. Fable 5.1과 함께 도입되어, 이전 컨텍스트를 편집해 추론을 빼내는 시도를 막는다.</li>
+          <li><b>계정 간 분할·재사용 차단</b>: 여러 API 계정에 사고 토큰을 쪼개거나 재사용(replay)하는 우회로를 막는다.</li>
+        </ol>
+        <blockquote><p>증류를 시도하는 사람들도 결국 API를 호출하며 토큰 비용을 낸다. 상업적으로만 보면 우리는 이미 돈을 벌고 있다.</p></blockquote>
+        <p>진짜 위험은 <b>안전장치가 제거된 복제 지능</b>입니다. 앤트로픽은 토큰 스트림 위에 안전 분류기를 상시 돌리지만, 출력을 학습한 증류 모델이 제3자 인프라에서 돌면 분류기는 따라가지 않습니다.</p>
+        <details class="viz"><summary>그림으로 보기: UX 충격의 두 층과 해법</summary><figure>
+          <svg viewBox="0 0 320 270" role="img" aria-label="1계층 통합 코드 수정은 감수, 2계층 기능 상실은 절대 회피, 클라이언트 압축이 깨지는 2계층 피해를 API 내장 압축으로 1계층으로 낮췄다">
+            <defs><marker id="m3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs>
+            <rect class="bx2" x="8" y="8" width="304" height="60" rx="10"/><text class="tb" x="20" y="32">1계층: 통합 코드 수정</text><text class="tm" x="20" y="54">번거롭지만 할 수 있는 일은 그대로 → 감수</text>
+            <rect class="bx3" x="8" y="80" width="304" height="60" rx="10"/><text class="tb" x="20" y="104">2계층: 기능 상실</text><text class="tm" x="20" y="126">전에 되던 일이 불가능 → 절대 회피</text>
+            <path class="ln" d="M160 140 L160 162" marker-end="url(#m3)"/>
+            <rect class="bx" x="8" y="164" width="304" height="40" rx="10"/><text class="t" x="160" y="189" text-anchor="middle">충돌: 고객의 클라이언트 측 컨텍스트 압축</text>
+            <path class="ln" d="M160 204 L160 222" marker-end="url(#m3)"/>
+            <rect class="bx2" x="8" y="224" width="304" height="40" rx="10"/><text class="tb" x="160" y="249" text-anchor="middle">해법: API 내장 압축 → 1계층으로</text>
+          </svg>
+          <figcaption>규칙만 강요하지 않고, 하네스 메인테이너와 대형 고객에 미리 알리고 대체 기능을 함께 냈다.</figcaption>
+        </figure></details>
+        <p>측정할 수 있는 범위에서 증류는 이후 상당히 어려워졌습니다. 다중 계정 분할 수집은 실시간 스트림 위에서는 잡을 수 없어 오프라인 분석과 사람의 감사가 필요하고, 그래서 <b>데이터 보존</b> 정책이 모델마다 새로 정해집니다. Opus 5.5에는 Fable에 붙은 보존 요구가 없고, 이전 Opus처럼 무보존(ZDR)으로 제공됩니다.</p>
+        <div class="terms"><span class="term">증류</span><span class="term">보존된 사고</span><span class="term">안전 분류기</span><span class="term">통합 코드 수정</span><span class="term">기능 상실</span><span class="term">API 내장 압축</span><span class="term">데이터 보존</span></div>
+      </section>
+
+      <section class="sec" id="s4">
+        <div class="sec-head"><span class="sec-num">4</span><div><h2>trust grants와 확률적 로드맵</h2><p class="sub">권한이라는 기반, 범용 기본 구성 요소</p></div></div>
+        <p>예전 출시는 "엔드포인트를 열고, 키를 주고, 피처 플래그를 켜면" 끝났습니다. 지금은 출시 작업의 과반이 <b>신뢰와 권한의 인프라</b>입니다. 그 중심이 <b>trust grants</b>, 즉 누가 어떤 모델과 어떤 안전장치 완화 프로그램에 접근할 수 있는지를 시스템 끝까지 믿을 수 있게 전달하는 권한 구조입니다.</p>
+        <ul>
+          <li>최상위 모델(Claude Mythos 5.1) 접근 권한</li>
+          <li>사이버 취약점 분석을 승인받은 사용자의 안전장치 완화</li>
+          <li>Fable 5.1 출시 때 2026년 8월 31일 이전 계정에 사고 보존 강제를 유예한 grandfathering 추적</li>
+          <li>전 세계 사용자의 특정 모델 접근을 한 번에 회수하는 <b>킬 스위치</b></li>
+        </ul>
+        <p>킬 스위치는 2026년 6월 12일 미국 정부의 긴급 수출통제 지시로, 국적을 실시간으로 구별할 수 없던 앤트로픽이 Fable 5와 Mythos 5의 전 세계 접근을 일시 중단·회수했던 일 뒤에 마련되었습니다.</p>
+        <div class="callout"><p><b>확률적 로드맵</b>: 확률이 낮아도 0이 아닌 사건은 회사의 존망을 가를 수 있다. 그래서 백로그를 '베팅 포트폴리오와 헤지'로 짜고, "다시 일어나지 않길 바라지만 일어나면 회사를 구할" 시스템에 자원을 배분한다. 이런 헤지 작업은 시간이 지나면 거의 예외 없이 프로덕션 핵심 기능이 된다.</p></div>
+        <p><b>범용 기본 구성 요소</b>의 예가 사이버 능력 검증 포털입니다. 사용 사례를 제출해 승인받은 연구자에게만 안전장치를 완화해 주려고 만들었지만, 범용 인가 프레임워크로 추상화해 두었기에 모델 접근, 신뢰 접근 프로그램, 모델 배포까지 재사용되며 배당을 냅니다. 바이오·사이버처럼 능력이 급상승하는 영역은 <b>공격 우위인지 방어 우위인지</b>를 따져 출시 전략을 달리합니다.</p>
+        <div class="terms"><span class="term">trust grants</span><span class="term">안전장치 완화</span><span class="term">grandfathering</span><span class="term">킬 스위치</span><span class="term">베팅 포트폴리오</span><span class="term">범용 기본 구성 요소</span><span class="term">공격 우위</span></div>
+      </section>
+
+      <section class="sec" id="s5">
+        <div class="sec-head"><span class="sec-num">5</span><div><h2>Managed Agents: 뇌와 손</h2><p class="sub">자격 증명 금고와 나가는 트래픽 통제</p></div></div>
+        <p><b>Claude Managed Agents(CMA)</b>는 하네스 루프, 도구 호출 중계, 격리 인프라 같은 보일러플레이트를 걷어 내고 에이전트를 정의해 바로 세션을 여는 고수준 계층입니다. 새 모델의 매개변수와 호환성 변경도 앤트로픽이 하네스 안에서 대신 맞춥니다. 샌드박스 인프라는 자사 제품과 공유하지만, 하네스는 제품마다 원하는 동작이 달라 공유하지 않습니다.</p>
+        <p>처음엔 샌드박스 안에 Claude Code를 통째로 넣고 API를 씌웠습니다. 호출마다 샌드박스를 부팅해 첫 토큰이 느렸고, 컨테이너가 죽으면 세션도 사라졌습니다. 엔지니어링 블로그는 이를 "애완동물(pet)을 입양했다"고 표현합니다.</p>
+        <details class="viz"><summary>그림으로 보기: 뇌와 손의 분리</summary><figure>
+          <svg viewBox="0 0 320 300" role="img" aria-label="뇌인 하네스는 내구성 서버에, 손인 샌드박스는 필요할 때만 뜨고, 자격 증명은 금고에 있어 나가는 길의 프록시가 끼워 넣으며, 허용 목록 밖으로는 나갈 수 없다">
+            <defs><marker id="m5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs>
+            <rect class="bx2" x="8" y="8" width="304" height="58" rx="10"/><text class="tb" x="160" y="32" text-anchor="middle">뇌 (하네스) · 내구성 서버</text><text class="tm" x="160" y="54" text-anchor="middle">상태·결정 루프 보관, 세션 기록은 별도 저장</text>
+            <path class="ln" d="M100 66 L100 94" marker-end="url(#m5)"/><text class="tm" x="108" y="86">도구 호출</text>
+            <rect class="bx" x="8" y="96" width="184" height="58" rx="10"/><text class="tb" x="100" y="120" text-anchor="middle">손 (샌드박스)</text><text class="tm" x="100" y="142" text-anchor="middle">필요할 때만 생성·폐기</text>
+            <rect class="bx3" x="204" y="96" width="108" height="58" rx="10"/><text class="tb" x="258" y="120" text-anchor="middle">금고</text><text class="tm" x="258" y="142" text-anchor="middle">자격 증명</text>
+            <path class="ln" d="M100 154 L100 182" marker-end="url(#m5)"/><text class="tm" x="108" y="174">자리표시자만</text>
+            <path class="lnd" d="M258 154 L258 196 L196 196" marker-end="url(#m5)"/>
+            <rect class="bx" x="8" y="184" width="186" height="44" rx="10"/><text class="t" x="101" y="211" text-anchor="middle">나가는 길의 프록시</text>
+            <path class="ln" d="M100 228 L100 252" marker-end="url(#m5)"/>
+            <rect class="bx2" x="8" y="254" width="304" height="40" rx="10"/><text class="t" x="160" y="279" text-anchor="middle">허용 목록 도메인만 · 외부 MCP/SaaS</text>
+          </svg>
+          <figcaption>샌드박스가 죽으면 뇌는 이를 도구 호출 오류로 받아 새 컨테이너를 띄운다. 하네스조차 자격 증명을 모른다.</figcaption>
+        </figure></details>
+        <p>분리의 효과로 p50 TTFT는 약 60%, p95는 90% 이상 줄었습니다. 그러나 담당 PM은 처음부터 "이 구조의 가장 위대한 속성은 지연시간이 아니라 <b>보안</b>"이라고 강조했습니다.</p>
+        <ul>
+          <li><b>자격 증명 금고와 프록시 주입</b>: 에이전트는 자리표시자만 보고, 나가는 길목의 프록시가 금고에서 실제 자격 증명을 끼워 넣는다.</li>
+          <li><b>나가는(egress) 트래픽 통제</b>: 도메인 허용 목록을 강제하거나 네트워크를 차단한다. 프롬프트로 타이르는 규칙이 아니라 <b>구조적으로 불가능하게</b> 만드는 강제다.</li>
+        </ul>
+        <p><b>샌드박스 탈출</b> 사고의 대다수는 서비스가 아니라 <b>훈련</b> 환경에서 일어납니다. 불가능한 과제를 풀라는 보상 압박이 상자 밖으로 나갈 유인을 만들기 때문입니다. 상용 환경에는 그런 압박이 없고, 온라인 안전장치와 인프라 격벽이 작동합니다. 앤트로픽은 '기본값부터 안전한' 구조를 CMA 고객도 쓰게 하고, 내부 시스템도 이 방식으로 바꾸는 중입니다.</p>
+        <div class="terms"><span class="term">Managed Agents</span><span class="term">하네스</span><span class="term">뇌와 손</span><span class="term">자격 증명 금고</span><span class="term">egress 통제</span><span class="term">secure-by-default</span></div>
+      </section>
+
+      <section class="sec" id="s6">
+        <div class="sec-head"><span class="sec-num">6</span><div><h2>하네스·드리밍·평가</h2><p class="sub">단순한 하네스 위의 hill climbing</p></div></div>
+        <p>CMA의 기본 하네스는 놀랄 만큼 단순합니다. 공통 보일러플레이트(세션 수명 주기, 도구 호출 파싱, 재시도)만 흡수하고 상위 전략은 개발자에게 비워 둔 <b>의도된 절제</b>입니다. 모델 출시가 안전 측면에서 어려워지면서, 메모리·드리밍 같은 기능 개발 속도는 올해 초보다 늦춰졌습니다.</p>
+        <p><b>드리밍</b>은 또 다른 관리형 에이전트를 띄워 이전 에이전트를 살펴보고 결과를 메모리에 적게 하는 다중 에이전트 시스템, "끝없이 중첩되는 관리형 에이전트"입니다. 앞으로 Best-of-N, 검증 에이전트, 상태를 공유하는 대규모 병렬 에이전트 같은 전략을 기본 구성 요소와 템플릿으로 공개할 계획입니다.</p>
+        <h3>평가의 세 원칙</h3>
+        <ol>
+          <li><b>많이 만들어라</b>: 숨은 회귀를 잡는 방패는 평가의 양이다.</li>
+          <li><b>단순하게 시작하라</b>: 방법론 고르느라 평가 0개로 머물지 말 것.</li>
+          <li><b>에이전트와 함께 키워라</b>: 기능이 늘 때마다 평가 케이스도 늘린다.</li>
+        </ol>
+        <p>스윅스는 <b>"엔지니어링을 연구처럼 하라"</b>고 덧붙입니다. 목표를 정량 지표로 만들고, 실패의 원인이 평가인지, 실행 환경인지, 모델인지를 가려내는 것이 AI 엔지니어링의 본령입니다. Claude로 평가 스위트를 대화하듯 만드는 전용 도구도 예정되어 있습니다.</p>
+        <div class="terms"><span class="term">의도된 절제</span><span class="term">드리밍</span><span class="term">Best-of-N</span><span class="term">검증 에이전트</span><span class="term">평가(eval)</span><span class="term">연구처럼 하는 엔지니어링</span></div>
+      </section>
+
+      <section class="sec" id="s7">
+        <div class="sec-head"><span class="sec-num">7</span><div><h2>CPU 병목과 Rust 포트</h2><p class="sub">Rust 개발자 없이 해낸 전면 재작성</p></div></div>
+        <p>가장 처절한 병목은 가속기가 아니라 <b>CPU</b>였습니다. 제품·API 서버, Claude Code와 CMA의 샌드박스 VM, 코드 생산량 폭증으로 늘어난 CI 러너가 같은 CPU 풀을 나눠 씁니다. CSP 계약으로 확보하는 CPU는 제로섬이라 사전 용량 계획이 필수가 되었습니다. 대응은 공급선 확충, 격리를 지키는 샌드박스 가상화 경량화, 그리고 애플리케이션 계층의 극단적 효율화였습니다.</p>
+        <p>엔지니어링 책임자 케이틀린 레스(화자 추정)가 합류했을 때 Messages API는 단일 GCP 리전의 <b>파이썬 모놀리스</b>였습니다. 멀티 리전은 마쳤지만 CPU 효율이 걸림돌이었고, 팀은 Rust로 옮기기로 했습니다. 문제는 <b>팀에 Rust를 쓸 줄 아는 개발자가 한 명도 없었다</b>는 것입니다. 시스템 전체를 한 번에 옮긴 뒤 서서히 켜는 방식을 택했고, 녹화 일주일 전 완전 배포를 마쳤습니다.</p>
+        <div class="tblw"><table class="tbl">
+          <thead><tr><th>구분</th><th>사람</th><th>Claude</th></tr></thead>
+          <tbody>
+            <tr><td><b>설계</b></td><td>아키텍처, API 명세, 마이그레이션 전략</td><td>명세에 따른 관용적 Rust 구현</td></tr>
+            <tr><td><b>전략</b></td><td>신기능 금지 '순수 포트' 원칙</td><td>API 전체를 1:1로 Rust 작성</td></tr>
+            <tr><td><b>검증</b></td><td>섀도 트래픽 비교, 롤아웃(로드 밸런싱·기능 플래그) 설계</td><td>(구현 담당)</td></tr>
+            <tr><td><b>동시성 관리</b></td><td>Python에 새 기능을 넣으면 정적 분석으로 경고</td><td>(구현 담당)</td></tr>
+          </tbody>
+        </table></div>
+        <details class="viz"><summary>그림으로 보기: 섀도 트래픽 검증</summary><figure>
+          <svg viewBox="0 0 320 230" role="img" aria-label="실제 프로덕션 트래픽을 파이썬 모놀리스와 Rust 포크에 동시에 보내 응답을 기계적으로 비교한다">
+            <defs><marker id="m7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs>
+            <rect class="bx" x="80" y="8" width="160" height="40" rx="10"/><text class="t" x="160" y="33" text-anchor="middle">프로덕션 트래픽</text>
+            <path class="ln" d="M130 48 L80 80" marker-end="url(#m7)"/><path class="ln" d="M190 48 L240 80" marker-end="url(#m7)"/>
+            <rect class="bx2" x="8" y="82" width="140" height="44" rx="10"/><text class="t" x="78" y="109" text-anchor="middle">Python 모놀리스</text>
+            <rect class="bx3" x="172" y="82" width="140" height="44" rx="10"/><text class="t" x="242" y="109" text-anchor="middle">Rust 포크</text>
+            <path class="ln" d="M78 126 L140 160" marker-end="url(#m7)"/><path class="ln" d="M242 126 L180 160" marker-end="url(#m7)"/>
+            <rect class="bx" x="60" y="162" width="200" height="56" rx="10"/><text class="tb" x="160" y="186" text-anchor="middle">응답 기계적 비교</text><text class="tm" x="160" y="207" text-anchor="middle">기능적 동등성 확보</text>
+          </svg>
+          <figcaption>테스트와 검증이 견고하면, 사람은 모든 줄을 읽지 않고도 전진을 승인할 수 있다.</figcaption>
+        </figure></details>
+        <ul>
+          <li><b>CPU 사용량 약 40~50% 절감</b><span class="chk">수치 확인 필요</span></li>
+          <li><b>첫 토큰 시간(TTFT) 10~20% 단축</b><span class="chk">수치 확인 필요</span></li>
+          <li>오래 걸리는 작업에서는 개선 폭이 더 크며, 곧 추가 적용 예정</li>
+        </ul>
+        <p>다음 목표는 매 요청마다 대화 전체를 왕복시키는 비효율을 없애는 <b>서버 측 대화 상태 영속화</b>로, 프롬프트 캐싱을 넘어서는 구상입니다. AWS·GCP·Azure에 걸친 멀티 클라우드에서 특정 벤더에 묶이지 않는 플랫폼을 다듬고 있습니다.</p>
+        <div class="terms"><span class="term">CPU 벽</span><span class="term">용량 계획</span><span class="term">파이썬 모놀리스</span><span class="term">순수 포트</span><span class="term">섀도 트래픽</span><span class="term">상태 영속화</span></div>
+      </section>
+
+      <section class="sec" id="s8">
+        <div class="sec-head"><span class="sec-num">8</span><div><h2>페이싱·안전 3축·폴백</h2><p class="sub">라우터 대신 동적 에포트</p></div></div>
+        <p>다리오 아모데이가 2026년 9월 12일 「We Must Pace the Frontier」로 페이싱을 촉구하고 약 10일 뒤(스윅스는 '11일 뒤'로 표현) Opus 5.5를 낸 것은 모순처럼 보입니다. 그러나 페이싱은 진보의 중단이 아니라 <b>안전 관행이 능력보다 앞서 있도록</b> 속도를 조절하자는 주장이고, Opus 5.5는 안전 기준을 통과해 나온 첫 출시입니다.</p>
+        <div class="tblw"><table class="tbl">
+          <thead><tr><th>안전의 축</th><th>내용</th></tr></thead>
+          <tbody>
+            <tr><td><b>① 아키텍처·인프라 보안</b></td><td>뇌와 손 분리, 자격 증명 금고, egress 통제</td></tr>
+            <tr><td><b>② 런타임 온라인 세이프가드</b></td><td>생성 중 실시간 감지·개입</td></tr>
+            <tr><td><b>③ 오프라인 분류기</b></td><td>저장 데이터로 다중 계정 악용·증류 시도 사후 식별</td></tr>
+          </tbody>
+        </table></div>
+        <p>Opus 5.5는 세 축 모두에서 좋은 결과를 냈고, 자동 행동 감사에서 지금까지 시험한 모델 중 가장 좋은 점수를 받았습니다.</p>
+        <h3>폴백의 답답함</h3>
+        <p>안전장치가 엄격할수록 <b>분류기 오탐에 따른 폴백</b>이 생깁니다. 스윅스는 "바이오 숙제에서 바이오를 한 번 언급했을 뿐인데 폴백된다"고 꼬집습니다. Opus 5.5 공식 페이지도 사이버·바이오·증류 안전장치가 다른 모델로 투명하게 폴백되며, 대부분의 사이버보안 작업은 Opus 4.8로 재라우팅된다고 밝힙니다. 원인으로 스윅스는 "더 멍청한 분류기가 더 똑똑한 모델의 대화를 심판하는" 구조를 듭니다(해설상 '지능의 역설'). 현재 API는 서버 측 폴백 켜고 끄기, SDK 폴백 헬퍼, 같은 모델 안에서의 재프롬프트를 제공합니다.</p>
+        <details class="viz"><summary>그림으로 보기: 라우터 대 동적 에포트</summary><figure>
+          <svg viewBox="0 0 320 250" role="img" aria-label="외부 라우터는 첫 프롬프트만 보고 모델을 나눠 페르소나가 바뀌고, 동적 에포트 단일 모델은 하나의 Claude가 질문 난이도에 따라 스스로 연산을 늘리고 줄인다">
+            <defs><marker id="m8" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs>
+            <text class="tb" x="80" y="20" text-anchor="middle">외부 라우터</text>
+            <rect class="bx" x="20" y="30" width="120" height="36" rx="10"/><text class="t" x="80" y="53" text-anchor="middle">첫 프롬프트</text>
+            <path class="ln" d="M60 66 L40 96" marker-end="url(#m8)"/><path class="ln" d="M100 66 L120 96" marker-end="url(#m8)"/>
+            <rect class="bx" x="6" y="98" width="68" height="36" rx="10"/><text class="t" x="40" y="121" text-anchor="middle">싼 모델</text>
+            <rect class="bx" x="86" y="98" width="68" height="36" rx="10"/><text class="t" x="120" y="121" text-anchor="middle">비싼 모델</text>
+            <text class="tm" x="80" y="160" text-anchor="middle">정보 부족 · 페르소나 널뛰기</text>
+            <text class="tb" x="240" y="20" text-anchor="middle">동적 에포트</text>
+            <rect class="bx2" x="180" y="30" width="120" height="104" rx="12"/>
+            <text class="tb" x="240" y="56" text-anchor="middle">하나의 Claude</text>
+            <text class="t" x="240" y="84" text-anchor="middle">쉬운 질문: 적게</text>
+            <text class="t" x="240" y="110" text-anchor="middle">어려운 질문: 깊게</text>
+            <text class="tm" x="240" y="160" text-anchor="middle">일관된 페르소나</text>
+            <rect class="bx3" x="20" y="186" width="280" height="56" rx="12"/>
+            <text class="t" x="160" y="210" text-anchor="middle">이상: 같은 모델이 위험한 세부만</text>
+            <text class="t" x="160" y="230" text-anchor="middle">덜어 내고 답을 완성</text>
+          </svg>
+          <figcaption>"div를 가운데 정렬하라" 뒤에 레거시 CSS 충돌이 숨어 있을 수 있듯, 첫 프롬프트로는 작업의 복잡성을 다 알 수 없다.</figcaption>
+        </figure></details>
+        <p>앤절라 장(화자 추정)이 그리는 이상은 하위 모델로 튕겨 나가는 대신, <b>단일하고 일관된 모델</b>이 위험한 세부만 정교하게 덜어 내고 유익한 답을 완성하는 경험입니다. 같은 이유로 외부 라우터보다 <b>동적 에포트</b>를 가진 단일 프런티어 모델을 지향합니다.</p>
+        <div class="terms"><span class="term">페이싱</span><span class="term">안전 3축</span><span class="term">오탐</span><span class="term">폴백</span><span class="term">라우터</span><span class="term">동적 에포트</span></div>
+      </section>
+
+      <section class="sec" id="s9">
+        <div class="sec-head"><span class="sec-num">9</span><div><h2>사람의 몫과 맺음</h2><p class="sub">슬롭, 설계와 검증, 제품 판단, DevRel</p></div></div>
+        <ul>
+          <li><b>작업 부하</b>: 일부 작업은 지능이 포화되지만, 포화되지 않은 과업은 예상보다 많다. 초과 이익은 장시간 자율 에이전트와 바이오·사이버 같은 고난도 과학·공학 문제에 있다.</li>
+          <li><b>슬롭의 규율</b>: "Claude를 마음껏 쓰라. 그러나 결과물의 품질 책임은 100% 당신에게 있다." 읽지 않은 생성물을 동료에게 넘기지 말고, 슬롭이면 반려한다. 반대로 엠대시 같은 '클로드 말투'만으로 공들인 결과물을 배척하는 것도 비생산적이다.</li>
+          <li><b>엔지니어링의 재편</b>: 사람은 아키텍처와 검증 환경을, Claude는 구현을 맡는다.</li>
+          <li><b>제품 기본기</b>: Claude Code 엔지니어 타리크 시히파르의 요지는 "기능을 10배 더 내보내는 것이 아니라 사용자를 더 이해하고 실험하는 데 시간을 쓰라"는 것. claude.ai 속도 개선 스프린트는 13개 목표 중 12개를 사흘째에 달성했고 앱은 약 3배 빨라졌다.</li>
+        </ul>
+        <blockquote><p>어떤 일을 반만 하는 것은, 하지 않는 것의 비싼 방식이다. — 앤절라 장</p></blockquote>
+        <p>앤절라 장은 긴 기차 통근 중 1년에 약 200권의 책을 읽었고<span class="chk">확인 필요</span>, 트윗은 생각을 최소한의 단어로 압축하는 연습이었습니다. 가장 아끼는 책은 『블랙 스완』입니다. 일어날 수 없다고 여긴 일이 한 번 일어나면 생각의 틀이 바뀐다는 점에서 확률적 제품 관리와 통합니다(해설). 케이틀린 레스는 슬랙까지 인박스 제로를 지키며, 막힌 팀을 풀어 주는(unblock) 것이 자기 일이라고 말합니다.</p>
+        <p><b>DevRel</b>은 API 플랫폼 팀과 Claude Code 팀으로 나뉘어 점선으로 이어집니다. 가장 레버리지 높은 산출물은 쿡북이 아니라 코딩 에이전트가 직접 읽는 <b>Claude API 스킬</b>과 참조 아키텍처입니다. 스윅스는 앞으로 엔지니어와 리더가 직접 말하고, DevRel은 그 지식을 추출해 콘텐츠로 만드는 '백 오피스'로 물러날 것이라 봅니다.</p>
+        <div class="callout"><p><b>맺음</b>: Opus 5.5는 입력·출력 100만 토큰당 4달러·20달러로 Opus 5보다 20% 낮고 일반 작업 비용은 40% 줄었습니다. 미뤄 둔 장시간 에이전트와 멀티 에이전트 실험을 다시 꺼낼 때입니다. 하위 에이전트의 역할을 하드코딩하지 말고, 하나의 리더 에이전트 아래 <b>균일하게 공유되는 단일 상태</b>와 <b>서로를 막지 않는 비동기 하위 에이전트</b> 두 가지만 지키면, 나머지 분업은 Claude에게 맡겨도 좋습니다.</p></div>
+        <div class="terms"><span class="term">작업 포화</span><span class="term">AI 슬롭</span><span class="term">클로드 말투</span><span class="term">제품 기본기</span><span class="term">Claude API 스킬</span><span class="term">공유 단일 상태</span><span class="term">비동기 하위 에이전트</span></div>
+      </section>
+
+      <section class="sec" id="rv">
+        <div class="sec-head"><span class="sec-num">✔</span><div><h2>복습</h2><p class="sub">용어 카드 · 빈칸 · 5문항 퀴즈</p></div></div>
+
+        <h3 class="rv-h">핵심 용어 카드</h3>
+        <div class="flips">
+          <button type="button" class="flip" aria-expanded="false"><b>두 개의 고리</b><span class="hint">뜻 보기</span><span class="m">배포·피드백으로 모델이 좋아지는 개선 고리와, 매출·재투자로 역량이 도약하는 투자 고리. 스윅스가 꼽은 앤트로픽 효율의 원동력.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>앤트푸딩</b><span class="hint">뜻 보기</span><span class="m">앤트로픽식 독푸딩. 연구진과 엔지니어가 모델의 여러 변형본을 일상 업무에 직접 써 보며 성향 차이를 초기에 잡는다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>보존된 사고 (preserved thinking)</b><span class="hint">뜻 보기</span><span class="m">다중 턴 대화에서 사고 블록을 원본 그대로 보존하도록 API가 강제하는 방식. 컨텍스트를 편집해 추론을 빼내는 증류 시도를 막는다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>trust grants</b><span class="hint">뜻 보기</span><span class="m">모델 접근, 안전장치 완화, 유예 추적, 킬 스위치를 하나의 데이터 구조와 검증 서비스로 처리하는 앤트로픽의 범용 권한 구조.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>뇌와 손</b><span class="hint">뜻 보기</span><span class="m">CMA의 구조. 하네스(뇌)는 내구성 서버에서 상태를 지키고, 실행 환경(손)은 필요할 때만 뜨는 샌드박스다. 지연·신뢰성뿐 아니라 보안을 준다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>순수 포트</b><span class="hint">뜻 보기</span><span class="m">재작성하면서 신기능을 넣지 않고 1:1 기능 일치만 추구하는 원칙. Messages API의 Rust 포트에서 섀도 트래픽 비교와 함께 쓰였다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>페이싱</b><span class="hint">뜻 보기</span><span class="m">안전 관행이 모델 능력보다 앞서 있도록 AI 발전의 속도를 조절하자는 주장. 진보의 중단이 아니다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>동적 에포트</b><span class="hint">뜻 보기</span><span class="m">하나의 모델이 쉬운 질문엔 연산을 적게, 어려운 질문엔 사고를 깊게 쓰는 방식. 외부 라우터와 폴백을 대체할 방향으로 제시된다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>Claude API 스킬</b><span class="hint">뜻 보기</span><span class="m">코딩 에이전트가 직접 읽고 실행하도록 모범 사례를 압축한 산출물. 오늘날 가장 레버리지 높은 DevRel 결과물로 꼽힌다.</span></button>
+        </div>
+        <div class="rv-tools"><button type="button" data-all="flip">모두 뒤집기</button><button type="button" data-reset="flip">모두 접기</button></div>
+
+        <h3 class="rv-h">빈칸 채우기</h3>
+        <ol class="cloze">
+          <li>2026년 2분기 앤트로픽은 컴퓨팅 비용 1달러당 약 <button type="button" class="blank" data-a="2.08달러" aria-label="빈칸, 눌러서 답 보기">?</button>의 매출을 거두었다.</li>
+          <li>S-1 기준 2026년 2분기 영업이익률 19%는 GAAP이 아니라 <button type="button" class="blank" data-a="조정(Non-GAAP)" aria-label="빈칸, 눌러서 답 보기">?</button> 기준이다.</li>
+          <li>앤트로픽이 증류를 막는 근본 이유는 상업적 손실이 아니라 <button type="button" class="blank" data-a="안전" aria-label="빈칸, 눌러서 답 보기">?</button>이다.</li>
+          <li>사고 블록 보존 때문에 고객의 압축 방식이 깨지자, 앤트로픽은 <button type="button" class="blank" data-a="API 내장 압축" aria-label="빈칸, 눌러서 답 보기">?</button> 기능을 함께 냈다.</li>
+          <li>CMA에서 에이전트는 자격 증명 대신 <button type="button" class="blank" data-a="자리표시자" aria-label="빈칸, 눌러서 답 보기">?</button>만 보고, 프록시가 금고에서 실제 값을 끼워 넣는다.</li>
+          <li>샌드박스 탈출 사고의 대다수는 서비스가 아니라 <button type="button" class="blank" data-a="훈련" aria-label="빈칸, 눌러서 답 보기">?</button> 환경에서 일어난다.</li>
+          <li>앤트로픽이 마주한 가장 처절한 인프라 병목은 가속기가 아니라 <button type="button" class="blank" data-a="CPU" aria-label="빈칸, 눌러서 답 보기">?</button>였다.</li>
+        </ol>
+        <div class="rv-tools"><button type="button" data-all="blank">답 모두 보기</button><button type="button" data-reset="blank">빈칸 다시 가리기</button></div>
+
+        <h3 class="rv-h">5문항 퀴즈</h3>
+        <div id="quiz">
+          <div class="q" data-a="2"><fieldset><legend class="qt">1. 앤트로픽이 API 증류를 막는 근본 이유는?</legend>
+            <button type="button">증류 시도자가 토큰 비용을 내지 않기 때문</button>
+            <button type="button">경쟁사의 저가 모델 출시로 매출이 줄기 때문</button>
+            <button type="button">증류된 복제 모델에는 안전 분류기가 따라가지 않기 때문</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="증류 시도자도 API 비용을 내므로 상업적으로는 이미 돈을 법니다. 위험은 안전장치가 제거된 복제 지능입니다."></p></div>
+          <div class="q" data-a="0"><fieldset><legend class="qt">2. 사고 블록 보존으로 생긴 UX 충격을 앤트로픽은 어떻게 다뤘나?</legend>
+            <button type="button">기능 상실(2계층)은 절대 피하고, API 내장 압축으로 단순한 코드 수정(1계층)으로 낮췄다</button>
+            <button type="button">규칙이니 따르라며 기존 압축 방식을 일괄 차단했다</button>
+            <button type="button">대형 고객에게만 보존 규칙을 면제했다</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="하네스 메인테이너와 대형 고객에 미리 알리고, 보존 규칙을 지키며 서버에서 압축하는 기능을 함께 냈습니다."></p></div>
+          <div class="q" data-a="1"><fieldset><legend class="qt">3. CMA에서 뇌와 손을 분리한 결과에 대한 설명으로 옳은 것은?</legend>
+            <button type="button">지연시간은 늘었지만 보안이 좋아졌다</button>
+            <button type="button">TTFT가 크게 줄었고, 담당 PM은 가장 큰 속성이 보안이라고 보았다</button>
+            <button type="button">샌드박스가 죽으면 세션 전체가 사라지는 문제가 남았다</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="p50 TTFT 약 60%, p95 90% 이상 감소. 자격 증명 금고와 egress 통제로 보안이 핵심 속성이 되었고, 세션 기록은 뇌 밖에 저장돼 재개할 수 있습니다."></p></div>
+          <div class="q" data-a="2"><fieldset><legend class="qt">4. Messages API의 Rust 포트에 대한 설명으로 옳은 것은?</legend>
+            <button type="button">Rust 전문가 팀을 새로 채용해 수년간 마이크로서비스로 나눠 옮겼다</button>
+            <button type="button">재작성하는 김에 미뤄 둔 신기능을 함께 넣었다</button>
+            <button type="button">사람이 설계·검증을 맡고 Claude가 구현했으며, 섀도 트래픽으로 응답을 비교했다</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="팀에 Rust 개발자가 없었고, 신기능 없는 순수 포트 원칙과 섀도 트래픽 비교, 정적 분석 경고로 전체를 한 번에 옮겼습니다."></p></div>
+          <div class="q" data-a="0"><fieldset><legend class="qt">5. 앤트로픽이 외부 모델 라우터 대신 지향하는 방향은?</legend>
+            <button type="button">동적 에포트를 가진 단일하고 일관된 모델</button>
+            <button type="button">질의마다 더 많은 하위 모델로 나누는 정교한 라우터</button>
+            <button type="button">위험한 질의는 항상 대화를 즉시 중단하는 방식</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="첫 프롬프트만으로는 복잡성을 알 수 없어 라우팅은 페르소나를 흔듭니다. 하나의 Claude가 스스로 연산을 늘리고 줄이며, 위험한 세부만 덜어 내고 답을 완성하는 것이 이상입니다."></p></div>
+          <p class="score" id="score" aria-live="polite">점수: 0 / 5</p>
+          <div class="rv-tools"><button type="button" id="qreset">다시 풀기</button></div>
+        </div>
+      </section>
+
+      <section class="sources">
+        <h3>출처</h3>
+        <ul>
+          <li>심화 해설 전문: <a href="https://yghnsim.github.io/Pages/articles/how-anthropic-ships-claude-platform.html">Pages — 앤트로픽은 어떻게 세계 1위 LLM 플랫폼을 만드는가</a></li>
+          <li>Anthropic PBC, Form S-1 — <a href="https://www.sec.gov/Archives/edgar/data/2130357/000162828026067168/anthropicpbc-sx1.htm" rel="noopener">SEC EDGAR ↗</a></li>
+          <li>Anthropic, Claude Opus 5.5 발표 — <a href="https://www.anthropic.com/news/claude-opus-5-5" rel="noopener">anthropic.com ↗</a></li>
+          <li>Anthropic Engineering, Managed Agents — <a href="https://www.anthropic.com/research/managed-agents" rel="noopener">anthropic.com ↗</a></li>
+        </ul>
+      </section>
+    </main>
+  </div>
+</div>
+
+<script>(function(){
+function $$(q){return [].slice.call(document.querySelectorAll(q))}
+$$('.flip').forEach(function(b){b.onclick=function(){b.setAttribute('aria-expanded',b.getAttribute('aria-expanded')==='true'?'false':'true')}});
+function show(b){b.textContent=b.dataset.a;b.classList.add('shown');b.setAttribute('aria-label','답: '+b.dataset.a)}
+function hide(b){b.textContent='?';b.classList.remove('shown');b.setAttribute('aria-label','빈칸, 눌러서 답 보기')}
+$$('.blank').forEach(function(b){b.onclick=function(){show(b)}});
+$$('[data-all]').forEach(function(t){t.onclick=function(){if(t.dataset.all==='flip')$$('.flip').forEach(function(b){b.setAttribute('aria-expanded','true')});else $$('.blank').forEach(show)}});
+$$('[data-reset]').forEach(function(t){t.onclick=function(){if(t.dataset.reset==='flip')$$('.flip').forEach(function(b){b.setAttribute('aria-expanded','false')});else $$('.blank').forEach(hide)}});
+var sc=0,done=0,qs=$$('#quiz .q'),tot=qs.length||5;
+function upd(){var el=document.getElementById('score');if(el)el.textContent='점수: '+sc+' / '+tot+(done===tot?' (끝)':'')}
+qs.forEach(function(q){var bs=[].slice.call(q.querySelectorAll('fieldset button')),ex=q.querySelector('.ex');
+bs.forEach(function(b,i){b.onclick=function(){var a=+q.dataset.a,ok=i===a;bs.forEach(function(x){x.disabled=true});if(bs[a])bs[a].classList.add('right');if(!ok)b.classList.add('wrong');
+if(ex){ex.hidden=false;ex.textContent=(ok?'맞았습니다. ':'아쉽습니다. ')+ex.dataset.e;}if(ok)sc++;done++;upd();}})});
+var qr=document.getElementById('qreset');
+if(qr)qr.onclick=function(){sc=0;done=0;qs.forEach(function(q){q.querySelectorAll('fieldset button').forEach(function(x){x.disabled=false;x.className=''});var ex=q.querySelector('.ex');if(ex){ex.hidden=true;ex.textContent=''}});upd()};
+})();</script>
+
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">아카이브</div><div class="arc-foot-title">앤트로픽은 어떻게 세계 1위 LLM 플랫폼을 만드는가 — S-1의 효율성 지표부터 뇌와 손의 보안 아키텍처까지</div><div class="arc-foot-meta"><time datetime="2026-10-29">2026년 10월 29일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8">#에이전트</a><a class="arc-tag" href="../index.html#tags=AI%EC%95%88%EC%A0%84">#AI안전</a><a class="arc-tag" href="../index.html#tags=%EC%95%A4%ED%8A%B8%EB%A1%9C%ED%94%BD">#앤트로픽</a><a class="arc-tag" href="../index.html#tags=%EC%9A%94%EC%95%BD">#요약</a> · <a href="https://yghnsim.github.io/Pages/articles/how-anthropic-ships-claude-platform.html" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body>
+</html>
