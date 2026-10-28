@@ -1,5 +1,24 @@
 [
   {
+    "id": "20261029-03",
+    "title": "앤트로픽 IPO 밸류에이션 — 조숙한 유치원생의 성적표와 1.48조 달러의 내재가치",
+    "summary": "다모다란의 앤트로픽 DCF: 목표 매출 1조 114.9억 달러, 마진 27.5%, 컴퓨트 약정 부채화로 지분가치 1.48조 달러(주당 447달러), 지배구조 수렁과 S-1 세부 대조",
+    "tags": [
+      "경제경영",
+      "AI",
+      "가치평가",
+      "아스워스다모다란",
+      "요약"
+    ],
+    "date": "2026-10-29",
+    "file": "pages/2026-10-29-다모다란앤트로픽.html",
+    "added": "2026-10-29T08:27:49+09:00",
+    "source_name": "src.html",
+    "source_sha256": "ac6ae6db9ceb7d2c789de1a7b712b37515e5ee0b21b2603d924574299869d37d",
+    "source_path_sha256": "5783a59faaec204bfd2449ff08223ca93ed8d1d828c0e3d703f6b213a82ce7ce",
+    "source_url": "https://yghnsim.github.io/Pages/articles/damodaran-anthropic-ipo-valuation.html"
+  },
+  {
     "id": "20261029-02",
     "title": "선 하나를 어디에 그을 것인가 — 서포트 벡터 머신, 임계값에서 커널 트릭까지",
     "summary": "임계값·최대 마진에서 소프트 마진, 힌지 손실, 다항·RBF 커널 트릭, scikit-learn 실습과 데이터 누수까지 SVM 핵심 정리",
