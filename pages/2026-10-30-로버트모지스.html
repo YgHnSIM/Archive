@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light only">
+<title>권력의 해부학 — 로버트 모지스와 린든 존슨</title>
+<meta name="description" content="로버트 카로의 모지스·존슨 전기 해설: 공공기관과 채권의 영구 존속, 계약 조항, 12개 겸직, 찬성 연합, 권력은 드러낸다, 상원 원내대표의 세 전술, 1957년 민권법">
+<style>
+:root{color-scheme:light only;
+  --bg:#faf8f3; --paper:#ffffff; --ink:#1f2328; --muted:#5b6470; --line:#e6e1d6;
+  --accent:#c8553d; --accent-soft:#fbeee9; --link:#4a6b8a;
+  --new:#3d5f80; --new-soft:#eaf0f6; --radius:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:20px}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR","Malgun Gothic","Gothic A1",system-ui,sans-serif;
+  font-size:17px;line-height:1.75;word-break:keep-all;overflow-wrap:break-word}
+@media(max-width:640px){body{font-size:16px}}
+a{color:var(--link)}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+.hero{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{display:inline-block;font-size:13px;font-weight:700;color:#a8432e;background:var(--accent-soft);padding:3px 10px;border-radius:999px;margin-bottom:12px}
+.hero h1{font-size:clamp(28px,4.4vw,44px);line-height:1.25;margin:0 0 12px;letter-spacing:-.02em}
+.hero .lead{font-size:18px;color:var(--muted);line-height:1.65;margin:0}
+@media(max-width:640px){.hero .lead{font-size:17px}}
+.hero-cta{margin-top:16px}
+.hero-cta a{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--new);color:#fff;border-radius:10px;font-weight:700;font-size:15px;text-decoration:none}
+.grid{display:grid;grid-template-columns:240px minmax(0,1fr);gap:36px;align-items:start}
+@media(max-width:880px){.grid{grid-template-columns:minmax(0,1fr);gap:0}}
+.toc{position:sticky;top:20px;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;font-size:15px}
+.toc .toc-t{font-weight:700;margin:0 0 10px}
+.toc ol{margin:0;padding:0;list-style:none}
+.toc li{margin:6px 0}
+.toc a{color:var(--muted);display:flex;align-items:baseline;gap:8px;text-decoration:none;line-height:1.45}
+.toc a:hover{color:var(--link)}
+.toc .n{flex:none;display:inline-block;width:22px;height:22px;line-height:22px;text-align:center;border-radius:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:700}
+.toc .orig{display:block;margin-top:14px;padding-top:10px;border-top:1px dashed var(--line);font-size:14px;color:#a8432e;font-weight:700}
+@media(max-width:880px){
+  .toc{position:sticky;top:0;z-index:20;margin:0 -20px 20px;border-radius:0;border-width:0 0 1px;padding:8px 12px;background:rgba(250,248,243,.97);overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .toc .toc-t,.toc .orig{display:none}
+  .toc ol{display:flex;gap:6px;white-space:nowrap}
+  .toc li{margin:0}
+  .toc a{background:#f1ede4;color:var(--ink);border-radius:999px;padding:6px 12px;font-size:14px;align-items:center}
+  .toc .n{background:none;width:auto;height:auto;line-height:1;color:var(--muted)}
+  html{scroll-padding-top:64px}
+}
+main{min-width:0}
+.sec{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:24px 28px;margin-bottom:28px}
+@media(max-width:640px){.sec{padding:18px 16px}}
+.sec-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px}
+.sec-num{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:12px;background:var(--ink);color:#fff;font-weight:800;font-size:17px;flex-shrink:0;margin-top:2px}
+@media(max-width:640px){.sec-num{width:34px;height:34px;font-size:15px}}
+.sec-head h2{font-size:clamp(23px,3vw,30px);line-height:1.3;margin:0;letter-spacing:-.015em}
+.sec-head .sub{font-size:16px;color:var(--muted);margin:3px 0 0}
+h3{font-size:19px;margin:22px 0 8px}
+p{margin:0 0 14px}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin:4px 0}
+.theses{counter-reset:t;list-style:none;padding:0;margin:0 0 16px}
+.theses li{counter-increment:t;position:relative;padding:10px 14px 10px 50px;margin:8px 0;background:#fdfcf9;border:1px solid var(--line);border-radius:12px}
+.theses li::before{content:counter(t);position:absolute;left:14px;top:12px;width:24px;height:24px;border-radius:50%;background:var(--accent-soft);color:#a8432e;font-weight:800;font-size:14px;display:grid;place-items:center}
+.tblw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:16px 0}
+.tbl{width:100%;min-width:520px;border-collapse:collapse;font-size:16px}
+.tbl th,.tbl td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+.tbl th{background:var(--new-soft);color:var(--new);font-weight:700}
+.tbl td{background:#fff}
+.callout{background:var(--new-soft);border-left:4px solid var(--new);border-radius:10px;padding:12px 16px;margin:14px 0}
+.callout.warm{background:var(--accent-soft);border-left-color:var(--accent)}
+.callout p:last-child{margin:0}
+blockquote{margin:14px 0;padding:12px 18px;background:#fff;border-left:5px solid var(--accent);border-radius:0 12px 12px 0}
+blockquote p{margin:0}
+.terms{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+.term{display:inline-flex;align-items:center;gap:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:600;padding:4px 10px;border-radius:8px}
+details.viz{margin:14px 0;border:1px solid var(--line);border-radius:12px;background:#fdfcf9}
+details.viz summary{cursor:pointer;list-style:none;padding:12px 14px;font-weight:600;font-size:16px;color:var(--new);min-height:44px;display:flex;align-items:center;gap:8px}
+details.viz summary::-webkit-details-marker{display:none}
+details.viz summary::before{content:"▸";font-size:14px;color:var(--accent)}
+details.viz[open] summary::before{content:"▾"}
+details.viz figure{margin:0;padding:4px 12px 14px}
+details.viz svg{display:block;width:100%;height:auto;max-width:400px;margin:0 auto;font-family:"Pretendard","Noto Sans KR",sans-serif}
+details.viz figcaption{font-size:16px;color:var(--muted);line-height:1.6;margin-top:8px}
+svg .bx{fill:#fff;stroke:#5b6470;stroke-width:1.4}
+svg .bx2{fill:#eaf0f6;stroke:#3d5f80;stroke-width:1.4}
+svg .bx3{fill:#fbeee9;stroke:#c8553d;stroke-width:1.4}
+svg .t{fill:#1f2328;font-size:18px}
+svg .tb{fill:#1f2328;font-size:18px;font-weight:700}
+svg .tm{fill:#4a525c;font-size:17.5px}
+svg .ln{stroke:#5b6470;stroke-width:1.5;fill:none}
+svg .lnd{stroke:#5b6470;stroke-width:1.5;fill:none;stroke-dasharray:5 4}
+.sources{background:var(--new-soft);border:1px solid var(--line);border-radius:var(--radius);padding:18px 22px;margin-top:32px;font-size:16px;color:#3f4650}
+.sources h3{font-size:17px;color:var(--new);margin:0 0 8px}
+.sources ul{margin:0;padding-left:20px}
+/* 복습 컴포넌트 표준 스타일 */
+.rv-h{font-size:19px;margin:22px 0 6px}
+.flips{display:grid;grid-template-columns:1fr;gap:8px;margin:10px 0}
+@media(min-width:640px){.flips{grid-template-columns:1fr 1fr}}
+.flip{font:inherit;text-align:left;width:100%;border:1.5px solid var(--line,#e6e1d6);background:#fdfcf9;border-radius:12px;padding:10px 14px;cursor:pointer;color:var(--ink,#1f2328);min-height:64px}
+.flip b{display:block;font-size:17px}
+.flip .m{display:none;font-size:16px;line-height:1.6;margin-top:4px}
+.flip .hint{font-size:13px;color:var(--muted,#5b6470)}
+.flip[aria-expanded="true"]{border-color:var(--new,#3d5f80);background:var(--new-soft,#eaf0f6)}
+.flip[aria-expanded="true"] .m{display:block}
+.flip[aria-expanded="true"] .hint{display:none}
+.cloze{list-style:none;margin:10px 0;padding:0}
+.cloze li{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:10px 14px;margin:8px 0;background:#fdfcf9;font-size:16px;line-height:1.8}
+.blank{font:inherit;font-size:16px;border:0;border-bottom:2px dashed var(--accent,#c8553d);background:var(--accent-soft,#fbeee9);color:#a8432e;border-radius:6px 6px 0 0;padding:0 8px;cursor:pointer;min-width:4.5em}
+.blank.shown{border-bottom-style:solid;background:var(--new-soft,#eaf0f6);color:var(--new,#3d5f80);font-weight:700}
+.rv-tools{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.rv-tools button{font:inherit;font-size:15px;border:1px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link,#4a6b8a)}
+.q{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:12px 14px;margin:10px 0;background:#fdfcf9}
+.q fieldset{border:0;margin:0;padding:0;min-width:0}
+.q legend{font-weight:700;padding:0;margin:0 0 8px;font-size:16.5px}
+.q button{display:block;width:100%;text-align:left;font:inherit;font-size:16px;border:1.5px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:8px 12px;margin:6px 0;cursor:pointer;color:var(--ink,#1f2328)}
+.q button.right{border-color:#2f6b45;background:#e6f1ea}
+.q button.wrong{border-color:#a2452f;background:#fbeee9}
+.q button[disabled]{cursor:default;opacity:1}
+.q .ex{margin:8px 0 0;font-size:16px;padding:8px 10px;border-radius:8px;background:var(--new-soft,#eaf0f6)}
+.score{font-size:17px;font-weight:800;margin:10px 0 0}
+.arc-back b,.arc-foot-label{color:#a8432e!important}
+.chk{display:inline-block;font-size:16px;font-weight:700;color:#8a3a12;background:#fdf0e3;border:1px solid #e8c9a8;border-radius:6px;padding:0 6px;margin-left:4px;white-space:nowrap}
+pre{background:#f6f4ee;border:1px solid var(--line);border-radius:10px;padding:12px 14px;overflow-x:auto;-webkit-overflow-scrolling:touch;margin:14px 0;font-size:16px;line-height:1.6}
+pre code{font-family:"JetBrains Mono","D2Coding",ui-monospace,Menlo,Consolas,monospace;color:#1f2328;white-space:pre}
+code{font-family:"JetBrains Mono","D2Coding",ui-monospace,Menlo,Consolas,monospace;font-size:.92em;background:#f3efe6;border-radius:4px;padding:0 4px}
+pre code{background:none;padding:0;font-size:inherit}
+@media(max-width:640px){pre{margin:12px -4px}}
+.steps,.pc{padding-left:1.3em}.steps li,.pc li{margin:8px 0}
+</style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
+</head>
+<body>
+<!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>아카이브</a><span class="arc-crumb">권력의 해부학 — 로버트 모지스와 린든 존슨</span><span class="arc-meta"><time datetime="2026-10-30">2026년 10월 30일</time><a class="arc-tag" href="../index.html#tags=%EC%82%AC%ED%9A%8C%EA%B3%BC%ED%95%99">#사회과학</a><a class="arc-tag" href="../index.html#tags=%EC%97%AD%EC%82%AC">#역사</a><a class="arc-tag" href="../index.html#tags=%EC%A0%95%EC%B9%98%ED%95%99">#정치학</a><a class="arc-tag" href="../index.html#tags=%ED%95%B4%EC%84%A4">#해설</a><a class="arc-src" href="https://yghnsim.github.io/Pages/articles/robert-moses-caro-lessons-in-power.html" rel="noopener">원문 ↗</a></span></div></div>
+<!-- archive-header:end -->
+<div class="wrap">
+  <header class="hero">
+    <span class="eyebrow">정치 · 역사 해설</span>
+    <h1>권력의 해부학 — 로버트 모지스와 린든 존슨에게서 배우는 통치의 기술</h1>
+    <p class="lead">로버트 카로(Robert Caro)의 『파워 브로커』와 린든 존슨 전기에서 권력의 획득·유지·행사 메커니즘을 추렸다. 선출된 적 없는 관료가 법률과 채권으로 도시를 지배한 방법, 권한이 '첫 발언권' 하나뿐이던 상원 원내대표가 상원의 주인이 된 방법, 그리고 권력이 사람을 드러내는 방식이다.</p>
+    <div class="hero-cta"><a href="https://yghnsim.github.io/Pages/articles/robert-moses-caro-lessons-in-power.html">📚 Pages에서 심화 해설 전문 읽기 ↗</a></div>
+  </header>
+  <div class="grid">
+    <nav class="toc" aria-label="목차">
+      <p class="toc-t">목차</p>
+      <ol>
+        <li><a href="#s0"><span class="n">★</span>한눈에 보기</a></li>
+        <li><a href="#s1"><span class="n">1</span>전기라는 렌즈</a></li>
+        <li><a href="#s2"><span class="n">2</span>마스터 빌더의 스케일</a></li>
+        <li><a href="#s3"><span class="n">3</span>법률의 내재화</a></li>
+        <li><a href="#s4"><span class="n">4</span>헌법의 방패</a></li>
+        <li><a href="#s5"><span class="n">5</span>12개의 머리를 가진 히드라</a></li>
+        <li><a href="#s6"><span class="n">6</span>사임 위협과 찬성 연합</a></li>
+        <li><a href="#s7"><span class="n">7</span>뉴욕의 몰락 재평가</a></li>
+        <li><a href="#s8"><span class="n">8</span>권력은 드러낸다</a></li>
+        <li><a href="#s9"><span class="n">9</span>상원의 주인</a></li>
+        <li><a href="#s10"><span class="n">10</span>존슨의 세 전술</a></li>
+        <li><a href="#s11"><span class="n">11</span>1957년 민권법</a></li>
+        <li><a href="#s12"><span class="n">12</span>현대적 시사점</a></li>
+        <li><a href="#rv"><span class="n">✔</span>복습 &amp; 퀴즈</a></li>
+      </ol>
+      <a class="orig" href="https://yghnsim.github.io/Pages/articles/robert-moses-caro-lessons-in-power.html">심화 원문(Pages) ↗</a>
+    </nav>
+    <main id="content">
+      <section class="sec" id="s0">
+        <div class="sec-head"><span class="sec-num">★</span><div><h2>한눈에 보기</h2><p class="sub">권력의 문법 다섯 줄</p></div></div>
+        <ol class="theses">
+          <li><b>법을 직접 쓴 자가 이긴다.</b> 모지스는 몇 단어의 조항으로 한시적 기구를 영구 권력체로 바꿨다.</li>
+          <li><b>돈의 흐름이 권력이다.</b> 통행료와 채권은 뉴욕시 전체보다 큰 자금력을 줬다.</li>
+          <li><b>대체 불가능성이 해임을 막는다.</b> 12개 겸직, 대중적 인기, 준비된 설계도가 그를 지켰다.</li>
+          <li><b>레버리지와 의제와 정보.</b> 존슨은 동료의 생존 조건을 쥐고 모든 거래를 중개했다.</li>
+          <li><b>권력은 드러낸다.</b> 권력은 늘 부패시키지 않는다. 사람이 진정 누구인지 보여 준다.</li>
+        </ol>
+        <div class="terms"><span class="term">로버트 카로</span><span class="term">로버트 모지스</span><span class="term">린든 존슨</span><span class="term">레버리지</span></div>
+      </section>
+
+      <section class="sec" id="s1">
+        <div class="sec-head"><span class="sec-num">1</span><div><h2>전기라는 렌즈</h2><p class="sub">권력의 물리학</p></div></div>
+        <p>로버트 카로는 린든 B. 존슨(Lyndon B. Johnson)의 전기에 50년을 바쳐 4권을 냈고 제5권을 쓰고 있다. 그 전에는 뉴욕을 물리적으로 재편한 로버트 모지스(Robert Moses)의 전기 『파워 브로커(The Power Broker)』(1974)에 7년을 쏟았다.</p>
+        <p>카로는 권력을 추상적 제도가 아니라 사람과 사람, 제도와 이익이 부딪히는 현장에서 포착한다. 모지스는 한 번도 선출된 적 없이 30년 넘게 뉴욕을 지배했고, 존슨은 누구도 이끌 수 없게 설계된 상원을 지배했다. 두 사람 모두 제도의 틈새를 파고들어 전례 없는 권력을 만들었다.</p>
+        <p>카로의 책은 문학적으로 너무 뛰어나서, 읽다 보면 "이 이야기가 권력에 관해 가르쳐 주는 교훈은 무엇인가?"라는 질문을 놓치기 쉽다.</p>
+        <div class="terms"><span class="term">파워 브로커</span><span class="term">Master of the Senate</span><span class="term">전기</span></div>
+      </section>
+
+      <section class="sec" id="s2">
+        <div class="sec-head"><span class="sec-num">2</span><div><h2>마스터 빌더의 스케일</h2><p class="sub">선출되지 않은 최고 권력자</p></div></div>
+        <p>모지스는 트라이버러 다리, 베라자노-내로스 다리, 크로스브롱크스 고속도로, 존스 비치, 링컨 센터, 셰이 스타디움, 두 개의 거대한 수력 댐, 수백 곳의 공원과 수십 곳의 공공 수영장을 지었다.</p>
+        <details class="viz"><summary>그림으로 보기: 고속도로의 지배</summary><figure><svg viewBox="0 0 280 168" role="img" aria-label="1964년까지 뉴욕 대도시권 도시 고속도로 899마일 가운데 627마일을 모지스가 건설했다"><defs><marker id="d1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">도시 고속도로 (1964년까지)</text><text class="tm" x="10" y="60" text-anchor="start">뉴욕 대도시권 전체</text><text class="tb" x="270" y="60" text-anchor="end">899마일</text><rect x="10.0" y="70.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="70.0" width="260.0" height="16.0" fill="#8a929c"/><text class="tm" x="10" y="120" text-anchor="start">모지스가 건설</text><text class="tb" x="270" y="120" text-anchor="end">627마일</text><rect x="10.0" y="130.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="130.0" width="181.3" height="16.0" fill="#3d5f80"/></svg><figcaption>1964년까지의 수치.</figcaption></figure></details>
+        <p>그는 1924년부터 1968년까지 44년간 권력을 쥐었고, 1930년대 중반부터 1960년대 초반까지는 어떤 시장이나 주지사보다 강했다. "당신은 선출직이 아니지 않은가"라는 비판에 그는 이렇게 답했다.</p>
+        <div class="callout"><p>"당신들도 선출될 필요가 없기는 마찬가지요(You don't have to be, either)."</p></div>
+        <div class="terms"><span class="term">마스터 빌더</span><span class="term">비선출 권력</span><span class="term">트라이버러 다리</span></div>
+      </section>
+
+      <section class="sec" id="s3">
+        <div class="sec-head"><span class="sec-num">3</span><div><h2>법률의 내재화</h2><p class="sub">공공기관과 채권의 영구 존속</p></div></div>
+        <p>모지스는 자신을 통제할 법률을 직접 기초했다. 올버니에서 "주 최고의 법안 기초자"로 통했고, 의원들이 무엇을 넘겨주는지 모르게 법률 용어 뒤에 함정을 팠다. 무대는 <b>공공기관(Public Authority)</b>이었다.</p>
+        <details class="viz"><summary>그림으로 보기: 원래의 일몰 구조</summary><figure><svg viewBox="0 0 280 246" role="img" aria-label="원래 공공기관은 채권을 발행해 짓고 통행료로 갚은 뒤 해산하는 한시적 구조였다"><defs><marker id="d2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">채권 발행</text><text class="tm" x="140.0" y="62" text-anchor="middle">교량 건설</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="88" marker-end="url(#d2)"/><rect class="bx" x="10" y="90" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="118" text-anchor="middle">통행료 징수</text><text class="tm" x="140.0" y="144" text-anchor="middle">원리금 상환</text><line class="ln" x1="140.0" y1="156" x2="140.0" y2="170" marker-end="url(#d2)"/><rect class="bx2" x="10" y="172" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="200" text-anchor="middle">상환 완료</text><text class="tm" x="140.0" y="226" text-anchor="middle">시설 이관, 기관 해산</text></svg><figcaption>1933년 트라이버러 법안에 찬성한 의원들이 염두에 둔 구조.</figcaption></figure></details>
+        <p><b>첫째, 수시로.</b> 제1조는 채권이 상환되면 해산한다고 했지만, 제9조의 한 하위 항은 기관이 "수시로(from time to time)" 새 채권을 "기타 모든 법인 목적"을 위해 발행할 수 있게 했다. 만기 직전에 새 40년 채권을 내면 기관은 결코 해산되지 않는다.</p>
+        <details class="viz"><summary>그림으로 보기: 영구 존속 장치</summary><figure><svg viewBox="0 0 280 246" role="img" aria-label="모지스는 수시로 새 채권을 발행하는 차환 조항으로 기관을 영구 존속시켰다"><defs><marker id="d3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx3" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">제9조 차환 조항</text><text class="tm" x="140.0" y="62" text-anchor="middle">"수시로" 새 40년 채권</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="88" marker-end="url(#d3)"/><rect class="bx3" x="10" y="90" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="118" text-anchor="middle">"기타 모든 법인 목적"</text><text class="tm" x="140.0" y="144" text-anchor="middle">새 사업 명목</text><line class="ln" x1="140.0" y1="156" x2="140.0" y2="170" marker-end="url(#d3)"/><rect class="bx" x="10" y="172" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="200" text-anchor="middle">채권이 남는 한</text><text class="tm" x="140.0" y="226" text-anchor="middle">기관은 해산되지 않음</text></svg><figcaption>채권이 존재하는 한 기관도 존재한다.</figcaption></figure></details>
+        <p><b>둘째, 연결의 연결.</b> 다리 2개와 진입로만 승인한 법안에 "연결 도로"와 "사업의 용도에 어긋나지 않는 시설"을 넣었다. 연결 도로의 연결 도로, 그 옆의 공원과 주택까지 그의 관할이 되었다.</p>
+        <details class="viz"><summary>그림으로 보기: 사업 범위의 확장</summary><figure><svg viewBox="0 0 280 246" role="img" aria-label="연결 도로와 어긋나지 않는 시설 조항으로 사업 범위가 도시 전체로 넓어졌다"><defs><marker id="d4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">다리 2개와 진입로</text><text class="tm" x="140.0" y="62" text-anchor="middle">원래 승인 범위</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="88" marker-end="url(#d4)"/><rect class="bx" x="10" y="90" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="118" text-anchor="middle">연결 도로</text><text class="tm" x="140.0" y="144" text-anchor="middle">연결의 연결</text><line class="ln" x1="140.0" y1="156" x2="140.0" y2="170" marker-end="url(#d4)"/><rect class="bx3" x="10" y="172" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="200" text-anchor="middle">어긋나지 않는 시설</text><text class="tm" x="140.0" y="226" text-anchor="middle">공원·주택 재개발</text></svg><figcaption>두 다리에서 도시 전체로.</figcaption></figure></details>
+        <p><b>셋째, 자금력.</b> 통행료를 담보로 막대한 돈을 빌릴 수 있었다. 1946년 뉴욕시의 차입 한도는 1억 5,000만 달러, 트라이버러는 3억 6,000만 달러였다.</p>
+        <details class="viz"><summary>그림으로 보기: 1946년 차입 한도</summary><figure><svg viewBox="0 0 280 168" role="img" aria-label="1946년 뉴욕시의 차입 한도는 1억 5천만 달러, 트라이버러 공공기관은 3억 6천만 달러였다"><defs><marker id="d5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">1946년 차입 한도</text><text class="tm" x="10" y="60" text-anchor="start">뉴욕시 정부</text><text class="tb" x="270" y="60" text-anchor="end">1.5억 달러</text><rect x="10.0" y="70.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="70.0" width="108.3" height="16.0" fill="#8a929c"/><text class="tm" x="10" y="120" text-anchor="start">트라이버러</text><text class="tb" x="270" y="120" text-anchor="end">3.6억 달러</text><rect x="10.0" y="130.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="130.0" width="260.0" height="16.0" fill="#c8553d"/></svg><figcaption>수치 쌍의 원전 <span class="chk">확인 필요</span></figcaption></figure></details>
+        <div class="terms"><span class="term">공공기관</span><span class="term">채권</span><span class="term">차환</span><span class="term">일몰 조항</span></div>
+      </section>
+
+      <section class="sec" id="s4">
+        <div class="sec-head"><span class="sec-num">4</span><div><h2>헌법의 방패</h2><p class="sub">계약 조항(Contracts Clause)</p></div></div>
+        <p>훗날 시장이나 주지사가 법을 바꿔 권한을 회수하려 한다면? 모지스는 미국 헌법 제1조 제10절을 무기로 삼았다. "어떤 주도 … 계약상의 의무를 침해하는 법률을 제정할 수 없다."</p>
+        <p>채권은 기관과 민간 투자자 사이의 계약이다. 모지스는 채권 계약서에 "채권의 담보나 보호에 영향을 미치는 … 기타 모든 사항"을 넣을 재량을 법안에 심었고, 원하는 통행료를 원하는 기간 걷고 잉여 수익을 새 사업에 쓸 권리를 계약에 새겼다.</p>
+        <details class="viz"><summary>그림으로 보기: 계약이 된 권력</summary><figure><svg viewBox="0 0 280 246" role="img" aria-label="채권 계약을 연방 헌법의 계약 조항이 보호해 시장도 주지사도 손댈 수 없었다"><defs><marker id="d6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">채권은 계약</text><text class="tm" x="140.0" y="62" text-anchor="middle">민간 투자자와 체결</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="88" marker-end="url(#d6)"/><rect class="bx2" x="10" y="90" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="118" text-anchor="middle">헌법 계약 조항</text><text class="tm" x="140.0" y="144" text-anchor="middle">주는 계약 의무를 침해 못 함</text><line class="ln" x1="140.0" y1="156" x2="140.0" y2="170" marker-end="url(#d6)"/><rect class="bx3" x="10" y="172" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="200" text-anchor="middle">40년씩 갱신</text><text class="tm" x="140.0" y="226" text-anchor="middle">차환할 때마다 방패도 갱신</text></svg><figcaption>뒤집을 유일한 수단은 주 헌법 개정 회의 소집이었다.</figcaption></figure></details>
+        <div class="terms"><span class="term">계약 조항</span><span class="term">채권 계약서</span><span class="term">헌법적 불가침성</span></div>
+      </section>
+
+      <section class="sec" id="s5">
+        <div class="sec-head"><span class="sec-num">5</span><div><h2>12개의 머리를 가진 히드라</h2><p class="sub">대체 불가능성의 구축</p></div></div>
+        <p>기관이 영구해도 모지스를 해임하면 끝이었다. 그는 어떻게 30년을 버텼나?</p>
+        <details class="viz"><summary>그림으로 보기: 다섯 기둥</summary><figure><svg viewBox="0 0 280 334" role="img" aria-label="모지스는 해임 방벽, 12개 겸직, 대중적 인기, 선거 주기 내 완공, 준비된 설계도로 대체 불가능해졌다"><defs><marker id="d7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="24" text-anchor="middle">대체 불가능성의 다섯 기둥</text><rect class="bx2" x="10" y="40" width="125" height="86" rx="10"/><text class="tb" x="72.5" y="74" text-anchor="middle">해임 방벽</text><text class="tm" x="72.5" y="102" text-anchor="middle">청렴이 무기</text><rect class="bx2" x="145" y="40" width="125" height="86" rx="10"/><text class="tb" x="207.5" y="74" text-anchor="middle">12개 직위</text><text class="tm" x="207.5" y="102" text-anchor="middle">시장·주지사 분할</text><rect class="bx2" x="10" y="136" width="125" height="86" rx="10"/><text class="tb" x="72.5" y="170" text-anchor="middle">대중적 인기</text><text class="tm" x="72.5" y="198" text-anchor="middle">"모지스 아저씨!"</text><rect class="bx2" x="145" y="136" width="125" height="86" rx="10"/><text class="tb" x="207.5" y="170" text-anchor="middle">선거 주기</text><text class="tm" x="207.5" y="198" text-anchor="middle">재선 전 완공</text><rect class="bx2" x="10" y="232" width="125" height="86" rx="10"/><text class="tb" x="72.5" y="266" text-anchor="middle">준비된 설계도</text><text class="tm" x="72.5" y="294" text-anchor="middle">뉴딜 자금 독식</text></svg><figcaption>해설용 정리.</figcaption></figure></details>
+        <ul class="pc">
+          <li><b>해임 방벽과 청렴.</b> 임기 중 해임은 "공식 청문회를 거친 혐의"로만 가능했다. 갈등은 늘 정책 문제였고, 카로에 따르면 그는 "돈에 있어서만큼은 결백한(money honest)" 인물이었다.</li>
+          <li><b>12개 직위.</b> 직위마다 시장이 임명하기도, 주지사가 임명하기도 했다. 하나를 빼앗으면 나머지 11개를 쥔 가장 위험한 정적이 남는다.</li>
+          <li><b>대중적 인기.</b> 1930~40년대 그는 가장 존경받는 뉴요커였다. 공원국장 취임 첫 4개월에 1,700건의 공원 개보수를 끝냈고, 아이들은 "모지스 아저씨!"를 외쳤다.</li>
+          <li><b>선거 주기.</b> 시장은 재선 전에 완공된 다리 앞에서 테이프를 끊을 수 있었다. 반면 2번가 지하철은 1972년 착공해 2017년에야 첫 2마일이 개통되었고 약 45억 달러가 들었다.</li>
+          <li><b>준비된 설계도.</b> 뉴딜 자금은 바로 삽을 뜰 설계도를 가진 도시가 가져갔다. 1936년 연방 실업구호 자금의 7분의 1을 뉴욕시가 가져갔다. <span class="chk">확인 필요</span></li>
+        </ul>
+        <div class="terms"><span class="term">히드라</span><span class="term">겸직</span><span class="term">money honest</span><span class="term">뉴딜</span><span class="term">shovel-ready</span></div>
+      </section>
+
+      <section class="sec" id="s6">
+        <div class="sec-head"><span class="sec-num">6</span><div><h2>사임 위협과 찬성 연합</h2><p class="sub">YIMBY 부패 기계</p></div></div>
+        <p>모지스의 전매특허는 <b>사임 위협</b>이었다. 와그너 시장의 보좌관은 그가 하루에 두 번꼴로 사임을 협박했다고 회고했고, 라과디아 시장 측은 사임 서식을 미리 수백 장 인쇄해 두었다. 사임을 수리하면 공사가 멈추고 연방 자금이 날아가며, 설즈버거 가문과 가까웠던 그를 감싸는 언론의 십자포화를 견뎌야 했다.</p>
+        <p>더 강한 것은 사적 이익집단과의 연결망이었다. 오늘의 NIMBY와 정확히 거울상인 <b>집중된 찬성 연합</b>이다.</p>
+        <details class="viz"><summary>그림으로 보기: 찬성 연합의 구성</summary><figure><svg viewBox="0 0 280 238" role="img" aria-label="모지스는 은행, 노조, 로펌, 정당 보스가 모두 공사의 수혜자가 되게 해 찬성 압력을 만들었다"><defs><marker id="d8" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="24" text-anchor="middle">찬성 연합(YIMBY 머신)</text><rect class="bx2" x="10" y="40" width="125" height="86" rx="10"/><text class="tb" x="72.5" y="74" text-anchor="middle">상업은행</text><text class="tm" x="72.5" y="102" text-anchor="middle">수의계약 채권</text><rect class="bx2" x="145" y="40" width="125" height="86" rx="10"/><text class="tb" x="207.5" y="74" text-anchor="middle">노동조합</text><text class="tm" x="207.5" y="102" text-anchor="middle">일자리 보장</text><rect class="bx2" x="10" y="136" width="125" height="86" rx="10"/><text class="tb" x="72.5" y="170" text-anchor="middle">로펌</text><text class="tm" x="72.5" y="198" text-anchor="middle">자문료</text><rect class="bx2" x="145" y="136" width="125" height="86" rx="10"/><text class="tb" x="207.5" y="170" text-anchor="middle">정당 보스</text><text class="tm" x="207.5" y="198" text-anchor="middle">보험 수수료</text></svg><figcaption>반대하는 정치인에게는 은행장, 노조 위원장, 변호사, 정당 보스가 일제히 전화를 걸었다.</figcaption></figure></details>
+        <div class="terms"><span class="term">사임 위협</span><span class="term">YIMBY</span><span class="term">NIMBY</span><span class="term">태머니 홀</span></div>
+      </section>
+
+      <section class="sec" id="s7">
+        <div class="sec-head"><span class="sec-num">7</span><div><h2>뉴욕의 몰락 재평가</h2><p class="sub">[해설] 구조적 요인론</p></div></div>
+        <p>『파워 브로커』의 부제는 '로버트 모지스와 뉴욕의 몰락'이다. 카로는 고속도로가 공동체를 파괴하고 지하철 투자를 막아 1970년대 뉴욕의 황폐화를 낳았다고 고발한다.</p>
+        <p>발표자 드와르케시 파텔(Dwarkesh Patel)은 여기에 의문을 제기한다. 탈산업화, 교외화, 백인 중산층의 이탈, 남부 흑인의 북부 유입이라는 변동 속에서, 모지스가 없던 디트로이트·세인트루이스·클리블랜드는 뉴욕보다 더 처참하게 무너졌다.</p>
+        <details class="viz"><summary>그림으로 보기: 두 관점</summary><figure><svg viewBox="0 0 280 250" role="img" aria-label="카로는 모지스에게 뉴욕 몰락의 책임을 묻고, 파텔은 탈산업화와 교외화 같은 구조적 요인을 지적한다"><defs><marker id="d9" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">뉴욕의 몰락은 누구 탓인가</text><rect class="bx3" x="10" y="42" width="260" height="92" rx="10"/><text class="tb" x="140" y="70" text-anchor="middle">카로: 모지스 책임론</text><text class="tm" x="140" y="96" text-anchor="middle">공동체 파괴</text><text class="tm" x="140" y="122" text-anchor="middle">대중교통 투자 봉쇄</text><rect class="bx" x="10" y="146" width="260" height="92" rx="10"/><text class="tb" x="140" y="174" text-anchor="middle">파텔: 구조적 요인</text><text class="tm" x="140" y="200" text-anchor="middle">탈산업화·교외화</text><text class="tm" x="140" y="226" text-anchor="middle">러스트 벨트가 더 붕괴</text></svg><figcaption>그래도 통행료를 도로에만 묶어 대중교통 현대화를 늦춘 점은 과오로 남는다.</figcaption></figure></details>
+        <div class="terms"><span class="term">뉴욕의 몰락</span><span class="term">탈산업화</span><span class="term">교외화</span><span class="term">러스트 벨트</span></div>
+      </section>
+
+      <section class="sec" id="s8">
+        <div class="sec-head"><span class="sec-num">8</span><div><h2>권력은 드러낸다</h2><p class="sub">꿈의 하인에서 마약으로, 기회주의에서 이상으로</p></div></div>
+        <p>청년 모지스는 컬럼비아와 옥스퍼드에서 공부한 이상주의자였고, 태머니 홀의 엽관제에 맞선 '좋은 정부 운동'에 뛰어들었다. 개혁안이 짓밟히자 그는 배웠다. 권력이 뒷받침되지 않는 이상주의는 쓸모없다.</p>
+        <div class="callout"><p>"처음에 권력은 그의 꿈의 하인이었다. … 그러나 권력은 사용자에게 점점 더 많은 복용량을 요구하는 마약이며, 모지스는 그 중독자였다."</p></div>
+        <p>존슨은 반대였다. 상원에 들어가자 남부 딕시크랫이 권력을 쥐었음을 간파하고 그들에 맞춰 자신을 주조했다. 허먼 탤머지(Herman Talmadge)는 카로에게 존슨이 흑인의 처지에 동정을 보인 적이 "전혀 없었다"며 "그는 진심으로 우리 편이었소"라고 말했다. 그러나 대통령이 되자 존슨은 1964년 민권법과 1965년 투표권법을 밀어붙였다.</p>
+        <details class="viz"><summary>그림으로 보기: 두 궤적</summary><figure><svg viewBox="0 0 280 250" role="img" aria-label="모지스는 이상주의자에서 권력 중독자로, 존슨은 기회주의자에서 위대한 입법자로 변했다"><defs><marker id="d10" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">권력은 드러낸다</text><rect class="bx3" x="10" y="42" width="260" height="92" rx="10"/><text class="tb" x="140" y="70" text-anchor="middle">모지스</text><text class="tm" x="140" y="96" text-anchor="middle">이상주의자로 출발</text><text class="tm" x="140" y="122" text-anchor="middle">권력이 목적이 됨</text><rect class="bx2" x="10" y="146" width="260" height="92" rx="10"/><text class="tb" x="140" y="174" text-anchor="middle">존슨</text><text class="tm" x="140" y="200" text-anchor="middle">기회주의자로 출발</text><text class="tm" x="140" y="226" text-anchor="middle">권력으로 민권 입법</text></svg><figcaption>"권력은 늘 부패시키지 않는다. 권력은 드러낸다(Power reveals)."</figcaption></figure></details>
+        <p>권력을 향해 오르는 계단에서는 모두가 본색을 숨긴다. 누구의 눈치도 볼 필요가 없어지는 순간 본성이 드러난다.</p>
+        <div class="terms"><span class="term">좋은 정부 운동</span><span class="term">딕시크랫</span><span class="term">민권법</span><span class="term">Power reveals</span></div>
+      </section>
+
+      <section class="sec" id="s9">
+        <div class="sec-head"><span class="sec-num">9</span><div><h2>상원의 주인</h2><p class="sub">이끌 수 없도록 설계된 제도</p></div></div>
+        <p>건국의 아버지들은 상원을 의도적으로 누구도 이끌 수 없게 설계했다. 필리버스터로 한 명이 회의를 마비시킬 수 있었고 위원장직은 연공서열로 배정되었다. 의회도서관이 찾은 원내대표의 공식 권한은 "본회의장에서 가장 먼저 발언권을 얻을 권리" 하나였다.</p>
+        <details class="viz"><summary>그림으로 보기: 피뢰침에서 주인으로</summary><figure><svg viewBox="0 0 280 250" role="img" aria-label="공식 권한이 첫 발언권 하나뿐이던 원내대표직을 존슨은 제2의 권력 중심으로 바꿨다"><defs><marker id="d11" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">상원 원내대표</text><rect class="bx" x="10" y="42" width="260" height="92" rx="10"/><text class="tb" x="140" y="70" text-anchor="middle">존슨 이전</text><text class="tm" x="140" y="96" text-anchor="middle">공식 권한은 첫 발언권</text><text class="tm" x="140" y="122" text-anchor="middle">비난받는 피뢰침</text><rect class="bx2" x="10" y="146" width="260" height="92" rx="10"/><text class="tb" x="140" y="174" text-anchor="middle">존슨 이후</text><text class="tm" x="140" y="200" text-anchor="middle">대통령 다음의 권력</text><text class="tm" x="140" y="226" text-anchor="middle">상원의 주인</text></svg><figcaption>존슨의 직전 원내대표 두 명은 모두 재선에서 낙선했다.</figcaption></figure></details>
+        <p>1953년 1월, 평균 연령 60세의 상원에서 44세의 존슨이 원내대표가 된 것은 아무도 그 독배를 원하지 않았기 때문이다.</p>
+        <div class="terms"><span class="term">원내대표</span><span class="term">필리버스터</span><span class="term">연공서열</span></div>
+      </section>
+
+      <section class="sec" id="s10">
+        <div class="sec-head"><span class="sec-num">10</span><div><h2>존슨의 세 전술</h2><p class="sub">레버리지, 의제, 정보</p></div></div>
+        <details class="viz"><summary>그림으로 보기: 세 전술</summary><figure><svg viewBox="0 0 280 246" role="img" aria-label="존슨의 세 전술은 생존 조건을 장악하는 레버리지, 의제 설정, 정보 허브와 중개 독점이다"><defs><marker id="d12" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">전술 1 레버리지</text><text class="tm" x="140.0" y="62" text-anchor="middle">법안·자금·위원회 배정</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="88" marker-end="url(#d12)"/><rect class="bx" x="10" y="90" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="118" text-anchor="middle">전술 2 의제 설정</text><text class="tm" x="140.0" y="144" text-anchor="middle">만장일치 동의 협정</text><line class="ln" x1="140.0" y1="156" x2="140.0" y2="170" marker-end="url(#d12)"/><rect class="bx2" x="10" y="172" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="200" text-anchor="middle">전술 3 정보 허브</text><text class="tm" x="140.0" y="226" text-anchor="middle">거래의 독점 중개</text></svg><figcaption>해설용 정리.</figcaption></figure></details>
+        <p><b>레버리지.</b> 법안을 본회의에 올리는 일, 샘 레이번 하원의장과의 담판, 텍사스 석유 자금, 그리고 무엇보다 상임위원회 배정을 존슨이 쥐었다. 연공서열 대신 그가 장악한 운영위원회가 배정을 정했다. 1957년 에스티스 키포버(Estes Kefauver)가 그의 뜻을 거스르자 외교위원회 공석은 연공서열이 한참 아래인 존 F. 케네디에게 갔다. 이 반대표와 배정을 카로가 인과로 연결해 서술하는지는 <span class="chk">확인 필요</span></p>
+        <p><b>의제 설정.</b> 존슨은 토론 시간과 수정안을 미리 묶는 <b>만장일치 동의 협정</b>을 표준으로 만들었다. 표결은 본회의 전에 무대 뒤에서 확정되었다. 폴 더글러스는 "모든 행동이 연극의 막이 오르기 전 무대 뒤에서 일어난다"고 탄식했다.</p>
+        <p><b>정보 허브.</b> 모든 위원회에 심복을 두고 의원들의 사정과 약점을 추적했다. 휴게실과 복도에서 각 의원이 진정 원하는 것과 양보할 수 없는 선을 파악했고, 수백 개 법안 사이의 거래(logrolling)를 거의 모두 그가 설계했다. 거래가 성사될 때마다 그의 지배력은 커졌다.</p>
+        <div class="terms"><span class="term">상임위원회 배정</span><span class="term">만장일치 동의 협정</span><span class="term">의제 설정</span><span class="term">logrolling</span></div>
+      </section>
+
+      <section class="sec" id="s11">
+        <div class="sec-head"><span class="sec-num">11</span><div><h2>1957년 민권법</h2><p class="sub">입법의 기적</p></div></div>
+        <p>1960년 대선을 노린 존슨은 남부 정치인의 이미지를 벗기 위해 민권법이 필요했다. 뇌관은 흑인의 투표를 방해한 선거 관리인을 <b>배심원 재판</b>에 부칠지였다. 남부는 이를 요구했고, 북부는 백인만의 배심원단이 유죄를 내릴 리 없다며 반발했다.</p>
+        <details class="viz"><summary>그림으로 보기: 4자 입법 연합</summary><figure><svg viewBox="0 0 280 238" role="img" aria-label="존슨은 서부, 중서부 공화당, 북부 자유주의자, 남부를 서로 무관한 이슈로 엮어 민권법을 통과시켰다"><defs><marker id="d13" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="24" text-anchor="middle">1957년 민권법의 4자 연합</text><rect class="bx2" x="10" y="40" width="125" height="86" rx="10"/><text class="tb" x="72.5" y="74" text-anchor="middle">서부 의원</text><text class="tm" x="72.5" y="102" text-anchor="middle">연방 댐 법안</text><rect class="bx2" x="145" y="40" width="125" height="86" rx="10"/><text class="tb" x="207.5" y="74" text-anchor="middle">중서부 공화당</text><text class="tm" x="207.5" y="102" text-anchor="middle">노조원 배심 재판</text><rect class="bx2" x="10" y="136" width="125" height="86" rx="10"/><text class="tb" x="72.5" y="170" text-anchor="middle">북부 자유주의</text><text class="tm" x="72.5" y="198" text-anchor="middle">흑인 연방 배심원</text><rect class="bx2" x="145" y="136" width="125" height="86" rx="10"/><text class="tb" x="207.5" y="170" text-anchor="middle">남부</text><text class="tm" x="207.5" y="198" text-anchor="middle">필리버스터 철회</text></svg><figcaption>무관한 파편들이 서로 맞물리는 톱니바퀴가 되었다.</figcaption></figure></details>
+        <p>서부 의원에게는 헬스캐니언 연방 댐 법안의 상원 표결을, 중서부 공화당에게는 파업 노조원의 배심원 재판권을, 북부 자유주의자에게는 흑인의 연방 배심원 자격을 주었다. 선거 관리인의 배심원 재판은 남았고, 약해진 법안 앞에서 남부는 필리버스터를 접었다. 재건 시대 이후 첫 연방 민권법이었다.</p>
+        <div class="terms"><span class="term">1957년 민권법</span><span class="term">배심원 재판</span><span class="term">짐 크로</span><span class="term">입법 연합</span></div>
+      </section>
+
+      <section class="sec" id="s12">
+        <div class="sec-head"><span class="sec-num">12</span><div><h2>현대적 시사점</h2><p class="sub">찬성 연합의 부재와 무대 위 정치</p></div></div>
+        <p>오늘의 제도는 NIMBY에게 무수한 거부권을 주지만 집중된 찬성 연합을 조직할 동력은 잃었다. 모지스의 방식은 비민주적이었다는 정당한 비판을 받지만, 그의 YIMBY 머신은 국가가 실제로 짓기 위해 어떤 동맹이 필요한지를 역설적으로 보여 준다.</p>
+        <p>의회는 카메라 앞의 정치로 변했다. 존슨의 무대 뒤 거래는 밀실 정치라는 비판을 받을 수 있으나, 파편화된 정파에서 입법 결과를 끌어낸 작동하는 메커니즘이었다.</p>
+        <details class="viz"><summary>그림으로 보기: 오늘의 두 위기</summary><figure><svg viewBox="0 0 280 250" role="img" aria-label="오늘날 인프라는 찬성 연합이 없어 마비되고, 의회는 무대 위 정치로 기능을 잃었다"><defs><marker id="d14" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">현대적 시사점</text><rect class="bx3" x="10" y="42" width="260" height="92" rx="10"/><text class="tb" x="140" y="70" text-anchor="middle">오늘의 인프라</text><text class="tm" x="140" y="96" text-anchor="middle">NIMBY의 거부권</text><text class="tm" x="140" y="122" text-anchor="middle">2번가 지하철 45년</text><rect class="bx3" x="10" y="146" width="260" height="92" rx="10"/><text class="tb" x="140" y="174" text-anchor="middle">오늘의 의회</text><text class="tm" x="140" y="200" text-anchor="middle">카메라 앞의 정치</text><text class="tm" x="140" y="226" text-anchor="middle">타협은 배신</text></svg><figcaption>정치는 도덕적 설교가 아니라 타협의 예술이어야 한다.</figcaption></figure></details>
+        <div class="callout"><p>권력의 문법을 해독하는 것은 냉소하기 위해서가 아니라, 선출되지 않은 자에게 지배당하지 않고 이상이 공허한 구호로 끝나지 않게 하기 위해서다.</p></div>
+        <div class="terms"><span class="term">거부권</span><span class="term">국가 역량</span><span class="term">무대 위 정치</span><span class="term">타협</span></div>
+      </section>
+      <section class="sec" id="rv">
+        <div class="sec-head"><span class="sec-num">✔</span><div><h2>복습</h2><p class="sub">용어 카드 · 빈칸 · 5문항 퀴즈</p></div></div>
+        <h3 class="rv-h">핵심 용어 카드</h3>
+        <div class="flips">
+          <button type="button" class="flip" aria-expanded="false"><b>공공기관(Public Authority)</b><span class="hint">뜻 보기</span><span class="m">특정 인프라를 짓기 위해 정부가 세운 특수법인. 원래는 채권 상환 후 해산한다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>수시로(from time to time)</b><span class="hint">뜻 보기</span><span class="m">새 채권으로 기존 채권을 갚게 한 제9조 문구. 기관을 영구 존속시켰다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>계약 조항</b><span class="hint">뜻 보기</span><span class="m">주가 계약상의 의무를 침해하는 법을 만들 수 없다는 미국 헌법 조항.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>money honest</b><span class="hint">뜻 보기</span><span class="m">돈에 있어서만큼은 결백하다는 뜻. 해임 사유를 찾을 수 없게 했다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>히드라</b><span class="hint">뜻 보기</span><span class="m">모지스가 겸직한 12개 직위. 시장과 주지사가 나눠 임명했다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>YIMBY 머신</b><span class="hint">뜻 보기</span><span class="m">은행·노조·로펌·정당 보스를 공사의 수혜자로 엮은 찬성 연합.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>Power reveals</b><span class="hint">뜻 보기</span><span class="m">권력은 늘 부패시키지 않고 사람이 누구인지 드러낸다는 카로의 결론.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>첫 발언권</b><span class="hint">뜻 보기</span><span class="m">존슨 이전 상원 원내대표가 가진 유일한 공식 권한.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>만장일치 동의 협정</b><span class="hint">뜻 보기</span><span class="m">토론 시간과 수정안을 미리 묶는 협정. 존슨이 표준 운영 방식으로 만들었다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>배심원 재판</b><span class="hint">뜻 보기</span><span class="m">1957년 민권법의 뇌관. 존슨은 노조원에게도 넓혀 연합을 만들었다.</span></button>
+        </div>
+        <h3 class="rv-h">빈칸 채우기</h3>
+        <ol class="cloze">
+          <li>모지스의 기관은 &quot;<button type="button" class="blank" data-a="수시로">빈칸</button>&quot; 새 채권을 발행할 수 있었다.</li>
+          <li>채권은 헌법의 <button type="button" class="blank" data-a="계약 조항">빈칸</button>이 보호했다.</li>
+          <li>모지스는 동시에 <button type="button" class="blank" data-a="12">빈칸</button>개의 직위를 겸직했다.</li>
+          <li>뉴딜 자금은 <button type="button" class="blank" data-a="준비된 설계도">빈칸</button>를 가진 도시가 가져갔다.</li>
+          <li>카로는 권력이 모지스에게 <button type="button" class="blank" data-a="마약">빈칸</button>이 되었다고 썼다.</li>
+          <li>존슨 이전 원내대표는 지도자가 아니라 <button type="button" class="blank" data-a="피뢰침">빈칸</button>이었다.</li>
+          <li>존슨은 <button type="button" class="blank" data-a="만장일치 동의 협정">빈칸</button>으로 의제를 통제했다.</li>
+          <li>카로의 결론은 권력이 사람을 <button type="button" class="blank" data-a="드러낸다">빈칸</button>는 것이다.</li>
+        </ol>
+        <h3 class="rv-h">5문항 퀴즈</h3>
+        <div id="quiz">
+          <div class="q" data-a="1"><fieldset><legend class="qt">1. 트라이버러 공공기관이 해산되지 않은 이유는?</legend>
+            <button type="button">주지사의 특별 명령</button>
+            <button type="button">만기 전 새 채권 차환</button>
+            <button type="button">연방 정부의 지원</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="&quot;수시로&quot; 조항으로 새 40년 채권을 낼 수 있었습니다."></p></div>
+          <div class="q" data-a="0"><fieldset><legend class="qt">2. 시장·주지사가 모지스의 권한을 법으로 회수하지 못한 이유는?</legend>
+            <button type="button">헌법의 계약 조항</button>
+            <button type="button">주민 투표</button>
+            <button type="button">법원 명령</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="채권 계약은 연방 헌법이 보호합니다."></p></div>
+          <div class="q" data-a="2"><fieldset><legend class="qt">3. 모지스를 해임하기 어려웠던 이유가 아닌 것은?</legend>
+            <button type="button">청렴</button>
+            <button type="button">12개 겸직</button>
+            <button type="button">선출직이라서</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="그는 한 번도 선출된 적이 없습니다."></p></div>
+          <div class="q" data-a="1"><fieldset><legend class="qt">4. 존슨이 상임위 배정을 바꾼 방식은?</legend>
+            <button type="button">연공서열 강화</button>
+            <button type="button">자신이 장악한 운영위원회가 결정</button>
+            <button type="button">추첨</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="좋은 자리를 원하면 존슨에게 복종해야 했습니다."></p></div>
+          <div class="q" data-a="0"><fieldset><legend class="qt">5. 1957년 민권법에서 서부 의원을 끌어들인 것은?</legend>
+            <button type="button">연방 댐 법안</button>
+            <button type="button">노조 재판권</button>
+            <button type="button">배심원 자격</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="헬스캐니언 연방 댐 법안의 상원 표결이었습니다."></p></div>
+          <p class="score" id="score" aria-live="polite">점수: 0 / 5</p>
+          <div class="rv-tools"><button type="button" id="qreset">다시 풀기</button></div>
+        </div>
+      </section>
+
+      <section class="sources">
+        <h3>출처</h3>
+        <ul>
+          <li><a href="https://yghnsim.github.io/Pages/articles/robert-moses-caro-lessons-in-power.html">Pages — 권력의 해부학</a></li>
+          
+        </ul>
+      </section>
+    </main>
+
+  </div>
+</div>
+<script>(function(){
+function $$(q){return [].slice.call(document.querySelectorAll(q))}
+$$('.flip').forEach(function(b){b.onclick=function(){b.setAttribute('aria-expanded',b.getAttribute('aria-expanded')==='true'?'false':'true')}});
+function show(b){b.textContent=b.dataset.a;b.classList.add('shown');b.setAttribute('aria-label','답: '+b.dataset.a)}
+function hide(b){b.textContent='?';b.classList.remove('shown');b.setAttribute('aria-label','빈칸, 눌러서 답 보기')}
+$$('.blank').forEach(function(b){b.onclick=function(){show(b)}});
+$$('[data-all]').forEach(function(t){t.onclick=function(){if(t.dataset.all==='flip')$$('.flip').forEach(function(b){b.setAttribute('aria-expanded','true')});else $$('.blank').forEach(show)}});
+$$('[data-reset]').forEach(function(t){t.onclick=function(){if(t.dataset.reset==='flip')$$('.flip').forEach(function(b){b.setAttribute('aria-expanded','false')});else $$('.blank').forEach(hide)}});
+var sc=0,done=0,qs=$$('#quiz .q'),tot=qs.length||5;
+function upd(){var el=document.getElementById('score');if(el)el.textContent='점수: '+sc+' / '+tot+(done===tot?' (끝)':'')}
+qs.forEach(function(q){var bs=[].slice.call(q.querySelectorAll('fieldset button')),ex=q.querySelector('.ex');
+bs.forEach(function(b,i){b.onclick=function(){var a=+q.dataset.a,ok=i===a;bs.forEach(function(x){x.disabled=true});if(bs[a])bs[a].classList.add('right');if(!ok)b.classList.add('wrong');
+if(ex){ex.hidden=false;ex.textContent=(ok?'맞았습니다. ':'아쉽습니다. ')+ex.dataset.e;}if(ok)sc++;done++;upd();}})});
+var qr=document.getElementById('qreset');
+if(qr)qr.onclick=function(){sc=0;done=0;qs.forEach(function(q){q.querySelectorAll('fieldset button').forEach(function(x){x.disabled=false;x.className=''});var ex=q.querySelector('.ex');if(ex){ex.hidden=true;ex.textContent=''}});upd()};
+})();</script>
+
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">아카이브</div><div class="arc-foot-title">권력의 해부학 — 로버트 모지스와 린든 존슨</div><div class="arc-foot-meta"><time datetime="2026-10-30">2026년 10월 30일</time><a class="arc-tag" href="../index.html#tags=%EC%82%AC%ED%9A%8C%EA%B3%BC%ED%95%99">#사회과학</a><a class="arc-tag" href="../index.html#tags=%EC%97%AD%EC%82%AC">#역사</a><a class="arc-tag" href="../index.html#tags=%EC%A0%95%EC%B9%98%ED%95%99">#정치학</a><a class="arc-tag" href="../index.html#tags=%ED%95%B4%EC%84%A4">#해설</a> · <a href="https://yghnsim.github.io/Pages/articles/robert-moses-caro-lessons-in-power.html" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body>
+</html>
