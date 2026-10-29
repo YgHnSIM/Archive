@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light only">
+<title>인공지능의 심장을 관통하는 단 하나의 루프</title>
+<meta name="description" content="고전 AI 탐색 요약: 공통 탐색 루프, BFS·DFS·양방향, UCS·다익스트라, 휴리스틱과 A*, 언덕 오르기·담금질, 빔 탐색·유전 알고리즘, 미니맥스·MCTS, 쓰라린 교훈, 복습 퀴즈">
+<style>
+:root{color-scheme:light only;
+  --bg:#faf8f3; --paper:#ffffff; --ink:#1f2328; --muted:#5b6470; --line:#e6e1d6;
+  --accent:#c8553d; --accent-soft:#fbeee9; --link:#4a6b8a;
+  --new:#3d5f80; --new-soft:#eaf0f6; --radius:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:20px}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR","Malgun Gothic","Gothic A1",system-ui,sans-serif;
+  font-size:17px;line-height:1.75;word-break:keep-all;overflow-wrap:break-word}
+@media(max-width:640px){body{font-size:16px}}
+a{color:var(--link)}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+.hero{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{display:inline-block;font-size:13px;font-weight:700;color:#a8432e;background:var(--accent-soft);padding:3px 10px;border-radius:999px;margin-bottom:12px}
+.hero h1{font-size:clamp(28px,4.4vw,44px);line-height:1.25;margin:0 0 12px;letter-spacing:-.02em}
+.hero .lead{font-size:18px;color:var(--muted);line-height:1.65;margin:0}
+@media(max-width:640px){.hero .lead{font-size:17px}}
+.hero-cta{margin-top:16px}
+.hero-cta a{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--new);color:#fff;border-radius:10px;font-weight:700;font-size:15px;text-decoration:none}
+.grid{display:grid;grid-template-columns:240px minmax(0,1fr);gap:36px;align-items:start}
+@media(max-width:880px){.grid{grid-template-columns:minmax(0,1fr);gap:0}}
+.toc{position:sticky;top:20px;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;font-size:15px}
+.toc .toc-t{font-weight:700;margin:0 0 10px}
+.toc ol{margin:0;padding:0;list-style:none}
+.toc li{margin:6px 0}
+.toc a{color:var(--muted);display:flex;align-items:baseline;gap:8px;text-decoration:none;line-height:1.45}
+.toc a:hover{color:var(--link)}
+.toc .n{flex:none;display:inline-block;width:22px;height:22px;line-height:22px;text-align:center;border-radius:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:700}
+.toc .orig{display:block;margin-top:14px;padding-top:10px;border-top:1px dashed var(--line);font-size:14px;color:#a8432e;font-weight:700}
+@media(max-width:880px){
+  .toc{position:sticky;top:0;z-index:20;margin:0 -20px 20px;border-radius:0;border-width:0 0 1px;padding:8px 12px;background:rgba(250,248,243,.97);overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .toc .toc-t,.toc .orig{display:none}
+  .toc ol{display:flex;gap:6px;white-space:nowrap}
+  .toc li{margin:0}
+  .toc a{background:#f1ede4;color:var(--ink);border-radius:999px;padding:6px 12px;font-size:14px;align-items:center}
+  .toc .n{background:none;width:auto;height:auto;line-height:1;color:var(--muted)}
+  html{scroll-padding-top:64px}
+}
+main{min-width:0}
+.sec{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:24px 28px;margin-bottom:28px}
+@media(max-width:640px){.sec{padding:18px 16px}}
+.sec-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px}
+.sec-num{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:12px;background:var(--ink);color:#fff;font-weight:800;font-size:17px;flex-shrink:0;margin-top:2px}
+@media(max-width:640px){.sec-num{width:34px;height:34px;font-size:15px}}
+.sec-head h2{font-size:clamp(23px,3vw,30px);line-height:1.3;margin:0;letter-spacing:-.015em}
+.sec-head .sub{font-size:16px;color:var(--muted);margin:3px 0 0}
+h3{font-size:19px;margin:22px 0 8px}
+p{margin:0 0 14px}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin:4px 0}
+.theses{counter-reset:t;list-style:none;padding:0;margin:0 0 16px}
+.theses li{counter-increment:t;position:relative;padding:10px 14px 10px 50px;margin:8px 0;background:#fdfcf9;border:1px solid var(--line);border-radius:12px}
+.theses li::before{content:counter(t);position:absolute;left:14px;top:12px;width:24px;height:24px;border-radius:50%;background:var(--accent-soft);color:#a8432e;font-weight:800;font-size:14px;display:grid;place-items:center}
+.tblw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:16px 0}
+.tbl{width:100%;min-width:520px;border-collapse:collapse;font-size:16px}
+.tbl th,.tbl td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+.tbl th{background:var(--new-soft);color:var(--new);font-weight:700}
+.tbl td{background:#fff}
+.callout{background:var(--new-soft);border-left:4px solid var(--new);border-radius:10px;padding:12px 16px;margin:14px 0}
+.callout.warm{background:var(--accent-soft);border-left-color:var(--accent)}
+.callout p:last-child{margin:0}
+blockquote{margin:14px 0;padding:12px 18px;background:#fff;border-left:5px solid var(--accent);border-radius:0 12px 12px 0}
+blockquote p{margin:0}
+.terms{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+.term{display:inline-flex;align-items:center;gap:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:600;padding:4px 10px;border-radius:8px}
+details.viz{margin:14px 0;border:1px solid var(--line);border-radius:12px;background:#fdfcf9}
+details.viz summary{cursor:pointer;list-style:none;padding:12px 14px;font-weight:600;font-size:16px;color:var(--new);min-height:44px;display:flex;align-items:center;gap:8px}
+details.viz summary::-webkit-details-marker{display:none}
+details.viz summary::before{content:"▸";font-size:14px;color:var(--accent)}
+details.viz[open] summary::before{content:"▾"}
+details.viz figure{margin:0;padding:4px 12px 14px}
+details.viz svg{display:block;width:100%;height:auto;max-width:400px;margin:0 auto;font-family:"Pretendard","Noto Sans KR",sans-serif}
+details.viz figcaption{font-size:16px;color:var(--muted);line-height:1.6;margin-top:8px}
+svg .bx{fill:#fff;stroke:#5b6470;stroke-width:1.4}
+svg .bx2{fill:#eaf0f6;stroke:#3d5f80;stroke-width:1.4}
+svg .bx3{fill:#fbeee9;stroke:#c8553d;stroke-width:1.4}
+svg .t{fill:#1f2328;font-size:18px}
+svg .tb{fill:#1f2328;font-size:18px;font-weight:700}
+svg .tm{fill:#4a525c;font-size:17.5px}
+svg .ln{stroke:#5b6470;stroke-width:1.5;fill:none}
+svg .lnd{stroke:#5b6470;stroke-width:1.5;fill:none;stroke-dasharray:5 4}
+.sources{background:var(--new-soft);border:1px solid var(--line);border-radius:var(--radius);padding:18px 22px;margin-top:32px;font-size:16px;color:#3f4650}
+.sources h3{font-size:17px;color:var(--new);margin:0 0 8px}
+.sources ul{margin:0;padding-left:20px}
+/* 복습 컴포넌트 표준 스타일 */
+.rv-h{font-size:19px;margin:22px 0 6px}
+.flips{display:grid;grid-template-columns:1fr;gap:8px;margin:10px 0}
+@media(min-width:640px){.flips{grid-template-columns:1fr 1fr}}
+.flip{font:inherit;text-align:left;width:100%;border:1.5px solid var(--line,#e6e1d6);background:#fdfcf9;border-radius:12px;padding:10px 14px;cursor:pointer;color:var(--ink,#1f2328);min-height:64px}
+.flip b{display:block;font-size:17px}
+.flip .m{display:none;font-size:16px;line-height:1.6;margin-top:4px}
+.flip .hint{font-size:13px;color:var(--muted,#5b6470)}
+.flip[aria-expanded="true"]{border-color:var(--new,#3d5f80);background:var(--new-soft,#eaf0f6)}
+.flip[aria-expanded="true"] .m{display:block}
+.flip[aria-expanded="true"] .hint{display:none}
+.cloze{list-style:none;margin:10px 0;padding:0}
+.cloze li{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:10px 14px;margin:8px 0;background:#fdfcf9;font-size:16px;line-height:1.8}
+.blank{font:inherit;font-size:16px;border:0;border-bottom:2px dashed var(--accent,#c8553d);background:var(--accent-soft,#fbeee9);color:#a8432e;border-radius:6px 6px 0 0;padding:0 8px;cursor:pointer;min-width:4.5em}
+.blank.shown{border-bottom-style:solid;background:var(--new-soft,#eaf0f6);color:var(--new,#3d5f80);font-weight:700}
+.rv-tools{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.rv-tools button{font:inherit;font-size:15px;border:1px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link,#4a6b8a)}
+.q{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:12px 14px;margin:10px 0;background:#fdfcf9}
+.q fieldset{border:0;margin:0;padding:0;min-width:0}
+.q legend{font-weight:700;padding:0;margin:0 0 8px;font-size:16.5px}
+.q button{display:block;width:100%;text-align:left;font:inherit;font-size:16px;border:1.5px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:8px 12px;margin:6px 0;cursor:pointer;color:var(--ink,#1f2328)}
+.q button.right{border-color:#2f6b45;background:#e6f1ea}
+.q button.wrong{border-color:#a2452f;background:#fbeee9}
+.q button[disabled]{cursor:default;opacity:1}
+.q .ex{margin:8px 0 0;font-size:16px;padding:8px 10px;border-radius:8px;background:var(--new-soft,#eaf0f6)}
+.score{font-size:17px;font-weight:800;margin:10px 0 0}
+.arc-back b,.arc-foot-label{color:#a8432e!important}
+.chk{display:inline-block;font-size:16px;font-weight:700;color:#8a3a12;background:#fdf0e3;border:1px solid #e8c9a8;border-radius:6px;padding:0 6px;margin-left:4px;white-space:nowrap}
+pre{background:#f6f4ee;border:1px solid var(--line);border-radius:10px;padding:12px 14px;overflow-x:auto;-webkit-overflow-scrolling:touch;margin:14px 0;font-size:16px;line-height:1.6}
+pre code{font-family:"JetBrains Mono","D2Coding",ui-monospace,Menlo,Consolas,monospace;color:#1f2328;white-space:pre}
+code{font-family:"JetBrains Mono","D2Coding",ui-monospace,Menlo,Consolas,monospace;font-size:.92em;background:#f3efe6;border-radius:4px;padding:0 4px}
+pre code{background:none;padding:0;font-size:inherit}
+@media(max-width:640px){pre{margin:12px -4px}}
+.steps,.pc{padding-left:1.3em}.steps li,.pc li{margin:8px 0}
+</style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
+</head>
+<body>
+<!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>아카이브</a><span class="arc-crumb">인공지능의 심장을 관통하는 단 하나의 루프 — BFS에서 몬테카를로 트리 탐색까지</span><span class="arc-meta"><time datetime="2026-10-29">2026년 10월 29일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99">#컴퓨터과학</a><a class="arc-tag" href="../index.html#tags=%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0">#자료구조</a><a class="arc-tag" href="../index.html#tags=%EC%9A%94%EC%95%BD">#요약</a><a class="arc-src" href="https://yghnsim.github.io/Pages/articles/one-search-loop-classical-ai.html" rel="noopener">원문 ↗</a></span></div></div>
+<!-- archive-header:end -->
+<div class="wrap">
+  <header class="hero">
+    <span class="eyebrow">AI 해설 · 고전 탐색 알고리즘</span>
+    <h1>인공지능의 심장을 관통하는 단 하나의 루프 — BFS에서 몬테카를로 트리 탐색까지</h1>
+    <p class="lead">BFS부터 MCTS까지 고전 AI의 탐색 알고리즘은 하나의 루프를 공유하고, "다음에 무엇을 볼 것인가"를 정하는 한 줄만 다르다.</p>
+    <div class="hero-cta"><a href="https://yghnsim.github.io/Pages/articles/one-search-loop-classical-ai.html">📚 Pages에서 심화 해설 전문 읽기 ↗</a></div>
+  </header>
+  <div class="grid">
+    <nav class="toc" aria-label="목차">
+      <p class="toc-t">목차</p>
+      <ol>
+        <li><a href="#s0"><span class="n">★</span>한눈에 보기</a></li>
+        <li><a href="#s1"><span class="n">1</span>상태 공간과 기억</a></li>
+        <li><a href="#s2"><span class="n">2</span>BFS · DFS · 양방향</a></li>
+        <li><a href="#s3"><span class="n">3</span>UCS와 다익스트라</a></li>
+        <li><a href="#s4"><span class="n">4</span>휴리스틱과 A*</a></li>
+        <li><a href="#s5"><span class="n">5</span>언덕 오르기와 담금질</a></li>
+        <li><a href="#s6"><span class="n">6</span>빔 탐색과 유전 알고리즘</a></li>
+        <li><a href="#s7"><span class="n">7</span>미니맥스와 MCTS</a></li>
+        <li><a href="#s8"><span class="n">8</span>쓰라린 교훈</a></li>
+        <li><a href="#s9"><span class="n">9</span>마스터 치트시트</a></li>
+        <li><a href="#rv"><span class="n">✔</span>복습 &amp; 퀴즈</a></li>
+      </ol>
+      <a class="orig" href="https://yghnsim.github.io/Pages/articles/one-search-loop-classical-ai.html">심화 원문(Pages) ↗</a>
+    </nav>
+    <main id="content">
+      <section class="sec" id="s0">
+        <div class="sec-head"><span class="sec-num">★</span><div><h2>한눈에 보기</h2><p class="sub">하나의 루프, 다섯 질문</p></div></div>
+        <ol class="theses">
+          <li><b>모든 탐색은 같은 루프를 돈다.</b> 프론티어에서 꺼내고, 목표인지 검사하고, 처음 본 이웃을 기억에 담는다. <code>choose_next</code> 한 줄이 알고리즘을 가른다.</li>
+          <li><b>기억이 낭비를 없앤다.</b> 기억 없는 탐색 트리는 4,115개 계획을 검토했고, 방문을 기억하는 탐색 그래프는 44칸만 탐색했다.</li>
+          <li><b>좋은 휴리스틱은 탐색을 줄이지만, 과대평가하면 최적성을 잃는다.</b> UCS·탐욕·A*는 정렬 키(g, h, g+h)만 다르다.</li>
+          <li><b>경로가 필요 없으면 판 하나만 쥐는 국소 탐색으로 충분하다.</b> 담금질 기법은 일부러 나쁜 수를 받아 덫을 벗어나고, 화려한 아이디어는 단순한 기준선과 먼저 겨뤄야 한다.</li>
+          <li><b>상대가 있으면 최악을 가정한다.</b> 일찍 멈추는 탐색은 평가 함수만큼만 똑똑하고, 계산과 함께 확장되는 탐색과 학습이 결국 이겨 왔다.</li>
+        </ol>
+        <details class="viz"><summary>그림으로 보기: 공통 탐색 루프</summary><figure><svg viewBox="0 0 280 334" role="img" aria-label="공통 탐색 루프: 프론티어에서 하나를 꺼내 목표인지 검사하고, 처음 본 이웃을 기록해 프론티어에 넣기를 반복한다"><defs><marker id="d1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx2" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">choose_next(frontier) ★</text><text class="tm" x="140.0" y="62" text-anchor="middle">프론티어에서 하나 꺼낸다</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="90" marker-end="url(#d1)"/><rect class="bx" x="10" y="92" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="120" text-anchor="middle">is_goal(node)?</text><text class="tm" x="140.0" y="146" text-anchor="middle">목표면 came_from 역추적</text><line class="ln" x1="140.0" y1="158" x2="140.0" y2="174" marker-end="url(#d1)"/><rect class="bx" x="10" y="176" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="204" text-anchor="middle">neighbors(node)</text><text class="tm" x="140.0" y="230" text-anchor="middle">상·하·좌·우 열린 칸</text><line class="ln" x1="140.0" y1="242" x2="140.0" y2="258" marker-end="url(#d1)"/><rect class="bx" x="10" y="260" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="288" text-anchor="middle">처음 본 이웃이면</text><text class="tm" x="140.0" y="314" text-anchor="middle">came_from 기록 + 프론티어 추가</text><path class="ln" d="M10,294 H4 V30 H8" marker-end="url(#d1)"/></svg><figcaption>★ 단 한 줄의 choose_next가 알고리즘을 결정한다.</figcaption></figure></details>
+        <details class="viz"><summary>그림으로 보기: 다섯 질문의 사다리</summary><figure><svg viewBox="0 0 280 408" role="img" aria-label="다섯 질문의 사다리: 어떻게든 길, 가장 싼 길, 덜 보고 영리하게, 최종 답만, 상대가 있을 때"><defs><marker id="d2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="70" rx="10"/><text class="tb" x="140" y="36" text-anchor="middle">① 어떻게든 길</text><text class="tm" x="140" y="64" text-anchor="middle">BFS · DFS · 양방향</text><rect class="bx" x="10" y="88" width="260" height="70" rx="10"/><text class="tb" x="140" y="116" text-anchor="middle">② 가장 싼 길</text><text class="tm" x="140" y="144" text-anchor="middle">UCS / 다익스트라</text><rect class="bx" x="10" y="168" width="260" height="70" rx="10"/><text class="tb" x="140" y="196" text-anchor="middle">③ 덜 보고 영리하게</text><text class="tm" x="140" y="224" text-anchor="middle">탐욕 · A*</text><rect class="bx" x="10" y="248" width="260" height="70" rx="10"/><text class="tb" x="140" y="276" text-anchor="middle">④ 최종 답만</text><text class="tm" x="140" y="304" text-anchor="middle">언덕 · 담금질 · 빔 · GA</text><rect class="bx" x="10" y="328" width="260" height="70" rx="10"/><text class="tb" x="140" y="356" text-anchor="middle">⑤ 상대가 있을 때</text><text class="tm" x="140" y="384" text-anchor="middle">미니맥스 · MCTS</text></svg><figcaption>질문이 바뀔 때마다 choose_next의 기준과 프론티어 자료구조가 바뀐다.</figcaption></figure></details>
+        <div class="terms"><span class="term">탐색</span><span class="term">프론티어</span><span class="term">choose_next</span><span class="term">상태 공간</span><span class="term">휴리스틱</span></div>
+      </section>
+
+      <section class="sec" id="s1">
+        <div class="sec-head"><span class="sec-num">1</span><div><h2>탐색 문제의 정식화</h2><p class="sub">상태 공간과 기억의 탄생</p></div></div>
+        <p>가로 10칸, 세로 7칸 격자 미로의 (3, 1)에 배터리 16 단위의 로봇이, (3, 9)에 충전기가 있습니다. 한 칸 이동에 배터리 1이 들고, 최단 경로는 10걸음입니다. 무작위 보행을 10,000회 시뮬레이션하자 충전기까지 <b>평균 337걸음</b>이 걸렸습니다. 그래서 로봇은 움직이기 전에 머릿속에서 경로를 먼저 시뮬레이션해야 합니다. 이것이 탐색입니다.</p>
+        <details class="viz"><summary>그림으로 보기: 무작위 보행의 파멸</summary><figure><svg viewBox="0 0 280 222" role="img" aria-label="무작위 보행은 평균 337걸음이 걸려 배터리 16을 훨씬 넘고, 최단 경로는 10걸음이다"><defs><marker id="d3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">배터리 16의 로봇</text><text class="tm" x="10" y="60" text-anchor="start">무작위 보행 평균</text><text class="tb" x="270" y="60" text-anchor="end">337걸음</text><rect x="10.0" y="70.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="70.0" width="260.0" height="16.0" fill="#c8553d"/><text class="tm" x="10" y="120" text-anchor="start">배터리</text><text class="tb" x="270" y="120" text-anchor="end">16</text><rect x="10.0" y="130.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="130.0" width="12.3" height="16.0" fill="#9a6a12"/><text class="tm" x="10" y="180" text-anchor="start">최단 경로</text><text class="tb" x="270" y="180" text-anchor="end">10걸음</text><rect x="10.0" y="190.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="190.0" width="7.7" height="16.0" fill="#2f6b45"/></svg><figcaption>배터리 16의 로봇에게 337걸음의 방황은 100% 방전이다.</figcaption></figure></details>
+        <p>미로에서 상태는 로봇의 좌표 (<i>r</i>, <i>c</i>)이고, 벽을 뺀 바닥 칸이 48개이므로 상태도 48개입니다. 모든 탐색 문제는 다섯 조각으로 정의됩니다.</p>
+        <ol class="steps">
+          <li><b>초기 상태</b>: (3, 1)</li>
+          <li><b>행동</b>: 상·하·좌·우 한 칸 이동</li>
+          <li><b>전이 모델</b>: 오른쪽이면 (<i>r</i>, <i>c</i>+1), 벽으로 가면 제자리</li>
+          <li><b>목표 검사</b>: 현재 좌표가 (3, 9)인가</li>
+          <li><b>경로 비용</b>: 걸음당 배터리 1, 즉 총 걸음 수</li>
+        </ol>
+        <div class="tblw"><table class="tbl">
+          <thead><tr><th>도메인</th><th>상태</th><th>행동</th><th>목표</th><th>비용</th><th>규모</th></tr></thead>
+          <tbody>
+            <tr><td><b>격자 미로</b></td><td>좌표 (r, c)</td><td>상·하·좌·우 1칸</td><td>충전기 도달</td><td>걸음 수</td><td>48개 상태</td></tr>
+            <tr><td><b>8퍼즐</b></td><td>3×3 위 8개 타일 배치</td><td>빈칸으로 타일 밀기</td><td>1~8 정렬</td><td>이동 횟수</td><td>도달 가능 181,440개 (9!/2)</td></tr>
+            <tr><td><b>루빅스 큐브</b></td><td>3×3×3 색 배치</td><td>면 회전</td><td>모든 면 단색</td><td>회전 횟수</td><td>약 4.3×10<sup>19</sup>개</td></tr>
+            <tr><td><b>Google 도로망</b></td><td>도로망의 지점</td><td>연결 도로 주행</td><td>목적지 도달</td><td>주행 시간</td><td>약 2억 개 상태</td></tr>
+            <tr><td><b>스도쿠</b></td><td>부분적으로 채운 9×9 판</td><td>빈칸에 숫자 기입</td><td>규칙에 맞는 완결판</td><td>최종 배치만 평가</td><td><span class="chk">확인 필요</span></td></tr>
+            <tr><td><b>자동 텍스트 완성</b></td><td>지금까지의 단어열</td><td>다음 단어 추가</td><td>메시지 완성</td><td>문장 전체의 확률</td><td>매우 큼</td></tr>
+            <tr><td><b>체스</b></td><td>기물 배치와 차례</td><td>합법적 기물 이동</td><td>체크메이트</td><td>승패 (적대적)</td><td>게임 트리 약 10<sup>120</sup> (섀넌 수)</td></tr>
+          </tbody>
+        </table></div>
+        <p>[해설] 스도쿠와 텍스트 완성은 경로가 아니라 최종 상태의 적합도만 평가하고(질문 ④), 체스는 상대가 가장 치명적인 수로 맞선다는 점(질문 ⑤)에서 경로 탐색과 갈라집니다.</p>
+        <p>탐색 트리는 지나온 곳을 기억하지 못해 (3, 1)→(3, 2)→(3, 1) 같은 왕복을 새 가지로 착각합니다. 기억 없는 트리는 충전기를 찾기까지 <b>4,115개 계획</b>을 검토했고, 그중 <b>4,030개</b>는 왔던 길을 오간 헛발질이었습니다. 방문한 상태를 닫힌 목록에 기록하면 가지들이 실제 칸 위로 접히는 <b>탐색 그래프</b>가 됩니다.</p>
+        <details class="viz"><summary>그림으로 보기: 탐색 트리 vs 탐색 그래프</summary><figure><svg viewBox="0 0 280 222" role="img" aria-label="기억 없는 탐색 트리는 4,115개 계획 중 4,030개가 왕복 헛발질이고, 방문을 기억하는 탐색 그래프는 44칸만 탐색한다"><defs><marker id="d4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">기억이 낭비를 없앤다</text><text class="tm" x="10" y="60" text-anchor="start">탐색 트리 (기억 없음)</text><text class="tb" x="270" y="60" text-anchor="end">4,115개 계획</text><rect x="10.0" y="70.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="70.0" width="260.0" height="16.0" fill="#c8553d"/><text class="tm" x="10" y="120" text-anchor="start">그중 헛발질</text><text class="tb" x="270" y="120" text-anchor="end">4,030개</text><rect x="10.0" y="130.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="130.0" width="254.6" height="16.0" fill="#9a6a12"/><text class="tm" x="10" y="180" text-anchor="start">탐색 그래프 (기억)</text><text class="tb" x="270" y="180" text-anchor="end">44칸</text><rect x="10.0" y="190.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="190.0" width="2.8" height="16.0" fill="#2f6b45"/></svg><figcaption>탐색 트리는 지나온 곳을 잊어버리고, 탐색 그래프는 기억한다.</figcaption></figure></details>
+        <div class="terms"><span class="term">상태</span><span class="term">문제 정식화</span><span class="term">전이 모델</span><span class="term">목표 검사</span><span class="term">탐색 트리</span><span class="term">탐색 그래프</span></div>
+      </section>
+
+      <section class="sec" id="s2">
+        <div class="sec-head"><span class="sec-num">2</span><div><h2>BFS, DFS, 양방향 탐색</h2><p class="sub">질문 ① 어떻게든 길을 찾기</p></div></div>
+        <p>루프는 프론티어에서 하나를 꺼내고(<code>choose_next</code>), 목표인지 검사하고(<code>is_goal</code>), 처음 본 이웃은 <code>came_from</code>에 부모를 기록한 뒤 프론티어에 넣습니다. 성공하면 <code>came_from</code>을 거꾸로 따라 경로를 복원합니다.</p>
+        <p><b>BFS</b>는 가장 오래 기다린 칸을 먼저 꺼냅니다(FIFO 큐). 새 칸은 늘 줄 끝에 서므로 큐는 출발점으로부터의 거리 순으로 정렬되고, 확장은 동심원 물결처럼 퍼집니다. 10번째 고리에서 충전기를 건드려 <b>10걸음 최단 경로</b>를 찾았고, 48칸 중 44칸을 탐색했습니다. "가장 오래된 것을 먼저"는 곧 "가장 가까운 것을 먼저"이고, 이것이 "가장 적은 걸음"이라는 최적성을 낳습니다.</p>
+        <p><b>DFS</b>는 가장 최근 칸을 먼저 꺼냅니다(LIFO 스택). 한 골목 끝까지 파고든 뒤에야 되돌아 나옵니다. 방문한 칸은 <b>19칸</b>뿐이었지만 경로는 <b>16걸음</b>의 우회로였고, 배터리 16인 로봇은 도착하는 순간 0이 됩니다.</p>
+        <details class="viz"><summary>그림으로 보기: FIFO 큐와 LIFO 스택</summary><figure><svg viewBox="0 0 280 344" role="img" aria-label="FIFO 큐는 가장 오래된 칸을 먼저 꺼내 동심원으로 퍼지고, LIFO 스택은 가장 최근 칸을 먼저 꺼내 한 골목을 파고든다"><defs><marker id="d5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="24" text-anchor="middle">FIFO 큐 → BFS</text><rect class="bx2" x="14" y="38" width="46" height="40" rx="10"/><text class="t" x="37" y="64" text-anchor="middle">1</text><rect class="bx" x="66" y="38" width="46" height="40" rx="10"/><text class="t" x="89" y="64" text-anchor="middle">2</text><rect class="bx" x="118" y="38" width="46" height="40" rx="10"/><text class="t" x="141" y="64" text-anchor="middle">3</text><rect class="bx" x="170" y="38" width="46" height="40" rx="10"/><text class="t" x="193" y="64" text-anchor="middle">4</text><rect class="bx" x="222" y="38" width="46" height="40" rx="10"/><text class="t" x="245" y="64" text-anchor="middle">5</text><text class="tm" x="37" y="100" text-anchor="middle" fill="#3d5f80">먼저 꺼냄</text><text class="tm" x="240" y="100" text-anchor="end">뒤에 추가</text><text class="tb" x="140" y="146" text-anchor="middle">LIFO 스택 → DFS</text><rect class="bx3" x="40" y="160" width="100" height="38" rx="10"/><text class="t" x="90" y="185" text-anchor="middle">4</text><rect class="bx" x="40" y="204" width="100" height="38" rx="10"/><text class="t" x="90" y="229" text-anchor="middle">3</text><rect class="bx" x="40" y="248" width="100" height="38" rx="10"/><text class="t" x="90" y="273" text-anchor="middle">2</text><rect class="bx" x="40" y="292" width="100" height="38" rx="10"/><text class="t" x="90" y="317" text-anchor="middle">1</text><text class="tm" x="150" y="185" text-anchor="start" fill="#c8553d">← 먼저 꺼냄</text></svg><figcaption>자료구조 하나의 차이가 동심원과 막다른 골목을 가른다.</figcaption></figure></details>
+        <p>평가 기준은 넷입니다. <b>완전성</b>(해가 있으면 반드시 찾는가), <b>최적성</b>(최저 비용을 보장하는가), <b>시간</b>(탐색한 상태 수), <b>공간</b>(동시에 기억하는 최대 상태 수).</p>
+        <div class="tblw"><table class="tbl">
+          <thead><tr><th>알고리즘</th><th>자료구조</th><th>완전성</th><th>최적성</th><th>탐색</th><th>기억</th><th>경로</th></tr></thead>
+          <tbody>
+            <tr><td><b>BFS</b></td><td>FIFO 큐</td><td>보장</td><td>보장 (단위 비용)</td><td>44칸</td><td>46칸 (44 + 대기 2)</td><td>10걸음</td></tr>
+            <tr><td><b>DFS</b></td><td>LIFO 스택</td><td>그래프 탐색 시 보장</td><td>불가</td><td>19칸</td><td>25칸 (19 + 대기 6)</td><td>16걸음</td></tr>
+            <tr><td><b>양방향</b></td><td>듀얼 FIFO 큐</td><td>보장</td><td>보장</td><td>27칸 (16 + 11)</td><td>36칸</td><td>10걸음</td></tr>
+          </tbody>
+        </table></div>
+        <details class="viz"><summary>그림으로 보기: 격자 미로 성적표</summary><figure><svg viewBox="0 0 280 436" role="img" aria-label="격자 미로에서 BFS는 44칸을 보고 10걸음, DFS는 19칸을 보고 16걸음, 양방향은 27칸을 보고 10걸음 경로를 찾았다"><defs><marker id="d6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">탐색한 칸 수</text><text class="tm" x="10" y="60" text-anchor="start">BFS</text><text class="tb" x="270" y="60" text-anchor="end">44칸</text><rect x="10.0" y="70.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="70.0" width="238.3" height="16.0" fill="#3d5f80"/><text class="tm" x="10" y="120" text-anchor="start">DFS</text><text class="tb" x="270" y="120" text-anchor="end">19칸</text><rect x="10.0" y="130.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="130.0" width="102.9" height="16.0" fill="#9a6a12"/><text class="tm" x="10" y="180" text-anchor="start">양방향</text><text class="tb" x="270" y="180" text-anchor="end">27칸 (16+11)</text><rect x="10.0" y="190.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="190.0" width="146.2" height="16.0" fill="#2f6b45"/><text class="tb" x="140" y="240" text-anchor="middle">경로 길이</text><text class="tm" x="10" y="274" text-anchor="start">BFS</text><text class="tb" x="270" y="274" text-anchor="end">10걸음</text><rect x="10.0" y="284.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="284.0" width="162.5" height="16.0" fill="#3d5f80"/><text class="tm" x="10" y="334" text-anchor="start">DFS</text><text class="tb" x="270" y="334" text-anchor="end">16걸음</text><rect x="10.0" y="344.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="344.0" width="260.0" height="16.0" fill="#c8553d"/><text class="tm" x="10" y="394" text-anchor="start">양방향</text><text class="tb" x="270" y="394" text-anchor="end">10걸음</text><rect x="10.0" y="404.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="404.0" width="162.5" height="16.0" fill="#2f6b45"/></svg><figcaption>DFS는 가장 적게 일하지만 최단 경로를 보장하지 못한다.</figcaption></figure></details>
+        <p><b>양방향 탐색</b>은 출발점과 충전기에서 동시에 물결을 퍼뜨려 맞닿으면 멈춥니다. 단방향 탐색량이 대략 <i>b</i><sup><i>d</i></sup>라면 양방향은 대략 2·<i>b</i><sup><i>d</i>/2</sup>입니다([해설] 교과서적 근사). 20수 8퍼즐에서 단방향 BFS는 57,593개, 양방향은 957개 상태로 같은 최적해를 찾았습니다. 고리가 평균 1.56배씩 커지고 마지막 19번째 고리에만 12,208개가 있는데, 양방향은 이 가장 큰 외곽 고리를 건너뜁니다.</p>
+        <details class="viz"><summary>그림으로 보기: 8퍼즐에서의 양방향 탐색</summary><figure><svg viewBox="0 0 280 246" role="img" aria-label="20수 8퍼즐에서 단방향 BFS는 57,593개 상태, 양방향은 957개를 탐색했고 마지막 19번째 고리에만 12,208개 상태가 있다"><defs><marker id="d7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">8퍼즐 20수 · 탐색 상태 수</text><text class="tm" x="10" y="60" text-anchor="start">단방향 BFS</text><text class="tb" x="270" y="60" text-anchor="end">57,593</text><rect x="10.0" y="70.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="70.0" width="260.0" height="16.0" fill="#c8553d"/><text class="tm" x="10" y="120" text-anchor="start">양방향</text><text class="tb" x="270" y="120" text-anchor="end">957</text><rect x="10.0" y="130.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="130.0" width="4.3" height="16.0" fill="#2f6b45"/><text class="tm" x="10" y="180" text-anchor="start">19번째 고리</text><text class="tb" x="270" y="180" text-anchor="end">12,208</text><rect x="10.0" y="190.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="190.0" width="55.1" height="16.0" fill="#9a6a12"/><text class="tm" x="140" y="232" text-anchor="middle">고리는 평균 1.56배씩 커진다</text></svg><figcaption>이득은 고리가 빠르게 커질 때 크다.</figcaption></figure></details>
+        <div class="callout warm"><p><b>제약</b>: 목표가 구체적인 상태 하나로 주어져야 역방향 물결을 시작할 수 있다. 체크메이트처럼 수많은 배치로 이뤄지는 목표에는 쓸 수 없다.</p></div>
+        <div class="terms"><span class="term">BFS</span><span class="term">DFS</span><span class="term">FIFO 큐</span><span class="term">LIFO 스택</span><span class="term">완전성</span><span class="term">최적성</span><span class="term">양방향 탐색</span></div>
+      </section>
+
+      <section class="sec" id="s3">
+        <div class="sec-head"><span class="sec-num">3</span><div><h2>균일 비용 탐색과 다익스트라</h2><p class="sub">질문 ② 걸음마다 무게가 다를 때</p></div></div>
+        <p>비가 내려 출발점 위쪽 복도에 웅덩이 2칸이 생깁니다. 웅덩이 한 칸은 배터리 5입니다. BFS의 10걸음 경로는 웅덩이를 정면으로 지나 비용이 8 × 1 + 2 × 5 = <b>18</b>이 되고, 로봇은 충전기 두 칸 앞에서 멈춥니다. 아래로 도는 14걸음 우회로는 마른 바닥이라 비용 <b>14</b>, 배터리가 2 남습니다.</p>
+        <details class="viz"><summary>그림으로 보기: 가장 적은 걸음 ≠ 가장 싼 길</summary><figure><svg viewBox="0 0 280 190" role="img" aria-label="BFS의 10걸음 경로는 웅덩이 2칸 때문에 비용 18로 배터리 16을 넘고, 14걸음 하단 우회로는 비용 14다"><defs><marker id="d8" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">웅덩이 1칸 = 배터리 5</text><text class="tm" x="10" y="60" text-anchor="start">BFS 경로 (10걸음)</text><text class="tb" x="270" y="60" text-anchor="end">8 + 5×2 = 18</text><rect x="10.0" y="70.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="70.0" width="234.0" height="16.0" fill="#c8553d"/><text class="tm" x="10" y="120" text-anchor="start">하단 우회 (14걸음)</text><text class="tb" x="270" y="120" text-anchor="end">14</text><rect x="10.0" y="130.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="130.0" width="182.0" height="16.0" fill="#2f6b45"/><line x1="218.0" y1="40" x2="218.0" y2="154" stroke="#9a6a12" stroke-width="3" stroke-dasharray="5 4"/><text class="tm" x="218.0" y="176" text-anchor="middle" fill="#9a6a12">배터리 16</text></svg><figcaption>걸음 수의 최적과 비용의 최적이 갈라지는 순간.</figcaption></figure></details>
+        <p><b>UCS</b>는 누적 비용 <i>g</i>(<i>n</i>)이 가장 작은 상태를 먼저 꺼냅니다. 프론티어는 <b>우선순위 큐</b>가 되고, 두 가지가 바뀝니다. 각 칸의 최소 비용을 기록하는 비용 표, 그리고 더 싼 길을 찾으면 값을 고치고 다시 넣는 <b>완화(Relaxation)</b>입니다. 웅덩이 칸은 비용이 3 + 5 = 8로 치솟아 뒤로 밀리고, UCS는 하단 우회로로 <b>비용 14</b>를 찾지만 48개 상태를 모두 탐색하고 기억합니다.</p>
+        <p>[해설] '균일'은 걸음 비용이 같다는 뜻이 아니라, 파면이 누적 비용이 같은 등고선을 따라 균일하게 퍼진다는 뜻입니다.</p>
+        <p>UCS는 <b>다익스트라 알고리즘</b>의 다른 이름입니다. 1956년 데이크스트라는 약혼녀와 암스테르담에서 장을 보다 카페 테라스에서 약 20분 만에, 종이와 연필 없이 이를 고안했고, 1959년 세 쪽짜리 논문으로 발표했습니다. [해설] 다익스트라는 모든 정점까지의 최단 거리를, UCS는 목표를 꺼내는 즉시 멈추는 형태로 소개될 뿐 같은 기계입니다. Google 연구진의 논문은 약 2억 개 상태의 도로망을 구축했고, 경로 계산에 다익스트라를 씁니다(논문의 플래너 설명 방식은 <span class="chk">확인 필요</span>).</p>
+        <div class="terms"><span class="term">UCS</span><span class="term">다익스트라</span><span class="term">우선순위 큐</span><span class="term">g(n)</span><span class="term">완화</span></div>
+      </section>
+
+      <section class="sec" id="s4">
+        <div class="sec-head"><span class="sec-num">4</span><div><h2>휴리스틱, 탐욕 탐색, A*</h2><p class="sub">질문 ③ 덜 보고 영리하게</p></div></div>
+        <p>UCS는 충전기 반대쪽으로도 똑같이 퍼집니다. 지금까지 쓴 비용만 셀 뿐 목표의 방향을 모르는 <b>무정보 탐색</b>입니다. <b>휴리스틱 <i>h</i>(<i>n</i>)</b>은 남은 비용의 어림값입니다. 미로에서는 벽과 웅덩이를 무시한 <b>맨해튼 거리</b> |목표행 − 현재행| + |목표열 − 현재열|를 쓰며, 출발점에서 <i>h</i> = 8로 실제 최적 비용 14보다 작습니다.</p>
+        <p><b>탐욕 최선 우선 탐색</b>은 <i>h</i>가 가장 작은 칸을 꺼냅니다. 11칸만 탐색하고 18칸만 기억해 가장 적게 일했지만, 달려간 상단 복도가 바로 웅덩이 길이라 비용 8 + 5 + 5 = <b>18</b>로 방전됩니다. 지금까지 치른 대가 <i>g</i>를 잊은 단견입니다.</p>
+        <p><b>A*</b>는 <i>f</i>(<i>n</i>) = <i>g</i>(<i>n</i>) + <i>h</i>(<i>n</i>)이 가장 작은 칸을 꺼냅니다. 출발점 <i>f</i> = 0 + 8 = 8, 오른쪽 칸 1 + 7 = 8, 왼쪽 칸 1 + 9 = 10. <i>f</i> = 8, 10, 12인 칸을 차례로 처리한 뒤 <i>f</i> = 14에 이르는데, 위쪽 웅덩이 칸은 <i>g</i> = 3 + 5 = 8, <i>h</i> = 6으로 <i>f</i> = 14이고 마른 아래쪽 줄도 모두 14입니다. 중간의 한 칸은 처음 <i>g</i> = 10으로 기록되었다가 더 싼 길로 <i>g</i> = 8로 고쳐져 <i>f</i>가 16에서 14로 내려갑니다. A*는 <i>f</i> ≤ 14인 칸만 보고 두 번째 웅덩이 길(<i>f</i> = 18)은 열지 않은 채 <b>비용 14</b>를 찾습니다. 탐색 32칸, 기억 38칸입니다.</p>
+        <details class="viz"><summary>그림으로 보기: 정렬 키만 다른 세 알고리즘</summary><figure><svg viewBox="0 0 280 214" role="img" aria-label="UCS는 지난 비용 g, 탐욕 탐색은 남은 추정 h, A*는 g 더하기 h로 같은 우선순위 큐를 정렬한다"><defs><marker id="d9" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="24" text-anchor="middle">같은 우선순위 큐, 다른 키</text><rect class="bx" x="10" y="40" width="260" height="48" rx="10"/><text class="tb" x="22" y="71" text-anchor="start">UCS</text><text class="t" x="258" y="71" text-anchor="end">g(n) 지난 비용</text><rect class="bx3" x="10" y="98" width="260" height="48" rx="10"/><text class="tb" x="22" y="129" text-anchor="start">탐욕</text><text class="t" x="258" y="129" text-anchor="end">h(n) 남은 추정</text><rect class="bx2" x="10" y="156" width="260" height="48" rx="10"/><text class="tb" x="22" y="187" text-anchor="start">A*</text><text class="t" x="258" y="187" text-anchor="end">g(n) + h(n)</text></svg><figcaption>UCS: f = g · 탐욕: f = h · A*: f = g + h.</figcaption></figure></details>
+        <pre><code>def choose_next_ucs(frontier):
+    return frontier.pop_min(key=lambda n: g[n])         # f = g
+
+def choose_next_greedy(frontier):
+    return frontier.pop_min(key=lambda n: h[n])         # f = h
+
+def choose_next_astar(frontier):
+    return frontier.pop_min(key=lambda n: g[n] + h[n])  # f = g + h</code></pre>
+        <details class="viz"><summary>그림으로 보기: 비 오는 미로의 네 알고리즘</summary><figure><svg viewBox="0 0 280 282" role="img" aria-label="비 오는 미로에서 UCS는 48칸, 탐욕은 11칸에 비용 18, A*는 32칸에 비용 14, 과대평가한 A*는 14칸에 비용 18이었다"><defs><marker id="d10" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">비 오는 미로: 탐색 칸 · 비용</text><text class="tm" x="10" y="60" text-anchor="start">UCS</text><text class="tb" x="270" y="60" text-anchor="end">48칸 · 비용 14</text><rect x="10.0" y="70.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="70.0" width="260.0" height="16.0" fill="#3d5f80"/><text class="tm" x="10" y="120" text-anchor="start">탐욕</text><text class="tb" x="270" y="120" text-anchor="end">11칸 · 비용 18</text><rect x="10.0" y="130.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="130.0" width="59.6" height="16.0" fill="#c8553d"/><text class="tm" x="10" y="180" text-anchor="start">A*</text><text class="tb" x="270" y="180" text-anchor="end">32칸 · 비용 14</text><rect x="10.0" y="190.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="190.0" width="173.3" height="16.0" fill="#2f6b45"/><text class="tm" x="10" y="240" text-anchor="start">A* (h×3)</text><text class="tb" x="270" y="240" text-anchor="end">14칸 · 비용 18</text><rect x="10.0" y="250.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="250.0" width="75.8" height="16.0" fill="#c8553d"/></svg><figcaption>A*는 UCS보다 33% 이상 덜 탐색하면서 최적해를 지킨다.</figcaption></figure></details>
+        <p>A*는 1968년 SRI의 피터 하트, 닐스 닐슨, 버트럼 라파엘이 셰이키 로봇을 위해 발표했습니다. 논문의 Theorem 1은 모든 <i>n</i>에서 0 ≤ <i>h</i>(<i>n</i>) ≤ <i>h</i>*(<i>n</i>)이면, 즉 <b>허용적</b>이면 A*가 최적 경로를 찾는다고 증명합니다. [해설] 최적 비용을 <i>C</i>*라 하면 최적 경로 위 노드의 <i>f</i>는 <i>C</i>*를 넘지 않으므로, 더 비싼 경로가 먼저 채택될 수 없습니다. 맨해튼 거리에 3을 곱하자(<i>f</i> = <i>g</i> + 3<i>h</i>) A*는 탐욕처럼 변해 14칸만 보고 비용 18 경로를 내놓았습니다.</p>
+        <details class="viz"><summary>그림으로 보기: 허용성: 절대 과대평가하지 말라</summary><figure><svg viewBox="0 0 280 274" role="img" aria-label="출발점의 맨해튼 거리 h=8은 실제 최적 비용 14보다 작아 허용적이고, 3배로 과대평가하면 비용 18 경로를 내놓는다"><defs><marker id="d11" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="24" text-anchor="middle">허용성: 0 ≤ h ≤ h*</text><line class="ln" x1="20" y1="80" x2="260" y2="80"/><circle cx="20.0" cy="80" r="7" fill="#8a929c"/><circle cx="116.0" cy="80" r="7" fill="#3d5f80"/><circle cx="188.0" cy="80" r="7" fill="#2f6b45"/><text class="tm" x="20.0" y="110" text-anchor="middle">0</text><text class="tm" x="116.0" y="110" text-anchor="middle" fill="#3d5f80">h=8</text><text class="tm" x="188.0" y="58" text-anchor="middle" fill="#2f6b45">h*=14</text><rect class="bx2" x="10" y="130" width="260" height="62" rx="10"/><text class="tb" x="140" y="156" text-anchor="middle">과소평가</text><text class="tm" x="140" y="182" text-anchor="middle">최적 경로 보장</text><rect class="bx3" x="10" y="202" width="260" height="62" rx="10"/><text class="tb" x="140" y="228" text-anchor="middle">과대평가 (3h)</text><text class="tm" x="140" y="254" text-anchor="middle">비용 18 경로 채택</text></svg><figcaption>과대평가하지 않는 추정치는 더 나쁜 경로가 먼저 채택되는 일을 막는다.</figcaption></figure></details>
+        <details class="viz"><summary>그림으로 보기: 45×25 미로 벤치마크</summary><figure><svg viewBox="0 0 280 222" role="img" aria-label="45×25 미로에서 A*는 215칸으로 비용 54, UCS는 701칸으로 비용 54, 탐욕은 64칸으로 비용 84를 냈다"><defs><marker id="d12" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">45×25 미로</text><text class="tm" x="10" y="60" text-anchor="start">A*</text><text class="tb" x="270" y="60" text-anchor="end">215칸 · 비용 54</text><rect x="10.0" y="70.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="70.0" width="79.7" height="16.0" fill="#2f6b45"/><text class="tm" x="10" y="120" text-anchor="start">UCS</text><text class="tb" x="270" y="120" text-anchor="end">701칸 · 비용 54</text><rect x="10.0" y="130.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="130.0" width="260.0" height="16.0" fill="#3d5f80"/><text class="tm" x="10" y="180" text-anchor="start">탐욕</text><text class="tb" x="270" y="180" text-anchor="end">64칸 · 비용 84</text><rect x="10.0" y="190.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="190.0" width="23.7" height="16.0" fill="#c8553d"/></svg><figcaption>A*는 UCS 대비 탐색량을 70% 가까이 줄였고, 탐욕의 비용 84는 최적의 1.5배 이상이다.</figcaption></figure></details>
+        <details class="viz"><summary>그림으로 보기: 8퍼즐: 휴리스틱의 정밀도</summary><figure><svg viewBox="0 0 280 246" role="img" aria-label="20수 8퍼즐에서 BFS는 57,593개, 잘못 놓인 타일 수 A*는 3,667개, 맨해튼 거리 합 A*는 283개 상태를 탐색했다"><defs><marker id="d13" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">8퍼즐 20수 (로그 눈금)</text><text class="tm" x="10" y="60" text-anchor="start">BFS (무정보)</text><text class="tb" x="270" y="60" text-anchor="end">57,593</text><rect x="10.0" y="70.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="70.0" width="247.5" height="16.0" fill="#c8553d"/><text class="tm" x="10" y="120" text-anchor="start">A* 잘못 놓인 타일</text><text class="tb" x="270" y="120" text-anchor="end">3,667</text><rect x="10.0" y="130.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="130.0" width="185.3" height="16.0" fill="#9a6a12"/><text class="tm" x="10" y="180" text-anchor="start">A* 맨해튼 합</text><text class="tb" x="270" y="180" text-anchor="end">283</text><rect x="10.0" y="190.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="190.0" width="127.5" height="16.0" fill="#2f6b45"/><text class="tm" x="140" y="232" text-anchor="middle">시작 h: 6 → 14 (정답 20)</text></svg><figcaption>허용성을 지키는 한, h가 h*에 가까울수록 낭비되는 탐색이 크게 줄어든다.</figcaption></figure></details>
+        <div class="terms"><span class="term">무정보 탐색</span><span class="term">맨해튼 거리</span><span class="term">탐욕 최선 우선</span><span class="term">A*</span><span class="term">f = g + h</span><span class="term">허용성</span></div>
+      </section>
+
+      <section class="sec" id="s5">
+        <div class="sec-head"><span class="sec-num">5</span><div><h2>언덕 오르기와 담금질 기법</h2><p class="sub">질문 ④ 경로가 아닌 최종 상태</p></div></div>
+        <p><b>8퀸 문제</b>는 8×8 판에 서로 공격하지 않게 퀸 8개를 두는 문제입니다. 열마다 퀸 하나로 제한하면 상태는 8자리 정수(예: <code>1-7-5-0-3-1-2-4</code>)이고, 8<sup>8</sup> = 16,777,216개 중 정답은 92개입니다. BFS로 풀면 6,328판을 탐색했을 때 대기 상태가 73,327개로 불어납니다. 경로를 기억할 필요가 없다면 판 하나만 쥐고 고쳐 나가는 <b>국소 탐색</b>으로 충분합니다.</p>
+        <details class="viz"><summary>그림으로 보기: 8퀸의 상태 공간과 메모리 폭발</summary><figure><svg viewBox="0 0 280 290" role="img" aria-label="8퀸은 열마다 퀸 하나를 두어도 16,777,216개 상태에 정답 92개이고, BFS는 6,328판 탐색 시 대기열이 73,327개로 불어난다"><defs><marker id="d14" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="24" text-anchor="middle">8퀸의 상태 공간</text><rect class="bx" x="10" y="40" width="260" height="62" rx="10"/><text class="tb" x="140" y="66" text-anchor="middle">8⁸ = 16,777,216</text><text class="tm" x="140" y="92" text-anchor="middle">열마다 퀸 1개</text><rect class="bx2" x="10" y="112" width="260" height="50" rx="10"/><text class="tb" x="140" y="144" text-anchor="middle">정답 92개</text><rect class="bx3" x="10" y="172" width="260" height="76" rx="10"/><text class="t" x="140" y="198" text-anchor="middle">BFS: 6,328판 탐색 시</text><text class="tb" x="140" y="226" text-anchor="middle">대기 73,327개</text><text class="tm" x="140" y="276" text-anchor="middle">언덕 오르기 이웃 8×7 = 56</text></svg><figcaption>경로가 필요 없으면 과거 분기를 쥘 이유도 없다.</figcaption></figure></details>
+        <p><b>언덕 오르기</b>는 퀸 하나를 같은 열의 다른 행으로 옮긴 56개 이웃(8 × 7) 중 공격 쌍을 가장 크게 줄이는 판으로 옮기고, 더 나아지지 않으면 멈춥니다. 운이 좋으면 5 → 3 → 2 → 1 → 0, 224판 만에 풉니다. 공간은 <i>O</i>(1)이지만 짙은 안개 속 등산가처럼 국소 최적해나 평원에 갇혀, 무작위 1,000판 중 <b>161판(16.1%)</b>만 풀었습니다.</p>
+        <p><b>무작위 재시작</b>은 갇히면 새 무작위 판에서 다시 오릅니다. 평균 6.8번 만에 1,000판을 모두 풀었지만, 거의 맞은 판도 통째로 버려 해 하나에 평균 <b>1,507판</b>을 봤습니다.</p>
+        <p><b>담금질 기법</b>(1983, IBM의 커크패트릭·겔라트·베키, 칩 설계에 사용)은 무작위 이웃 하나를 골라 좋거나 같으면 받고, 나쁘면 확률 <i>P</i> = exp(−Δ<i>E</i>/<i>T</i>) ≈ 0.37<sup>Δ<i>E</i>/<i>T</i></sup>로 받으며, 매 단계 <i>T</i>에 0.999를 곱합니다. 언덕 오르기가 공격 쌍 1에서 멈춘 판에서, 17단계에 공격 쌍 1에 이른 뒤 나쁜 수를 37번 받아 한때 11개까지 치솟았다가 <b>343단계에 공격 쌍 0</b>에 안착했습니다. 이때 <i>T</i> = 0.71로, 얼어서가 아니라 풀어서 멈췄습니다. 1,000판 중 <b>991판(99.1%)</b>, 해 하나에 평균 <b>1,156판</b>으로 재시작보다 약 350판 적게 일했습니다.</p>
+        <details class="viz"><summary>그림으로 보기: 나쁜 수를 받아들일 확률</summary><figure><svg viewBox="0 0 280 322" role="img" aria-label="담금질 기법의 나쁜 수 수용 확률은 온도 1에서 ΔE 1이면 약 37퍼센트, 3이면 약 5퍼센트, 온도 0.1에서는 약 0.005퍼센트이고, 막힌 판에서 343단계에 정답에 이르렀다"><defs><marker id="d16" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="24" text-anchor="middle">P = exp(−ΔE/T)</text><rect class="bx" x="10" y="40" width="260" height="46" rx="10"/><text class="t" x="22" y="70" text-anchor="start">T≈1, ΔE=1</text><text class="tb" x="258" y="70" text-anchor="end">약 37%</text><rect class="bx" x="10" y="94" width="260" height="46" rx="10"/><text class="t" x="22" y="124" text-anchor="start">T≈1, ΔE=3</text><text class="tb" x="258" y="124" text-anchor="end">약 5%</text><rect class="bx" x="10" y="148" width="260" height="46" rx="10"/><text class="t" x="22" y="178" text-anchor="start">T≈0.1, ΔE=1</text><text class="tb" x="258" y="178" text-anchor="end">약 0.005%</text><text class="tm" x="140" y="218" text-anchor="middle">T ← T × 0.999</text><rect class="bx2" x="10" y="236" width="260" height="76" rx="10"/><text class="tb" x="140" y="262" text-anchor="middle">343단계에 공격 쌍 0</text><text class="tm" x="140" y="290" text-anchor="middle">나쁜 수 37번 · T=0.71</text></svg><figcaption>담금질에는 판 전체를 버리지 않는 '부드러운 국소적 재시작'이 내장되어 있다.</figcaption></figure></details>
+        <p><b>경사하강법</b>은 언덕 오르기를 뒤집은 거울상입니다. 손실 곡면의 골짜기로 내려가므로 국소 최솟값에 갇힐 위험을 공유합니다.</p>
+        <div class="terms"><span class="term">국소 탐색</span><span class="term">8퀸</span><span class="term">언덕 오르기</span><span class="term">국소 최적해</span><span class="term">무작위 재시작</span><span class="term">담금질 기법</span><span class="term">경사하강법</span></div>
+      </section>
+
+      <section class="sec" id="s6">
+        <div class="sec-head"><span class="sec-num">6</span><div><h2>빔 탐색과 유전 알고리즘</h2><p class="sub">여러 후보를 쥐고, 섞기</p></div></div>
+        <p>"The robot" 뒤의 단어 확률이 is 0.5, got 0.4, fell 0.1이고(손으로 만든 단순 모형), is 뒤 lost는 0.4, got 뒤 home은 0.9라 합시다. 하나만 쥐는 탐욕은 is → lost로 <b>0.20</b>에 그칩니다. 매 단계 상위 <i>K</i>개를 쥐는 <b>빔 탐색</b>은 <i>K</i> = 2에서 got을 남겨 "The robot got home"(<b>0.36</b>)을 찾습니다. <i>K</i> = 1이면 언덕 오르기와 같습니다. 2016년 구글 GNMT는 <i>K</i> = 8~12의 빔을 썼고, 빔 2개로도 BLEU 점수는 조금만 낮아졌습니다.</p>
+        <details class="viz"><summary>그림으로 보기: 지금 2등이 나중에 1등이 된다</summary><figure><svg viewBox="0 0 280 276" role="img" aria-label="탐욕적으로 is를 고르면 is lost 0.20이지만 빔 폭 2로 got을 남기면 got home 0.36을 찾는다"><defs><marker id="d17" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="24" text-anchor="middle">"The robot …"</text><rect class="bx3" x="10" y="40" width="124" height="44" rx="10"/><text class="t" x="72" y="68" text-anchor="middle">is 0.5</text><rect class="bx2" x="146" y="40" width="124" height="44" rx="10"/><text class="t" x="208" y="68" text-anchor="middle">got 0.4</text><line class="ln" x1="72" y1="84" x2="72" y2="106" marker-end="url(#d17)"/><line class="ln" x1="208" y1="84" x2="208" y2="106" marker-end="url(#d17)"/><rect class="bx" x="10" y="108" width="124" height="62" rx="10"/><text class="t" x="72" y="134" text-anchor="middle">lost 0.4</text><text class="tb" x="72" y="160" text-anchor="middle">= 0.20</text><rect class="bx2" x="146" y="108" width="124" height="62" rx="10"/><text class="t" x="208" y="134" text-anchor="middle">home 0.9</text><text class="tb" x="208" y="160" text-anchor="middle">= 0.36</text><text class="tm" x="140" y="200" text-anchor="middle" fill="#c8553d">K=1 → is lost (0.20)</text><text class="tm" x="140" y="228" text-anchor="middle" fill="#2f6b45">K=2 → got home (0.36)</text><text class="tm" x="140" y="262" text-anchor="middle">GNMT: K = 8~12</text></svg><figcaption>got lost 0.04, is tired·is home은 각각 0.15.</figcaption></figure></details>
+        <p><b>유전 알고리즘</b>은 50개 판을 한 세대로 두고, '공격하지 않는 쌍'(전체 28쌍 중)만큼 추첨권을 줘 부모를 고르고(공격 3이면 25장, 10이면 18장), 무작위 열에서 잘라 이어 붙인 뒤(교차), 약 20% 확률로 한 열을 바꿉니다(변이). 왼쪽 절반이 완벽한 공격 5 판과 오른쪽 절반이 완벽한 공격 8 판을 4열 뒤에서 교차하자 공격 0인 자식이 나왔습니다.</p>
+        <details class="viz"><summary>그림으로 보기: 교차와 적합도</summary><figure><svg viewBox="0 0 280 304" role="img" aria-label="공격 쌍 5개와 8개인 두 부모를 4열 뒤에서 교차하자 공격 쌍 0개인 자식이 나왔다"><defs><marker id="d18" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="24" text-anchor="middle">교차: 4열 뒤에서 자르기</text><rect class="bx" x="10" y="40" width="260" height="46" rx="10"/><text class="t" x="22" y="70" text-anchor="start">부모 1</text><text class="tm" x="258" y="70" text-anchor="end">공격 5 · 왼쪽 완벽</text><rect class="bx" x="10" y="94" width="260" height="46" rx="10"/><text class="t" x="22" y="124" text-anchor="start">부모 2</text><text class="tm" x="258" y="124" text-anchor="end">공격 8 · 오른쪽 완벽</text><line class="ln" x1="140" y1="140" x2="140" y2="162" marker-end="url(#d18)"/><rect class="bx2" x="10" y="164" width="260" height="46" rx="10"/><text class="tb" x="22" y="194" text-anchor="start">자식</text><text class="tb" x="258" y="194" text-anchor="end">공격 0</text><text class="tm" x="140" y="240" text-anchor="middle">전체 쌍 C(8,2) = 28</text><text class="tm" x="140" y="266" text-anchor="middle">적합도 = 28 − 공격 쌍</text><text class="tm" x="140" y="292" text-anchor="middle">변이 약 20%</text></svg><figcaption>러셀과 노빅의 교과서도 8퀸을 유전 알고리즘의 대표 예제로 쓴다.</figcaption></figure></details>
+        <details class="viz"><summary>그림으로 보기: 8퀸 1,000회 벤치마크</summary><figure><svg viewBox="0 0 280 496" role="img" aria-label="8퀸 1,000회에서 성공률은 언덕 오르기 16.1퍼센트, 무작위 재시작 100퍼센트, 담금질 99.1퍼센트, 유전 알고리즘 82.4퍼센트이고, 해 하나당 검토한 판은 1,507, 1,156, 15,675개다"><defs><marker id="d15" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">8퀸 1,000회 성공률</text><text class="tm" x="10" y="60" text-anchor="start">언덕 오르기</text><text class="tb" x="270" y="60" text-anchor="end">16.1%</text><rect x="10.0" y="70.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="70.0" width="41.9" height="16.0" fill="#c8553d"/><text class="tm" x="10" y="120" text-anchor="start">무작위 재시작</text><text class="tb" x="270" y="120" text-anchor="end">100%</text><rect x="10.0" y="130.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="130.0" width="260.0" height="16.0" fill="#3d5f80"/><text class="tm" x="10" y="180" text-anchor="start">담금질</text><text class="tb" x="270" y="180" text-anchor="end">99.1%</text><rect x="10.0" y="190.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="190.0" width="257.7" height="16.0" fill="#2f6b45"/><text class="tm" x="10" y="240" text-anchor="start">유전 알고리즘</text><text class="tb" x="270" y="240" text-anchor="end">82.4%</text><rect x="10.0" y="250.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="250.0" width="214.2" height="16.0" fill="#9a6a12"/><text class="tb" x="140" y="300" text-anchor="middle">해 하나당 검토한 판</text><text class="tm" x="10" y="334" text-anchor="start">무작위 재시작</text><text class="tb" x="270" y="334" text-anchor="end">1,507판</text><rect x="10.0" y="344.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="344.0" width="25.0" height="16.0" fill="#3d5f80"/><text class="tm" x="10" y="394" text-anchor="start">담금질</text><text class="tb" x="270" y="394" text-anchor="end">1,156판</text><rect x="10.0" y="404.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="404.0" width="19.2" height="16.0" fill="#2f6b45"/><text class="tm" x="10" y="454" text-anchor="start">유전 (전형적 성공)</text><text class="tb" x="270" y="454" text-anchor="end">15,675판</text><rect x="10.0" y="464.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="464.0" width="260.0" height="16.0" fill="#9a6a12"/></svg><figcaption>유전 알고리즘은 담금질보다 열 배 넘게 일하고도 성공률이 낮았다.</figcaption></figure></details>
+        <p>1,000회 중 824번 성공했고, 그중 절반은 312세대를 넘겼으며, 176번은 1,000세대가 지나도 못 풀었습니다. 반면 NASA ST5 임무에서는 유전 알고리즘으로 설계한 안테나가 2006년 발사되어 우주로 간 최초의 진화된 하드웨어로 불렸습니다(논문 게재처 <span class="chk">확인 필요</span>). 빔 탐색과 유전 알고리즘은 완전성을 보장하지 못합니다.</p>
+        <div class="callout"><p>화려한 아이디어일수록 먼저 가장 단순한 기준선과 경주시켜 보라.</p></div>
+        <div class="terms"><span class="term">빔 탐색</span><span class="term">빔 폭</span><span class="term">유전 알고리즘</span><span class="term">적합도</span><span class="term">교차</span><span class="term">변이</span><span class="term">기준선</span></div>
+      </section>
+
+      <section class="sec" id="s7">
+        <div class="sec-head"><span class="sec-num">7</span><div><h2>미니맥스와 몬테카를로 트리 탐색</h2><p class="sub">질문 ⑤ 상대가 맞설 때</p></div></div>
+        <p>틱택토에서 승 +1, 패 −1, 무 0. 나는 MAX, 상대는 MIN입니다. <b>미니맥스</b>는 상대가 실수 없이 가장 치명적인 수를 둔다고 가정하고, 바닥의 승패를 위로 끌어올립니다(상대 차례는 최솟값, 내 차례는 최댓값). 반쯤 진행된 판에서 모서리 수만 +1로 계산해 모서리를 둡니다. 빈 판의 게임 트리는 549,946개 국면이고, 완벽하게 두면 틱택토는 무승부입니다.</p>
+        <details class="viz"><summary>그림으로 보기: 미니맥스 점수 역전파</summary><figure><svg viewBox="0 0 280 262" role="img" aria-label="미니맥스는 상대가 내 점수를 최소화한다고 가정하고, 나는 그 최솟값 중 최댓값을 고른다"><defs><marker id="d19" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><circle cx="140" cy="36" r="22" fill="#3d5f80"/><text class="tb" x="140" y="43" text-anchor="middle" fill="#fff">+1</text><text class="tm" x="178" y="42" text-anchor="start">MAX</text><line class="ln" x1="140" y1="58" x2="50" y2="98"/><rect class="bx3" x="20" y="100" width="60" height="40" rx="10"/><text class="tb" x="50" y="127" text-anchor="middle">−1</text><line class="ln" x1="140" y1="58" x2="140" y2="98"/><rect class="bx3" x="110" y="100" width="60" height="40" rx="10"/><text class="tb" x="140" y="127" text-anchor="middle">0</text><line class="ln" x1="140" y1="58" x2="230" y2="98"/><rect class="bx2" x="200" y="100" width="60" height="40" rx="10"/><text class="tb" x="230" y="127" text-anchor="middle">+1</text><text class="tm" x="140" y="170" text-anchor="middle">MIN: 상대는 최솟값</text><rect class="bx" x="10" y="190" width="260" height="62" rx="10"/><text class="t" x="140" y="216" text-anchor="middle">틱택토 549,946 국면</text><text class="tm" x="140" y="242" text-anchor="middle">완벽하면 무승부</text></svg><figcaption>상대의 최선(Min)에 맞서는 최댓값(Max).</figcaption></figure></details>
+        <p>1950년 섀넌은 체스 수순을 약 10<sup>120</sup>가지로 추산하고, <b>조기 종료</b>와 <b>정적 평가 함수</b>(폰 1, 나이트 3, 비숍 3, 룩 5, 퀸 9)를 제안했습니다. 평가 함수는 게임판을 위한 휴리스틱입니다. 틱택토에서 2수만 보는 로봇은 한 판에 평균 140개 국면, 전체 탐색 로봇은 약 307,000개를 계산했고, 200판 대결은 전체 탐색 86승 114무, 조기 종료 0승이었습니다.</p>
+        <details class="viz"><summary>그림으로 보기: 틱택토 대결 결과</summary><figure><svg viewBox="0 0 280 400" role="img" aria-label="미니맥스는 무작위 상대에게 2,000판 1,805승 195무 0패, 전체 탐색 로봇은 2수 조기 종료 로봇에게 86승 114무를 거뒀다"><defs><marker id="d20" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">2,000판</text><text class="tm" x="10" y="60" text-anchor="start">미니맥스 vs 무작위: 승</text><text class="tb" x="270" y="60" text-anchor="end">1,805승</text><rect x="10.0" y="70.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="70.0" width="234.7" height="16.0" fill="#2f6b45"/><text class="tm" x="10" y="120" text-anchor="start">무</text><text class="tb" x="270" y="120" text-anchor="end">195무</text><rect x="10.0" y="130.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="130.0" width="25.4" height="16.0" fill="#8a929c"/><text class="tm" x="10" y="180" text-anchor="start">패</text><text class="tb" x="270" y="180" text-anchor="end">0패</text><rect x="10.0" y="190.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="190.0" width="0.0" height="16.0" fill="#c8553d"/><text class="tb" x="140" y="240" text-anchor="middle">200판 대결</text><text class="tm" x="10" y="274" text-anchor="start">전체 탐색 로봇</text><text class="tb" x="270" y="274" text-anchor="end">86승 114무</text><rect x="10.0" y="284.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="284.0" width="111.8" height="16.0" fill="#2f6b45"/><text class="tm" x="10" y="334" text-anchor="start">2수 조기 종료</text><text class="tb" x="270" y="334" text-anchor="end">0승</text><rect x="10.0" y="344.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="344.0" width="0.0" height="16.0" fill="#c8553d"/><text class="tm" x="140" y="386" text-anchor="middle">국면/판: 약 307,000 vs 140</text></svg><figcaption>일찍 멈추는 탐색은 자기 평가 함수만큼만 똑똑하다.</figcaption></figure></details>
+        <p>1997년 <b>딥 블루</b>는 미니맥스 + 초고속 하드웨어 + 정교한 평가 함수의 정점이었습니다. IBM은 초당 2억 국면이라 밝혔고, 2002년 설계진 논문은 1997년 대국 평균을 초당 약 1억 2,600만 국면으로 기록했습니다. 서튼에 따르면 인간의 체스 이해를 넣는 데 매달린 연구자들은 실망했습니다. 1980년대 <b>전문가 시스템</b>도 <code>if-then</code> 규칙을 적어 넣었고, 전문가에게서 지식을 끌어내는 <b>지식 획득 문제</b>가 어려운 부분이었습니다.</p>
+        <p>바둑은 한 턴 평균 250수(체스 35수)이고, 2016년 딥마인드 논문도 국면과 수를 평가하기 어렵다는 점을 꼽았습니다. 대안은 끝까지 무작위로 두어 보는 <b>몬테카를로 롤아웃</b>입니다. 틱택토 중간 국면에서 100판씩 돌리자 중앙 46승, 변 48승, 모서리 100승으로 모서리를 짚었습니다. 다만 무작위 상대의 실수에 기대는 편향이 있고, 모든 후보에 똑같이 100판씩 씁니다.</p>
+        <details class="viz"><summary>그림으로 보기: 체스와 바둑의 규모</summary><figure><svg viewBox="0 0 280 368" role="img" aria-label="체스는 한 턴 평균 35수, 바둑은 250수이고, 체스 수순은 약 10의 120제곱, 바둑 국면은 약 10의 170제곱으로 우주 원자 수 10의 80제곱을 넘는다"><defs><marker id="d23" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="24" text-anchor="middle">분기 계수와 규모</text><text class="tm" x="10" y="52" text-anchor="start">체스 분기</text><text class="tb" x="270" y="52" text-anchor="end">평균 35</text><rect x="10.0" y="62.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="62.0" width="36.4" height="16.0" fill="#3d5f80"/><text class="tm" x="10" y="112" text-anchor="start">바둑 분기</text><text class="tb" x="270" y="112" text-anchor="end">평균 250</text><rect x="10.0" y="122.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="122.0" width="260.0" height="16.0" fill="#c8553d"/><text class="tb" x="140" y="172" text-anchor="middle">지수 (로그 눈금)</text><text class="tm" x="10" y="206" text-anchor="start">체스 수순 (섀넌)</text><text class="tb" x="270" y="206" text-anchor="end">약 10¹²⁰</text><rect x="10.0" y="216.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="216.0" width="183.5" height="16.0" fill="#3d5f80"/><text class="tm" x="10" y="266" text-anchor="start">바둑 국면</text><text class="tb" x="270" y="266" text-anchor="end">약 10¹⁷⁰</text><rect x="10.0" y="276.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="276.0" width="260.0" height="16.0" fill="#c8553d"/><text class="tm" x="10" y="326" text-anchor="start">우주 원자</text><text class="tb" x="270" y="326" text-anchor="end">약 10⁸⁰</text><rect x="10.0" y="336.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="336.0" width="122.4" height="16.0" fill="#8a929c"/></svg><figcaption>바둑 국면 약 2.08×10<sup>170</sup>, 우주 원자 약 10<sup>80</sup>.</figcaption></figure></details>
+        <details class="viz"><summary>그림으로 보기: 롤아웃과 MCTS의 배분</summary><figure><svg viewBox="0 0 280 436" role="img" aria-label="순수 몬테카를로는 중앙 46승, 변 48승, 모서리 100승이었고, MCTS는 300회 시뮬레이션 중 238회를 모서리에 썼다"><defs><marker id="d21" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">순수 몬테카를로 롤아웃</text><text class="tm" x="10" y="60" text-anchor="start">중앙</text><text class="tb" x="270" y="60" text-anchor="end">46/100승</text><rect x="10.0" y="70.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="70.0" width="119.6" height="16.0" fill="#8a929c"/><text class="tm" x="10" y="120" text-anchor="start">변</text><text class="tb" x="270" y="120" text-anchor="end">48/100승</text><rect x="10.0" y="130.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="130.0" width="124.8" height="16.0" fill="#8a929c"/><text class="tm" x="10" y="180" text-anchor="start">모서리</text><text class="tb" x="270" y="180" text-anchor="end">100/100승</text><rect x="10.0" y="190.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="190.0" width="260.0" height="16.0" fill="#2f6b45"/><text class="tb" x="140" y="240" text-anchor="middle">MCTS 300회 배분</text><text class="tm" x="10" y="274" text-anchor="start">모서리</text><text class="tb" x="270" y="274" text-anchor="end">238회</text><rect x="10.0" y="284.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="284.0" width="206.3" height="16.0" fill="#2f6b45"/><text class="tm" x="10" y="334" text-anchor="start">중앙</text><text class="tb" x="270" y="334" text-anchor="end">31회</text><rect x="10.0" y="344.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="344.0" width="26.9" height="16.0" fill="#8a929c"/><text class="tm" x="10" y="394" text-anchor="start">변</text><text class="tb" x="270" y="394" text-anchor="end">31회</text><rect x="10.0" y="404.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="404.0" width="26.9" height="16.0" fill="#8a929c"/></svg><figcaption>MCTS는 유망한 수에 시뮬레이션을 몰아 편향을 줄인다.</figcaption></figure></details>
+        <p><b>MCTS</b>는 선택(탐용 + 탐험, [해설] 대표 공식 UCB1) → 확장 → 평가 → 역전파를 반복하고, 끝나면 가장 많이 방문한 수를 둡니다. 300번 중 238번을 모서리에, 중앙과 변에 31번씩 썼습니다. 2016년 <b>알파고</b>는 여기에 유망한 수를 제안하는 <b>정책망</b>과 판세를 추정하는 <b>가치망</b>을 더해, 가치망 추정과 롤아웃으로 함께 평가하며 이세돌 9단을 4대 1로 이겼습니다.</p>
+        <details class="viz"><summary>그림으로 보기: MCTS의 네 단계</summary><figure><svg viewBox="0 0 280 322" role="img" aria-label="MCTS는 선택, 확장, 평가, 역전파의 네 단계를 반복하고 가장 많이 방문한 수를 둔다"><defs><marker id="d22" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">1 선택</text><text class="tm" x="140.0" y="62" text-anchor="middle">탐용 + 탐험 (UCB1)</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="86" marker-end="url(#d22)"/><rect class="bx" x="10" y="88" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="116" text-anchor="middle">2 확장</text><text class="tm" x="140.0" y="142" text-anchor="middle">새 잎 노드 등록</text><line class="ln" x1="140.0" y1="154" x2="140.0" y2="166" marker-end="url(#d22)"/><rect class="bx" x="10" y="168" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="196" text-anchor="middle">3 평가</text><text class="tm" x="140.0" y="222" text-anchor="middle">롤아웃 · 가치망</text><line class="ln" x1="140.0" y1="234" x2="140.0" y2="246" marker-end="url(#d22)"/><rect class="bx2" x="10" y="248" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="276" text-anchor="middle">4 역전파</text><text class="tm" x="140.0" y="302" text-anchor="middle">방문·승리 횟수 갱신</text><path class="ln" d="M270,282 H276 V30 H272" marker-end="url(#d22)"/></svg><figcaption>비대칭으로 자라는 트리, 가장 많이 방문한 수를 둔다.</figcaption></figure></details>
+        <div class="terms"><span class="term">적대적 탐색</span><span class="term">미니맥스</span><span class="term">정적 평가 함수</span><span class="term">섀넌 수</span><span class="term">몬테카를로</span><span class="term">MCTS</span><span class="term">UCB1</span><span class="term">정책망</span><span class="term">가치망</span></div>
+      </section>
+
+      <section class="sec" id="s8">
+        <div class="sec-head"><span class="sec-num">8</span><div><h2>[심화] 쓰라린 교훈</h2><p class="sub">탐색과 학습의 승리</p></div></div>
+        <p>2019년 리처드 서튼의 에세이 《쓰라린 교훈》은 70년 AI 연구의 가장 큰 교훈으로, 계산을 활용하는 범용 방법이 결국 가장 효과적이었다는 점을 꼽습니다. 그는 임의의 규모로 확장되는 것처럼 보이는 방법으로 <b>탐색</b>과 <b>학습</b>을 꼽습니다. 딥 블루는 탐색의 승리였고, 알파고는 탐색(MCTS)과 학습(심층 강화학습 신경망)의 결합이었습니다. [해설] 1980년대 전문가 시스템의 한계는 사람이 규칙을 적어 넣는 방식의 한계로 읽을 수 있습니다.</p>
+        <details class="viz"><summary>그림으로 보기: 딥 블루에서 쓰라린 교훈까지</summary><figure><svg viewBox="0 0 280 246" role="img" aria-label="딥 블루는 탐색의 승리, 알파고는 탐색과 학습의 결합이고, 서튼은 계산과 함께 확장되는 범용 방법이 이겨 왔다고 정리한다"><defs><marker id="d24" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">딥 블루 (1997)</text><text class="tm" x="140.0" y="62" text-anchor="middle">탐색 + 초고속 하드웨어</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="88" marker-end="url(#d24)"/><rect class="bx2" x="10" y="90" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="118" text-anchor="middle">알파고 (2016)</text><text class="tm" x="140.0" y="144" text-anchor="middle">탐색(MCTS) + 학습(신경망)</text><line class="ln" x1="140.0" y1="156" x2="140.0" y2="170" marker-end="url(#d24)"/><rect class="bx" x="10" y="172" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="200" text-anchor="middle">쓰라린 교훈 (2019)</text><text class="tm" x="140.0" y="226" text-anchor="middle">계산과 함께 확장되는 범용 방법</text></svg><figcaption>계산과 함께 확장되는 탐색과 학습이 결국 이겨 왔다.</figcaption></figure></details>
+        <div class="terms"><span class="term">쓰라린 교훈</span><span class="term">탐색</span><span class="term">학습</span><span class="term">전문가 시스템</span></div>
+      </section>
+
+      <section class="sec" id="s9">
+        <div class="sec-head"><span class="sec-num">9</span><div><h2>마스터 치트시트</h2><p class="sub">자료구조와 choose_next 한 줄</p></div></div>
+        <div class="tblw"><table class="tbl">
+          <thead><tr><th>알고리즘</th><th>프론티어</th><th>choose_next</th><th>완전성</th><th>최적성</th><th>시간 (사례)</th><th>공간 (사례)</th></tr></thead>
+          <tbody>
+            <tr><td><b>BFS</b></td><td>FIFO 큐</td><td>가장 오래된 상태</td><td>보장</td><td>보장 (단위 비용)</td><td>O(b<sup>d</sup>), 44칸</td><td>O(b<sup>d</sup>), 46칸</td></tr>
+            <tr><td><b>DFS</b></td><td>LIFO 스택</td><td>가장 최근 상태</td><td>그래프 시 보장</td><td>불가 (16걸음)</td><td>O(b<sup>m</sup>), 19칸</td><td>O(bm), 25칸</td></tr>
+            <tr><td><b>양방향</b></td><td>듀얼 FIFO 큐</td><td>시작·목표 번갈아</td><td>보장</td><td>보장 (단위 비용)</td><td>O(2·b<sup>d/2</sup>), 27칸</td><td>36칸</td></tr>
+            <tr><td><b>UCS / 다익스트라</b></td><td>우선순위 큐</td><td>최소 g(n)</td><td>보장</td><td>보장</td><td>O(b<sup>1+⌊C*/ε⌋</sup>), 48칸</td><td>48칸</td></tr>
+            <tr><td><b>탐욕 최선 우선</b></td><td>우선순위 큐</td><td>최소 h(n)</td><td>불가</td><td>불가 (비용 18)</td><td>최악 O(b<sup>m</sup>), 11칸</td><td>O(b<sup>m</sup>), 18칸</td></tr>
+            <tr><td><b>A*</b></td><td>우선순위 큐</td><td>최소 g + h</td><td>보장</td><td>보장 (허용적 h)</td><td>휴리스틱 품질에 달림, 32칸</td><td>O(b<sup>d</sup>), 38칸</td></tr>
+            <tr><td><b>언덕 오르기</b></td><td>단일 상태</td><td>56개 이웃 중 최선</td><td>불가 (16.1%)</td><td>불가</td><td>성공 시 224판</td><td>O(1)</td></tr>
+            <tr><td><b>무작위 재시작</b></td><td>단일 상태 + 재시작</td><td>갇히면 새 판</td><td>극한 시 보장</td><td>보장 (충분한 시도)</td><td>해당 1,507판</td><td>O(1)</td></tr>
+            <tr><td><b>담금질 기법</b></td><td>단일 상태 + 온도 T</td><td>무작위 이웃, 확률 P</td><td>극한 시 보장</td><td>사실상 최적 (99.1%)</td><td>해당 1,156판</td><td>O(1)</td></tr>
+            <tr><td><b>빔 탐색</b></td><td>크기 K 배열/힙</td><td>상위 K개</td><td>불가</td><td>불가 (근사)</td><td>O(K·b·m)</td><td>O(K·m)</td></tr>
+            <tr><td><b>유전 알고리즘</b></td><td>N = 50 개체군</td><td>적합도 추첨·교차·변이</td><td>불가 (82.4%)</td><td>불가</td><td>전형적 성공 15,675판</td><td>O(N)</td></tr>
+            <tr><td><b>미니맥스</b></td><td>게임 트리 백트래킹</td><td>Min에 맞선 Max</td><td>보장 (유한 게임)</td><td>보장 (완벽 플레이)</td><td>O(b<sup>m</sup>)</td><td>O(bm)</td></tr>
+            <tr><td><b>MCTS</b></td><td>비대칭 동적 트리</td><td>UCB1 시뮬레이션</td><td>점근적 보장</td><td>최다 방문 수</td><td>계산 자원에 비례</td><td>트리에 비례</td></tr>
+          </tbody>
+        </table></div>
+        <div class="callout"><p>상태를 정의하라. 무엇을 할 수 있는지 나열하라. 지나온 길을 기억하라. 그리고 <b>다음에 무엇을 볼지 현명하게 선택하라.</b></p></div>
+        <div class="terms"><span class="term">치트시트</span><span class="term">자료구조</span><span class="term">choose_next</span></div>
+      </section>
+      <section class="sec" id="rv">
+        <div class="sec-head"><span class="sec-num">✔</span><div><h2>복습</h2><p class="sub">용어 카드 · 빈칸 · 5문항 퀴즈</p></div></div>
+        <h3 class="rv-h">핵심 용어 카드</h3>
+        <div class="flips">
+          <button type="button" class="flip" aria-expanded="false"><b>choose_next</b><span class="hint">뜻 보기</span><span class="m">프론티어에서 다음에 볼 상태를 고르는 한 줄. 이 기준과 자료구조가 알고리즘을 가른다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>탐색 그래프</b><span class="hint">뜻 보기</span><span class="m">방문한 상태를 닫힌 목록에 기억하는 탐색. 미로에서 4,115개 계획을 44칸 탐색으로 줄였다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>BFS</b><span class="hint">뜻 보기</span><span class="m">FIFO 큐로 가장 오래된 칸부터 꺼낸다. 단위 비용이면 최소 걸음 경로를 보장한다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>DFS</b><span class="hint">뜻 보기</span><span class="m">LIFO 스택으로 가장 최근 칸부터 꺼낸다. 적게 일하지만 최단을 보장하지 못한다(19칸, 16걸음).</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>UCS</b><span class="hint">뜻 보기</span><span class="m">누적 비용 g(n)이 가장 작은 상태부터 꺼내는 우선순위 큐 탐색. 다익스트라와 같은 기계다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>A*</b><span class="hint">뜻 보기</span><span class="m">f(n) = g(n) + h(n)이 가장 작은 상태부터 꺼낸다. h가 허용적이면 최적 경로를 보장한다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>허용성</b><span class="hint">뜻 보기</span><span class="m">모든 n에서 0 ≤ h(n) ≤ h*(n). 실제 남은 비용을 과대평가하지 않는 성질.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>담금질 기법</b><span class="hint">뜻 보기</span><span class="m">나쁜 수도 확률 exp(−ΔE/T)로 받아들이며 온도를 서서히 낮추는 국소 탐색. 8퀸 1,000판 중 99.1%를 풀었다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>빔 탐색</b><span class="hint">뜻 보기</span><span class="m">매 단계 상위 K개 후보만 유지한다. K=1이면 탐욕 선택과 같다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>MCTS</b><span class="hint">뜻 보기</span><span class="m">선택·확장·평가·역전파를 반복하며 유망한 수에 시뮬레이션을 몰고, 가장 많이 방문한 수를 둔다.</span></button>
+        </div>
+        <div class="rv-tools"><button type="button" data-all="flip">모두 뒤집기</button><button type="button" data-reset="flip">모두 접기</button></div>
+        <h3 class="rv-h">빈칸 채우기</h3>
+        <ol class="cloze">
+          <li>BFS는 프론티어로 <button type="button" class="blank" data-a="FIFO 큐" aria-label="빈칸, 눌러서 답 보기">?</button>를 쓴다.</li>
+          <li>미로의 바닥 칸은 <button type="button" class="blank" data-a="48" aria-label="빈칸, 눌러서 답 보기">?</button>개이고 상태도 같은 수다.</li>
+          <li>웅덩이를 지나는 BFS 경로의 비용은 <button type="button" class="blank" data-a="18" aria-label="빈칸, 눌러서 답 보기">?</button>이다.</li>
+          <li>A*의 평가 함수는 f(n) = g(n) + <button type="button" class="blank" data-a="h(n)" aria-label="빈칸, 눌러서 답 보기">?</button>이다.</li>
+          <li>언덕 오르기는 8퀸 1,000판 중 <button type="button" class="blank" data-a="161" aria-label="빈칸, 눌러서 답 보기">?</button>판만 풀었다.</li>
+          <li>담금질 기법은 매 단계 온도에 <button type="button" class="blank" data-a="0.999" aria-label="빈칸, 눌러서 답 보기">?</button>을 곱한다.</li>
+          <li>틱택토 빈 판의 게임 트리는 <button type="button" class="blank" data-a="549,946" aria-label="빈칸, 눌러서 답 보기">?</button>개 국면이다.</li>
+          <li>MCTS는 300번 중 <button type="button" class="blank" data-a="238" aria-label="빈칸, 눌러서 답 보기">?</button>번을 모서리에 썼다.</li>
+        </ol>
+        <div class="rv-tools"><button type="button" data-all="blank">답 모두 보기</button><button type="button" data-reset="blank">빈칸 다시 가리기</button></div>
+        <h3 class="rv-h">5문항 퀴즈</h3>
+        <div id="quiz">
+          <div class="q" data-a="1"><fieldset><legend class="qt">1. BFS가 최소 걸음 경로를 보장하는 이유는?</legend>
+            <button type="button">가장 최근 칸부터 파고들어서</button>
+            <button type="button">k번째 고리를 다 본 뒤에야 k+1번째로 넘어가서</button>
+            <button type="button">휴리스틱으로 목표 방향을 알아서</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="가장 오래된 것을 먼저 보는 것은 가장 가까운 것을 먼저 보는 것과 같습니다."></p></div>
+          <div class="q" data-a="0"><fieldset><legend class="qt">2. 탐욕 최선 우선 탐색이 비 오는 미로에서 실패한 이유는?</legend>
+            <button type="button">지금까지 치른 비용 g를 무시해서</button>
+            <button type="button">너무 많은 칸을 탐색해서</button>
+            <button type="button">휴리스틱이 과소평가여서</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="h만 보고 웅덩이 길로 돌진해 비용 18이 되었습니다. 탐색은 11칸뿐이었습니다."></p></div>
+          <div class="q" data-a="2"><fieldset><legend class="qt">3. 맨해튼 거리에 3을 곱한 휴리스틱으로 A*를 돌리면?</legend>
+            <button type="button">더 적은 칸으로 같은 최적해를 찾는다</button>
+            <button type="button">UCS와 똑같이 48칸을 본다</button>
+            <button type="button">14칸만 보고 비용 18 경로를 내놓는다</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="과대평가는 허용성을 깨 A*를 탐욕처럼 만듭니다."></p></div>
+          <div class="q" data-a="1"><fieldset><legend class="qt">4. 8퀸에서 담금질 기법이 무작위 재시작보다 나은 점은?</legend>
+            <button type="button">56개 이웃을 모두 평가한다</button>
+            <button type="button">잘 맞춘 부분을 두고 나쁜 수로 물러서는 부드러운 재시작이 내장되어 있다</button>
+            <button type="button">정답을 항상 100% 찾는다</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="해 하나에 1,156판으로, 재시작의 1,507판보다 약 350판 적게 일했습니다."></p></div>
+          <div class="q" data-a="2"><fieldset><legend class="qt">5. 서튼의 쓰라린 교훈이 꼽은, 계산과 함께 확장되는 두 방법은?</legend>
+            <button type="button">규칙과 전문가 지식</button>
+            <button type="button">휴리스틱과 평가 함수</button>
+            <button type="button">탐색과 학습</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="딥 블루는 탐색, 알파고는 탐색과 학습의 결합이었습니다."></p></div>
+          <p class="score" id="score" aria-live="polite">점수: 0 / 5</p>
+          <div class="rv-tools"><button type="button" id="qreset">다시 풀기</button></div>
+        </div>
+      </section>
+
+      <section class="sources">
+        <h3>출처</h3>
+        <ul>
+          <li><a href="https://yghnsim.github.io/Pages/articles/one-search-loop-classical-ai.html">Pages — 인공지능의 심장을 관통하는 단 하나의 루프</a></li>
+          <li><a href="https://doi.org/10.1109/TSSC.1968.300136" rel="noopener">Hart, Nilsson, Raphael (1968), A* ↗</a></li>
+          <li><a href="https://doi.org/10.1126/science.220.4598.671" rel="noopener">Kirkpatrick et al. (1983), Simulated Annealing ↗</a></li>
+          <li><a href="https://doi.org/10.1038/nature16961" rel="noopener">Silver et al. (2016), AlphaGo ↗</a></li>
+          <li><a href="http://www.incompleteideas.net/IncIdeas/BitterLesson.html" rel="noopener">Sutton (2019), The Bitter Lesson ↗</a></li>
+        </ul>
+      </section>
+
+    </main>
+
+  </div>
+</div>
+<script>(function(){
+function $$(q){return [].slice.call(document.querySelectorAll(q))}
+$$('.flip').forEach(function(b){b.onclick=function(){b.setAttribute('aria-expanded',b.getAttribute('aria-expanded')==='true'?'false':'true')}});
+function show(b){b.textContent=b.dataset.a;b.classList.add('shown');b.setAttribute('aria-label','답: '+b.dataset.a)}
+function hide(b){b.textContent='?';b.classList.remove('shown');b.setAttribute('aria-label','빈칸, 눌러서 답 보기')}
+$$('.blank').forEach(function(b){b.onclick=function(){show(b)}});
+$$('[data-all]').forEach(function(t){t.onclick=function(){if(t.dataset.all==='flip')$$('.flip').forEach(function(b){b.setAttribute('aria-expanded','true')});else $$('.blank').forEach(show)}});
+$$('[data-reset]').forEach(function(t){t.onclick=function(){if(t.dataset.reset==='flip')$$('.flip').forEach(function(b){b.setAttribute('aria-expanded','false')});else $$('.blank').forEach(hide)}});
+var sc=0,done=0,qs=$$('#quiz .q'),tot=qs.length||5;
+function upd(){var el=document.getElementById('score');if(el)el.textContent='점수: '+sc+' / '+tot+(done===tot?' (끝)':'')}
+qs.forEach(function(q){var bs=[].slice.call(q.querySelectorAll('fieldset button')),ex=q.querySelector('.ex');
+bs.forEach(function(b,i){b.onclick=function(){var a=+q.dataset.a,ok=i===a;bs.forEach(function(x){x.disabled=true});if(bs[a])bs[a].classList.add('right');if(!ok)b.classList.add('wrong');
+if(ex){ex.hidden=false;ex.textContent=(ok?'맞았습니다. ':'아쉽습니다. ')+ex.dataset.e;}if(ok)sc++;done++;upd();}})});
+var qr=document.getElementById('qreset');
+if(qr)qr.onclick=function(){sc=0;done=0;qs.forEach(function(q){q.querySelectorAll('fieldset button').forEach(function(x){x.disabled=false;x.className=''});var ex=q.querySelector('.ex');if(ex){ex.hidden=true;ex.textContent=''}});upd()};
+})();</script>
+
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">아카이브</div><div class="arc-foot-title">인공지능의 심장을 관통하는 단 하나의 루프 — BFS에서 몬테카를로 트리 탐색까지</div><div class="arc-foot-meta"><time datetime="2026-10-29">2026년 10월 29일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99">#컴퓨터과학</a><a class="arc-tag" href="../index.html#tags=%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0">#자료구조</a><a class="arc-tag" href="../index.html#tags=%EC%9A%94%EC%95%BD">#요약</a> · <a href="https://yghnsim.github.io/Pages/articles/one-search-loop-classical-ai.html" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body>
+</html>

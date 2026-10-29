@@ -2,6 +2,24 @@
    `python3 add_page.py --rebuild` 를 실행하면 다시 만들어집니다. */
 window.ARCHIVE_CATALOG = [
   {
+    "id": "20261029-04",
+    "title": "인공지능의 심장을 관통하는 단 하나의 루프 — BFS에서 몬테카를로 트리 탐색까지",
+    "summary": "BFS·UCS·A*·담금질·빔·유전 알고리즘·미니맥스·MCTS는 하나의 탐색 루프에서 choose_next 한 줄만 다르다. 미로·8퀸·틱택토로 따라가는 고전 AI 탐색의 계보와 쓰라린 교훈",
+    "tags": [
+      "AI",
+      "컴퓨터과학",
+      "자료구조",
+      "요약"
+    ],
+    "date": "2026-10-29",
+    "file": "pages/2026-10-29-고전AI탐색.html",
+    "added": "2026-10-29T11:00:18+09:00",
+    "source_name": "src.html",
+    "source_sha256": "62ca8abf5d8b151e6f18b1f185a31d149d4121dec3efef3cee1a6b49a170b543",
+    "source_path_sha256": "d0ba1fc8238b51a8c5de7bff647cbe72517e682f49f1807918a42be3c7d5ad54",
+    "source_url": "https://yghnsim.github.io/Pages/articles/one-search-loop-classical-ai.html"
+  },
+  {
     "id": "20261029-03",
     "title": "앤트로픽 IPO 밸류에이션 — 조숙한 유치원생의 성적표와 1.48조 달러의 내재가치",
     "summary": "다모다란의 앤트로픽 DCF: 목표 매출 1조 114.9억 달러, 마진 27.5%, 컴퓨트 약정 부채화로 지분가치 1.48조 달러(주당 447달러), 지배구조 수렁과 S-1 세부 대조",
