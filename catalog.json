@@ -2,7 +2,7 @@
   {
     "id": "20261030-03",
     "title": "권력의 해부학 — 로버트 모지스와 린든 존슨",
-    "summary": "로버트 카로의 모지스·존슨 전기에서 추린 권력의 메커니즘: 공공기관과 채권의 영구 존속, 계약 조항의 방패, 12개 겸직과 찬성 연합, 권력은 드러낸다, 존슨의 세 전술과 1957년 민권법.",
+    "summary": "로버트 카로의 모지스·존슨 전기에서 추린 권력의 메커니즘: 공공기관과 채권의 영구 존속, 계약 조항의 방패, 12개 겸직과 찬성 연합, 케네스 잭슨의 반론, 권력은 드러낸다, 존슨의 세 전술과 1957년 민권법.",
     "tags": [
       "사회과학",
       "역사",
@@ -13,9 +13,10 @@
     "file": "pages/2026-10-30-로버트모지스.html",
     "added": "2026-10-30T03:50:26+09:00",
     "source_name": "src.html",
-    "source_sha256": "4fc3544a3a71ffad11a1c46cfc4b6f38ed8c2228678b3ee82b1ef8c38821805c",
+    "source_sha256": "2892e0d1ecbc3389efa6fdeef71aa1632ac5fe47d28fcaffcda990e2577778e1",
     "source_path_sha256": "e832e2e928f2951d3249f0ea5215ffda91c5d33054b411bfafa132048a9a0d96",
-    "source_url": "https://yghnsim.github.io/Pages/articles/robert-moses-caro-lessons-in-power.html"
+    "source_url": "https://yghnsim.github.io/Pages/articles/robert-moses-caro-lessons-in-power.html",
+    "updated": "2026-10-30T05:36:35+09:00"
   },
   {
     "id": "20261030-02",
