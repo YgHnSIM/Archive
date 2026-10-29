@@ -1,5 +1,23 @@
 [
   {
+    "id": "20261029-06",
+    "title": "의료 카르텔의 붕괴와 지하실의 1조 달러 창업가",
+    "summary": "마크 큐반 a16z 대담 요약: 공개 가격, Cost Plus Drugs, ASO 스프레드, 계약 테러리즘, 서명 전 AI 점검, 제조 Pod, 정책 제언",
+    "tags": [
+      "AI",
+      "경제경영",
+      "보건경제학",
+      "인터뷰"
+    ],
+    "date": "2026-10-29",
+    "file": "pages/2026-10-29-마크큐반의료.html",
+    "added": "2026-10-29T19:38:43+09:00",
+    "source_name": "src.html",
+    "source_sha256": "b320edcbf64970a1348911e001bfb2430b2ea8eb28e434d1fcb9fe9c50b70d00",
+    "source_path_sha256": "8e6cfe7a8d94c1872a9f5c227db2150ddf422e165ebbc1ed2c7a640630f588b0",
+    "source_url": "https://yghnsim.github.io/Pages/articles/mark-cuban-ai-breaks-healthcare-middlemen.html"
+  },
+  {
     "id": "20261029-05",
     "title": "지능이 공짜일 때, 무엇이 가치 있는가",
     "summary": "클리프 소신 인터뷰 요약: 지능의 원자재화, 6대 보완재, 역U자 시장, 에이전트와 가격, 기업 AI 전환, 분배와 교육",

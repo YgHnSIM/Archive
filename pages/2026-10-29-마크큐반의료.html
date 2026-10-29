@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light only">
+<title>의료 카르텔의 붕괴와 지하실의 1조 달러 창업가</title>
+<meta name="description" content="마크 큐반 a16z 대담 요약: 공개 가격, Cost Plus Drugs의 다섯 축, ASO 스프레드, 계약 테러리즘, 서명 전 AI 점검, 제조 Pod, 비영리 병원 재정 지원, 정책 제언">
+<style>
+:root{color-scheme:light only;
+  --bg:#faf8f3; --paper:#ffffff; --ink:#1f2328; --muted:#5b6470; --line:#e6e1d6;
+  --accent:#c8553d; --accent-soft:#fbeee9; --link:#4a6b8a;
+  --new:#3d5f80; --new-soft:#eaf0f6; --radius:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:20px}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR","Malgun Gothic","Gothic A1",system-ui,sans-serif;
+  font-size:17px;line-height:1.75;word-break:keep-all;overflow-wrap:break-word}
+@media(max-width:640px){body{font-size:16px}}
+a{color:var(--link)}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+.hero{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{display:inline-block;font-size:13px;font-weight:700;color:#a8432e;background:var(--accent-soft);padding:3px 10px;border-radius:999px;margin-bottom:12px}
+.hero h1{font-size:clamp(28px,4.4vw,44px);line-height:1.25;margin:0 0 12px;letter-spacing:-.02em}
+.hero .lead{font-size:18px;color:var(--muted);line-height:1.65;margin:0}
+@media(max-width:640px){.hero .lead{font-size:17px}}
+.hero-cta{margin-top:16px}
+.hero-cta a{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--new);color:#fff;border-radius:10px;font-weight:700;font-size:15px;text-decoration:none}
+.grid{display:grid;grid-template-columns:240px minmax(0,1fr);gap:36px;align-items:start}
+@media(max-width:880px){.grid{grid-template-columns:minmax(0,1fr);gap:0}}
+.toc{position:sticky;top:20px;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;font-size:15px}
+.toc .toc-t{font-weight:700;margin:0 0 10px}
+.toc ol{margin:0;padding:0;list-style:none}
+.toc li{margin:6px 0}
+.toc a{color:var(--muted);display:flex;align-items:baseline;gap:8px;text-decoration:none;line-height:1.45}
+.toc a:hover{color:var(--link)}
+.toc .n{flex:none;display:inline-block;width:22px;height:22px;line-height:22px;text-align:center;border-radius:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:700}
+.toc .orig{display:block;margin-top:14px;padding-top:10px;border-top:1px dashed var(--line);font-size:14px;color:#a8432e;font-weight:700}
+@media(max-width:880px){
+  .toc{position:sticky;top:0;z-index:20;margin:0 -20px 20px;border-radius:0;border-width:0 0 1px;padding:8px 12px;background:rgba(250,248,243,.97);overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .toc .toc-t,.toc .orig{display:none}
+  .toc ol{display:flex;gap:6px;white-space:nowrap}
+  .toc li{margin:0}
+  .toc a{background:#f1ede4;color:var(--ink);border-radius:999px;padding:6px 12px;font-size:14px;align-items:center}
+  .toc .n{background:none;width:auto;height:auto;line-height:1;color:var(--muted)}
+  html{scroll-padding-top:64px}
+}
+main{min-width:0}
+.sec{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:24px 28px;margin-bottom:28px}
+@media(max-width:640px){.sec{padding:18px 16px}}
+.sec-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px}
+.sec-num{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:12px;background:var(--ink);color:#fff;font-weight:800;font-size:17px;flex-shrink:0;margin-top:2px}
+@media(max-width:640px){.sec-num{width:34px;height:34px;font-size:15px}}
+.sec-head h2{font-size:clamp(23px,3vw,30px);line-height:1.3;margin:0;letter-spacing:-.015em}
+.sec-head .sub{font-size:16px;color:var(--muted);margin:3px 0 0}
+h3{font-size:19px;margin:22px 0 8px}
+p{margin:0 0 14px}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin:4px 0}
+.theses{counter-reset:t;list-style:none;padding:0;margin:0 0 16px}
+.theses li{counter-increment:t;position:relative;padding:10px 14px 10px 50px;margin:8px 0;background:#fdfcf9;border:1px solid var(--line);border-radius:12px}
+.theses li::before{content:counter(t);position:absolute;left:14px;top:12px;width:24px;height:24px;border-radius:50%;background:var(--accent-soft);color:#a8432e;font-weight:800;font-size:14px;display:grid;place-items:center}
+.tblw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:16px 0}
+.tbl{width:100%;min-width:520px;border-collapse:collapse;font-size:16px}
+.tbl th,.tbl td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+.tbl th{background:var(--new-soft);color:var(--new);font-weight:700}
+.tbl td{background:#fff}
+.callout{background:var(--new-soft);border-left:4px solid var(--new);border-radius:10px;padding:12px 16px;margin:14px 0}
+.callout.warm{background:var(--accent-soft);border-left-color:var(--accent)}
+.callout p:last-child{margin:0}
+blockquote{margin:14px 0;padding:12px 18px;background:#fff;border-left:5px solid var(--accent);border-radius:0 12px 12px 0}
+blockquote p{margin:0}
+.terms{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+.term{display:inline-flex;align-items:center;gap:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:600;padding:4px 10px;border-radius:8px}
+details.viz{margin:14px 0;border:1px solid var(--line);border-radius:12px;background:#fdfcf9}
+details.viz summary{cursor:pointer;list-style:none;padding:12px 14px;font-weight:600;font-size:16px;color:var(--new);min-height:44px;display:flex;align-items:center;gap:8px}
+details.viz summary::-webkit-details-marker{display:none}
+details.viz summary::before{content:"▸";font-size:14px;color:var(--accent)}
+details.viz[open] summary::before{content:"▾"}
+details.viz figure{margin:0;padding:4px 12px 14px}
+details.viz svg{display:block;width:100%;height:auto;max-width:400px;margin:0 auto;font-family:"Pretendard","Noto Sans KR",sans-serif}
+details.viz figcaption{font-size:16px;color:var(--muted);line-height:1.6;margin-top:8px}
+svg .bx{fill:#fff;stroke:#5b6470;stroke-width:1.4}
+svg .bx2{fill:#eaf0f6;stroke:#3d5f80;stroke-width:1.4}
+svg .bx3{fill:#fbeee9;stroke:#c8553d;stroke-width:1.4}
+svg .t{fill:#1f2328;font-size:18px}
+svg .tb{fill:#1f2328;font-size:18px;font-weight:700}
+svg .tm{fill:#4a525c;font-size:17.5px}
+svg .ln{stroke:#5b6470;stroke-width:1.5;fill:none}
+svg .lnd{stroke:#5b6470;stroke-width:1.5;fill:none;stroke-dasharray:5 4}
+.sources{background:var(--new-soft);border:1px solid var(--line);border-radius:var(--radius);padding:18px 22px;margin-top:32px;font-size:16px;color:#3f4650}
+.sources h3{font-size:17px;color:var(--new);margin:0 0 8px}
+.sources ul{margin:0;padding-left:20px}
+/* 복습 컴포넌트 표준 스타일 */
+.rv-h{font-size:19px;margin:22px 0 6px}
+.flips{display:grid;grid-template-columns:1fr;gap:8px;margin:10px 0}
+@media(min-width:640px){.flips{grid-template-columns:1fr 1fr}}
+.flip{font:inherit;text-align:left;width:100%;border:1.5px solid var(--line,#e6e1d6);background:#fdfcf9;border-radius:12px;padding:10px 14px;cursor:pointer;color:var(--ink,#1f2328);min-height:64px}
+.flip b{display:block;font-size:17px}
+.flip .m{display:none;font-size:16px;line-height:1.6;margin-top:4px}
+.flip .hint{font-size:13px;color:var(--muted,#5b6470)}
+.flip[aria-expanded="true"]{border-color:var(--new,#3d5f80);background:var(--new-soft,#eaf0f6)}
+.flip[aria-expanded="true"] .m{display:block}
+.flip[aria-expanded="true"] .hint{display:none}
+.cloze{list-style:none;margin:10px 0;padding:0}
+.cloze li{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:10px 14px;margin:8px 0;background:#fdfcf9;font-size:16px;line-height:1.8}
+.blank{font:inherit;font-size:16px;border:0;border-bottom:2px dashed var(--accent,#c8553d);background:var(--accent-soft,#fbeee9);color:#a8432e;border-radius:6px 6px 0 0;padding:0 8px;cursor:pointer;min-width:4.5em}
+.blank.shown{border-bottom-style:solid;background:var(--new-soft,#eaf0f6);color:var(--new,#3d5f80);font-weight:700}
+.rv-tools{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.rv-tools button{font:inherit;font-size:15px;border:1px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link,#4a6b8a)}
+.q{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:12px 14px;margin:10px 0;background:#fdfcf9}
+.q fieldset{border:0;margin:0;padding:0;min-width:0}
+.q legend{font-weight:700;padding:0;margin:0 0 8px;font-size:16.5px}
+.q button{display:block;width:100%;text-align:left;font:inherit;font-size:16px;border:1.5px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:8px 12px;margin:6px 0;cursor:pointer;color:var(--ink,#1f2328)}
+.q button.right{border-color:#2f6b45;background:#e6f1ea}
+.q button.wrong{border-color:#a2452f;background:#fbeee9}
+.q button[disabled]{cursor:default;opacity:1}
+.q .ex{margin:8px 0 0;font-size:16px;padding:8px 10px;border-radius:8px;background:var(--new-soft,#eaf0f6)}
+.score{font-size:17px;font-weight:800;margin:10px 0 0}
+.arc-back b,.arc-foot-label{color:#a8432e!important}
+.chk{display:inline-block;font-size:16px;font-weight:700;color:#8a3a12;background:#fdf0e3;border:1px solid #e8c9a8;border-radius:6px;padding:0 6px;margin-left:4px;white-space:nowrap}
+pre{background:#f6f4ee;border:1px solid var(--line);border-radius:10px;padding:12px 14px;overflow-x:auto;-webkit-overflow-scrolling:touch;margin:14px 0;font-size:16px;line-height:1.6}
+pre code{font-family:"JetBrains Mono","D2Coding",ui-monospace,Menlo,Consolas,monospace;color:#1f2328;white-space:pre}
+code{font-family:"JetBrains Mono","D2Coding",ui-monospace,Menlo,Consolas,monospace;font-size:.92em;background:#f3efe6;border-radius:4px;padding:0 4px}
+pre code{background:none;padding:0;font-size:inherit}
+@media(max-width:640px){pre{margin:12px -4px}}
+.steps,.pc{padding-left:1.3em}.steps li,.pc li{margin:8px 0}
+</style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
+</head>
+<body>
+<!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>아카이브</a><span class="arc-crumb">의료 카르텔의 붕괴와 지하실의 1조 달러 창업가</span><span class="arc-meta"><time datetime="2026-10-29">2026년 10월 29일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=%EA%B2%BD%EC%A0%9C%EA%B2%BD%EC%98%81">#경제경영</a><a class="arc-tag" href="../index.html#tags=%EB%B3%B4%EA%B1%B4%EA%B2%BD%EC%A0%9C%ED%95%99">#보건경제학</a><a class="arc-tag" href="../index.html#tags=%EC%9D%B8%ED%84%B0%EB%B7%B0">#인터뷰</a><a class="arc-src" href="https://yghnsim.github.io/Pages/articles/mark-cuban-ai-breaks-healthcare-middlemen.html" rel="noopener">원문 ↗</a></span></div></div>
+<!-- archive-header:end -->
+<div class="wrap">
+  <header class="hero">
+    <span class="eyebrow">보건경제학 · 마크 큐반 인터뷰</span>
+    <h1>의료 카르텔의 붕괴와 지하실의 1조 달러 창업가</h1>
+    <p class="lead">마크 큐반은 미국 의료에 가격 발견과 경쟁이 없다고 진단한다. Cost Plus Drugs의 공개 가격, 트레일러 크기의 제조 Pod, 서명 전에 계약서를 AI로 점검하는 방법, 백악관을 위한 다섯 가지 제언을 정리했다.</p>
+    <div class="hero-cta"><a href="https://yghnsim.github.io/Pages/articles/mark-cuban-ai-breaks-healthcare-middlemen.html">📚 Pages에서 심화 해설 전문 읽기 ↗</a></div>
+  </header>
+  <div class="grid">
+    <nav class="toc" aria-label="목차">
+      <p class="toc-t">목차</p>
+      <ol>
+        <li><a href="#s0"><span class="n">★</span>한눈에 보기</a></li>
+        <li><a href="#s1"><span class="n">1</span>공개 가격의 충격파</a></li>
+        <li><a href="#s2"><span class="n">2</span>다섯 가지 사업 축</a></li>
+        <li><a href="#s3"><span class="n">3</span>고용주 보험과 ASO</a></li>
+        <li><a href="#s4"><span class="n">4</span>계약 테러리즘</a></li>
+        <li><a href="#s5"><span class="n">5</span>봇 전쟁과 서명 전 AI</a></li>
+        <li><a href="#s6"><span class="n">6</span>신뢰와 Pod 비전</a></li>
+        <li><a href="#s7"><span class="n">7</span>에이전트 경제와 일자리</a></li>
+        <li><a href="#s8"><span class="n">8</span>비영리 병원 재정 지원</a></li>
+        <li><a href="#s9"><span class="n">9</span>맞춤 의약</a></li>
+        <li><a href="#s10"><span class="n">10</span>의사와 IP</a></li>
+        <li><a href="#s11"><span class="n">11</span>다섯 가지 정책 제언</a></li>
+        <li><a href="#s12"><span class="n">12</span>피드와 화이트스페이스</a></li>
+        <li><a href="#rv"><span class="n">✔</span>복습 &amp; 퀴즈</a></li>
+      </ol>
+      <a class="orig" href="https://yghnsim.github.io/Pages/articles/mark-cuban-ai-breaks-healthcare-middlemen.html">심화 원문(Pages) ↗</a>
+    </nav>
+    <main id="content">
+      <section class="sec" id="s0">
+        <div class="sec-head"><span class="sec-num">★</span><div><h2>한눈에 보기</h2><p class="sub">여섯 가지 핵심 주장</p></div></div>
+        <ol class="theses">
+          <li><b>미국 의료에는 가격 발견이 없다.</b> 수직 계열 보험사, PBM, 병원 복합체가 불투명한 계약으로 비용을 떠넘긴다.</li>
+          <li><b>공개 가격은 계약 없이도 기준점이 된다.</b> 대기업들은 Cost Plus Drugs의 가격으로 PBM과 협상한다.</li>
+          <li><b>망가진 금융 구조에 AI를 넣어도 고쳐지지 않는다.</b> 사전 승인 봇 전쟁은 서로 상쇄된다.</li>
+          <li><b>AI의 진짜 우위는 서명 전에 있다.</b> 계약서를 AI에 넣고 "어디서 나를 등쳐 먹나?"를 물어라.</li>
+          <li><b>제조는 트레일러 크기로 줄어든다.</b> 모듈형 Pod가 재난 대응과 N-of-1 치료제를 연다.</li>
+          <li><b>화이트스페이스는 모든 곳이다.</b> 지하실의 1조 달러 부자가 나올 것이라고 큐반은 말한다.</li>
+        </ol>
+        <p>대담자들은 10년 뒤에도 의료비가 GDP의 1/5~1/6을 차지할 것이라는 데 동의한다. 큐반은 미국인의 40%가 400달러 응급 비용도 감당하지 못한다고 말한다. <span class="chk">확인 필요</span> 진행은 a16z의 줄리 유와 에릭 토렌버그가 맡았다(자막에는 이름만 나옴). <span class="chk">확인 필요</span></p>
+        <div class="terms"><span class="term">가격 발견</span><span class="term">탈중개</span><span class="term">PBM</span><span class="term">Cost Plus Drugs</span></div>
+      </section>
+
+      <section class="sec" id="s1">
+        <div class="sec-head"><span class="sec-num">1</span><div><h2>공개 가격의 충격파</h2><p class="sub">계약 없이도 흔들리는 과점</p></div></div>
+        <p>줄리 유는 미국 의료의 병폐가 경쟁 동학의 부재라고 본다. 수십 년 동안 정책도 기존 사업자의 행동을 바꾸지 못했는데, 2022년 등장한 Cost Plus Drugs는 "존재만으로" 그들을 바꾸게 했다.</p>
+        <details class="viz"><summary>그림으로 보기: 가격 공식</summary><figure><svg viewBox="0 0 280 394" role="img" aria-label="Cost Plus Drugs의 가격은 공개된 원가에 15퍼센트 고정 마크업, 3에서 5달러 조제료, 5달러 배송비를 더한 값이다"><defs><marker id="d1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">제조·조달 원가</text><text class="tm" x="140.0" y="62" text-anchor="middle">API로 공개</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="84" marker-end="url(#d1)"/><rect class="bx" x="10" y="86" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="114" text-anchor="middle">+ 15% 고정 마크업</text><text class="tm" x="140.0" y="140" text-anchor="middle">모든 품목 동일</text><line class="ln" x1="140.0" y1="152" x2="140.0" y2="162" marker-end="url(#d1)"/><rect class="bx" x="10" y="164" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="192" text-anchor="middle">+ 조제료 3~5$</text><text class="tm" x="140.0" y="218" text-anchor="middle">약국 조제</text><line class="ln" x1="140.0" y1="230" x2="140.0" y2="240" marker-end="url(#d1)"/><rect class="bx" x="10" y="242" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="270" text-anchor="middle">+ 배송비 5$</text><text class="tm" x="140.0" y="296" text-anchor="middle">우편 주문</text><line class="ln" x1="140.0" y1="308" x2="140.0" y2="318" marker-end="url(#d1)"/><rect class="bx2" x="10" y="320" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="348" text-anchor="middle">= 소비자 가격</text><text class="tm" x="140.0" y="374" text-anchor="middle">누구나 계산 가능</text></svg><figcaption>원가에 고정 마크업과 수수료만 더한다.</figcaption></figure></details>
+        <p>가격은 공개되어 있고 누구나 API로 가져갈 수 있다. 대기업들은 그 데이터를 매일 가져가 PBM에게 "이 가격을 이겨야 한다"고 말한다. 빅 3 PBM(CVS Caremark, Express Scripts, Optum Rx) 중 한 곳이 Cost Plus가 자기 네트워크에 있다고 했다는 말도 돌지만, Cost Plus는 빅 3 어디와도 계약이 없다.</p>
+        <details class="viz"><summary>그림으로 보기: 앵커링 효과</summary><figure><svg viewBox="0 0 280 272" role="img" aria-label="대기업들은 Cost Plus Drugs의 공개 가격을 API로 매일 가져가 PBM에게 이 가격을 이기라고 요구한다"><defs><marker id="d2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx2" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">공개 가격 API</text><text class="tm" x="140.0" y="62" text-anchor="middle">Cost Plus Drugs</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="88" marker-end="url(#d2)"/><rect class="bx" x="10" y="90" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="118" text-anchor="middle">대기업이 매일 가져감</text><text class="tm" x="140.0" y="144" text-anchor="middle">"머리가 반이라도 있는"</text><line class="ln" x1="140.0" y1="156" x2="140.0" y2="170" marker-end="url(#d2)"/><rect class="bx3" x="10" y="172" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="200" text-anchor="middle">PBM에 요구</text><text class="tm" x="140.0" y="226" text-anchor="middle">"이 가격을 이겨야 한다"</text><text class="tb" x="140" y="258" text-anchor="middle">계약 없이도 기준점</text></svg><figcaption>공개 가격이 협상의 기준점이 된다.</figcaption></figure></details>
+        <p>[해설] 원가에 고정 마크업만 붙인 공개 가격은 구매자에게 비교 기준을 준다. 기준점 효과와 정보 비대칭 해소가 결합한 사례다.</p>
+        <div class="terms"><span class="term">경쟁 동학</span><span class="term">공개 API</span><span class="term">기준점 효과</span><span class="term">빅 3 PBM</span></div>
+      </section>
+
+      <section class="sec" id="s2">
+        <div class="sec-head"><span class="sec-num">2</span><div><h2>다섯 가지 사업 축</h2><p class="sub">유통, 조제, 제조, 병원 공급, 직접 계약</p></div></div>
+        <details class="viz"><summary>그림으로 보기: 다섯 축</summary><figure><svg viewBox="0 0 280 386" role="img" aria-label="Cost Plus Drugs의 다섯 축은 우편 주문 약국, Team Cuban Card, 댈러스 제조와 Pod, B2B 마켓플레이스, Cost Plus Wellness다"><defs><marker id="d3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">1 우편 주문 약국</text><text class="tm" x="140.0" y="62" text-anchor="middle">약 4,000개 SKU</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="82" marker-end="url(#d3)"/><rect class="bx" x="10" y="84" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="112" text-anchor="middle">2 Team Cuban Card</text><text class="tm" x="140.0" y="138" text-anchor="middle">제휴 약국 약 17,000곳</text><line class="ln" x1="140.0" y1="150" x2="140.0" y2="158" marker-end="url(#d3)"/><rect class="bx" x="10" y="160" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="188" text-anchor="middle">3 댈러스 제조 · Pod</text><text class="tm" x="140.0" y="214" text-anchor="middle">품귀 제네릭 · N-of-1</text><line class="ln" x1="140.0" y1="226" x2="140.0" y2="234" marker-end="url(#d3)"/><rect class="bx" x="10" y="236" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="264" text-anchor="middle">4 Marketplace</text><text class="tm" x="140.0" y="290" text-anchor="middle">병원에 원가 + 10~12%</text><line class="ln" x1="140.0" y1="302" x2="140.0" y2="310" marker-end="url(#d3)"/><rect class="bx2" x="10" y="312" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="340" text-anchor="middle">5 Cost Plus Wellness</text><text class="tm" x="140.0" y="366" text-anchor="middle">고용주-병원 직접 계약</text></svg><figcaption>Cost Plus Drugs의 탈중개 설계.</figcaption></figure></details>
+        <h3>① 우편 주문 약국</h3>
+        <p>2022년 1월 19일 출범했다. 큐반은 "June 19th"라고 했다가 곧바로 고쳐 말한다. 제네릭 111개로 시작해 지금은 약 4,000개 SKU를 다룬다. <span class="chk">확인 필요</span></p>
+        <h3>② Team Cuban Card</h3>
+        <p>급성 질환 약처럼 당일 필요한 약을 위해 만든 할인 카드다. 제휴 약국 약 17,000곳에서 쓸 수 있다. <span class="chk">확인 필요</span> 독립 약국을 지키기 위해 건당 12달러 조제료를 약사에게 보장한다.</p>
+        <details class="viz"><summary>그림으로 보기: 조제료 12달러의 효과</summary><figure><svg viewBox="0 0 280 250" role="img" aria-label="독립 약국에 건당 12달러 조제료를 보장하면 아주 싼 약은 다른 곳이 더 쌀 수 있지만 비싼 약과 냉장 약은 지역 픽업이 더 싸다"><defs><marker id="d4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">조제료 12$ 보장의 효과</text><rect class="bx3" x="10" y="42" width="260" height="92" rx="10"/><text class="tb" x="140" y="70" text-anchor="middle">아주 싼 약</text><text class="tm" x="140" y="96" text-anchor="middle">5$ 스타틴 + 조제료 12$</text><text class="tm" x="140" y="122" text-anchor="middle">다른 곳이 더 쌀 수 있음</text><rect class="bx2" x="10" y="146" width="260" height="92" rx="10"/><text class="tb" x="140" y="174" text-anchor="middle">비싼·냉장 약</text><text class="tm" x="140" y="200" text-anchor="middle">특수 제네릭·인슐린 등</text><text class="tm" x="140" y="226" text-anchor="middle">지역 픽업이 더 쌈</text></svg><figcaption>약값에 따라 유불리가 갈린다.</figcaption></figure></details>
+        <h3>③ 댈러스 제조 시설과 Pod</h3>
+        <p>공동창업자 알렉스 오슈미안스키(자막 "Oxmanski") 박사의 첫 콜드 이메일은 FDA 품귀 목록의 제네릭을 직접 만들자는 제안이었다. <span class="chk">확인 필요</span> 댈러스 시설은 4시간마다 약을 바꿀 수 있어 6개월 치를 만든 뒤 다음 약으로 넘어간다. <span class="chk">확인 필요</span> 약 예시는 자막이 뭉개져 옥시토신·에피네프린으로 추정한다. <span class="chk">확인 필요</span></p>
+        <details class="viz"><summary>그림으로 보기: 공장의 압축</summary><figure><svg viewBox="0 0 280 246" role="img" aria-label="축구장 이상이 필요했을 공장을 AI와 로봇으로 5,000제곱피트로 줄였고, 이를 트레일러 크기의 Pod로 제품화했다"><defs><marker id="d5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx3" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">축구장 이상</text><text class="tm" x="140.0" y="62" text-anchor="middle">기존 제약 공장</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="88" marker-end="url(#d5)"/><rect class="bx" x="10" y="90" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="118" text-anchor="middle">5,000제곱피트</text><text class="tm" x="140.0" y="144" text-anchor="middle">AI·로봇 · 4시간마다 전환</text><line class="ln" x1="140.0" y1="156" x2="140.0" y2="170" marker-end="url(#d5)"/><rect class="bx2" x="10" y="172" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="200" text-anchor="middle">트레일러 크기 Pod</text><text class="tm" x="140.0" y="226" text-anchor="middle">대당 약 2,000만 달러</text></svg><figcaption>축구장에서 트레일러로.</figcaption></figure></details>
+        <p>Pod는 5년 전부터 개발했고 대당 약 2,000만 달러다. <span class="chk">확인 필요</span> 첫 고객은 정부이고, 첫 대를 출하해 두 번째 주문을 받았다. 댈러스에서는 ASO 약(안티센스 올리고뉴클레오타이드로 추정)도 만든다. <span class="chk">확인 필요</span></p>
+        <details class="viz"><summary>그림으로 보기: Pod의 쓰임</summary><figure><svg viewBox="0 0 280 246" role="img" aria-label="Pod는 재난 대응, 여러 대를 연결하는 데이지 체인, 연구 병원의 N-of-1 치료제 제조에 쓰인다"><defs><marker id="d6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">재난 대응</text><text class="tm" x="140.0" y="62" text-anchor="middle">정부 첫 고객 · FEMA</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="88" marker-end="url(#d6)"/><rect class="bx" x="10" y="90" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="118" text-anchor="middle">데이지 체인</text><text class="tm" x="140.0" y="144" text-anchor="middle">무균 주사제실 + 정제 라인</text><line class="ln" x1="140.0" y1="156" x2="140.0" y2="170" marker-end="url(#d6)"/><rect class="bx2" x="10" y="172" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="200" text-anchor="middle">N-of-1 치료제</text><text class="tm" x="140.0" y="226" text-anchor="middle">연구 병원에서 바로 제조</text></svg><figcaption>재난, 연결, 맞춤 치료제.</figcaption></figure></details>
+        <h3>④ Cost Plus Marketplace</h3>
+        <p>무균 주사제를 병원과 클리닉에 원가 + 10% 또는 12%로 판다. <span class="chk">확인 필요</span> 가장 큰 장벽은 "CEO는 설득해도 구매 담당자는 늘 설득하지 못한다"는 점이다.</p>
+        <h3>⑤ Cost Plus Wellness</h3>
+        <p>병원들은 대형 보험사의 지연, 거절, 사전 승인, 늦은 지급, 환수를 싫어한다. 공제액이 오르면 병원은 환자에게서 공제액부터 받아야 하는 '서브프라임 대출자'가 된다고 큐반은 말한다.</p>
+        <details class="viz"><summary>그림으로 보기: 직접 계약의 교환 조건</summary><figure><svg viewBox="0 0 280 250" role="img" aria-label="고용주는 사전 승인 철폐, 제때 지급, 신용 위험 인수를 주고 병원은 더 낮은 단가와 계약서 공개를 준다"><defs><marker id="d7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">직접 계약의 등가교환</text><rect class="bx" x="10" y="42" width="260" height="92" rx="10"/><text class="tb" x="140" y="70" text-anchor="middle">고용주가 주는 것</text><text class="tm" x="140" y="96" text-anchor="middle">사전 승인·거절 없음</text><text class="tm" x="140" y="122" text-anchor="middle">제때 지급 · 신용 위험 인수</text><rect class="bx2" x="10" y="146" width="260" height="92" rx="10"/><text class="tb" x="140" y="174" text-anchor="middle">병원이 주는 것</text><text class="tm" x="140" y="200" text-anchor="middle">더 낮은 진료 단가</text><text class="tm" x="140" y="226" text-anchor="middle">계약서 공개 허용</text></svg><figcaption>공개된 계약서는 누구나 쓰는 템플릿이 된다.</figcaption></figure></details>
+        <div class="terms"><span class="term">Team Cuban Card</span><span class="term">조제료</span><span class="term">모듈형 Pod</span><span class="term">N-of-1</span><span class="term">직접 계약</span></div>
+      </section>
+
+      <section class="sec" id="s3">
+        <div class="sec-head"><span class="sec-num">3</span><div><h2>고용주 보험과 ASO</h2><p class="sub">UnitedHealth의 3,000개 자회사</p></div></div>
+        <p>미국 최대 보험 부문은 고용주 후원 건강보험이다. 수십 년 동안 BUCA(자막 "buas", Blue Cross Blue Shield·UnitedHealth·Cigna·Aetna로 추정)가 독점해 왔다. <span class="chk">확인 필요</span> 줄리 유는 올해 일부 보험사가 a16z 포트폴리오 회사에 보험료 60% 인상을 요구했다고 전한다. <span class="chk">확인 필요</span></p>
+        <details class="viz"><summary>그림으로 보기: 고용주 보험의 규모</summary><figure><svg viewBox="0 0 280 186" role="img" aria-label="고용주 후원 보험은 줄리 유의 말로 1억 5,500만 명 이상, 약 60퍼센트, 큐반의 말로 1억 6,000만 명 이상, 67퍼센트를 포괄한다"><defs><marker id="d8" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">고용주 후원 보험의 비중</text><text class="tm" x="10" y="60" text-anchor="start">줄리 유: 1억 5,500만+</text><text class="tb" x="270" y="60" text-anchor="end">약 60%</text><rect x="10.0" y="70.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="70.0" width="156.0" height="16.0" fill="#3d5f80"/><text class="tm" x="10" y="120" text-anchor="start">큐반: 1억 6,000만+</text><text class="tb" x="270" y="120" text-anchor="end">67%</text><rect x="10.0" y="130.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="130.0" width="174.2" height="16.0" fill="#9a6a12"/><text class="tm" x="140" y="172" text-anchor="middle" fill="#8a3a12">두 수치 모두 확인 필요</text></svg><figcaption>두 사람의 수치가 다르다.</figcaption></figure></details>
+        <p>큐반에 따르면 UnitedHealth는 보험료와 공제액을 올리면서 가입자를 자기 계열사로 보낸다. 가입자는 그 회사가 계열사인지도 모른다. CVS와 Cigna도 "멀지 않다".</p>
+        <details class="viz"><summary>그림으로 보기: UnitedHealth 제국</summary><figure><svg viewBox="0 0 280 342" role="img" aria-label="큐반에 따르면 UnitedHealth는 자회사가 3,000개 이상이고 계열사 간 거래가 연 1,500억 달러로 주 GDP 순위 14위쯤이다"><defs><marker id="d9" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="24" text-anchor="middle">UnitedHealth 제국</text><rect class="bx3" x="10" y="40" width="260" height="80" rx="10"/><text class="tb" x="140" y="74" text-anchor="middle">3,000개+</text><text class="tm" x="140" y="102" text-anchor="middle">자회사</text><rect class="bx3" x="10" y="132" width="260" height="80" rx="10"/><text class="tb" x="140" y="166" text-anchor="middle">1,500억$</text><text class="tm" x="140" y="194" text-anchor="middle">연간 계열사 간 거래</text><rect class="bx3" x="10" y="224" width="260" height="80" rx="10"/><text class="tb" x="140" y="258" text-anchor="middle">14위쯤</text><text class="tm" x="140" y="286" text-anchor="middle">주 GDP 순위에 넣으면</text><text class="tm" x="140" y="330" text-anchor="middle" fill="#8a3a12">큐반의 구두 발언 · 확인 필요</text></svg><figcaption>자회사 수, 내부 거래, 주 GDP 비교.</figcaption></figure></details>
+        <h3>ASO의 의료 스프레드</h3>
+        <p>회사를 통해 보험을 받는 사람의 약 60%는 자가보험 고용주를 통해 받는다. <span class="chk">확인 필요</span> 자가보험 고용주는 청구를 처리할 TPA가 필요하고, 대형 보험사가 소유한 TPA를 ASO라고 부른다. 큐반은 "의료 쪽 스프레드 문제는 PBM보다 100만 배 심각하다"고 말한다.</p>
+        <details class="viz"><summary>그림으로 보기: 의료비 구성</summary><figure><svg viewBox="0 0 280 186" role="img" aria-label="큐반은 약제가 약 10퍼센트, 의료가 나머지 90퍼센트이고 의료 쪽 스프레드 문제가 PBM보다 훨씬 심각하다고 말한다"><defs><marker id="d10" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">의료비 구성</text><text class="tm" x="10" y="60" text-anchor="start">약제 (성장 중)</text><text class="tb" x="270" y="60" text-anchor="end">약 10%</text><rect x="10.0" y="70.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="70.0" width="26.0" height="16.0" fill="#3d5f80"/><text class="tm" x="10" y="120" text-anchor="start">의료</text><text class="tb" x="270" y="120" text-anchor="end">약 90%</text><rect x="10.0" y="130.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="130.0" width="234.0" height="16.0" fill="#c8553d"/><text class="tm" x="140" y="172" text-anchor="middle">"의료 쪽 스프레드가 100만 배 심각"</text></svg><figcaption>약제 약 10%, 의료 약 90% (확인 필요).</figcaption></figure></details>
+        <details class="viz"><summary>그림으로 보기: ASO 블랙박스</summary><figure><svg viewBox="0 0 280 316" role="img" aria-label="자가보험 고용주는 계약 조건을 모르고, 투명성 파일은 부정확하며, 스프레드 가격과 데이터 차단 때문에 숫자를 대조할 수 없다"><defs><marker id="d11" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx3" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">계약 조건을 모른다</text><text class="tm" x="140.0" y="62" text-anchor="middle">보험사-병원 계약은 비공개</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="84" marker-end="url(#d11)"/><rect class="bx3" x="10" y="86" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="114" text-anchor="middle">투명성 파일 부정확</text><text class="tm" x="140.0" y="140" text-anchor="middle">TiC 파일이 늘 맞지 않음</text><line class="ln" x1="140.0" y1="152" x2="140.0" y2="162" marker-end="url(#d11)"/><rect class="bx3" x="10" y="164" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="192" text-anchor="middle">스프레드 가격</text><text class="tm" x="140.0" y="218" text-anchor="middle">납부액 ≠ 병원 수령액</text><line class="ln" x1="140.0" y1="230" x2="140.0" y2="240" marker-end="url(#d11)"/><rect class="bx3" x="10" y="242" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="270" text-anchor="middle">데이터 차단</text><text class="tm" x="140.0" y="296" text-anchor="middle">837·835 파일 접근 불가</text></svg><figcaption>고용주가 숫자를 대조할 수 없는 네 가지 이유.</figcaption></figure></details>
+        <div class="callout"><p>중개인(ASO)을 걷어내는 탈중개가 지금 미국 의료의 성배다.</p></div>
+        <div class="terms"><span class="term">고용주 후원 보험</span><span class="term">자가보험</span><span class="term">ASO</span><span class="term">TPA</span><span class="term">스프레드 가격</span></div>
+      </section>
+
+      <section class="sec" id="s4">
+        <div class="sec-head"><span class="sec-num">4</span><div><h2>계약 테러리즘</h2><p class="sub">AI도 고칠 수 없는 금융 구조</p></div></div>
+        <p>AI 덕분에 풀스택 건강보험을 빨리 만들 수 있게 되자 스타트업이 몰린다. 큐반은 "결국 누가 위험을 지느냐"라며, AI는 단기적으로 계약 쪽에서 가장 중요하지만 "이미 망가진 금융 시스템에 AI를 넣어도 고칠 수 없다"고 말한다.</p>
+        <p>큐반이 본 댈러스 시 PBM 계약서는 1,335쪽이었다. <span class="chk">확인 필요</span></p>
+        <details class="viz"><summary>그림으로 보기: 계약서 분량이라는 무기</summary><figure><svg viewBox="0 0 280 346" role="img" aria-label="댈러스 시 PBM 계약서는 1,335쪽이고, 서명 후에는 어떤 AI도 기업을 지키지 못하니 서명 전에 AI로 점검해야 한다"><defs><marker id="d12" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="24" text-anchor="middle">계약 테러리즘</text><rect class="bx3" x="70" y="40" width="140" height="150" rx="10"/><text class="tb" x="140" y="104" text-anchor="middle">1,335쪽</text><text class="tm" x="140" y="132" text-anchor="middle">댈러스 시 PBM</text><text class="tm" x="140" y="226" text-anchor="middle">"커피를 그만큼 마실 수 있는</text><text class="tm" x="140" y="252" text-anchor="middle">인간 집단은 없다"</text><rect class="bx2" x="10" y="272" width="260" height="62" rx="10"/><text class="tb" x="140" y="298" text-anchor="middle">서명 전에 AI로 점검</text><text class="tm" x="140" y="322" text-anchor="middle">서명 후엔 AI도 못 지킨다</text></svg><figcaption>서명 후에는 늦다.</figcaption></figure></details>
+        <p>Sidecar <span class="chk">확인 필요</span> 같은 회사는 "정말 똑똑하지만" 보완 네트워크를 꾸리기 어렵다. 대형 보험사는 자회사가 너무 많아 "어딘가에서 당신을 엿 먹이는데 알아채지도 못한다." 그래서 큐반은 'Break Up Big Medicine' 법안을 지지한다. <span class="chk">확인 필요</span></p>
+        <div class="terms"><span class="term">계약 테러리즘</span><span class="term">위험 부담</span><span class="term">보완 네트워크</span></div>
+      </section>
+
+      <section class="sec" id="s5">
+        <div class="sec-head"><span class="sec-num">5</span><div><h2>봇 전쟁과 서명 전 AI</h2><p class="sub">큐반의 실전 워크플로</p></div></div>
+        <p>큐반은 업코딩·다운코딩 봇 전쟁을 다이어트 중에 시리얼을 안 먹는 정도의 주변적 변화로 본다. "네가 몇 이닝 이기고 내가 몇 이닝 이긴다." 게다가 3,000개 자회사에 데이터가 쪼개진 대형 보험사는 AI 네이티브가 되기 어렵다.</p>
+        <details class="viz"><summary>그림으로 보기: 사전 승인 봇 전쟁</summary><figure><svg viewBox="0 0 280 224" role="img" aria-label="병원의 업코딩 봇과 보험사의 다운코딩 봇은 서로 상쇄되어 장기적으로 큰 변화가 없다"><defs><marker id="d13" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">사전 승인 봇 전쟁</text><rect class="bx" x="10" y="42" width="260" height="66" rx="10"/><text class="tb" x="140" y="70" text-anchor="middle">병원: 업코딩 봇</text><text class="tm" x="140" y="96" text-anchor="middle">더 높은 진료 코드</text><rect class="bx3" x="10" y="120" width="260" height="66" rx="10"/><text class="tb" x="140" y="148" text-anchor="middle">보험사: 다운코딩 봇</text><text class="tm" x="140" y="174" text-anchor="middle">청구 거절·단가 삭감</text><text class="tb" x="140" y="210" text-anchor="middle">→ 서로 상쇄, 장기 변화 작음</text></svg><figcaption>양쪽 AI가 상쇄된다.</figcaption></figure></details>
+        <p>그래서 큐반은 브로커·컨설턴트·TPA·PBM 계약서를 AI에 넣고 이 질문만 던지라고 한다. <b>"그들이 어디서 나를 등쳐 먹고 있나? 나는 어떻게 해야 하나?"</b> 30초 안에 문제가 "bam, bam, bam" 줄줄이 보인다고 한다.</p>
+        <p>큐반은 Grok의 "Luka Dončić 플랜"(77.69달러쯤, 공식 요금제는 아닌 농담으로 보임), Gemini, OpenAI 플랜을 쓰고 에이전트로 instinct와 Dot을 언급한다. <span class="chk">확인 필요</span></p>
+        <details class="viz"><summary>그림으로 보기: 큐반의 계약서 검토 흐름</summary><figure><svg viewBox="0 0 280 316" role="img" aria-label="큐반은 에이전트로 공공기관을 찾고 청구 편지를 쓰게 한 뒤, 받은 계약서를 Drive에 올려 여러 LLM이 읽고 교차 검토하게 한다"><defs><marker id="d14" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">1 공공기관 찾기</text><text class="tm" x="140.0" y="62" text-anchor="middle">정보공개 청구 대상 탐색</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="84" marker-end="url(#d14)"/><rect class="bx" x="10" y="86" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="114" text-anchor="middle">2 청구 편지 초안</text><text class="tm" x="140.0" y="140" text-anchor="middle">임시 보관함 → 큐반이 전송</text><line class="ln" x1="140.0" y1="152" x2="140.0" y2="162" marker-end="url(#d14)"/><rect class="bx" x="10" y="164" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="192" text-anchor="middle">3 Drive에 업로드</text><text class="tm" x="140.0" y="218" text-anchor="middle">여러 LLM이 함께 읽음</text><line class="ln" x1="140.0" y1="230" x2="140.0" y2="240" marker-end="url(#d14)"/><rect class="bx2" x="10" y="242" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="270" text-anchor="middle">4 교차 검토</text><text class="tm" x="140.0" y="296" text-anchor="middle">Grok 결과를 ChatGPT에</text></svg><figcaption>원문에 OCR 같은 구현 세부는 없다.</figcaption></figure></details>
+        <details class="viz"><summary>그림으로 보기: 네 가지 결과</summary><figure><svg viewBox="0 0 280 206" role="img" aria-label="새 계약서가 올라오면 좋은 소식, 나쁜 소식, 해야 할 일, 회사나 학교에 보낼 쉬운 요약이 나온다"><defs><marker id="d15" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="24" text-anchor="middle">새 파일마다 네 가지 결과</text><rect class="bx2" x="10" y="40" width="125" height="70" rx="10"/><text class="tb" x="72.5" y="74" text-anchor="middle">좋은 소식</text><text class="tm" x="72.5" y="102" text-anchor="middle"></text><rect class="bx2" x="145" y="40" width="125" height="70" rx="10"/><text class="tb" x="207.5" y="74" text-anchor="middle">나쁜 소식</text><text class="tm" x="207.5" y="102" text-anchor="middle"></text><rect class="bx2" x="10" y="120" width="125" height="70" rx="10"/><text class="tb" x="72.5" y="154" text-anchor="middle">해야 할 일</text><text class="tm" x="72.5" y="182" text-anchor="middle"></text><rect class="bx2" x="145" y="120" width="125" height="70" rx="10"/><text class="tb" x="207.5" y="154" text-anchor="middle">쉬운 요약</text><text class="tm" x="207.5" y="182" text-anchor="middle">회사·학교용</text></svg><figcaption>학교 구역, 도시, 노조의 손해를 확인한다.</figcaption></figure></details>
+        <p>고용주들이 서명 전에 계약서를 AI로 돌려 협상만 해도 의료비가 "돌처럼 떨어진다"고 큐반은 말한다. 법이 필요하냐는 질문에는 "아니다, 똑똑하게 자기 일을 하라"고 답한다. 회원이 1,500명 이상이면 이것이 수백만 달러를 아끼는 가장 빠른 길이다. <span class="chk">확인 필요</span></p>
+        <details class="viz"><summary>그림으로 보기: 의료비가 떨어지는 경로</summary><figure><svg viewBox="0 0 280 316" role="img" aria-label="고용주들이 서명 전에 AI로 계약을 점검하고 의료 CFO를 두어 협상하면 의료비가 돌처럼 떨어진다고 큐반은 주장한다"><defs><marker id="d16" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">고용주 1억 6,000만 명+</text><text class="tm" x="140.0" y="62" text-anchor="middle">서명 전 AI 점검</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="84" marker-end="url(#d16)"/><rect class="bx" x="10" y="86" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="114" text-anchor="middle">의료 CEO/CFO</text><text class="tm" x="140.0" y="140" text-anchor="middle">계약만 관리하는 자리</text><line class="ln" x1="140.0" y1="152" x2="140.0" y2="162" marker-end="url(#d16)"/><rect class="bx" x="10" y="164" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="192" text-anchor="middle">직접 계약 분리</text><text class="tm" x="140.0" y="218" text-anchor="middle">carve-out</text><line class="ln" x1="140.0" y1="230" x2="140.0" y2="240" marker-end="url(#d16)"/><rect class="bx2" x="10" y="242" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="270" text-anchor="middle">"돌처럼 떨어진다"</text><text class="tm" x="140.0" y="296" text-anchor="middle">의료비 하락 (큐반 주장)</text></svg><figcaption>큐반의 주장.</figcaption></figure></details>
+        <p>큐반이 권한 상장사 몇 곳은 "이렇게까지 당하는 줄 몰랐다"며 돌아왔지만, 실적 발표에서는 말하지 않는다. 대형 보험사와 계속 거래해야 하기 때문이다.</p>
+        <div class="terms"><span class="term">업코딩</span><span class="term">다운코딩</span><span class="term">AI 네이티브</span><span class="term">교차 검토</span><span class="term">carve-out</span></div>
+      </section>
+
+      <section class="sec" id="s6">
+        <div class="sec-head"><span class="sec-num">6</span><div><h2>신뢰와 Pod 비전</h2><p class="sub">규모 포획을 넘어서</p></div></div>
+        <p>큐반의 사명은 "의료를 다시 감당 가능하게" 만드는 것이다. 그는 보편 의료를 지지하지만, 정확한 데이터가 먼저라고 말한다. 목표는 "무엇보다 교육"이다.</p>
+        <details class="viz"><summary>그림으로 보기: 진짜 해자</summary><figure><svg viewBox="0 0 280 246" role="img" aria-label="Cost Plus Drugs의 해자는 마케팅 없이 말한 대로 하는 투명성에서 나오는 신뢰다"><defs><marker id="d17" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">마케팅비 0</text><text class="tm" x="140.0" y="62" text-anchor="middle">절약 경험이 입소문</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="88" marker-end="url(#d17)"/><rect class="bx" x="10" y="90" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="118" text-anchor="middle">말한 대로 한다</text><text class="tm" x="140.0" y="144" text-anchor="middle">15% 고정 · 완전 공개</text><line class="ln" x1="140.0" y1="156" x2="140.0" y2="170" marker-end="url(#d17)"/><rect class="bx2" x="10" y="172" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="200" text-anchor="middle">진짜 제품 = 신뢰</text><text class="tm" x="140.0" y="226" text-anchor="middle">의료 경제에 빠진 단 하나</text></svg><figcaption>알약이 아니라 신뢰를 판다.</figcaption></figure></details>
+        <p>Pod는 2년 안에 연 수백 대, 5년 안에 연 수천 대를 팔 수 있다고 본다. <span class="chk">확인 필요</span> 1,000대를 팔면 "Elon, 조심해"라는 농담도 나온다. 연결한 Pod로 정제 제네릭을 인도 협력 제조사보다 싸게 만들 수 있고, 미국산 약에는 성조기를 붙일 계획이다(FDA 절차로 약 2년). <span class="chk">확인 필요</span></p>
+        <p>장벽은 허가다. 큐반은 "another new drug application"이라고 했지만 제네릭이므로 ANDA로 추정한다. 건당 36만 5,000달러에 기타 수수료가 붙는다고 한다. <span class="chk">확인 필요</span></p>
+        <details class="viz"><summary>그림으로 보기: Pod 비전과 허가 비용</summary><figure><svg viewBox="0 0 280 186" role="img" aria-label="Pod 1,000대를 팔면 200억 달러이고, 제네릭 1,000개 허가 신청에는 3억 6,500만 달러가 든다"><defs><marker id="d18" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">Pod 비전과 허가 비용</text><text class="tm" x="10" y="60" text-anchor="start">Pod 1,000대 × 2,000만$</text><text class="tb" x="270" y="60" text-anchor="end">200억$</text><rect x="10.0" y="70.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="70.0" width="260.0" height="16.0" fill="#2f6b45"/><text class="tm" x="10" y="120" text-anchor="start">ANDA 1,000건 × 36.5만$</text><text class="tb" x="270" y="120" text-anchor="end">3.65억$</text><rect x="10.0" y="130.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="130.0" width="4.7" height="16.0" fill="#c8553d"/><text class="tm" x="140" y="172" text-anchor="middle" fill="#8a3a12">금액 모두 확인 필요</text></svg><figcaption>판매 잠재력과 허가 장벽.</figcaption></figure></details>
+        <div class="callout warm"><p>대형 수직 계열 기업은 실적 발표에서 기술은 말해도 "고용주와 환자의 비용을 낮추겠다"고는 말하지 않는다. 지금 의료 경제는 "전부 규모 포획"이다.</p></div>
+        <div class="terms"><span class="term">신뢰</span><span class="term">ANDA</span><span class="term">규제 포획</span><span class="term">규모 포획</span></div>
+      </section>
+
+      <section class="sec" id="s7">
+        <div class="sec-head"><span class="sec-num">7</span><div><h2>에이전트 경제와 일자리</h2><p class="sub">지하실의 1조 달러 부자</p></div></div>
+        <p>큐반은 AI를 "우리가 본 가장 큰 전환기 기술"이라 부르며 "지하실의 1조 달러 부자"가 나올 것이라고 말한다.</p>
+        <details class="viz"><summary>그림으로 보기: 신입을 계속 뽑는 이유</summary><figure><svg viewBox="0 0 280 246" role="img" aria-label="모델은 공개되는 순간 이미 뒤처져 있으니 맥락을 만들고 개입할 사람이 필요하고, 그래서 신입을 계속 뽑아야 한다"><defs><marker id="d19" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx3" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">모델은 공개되는 순간 뒤처짐</text><text class="tm" x="140.0" y="62" text-anchor="middle">오늘 대화도 모델엔 없다</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="88" marker-end="url(#d19)"/><rect class="bx" x="10" y="90" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="118" text-anchor="middle">맥락·개입·이해</text><text class="tm" x="140.0" y="144" text-anchor="middle">human in the loop</text><line class="ln" x1="140.0" y1="156" x2="140.0" y2="170" marker-end="url(#d19)"/><rect class="bx2" x="10" y="172" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="200" text-anchor="middle">신입은 계속 뽑는다</text><text class="tm" x="140.0" y="226" text-anchor="middle">조직과 함께 자란다</text></svg><figcaption>모델의 지연성.</figcaption></figure></details>
+        <p>경영진도 에이전트 작동 방식, 오픈소스와 폐쇄형 모델, 모델의 지연, LLM이 영상 같은 현실을 다루지 못한다는 점을 배워야 한다. "AI는 책으로는 똑똑해도 거리에서 똑똑하지 않다."</p>
+        <p>GLP-1 때문에 인수를 고민하던 소비재 식품 회사 대표에게 큐반은 ChatGPT로 그 회사 1위 쿠키보다 GLP-1에 맞고 더 싼 경쟁 제품을 자재 명세서와 제조법까지 설계하게 했다. 약 3분 만에 답이 나왔다.</p>
+        <p>에이전트는 SNS 게시물도 광고도 보지 못한다. 큐반은 직원과 장난삼아 agentfeeds.dev <span class="chk">확인 필요</span>를 만들었다. 아직 운영되지 않는다.</p>
+        <div class="terms"><span class="term">지연성</span><span class="term">human in the loop</span><span class="term">AI 문해력</span><span class="term">에이전트 상거래</span></div>
+      </section>
+
+      <section class="sec" id="s8">
+        <div class="sec-head"><span class="sec-num">8</span><div><h2>비영리 병원 재정 지원</h2><p class="sub">숨겨진 안전망</p></div></div>
+        <p>큐반은 임상을 빼면 AI가 소비자에게 가장 큰 영향을 주는 곳이 EOB 같은 경제적 서류의 이해라고 본다. 늘 하는 조언은 일이 생기기 전에 AI에게 비영리 병원 목록을 받고 재정 지원 프로그램(FAP)을 물어보라는 것이다.</p>
+        <details class="viz"><summary>그림으로 보기: 재정 지원 기준</summary><figure><svg viewBox="0 0 280 186" role="img" aria-label="비영리 병원 재정 지원 기준은 연방 빈곤선의 최대 600퍼센트까지 가서 일부 가족은 소득 10만 달러가 넘어도 대상이 될 수 있다"><defs><marker id="d21" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">비영리 병원 재정 지원 기준</text><text class="tm" x="10" y="60" text-anchor="start">연방 빈곤선</text><text class="tb" x="270" y="60" text-anchor="end">100%</text><rect x="10.0" y="70.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="70.0" width="43.3" height="16.0" fill="#8a929c"/><text class="tm" x="10" y="120" text-anchor="start">최대 기준</text><text class="tb" x="270" y="120" text-anchor="end">600%</text><rect x="10.0" y="130.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="130.0" width="260.0" height="16.0" fill="#2f6b45"/><text class="tm" x="140" y="172" text-anchor="middle">일부 가족은 10만 달러+ (확인 필요)</text></svg><figcaption>연방 빈곤선의 최대 600%.</figcaption></figure></details>
+        <p>[해설] 미국 내국세법 501(r)조에 따라 면세 비영리 병원은 서면 재정 지원 정책을 공표해야 한다.</p>
+        <p>일부 사람에게는 보험료를 머니마켓펀드에 넣고 지역 비영리 병원과 미리 상의하는 편이 나을 수도 있다고 큐반은 말한다. "사람들 대신 결정하고 싶지는 않다"며 AI에게 물어보라는 단서를 단다. 창업한다면 병원마다 에이전트용 안내를 올리게 하겠다고 한다. 로터스 1-2-3에 500달러를 내던 시절처럼 <span class="chk">확인 필요</span>, AI에 대한 두려움도 시간 문제라고 본다.</p>
+        <div class="terms"><span class="term">재정 지원 정책</span><span class="term">EOB</span><span class="term">연방 빈곤선</span><span class="term">stop-loss</span></div>
+      </section>
+
+      <section class="sec" id="s9">
+        <div class="sec-head"><span class="sec-num">9</span><div><h2>맞춤 의약</h2><p class="sub">한계비용 0의 처방</p></div></div>
+        <p>진행자는 "정보는 자유로워지길 원한다"를 애런 스워츠의 말로 인용했다. 보통은 스튜어트 브랜드의 말로 알려져 있다. <span class="chk">확인 필요</span></p>
+        <p>큐반은 DNA를 검토해 개인 맞춤 약을 설계하는 비용이 모델 능력이 오를수록 0에 가까워질 것이라고 본다. 모든 걸 바꾸는 건 알고리즘이고, 5년이든 20년이든 일반의약품부터 시작될 것이라고 한다. 23andMe <span class="chk">확인 필요</span>가 99달러 이하로 DNA를 봐 준다는 예와 함께 사생활 문제도 짚는다.</p>
+        <details class="viz"><summary>그림으로 보기: 의약 패러다임의 전환</summary><figure><svg viewBox="0 0 280 250" role="img" aria-label="모두에게 같은 약을 쓰던 시대에서 DNA 기반 맞춤 약을 설계 비용 0에 가깝게 만들어 Pod로 합성하는 시대로 간다"><defs><marker id="d22" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">의약 패러다임의 전환</text><rect class="bx3" x="10" y="42" width="260" height="92" rx="10"/><text class="tb" x="140" y="70" text-anchor="middle">과거: 모두에게 같은 약</text><text class="tm" x="140" y="96" text-anchor="middle">Advil · Tylenol</text><text class="tm" x="140" y="122" text-anchor="middle">Eliquis · Xarelto · Warfarin</text><rect class="bx2" x="10" y="146" width="260" height="92" rx="10"/><text class="tb" x="140" y="174" text-anchor="middle">미래: N-of-1 맞춤 약</text><text class="tm" x="140" y="200" text-anchor="middle">DNA 기반 설계 비용 → 0</text><text class="tm" x="140" y="226" text-anchor="middle">Pod에서 즉시 합성</text></svg><figcaption>큐반은 그 자리에 자사 Pod가 있기를 원한다.</figcaption></figure></details>
+        <p>프런티어 연구소 두 곳에는 "한계비용이 낮아지면 20달러나 200달러 구독에 이 서비스를 포함시켜라"고 말했다고 한다.</p>
+        <div class="terms"><span class="term">N-of-1 맞춤 약</span><span class="term">한계비용</span><span class="term">유전체</span></div>
+      </section>
+
+      <section class="sec" id="s10">
+        <div class="sec-head"><span class="sec-num">10</span><div><h2>의사와 IP</h2><p class="sub">AI 번역자의 탄생</p></div></div>
+        <p>줄리 유는 맞춤 약이 진료 전달 체계를 크게 바꿀 것이라고 본다. 그래도 의사는 사라지지 않는다. 큐반은 토하는 자신을 보며 "울고 있는 엄마나 아이까지 맥락에 넣을 수 있는 사람"이 있는 게 좋다고 말한다.</p>
+        <details class="viz"><summary>그림으로 보기: 의사의 역할</summary><figure><svg viewBox="0 0 280 246" role="img" aria-label="의사는 다섯 감각의 맥락 때문에 남고, 의사 과학자와 AI 번역자라는 새 역할이 생긴다"><defs><marker id="d23" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">다섯 감각의 맥락</text><text class="tm" x="140.0" y="62" text-anchor="middle">울고 있는 엄마까지 본다</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="88" marker-end="url(#d23)"/><rect class="bx" x="10" y="90" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="118" text-anchor="middle">의사 과학자</text><text class="tm" x="140.0" y="144" text-anchor="middle">새 데이터 = 사람</text><line class="ln" x1="140.0" y1="156" x2="140.0" y2="170" marker-end="url(#d23)"/><rect class="bx2" x="10" y="172" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="200" text-anchor="middle">AI 번역자</text><text class="tm" x="140.0" y="226" text-anchor="middle">개인 사정 ↔ AI 결과</text></svg><figcaption>맥락, 데이터, 번역.</figcaption></figure></details>
+        <p>의대 교육은 OpenEvidence <span class="chk">확인 필요</span> 같은 도구를 쓰고 DNA 정보를 환자에게 전하는 쪽으로 바뀐다. 큐반은 IP의 폐쇄화를 경고한다. 특허를 내면 "열두 살짜리가 조금 바꿔 자기 특허를 낸다." 새 시술을 만든 사람은 "접근할 때마다 9,999달러를 내라"고 할 수 있다. <span class="chk">확인 필요</span></p>
+        <p>EHR은 에픽이 지배하는 "그들의 세상"이라 큐반은 "솔직히 모른다"고 한다. Cost Plus는 에픽과 협력해 처방 시점에 약값 선택지를 보여 주려 한다. <span class="chk">확인 필요</span></p>
+        <div class="terms"><span class="term">진료 전달 체계</span><span class="term">의사 과학자</span><span class="term">AI 번역자</span><span class="term">IP 폐쇄화</span><span class="term">EHR</span></div>
+      </section>
+
+      <section class="sec" id="s11">
+        <div class="sec-head"><span class="sec-num">11</span><div><h2>다섯 가지 정책 제언</h2><p class="sub">대통령에게 조언한다면</p></div></div>
+        <p>큐반은 "쉽다, 주들에서 증언할 때 하는 말과 같다"며 다섯 가지를 든다. 그는 출마하지 않겠다고 해 왔다.</p>
+        <ol class="steps">
+          <li><b>계약 공개</b> 세금을 받는 모든 주체의 계약을 가림 없이 공개한다.</li>
+          <li><b>공제액 산입</b> 더 싼 가격을 찾으면 공제액에 넣는다. 8개 주가 어느 정도 시행 중이다. <span class="chk">확인 필요</span></li>
+          <li><b>병원 장부 공개</b> 비영리 병원의 총계정원장과 조달 영수증을 공개한다.</li>
+          <li><b>보험 구조 전환</b> 대형 보험사 매출의 72%가 세금에서 나온다는 문제의식. <span class="chk">확인 필요</span></li>
+          <li><b>새 의료 금융</b> 적립 계좌, 정부 보증 대출, 연방 stop-loss.</li>
+        </ol>
+        <details class="viz"><summary>그림으로 보기: 제5안의 구조</summary><figure><svg viewBox="0 0 280 316" role="img" aria-label="제5안은 실버 플랜 보험료만큼 적립하고, 부족하면 정부 보증 대출, 큰 금액은 연방 stop-loss가 맡고, 65세에 남은 돈을 돌려받는 구조다"><defs><marker id="d24" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">적립 계좌</text><text class="tm" x="140.0" y="62" text-anchor="middle">실버 보험료만큼 · 본인 소유</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="84" marker-end="url(#d24)"/><rect class="bx" x="10" y="86" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="114" text-anchor="middle">정부 보증 대출</text><text class="tm" x="140.0" y="140" text-anchor="middle">부족분 · 급여 공제 상환</text><line class="ln" x1="140.0" y1="152" x2="140.0" y2="162" marker-end="url(#d24)"/><rect class="bx" x="10" y="164" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="192" text-anchor="middle">연방 stop-loss</text><text class="tm" x="140.0" y="218" text-anchor="middle">예: 4만 달러 이상</text><line class="ln" x1="140.0" y1="230" x2="140.0" y2="240" marker-end="url(#d24)"/><rect class="bx2" x="10" y="242" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="270" text-anchor="middle">65세 메디케어 전환</text><text class="tm" x="140.0" y="296" text-anchor="middle">남은 돈과 이자는 본인에게</text></svg><figcaption>보험사 없이 본인 소유 계좌로.</figcaption></figure></details>
+        <p>Texas 5인 가족의 예로 기준액은 2,100달러다. 기간 단위는 원문에 없다. <span class="chk">확인 필요</span> 4만 달러 이상은 연방 stop-loss가 맡는다(예시). <span class="chk">확인 필요</span> 연방정부는 학자금, SBA, 주택, 농업 대출까지 보증하는데 의료는 "행운을 빈다는 식"이라고 큐반은 말한다.</p>
+        <div class="terms"><span class="term">가격 공개</span><span class="term">ACA 실버 플랜</span><span class="term">정부 보증 대출</span><span class="term">메디케어</span></div>
+      </section>
+
+      <section class="sec" id="s12">
+        <div class="sec-head"><span class="sec-num">12</span><div><h2>피드와 화이트스페이스</h2><p class="sub">불편한 곳의 기회</p></div></div>
+        <p>AI가 인기 없다는 질문에 큐반은 업계 사람들에게 "바보들"이라고 말했다고 한다. 사람들의 생각을 좌우하는 건 소셜 미디어 알고리즘이다. 함께 일하는 23세 직원은 Texas 또래가 켄 팩스턴이나 제임스 탈라리코(자막 "Terico")를 모른다고 했다. 큐반은 아이를 알고 싶으면 피드를 보라고 한다.</p>
+        <p>최고의 AI가 있다면 알고리즘을 역설계해 모든 사람의 피드에 들어가라는 것이 큐반의 조언이다. 그렇지 못하면 연구소의 입장문은 "쓸모없다". 데이터센터 혐오는 AI를 이해하지 못하는 데 대한 대리 감정이고, 지역사회도 데이터센터 계약에서 '계약 테러리즘'을 당했다고 본다.</p>
+        <details class="viz"><summary>그림으로 보기: 두 가지 기업, 두 가지 사람</summary><figure><svg viewBox="0 0 280 250" role="img" aria-label="미래의 기업은 AI를 극도로 잘 쓰는 기업과 망한 기업으로, 사람은 배우려고 AI를 쓰는 사람과 배우지 않으려고 쓰는 사람으로 나뉜다"><defs><marker id="d20" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">큐반이 젊은이에게 하는 말</text><rect class="bx" x="10" y="42" width="260" height="92" rx="10"/><text class="tb" x="140" y="70" text-anchor="middle">두 가지 기업</text><text class="tm" x="140" y="96" text-anchor="middle">AI를 극도로 잘 쓰는 기업</text><text class="tm" x="140" y="122" text-anchor="middle">망한 기업</text><rect class="bx2" x="10" y="146" width="260" height="92" rx="10"/><text class="tb" x="140" y="174" text-anchor="middle">두 가지 사람</text><text class="tm" x="140" y="200" text-anchor="middle">배우려고 AI를 쓰는 사람</text><text class="tm" x="140" y="226" text-anchor="middle">안 배우려고 AI를 쓰는 사람</text></svg><figcaption>50·60·70대 기업가에게도 같은 말을 한다.</figcaption></figure></details>
+        <p>출력은 확인하라. 초기 스프레드시트를 10키 계산기로 다시 확인했듯, Grok의 결과를 ChatGPT에 넣어 보라. 큐반은 휴대폰 두 대를 맞대 모델끼리 대화하게 하기도 한다. 화이트스페이스는 "모든 곳"이고, 아직 냅스터(자막 "Fster"로 추정)처럼 "저게 뭐지?" 싶은 회사는 보이지 않는다. <span class="chk">확인 필요</span></p>
+        <div class="callout"><p>"그 불편함이 아마 판을 바꾸는 무언가로 가는 길일 것이다."</p></div>
+        <div class="terms"><span class="term">피드 알고리즘</span><span class="term">화이트스페이스</span><span class="term">Section 230</span></div>
+      </section>
+      <section class="sec" id="rv">
+        <div class="sec-head"><span class="sec-num">✔</span><div><h2>복습</h2><p class="sub">용어 카드 · 빈칸 · 5문항 퀴즈</p></div></div>
+        <h3 class="rv-h">핵심 용어 카드</h3>
+        <div class="flips">
+          <button type="button" class="flip" aria-expanded="false"><b>가격 발견</b><span class="hint">뜻 보기</span><span class="m">시장에서 가격이 드러나 비교되는 과정. 큐반이 미국 의료에 없다고 지목한 것.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>PBM</b><span class="hint">뜻 보기</span><span class="m">처방약 급여 관리업체. 빅 3는 CVS Caremark, Express Scripts, Optum Rx.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>ASO</b><span class="hint">뜻 보기</span><span class="m">대형 보험사가 소유한 TPA. 자가보험 고용주의 청구를 처리한다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>스프레드 가격</b><span class="hint">뜻 보기</span><span class="m">고용주가 낸 금액과 병원이 받은 금액의 차이를 중개인이 가져가는 구조.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>계약 테러리즘</b><span class="hint">뜻 보기</span><span class="m">사람이 다 읽지 못하는 분량의 계약으로 서명을 받아내는 것. 1,335쪽 PBM 계약서.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>업코딩</b><span class="hint">뜻 보기</span><span class="m">더 높은 수가를 받으려고 진료 코드를 올리는 것. 보험사의 다운코딩과 상쇄된다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>모듈형 Pod</b><span class="hint">뜻 보기</span><span class="m">트레일러 크기의 제조 설비. 대당 약 2,000만 달러, 재난 대응과 N-of-1 치료제.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>규모 포획</b><span class="hint">뜻 보기</span><span class="m">거대 사업자가 규모로 시장을 장악해 비용 인하를 막는 상태.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>재정 지원 정책</b><span class="hint">뜻 보기</span><span class="m">비영리 병원이 의무로 운영하는 환자 재정 지원 프로그램(FAP).</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>AI 번역자</b><span class="hint">뜻 보기</span><span class="m">개인의 사정을 AI에 전하고 AI의 결과를 그 사람에게 맞게 전해 주는 새 직업.</span></button>
+        </div>
+        <h3 class="rv-h">빈칸 채우기</h3>
+        <ol class="cloze">
+          <li>Cost Plus Drugs는 원가에 <button type="button" class="blank" data-a="15%">빈칸</button> 고정 마크업을 붙인다.</li>
+          <li>대기업들은 PBM에게 &quot;이 가격을 <button type="button" class="blank" data-a="이겨야">빈칸</button> 한다&quot;고 말한다.</li>
+          <li>Team Cuban Card는 약사에게 건당 <button type="button" class="blank" data-a="12달러">빈칸</button> 조제료를 보장한다.</li>
+          <li>큐반이 본 댈러스 시 PBM 계약서는 <button type="button" class="blank" data-a="1,335쪽">빈칸</button>이었다.</li>
+          <li>큐반은 의료비 가운데 의료가 약 <button type="button" class="blank" data-a="90%">빈칸</button>라고 말한다.</li>
+          <li>AI의 진짜 우위는 계약 <button type="button" class="blank" data-a="서명 전">빈칸</button> 단계에 있다.</li>
+          <li>Cost Plus Drugs의 진짜 제품은 <button type="button" class="blank" data-a="신뢰">빈칸</button>다.</li>
+          <li>화이트스페이스는 <button type="button" class="blank" data-a="모든 곳">빈칸</button>이다.</li>
+        </ol>
+        <h3 class="rv-h">5문항 퀴즈</h3>
+        <div id="quiz">
+          <div class="q" data-a="1"><fieldset><legend class="qt">1. Cost Plus Drugs가 기존 사업자를 바꾼 방식은?</legend>
+            <button type="button">빅 3 PBM과 독점 계약</button>
+            <button type="button">공개 가격이 협상 기준점이 됨</button>
+            <button type="button">대규모 광고</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="계약이 없어도 공개 가격이 기준점이 됐습니다."></p></div>
+          <div class="q" data-a="0"><fieldset><legend class="qt">2. 큐반이 사전 승인 봇 전쟁을 보는 시각은?</legend>
+            <button type="button">양쪽 AI가 상쇄되어 장기 변화가 작다</button>
+            <button type="button">병원이 완승한다</button>
+            <button type="button">보험사가 완승한다</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="&quot;네가 몇 이닝 이기고 내가 몇 이닝 이긴다.&quot;"></p></div>
+          <div class="q" data-a="2"><fieldset><legend class="qt">3. 계약서를 AI에 넣고 던질 질문은?</legend>
+            <button type="button">이 계약은 합법인가?</button>
+            <button type="button">경쟁사는 얼마를 내나?</button>
+            <button type="button">어디서 나를 등쳐 먹고 있나?</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="30초 안에 문제가 줄줄이 보인다고 합니다."></p></div>
+          <div class="q" data-a="1"><fieldset><legend class="qt">4. 신입을 계속 뽑아야 하는 이유는?</legend>
+            <button type="button">인건비가 싸서</button>
+            <button type="button">모델의 지연성 때문</button>
+            <button type="button">규제 때문</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="모델은 공개되는 순간 이미 뒤처져 있습니다."></p></div>
+          <div class="q" data-a="0"><fieldset><legend class="qt">5. 제5안에서 65세까지 쓰지 않은 적립금은?</legend>
+            <button type="button">본인이 이자와 함께 받는다</button>
+            <button type="button">보험사에 귀속된다</button>
+            <button type="button">정부가 환수한다</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="메디케어로 넘어갈 때 전부 받습니다."></p></div>
+          <p class="score" id="score" aria-live="polite">점수: 0 / 5</p>
+          <div class="rv-tools"><button type="button" id="qreset">다시 풀기</button></div>
+        </div>
+      </section>
+
+      <section class="sources">
+        <h3>출처</h3>
+        <ul>
+          <li><a href="https://yghnsim.github.io/Pages/articles/mark-cuban-ai-breaks-healthcare-middlemen.html">Pages — 의료 카르텔의 붕괴와 지하실의 1조 달러 창업가</a></li>
+          <li><a href="https://costplusdrugs.com" rel="noopener">Mark Cuban Cost Plus Drugs ↗</a></li>
+          <li><a href="https://costpluswellness.com" rel="noopener">Cost Plus Wellness ↗</a></li>
+        </ul>
+      </section>
+    </main>
+
+  </div>
+</div>
+<script>(function(){
+function $$(q){return [].slice.call(document.querySelectorAll(q))}
+$$('.flip').forEach(function(b){b.onclick=function(){b.setAttribute('aria-expanded',b.getAttribute('aria-expanded')==='true'?'false':'true')}});
+function show(b){b.textContent=b.dataset.a;b.classList.add('shown');b.setAttribute('aria-label','답: '+b.dataset.a)}
+function hide(b){b.textContent='?';b.classList.remove('shown');b.setAttribute('aria-label','빈칸, 눌러서 답 보기')}
+$$('.blank').forEach(function(b){b.onclick=function(){show(b)}});
+$$('[data-all]').forEach(function(t){t.onclick=function(){if(t.dataset.all==='flip')$$('.flip').forEach(function(b){b.setAttribute('aria-expanded','true')});else $$('.blank').forEach(show)}});
+$$('[data-reset]').forEach(function(t){t.onclick=function(){if(t.dataset.reset==='flip')$$('.flip').forEach(function(b){b.setAttribute('aria-expanded','false')});else $$('.blank').forEach(hide)}});
+var sc=0,done=0,qs=$$('#quiz .q'),tot=qs.length||5;
+function upd(){var el=document.getElementById('score');if(el)el.textContent='점수: '+sc+' / '+tot+(done===tot?' (끝)':'')}
+qs.forEach(function(q){var bs=[].slice.call(q.querySelectorAll('fieldset button')),ex=q.querySelector('.ex');
+bs.forEach(function(b,i){b.onclick=function(){var a=+q.dataset.a,ok=i===a;bs.forEach(function(x){x.disabled=true});if(bs[a])bs[a].classList.add('right');if(!ok)b.classList.add('wrong');
+if(ex){ex.hidden=false;ex.textContent=(ok?'맞았습니다. ':'아쉽습니다. ')+ex.dataset.e;}if(ok)sc++;done++;upd();}})});
+var qr=document.getElementById('qreset');
+if(qr)qr.onclick=function(){sc=0;done=0;qs.forEach(function(q){q.querySelectorAll('fieldset button').forEach(function(x){x.disabled=false;x.className=''});var ex=q.querySelector('.ex');if(ex){ex.hidden=true;ex.textContent=''}});upd()};
+})();</script>
+
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">아카이브</div><div class="arc-foot-title">의료 카르텔의 붕괴와 지하실의 1조 달러 창업가</div><div class="arc-foot-meta"><time datetime="2026-10-29">2026년 10월 29일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=%EA%B2%BD%EC%A0%9C%EA%B2%BD%EC%98%81">#경제경영</a><a class="arc-tag" href="../index.html#tags=%EB%B3%B4%EA%B1%B4%EA%B2%BD%EC%A0%9C%ED%95%99">#보건경제학</a><a class="arc-tag" href="../index.html#tags=%EC%9D%B8%ED%84%B0%EB%B7%B0">#인터뷰</a> · <a href="https://yghnsim.github.io/Pages/articles/mark-cuban-ai-breaks-healthcare-middlemen.html" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body>
+</html>
