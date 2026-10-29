@@ -1,5 +1,22 @@
 [
   {
+    "id": "20261030-02",
+    "title": "디지털 시대의 섹스 불황과 포르노의 구원 — 에리카 러스트와 줄리아 요스트",
+    "summary": "에리카 러스트와 줄리아 요스트의 NYT 대담 해설: 섹스 불황의 역설, 윤리적 포르노와 권리장전, 드워킨과 페미니즘 논쟁, 낙인과 위험, 드러난 선호, 도덕적 불일치, 바닐라 비유.",
+    "tags": [
+      "사회과학",
+      "문화예술",
+      "해설"
+    ],
+    "date": "2026-10-30",
+    "file": "pages/2026-10-30-섹스불황.html",
+    "added": "2026-10-30T01:11:14+09:00",
+    "source_name": "src.html",
+    "source_sha256": "8819cd5490d15ca80895b4676af2ae1e957dcbbed31e431a41be53a439a75d95",
+    "source_path_sha256": "4f25ec039d9d17446e75409f87df43655b18fb40507961db9582357d9b68d231",
+    "source_url": "https://yghnsim.github.io/Pages/articles/why-less-sex-erika-lust-ethical-porn.html"
+  },
+  {
     "id": "20261030-01",
     "title": "에이전트 팀의 엔지니어링 매니저 — 로런 탄",
     "summary": "로런 탄(Lauren Tan)이 공개한 에이전트 관리 시스템: control glass 검증, feature map, pstack·/how, 이벌과 /loop, Benny, Dune의 강한 제약, 토큰 ROI와 비엔지니어 출시.",
