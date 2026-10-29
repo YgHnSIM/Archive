@@ -1,5 +1,24 @@
 [
   {
+    "id": "20261030-01",
+    "title": "에이전트 팀의 엔지니어링 매니저 — 로런 탄",
+    "summary": "로런 탄(Lauren Tan)이 공개한 에이전트 관리 시스템: control glass 검증, feature map, pstack·/how, 이벌과 /loop, Benny, Dune의 강한 제약, 토큰 ROI와 비엔지니어 출시.",
+    "tags": [
+      "AI",
+      "컴퓨터과학",
+      "에이전트",
+      "소프트웨어공학",
+      "해설"
+    ],
+    "date": "2026-10-30",
+    "file": "pages/2026-10-30-로런탄에이전트팀.html",
+    "added": "2026-10-30T01:07:18+09:00",
+    "source_name": "src.html",
+    "source_sha256": "a422bef4a7dfbd9533c2a00dbf6fdbb00fd5f9a10c3a714246a2a9105315ccee",
+    "source_path_sha256": "684bd39bd251cb5b62971ac0075f719112bcaa048a266ff3ab2ffa5363b43b51",
+    "source_url": "https://yghnsim.github.io/Pages/articles/lauren-tan-agent-team-engineering-manager.html"
+  },
+  {
     "id": "20261029-08",
     "title": "에이전트 자율 머지와 신뢰 곡선 — 한 달 수천 개 PR을 프로덕션에 내보내는 엔지니어링 시스템",
     "summary": "로런 탄 대담 해설: 인간 중계기, 미슐랭 키친, 런타임 검증, CLI와 결정성, Dune과 환경 설계, 이중 루프와 코디네이터, 사후 표본 감사",
