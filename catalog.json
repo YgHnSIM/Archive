@@ -1,5 +1,24 @@
 [
   {
+    "id": "20261029-08",
+    "title": "에이전트 자율 머지와 신뢰 곡선 — 한 달 수천 개 PR을 프로덕션에 내보내는 엔지니어링 시스템",
+    "summary": "로런 탄 대담 해설: 고기 프록시, 미슐랭 키친, 런타임 검증, CLI와 결정성, Dune과 환경 설계, 이중 루프와 코디네이터, 사후 표본 감사",
+    "tags": [
+      "AI",
+      "컴퓨터과학",
+      "에이전트",
+      "소프트웨어공학",
+      "해설"
+    ],
+    "date": "2026-10-29",
+    "file": "pages/2026-10-29-로런탄신뢰곡선.html",
+    "added": "2026-10-29T23:11:25+09:00",
+    "source_name": "src.html",
+    "source_sha256": "bb2e4b67ffc9b98711c68e96f4eeb1f63fa6cd8b977f8b1718760f62f170aaf8",
+    "source_path_sha256": "55d25737108cd21d5079a7b2afe3b4e78a084efec524bf57ee0ffc94efff1353",
+    "source_url": "https://yghnsim.github.io/Pages/articles/lauren-tan-trust-curve-ai-merged-prs.html"
+  },
+  {
     "id": "20261029-07",
     "title": "신뢰와 원칙의 아키텍처 — 다리오·다니엘라 아모데이가 말하는 앤트로픽",
     "summary": "월터 아이작슨 대담 요약: 리더십 분업, 규칙 대신 원칙으로 가르치는 Claude, GPT-2와 스케일링, 신뢰와 DVQ, 아첨과 기만, 펜타곤 레드라인, 포스트 AGI의 의미",

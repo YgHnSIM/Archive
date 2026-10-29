@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light only">
+<title>에이전트 자율 머지와 신뢰 곡선 — 로런 탄</title>
+<meta name="description" content="로런 탄 대담 해설: 고기 프록시, 미슐랭 키친, 런타임 검증, CLI와 결정성, Dune과 환경 설계, 이중 루프와 코디네이터, 사후 표본 감사, 대화 기록 기반 스킬">
+<style>
+:root{color-scheme:light only;
+  --bg:#faf8f3; --paper:#ffffff; --ink:#1f2328; --muted:#5b6470; --line:#e6e1d6;
+  --accent:#c8553d; --accent-soft:#fbeee9; --link:#4a6b8a;
+  --new:#3d5f80; --new-soft:#eaf0f6; --radius:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:20px}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR","Malgun Gothic","Gothic A1",system-ui,sans-serif;
+  font-size:17px;line-height:1.75;word-break:keep-all;overflow-wrap:break-word}
+@media(max-width:640px){body{font-size:16px}}
+a{color:var(--link)}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+.hero{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{display:inline-block;font-size:13px;font-weight:700;color:#a8432e;background:var(--accent-soft);padding:3px 10px;border-radius:999px;margin-bottom:12px}
+.hero h1{font-size:clamp(28px,4.4vw,44px);line-height:1.25;margin:0 0 12px;letter-spacing:-.02em}
+.hero .lead{font-size:18px;color:var(--muted);line-height:1.65;margin:0}
+@media(max-width:640px){.hero .lead{font-size:17px}}
+.hero-cta{margin-top:16px}
+.hero-cta a{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--new);color:#fff;border-radius:10px;font-weight:700;font-size:15px;text-decoration:none}
+.grid{display:grid;grid-template-columns:240px minmax(0,1fr);gap:36px;align-items:start}
+@media(max-width:880px){.grid{grid-template-columns:minmax(0,1fr);gap:0}}
+.toc{position:sticky;top:20px;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;font-size:15px}
+.toc .toc-t{font-weight:700;margin:0 0 10px}
+.toc ol{margin:0;padding:0;list-style:none}
+.toc li{margin:6px 0}
+.toc a{color:var(--muted);display:flex;align-items:baseline;gap:8px;text-decoration:none;line-height:1.45}
+.toc a:hover{color:var(--link)}
+.toc .n{flex:none;display:inline-block;width:22px;height:22px;line-height:22px;text-align:center;border-radius:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:700}
+.toc .orig{display:block;margin-top:14px;padding-top:10px;border-top:1px dashed var(--line);font-size:14px;color:#a8432e;font-weight:700}
+@media(max-width:880px){
+  .toc{position:sticky;top:0;z-index:20;margin:0 -20px 20px;border-radius:0;border-width:0 0 1px;padding:8px 12px;background:rgba(250,248,243,.97);overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .toc .toc-t,.toc .orig{display:none}
+  .toc ol{display:flex;gap:6px;white-space:nowrap}
+  .toc li{margin:0}
+  .toc a{background:#f1ede4;color:var(--ink);border-radius:999px;padding:6px 12px;font-size:14px;align-items:center}
+  .toc .n{background:none;width:auto;height:auto;line-height:1;color:var(--muted)}
+  html{scroll-padding-top:64px}
+}
+main{min-width:0}
+.sec{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:24px 28px;margin-bottom:28px}
+@media(max-width:640px){.sec{padding:18px 16px}}
+.sec-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px}
+.sec-num{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:12px;background:var(--ink);color:#fff;font-weight:800;font-size:17px;flex-shrink:0;margin-top:2px}
+@media(max-width:640px){.sec-num{width:34px;height:34px;font-size:15px}}
+.sec-head h2{font-size:clamp(23px,3vw,30px);line-height:1.3;margin:0;letter-spacing:-.015em}
+.sec-head .sub{font-size:16px;color:var(--muted);margin:3px 0 0}
+h3{font-size:19px;margin:22px 0 8px}
+p{margin:0 0 14px}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin:4px 0}
+.theses{counter-reset:t;list-style:none;padding:0;margin:0 0 16px}
+.theses li{counter-increment:t;position:relative;padding:10px 14px 10px 50px;margin:8px 0;background:#fdfcf9;border:1px solid var(--line);border-radius:12px}
+.theses li::before{content:counter(t);position:absolute;left:14px;top:12px;width:24px;height:24px;border-radius:50%;background:var(--accent-soft);color:#a8432e;font-weight:800;font-size:14px;display:grid;place-items:center}
+.tblw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:16px 0}
+.tbl{width:100%;min-width:520px;border-collapse:collapse;font-size:16px}
+.tbl th,.tbl td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+.tbl th{background:var(--new-soft);color:var(--new);font-weight:700}
+.tbl td{background:#fff}
+.callout{background:var(--new-soft);border-left:4px solid var(--new);border-radius:10px;padding:12px 16px;margin:14px 0}
+.callout.warm{background:var(--accent-soft);border-left-color:var(--accent)}
+.callout p:last-child{margin:0}
+blockquote{margin:14px 0;padding:12px 18px;background:#fff;border-left:5px solid var(--accent);border-radius:0 12px 12px 0}
+blockquote p{margin:0}
+.terms{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+.term{display:inline-flex;align-items:center;gap:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:600;padding:4px 10px;border-radius:8px}
+details.viz{margin:14px 0;border:1px solid var(--line);border-radius:12px;background:#fdfcf9}
+details.viz summary{cursor:pointer;list-style:none;padding:12px 14px;font-weight:600;font-size:16px;color:var(--new);min-height:44px;display:flex;align-items:center;gap:8px}
+details.viz summary::-webkit-details-marker{display:none}
+details.viz summary::before{content:"▸";font-size:14px;color:var(--accent)}
+details.viz[open] summary::before{content:"▾"}
+details.viz figure{margin:0;padding:4px 12px 14px}
+details.viz svg{display:block;width:100%;height:auto;max-width:400px;margin:0 auto;font-family:"Pretendard","Noto Sans KR",sans-serif}
+details.viz figcaption{font-size:16px;color:var(--muted);line-height:1.6;margin-top:8px}
+svg .bx{fill:#fff;stroke:#5b6470;stroke-width:1.4}
+svg .bx2{fill:#eaf0f6;stroke:#3d5f80;stroke-width:1.4}
+svg .bx3{fill:#fbeee9;stroke:#c8553d;stroke-width:1.4}
+svg .t{fill:#1f2328;font-size:18px}
+svg .tb{fill:#1f2328;font-size:18px;font-weight:700}
+svg .tm{fill:#4a525c;font-size:17.5px}
+svg .ln{stroke:#5b6470;stroke-width:1.5;fill:none}
+svg .lnd{stroke:#5b6470;stroke-width:1.5;fill:none;stroke-dasharray:5 4}
+.sources{background:var(--new-soft);border:1px solid var(--line);border-radius:var(--radius);padding:18px 22px;margin-top:32px;font-size:16px;color:#3f4650}
+.sources h3{font-size:17px;color:var(--new);margin:0 0 8px}
+.sources ul{margin:0;padding-left:20px}
+/* 복습 컴포넌트 표준 스타일 */
+.rv-h{font-size:19px;margin:22px 0 6px}
+.flips{display:grid;grid-template-columns:1fr;gap:8px;margin:10px 0}
+@media(min-width:640px){.flips{grid-template-columns:1fr 1fr}}
+.flip{font:inherit;text-align:left;width:100%;border:1.5px solid var(--line,#e6e1d6);background:#fdfcf9;border-radius:12px;padding:10px 14px;cursor:pointer;color:var(--ink,#1f2328);min-height:64px}
+.flip b{display:block;font-size:17px}
+.flip .m{display:none;font-size:16px;line-height:1.6;margin-top:4px}
+.flip .hint{font-size:13px;color:var(--muted,#5b6470)}
+.flip[aria-expanded="true"]{border-color:var(--new,#3d5f80);background:var(--new-soft,#eaf0f6)}
+.flip[aria-expanded="true"] .m{display:block}
+.flip[aria-expanded="true"] .hint{display:none}
+.cloze{list-style:none;margin:10px 0;padding:0}
+.cloze li{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:10px 14px;margin:8px 0;background:#fdfcf9;font-size:16px;line-height:1.8}
+.blank{font:inherit;font-size:16px;border:0;border-bottom:2px dashed var(--accent,#c8553d);background:var(--accent-soft,#fbeee9);color:#a8432e;border-radius:6px 6px 0 0;padding:0 8px;cursor:pointer;min-width:4.5em}
+.blank.shown{border-bottom-style:solid;background:var(--new-soft,#eaf0f6);color:var(--new,#3d5f80);font-weight:700}
+.rv-tools{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.rv-tools button{font:inherit;font-size:15px;border:1px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link,#4a6b8a)}
+.q{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:12px 14px;margin:10px 0;background:#fdfcf9}
+.q fieldset{border:0;margin:0;padding:0;min-width:0}
+.q legend{font-weight:700;padding:0;margin:0 0 8px;font-size:16.5px}
+.q button{display:block;width:100%;text-align:left;font:inherit;font-size:16px;border:1.5px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:8px 12px;margin:6px 0;cursor:pointer;color:var(--ink,#1f2328)}
+.q button.right{border-color:#2f6b45;background:#e6f1ea}
+.q button.wrong{border-color:#a2452f;background:#fbeee9}
+.q button[disabled]{cursor:default;opacity:1}
+.q .ex{margin:8px 0 0;font-size:16px;padding:8px 10px;border-radius:8px;background:var(--new-soft,#eaf0f6)}
+.score{font-size:17px;font-weight:800;margin:10px 0 0}
+.arc-back b,.arc-foot-label{color:#a8432e!important}
+.chk{display:inline-block;font-size:16px;font-weight:700;color:#8a3a12;background:#fdf0e3;border:1px solid #e8c9a8;border-radius:6px;padding:0 6px;margin-left:4px;white-space:nowrap}
+pre{background:#f6f4ee;border:1px solid var(--line);border-radius:10px;padding:12px 14px;overflow-x:auto;-webkit-overflow-scrolling:touch;margin:14px 0;font-size:16px;line-height:1.6}
+pre code{font-family:"JetBrains Mono","D2Coding",ui-monospace,Menlo,Consolas,monospace;color:#1f2328;white-space:pre}
+code{font-family:"JetBrains Mono","D2Coding",ui-monospace,Menlo,Consolas,monospace;font-size:.92em;background:#f3efe6;border-radius:4px;padding:0 4px}
+pre code{background:none;padding:0;font-size:inherit}
+@media(max-width:640px){pre{margin:12px -4px}}
+.steps,.pc{padding-left:1.3em}.steps li,.pc li{margin:8px 0}
+</style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
+</head>
+<body>
+<!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>아카이브</a><span class="arc-crumb">에이전트 자율 머지와 신뢰 곡선 — 한 달 수천 개 PR을 프로덕션에 내보내는 엔지니어링 시스템</span><span class="arc-meta"><time datetime="2026-10-29">2026년 10월 29일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99">#컴퓨터과학</a><a class="arc-tag" href="../index.html#tags=%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8">#에이전트</a><a class="arc-tag" href="../index.html#tags=%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4%EA%B3%B5%ED%95%99">#소프트웨어공학</a><a class="arc-tag" href="../index.html#tags=%ED%95%B4%EC%84%A4">#해설</a><a class="arc-src" href="https://yghnsim.github.io/Pages/articles/lauren-tan-trust-curve-ai-merged-prs.html" rel="noopener">원문 ↗</a></span></div></div>
+<!-- archive-header:end -->
+<div class="wrap">
+  <header class="hero">
+    <span class="eyebrow">에이전트 · 소프트웨어공학 해설</span>
+    <h1>에이전트 자율 머지와 신뢰 곡선 — 한 달 수천 개 PR을 프로덕션에 내보내는 엔지니어링 시스템</h1>
+    <p class="lead">Cursor 엔지니어 로런 탄(Lauren Tan)은 에이전트를 감시하던 '고기 프록시'에서 주방을 설계하는 '총괄 셰프'가 되었다. 런타임 검증, 나쁜 코드를 막는 환경, 이중 루프와 코디네이터, 사후 표본 감사로 쌓은 신뢰를 정리했다.</p>
+    <div class="hero-cta"><a href="https://yghnsim.github.io/Pages/articles/lauren-tan-trust-curve-ai-merged-prs.html">📚 Pages에서 심화 해설 전문 읽기 ↗</a></div>
+  </header>
+  <div class="grid">
+    <nav class="toc" aria-label="목차">
+      <p class="toc-t">목차</p>
+      <ol>
+        <li><a href="#s0"><span class="n">★</span>한눈에 보기</a></li>
+        <li><a href="#s1"><span class="n">1</span>고기 프록시의 자각</a></li>
+        <li><a href="#s2"><span class="n">2</span>고밀도 도메인 언어</a></li>
+        <li><a href="#s3"><span class="n">3</span>미슐랭 키친</a></li>
+        <li><a href="#s4"><span class="n">4</span>런타임 검증</a></li>
+        <li><a href="#s5"><span class="n">5</span>결정성은 CLI로</a></li>
+        <li><a href="#s6"><span class="n">6</span>환경 설계와 Dune</a></li>
+        <li><a href="#s7"><span class="n">7</span>이중 루프와 코디네이터</a></li>
+        <li><a href="#s8"><span class="n">8</span>다크 팩토리</a></li>
+        <li><a href="#s9"><span class="n">9</span>대화 기록과 스킬</a></li>
+        <li><a href="#rv"><span class="n">✔</span>복습 &amp; 퀴즈</a></li>
+      </ol>
+      <a class="orig" href="https://yghnsim.github.io/Pages/articles/lauren-tan-trust-curve-ai-merged-prs.html">심화 원문(Pages) ↗</a>
+    </nav>
+    <main id="content">
+      <section class="sec" id="s0">
+        <div class="sec-head"><span class="sec-num">★</span><div><h2>한눈에 보기</h2><p class="sub">여섯 가지 핵심 논거</p></div></div>
+        <ol class="theses">
+          <li><b>신뢰는 사다리처럼 쌓인다.</b> 신뢰 인프라 없는 확장은 마이크로매니징을 낳는다.</li>
+          <li><b>1차 지렛대는 런타임 검증이다.</b> 결과를 관측해야 언덕 오르기 루프가 완성된다.</li>
+          <li><b>2차 지렛대는 환경 설계다.</b> 결정적 절차는 CLI로, 실수는 린트와 타입으로 막는다.</li>
+          <li><b>내부·외부 루프를 잇는다.</b> 사람은 맥락 전달자 병목에서 빠진다.</li>
+          <li><b>리뷰는 사후 표본 감사로.</b> 고칠 대상은 개별 PR이 아니라 환경이다.</li>
+          <li><b>한계선은 검증 가능성이다.</b> 일방통행 문에는 사람의 게이트키핑이 남는다.</li>
+        </ol>
+        <p>발표 "How I shipped 2,500 PRs last month to production"은 X에서 약 300만 회 조회되었다. <span class="chk">확인 필요</span> PR 수는 영상 제목의 1,000개, 대담 중의 2,000개와 2,500개가 섞여 나온다. <span class="chk">확인 필요</span> 진행자는 맷 포콕(Matt Pocock)으로 추정된다. <span class="chk">확인 필요</span></p>
+        <div class="terms"><span class="term">신뢰 사다리</span><span class="term">자율 머지</span><span class="term">런타임 검증</span><span class="term">다크 팩토리</span></div>
+      </section>
+
+      <section class="sec" id="s1">
+        <div class="sec-head"><span class="sec-num">1</span><div><h2>고기 프록시의 자각</h2><p class="sub">마이크로매니징에서 탈출하기</p></div></div>
+        <p>Meta React 팀을 떠나 한 달을 쉬던 로런 탄은 사이드 프로젝트에서 에이전트 하나를 붙잡고 몇 시간씩 개입했다. 그래서 자신이 일하는 방식을 스킬로 추출해 에이전트가 "나처럼" 일하게 가르쳤다. 이 스킬과 <code>brain</code> 디렉터리가 스킬 묶음 <code>pstack</code>(자막 'PAC')의 바탕이 되었다. <span class="chk">확인 필요</span></p>
+        <p>Cursor 합류 직후 4월 초, 에이전트 창의 성능 저하를 디버깅하며 힙 스냅샷과 플레임 그래프를 손으로 보던 그는 자신이 에이전트와 Chrome DevTools 사이의 <b>"고기 프록시"</b>라는 것을 깨달았다.</p>
+        <details class="viz"><summary>그림으로 보기: 고기 프록시</summary><figure><svg viewBox="0 0 280 246" role="img" aria-label="사람이 DevTools와 에이전트 사이에서 정보를 중계하면 고기 프록시가 되어 루프 속도가 사람 속도에 묶인다"><defs><marker id="d1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx3" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">사람이 도구를 중계</text><text class="tm" x="140.0" y="62" text-anchor="middle">DevTools ↔ 사람 ↔ 에이전트</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="88" marker-end="url(#d1)"/><rect class="bx3" x="10" y="90" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="118" text-anchor="middle">"고기 프록시"</text><text class="tm" x="140.0" y="144" text-anchor="middle">루프 속도 = 사람 속도</text><line class="ln" x1="140.0" y1="156" x2="140.0" y2="170" marker-end="url(#d1)"/><rect class="bx2" x="10" y="172" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="200" text-anchor="middle">에이전트에게 손과 눈</text><text class="tm" x="140.0" y="226" text-anchor="middle">직접 실행·관측</text></svg><figcaption>사람이 중계하면 루프가 사람 속도에 묶인다.</figcaption></figure></details>
+        <p>최신 프런티어 모델도 지름길을 택하기 쉽다. 그래서 그의 스킬 상당수는 <b>"쉬운 일을 올바른 일로 만드는 것"</b>을 겨냥한다.</p>
+        <details class="viz"><summary>그림으로 보기: 쉬운 일을 올바른 일로</summary><figure><svg viewBox="0 0 280 250" role="img" aria-label="모델은 지름길을 택하기 쉬우니 스킬은 쉬운 일을 올바른 일로 만들도록 설계한다"><defs><marker id="d2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">스킬이 겨냥하는 것</text><rect class="bx3" x="10" y="42" width="260" height="92" rx="10"/><text class="tb" x="140" y="70" text-anchor="middle">지름길</text><text class="tm" x="140" y="96" text-anchor="middle">목으로 때우기</text><text class="tm" x="140" y="122" text-anchor="middle">테스트만 통과시키기</text><rect class="bx2" x="10" y="146" width="260" height="92" rx="10"/><text class="tb" x="140" y="174" text-anchor="middle">쉬운 일 = 올바른 일</text><text class="tm" x="140" y="200" text-anchor="middle">올바른 경로가</text><text class="tm" x="140" y="226" text-anchor="middle">가장 쉬운 경로가 되게</text></svg><figcaption>[해설] 목으로 때우거나 테스트만 통과시키는 것이 전형적 지름길이다.</figcaption></figure></details>
+        <div class="terms"><span class="term">고기 프록시</span><span class="term">마이크로매니징</span><span class="term">스킬</span><span class="term">pstack</span><span class="term">지름길</span></div>
+      </section>
+
+      <section class="sec" id="s2">
+        <div class="sec-head"><span class="sec-num">2</span><div><h2>고밀도 도메인 언어</h2><p class="sub">병목은 의도 표현으로 옮겨 간다</p></div></div>
+        <p>모델이 좋아질수록(그는 "Opus 5.5"를 좋아한다고 했다 <span class="chk">확인 필요</span>) 병목은 사람이 의도를 얼마나 명확하게 표현하느냐로 옮겨 간다. 프로그래밍을 조금 아는 의사나 변호사가 유리한 이유다.</p>
+        <p>진행자는 에이전트가 TDD나 'grilling' 같은 핵심 단어를 잡으면 사고 과정 내내 반복한다고 관찰했다. 로런 탄이 가장 싫어하는 것은 <b>동어반복 테스트</b>다. 'tautology' 한 단어에 많은 의도가 압축되어 있다.</p>
+        <details class="viz"><summary>그림으로 보기: 고밀도 용어의 힘</summary><figure><svg viewBox="0 0 280 250" role="img" aria-label="저밀도 일상어로 길게 설명하는 대신 tautological test 같은 고밀도 용어 하나가 많은 의도를 압축한다"><defs><marker id="d3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">의도 표현의 병목</text><rect class="bx3" x="10" y="42" width="260" height="92" rx="10"/><text class="tb" x="140" y="70" text-anchor="middle">저밀도 일상어</text><text class="tm" x="140" y="96" text-anchor="middle">"진짜 기능을 검사하고</text><text class="tm" x="140" y="122" text-anchor="middle">가짜 성공은 넣지 말고…"</text><rect class="bx2" x="10" y="146" width="260" height="92" rx="10"/><text class="tb" x="140" y="174" text-anchor="middle">고밀도 용어</text><text class="tm" x="140" y="200" text-anchor="middle">tautological test</text><text class="tm" x="140" y="226" text-anchor="middle">idempotency</text></svg><figcaption>용어는 제약과 모범 사례의 압축 패키지다.</figcaption></figure></details>
+        <div class="terms"><span class="term">도메인 전문성</span><span class="term">동어반복 테스트</span><span class="term">TDD</span><span class="term">고밀도 어휘</span></div>
+      </section>
+
+      <section class="sec" id="s3">
+        <div class="sec-head"><span class="sec-num">3</span><div><h2>미슐랭 키친</h2><p class="sub">소프트웨어 공장이 아니다</p></div></div>
+        <p>로런 탄은 '소프트웨어 공장' 비유가 규모는 설명해도 품질과 장인정신을 담지 못한다며 <b>미슐랭 키친</b>을 제안한다. 총괄 셰프는 프라이팬을 잡지 않고 동선과 재료와 워크플로를 설계한다.</p>
+        <details class="viz"><summary>그림으로 보기: 신뢰 사다리</summary><figure><svg viewBox="0 0 280 316" role="img" aria-label="신뢰 사다리는 가정 요리사, 혼란스러운 주방, 총괄 셰프와 수셰프 체제, 다크 팩토리로 올라간다"><defs><marker id="d4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">1 가정 요리사</text><text class="tm" x="140.0" y="62" text-anchor="middle">혼자 모든 것을</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="84" marker-end="url(#d4)"/><rect class="bx3" x="10" y="86" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="114" text-anchor="middle">2 혼란스러운 주방</text><text class="tm" x="140.0" y="140" text-anchor="middle">여러 에이전트, 마이크로매니징</text><line class="ln" x1="140.0" y1="152" x2="140.0" y2="162" marker-end="url(#d4)"/><rect class="bx" x="10" y="164" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="192" text-anchor="middle">3 총괄 셰프 + 수셰프</text><text class="tm" x="140.0" y="218" text-anchor="middle">동선·재료·워크플로 설계</text><line class="ln" x1="140.0" y1="230" x2="140.0" y2="240" marker-end="url(#d4)"/><rect class="bx2" x="10" y="242" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="270" text-anchor="middle">4 다크 팩토리</text><text class="tm" x="140.0" y="296" text-anchor="middle">자율 머지 · 사후 표본 감사</text></svg><figcaption>해설용 재구성.</figcaption></figure></details>
+        <p>직접 조리하지 않아도 품질에 대한 책임은 외주화되지 않는다. 나쁜 접시는 총괄 셰프와 식당의 평판을 망친다.</p>
+        <details class="viz"><summary>그림으로 보기: 총괄 셰프의 식재료</summary><figure><svg viewBox="0 0 280 206" role="img" aria-label="에이전트 엔지니어의 식재료는 스킬, 환경, 코드베이스이고, 최종 책임은 사람에게 남는다"><defs><marker id="d5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="24" text-anchor="middle">총괄 셰프의 새 식재료</text><rect class="bx2" x="10" y="40" width="125" height="70" rx="10"/><text class="tb" x="72.5" y="74" text-anchor="middle">스킬</text><text class="tm" x="72.5" y="102" text-anchor="middle"></text><rect class="bx2" x="145" y="40" width="125" height="70" rx="10"/><text class="tb" x="207.5" y="74" text-anchor="middle">환경</text><text class="tm" x="207.5" y="102" text-anchor="middle"></text><rect class="bx2" x="10" y="120" width="125" height="70" rx="10"/><text class="tb" x="72.5" y="154" text-anchor="middle">코드베이스</text><text class="tm" x="72.5" y="182" text-anchor="middle"></text><rect class="bx2" x="145" y="120" width="125" height="70" rx="10"/><text class="tb" x="207.5" y="154" text-anchor="middle">책임은 사람</text><text class="tm" x="207.5" y="182" text-anchor="middle"></text></svg><figcaption>스킬, 환경, 코드베이스.</figcaption></figure></details>
+        <div class="terms"><span class="term">미슐랭 키친</span><span class="term">총괄 셰프</span><span class="term">장인정신</span><span class="term">메타 엔지니어링</span></div>
+      </section>
+
+      <section class="sec" id="s4">
+        <div class="sec-head"><span class="sec-num">4</span><div><h2>런타임 검증</h2><p class="sub">루프를 완성하는 단 하나의 스킬</p></div></div>
+        <p>로런 탄은 가장 중요한 단 하나의 스킬이 <b>검증</b>이라고 단언한다. Cursor에서 처음 만든 스킬도 검증 스킬이었다. 검증은 에이전트에게 손과 눈을 달아 코드를 실행하고, 사용자처럼 조작하고, 트레이스와 스냅샷을 뜨게 한다.</p>
+        <details class="viz"><summary>그림으로 보기: 열린 루프와 닫힌 루프</summary><figure><svg viewBox="0 0 280 250" role="img" aria-label="검증이 없으면 열린 루프로 결과를 모르고, 검증이 있으면 실행하고 관측해 수정하는 닫힌 루프가 된다"><defs><marker id="d6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">검증이 루프를 만든다</text><rect class="bx3" x="10" y="42" width="260" height="92" rx="10"/><text class="tb" x="140" y="70" text-anchor="middle">열린 루프</text><text class="tm" x="140" y="96" text-anchor="middle">프롬프트 → 코드 → 끝</text><text class="tm" x="140" y="122" text-anchor="middle">결과를 모른다</text><rect class="bx2" x="10" y="146" width="260" height="92" rx="10"/><text class="tb" x="140" y="174" text-anchor="middle">닫힌 루프</text><text class="tm" x="140" y="200" text-anchor="middle">실행 → 관측 → 수정</text><text class="tm" x="140" y="226" text-anchor="middle">언덕 오르기</text></svg><figcaption>"루프를 루프로 만드는 것은 검증이다."</figcaption></figure></details>
+        <details class="viz"><summary>그림으로 보기: 언덕 오르기</summary><figure><svg viewBox="0 0 280 246" role="img" aria-label="검증과 채점 기준이 있으면 실패를 딛고 조금씩 목표를 향해 올라가는 언덕 오르기가 가능하다"><defs><marker id="d7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="24" text-anchor="middle">언덕 오르기 (개념도)</text><line class="ln" x1="24" y1="200" x2="264" y2="200"/><line class="ln" x1="24" y1="200" x2="24" y2="46"/><polyline points="30,190 60,170 80,178 110,140 135,150 165,110 190,118 220,80 255,60" fill="none" stroke="#2f6b45" stroke-width="3"/><text class="tm" x="250" y="226" text-anchor="end">반복 →</text><text class="tm" x="28" y="232" text-anchor="start">Evals = 나침반</text></svg><figcaption>해설 도식.</figcaption></figure></details>
+        <p>그는 안드레이 카파시가 공개한 auto research에도 이 생각이 담겨 있다고 말한다. <span class="chk">확인 필요</span> 지금은 Cursor(자막상 "SpaceX AI")의 모든 앱에 자동으로 유지되는 검증 스킬이 있다. <span class="chk">확인 필요</span></p>
+        <div class="terms"><span class="term">검증</span><span class="term">닫힌 루프</span><span class="term">언덕 오르기</span><span class="term">Evals</span></div>
+      </section>
+
+      <section class="sec" id="s5">
+        <div class="sec-head"><span class="sec-num">5</span><div><h2>결정성은 CLI로</h2><p class="sub">비결정성만 에이전트에</p></div></div>
+        <p>처음에는 장황한 브라우저 프로토콜 응답이 컨텍스트를 낭비하지 않게 CLI를 만들었다. CLI 자체는 Playwright나 CDP를 부르는 접착제일 뿐이었지만, 진짜 가치는 절차를 고정한 데 있었다.</p>
+        <details class="viz"><summary>그림으로 보기: 세계를 재구축하지 않기</summary><figure><svg viewBox="0 0 280 250" role="img" aria-label="CLI가 없으면 에이전트마다 세계를 재구축하고, CLI로 고정하면 재현 가능하고 토큰을 아낀다"><defs><marker id="d9" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">결정성을 CLI로</text><rect class="bx3" x="10" y="42" width="260" height="92" rx="10"/><text class="tb" x="140" y="70" text-anchor="middle">CLI 없이</text><text class="tm" x="140" y="96" text-anchor="middle">에이전트마다 스크립트</text><text class="tm" x="140" y="122" text-anchor="middle">"세계를 재구축"</text><rect class="bx2" x="10" y="146" width="260" height="92" rx="10"/><text class="tb" x="140" y="174" text-anchor="middle">CLI로 고정</text><text class="tm" x="140" y="200" text-anchor="middle">재현 가능 · 토큰 절약</text><text class="tm" x="140" y="226" text-anchor="middle">핵심 결과만 전달</text></svg><figcaption>스크립트를 새로 쓰고 버리던 낭비가 사라진다.</figcaption></figure></details>
+        <p>그는 스킬과 규칙 중 얼마나 많은 부분을 결정적으로 만들 수 있는지 생각해 보라고 권한다. 마이그레이션도 코드모드나 AST 변환으로 처리할 수 있다.</p>
+        <details class="viz"><summary>그림으로 보기: 세 층 구조</summary><figure><svg viewBox="0 0 280 242" role="img" aria-label="추론과 판단은 LLM에, 기계적 절차는 CLI에, 금지 패턴 차단은 환경에 맡기는 세 층 구조"><defs><marker id="d8" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx2" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">비결정적: LLM</text><text class="tm" x="140.0" y="62" text-anchor="middle">무엇을 어떻게 고칠까</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="86" marker-end="url(#d8)"/><rect class="bx" x="10" y="88" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="116" text-anchor="middle">결정적: CLI</text><text class="tm" x="140.0" y="142" text-anchor="middle">Playwright·CDP 접착제</text><line class="ln" x1="140.0" y1="154" x2="140.0" y2="166" marker-end="url(#d8)"/><rect class="bx" x="10" y="168" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="196" text-anchor="middle">엄격한 환경</text><text class="tm" x="140.0" y="222" text-anchor="middle">Dune · 린트 · 타입</text></svg><figcaption>판단은 LLM, 절차는 CLI, 차단은 환경.</figcaption></figure></details>
+        <div class="terms"><span class="term">결정론</span><span class="term">CLI</span><span class="term">Playwright</span><span class="term">CDP</span><span class="term">코드모드</span></div>
+      </section>
+
+      <section class="sec" id="s6">
+        <div class="sec-head"><span class="sec-num">6</span><div><h2>환경 설계와 Dune</h2><p class="sub">나쁜 코드를 불가능하게</p></div></div>
+        <p>엔지니어의 새 일은 환경에 시간을 쓰는 것이다. 신뢰가 낮으면 감시에 매달려 환경을 개선할 시간이 없다. 핵심 철학은 TypeScript의 타입 좁히기처럼 코드베이스의 유효 상태 공간을 좁히는 것이다.</p>
+        <p>그는 사내 Electron 앱용 비공개 프레임워크 <b>Dune</b>("Electron 앱을 위한 사내 Next.js")을 만들고 있다. <span class="chk">확인 필요</span> 계기는 데스크톱 앱 초기 버전이 1만 줄 이상의 갓 파일 8개쯤으로 되어 있었다는 점이다. <span class="chk">확인 필요</span> 원문은 이 앱을 'Grok Bot 데스크톱 앱'이라고 부른다. <span class="chk">확인 필요</span></p>
+        <details class="viz"><summary>그림으로 보기: Dune</summary><figure><svg viewBox="0 0 280 250" role="img" aria-label="갓 파일 8개쯤으로 된 앱 대신 Dune은 기능마다 전용 디렉터리를 두어 구현 방법을 하나로 좁힌다"><defs><marker id="d10" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">유효 상태 공간 좁히기</text><rect class="bx3" x="10" y="42" width="260" height="92" rx="10"/><text class="tb" x="140" y="70" text-anchor="middle">갓 파일</text><text class="tm" x="140" y="96" text-anchor="middle">1만 줄+ 파일 8개쯤</text><text class="tm" x="140" y="122" text-anchor="middle">어디든 덧붙인다</text><rect class="bx2" x="10" y="146" width="260" height="92" rx="10"/><text class="tb" x="140" y="174" text-anchor="middle">Dune</text><text class="tm" x="140" y="200" text-anchor="middle">기능마다 디렉터리</text><text class="tm" x="140" y="226" text-anchor="middle">방법은 단 하나</text></svg><figcaption>중앙 레지스트리가 기능 디렉터리를 자동 등록한다.</figcaption></figure></details>
+        <p>에이전트가 실수하면 "다음부터 이러지 마"라고 하지 말고, 그 실수를 린트나 컴파일러 제약으로 불가능하게 만든다. 진행자의 정리처럼, 규칙을 환경에 두면 에이전트가 필요한 순간에 부딪혀 튕겨 나온다.</p>
+        <details class="viz"><summary>그림으로 보기: 포카요케</summary><figure><svg viewBox="0 0 280 250" role="img" aria-label="실수를 프롬프트로 훈계하는 대신 린트와 컴파일러 제약으로 불가능하게 만든다"><defs><marker id="d11" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">포카요케</text><rect class="bx3" x="10" y="42" width="260" height="92" rx="10"/><text class="tb" x="140" y="70" text-anchor="middle">프롬프트 지시</text><text class="tm" x="140" y="96" text-anchor="middle">"다음부턴 이러지 마"</text><text class="tm" x="140" y="122" text-anchor="middle">권고 · 토큰 소모</text><rect class="bx2" x="10" y="146" width="260" height="92" rx="10"/><text class="tb" x="140" y="174" text-anchor="middle">환경 제약</text><text class="tm" x="140" y="200" text-anchor="middle">린트·컴파일러로 차단</text><text class="tm" x="140" y="226" text-anchor="middle">부딪혀 튕겨 나온다</text></svg><figcaption>[해설] 프롬프트 과적의 대안.</figcaption></figure></details>
+        <div class="terms"><span class="term">환경 설계</span><span class="term">타입 좁히기</span><span class="term">Dune</span><span class="term">갓 파일</span><span class="term">린트</span><span class="term">포카요케</span></div>
+      </section>
+
+      <section class="sec" id="s7">
+        <div class="sec-head"><span class="sec-num">7</span><div><h2>이중 루프와 코디네이터</h2><p class="sub">대량 배포의 엔진</p></div></div>
+        <p>대량 머지의 전제는 견고한 환경이다. 고든 램지가 주방 하나를 완벽히 세팅해야 2호점을 열 수 있듯이. 그는 프로젝트 세션을 하나의 식당으로 보고 헬리콥터처럼 그 사이를 오간다.</p>
+        <p>내부 루프의 의도 스냅샷은 빠르게 낡는다. 외부 루프에는 Slack, Linear, X, 이메일의 맥락이 흐른다. 그는 "어디서 내가 병목인가?"를 묻고, 거창한 '컴퍼니 브레인' 대신 실제 데이터 소스를 에이전트에 직접 연결하라고 조언한다. 원문은 외부 루프 감시자를 'Grok Bot'이라고 적는다. <span class="chk">확인 필요</span></p>
+        <details class="viz"><summary>그림으로 보기: 이중 루프 파이프라인</summary><figure><svg viewBox="0 0 280 316" role="img" aria-label="외부 루프의 요청이 감시 봇을 거쳐 코디네이터에게 가고, 코디네이터가 작업을 나눠 워커 에이전트에게 맡긴다"><defs><marker id="d12" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">외부 루프</text><text class="tm" x="140.0" y="62" text-anchor="middle">Slack · Linear · X · 이메일</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="84" marker-end="url(#d12)"/><rect class="bx" x="10" y="86" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="114" text-anchor="middle">감시 봇</text><text class="tm" x="140.0" y="140" text-anchor="middle">요청을 클라우드 프로젝트로</text><line class="ln" x1="140.0" y1="152" x2="140.0" y2="162" marker-end="url(#d12)"/><rect class="bx2" x="10" y="164" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="192" text-anchor="middle">코디네이터</text><text class="tm" x="140.0" y="218" text-anchor="middle">작업 토폴로지 · 공통 원인</text><line class="ln" x1="140.0" y1="230" x2="140.0" y2="240" marker-end="url(#d12)"/><rect class="bx" x="10" y="242" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="270" text-anchor="middle">워커 에이전트</text><text class="tm" x="140.0" y="296" text-anchor="middle">구현 · 검증</text></svg><figcaption>코디네이터는 직접 코드를 짜지 않는다.</figcaption></figure></details>
+        <p>30개 이슈가 한꺼번에 오면 코디네이터가 연관성을 분석해 작업을 나눈다. 이슈마다 에이전트를 띄우면 공통 원인을 놓치기 때문이다. 넷플릭스 관리자들의 원칙 <b>"통제가 아닌 맥락(Context, not Control)"</b>이 에이전트에도 들어맞는다.</p>
+        <details class="viz"><summary>그림으로 보기: 가드닝</summary><figure><svg viewBox="0 0 280 250" role="img" aria-label="이슈마다 에이전트를 띄우면 공통 원인을 놓치지만, 발견을 문서에 모아 두면 같은 문제라는 패턴이 보인다"><defs><marker id="d13" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">가드닝</text><rect class="bx3" x="10" y="42" width="260" height="92" rx="10"/><text class="tb" x="140" y="70" text-anchor="middle">이슈마다 에이전트</text><text class="tm" x="140" y="96" text-anchor="middle">중복 작업</text><text class="tm" x="140" y="122" text-anchor="middle">공통 원인 놓침</text><rect class="bx2" x="10" y="146" width="260" height="92" rx="10"/><text class="tb" x="140" y="174" text-anchor="middle">버퍼 문서 → 패턴</text><text class="tm" x="140" y="200" text-anchor="middle">"사실 같은 문제"</text><text class="tm" x="140" y="226" text-anchor="middle">숲을 본다</text></svg><figcaption>React 금지 패턴을 찾는 에이전트는 고치지 않고 문서에 덧붙인다.</figcaption></figure></details>
+        <div class="terms"><span class="term">내부 루프</span><span class="term">외부 루프</span><span class="term">코디네이터 에이전트</span><span class="term">가드닝</span><span class="term">Context, not Control</span></div>
+      </section>
+
+      <section class="sec" id="s8">
+        <div class="sec-head"><span class="sec-num">8</span><div><h2>다크 팩토리</h2><p class="sub">사전 차단에서 사후 표본 감사로</p></div></div>
+        <p>그는 "에이전트가 사람 리뷰 없이 머지하려면?"에서 거꾸로 설계했다. 모든 접시를 맛볼 수는 없으니 표본 검사로 품질을 보고, 아침에 커밋 기록을 리뷰한다.</p>
+        <details class="viz"><summary>그림으로 보기: 리뷰의 역전</summary><figure><svg viewBox="0 0 280 250" role="img" aria-label="모든 PR을 사전에 승인하는 대신 자율 머지 후 아침에 표본으로 감사한다"><defs><marker id="d14" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">리뷰의 역전</text><rect class="bx3" x="10" y="42" width="260" height="92" rx="10"/><text class="tb" x="140" y="70" text-anchor="middle">게이트키핑</text><text class="tm" x="140" y="96" text-anchor="middle">모든 PR 사전 승인</text><text class="tm" x="140" y="122" text-anchor="middle">사람 속도에 묶임</text><rect class="bx2" x="10" y="146" width="260" height="92" rx="10"/><text class="tb" x="140" y="174" text-anchor="middle">표본 감사</text><text class="tm" x="140" y="200" text-anchor="middle">자율 머지 후</text><text class="tm" x="140" y="226" text-anchor="middle">아침에 표본 리뷰</text></svg><figcaption>게이트키퍼에서 감사관으로.</figcaption></figure></details>
+        <p>10개 이상의 전담 에이전트가 24시간 일하고 <span class="chk">확인 필요</span>, <code>pstack</code>의 풀 오토파일럿 모드에서는 PR마다 여러 검증 에이전트(예로 10개)가 퍼징한다. <span class="chk">확인 필요</span> 처음 켠 밤은 무서웠지만 지금은 잠을 더 잘 잔다.</p>
+        <details class="viz"><summary>그림으로 보기: 풀 오토파일럿</summary><figure><svg viewBox="0 0 280 316" role="img" aria-label="풀 오토파일럿은 검증 에이전트들이 퍼징하고 통과하면 자율 머지하며, 지름길이 보이면 환경을 고친다"><defs><marker id="d15" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">풀 오토파일럿</text><text class="tm" x="140.0" y="62" text-anchor="middle">PR마다 검증 에이전트 다수</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="84" marker-end="url(#d15)"/><rect class="bx" x="10" y="86" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="114" text-anchor="middle">퍼징</text><text class="tm" x="140.0" y="140" text-anchor="middle">사용자처럼 두드린다</text><line class="ln" x1="140.0" y1="152" x2="140.0" y2="162" marker-end="url(#d15)"/><rect class="bx2" x="10" y="164" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="192" text-anchor="middle">자율 머지</text><text class="tm" x="140.0" y="218" text-anchor="middle">머지 가능 상태면</text><line class="ln" x1="140.0" y1="230" x2="140.0" y2="240" marker-end="url(#d15)"/><rect class="bx" x="10" y="242" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="270" text-anchor="middle">지름길 발견 시</text><text class="tm" x="140.0" y="296" text-anchor="middle">환경을 고친다</text></svg><figcaption>지름길은 꾸짖지 않고 환경을 고친다.</figcaption></figure></details>
+        <p>진행자는 이를 코드의 존재를 잊는 '바이브 코딩'과 구별해, 여기서는 코드와 환경이 핵심이고 "차단 대신 표본 검사"가 중요하다고 정리했다.</p>
+        <p>되돌릴 수 없는 일방통행 문은? 로런 탄은 결국 에이전트에게서 얻는 검증의 질로 돌아온다고 답하고, 답은 자신도 없다고 인정한다. 증명과 프로그래밍을 결합한 언어의 예로 Bend를 든다. <span class="chk">확인 필요</span></p>
+        <details class="viz"><summary>그림으로 보기: 양방향 문과 일방통행 문</summary><figure><svg viewBox="0 0 280 276" role="img" aria-label="되돌릴 수 있는 양방향 문과 되돌릴 수 없는 일방통행 문이 있고, 검증의 질이 오르면 일방통행 문이 양방향 문으로 바뀐다"><defs><marker id="d16" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">검증의 질이 경계를 옮긴다</text><rect class="bx2" x="10" y="42" width="260" height="92" rx="10"/><text class="tb" x="140" y="70" text-anchor="middle">양방향 문</text><text class="tm" x="140" y="96" text-anchor="middle">되돌릴 수 있음</text><text class="tm" x="140" y="122" text-anchor="middle">UI · 리팩터링 · 가드닝</text><rect class="bx3" x="10" y="146" width="260" height="92" rx="10"/><text class="tb" x="140" y="174" text-anchor="middle">일방통행 문</text><text class="tm" x="140" y="200" text-anchor="middle">되돌릴 수 없음</text><text class="tm" x="140" y="226" text-anchor="middle">스키마 · 금융 원장</text><text class="tb" x="140" y="262" text-anchor="middle">검증 ↑ → 일방통행이 양방향으로</text></svg><figcaption>[해설] 베조스의 개념.</figcaption></figure></details>
+        <div class="terms"><span class="term">표본 감사</span><span class="term">게이트키핑</span><span class="term">풀 오토파일럿</span><span class="term">퍼징</span><span class="term">일방통행 문</span></div>
+      </section>
+
+      <section class="sec" id="s9">
+        <div class="sec-head"><span class="sec-num">9</span><div><h2>대화 기록과 스킬</h2><p class="sub">프로세스를 말로 바꾸기</p></div></div>
+        <p><b>"스킬이란 말로 바꾼 프로세스다."</b> 진행자의 스킬(<code>grill me</code>, <code>wayfinder</code>)과 <code>pstack</code>은 경쟁이 아니라 보완 관계다. <span class="chk">확인 필요</span> 셰프가 자기 칼 가방을 챙기듯, 엔지니어는 자기 도구를 벼려야 한다.</p>
+        <p>스킬의 원재료는 과거 대화 기록이다. 에이전트에게 이전 대화를 분석해 내가 끼어든 지점을 찾게 하라는 것이다. <code>recall</code> 스킬은 긴 디버깅 뒤 새 채팅에 이전 채팅의 좋은 맥락을 가져오고 싶었던 데서 나왔다.</p>
+        <details class="viz"><summary>그림으로 보기: 대화 기록 채굴</summary><figure><svg viewBox="0 0 280 246" role="img" aria-label="과거 대화 기록에서 사람이 끼어든 지점을 찾아 반복된 교정을 린트 규칙이나 스킬로 바꾼다"><defs><marker id="d17" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">과거 대화 기록</text><text class="tm" x="140.0" y="62" text-anchor="middle">내가 끼어든 지점</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="88" marker-end="url(#d17)"/><rect class="bx" x="10" y="90" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="118" text-anchor="middle">개입 패턴 채굴</text><text class="tm" x="140.0" y="144" text-anchor="middle">반복된 교정</text><line class="ln" x1="140.0" y1="156" x2="140.0" y2="170" marker-end="url(#d17)"/><rect class="bx2" x="10" y="172" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="200" text-anchor="middle">린트 규칙 · 스킬</text><text class="tm" x="140.0" y="226" text-anchor="middle">예: recall</text></svg><figcaption>개입 지점이 다음 린트 규칙이 된다.</figcaption></figure></details>
+        <details class="viz"><summary>그림으로 보기: 스킬의 미래</summary><figure><svg viewBox="0 0 280 250" role="img" aria-label="모델이 똑똑해질수록 스킬에서 구현 세부가 빠지고 워크플로 단계와 목표만 남아 더 작아진다"><defs><marker id="d18" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">모델이 똑똑해질수록</text><rect class="bx" x="10" y="42" width="260" height="92" rx="10"/><text class="tb" x="140" y="70" text-anchor="middle">지금의 스킬</text><text class="tm" x="140" y="96" text-anchor="middle">명령어·플래그까지</text><text class="tm" x="140" y="122" text-anchor="middle">구현 세부</text><rect class="bx2" x="10" y="146" width="260" height="92" rx="10"/><text class="tb" x="140" y="174" text-anchor="middle">미래의 스킬</text><text class="tm" x="140" y="200" text-anchor="middle">워크플로 단계와 목표</text><text class="tm" x="140" y="226" text-anchor="middle">더 작고 간결</text></svg><figcaption>wayfinder와 potato mode를 섞은 나만의 모드처럼 조합한다(potato mode 확인 필요).</figcaption></figure></details>
+        <div class="callout"><p>엔지니어는 에이전트가 실수를 저지르고 싶어도 저지를 수 없는 물리 법칙을 설계하는 주방의 건축가다.</p></div>
+        <div class="terms"><span class="term">대화 기록</span><span class="term">recall</span><span class="term">암묵지</span><span class="term">프로세스 자산화</span></div>
+      </section>
+      <section class="sec" id="rv">
+        <div class="sec-head"><span class="sec-num">✔</span><div><h2>복습</h2><p class="sub">용어 카드 · 빈칸 · 5문항 퀴즈</p></div></div>
+        <h3 class="rv-h">핵심 용어 카드</h3>
+        <div class="flips">
+          <button type="button" class="flip" aria-expanded="false"><b>고기 프록시</b><span class="hint">뜻 보기</span><span class="m">도구와 에이전트 사이에서 정보를 손으로 중계하는 사람. 루프의 병목.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>pstack</b><span class="hint">뜻 보기</span><span class="m">로런 탄의 스킬 묶음. 자막상 PAC, 정식 표기 확인 필요.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>동어반복 테스트</b><span class="hint">뜻 보기</span><span class="m">구현을 베껴 같은 값을 다시 확인하는 쓸모없는 테스트.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>미슐랭 키친</b><span class="hint">뜻 보기</span><span class="m">소프트웨어 공장 대신 제안한 비유. 총괄 셰프가 주방을 설계한다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>런타임 검증</b><span class="hint">뜻 보기</span><span class="m">에이전트가 코드를 실행·관측해 스스로 고치게 하는 가장 중요한 스킬.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>언덕 오르기</b><span class="hint">뜻 보기</span><span class="m">검증과 채점 기준을 나침반 삼아 조금씩 목표로 올라가는 반복.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>Dune</b><span class="hint">뜻 보기</span><span class="m">사내 Electron 앱용 비공개 프레임워크. 기능 구현 방법을 하나로 강제한다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>코디네이터 에이전트</b><span class="hint">뜻 보기</span><span class="m">이슈를 분석해 작업을 나누고 감독하는 에이전트. 직접 코드를 짜지 않는다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>표본 감사</b><span class="hint">뜻 보기</span><span class="m">자율 머지 후 일부를 골라 리뷰하는 방식. 사전 게이트키핑의 대안.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>일방통행 문</b><span class="hint">뜻 보기</span><span class="m">되돌릴 수 없는 변경. 검증의 질이 오르면 양방향 문이 될 수 있다.</span></button>
+        </div>
+        <h3 class="rv-h">빈칸 채우기</h3>
+        <ol class="cloze">
+          <li>사람이 DevTools와 에이전트를 중계하면 &quot;<button type="button" class="blank" data-a="고기 프록시">빈칸</button>&quot;가 된다.</li>
+          <li>스킬은 쉬운 일을 <button type="button" class="blank" data-a="올바른 일">빈칸</button>로 만드는 것을 겨냥한다.</li>
+          <li>가장 중요한 단 하나의 스킬은 <button type="button" class="blank" data-a="검증">빈칸</button>이다.</li>
+          <li>결정적 절차는 <button type="button" class="blank" data-a="CLI">빈칸</button>로 격리한다.</li>
+          <li>Dune에서는 새 기능을 만드는 방법이 <button type="button" class="blank" data-a="단 하나">빈칸</button>다.</li>
+          <li>넷플릭스의 원칙은 &quot;통제가 아닌 <button type="button" class="blank" data-a="맥락">빈칸</button>&quot;이다.</li>
+          <li>리뷰는 사전 차단에서 사후 <button type="button" class="blank" data-a="표본 감사">빈칸</button>로 바뀐다.</li>
+          <li>스킬이란 말로 바꾼 <button type="button" class="blank" data-a="프로세스">빈칸</button>다.</li>
+        </ol>
+        <h3 class="rv-h">5문항 퀴즈</h3>
+        <div id="quiz">
+          <div class="q" data-a="1"><fieldset><legend class="qt">1. 로런 탄이 꼽은 가장 중요한 단 하나의 스킬은?</legend>
+            <button type="button">프롬프트 템플릿</button>
+            <button type="button">검증</button>
+            <button type="button">코드 생성</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="검증이 루프를 루프로 만듭니다."></p></div>
+          <div class="q" data-a="1"><fieldset><legend class="qt">2. 에이전트가 실수했을 때 권하는 대응은?</legend>
+            <button type="button">프롬프트에 금지 사항 추가</button>
+            <button type="button">린트·컴파일러 제약으로 불가능하게</button>
+            <button type="button">에이전트 교체</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="환경에 규칙을 두면 에이전트가 부딪혀 튕겨 나옵니다."></p></div>
+          <div class="q" data-a="2"><fieldset><legend class="qt">3. CLI로 결정적 절차를 고정하는 이점이 아닌 것은?</legend>
+            <button type="button">재현 가능성</button>
+            <button type="button">토큰 절약</button>
+            <button type="button">모델의 추론 능력 향상</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="CLI는 절차를 고정할 뿐 추론은 LLM의 몫입니다."></p></div>
+          <div class="q" data-a="1"><fieldset><legend class="qt">4. 코디네이터가 이슈마다 에이전트를 따로 띄우지 않는 이유는?</legend>
+            <button type="button">비용</button>
+            <button type="button">공통 원인을 놓치고 작업이 중복되어서</button>
+            <button type="button">규정 때문</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="여러 버그 뒤의 공통 원인을 찾기 위해서입니다."></p></div>
+          <div class="q" data-a="1"><fieldset><legend class="qt">5. 일방통행 문 문제에 대한 로런 탄의 답은?</legend>
+            <button type="button">항상 사람이 승인</button>
+            <button type="button">검증의 질로 돌아온다</button>
+            <button type="button">자율 머지 금지</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="검증할 수 있다면 일방통행 문도 양방향 문이 됩니다."></p></div>
+          <p class="score" id="score" aria-live="polite">점수: 0 / 5</p>
+          <div class="rv-tools"><button type="button" id="qreset">다시 풀기</button></div>
+        </div>
+      </section>
+
+      <section class="sources">
+        <h3>출처</h3>
+        <ul>
+          <li><a href="https://yghnsim.github.io/Pages/articles/lauren-tan-trust-curve-ai-merged-prs.html">Pages — 에이전트 자율 머지와 신뢰 곡선</a></li>
+          
+        </ul>
+      </section>
+    </main>
+
+  </div>
+</div>
+<script>(function(){
+function $$(q){return [].slice.call(document.querySelectorAll(q))}
+$$('.flip').forEach(function(b){b.onclick=function(){b.setAttribute('aria-expanded',b.getAttribute('aria-expanded')==='true'?'false':'true')}});
+function show(b){b.textContent=b.dataset.a;b.classList.add('shown');b.setAttribute('aria-label','답: '+b.dataset.a)}
+function hide(b){b.textContent='?';b.classList.remove('shown');b.setAttribute('aria-label','빈칸, 눌러서 답 보기')}
+$$('.blank').forEach(function(b){b.onclick=function(){show(b)}});
+$$('[data-all]').forEach(function(t){t.onclick=function(){if(t.dataset.all==='flip')$$('.flip').forEach(function(b){b.setAttribute('aria-expanded','true')});else $$('.blank').forEach(show)}});
+$$('[data-reset]').forEach(function(t){t.onclick=function(){if(t.dataset.reset==='flip')$$('.flip').forEach(function(b){b.setAttribute('aria-expanded','false')});else $$('.blank').forEach(hide)}});
+var sc=0,done=0,qs=$$('#quiz .q'),tot=qs.length||5;
+function upd(){var el=document.getElementById('score');if(el)el.textContent='점수: '+sc+' / '+tot+(done===tot?' (끝)':'')}
+qs.forEach(function(q){var bs=[].slice.call(q.querySelectorAll('fieldset button')),ex=q.querySelector('.ex');
+bs.forEach(function(b,i){b.onclick=function(){var a=+q.dataset.a,ok=i===a;bs.forEach(function(x){x.disabled=true});if(bs[a])bs[a].classList.add('right');if(!ok)b.classList.add('wrong');
+if(ex){ex.hidden=false;ex.textContent=(ok?'맞았습니다. ':'아쉽습니다. ')+ex.dataset.e;}if(ok)sc++;done++;upd();}})});
+var qr=document.getElementById('qreset');
+if(qr)qr.onclick=function(){sc=0;done=0;qs.forEach(function(q){q.querySelectorAll('fieldset button').forEach(function(x){x.disabled=false;x.className=''});var ex=q.querySelector('.ex');if(ex){ex.hidden=true;ex.textContent=''}});upd()};
+})();</script>
+
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">아카이브</div><div class="arc-foot-title">에이전트 자율 머지와 신뢰 곡선 — 한 달 수천 개 PR을 프로덕션에 내보내는 엔지니어링 시스템</div><div class="arc-foot-meta"><time datetime="2026-10-29">2026년 10월 29일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99">#컴퓨터과학</a><a class="arc-tag" href="../index.html#tags=%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8">#에이전트</a><a class="arc-tag" href="../index.html#tags=%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4%EA%B3%B5%ED%95%99">#소프트웨어공학</a><a class="arc-tag" href="../index.html#tags=%ED%95%B4%EC%84%A4">#해설</a> · <a href="https://yghnsim.github.io/Pages/articles/lauren-tan-trust-curve-ai-merged-prs.html" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body>
+</html>
