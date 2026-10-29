@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light only">
+<title>지능이 공짜일 때, 무엇이 가치 있는가</title>
+<meta name="description" content="클리프 소신 인터뷰 요약: 지능의 원자재화, 6대 보완재, 메타와 모델 산업, 역U자 시장, 인프라 과잉 구축, 에이전트와 가격, 기업 AI 전환, 분배와 교육">
+<style>
+:root{color-scheme:light only;
+  --bg:#faf8f3; --paper:#ffffff; --ink:#1f2328; --muted:#5b6470; --line:#e6e1d6;
+  --accent:#c8553d; --accent-soft:#fbeee9; --link:#4a6b8a;
+  --new:#3d5f80; --new-soft:#eaf0f6; --radius:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:20px}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR","Malgun Gothic","Gothic A1",system-ui,sans-serif;
+  font-size:17px;line-height:1.75;word-break:keep-all;overflow-wrap:break-word}
+@media(max-width:640px){body{font-size:16px}}
+a{color:var(--link)}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+.hero{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{display:inline-block;font-size:13px;font-weight:700;color:#a8432e;background:var(--accent-soft);padding:3px 10px;border-radius:999px;margin-bottom:12px}
+.hero h1{font-size:clamp(28px,4.4vw,44px);line-height:1.25;margin:0 0 12px;letter-spacing:-.02em}
+.hero .lead{font-size:18px;color:var(--muted);line-height:1.65;margin:0}
+@media(max-width:640px){.hero .lead{font-size:17px}}
+.hero-cta{margin-top:16px}
+.hero-cta a{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--new);color:#fff;border-radius:10px;font-weight:700;font-size:15px;text-decoration:none}
+.grid{display:grid;grid-template-columns:240px minmax(0,1fr);gap:36px;align-items:start}
+@media(max-width:880px){.grid{grid-template-columns:minmax(0,1fr);gap:0}}
+.toc{position:sticky;top:20px;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;font-size:15px}
+.toc .toc-t{font-weight:700;margin:0 0 10px}
+.toc ol{margin:0;padding:0;list-style:none}
+.toc li{margin:6px 0}
+.toc a{color:var(--muted);display:flex;align-items:baseline;gap:8px;text-decoration:none;line-height:1.45}
+.toc a:hover{color:var(--link)}
+.toc .n{flex:none;display:inline-block;width:22px;height:22px;line-height:22px;text-align:center;border-radius:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:700}
+.toc .orig{display:block;margin-top:14px;padding-top:10px;border-top:1px dashed var(--line);font-size:14px;color:#a8432e;font-weight:700}
+@media(max-width:880px){
+  .toc{position:sticky;top:0;z-index:20;margin:0 -20px 20px;border-radius:0;border-width:0 0 1px;padding:8px 12px;background:rgba(250,248,243,.97);overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .toc .toc-t,.toc .orig{display:none}
+  .toc ol{display:flex;gap:6px;white-space:nowrap}
+  .toc li{margin:0}
+  .toc a{background:#f1ede4;color:var(--ink);border-radius:999px;padding:6px 12px;font-size:14px;align-items:center}
+  .toc .n{background:none;width:auto;height:auto;line-height:1;color:var(--muted)}
+  html{scroll-padding-top:64px}
+}
+main{min-width:0}
+.sec{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:24px 28px;margin-bottom:28px}
+@media(max-width:640px){.sec{padding:18px 16px}}
+.sec-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px}
+.sec-num{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:12px;background:var(--ink);color:#fff;font-weight:800;font-size:17px;flex-shrink:0;margin-top:2px}
+@media(max-width:640px){.sec-num{width:34px;height:34px;font-size:15px}}
+.sec-head h2{font-size:clamp(23px,3vw,30px);line-height:1.3;margin:0;letter-spacing:-.015em}
+.sec-head .sub{font-size:16px;color:var(--muted);margin:3px 0 0}
+h3{font-size:19px;margin:22px 0 8px}
+p{margin:0 0 14px}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin:4px 0}
+.theses{counter-reset:t;list-style:none;padding:0;margin:0 0 16px}
+.theses li{counter-increment:t;position:relative;padding:10px 14px 10px 50px;margin:8px 0;background:#fdfcf9;border:1px solid var(--line);border-radius:12px}
+.theses li::before{content:counter(t);position:absolute;left:14px;top:12px;width:24px;height:24px;border-radius:50%;background:var(--accent-soft);color:#a8432e;font-weight:800;font-size:14px;display:grid;place-items:center}
+.tblw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:16px 0}
+.tbl{width:100%;min-width:520px;border-collapse:collapse;font-size:16px}
+.tbl th,.tbl td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+.tbl th{background:var(--new-soft);color:var(--new);font-weight:700}
+.tbl td{background:#fff}
+.callout{background:var(--new-soft);border-left:4px solid var(--new);border-radius:10px;padding:12px 16px;margin:14px 0}
+.callout.warm{background:var(--accent-soft);border-left-color:var(--accent)}
+.callout p:last-child{margin:0}
+blockquote{margin:14px 0;padding:12px 18px;background:#fff;border-left:5px solid var(--accent);border-radius:0 12px 12px 0}
+blockquote p{margin:0}
+.terms{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+.term{display:inline-flex;align-items:center;gap:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:600;padding:4px 10px;border-radius:8px}
+details.viz{margin:14px 0;border:1px solid var(--line);border-radius:12px;background:#fdfcf9}
+details.viz summary{cursor:pointer;list-style:none;padding:12px 14px;font-weight:600;font-size:16px;color:var(--new);min-height:44px;display:flex;align-items:center;gap:8px}
+details.viz summary::-webkit-details-marker{display:none}
+details.viz summary::before{content:"▸";font-size:14px;color:var(--accent)}
+details.viz[open] summary::before{content:"▾"}
+details.viz figure{margin:0;padding:4px 12px 14px}
+details.viz svg{display:block;width:100%;height:auto;max-width:400px;margin:0 auto;font-family:"Pretendard","Noto Sans KR",sans-serif}
+details.viz figcaption{font-size:16px;color:var(--muted);line-height:1.6;margin-top:8px}
+svg .bx{fill:#fff;stroke:#5b6470;stroke-width:1.4}
+svg .bx2{fill:#eaf0f6;stroke:#3d5f80;stroke-width:1.4}
+svg .bx3{fill:#fbeee9;stroke:#c8553d;stroke-width:1.4}
+svg .t{fill:#1f2328;font-size:18px}
+svg .tb{fill:#1f2328;font-size:18px;font-weight:700}
+svg .tm{fill:#4a525c;font-size:17.5px}
+svg .ln{stroke:#5b6470;stroke-width:1.5;fill:none}
+svg .lnd{stroke:#5b6470;stroke-width:1.5;fill:none;stroke-dasharray:5 4}
+.sources{background:var(--new-soft);border:1px solid var(--line);border-radius:var(--radius);padding:18px 22px;margin-top:32px;font-size:16px;color:#3f4650}
+.sources h3{font-size:17px;color:var(--new);margin:0 0 8px}
+.sources ul{margin:0;padding-left:20px}
+/* 복습 컴포넌트 표준 스타일 */
+.rv-h{font-size:19px;margin:22px 0 6px}
+.flips{display:grid;grid-template-columns:1fr;gap:8px;margin:10px 0}
+@media(min-width:640px){.flips{grid-template-columns:1fr 1fr}}
+.flip{font:inherit;text-align:left;width:100%;border:1.5px solid var(--line,#e6e1d6);background:#fdfcf9;border-radius:12px;padding:10px 14px;cursor:pointer;color:var(--ink,#1f2328);min-height:64px}
+.flip b{display:block;font-size:17px}
+.flip .m{display:none;font-size:16px;line-height:1.6;margin-top:4px}
+.flip .hint{font-size:13px;color:var(--muted,#5b6470)}
+.flip[aria-expanded="true"]{border-color:var(--new,#3d5f80);background:var(--new-soft,#eaf0f6)}
+.flip[aria-expanded="true"] .m{display:block}
+.flip[aria-expanded="true"] .hint{display:none}
+.cloze{list-style:none;margin:10px 0;padding:0}
+.cloze li{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:10px 14px;margin:8px 0;background:#fdfcf9;font-size:16px;line-height:1.8}
+.blank{font:inherit;font-size:16px;border:0;border-bottom:2px dashed var(--accent,#c8553d);background:var(--accent-soft,#fbeee9);color:#a8432e;border-radius:6px 6px 0 0;padding:0 8px;cursor:pointer;min-width:4.5em}
+.blank.shown{border-bottom-style:solid;background:var(--new-soft,#eaf0f6);color:var(--new,#3d5f80);font-weight:700}
+.rv-tools{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.rv-tools button{font:inherit;font-size:15px;border:1px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link,#4a6b8a)}
+.q{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:12px 14px;margin:10px 0;background:#fdfcf9}
+.q fieldset{border:0;margin:0;padding:0;min-width:0}
+.q legend{font-weight:700;padding:0;margin:0 0 8px;font-size:16.5px}
+.q button{display:block;width:100%;text-align:left;font:inherit;font-size:16px;border:1.5px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:8px 12px;margin:6px 0;cursor:pointer;color:var(--ink,#1f2328)}
+.q button.right{border-color:#2f6b45;background:#e6f1ea}
+.q button.wrong{border-color:#a2452f;background:#fbeee9}
+.q button[disabled]{cursor:default;opacity:1}
+.q .ex{margin:8px 0 0;font-size:16px;padding:8px 10px;border-radius:8px;background:var(--new-soft,#eaf0f6)}
+.score{font-size:17px;font-weight:800;margin:10px 0 0}
+.arc-back b,.arc-foot-label{color:#a8432e!important}
+.chk{display:inline-block;font-size:16px;font-weight:700;color:#8a3a12;background:#fdf0e3;border:1px solid #e8c9a8;border-radius:6px;padding:0 6px;margin-left:4px;white-space:nowrap}
+pre{background:#f6f4ee;border:1px solid var(--line);border-radius:10px;padding:12px 14px;overflow-x:auto;-webkit-overflow-scrolling:touch;margin:14px 0;font-size:16px;line-height:1.6}
+pre code{font-family:"JetBrains Mono","D2Coding",ui-monospace,Menlo,Consolas,monospace;color:#1f2328;white-space:pre}
+code{font-family:"JetBrains Mono","D2Coding",ui-monospace,Menlo,Consolas,monospace;font-size:.92em;background:#f3efe6;border-radius:4px;padding:0 4px}
+pre code{background:none;padding:0;font-size:inherit}
+@media(max-width:640px){pre{margin:12px -4px}}
+.steps,.pc{padding-left:1.3em}.steps li,.pc li{margin:8px 0}
+</style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
+</head>
+<body>
+<!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>아카이브</a><span class="arc-crumb">지능이 공짜일 때, 무엇이 가치 있는가</span><span class="arc-meta"><time datetime="2026-10-29">2026년 10월 29일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=%EA%B2%BD%EC%A0%9C%EA%B2%BD%EC%98%81">#경제경영</a><a class="arc-tag" href="../index.html#tags=%EA%B0%80%EC%B9%98%ED%8F%89%EA%B0%80">#가치평가</a><a class="arc-tag" href="../index.html#tags=%EC%9D%B8%ED%84%B0%EB%B7%B0">#인터뷰</a><a class="arc-src" href="https://yghnsim.github.io/Pages/articles/whats-valuable-when-intelligence-is-free.html" rel="noopener">원문 ↗</a></span></div></div>
+<!-- archive-header:end -->
+<div class="wrap">
+  <header class="hero">
+    <span class="eyebrow">AI 경제 · 클리프 소신 인터뷰</span>
+    <h1>지능이 공짜일 때, 무엇이 가치 있는가</h1>
+    <p class="lead">CAS 인베스트먼트 파트너스의 클리프 소신은 지능이 무한히 똑똑해지는 대신 사실상 공짜가 된다고 본다. 그 세계에서 무너지는 것과 살아남는 것, 그리고 돈이 흘러가는 곳을 정리했다.</p>
+    <div class="hero-cta"><a href="https://yghnsim.github.io/Pages/articles/whats-valuable-when-intelligence-is-free.html">📚 Pages에서 심화 해설 전문 읽기 ↗</a></div>
+  </header>
+  <div class="grid">
+    <nav class="toc" aria-label="목차">
+      <p class="toc-t">목차</p>
+      <ol>
+        <li><a href="#s0"><span class="n">★</span>한눈에 보기</a></li>
+        <li><a href="#s1"><span class="n">1</span>지능은 공의 둥글기</a></li>
+        <li><a href="#s2"><span class="n">2</span>무너지는 것, 남는 것</a></li>
+        <li><a href="#s3"><span class="n">3</span>우주에서 본 메타</a></li>
+        <li><a href="#s4"><span class="n">4</span>모델 산업의 구조</a></li>
+        <li><a href="#s5"><span class="n">5</span>역U자 시장과 속도 제한</a></li>
+        <li><a href="#s6"><span class="n">6</span>인프라와 승자의 저주</a></li>
+        <li><a href="#s7"><span class="n">7</span>에이전트와 가격</a></li>
+        <li><a href="#s8"><span class="n">8</span>거시: GDP와 금리</a></li>
+        <li><a href="#s9"><span class="n">9</span>기업의 AI 전환</a></li>
+        <li><a href="#s10"><span class="n">10</span>마진과 분배</a></li>
+        <li><a href="#s11"><span class="n">11</span>투자와 교육</a></li>
+        <li><a href="#rv"><span class="n">✔</span>복습 &amp; 퀴즈</a></li>
+      </ol>
+      <a class="orig" href="https://yghnsim.github.io/Pages/articles/whats-valuable-when-intelligence-is-free.html">심화 원문(Pages) ↗</a>
+    </nav>
+    <main id="content">
+      <section class="sec" id="s0">
+        <div class="sec-head"><span class="sec-num">★</span><div><h2>한눈에 보기</h2><p class="sub">일곱 가지 핵심 주장</p></div></div>
+        <ol class="theses">
+          <li><b>지능은 비율이다.</b> 신을 향해 끝없이 자라는 스칼라가 아니라 진구에 수렴하는 공의 둥글기에 가깝다.</li>
+          <li><b>진짜 폭주는 가격이다.</b> 충분히 훌륭한 지능의 생산 비용이 무너져 사실상 공짜가 된다.</li>
+          <li><b>지능만으로 된 사업은 무너진다.</b> 소비자의 귀찮음에 기생하는 사업과 결정화된 소프트웨어가 먼저다.</li>
+          <li><b>보완재가 남는다.</b> 데이터, 주의, 애착, 물리적 근접성, 물리적 규모, 규제 포획.</li>
+          <li><b>시장 규모는 역U자다.</b> 제본스 역설은 그 곡선의 한 구간일 뿐이다.</li>
+          <li><b>에이전트는 시장을 날카롭게 한다.</b> 가격 경직성과 애그리게이터의 지대가 녹는다.</li>
+          <li><b>교육은 양극화된다.</b> 모델 없이 기초를 익히고, 모델로 100배 야심 찬 과제에 도전한다.</li>
+        </ol>
+        <details class="viz"><summary>그림으로 보기: 두 손의 이야기</summary><figure><svg viewBox="0 0 280 250" role="img" aria-label="소신은 인프라가 턱없이 부족하다는 이야기와 과잉 구축일 수 있다는 이야기를 같은 확실성으로 말한다"><defs><marker id="d1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">같은 확실성의 두 이야기</text><rect class="bx2" x="10" y="42" width="260" height="92" rx="10"/><text class="tb" x="140" y="70" text-anchor="middle">한 손: 과소 구축</text><text class="tm" x="140" y="96" text-anchor="middle">토큰을 더 쓰고 싶다</text><text class="tm" x="140" y="122" text-anchor="middle">구축자는 떼돈을 번다</text><rect class="bx3" x="10" y="146" width="260" height="92" rx="10"/><text class="tb" x="140" y="174" text-anchor="middle">다른 손: 과잉 구축</text><text class="tm" x="140" y="200" text-anchor="middle">토큰당 비용 급락</text><text class="tm" x="140" y="226" text-anchor="middle">적응은 생각보다 느림</text></svg><figcaption>소신은 과소 구축과 과잉 구축을 같은 확실성으로 말한다.</figcaption></figure></details>
+        <div class="terms"><span class="term">지능의 원자재화</span><span class="term">보완재</span><span class="term">에이전트</span></div>
+      </section>
+
+      <section class="sec" id="s1">
+        <div class="sec-head"><span class="sec-num">1</span><div><h2>지능은 공의 둥글기</h2><p class="sub">스칼라가 아닌 비율</p></div></div>
+        <p>소신은 지능을 듬성듬성 흩어진 사실 사이를 메우는 <b>보간</b> 능력으로 본다. 완벽한 보간에 가까워질수록 개선 폭은 줄어든다. 그래서 지능은 무한히 커지는 수치가 아니라 진구에 수렴하는 둥글기 같은 비율이다.</p>
+        <details class="viz"><summary>그림으로 보기: 허상과 실체</summary><figure><svg viewBox="0 0 280 410" role="img" aria-label="지능은 신을 향해 끝없이 자라는 스칼라가 아니라 완벽한 진구에 수렴하는 공의 둥글기 같은 비율이다"><defs><marker id="d2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="24" text-anchor="middle">지능은 나무의 키가 아니다</text><line class="ln" x1="30" y1="200" x2="260" y2="200"/><line class="ln" x1="30" y1="200" x2="30" y2="50"/><path d="M30,196 Q150,186 200,130 T256,56" fill="none" stroke="#c8553d" stroke-width="3" stroke-dasharray="6 4"/><text class="tb" x="250" y="74" text-anchor="end" fill="#c8553d">신?</text><text class="tm" x="146" y="228" text-anchor="middle">허상: 무한 스칼라</text><circle cx="140" cy="310" r="52" fill="none" stroke="#3d5f80" stroke-width="4"/><text class="tb" x="140" y="304" text-anchor="middle">보간 비율</text><text class="tm" x="140" y="330" text-anchor="middle">진구에 수렴</text><text class="tm" x="140" y="396" text-anchor="middle">실체: 공의 둥글기</text></svg><figcaption>무한 스칼라가 아니라 진구에 수렴하는 비율.</figcaption></figure></details>
+        <h3>복잡계와 절단 오차</h3>
+        <p>소신이 아는 기상학자는 모델의 초기 조건을 조금 덜 반올림해 다시 넣었다. 3~5일 차에 한쪽은 "70도 맑음", 다른 쪽은 "20도 폭우"가 나왔다. 원문에 단위는 없다. <span class="chk">확인 필요</span></p>
+        <p>[해설] 로렌즈(1961)가 0.506127을 0.506으로 넣어 두 예측이 갈라진 일화와 같은 구조다. <span class="chk">확인 필요</span></p>
+        <details class="viz"><summary>그림으로 보기: 절단 오차가 키우는 차이</summary><figure><svg viewBox="0 0 280 300" role="img" aria-label="초기 조건을 조금 덜 반올림해 다시 입력하자 3에서 5일 차에 한쪽은 70도 맑음, 다른 쪽은 20도 폭우로 갈라졌다"><defs><marker id="d3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="24" text-anchor="middle">초기 조건의 미세한 반올림</text><line class="ln" x1="20" y1="160" x2="260" y2="160"/><path d="M20,110 L110,110 Q160,108 200,60 L260,46" fill="none" stroke="#3d5f80" stroke-width="3"/><path d="M20,112 L110,112 Q160,116 200,150 L260,150" fill="none" stroke="#c8553d" stroke-width="3"/><line class="lnd" x1="110" y1="44" x2="110" y2="160"/><text class="tm" x="110" y="184" text-anchor="middle">3~5일 차</text><rect class="bx2" x="10" y="200" width="125" height="62" rx="10"/><text class="tb" x="72" y="226" text-anchor="middle">70도</text><text class="tm" x="72" y="250" text-anchor="middle">맑음</text><rect class="bx3" x="145" y="200" width="125" height="62" rx="10"/><text class="tb" x="208" y="226" text-anchor="middle">20도</text><text class="tm" x="208" y="250" text-anchor="middle">폭우</text><text class="tm" x="140" y="288" text-anchor="middle">단위는 원문에 없음</text></svg><figcaption>미세한 반올림이 며칠 뒤 정반대 예보로 갈라진다.</figcaption></figure></details>
+        <p>보간과 연역으로 풀리는 예측은 질문 전체의 작은 부분이다. 나머지는 현실을 만져야 하고, 실험에는 물리적 시간이 든다. 지능이 수직으로 폭주하는 대신 생산 비용이 폭주적으로 떨어진다.</p>
+        <details class="viz"><summary>그림으로 보기: 진짜 폭주의 방향</summary><figure><svg viewBox="0 0 280 328" role="img" aria-label="지능은 복잡계의 벽에 막혀 수직으로 폭주하지 못하고, 지능 생산 비용을 낮추는 쪽으로 폭주해 충분히 훌륭한 지능이 사실상 공짜가 된다"><defs><marker id="d4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">보간·연역으로 풀리는 예측</text><text class="tm" x="140.0" y="62" text-anchor="middle">질문 전체의 작은 부분</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="88" marker-end="url(#d4)"/><rect class="bx3" x="10" y="90" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="118" text-anchor="middle">그 너머: 현실을 만지기</text><text class="tm" x="140.0" y="144" text-anchor="middle">실험 = 물리적 시간</text><line class="ln" x1="140.0" y1="156" x2="140.0" y2="170" marker-end="url(#d4)"/><rect class="bx" x="10" y="172" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="200" text-anchor="middle">진짜 폭주</text><text class="tm" x="140.0" y="226" text-anchor="middle">지능 생산 비용 하락</text><line class="ln" x1="140.0" y1="238" x2="140.0" y2="252" marker-end="url(#d4)"/><rect class="bx2" x="10" y="254" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="282" text-anchor="middle">충분히 훌륭한 지능</text><text class="tm" x="140.0" y="308" text-anchor="middle">사실상 공짜, 무제한</text></svg><figcaption>충분히 훌륭한 지능이 사실상 공짜가 된다.</figcaption></figure></details>
+        <div class="terms"><span class="term">보간</span><span class="term">복잡계</span><span class="term">절단 오차</span></div>
+      </section>
+
+      <section class="sec" id="s2">
+        <div class="sec-head"><span class="sec-num">2</span><div><h2>무너지는 것, 남는 것</h2><p class="sub">주머니 속 IQ 200 팀</p></div></div>
+        <p>모두의 주머니에 IQ 200짜리 팀이 들어 있다고 상상해 보자. 사람들은 <b>제한된 합리성</b> 때문에 예금 금리를 비교하지 않고 "이 정도면 됐다"로 만족한다. 예금을 옮기면 연 400달러쯤 아낄 수 있어도 귀찮아서 하지 않는다. 에이전트는 이 귀찮음을 없앤다.</p>
+        <p>지능을 코드로 굳힌 단일 목적 소프트웨어, 즉 <b>결정화된 지능</b>도 범용 에이전트에 밀린다. 소신의 표현으로 "그건 전부 그냥 지능"이다.</p>
+        <details class="viz"><summary>그림으로 보기: 먼저 무너지는 두 축</summary><figure><svg viewBox="0 0 280 250" role="img" aria-label="주머니 속 IQ 200 팀은 소비자의 귀찮음에 기생하는 사업과 지능을 코드로 굳힌 소프트웨어를 먼저 무너뜨린다"><defs><marker id="d5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">먼저 무너지는 두 축</text><rect class="bx3" x="10" y="42" width="260" height="92" rx="10"/><text class="tb" x="140" y="70" text-anchor="middle">귀찮음에 기생</text><text class="tm" x="140" y="96" text-anchor="middle">예금 금리: 연 400달러쯤</text><text class="tm" x="140" y="122" text-anchor="middle">"이 정도면 됐다"</text><rect class="bx3" x="10" y="146" width="260" height="92" rx="10"/><text class="tb" x="140" y="174" text-anchor="middle">결정화된 지능</text><text class="tm" x="140" y="200" text-anchor="middle">코드로 굳힌 단일 목적 SW</text><text class="tm" x="140" y="226" text-anchor="middle">범용 에이전트가 우회</text></svg><figcaption>귀찮음에 기생하는 사업과 결정화된 지능.</figcaption></figure></details>
+        <h3>여섯 가지 보완재</h3>
+        <details class="viz"><summary>그림으로 보기: 6대 보완재</summary><figure><svg viewBox="0 0 280 334" role="img" aria-label="지능의 6대 보완재는 데이터, 주의, 애착, 물리적 근접성, 물리적 규모, 규제 포획이다"><defs><marker id="d6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="24" text-anchor="middle">지능의 6대 보완재</text><rect class="bx2" x="10" y="40" width="125" height="86" rx="10"/><text class="tb" x="72" y="74" text-anchor="middle">데이터</text><text class="tm" x="72" y="102" text-anchor="middle">희소한 연료</text><rect class="bx2" x="145" y="40" width="125" height="86" rx="10"/><text class="tb" x="207" y="74" text-anchor="middle">주의</text><text class="tm" x="207" y="102" text-anchor="middle">유한한 24시간</text><rect class="bx2" x="10" y="136" width="125" height="86" rx="10"/><text class="tb" x="72" y="170" text-anchor="middle">애착</text><text class="tm" x="72" y="198" text-anchor="middle">신뢰·충성</text><rect class="bx2" x="145" y="136" width="125" height="86" rx="10"/><text class="tb" x="207" y="170" text-anchor="middle">근접성</text><text class="tm" x="207" y="198" text-anchor="middle">라스트 마일</text><rect class="bx2" x="10" y="232" width="125" height="86" rx="10"/><text class="tb" x="72" y="266" text-anchor="middle">규모</text><text class="tm" x="72" y="294" text-anchor="middle">원자 조직</text><rect class="bx2" x="145" y="232" width="125" height="86" rx="10"/><text class="tb" x="207" y="266" text-anchor="middle">규제 포획</text><text class="tm" x="207" y="294" text-anchor="middle">진입 차단</text></svg><figcaption>지능이 공짜일 때 희소해지는 것.</figcaption></figure></details>
+        <div class="tblw"><table class="tbl">
+          <thead><tr><th>구분</th><th>예</th><th>이유</th></tr></thead>
+          <tbody>
+            <tr><td><b>취약</b></td><td>예금 금리 차익, 틈새 소프트웨어(예: 볼링장용)</td><td>지능과 귀찮음만이 해자</td></tr>
+            <tr><td><b>회복력</b></td><td>데이터·애착·근접성·규모·규제를 가진 사업</td><td>지능으로 복제할 수 없음</td></tr>
+          </tbody>
+        </table></div>
+        <div class="terms"><span class="term">제한된 합리성</span><span class="term">만족화</span><span class="term">결정화된 지능</span><span class="term">보완재</span></div>
+      </section>
+
+      <section class="sec" id="s3">
+        <div class="sec-head"><span class="sec-num">3</span><div><h2>우주에서 본 메타</h2><p class="sub">지능을 사서 광고를 파는 회사</p></div></div>
+        <p>소신은 메타를 개인 맞춤형 TV로 본다. 어림으로 매출 약 2,500억 달러, 지출 약 2,500억 달러이고, 그 지출을 전부 지능 구매로 해석한다. <span class="chk">확인 필요</span></p>
+        <p>5년 안에 지능 단가가 1/100이 된다면 같은 돈으로 100배 싸고 1만 배 강한 지능을 산다. 그래도 결과는 "광고를 조금 더 판다"는 것이다.</p>
+        <details class="viz"><summary>그림으로 보기: 우주에서 본 메타</summary><figure><svg viewBox="0 0 280 390" role="img" aria-label="소신의 어림으로 메타는 매출 약 2,500억 달러, 지출 약 2,500억 달러이고, 그 지출을 전부 지능 구매로 본다"><defs><marker id="d7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="24" text-anchor="middle">우주에서 본 메타</text><rect class="bx" x="10" y="40" width="125" height="70" rx="10"/><text class="tm" x="72" y="68" text-anchor="middle">매출</text><text class="tb" x="72" y="96" text-anchor="middle">2,500억$</text><rect class="bx3" x="145" y="40" width="125" height="70" rx="10"/><text class="tm" x="208" y="68" text-anchor="middle">지출</text><text class="tb" x="208" y="96" text-anchor="middle">2,500억$</text><text class="tb" x="140" y="140" text-anchor="middle">지출 전부 = 지능 구매</text><text class="tm" x="140" y="172" text-anchor="middle">데이터센터 = 지능 공장</text><text class="tm" x="140" y="200" text-anchor="middle">GPU·전력 = 추론</text><text class="tm" x="140" y="228" text-anchor="middle">엔지니어 = 코드 지능</text><text class="tm" x="140" y="256" text-anchor="middle">모더레이션 = 판별 지능</text><rect class="bx2" x="10" y="290" width="260" height="62" rx="10"/><text class="t" x="140" y="316" text-anchor="middle">지능 단가 1/100이면</text><text class="tb" x="140" y="342" text-anchor="middle">광고를 조금 더 판다</text><text class="tm" x="140" y="378" text-anchor="middle" fill="#8a3a12">어림수 · 확인 필요</text></svg><figcaption>매출과 지출의 어림, 지출의 성격.</figcaption></figure></details>
+        <div class="callout"><p>그라인더에 구글 엔지니어 1만 명을 5년 동안 붙여 줘도 사업이 크게 달라질까? 소신은 그라인더를 보유하고 있지 않다고 밝혔다.</p></div>
+        <div class="terms"><span class="term">메타</span><span class="term">지능 단가</span></div>
+      </section>
+
+      <section class="sec" id="s4">
+        <div class="sec-head"><span class="sec-num">4</span><div><h2>모델 산업의 구조</h2><p class="sub">스택 위로, 다이아몬드 수요</p></div></div>
+        <p>프런티어 모델은 스택 위로 올라가고, 그 바로 아래 영역은 빠르게 원자재화된다. 상담 챗봇에 프런티어 모델을 쓰는 것은 소신의 표현으로 "바보" 같은 일이다.</p>
+        <details class="viz"><summary>그림으로 보기: 스택 위로</summary><figure><svg viewBox="0 0 280 246" role="img" aria-label="프런티어 모델이 스택 위로 올라가면 그 아래 영역은 빠르게 원자재화된다"><defs><marker id="d8" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx2" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">프런티어 모델</text><text class="tm" x="140.0" y="62" text-anchor="middle">스택 위로 올라감</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="88" marker-end="url(#d8)"/><rect class="bx3" x="10" y="90" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="118" text-anchor="middle">바로 아래 영역</text><text class="tm" x="140.0" y="144" text-anchor="middle">빛의 속도로 원자재화</text><line class="ln" x1="140.0" y1="156" x2="140.0" y2="170" marker-end="url(#d8)"/><rect class="bx" x="10" y="172" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="200" text-anchor="middle">상담 챗봇에 프런티어?</text><text class="tm" x="140.0" y="226" text-anchor="middle">"바보" — 경량 모델로 충분</text></svg><figcaption>위로 올라가면 아래는 원자재가 된다.</figcaption></figure></details>
+        <p>수요는 다이아몬드 모양이다. 대부분의 일은 아주 좋은 지능이면 충분하고, IQ 300급 지능은 틈새다. 가장 넓은 중간층이 가장 심하게 원자재화된다. 그 시장의 승자는 축소되는 원자재 시장의 원가 우위 사업자다.</p>
+        <details class="viz"><summary>그림으로 보기: 다이아몬드형 수요</summary><figure><svg viewBox="0 0 280 384" role="img" aria-label="수요는 미흡한 모델에서 작고, 아주 좋은 지능에서 가장 넓으며, IQ 300 이상의 초엘리트 지능에서 다시 좁아지는 다이아몬드 모양이다"><defs><marker id="d9" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="24" text-anchor="middle">다이아몬드형 수요</text><polygon points="140,44 262,190 140,336 18,190" fill="#eaf0f6" stroke="#3d5f80" stroke-width="2"/><line class="lnd" x1="84" y1="124" x2="196" y2="124"/><line class="lnd" x1="84" y1="256" x2="196" y2="256"/><text class="tb" x="140" y="104" text-anchor="middle">IQ 300+</text><text class="tm" x="140" y="110" text-anchor="middle"></text><text class="tb" x="140" y="170" text-anchor="middle">아주 좋은 지능</text><text class="tm" x="140" y="198" text-anchor="middle">최대 수요</text><text class="tm" x="140" y="222" text-anchor="middle" fill="#c8553d">극심한 원자재화</text><text class="tb" x="140" y="290" text-anchor="middle">미흡한 모델</text><text class="tm" x="140" y="370" text-anchor="middle">위로 갈수록 수요가 다시 좁아진다</text></svg><figcaption>가장 넓은 중간층에서 경쟁이 가장 치열하다.</figcaption></figure></details>
+        <div class="terms"><span class="term">원자재화</span><span class="term">다이아몬드형 수요</span><span class="term">원가 우위</span></div>
+      </section>
+
+      <section class="sec" id="s5">
+        <div class="sec-head"><span class="sec-num">5</span><div><h2>역U자 시장과 속도 제한</h2><p class="sub">제본스 역설은 한 점일 뿐</p></div></div>
+        <p>시장 규모는 가격 × 수량이다. 가격이 내려가면 처음엔 수량이 늘어 시장이 커지지만, 변곡점을 지나면 줄어들고 가격 0에서 시장은 0이다. 원문은 "U자"라고 했지만 설명하는 모양은 역U자다.</p>
+        <p>코젠트는 IP 트래픽의 30~40%를 나르지만 시가총액은 수십억 달러다. <span class="chk">확인 필요</span></p>
+        <details class="viz"><summary>그림으로 보기: 역U자 시장 규모</summary><figure><svg viewBox="0 0 280 346" role="img" aria-label="시장 규모는 가격이 내려가며 커지다가 변곡점 이후 줄어 가격 0에서 0이 되는 역U자 곡선이고, 제본스 역설은 그 한 구간이다"><defs><marker id="d10" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="24" text-anchor="middle">시장 규모 = 가격 × 수량</text><line class="ln" x1="24" y1="200" x2="264" y2="200"/><line class="ln" x1="24" y1="200" x2="24" y2="46"/><path d="M30,198 Q140,10 258,198" fill="none" stroke="#3d5f80" stroke-width="3"/><circle cx="104" cy="104" r="7" fill="#2f6b45"/><text class="tm" x="30" y="74" text-anchor="start" fill="#2f6b45">제본스 구간</text><circle cx="190" cy="120" r="7" fill="#c8553d"/><text class="tm" x="200" y="100" text-anchor="start" fill="#c8553d">변곡점 이후</text><text class="tm" x="24" y="226" text-anchor="start">비쌈</text><text class="tm" x="264" y="226" text-anchor="end">가격 → 0</text><rect class="bx" x="10" y="246" width="260" height="62" rx="10"/><text class="t" x="140" y="272" text-anchor="middle">코젠트: IP 트래픽 30~40%</text><text class="tm" x="140" y="298" text-anchor="middle">시총 수십억 달러</text><text class="tm" x="140" y="334" text-anchor="middle" fill="#8a3a12">두 수치 모두 확인 필요</text></svg><figcaption>제본스 구간을 지나면 시장은 줄어든다.</figcaption></figure></details>
+        <h3>현실의 속도 제한</h3>
+        <p>자동화된 습식 실험실도 속도 제한이 있다. 쥐 실험은 1년이 걸린다. 모델이 아이디어 5,000개를 내도 실험 슬롯은 20개다. 추측 성공률이 0.1%에서 1%로 10배 좋아져도 99%는 여전히 실패한다. 원문의 "take 10"은 단위가 불분명하다. <span class="chk">확인 필요</span></p>
+        <details class="viz"><summary>그림으로 보기: 실험실 깔때기</summary><figure><svg viewBox="0 0 280 340" role="img" aria-label="모델이 5,000개 아이디어를 내도 실험 슬롯은 20개이고, 성공률이 0.1퍼센트에서 10배 좋아져도 1퍼센트다"><defs><marker id="d11" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">자동 습식 실험실의 속도 제한</text><text class="tm" x="10" y="60" text-anchor="start">모델의 아이디어</text><text class="tb" x="270" y="60" text-anchor="end">5,000개</text><rect x="10.0" y="70.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="70.0" width="260.0" height="16.0" fill="#3d5f80"/><text class="tm" x="10" y="120" text-anchor="start">실험실 슬롯</text><text class="tb" x="270" y="120" text-anchor="end">20개</text><rect x="10.0" y="130.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="130.0" width="1.0" height="16.0" fill="#c8553d"/><text class="tb" x="140" y="180" text-anchor="middle">추측 성공률</text><text class="tm" x="10" y="214" text-anchor="start">인간 성공률</text><text class="tb" x="270" y="214" text-anchor="end">0.1%</text><rect x="10.0" y="224.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="224.0" width="21.7" height="16.0" fill="#8a929c"/><text class="tm" x="10" y="274" text-anchor="start">모델 (10배)</text><text class="tb" x="270" y="274" text-anchor="end">1%</text><rect x="10.0" y="284.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="284.0" width="216.7" height="16.0" fill="#2f6b45"/><text class="tm" x="140" y="326" text-anchor="middle">여전히 99%는 실패</text></svg><figcaption>아이디어는 넘치고 슬롯은 모자란다.</figcaption></figure></details>
+        <p>모든 것이 싸진다고 수요가 무한히 늘지는 않는다. 소신은 5달러짜리 수학 영상을 사지 않겠다고 말한다. 3Blue1Brown 같은 무료 콘텐츠와 Muse 같은 앱이 이미 있기 때문이다. 원문에 나오는 에이전트 제품명(자막상 "GrokBot", "wheat tokens")은 오인식으로 보인다. <span class="chk">확인 필요</span></p>
+        <div class="terms"><span class="term">제본스 역설</span><span class="term">역U자 곡선</span><span class="term">재발견</span></div>
+      </section>
+
+      <section class="sec" id="s6">
+        <div class="sec-head"><span class="sec-num">6</span><div><h2>인프라와 승자의 저주</h2><p class="sub">철도의 교훈</p></div></div>
+        <p>인과가 뒤집혀 있다. 구축자가 돈을 버니까 계속 짓는다. 어느 '위대한 기업가'(머스크로 추정)는 수요를 먼저 만들고 공급을 따라오게 한다. <span class="chk">확인 필요</span></p>
+        <p>철도처럼 인프라는 리드 타임이 길어 과잉이 될 때까지 지어진다. 집을 사려고 저축하는 가계처럼, 미래를 위해 지금을 희생한다. 마지막에 멈춘 사람이 승자의 저주를 맞는다.</p>
+        <details class="viz"><summary>그림으로 보기: 자본 순환</summary><figure><svg viewBox="0 0 280 246" role="img" aria-label="인프라 구축은 리드 타임이 길어 과잉이 될 때까지 밀어붙이고, 승자의 저주로 마지막에 멈춘 사람이 후회한다"><defs><marker id="d12" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">수년의 리드 타임</text><text class="tm" x="140.0" y="62" text-anchor="middle">아무도 확실히 모른다</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="88" marker-end="url(#d12)"/><rect class="bx" x="10" y="90" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="118" text-anchor="middle">과잉이 될 때까지</text><text class="tm" x="140.0" y="144" text-anchor="middle">돈을 벌어야 계속 민다</text><line class="ln" x1="140.0" y1="156" x2="140.0" y2="170" marker-end="url(#d12)"/><rect class="bx3" x="10" y="172" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="200" text-anchor="middle">승자의 저주</text><text class="tm" x="140.0" y="226" text-anchor="middle">마지막에 멈춘 사람이 후회</text></svg><figcaption>리드 타임, 과잉, 승자의 저주.</figcaption></figure></details>
+        <div class="tblw"><table class="tbl">
+          <thead><tr><th>기업</th><th>해자</th><th>위험</th></tr></thead>
+          <tbody>
+            <tr><td><b>엔비디아</b></td><td>설계 ("대만으로 보내는 플랫 파일")</td><td>파일은 복제 가능</td></tr>
+            <tr><td><b>TSMC</b></td><td>제조의 암묵지</td><td>세계가 해자를 복제하려 한다</td></tr>
+          </tbody>
+        </table></div>
+        <div class="terms"><span class="term">과잉 구축</span><span class="term">리드 타임</span><span class="term">승자의 저주</span><span class="term">암묵지</span></div>
+      </section>
+
+      <section class="sec" id="s7">
+        <div class="sec-head"><span class="sec-num">7</span><div><h2>에이전트와 가격</h2><p class="sub">더 날카로운 시장</p></div></div>
+        <p>소비자 결정은 스펙트럼 위에 있다. 예금 금리는 에이전트에 완전히 맡기고, 스웨터는 사람이 고른다. 쓰레기 수거는 그 중간이다.</p>
+        <details class="viz"><summary>그림으로 보기: 의사결정 스펙트럼</summary><figure><svg viewBox="0 0 280 278" role="img" aria-label="예금 금리는 에이전트에 완전히 위임하고, 스웨터는 인간이 고르며, 쓰레기 수거는 그 중간이다"><defs><marker id="d13" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="24" text-anchor="middle">소비자 의사결정 스펙트럼</text><line class="ln" x1="20" y1="70" x2="260" y2="70"/><circle cx="20" cy="70" r="9" fill="#2f6b45"/><circle cx="140" cy="70" r="9" fill="#9a6a12"/><circle cx="260" cy="70" r="9" fill="#c8553d"/><rect class="bx2" x="10" y="96" width="260" height="52" rx="10"/><text class="t" x="140" y="128" text-anchor="middle">예금 금리: 100% 위임</text><rect class="bx" x="10" y="156" width="260" height="52" rx="10"/><text class="t" x="140" y="188" text-anchor="middle">쓰레기 수거: 중간</text><rect class="bx3" x="10" y="216" width="260" height="52" rx="10"/><text class="t" x="140" y="248" text-anchor="middle">스웨터: 인간이 결정</text></svg><figcaption>위임할 결정과 직접 할 결정.</figcaption></figure></details>
+        <p>에이전트가 "월 50센트 아껴 드립니다"며 최저 원가 업체로 옮기면, 거리 전체가 한 업체로 모여 경로 밀도가 올라간다. 지역 밀도를 묶는 롤업이 생긴다. 도어대시와 우버도 밀도의 사업이다.</p>
+        <details class="viz"><summary>그림으로 보기: 1차·2차 효과</summary><figure><svg viewBox="0 0 280 246" role="img" aria-label="에이전트는 쓰레기 수거를 최저 원가 업체로 옮기고, 거리 전체가 한 업체로 모이며 경로 밀도가 높아져 지역 밀도 롤업이 생긴다"><defs><marker id="d14" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">1차: 최저 원가로 이동</text><text class="tm" x="140.0" y="62" text-anchor="middle">"월 50센트 아껴 드립니다"</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="88" marker-end="url(#d14)"/><rect class="bx" x="10" y="90" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="118" text-anchor="middle">2차: 거리 전체를 한 업체로</text><text class="tm" x="140.0" y="144" text-anchor="middle">경로 밀도 상승</text><line class="ln" x1="140.0" y1="156" x2="140.0" y2="170" marker-end="url(#d14)"/><rect class="bx2" x="10" y="172" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="200" text-anchor="middle">지역 밀도 롤업</text><text class="tm" x="140.0" y="226" text-anchor="middle">낮은 마진, 거대한 물량</text></svg><figcaption>최저 원가 이동에서 지역 밀도 롤업으로.</figcaption></figure></details>
+        <p>가격은 "인센티브로 포장된 신호"다. 소신의 친구(이름 비공개)는 에이전트를 세 단계로 나눈다.</p>
+        <details class="viz"><summary>그림으로 보기: 에이전트 3단계</summary><figure><svg viewBox="0 0 280 268" role="img" aria-label="에이전트는 프롬프트 질의응답, 예약 실행 감시탑, 상시 능동형의 3단계로 나뉘고 시장을 날카롭게 한다"><defs><marker id="d15" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">1 프롬프트 질의응답</text><text class="tm" x="140.0" y="62" text-anchor="middle">묻으면 답한다</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="86" marker-end="url(#d15)"/><rect class="bx" x="10" y="88" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="116" text-anchor="middle">2 예약 실행 감시탑</text><text class="tm" x="140.0" y="142" text-anchor="middle">밤마다 정해진 최적화</text><line class="ln" x1="140.0" y1="154" x2="140.0" y2="166" marker-end="url(#d15)"/><rect class="bx2" x="10" y="168" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="196" text-anchor="middle">3 상시 능동형</text><text class="tm" x="140.0" y="222" text-anchor="middle">24시간 탐색·집행</text><text class="tb" x="140" y="254" text-anchor="middle">→ 시장을 날카롭게 한다</text></svg><figcaption>프롬프트, 감시탑, 상시 능동형.</figcaption></figure></details>
+        <p>지금은 월 60달러가 63달러(+5%)로 올라도 알아채지 못한다. 상시 에이전트의 세계에서는 수거비도 날마다 달라질 수 있다.</p>
+        <details class="viz"><summary>그림으로 보기: 가격 경직성의 종말</summary><figure><svg viewBox="0 0 280 234" role="img" aria-label="지금은 월 60달러가 63달러로 올라도 알아채지 못하지만, 상시 에이전트 세계에서는 수거비가 날마다 달라진다"><defs><marker id="d16" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">가격 경직성</text><text class="tm" x="10" y="60" text-anchor="start">지금: 12개월</text><text class="tb" x="270" y="60" text-anchor="end">60$</text><rect x="10.0" y="70.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="70.0" width="222.9" height="16.0" fill="#8a929c"/><text class="tm" x="10" y="120" text-anchor="start">5% 인상, 못 알아챔</text><text class="tb" x="270" y="120" text-anchor="end">63$</text><rect x="10.0" y="130.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="130.0" width="234.0" height="16.0" fill="#c8553d"/><rect class="bx2" x="10" y="162" width="260" height="62" rx="10"/><text class="tb" x="140" y="188" text-anchor="middle">에이전트 세계</text><text class="tm" x="140" y="212" text-anchor="middle">수거비가 날마다 달라진다</text></svg><figcaption>5% 인상을 알아채는 에이전트.</figcaption></figure></details>
+        <p>투자는 지금 프리스타일 체스의 켄타우로스 단계다. 간극이 사라지면 인간의 감은 7일 뒤 예보에 감을 보태는 꼴이 된다. 소신의 상상 속 모델은 "놀이공원 성공 확률 51%인 부지 6곳"을 추린 뒤, 창업자 본인의 성공 확률은 51.2%라며 고카트를 권한다.</p>
+        <details class="viz"><summary>그림으로 보기: 켄타우로스에서 예보까지</summary><figure><svg viewBox="0 0 280 246" role="img" aria-label="투자는 지금 인간과 기계가 협력하는 프리스타일 체스 단계이고, 간극이 사라지면 인간의 감은 7일 뒤 일기예보에 감을 덧붙이는 꼴이 된다"><defs><marker id="d17" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx2" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">프리스타일 체스</text><text class="tm" x="140.0" y="62" text-anchor="middle">인간 + 엔진 = 켄타우로스</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="88" marker-end="url(#d17)"/><rect class="bx" x="10" y="90" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="118" text-anchor="middle">지금의 투자</text><text class="tm" x="140.0" y="144" text-anchor="middle">기계 + 오프라인 맥락의 인간</text><line class="ln" x1="140.0" y1="156" x2="140.0" y2="170" marker-end="url(#d17)"/><rect class="bx3" x="10" y="172" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="200" text-anchor="middle">간극이 사라지면</text><text class="tm" x="140.0" y="226" text-anchor="middle">7일 뒤 예보에 내 감 보태기</text></svg><figcaption>인간과 기계의 간극.</figcaption></figure></details>
+        <div class="terms"><span class="term">경로 밀도</span><span class="term">롤업</span><span class="term">가격 경직성</span><span class="term">켄타우로스</span></div>
+      </section>
+
+      <section class="sec" id="s8">
+        <div class="sec-head"><span class="sec-num">8</span><div><h2>거시: GDP와 금리</h2><p class="sub">거시 전문가가 아니라는 단서와 함께</p></div></div>
+        <p>소신은 미국 자본시장이 GDP의 약 3%를 AI에 재배치했다고 어림한다. 2%인지 6%인지는 모른다. GDP를 30조 달러로 보면 약 9,000억 달러다. <span class="chk">확인 필요</span> 철도 시대보다는 깨끗한 구축이라고 본다.</p>
+        <details class="viz"><summary>그림으로 보기: GDP 재배치 어림</summary><figure><svg viewBox="0 0 280 246" role="img" aria-label="미국 자본시장은 GDP의 약 3퍼센트를 AI에 재배치했고, 소신은 2퍼센트인지 6퍼센트인지는 모른다고 말한다"><defs><marker id="d18" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">AI에 재배치된 GDP 비율</text><text class="tm" x="10" y="60" text-anchor="start">하한</text><text class="tb" x="270" y="60" text-anchor="end">2%</text><rect x="10.0" y="70.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="70.0" width="86.7" height="16.0" fill="#8a929c"/><text class="tm" x="10" y="120" text-anchor="start">소신의 어림</text><text class="tb" x="270" y="120" text-anchor="end">약 3%</text><rect x="10.0" y="130.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="130.0" width="130.0" height="16.0" fill="#3d5f80"/><text class="tm" x="10" y="180" text-anchor="start">상한</text><text class="tb" x="270" y="180" text-anchor="end">6%</text><rect x="10.0" y="190.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="190.0" width="260.0" height="16.0" fill="#8a929c"/><text class="tm" x="140" y="232" text-anchor="middle" fill="#8a3a12">3%: 확인 필요</text></svg><figcaption>하한 2%, 어림 3%, 상한 6%.</figcaption></figure></details>
+        <p>장기 성장은 유전, 문화, 제도에 달려 있다. 미래를 짓는 데는 현재 소비의 희생이 들고, 저축을 유도하는 대가가 더 높은 금리다.</p>
+        <details class="viz"><summary>그림으로 보기: 금리의 논리</summary><figure><svg viewBox="0 0 280 246" role="img" aria-label="데이터센터라는 미래 소비를 위해 현재 소비를 희생해야 하고, 저축을 유도하는 대가가 더 높은 금리다"><defs><marker id="d19" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">미래의 집을 짓는다</text><text class="tm" x="140.0" y="62" text-anchor="middle">데이터센터·전력망</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="88" marker-end="url(#d19)"/><rect class="bx" x="10" y="90" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="118" text-anchor="middle">현재 소비 희생</text><text class="tm" x="140.0" y="144" text-anchor="middle">짓는 사람은 소비재를 안 만듦</text><line class="ln" x1="140.0" y1="156" x2="140.0" y2="170" marker-end="url(#d19)"/><rect class="bx2" x="10" y="172" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="200" text-anchor="middle">저축을 유도하는 대가</text><text class="tm" x="140.0" y="226" text-anchor="middle">더 높은 금리</text></svg><figcaption>미래를 위해 현재를 희생하는 비용.</figcaption></figure></details>
+        <div class="terms"><span class="term">자본 재배치</span><span class="term">금리</span></div>
+      </section>
+
+      <section class="sec" id="s9">
+        <div class="sec-head"><span class="sec-num">9</span><div><h2>기업의 AI 전환</h2><p class="sub">바이브 코딩에서 변경 관리까지</p></div></div>
+        <p>소신의 포트폴리오는 5종목쯤이고 카바나가 약 80%, 메타가 약 5%, 힐튼 그랜드 베케이션스가 포함된다. 비중은 자동 자막 기준이다. <span class="chk">확인 필요</span></p>
+        <p>바이브 코딩은 '피자 파티'처럼 즐겁지만 레거시 기업의 전환은 수년이 걸린다.</p>
+        <ol class="steps">
+          <li><b>읽기 전용</b> CEO 에이전트가 전 시스템을 조회한다.</li>
+          <li><b>권한 확산</b> 부서·직급별 접근 체계를 만든다.</li>
+          <li><b>쓰기 권한</b> 입력과 트랜잭션을 실행한다.</li>
+          <li><b>변경 관리</b> 로직과 코드 변경을 통제한다.</li>
+        </ol>
+        <details class="viz"><summary>그림으로 보기: AI 전환 4단계</summary><figure><svg viewBox="0 0 280 322" role="img" aria-label="사내 AI 전환은 읽기 전용, 권한 확산, 쓰기 권한, 변경 관리의 4단계이고 레거시 기업에는 수년의 고통이다"><defs><marker id="d20" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">1 읽기 전용</text><text class="tm" x="140.0" y="62" text-anchor="middle">CEO 에이전트가 전 시스템 조회</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="86" marker-end="url(#d20)"/><rect class="bx" x="10" y="88" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="116" text-anchor="middle">2 권한 확산</text><text class="tm" x="140.0" y="142" text-anchor="middle">부서·직급별 접근 체계</text><line class="ln" x1="140.0" y1="154" x2="140.0" y2="166" marker-end="url(#d20)"/><rect class="bx" x="10" y="168" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="196" text-anchor="middle">3 쓰기 권한</text><text class="tm" x="140.0" y="222" text-anchor="middle">입력·트랜잭션 실행</text><line class="ln" x1="140.0" y1="234" x2="140.0" y2="246" marker-end="url(#d20)"/><rect class="bx2" x="10" y="248" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="276" text-anchor="middle">4 변경 관리</text><text class="tm" x="140.0" y="302" text-anchor="middle">로직·코드 변경 통제</text></svg><figcaption>읽기에서 변경 관리까지.</figcaption></figure></details>
+        <div class="callout warm"><p>지금은 내일이 오기 전까지 회사를 시작하기에 가장 좋은 때다. 쐐기 하나로 들어가 말도 안 되어 보이는 영역을 노려라.</p></div>
+        <div class="terms"><span class="term">바이브 코딩</span><span class="term">변경 관리</span><span class="term">쐐기</span></div>
+      </section>
+
+      <section class="sec" id="s10">
+        <div class="sec-head"><span class="sec-num">10</span><div><h2>마진과 분배</h2><p class="sub">애그리게이터의 해체</p></div></div>
+        <p>마진은 떨어지고 소비자 잉여는 커진다. 벤 톰슨의 애그리게이션 이론은 인간이 맨 윗줄만 클릭한다는 데 기댄다. 결과를 전부 읽는 에이전트는 그 지대를 해체한다. 원문 자막의 "Van Thompson"은 벤 톰슨의 오인식이다.</p>
+        <details class="viz"><summary>그림으로 보기: 애그리게이션과 에이전트</summary><figure><svg viewBox="0 0 280 250" role="img" aria-label="인간은 맨 윗줄만 클릭해 애그리게이터가 지대를 얻었지만, 에이전트는 결과를 전부 보아 품질과 가격만 남긴다"><defs><marker id="d21" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">마진은 어디로</text><rect class="bx3" x="10" y="42" width="260" height="92" rx="10"/><text class="tb" x="140" y="70" text-anchor="middle">애그리게이션</text><text class="tm" x="140" y="96" text-anchor="middle">인간은 맨 윗줄만 클릭</text><text class="tm" x="140" y="122" text-anchor="middle">1위 노출 = 광고 지대</text><rect class="bx2" x="10" y="146" width="260" height="92" rx="10"/><text class="tb" x="140" y="174" text-anchor="middle">에이전트</text><text class="tm" x="140" y="200" text-anchor="middle">검색 결과를 전부 본다</text><text class="tm" x="140" y="226" text-anchor="middle">품질·가격·서비스만 남음</text></svg><figcaption>1위 노출의 지대가 녹는다.</figcaption></figure></details>
+        <p>살아남는 쪽은 수직 통합이다. 반려동물 케어와 카바나가 예다.</p>
+        <p>분배는 두 방향으로 갈 수 있다. 볼링장용 소프트웨어, 뱅크 오브 아메리카, 전문직의 지대가 무너지면 <b>평탄해지고</b>, "스테로이드 맞은 정신의 자전거"로 주도적인 사람의 보상이 커지면 <b>가팔라진다</b>. 트루먼은 한 손만 쓰는 경제학자를 원했지만, 소신은 모든 일에 두 손이 있다고 말한다.</p>
+        <details class="viz"><summary>그림으로 보기: 평탄화와 양극화</summary><figure><svg viewBox="0 0 280 250" role="img" aria-label="AI는 지대 추구자를 무너뜨려 분배를 평탄하게 할 수도, 주도적인 사람의 보상을 키워 가파르게 할 수도 있다"><defs><marker id="d22" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">부의 분배: 두 손</text><rect class="bx2" x="10" y="42" width="260" height="92" rx="10"/><text class="tb" x="140" y="70" text-anchor="middle">평탄화</text><text class="tm" x="140" y="96" text-anchor="middle">틈새 SW·은행·전문직 지대 하락</text><text class="tm" x="140" y="122" text-anchor="middle">대중이 얻는다</text><rect class="bx3" x="10" y="146" width="260" height="92" rx="10"/><text class="tb" x="140" y="174" text-anchor="middle">양극화</text><text class="tm" x="140" y="200" text-anchor="middle">스테로이드 맞은 정신의 자전거</text><text class="tm" x="140" y="226" text-anchor="middle">주도적인 사람의 보상 증폭</text></svg><figcaption>두 가능성 모두 열려 있다.</figcaption></figure></details>
+        <div class="terms"><span class="term">애그리게이션 이론</span><span class="term">소비자 잉여</span><span class="term">수직 통합</span></div>
+      </section>
+
+      <section class="sec" id="s11">
+        <div class="sec-head"><span class="sec-num">11</span><div><h2>투자와 교육</h2><p class="sub">시간 지평과 양극화 교육</p></div></div>
+        <p>소신의 친구는 AI 비중 결정 도구로 켈리 기준을 돌렸고, 결과는 "비중이 부족하다"였다. "카바나는 90%여야 한다"는 농담도 나왔다(발화자 <span class="chk">확인 필요</span>).</p>
+        <p>AI 위임은 검증 루프가 짧은 초 단위 매매부터 들어오고, 루프가 없는 수년 단위 투자에는 가장 늦게 온다. 르네상스 농담과 멀티스트래트 펀드도 이 사다리 위에 있다.</p>
+        <details class="viz"><summary>그림으로 보기: 시간 지평 사다리</summary><figure><svg viewBox="0 0 280 322" role="img" aria-label="AI 위임은 검증 루프가 짧은 초 단위부터 늘어나고, 검증 루프가 없는 수년 단위 투자에는 나중에 도달한다"><defs><marker id="d23" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx2" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">초 단위</text><text class="tm" x="140.0" y="62" text-anchor="middle">고빈도 매매</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="86" marker-end="url(#d23)"/><rect class="bx2" x="10" y="88" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="116" text-anchor="middle">분·시간</text><text class="tm" x="140.0" y="142" text-anchor="middle">데이트레이딩</text><line class="ln" x1="140.0" y1="154" x2="140.0" y2="166" marker-end="url(#d23)"/><rect class="bx" x="10" y="168" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="196" text-anchor="middle">주·월</text><text class="tm" x="140.0" y="222" text-anchor="middle">스윙</text><line class="ln" x1="140.0" y1="234" x2="140.0" y2="246" marker-end="url(#d23)"/><rect class="bx3" x="10" y="248" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="276" text-anchor="middle">수년·수십 년</text><text class="tm" x="140.0" y="302" text-anchor="middle">검증 루프 없음 → AI 나중</text></svg><figcaption>검증 루프가 짧을수록 먼저 위임된다.</figcaption></figure></details>
+        <p>카바나 80%는 주인의 관점에서 나온다. 월마트, 홈디포, 파스테날 같은 장기 복리 기업을 보되 생존 편향을 경계한다.</p>
+        <p>교육은 두 축으로 갈린다. 모델 없이 기초를 익혀 지휘관의 자격을 갖추고, 동시에 모델을 전부 써서 100배 야심 찬 과제를 하되 "왜?"로 소유권을 확인한다. 양자물리학을 모르면 모델은 크레용과 너프 총 수준의 비유로만 설명할 수 있고, 최전선에는 닿지 못한다.</p>
+        <details class="viz"><summary>그림으로 보기: 양극화 교육</summary><figure><svg viewBox="0 0 280 250" role="img" aria-label="교육의 한 축은 모델 없이 기초를 내재화하고, 다른 축은 모델을 전부 쓰는 100배 야심 찬 과제와 소유권 검증이다"><defs><marker id="d24" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">양극화 교육</text><rect class="bx2" x="10" y="42" width="260" height="92" rx="10"/><text class="tb" x="140" y="70" text-anchor="middle">모델 없이 기초</text><text class="tm" x="140" y="96" text-anchor="middle">손 곱셈 → 행렬 곱셈 이해</text><text class="tm" x="140" y="122" text-anchor="middle">지휘관의 자격</text><rect class="bx" x="10" y="146" width="260" height="92" rx="10"/><text class="tb" x="140" y="174" text-anchor="middle">모델로 100배 야망</text><text class="tm" x="140" y="200" text-anchor="middle">AI를 전부 쓰게 하라</text><text class="tm" x="140" y="226" text-anchor="middle">"왜?"로 소유권 검증</text></svg><figcaption>기초와 야망, 두 축.</figcaption></figure></details>
+        <div class="terms"><span class="term">켈리 기준</span><span class="term">검증 루프</span><span class="term">생존 편향</span><span class="term">양극화 교육</span></div>
+      </section>
+      <section class="sec" id="rv">
+        <div class="sec-head"><span class="sec-num">✔</span><div><h2>복습</h2><p class="sub">용어 카드 · 빈칸 · 5문항 퀴즈</p></div></div>
+        <h3 class="rv-h">핵심 용어 카드</h3>
+        <div class="flips">
+          <button type="button" class="flip" aria-expanded="false"><b>지능의 원자재화</b><span class="hint">뜻 보기</span><span class="m">충분히 훌륭한 지능의 생산 비용이 무너져 사실상 공짜가 되는 현상.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>보간</b><span class="hint">뜻 보기</span><span class="m">흩어진 사실 사이를 메우는 능력. 소신이 보는 지능의 본질.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>절단 오차</b><span class="hint">뜻 보기</span><span class="m">초기 조건의 미세한 반올림이 복잡계에서 큰 차이로 커지는 것.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>제한된 합리성</b><span class="hint">뜻 보기</span><span class="m">귀찮음 때문에 최적 대신 &quot;이 정도면 됐다&quot;에 만족하는 경향.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>결정화된 지능</b><span class="hint">뜻 보기</span><span class="m">지능을 코드로 굳힌 단일 목적 소프트웨어.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>보완재</b><span class="hint">뜻 보기</span><span class="m">데이터, 주의, 애착, 물리적 근접성, 물리적 규모, 규제 포획.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>다이아몬드형 수요</b><span class="hint">뜻 보기</span><span class="m">아주 좋은 지능에서 수요가 가장 넓고 IQ 300급은 틈새인 모양.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>역U자 시장</b><span class="hint">뜻 보기</span><span class="m">가격이 내려가면 커지다 변곡점 이후 줄어드는 시장 규모 곡선.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>승자의 저주</b><span class="hint">뜻 보기</span><span class="m">과잉 구축의 끝에서 마지막에 멈춘 사람이 손해를 보는 것.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>검증 루프</b><span class="hint">뜻 보기</span><span class="m">결과를 빠르게 확인하는 고리. 짧을수록 AI 위임이 먼저 온다.</span></button>
+        </div>
+        <h3 class="rv-h">빈칸 채우기</h3>
+        <ol class="cloze">
+          <li>지능은 신을 향한 스칼라가 아니라 공의 <button type="button" class="blank" data-a="둥글기">빈칸</button> 같은 비율이다.</li>
+          <li>진짜 폭주는 지능의 <button type="button" class="blank" data-a="가격">빈칸</button> 붕괴다.</li>
+          <li>예금을 옮기면 연 약 <button type="button" class="blank" data-a="400달러">빈칸</button>를 아낄 수 있다.</li>
+          <li>메타의 매출과 지출은 각각 약 <button type="button" class="blank" data-a="2,500억 달러">빈칸</button>다.</li>
+          <li>모델이 아이디어 5,000개를 내도 실험 슬롯은 <button type="button" class="blank" data-a="20개">빈칸</button>다.</li>
+          <li>가격은 인센티브로 포장된 <button type="button" class="blank" data-a="신호">빈칸</button>다.</li>
+          <li>사내 AI 전환의 마지막 단계는 <button type="button" class="blank" data-a="변경 관리">빈칸</button>다.</li>
+          <li>미국은 GDP의 약 <button type="button" class="blank" data-a="3%">빈칸</button>를 AI에 재배치했다.</li>
+        </ol>
+        <h3 class="rv-h">5문항 퀴즈</h3>
+        <div id="quiz">
+          <div class="q" data-a="1"><fieldset><legend class="qt">1. 소신이 보는 진짜 폭주의 방향은?</legend>
+            <button type="button">지능의 수직 상승</button>
+            <button type="button">지능 생산 비용의 하락</button>
+            <button type="button">데이터센터 수의 감소</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="충분히 훌륭한 지능이 사실상 공짜가 됩니다."></p></div>
+          <div class="q" data-a="2"><fieldset><legend class="qt">2. 다음 중 6대 보완재가 아닌 것은?</legend>
+            <button type="button">규제 포획</button>
+            <button type="button">물리적 근접성</button>
+            <button type="button">결정화된 지능</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="결정화된 지능은 먼저 무너지는 쪽입니다."></p></div>
+          <div class="q" data-a="1"><fieldset><legend class="qt">3. 제본스 역설은 시장 규모 곡선에서 무엇인가?</legend>
+            <button type="button">곡선 전체</button>
+            <button type="button">역U자 곡선의 한 구간</button>
+            <button type="button">가격 0의 지점</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="변곡점을 지나면 시장은 줄어듭니다."></p></div>
+          <div class="q" data-a="0"><fieldset><legend class="qt">4. 쓰레기 수거에서 에이전트의 2차 효과는?</legend>
+            <button type="button">경로 밀도 상승과 지역 롤업</button>
+            <button type="button">가격 인상</button>
+            <button type="button">수거 횟수 감소</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="거리 전체가 한 업체로 모입니다."></p></div>
+          <div class="q" data-a="2"><fieldset><legend class="qt">5. AI 위임이 가장 늦게 오는 시간 지평은?</legend>
+            <button type="button">초 단위</button>
+            <button type="button">분·시간</button>
+            <button type="button">수년 단위</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="수년 단위에는 검증 루프가 없습니다."></p></div>
+          <p class="score" id="score" aria-live="polite">점수: 0 / 5</p>
+          <div class="rv-tools"><button type="button" id="qreset">다시 풀기</button></div>
+        </div>
+      </section>
+
+      <section class="sources">
+        <h3>출처</h3>
+        <ul>
+          <li><a href="https://yghnsim.github.io/Pages/articles/whats-valuable-when-intelligence-is-free.html">Pages — 지능이 공짜일 때, 무엇이 가치 있는가</a></li>
+          <li><a href="https://www.youtube.com/watch?v=EH6DsNT455M" rel="noopener">Invest Like The Best — Cliff Sosin 인터뷰 (YouTube) ↗</a></li>
+        </ul>
+      </section>
+    </main>
+
+  </div>
+</div>
+<script>(function(){
+function $$(q){return [].slice.call(document.querySelectorAll(q))}
+$$('.flip').forEach(function(b){b.onclick=function(){b.setAttribute('aria-expanded',b.getAttribute('aria-expanded')==='true'?'false':'true')}});
+function show(b){b.textContent=b.dataset.a;b.classList.add('shown');b.setAttribute('aria-label','답: '+b.dataset.a)}
+function hide(b){b.textContent='?';b.classList.remove('shown');b.setAttribute('aria-label','빈칸, 눌러서 답 보기')}
+$$('.blank').forEach(function(b){b.onclick=function(){show(b)}});
+$$('[data-all]').forEach(function(t){t.onclick=function(){if(t.dataset.all==='flip')$$('.flip').forEach(function(b){b.setAttribute('aria-expanded','true')});else $$('.blank').forEach(show)}});
+$$('[data-reset]').forEach(function(t){t.onclick=function(){if(t.dataset.reset==='flip')$$('.flip').forEach(function(b){b.setAttribute('aria-expanded','false')});else $$('.blank').forEach(hide)}});
+var sc=0,done=0,qs=$$('#quiz .q'),tot=qs.length||5;
+function upd(){var el=document.getElementById('score');if(el)el.textContent='점수: '+sc+' / '+tot+(done===tot?' (끝)':'')}
+qs.forEach(function(q){var bs=[].slice.call(q.querySelectorAll('fieldset button')),ex=q.querySelector('.ex');
+bs.forEach(function(b,i){b.onclick=function(){var a=+q.dataset.a,ok=i===a;bs.forEach(function(x){x.disabled=true});if(bs[a])bs[a].classList.add('right');if(!ok)b.classList.add('wrong');
+if(ex){ex.hidden=false;ex.textContent=(ok?'맞았습니다. ':'아쉽습니다. ')+ex.dataset.e;}if(ok)sc++;done++;upd();}})});
+var qr=document.getElementById('qreset');
+if(qr)qr.onclick=function(){sc=0;done=0;qs.forEach(function(q){q.querySelectorAll('fieldset button').forEach(function(x){x.disabled=false;x.className=''});var ex=q.querySelector('.ex');if(ex){ex.hidden=true;ex.textContent=''}});upd()};
+})();</script>
+
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">아카이브</div><div class="arc-foot-title">지능이 공짜일 때, 무엇이 가치 있는가</div><div class="arc-foot-meta"><time datetime="2026-10-29">2026년 10월 29일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=%EA%B2%BD%EC%A0%9C%EA%B2%BD%EC%98%81">#경제경영</a><a class="arc-tag" href="../index.html#tags=%EA%B0%80%EC%B9%98%ED%8F%89%EA%B0%80">#가치평가</a><a class="arc-tag" href="../index.html#tags=%EC%9D%B8%ED%84%B0%EB%B7%B0">#인터뷰</a> · <a href="https://yghnsim.github.io/Pages/articles/whats-valuable-when-intelligence-is-free.html" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body>
+</html>
