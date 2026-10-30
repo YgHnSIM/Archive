@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light only">
+<title>AI는 로펌의 비용이 아니라 매출을 늘린다 — 버려지던 작은 사건의 경제학</title>
+<meta name="description" content="a16z 알렉스 람펠과 Eve CEO 제이 마데스와란 대담 해설: 원고 측 법률, 수임료 하한과 시장 실패, 노동 제약, 그림자 노동시장, 에이전트 간 협상, 결과 기반 가격, 로펌의 소프트웨어 회사화">
+<style>
+:root{color-scheme:light only;
+  --bg:#faf8f3; --paper:#ffffff; --ink:#1f2328; --muted:#5b6470; --line:#e6e1d6;
+  --accent:#c8553d; --accent-soft:#fbeee9; --link:#4a6b8a;
+  --new:#3d5f80; --new-soft:#eaf0f6; --radius:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:20px}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR","Malgun Gothic","Gothic A1",system-ui,sans-serif;
+  font-size:17px;line-height:1.75;word-break:keep-all;overflow-wrap:break-word}
+@media(max-width:640px){body{font-size:16px}}
+a{color:var(--link)}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+.hero{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{display:inline-block;font-size:13px;font-weight:700;color:#a8432e;background:var(--accent-soft);padding:3px 10px;border-radius:999px;margin-bottom:12px}
+.hero h1{font-size:clamp(28px,4.4vw,44px);line-height:1.25;margin:0 0 12px;letter-spacing:-.02em}
+.hero .lead{font-size:18px;color:var(--muted);line-height:1.65;margin:0}
+@media(max-width:640px){.hero .lead{font-size:17px}}
+.hero-cta{margin-top:16px}
+.hero-cta a{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--new);color:#fff;border-radius:10px;font-weight:700;font-size:15px;text-decoration:none}
+.grid{display:grid;grid-template-columns:240px minmax(0,1fr);gap:36px;align-items:start}
+@media(max-width:880px){.grid{grid-template-columns:minmax(0,1fr);gap:0}}
+.toc{position:sticky;top:20px;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;font-size:15px}
+.toc .toc-t{font-weight:700;margin:0 0 10px}
+.toc ol{margin:0;padding:0;list-style:none}
+.toc li{margin:6px 0}
+.toc a{color:var(--muted);display:flex;align-items:baseline;gap:8px;text-decoration:none;line-height:1.45}
+.toc a:hover{color:var(--link)}
+.toc .n{flex:none;display:inline-block;width:22px;height:22px;line-height:22px;text-align:center;border-radius:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:700}
+.toc .orig{display:block;margin-top:14px;padding-top:10px;border-top:1px dashed var(--line);font-size:14px;color:#a8432e;font-weight:700}
+@media(max-width:880px){
+  .toc{position:sticky;top:0;z-index:20;margin:0 -20px 20px;border-radius:0;border-width:0 0 1px;padding:8px 12px;background:rgba(250,248,243,.97);overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .toc .toc-t,.toc .orig{display:none}
+  .toc ol{display:flex;gap:6px;white-space:nowrap}
+  .toc li{margin:0}
+  .toc a{background:#f1ede4;color:var(--ink);border-radius:999px;padding:6px 12px;font-size:14px;align-items:center}
+  .toc .n{background:none;width:auto;height:auto;line-height:1;color:var(--muted)}
+  html{scroll-padding-top:64px}
+}
+main{min-width:0}
+.sec{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:24px 28px;margin-bottom:28px}
+@media(max-width:640px){.sec{padding:18px 16px}}
+.sec-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px}
+.sec-num{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:12px;background:var(--ink);color:#fff;font-weight:800;font-size:17px;flex-shrink:0;margin-top:2px}
+@media(max-width:640px){.sec-num{width:34px;height:34px;font-size:15px}}
+.sec-head h2{font-size:clamp(23px,3vw,30px);line-height:1.3;margin:0;letter-spacing:-.015em}
+.sec-head .sub{font-size:16px;color:var(--muted);margin:3px 0 0}
+h3{font-size:19px;margin:22px 0 8px}
+p{margin:0 0 14px}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin:4px 0}
+.theses{counter-reset:t;list-style:none;padding:0;margin:0 0 16px}
+.theses li{counter-increment:t;position:relative;padding:10px 14px 10px 50px;margin:8px 0;background:#fdfcf9;border:1px solid var(--line);border-radius:12px}
+.theses li::before{content:counter(t);position:absolute;left:14px;top:12px;width:24px;height:24px;border-radius:50%;background:var(--accent-soft);color:#a8432e;font-weight:800;font-size:14px;display:grid;place-items:center}
+.tblw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:16px 0}
+.tbl{width:100%;min-width:520px;border-collapse:collapse;font-size:16px}
+.tbl th,.tbl td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+.tbl th{background:var(--new-soft);color:var(--new);font-weight:700}
+.tbl td{background:#fff}
+.callout{background:var(--new-soft);border-left:4px solid var(--new);border-radius:10px;padding:12px 16px;margin:14px 0}
+.callout.warm{background:var(--accent-soft);border-left-color:var(--accent)}
+.callout p:last-child{margin:0}
+blockquote{margin:14px 0;padding:12px 18px;background:#fff;border-left:5px solid var(--accent);border-radius:0 12px 12px 0}
+blockquote p{margin:0}
+.terms{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+.term{display:inline-flex;align-items:center;gap:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:600;padding:4px 10px;border-radius:8px}
+details.viz{margin:14px 0;border:1px solid var(--line);border-radius:12px;background:#fdfcf9}
+details.viz summary{cursor:pointer;list-style:none;padding:12px 14px;font-weight:600;font-size:16px;color:var(--new);min-height:44px;display:flex;align-items:center;gap:8px}
+details.viz summary::-webkit-details-marker{display:none}
+details.viz summary::before{content:"▸";font-size:14px;color:var(--accent)}
+details.viz[open] summary::before{content:"▾"}
+details.viz figure{margin:0;padding:4px 12px 14px}
+details.viz svg{display:block;width:100%;height:auto;max-width:400px;margin:0 auto;font-family:"Pretendard","Noto Sans KR",sans-serif}
+details.viz figcaption{font-size:16px;color:var(--muted);line-height:1.6;margin-top:8px}
+svg .bx{fill:#fff;stroke:#5b6470;stroke-width:1.4}
+svg .bx2{fill:#eaf0f6;stroke:#3d5f80;stroke-width:1.4}
+svg .bx3{fill:#fbeee9;stroke:#c8553d;stroke-width:1.4}
+svg .t{fill:#1f2328;font-size:18px}
+svg .tb{fill:#1f2328;font-size:18px;font-weight:700}
+svg .tm{fill:#4a525c;font-size:17.5px}
+svg .ln{stroke:#5b6470;stroke-width:1.5;fill:none}
+svg .lnd{stroke:#5b6470;stroke-width:1.5;fill:none;stroke-dasharray:5 4}
+.sources{background:var(--new-soft);border:1px solid var(--line);border-radius:var(--radius);padding:18px 22px;margin-top:32px;font-size:16px;color:#3f4650}
+.sources h3{font-size:17px;color:var(--new);margin:0 0 8px}
+.sources ul{margin:0;padding-left:20px}
+/* 복습 컴포넌트 표준 스타일 */
+.rv-h{font-size:19px;margin:22px 0 6px}
+.flips{display:grid;grid-template-columns:1fr;gap:8px;margin:10px 0}
+@media(min-width:640px){.flips{grid-template-columns:1fr 1fr}}
+.flip{font:inherit;text-align:left;width:100%;border:1.5px solid var(--line,#e6e1d6);background:#fdfcf9;border-radius:12px;padding:10px 14px;cursor:pointer;color:var(--ink,#1f2328);min-height:64px}
+.flip b{display:block;font-size:17px}
+.flip .m{display:none;font-size:16px;line-height:1.6;margin-top:4px}
+.flip .hint{font-size:13px;color:var(--muted,#5b6470)}
+.flip[aria-expanded="true"]{border-color:var(--new,#3d5f80);background:var(--new-soft,#eaf0f6)}
+.flip[aria-expanded="true"] .m{display:block}
+.flip[aria-expanded="true"] .hint{display:none}
+.cloze{list-style:none;margin:10px 0;padding:0}
+.cloze li{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:10px 14px;margin:8px 0;background:#fdfcf9;font-size:16px;line-height:1.8}
+.blank{font:inherit;font-size:16px;border:0;border-bottom:2px dashed var(--accent,#c8553d);background:var(--accent-soft,#fbeee9);color:#a8432e;border-radius:6px 6px 0 0;padding:0 8px;cursor:pointer;min-width:4.5em}
+.blank.shown{border-bottom-style:solid;background:var(--new-soft,#eaf0f6);color:var(--new,#3d5f80);font-weight:700}
+.rv-tools{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.rv-tools button{font:inherit;font-size:15px;border:1px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link,#4a6b8a)}
+.q{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:12px 14px;margin:10px 0;background:#fdfcf9}
+.q fieldset{border:0;margin:0;padding:0;min-width:0}
+.q legend{font-weight:700;padding:0;margin:0 0 8px;font-size:16.5px}
+.q button{display:block;width:100%;text-align:left;font:inherit;font-size:16px;border:1.5px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:8px 12px;margin:6px 0;cursor:pointer;color:var(--ink,#1f2328)}
+.q button.right{border-color:#2f6b45;background:#e6f1ea}
+.q button.wrong{border-color:#a2452f;background:#fbeee9}
+.q button[disabled]{cursor:default;opacity:1}
+.q .ex{margin:8px 0 0;font-size:16px;padding:8px 10px;border-radius:8px;background:var(--new-soft,#eaf0f6)}
+.score{font-size:17px;font-weight:800;margin:10px 0 0}
+.arc-back b,.arc-foot-label{color:#a8432e!important}
+.chk{display:inline-block;font-size:16px;font-weight:700;color:#8a3a12;background:#fdf0e3;border:1px solid #e8c9a8;border-radius:6px;padding:0 6px;margin-left:4px;white-space:nowrap}
+pre{background:#f6f4ee;border:1px solid var(--line);border-radius:10px;padding:12px 14px;overflow-x:auto;-webkit-overflow-scrolling:touch;margin:14px 0;font-size:16px;line-height:1.6}
+pre code{font-family:"JetBrains Mono","D2Coding",ui-monospace,Menlo,Consolas,monospace;color:#1f2328;white-space:pre}
+code{font-family:"JetBrains Mono","D2Coding",ui-monospace,Menlo,Consolas,monospace;font-size:.92em;background:#f3efe6;border-radius:4px;padding:0 4px}
+pre code{background:none;padding:0;font-size:inherit}
+@media(max-width:640px){pre{margin:12px -4px}}
+.steps,.pc{padding-left:1.3em}.steps li,.pc li{margin:8px 0}
+</style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
+</head>
+<body>
+<!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>아카이브</a><span class="arc-crumb">AI는 로펌의 비용이 아니라 매출을 늘린다 — 버려지던 작은 사건의 경제학</span><span class="arc-meta"><time datetime="2026-10-31">2026년 10월 31일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=%EB%B2%95%ED%95%99">#법학</a><a class="arc-tag" href="../index.html#tags=%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8">#에이전트</a><a class="arc-tag" href="../index.html#tags=%EC%9D%B8%ED%84%B0%EB%B7%B0">#인터뷰</a><a class="arc-src" href="https://youtu.be/iRMmPjunm3Q" rel="noopener">원문 ↗</a></span></div></div>
+<!-- archive-header:end -->
+<div class="wrap">
+  <header class="hero">
+    <span class="eyebrow">AI · 법률 인터뷰 해설</span>
+    <h1>AI는 로펌의 비용이 아니라 매출을 늘린다 — 버려지던 작은 사건의 경제학</h1>
+    <p class="lead">a16z 제너럴 파트너 알렉스 람펠과 리걸 AI 기업 Eve의 CEO 제이 마데스와란은 성공보수로 움직이는 미국 원고 측 법률 시장을 수요가 아니라 법률 노동이 제약인 시장으로 본다. 수임료 하한 아래에서 버려지던 사건, 그림자 노동시장으로서의 리걸 소프트웨어, 에이전트끼리의 협상, 결과 기반 가격과 로펌의 소프트웨어 회사화를 정리한다.</p>
+    <div class="hero-cta"><a href="https://yghnsim.github.io/Pages/articles/ai-plaintiff-law-small-firms-billion-dollar.html">📚 Pages에서 심화 해설 전문 읽기 ↗</a></div>
+  </header>
+  <div class="grid">
+    <nav class="toc" aria-label="목차">
+      <p class="toc-t">목차</p>
+      <ol>
+        <li><a href="#s0"><span class="n">★</span>한눈에 보기</a></li>
+        <li><a href="#s1"><span class="n">1</span>다윗의 새총</a></li>
+        <li><a href="#s2"><span class="n">2</span>수임료 하한과 시장 실패</a></li>
+        <li><a href="#s3"><span class="n">3</span>비용 절감이 아니라 매출</a></li>
+        <li><a href="#s4"><span class="n">4</span>100명에서 500명으로</a></li>
+        <li><a href="#s5"><span class="n">5</span>그림자 노동시장</a></li>
+        <li><a href="#s6"><span class="n">6</span>비공개 맥락과 해자</a></li>
+        <li><a href="#s7"><span class="n">7</span>양측 모두 AI를 가질 때</a></li>
+        <li><a href="#s8"><span class="n">8</span>변호사에게 남는 것</a></li>
+        <li><a href="#s9"><span class="n">9</span>법 체계의 방향</a></li>
+        <li><a href="#s10"><span class="n">10</span>10억 달러 로펌</a></li>
+        <li><a href="#s11"><span class="n">11</span>결과 기반 가격</a></li>
+        <li><a href="#s12"><span class="n">12</span>1만 번의 손길</a></li>
+        <li><a href="#s13"><span class="n">13</span>추수감사절 서류</a></li>
+        <li><a href="#s14"><span class="n">14</span>비교 정리</a></li>
+        <li><a href="#rv"><span class="n">✔</span>복습 &amp; 퀴즈</a></li>
+      </ol>
+      <a class="orig" href="https://yghnsim.github.io/Pages/articles/ai-plaintiff-law-small-firms-billion-dollar.html">심화 원문(Pages) ↗</a>
+    </nav>
+    <main id="content">
+      <section class="sec" id="s0">
+        <div class="sec-head"><span class="sec-num">★</span><div><h2>한눈에 보기</h2><p class="sub">다섯 줄 요약</p></div></div>
+        <ol class="theses">
+          <li><b>제약은 수요가 아니라 노동이다.</b> 원고 측 로펌은 더 많이 대리할수록 더 번다.</li>
+          <li><b>작은 사건은 버려진다.</b> 수임료 하한 아래의 사건은 이겨도 진다.</li>
+          <li><b>리걸 소프트웨어는 그림자 노동시장이다.</b> 크기는 지출이 아니라 결과로 잰다.</li>
+          <li><b>일상적 주고받기는 에이전트끼리.</b> 변호사는 결정과 변론에 집중한다.</li>
+          <li><b>로펌이 소프트웨어 회사가 된다.</b> 과금은 시간에서 결과로 옮겨 간다.</li>
+        </ol>
+        <div class="callout"><p>a16z는 Eve의 투자사다(2025년 1월 시리즈 A 주도, 9월 시리즈 B 참여). 투자를 주도한 파트너는 진행자가 아니라 David Haber다. 고객 로펌의 실적은 독립 검증된 통계가 아니라 CEO의 설명이다.</p></div>
+        <div class="terms"><span class="term">원고 측 법률</span><span class="term">Eve</span><span class="term">알렉스 람펠</span><span class="term">제이 마데스와란</span></div>
+      </section>
+
+      <section class="sec" id="s1">
+        <div class="sec-head"><span class="sec-num">1</span><div><h2>다윗의 새총</h2><p class="sub">평범한 사람을 위한 사법 접근성</p></div></div>
+        <p>실리콘밸리는 법률이라면 시간당 2,000달러를 청구하는 윌슨 손시니 같은 대형 로펌을 떠올린다. 그러나 101번 고속도로의 광고판들이 보여 주듯, 훨씬 크고 분산된 <b>원고 측 법률</b> 시장이 있다. 알렉스 람펠은 원고 측 대형 로펌 모건 앤 모건이 윌슨 손시니보다 수익성이 높을 것이라고 추정한다.</p>
+        <p>마데스와란은 Eve를 "평범한 사람을 위한 리걸 AI"로 정의한다. 평범한 사람은 사건이 언제 끝날지 모르는 채 시간당 500~600달러를 백지수표처럼 낼 수 없다. 그래서 원고 측 업계는 <b>성공보수</b> 모델로 생겨났다.</p>
+        <details class="viz"><summary>그림으로 보기: 두 가지 수임 방식</summary><figure><svg viewBox="0 0 280 250" role="img" aria-label="시간 단위 청구는 결과와 무관하게 비용이 들고 성공보수는 이겨야만 보수를 받는다"><defs><marker id="d2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">두 가지 수임 방식</text><rect class="bx3" x="10" y="42" width="260" height="92" rx="10"/><text class="tb" x="140" y="70" text-anchor="middle">시간 단위 청구</text><text class="tm" x="140" y="96" text-anchor="middle">투입 시간에 비례</text><text class="tm" x="140" y="122" text-anchor="middle">결과와 무관하게 비용</text><rect class="bx2" x="10" y="146" width="260" height="92" rx="10"/><text class="tb" x="140" y="174" text-anchor="middle">성공보수</text><text class="tm" x="140" y="200" text-anchor="middle">이겨야만 보수</text><text class="tm" x="140" y="226" text-anchor="middle">결과의 약 3분의 1</text></svg><figcaption>성공보수제가 개인이 기관과 맞설 때 대등한 운동장을 만들어 주었다.</figcaption></figure></details>
+        <p>Eve의 목표는 첫 전화 접수부터 합의금 수령까지 전 과정을 AI로 끝까지 처리해 변호사에게 주는 것이다. 마데스와란은 이를 "골리앗을 쓰러뜨리도록 다윗에게 새총을 쥐여 주는 것"이라 부른다.</p>
+        <div class="terms"><span class="term">성공보수</span><span class="term">시간 단위 청구</span><span class="term">모건 앤 모건</span></div>
+      </section>
+
+      <section class="sec" id="s2">
+        <div class="sec-head"><span class="sec-num">2</span><div><h2>수임료 하한과 시장 실패</h2><p class="sub">이겨도 지는 사건</p></div></div>
+        <p>람펠은 기초 경제학의 수요·공급 곡선을 법률에 적용한다. 손해가 1,000달러인 사람은 시간당 1,200달러 <span class="chk">확인 필요</span> 짜리 변호사를 쓸 수 없다. 성공보수 변호사도 사건마다 일정한 노동과 패럴리걸 인건비가 들어 더 큰 사건을 원한다. 그는 이를 <b>시장 실패</b>라 부르며, 소프트웨어가 일을 하게 되면 시장 기회가 훨씬 커진다고 말한다.</p>
+        <p>마데스와란은 법 체계가 정부의 약 3분의 1 <span class="chk">확인 필요</span> 이라고 말하며, 지금은 사건 하나로 수임료가 최소 5,000달러 <span class="chk">확인 필요</span> 나오지 않으면 변호사가 맡지 않는다고 설명한다. 5,000달러짜리 사건에서도 손해를 보는 일이 많고, 람펠은 이를 "이겨도 지는" 구조로 요약한다.</p>
+        <details class="viz"><summary>그림으로 보기: 수임료 하한 아래</summary><figure><svg viewBox="0 0 280 228" role="img" aria-label="수임료 하한 약 5,000달러 아래의 사건은 변호사가 맡지 않는다"><defs><marker id="d1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">버려지는 작은 사건</text><text class="tm" x="10" y="60" text-anchor="start">수임료 하한</text><text class="tb" x="270" y="60" text-anchor="end">약 5,000달러</text><rect x="10.0" y="70.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="70.0" width="236.4" height="16.0" fill="#c8553d"/><text class="tm" x="10" y="120" text-anchor="start">경미 사고 손해</text><text class="tb" x="270" y="120" text-anchor="end">3,000~4,000달러</text><rect x="10.0" y="130.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="130.0" width="165.5" height="16.0" fill="#8a929c"/><text class="tm" x="10" y="180" text-anchor="start">고용 분쟁 문의 수임</text><text class="tb" x="270" y="180" text-anchor="end">100건 중 4건</text><rect x="10.0" y="190.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="190.0" width="9.5" height="16.0" fill="#3d5f80"/></svg><figcaption>3,000~4,000달러는 개인에게 월급 한 번이 날아가느냐의 차이다.</figcaption></figure></details>
+        <ul class="pc">
+          <li><b>경미한 접촉사고.</b> 손해가 보험 자기부담금 이하라면 어떤 변호사도 맡지 않는다.</li>
+          <li><b>노동·고용 분쟁.</b> 상담에만 30~45분, 임의고용 원칙 아래 소송 원인에 맞는지 따지는 데 약 10시간 <span class="chk">확인 필요</span> 을 쓴 뒤에야 수임료가 5,000달러에 못 미친다는 것을 알게 된다.</li>
+        </ul>
+        <p>그래서 노동·고용 분야로 접수되는 문의의 96%가 거절된다고 마데스와란은 말한다(Jay 발언, <span class="chk">확인 필요</span>). 100건 중 4건만 수임된다는 뜻이다.</p>
+        <div class="terms"><span class="term">시장 실패</span><span class="term">수임료 하한</span><span class="term">임의고용</span><span class="term">소송 원인</span></div>
+      </section>
+
+      <section class="sec" id="s3">
+        <div class="sec-head"><span class="sec-num">3</span><div><h2>비용 절감이 아니라 매출</h2><p class="sub">수요는 제약이 아니다</p></div></div>
+        <p>마데스와란은 모든 것이 <b>법률 노동에 병목</b>이 걸려 있다고 진단한다. Eve는 수임 판단에 들던 10시간을 즉시로 바꾸려 한다. 전화를 받고, 로펌의 노하우로 사건이 되는지 판단하며, 맡는다면 청구서와 예비 작업이 된 상태로 출발하게 한다.</p>
+        <p>원고 측 사건은 6개월~1년이 걸리고 그동안 약 1,000번의 주고받기 <span class="chk">확인 필요</span> 가 일어난다. 대담 후반에 그는 이 수를 약 1만 번이라고도 말한다. 정확도가 오르면서 이런 <b>긴 호흡</b> 작업이 가능해진다.</p>
+        <p>람펠은 약 9개월 전 Los Altos의 블루보틀 카페 <span class="chk">확인 필요</span> 에서 "AI는 해고가 아니라 사건을 더 맡아 돈을 더 버는 매출 확대"라고 설명하던 중, 큰 개를 데린 법정 변호사가 다가와 회사 이름을 묻던 일을 소개한다.</p>
+        <div class="callout"><p>로펌의 수학은 단순하다. 더 많은 사람을 대리할수록 대개 더 많이 번다. 수요는 제약이 아니고 노동 공급이 제약이다.</p></div>
+        <details class="viz"><summary>그림으로 보기: 병목의 연쇄 이동</summary><figure><svg viewBox="0 0 280 242" role="img" aria-label="로펌이 성장하면서 병목은 변호사의 시간에서 접수팀 인력으로 옮기고 Eve는 이를 플랫폼으로 통합한다"><defs><marker id="d3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx3" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">1단계: 1인 로펌</text><text class="tm" x="140.0" y="62" text-anchor="middle">병목: 변호사의 시간</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="86" marker-end="url(#d3)"/><rect class="bx3" x="10" y="88" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="116" text-anchor="middle">2단계: 접수팀 신설</text><text class="tm" x="140.0" y="142" text-anchor="middle">병목: 접수팀 인력</text><line class="ln" x1="140.0" y1="154" x2="140.0" y2="166" marker-end="url(#d3)"/><rect class="bx2" x="10" y="168" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="196" text-anchor="middle">3단계: Eve 플랫폼</text><text class="tm" x="140.0" y="222" text-anchor="middle">변호사는 필요한 판단에만</text></svg><figcaption>Eve는 바닥을 계속 올리고 변호사는 결과를 내는 데 시간을 쓴다.</figcaption></figure></details>
+        <p>람펠은 패럴리걸을 시간당 12센트에 쓸 수 있다면 들어온 리드 5,000건을 모두 처리할 수 있을 것이라 말한다. 그런 노동시장은 없었지만 AI로는 가능하다. 받지 못한 의뢰인이 넘치는 이유는 CAC 대비 LTV 계산이 맞지 않기 때문이다.</p>
+        <div class="terms"><span class="term">법률 노동</span><span class="term">접수</span><span class="term">CAC</span><span class="term">LTV</span></div>
+      </section>
+
+      <section class="sec" id="s4">
+        <div class="sec-head"><span class="sec-num">4</span><div><h2>100명에서 500명으로</h2><p class="sub">변호사는 엔지니어가 된다</p></div></div>
+        <details class="viz"><summary>그림으로 보기: 한 로펌의 사례</summary><figure><svg viewBox="0 0 280 168" role="img" aria-label="LA의 한 로펌은 변호사 1인당 의뢰인을 약 100명에서 500명으로 늘렸다고 한다"><defs><marker id="d4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">변호사 1인당 의뢰인 (LA 한 로펌)</text><text class="tm" x="10" y="60" text-anchor="start">이전</text><text class="tb" x="270" y="60" text-anchor="end">약 100명</text><rect x="10.0" y="70.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="70.0" width="46.4" height="16.0" fill="#8a929c"/><text class="tm" x="10" y="120" text-anchor="start">Eve 도입 후</text><text class="tb" x="270" y="120" text-anchor="end">약 500명</text><rect x="10.0" y="130.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="130.0" width="232.1" height="16.0" fill="#2f6b45"/></svg><figcaption>Eve 고객 전체의 평균이 아니라 한 로펌의 사례다.</figcaption></figure></details>
+        <p>마데스와란은 LA의 한 로펌이 변호사 1인당 의뢰인을 약 100명에서 500명으로 늘렸다고 소개한다(Jay 발언, <span class="chk">확인 필요</span>). 방식은 두 가지다.</p>
+        <ul class="pc">
+          <li><b>릴레이 문제의 제거.</b> 접수 응대, 자격 심사, 변호사와 사건 관리자 사이의 인계를 Eve 안의 에이전트가 처리한다.</li>
+          <li><b>합의 단계의 브리프.</b> 조정인과 논의하기 전에 무엇에 집중할지, 비슷한 사건의 합의 결과와 전술을 담은 브리프를 준다.</li>
+        </ul>
+        <p>그는 앞으로 변호사가 사건을 계속 앞으로 움직이는 시스템을 엔지니어링하는 데이터 과학자이자 엔지니어에 가까워질 것이라 전망한다.</p>
+        <div class="terms"><span class="term">릴레이 문제</span><span class="term">사건 관리자</span><span class="term">브리프</span></div>
+      </section>
+
+      <section class="sec" id="s5">
+        <div class="sec-head"><span class="sec-num">5</span><div><h2>그림자 노동시장</h2><p class="sub">지출이 아니라 결과로 잰다</p></div></div>
+        <p>VC들은 원고 측 로펌이 모두 Microsoft Office를 사니 소프트웨어 지출이 연 수백억 달러(Alex 발언, <span class="chk">확인 필요</span>)로 우스울 만큼 작다고 봤다. 람펠은 그 로펌들이 내는 결과의 규모, 연 수천억 달러(Alex 발언, <span class="chk">확인 필요</span>)를 봐야 한다고 말한다. 결과가 노동에 묶여 더 커지지 못할 뿐이다.</p>
+        <details class="viz"><summary>그림으로 보기: 시장의 실제 크기</summary><figure><svg viewBox="0 0 280 250" role="img" aria-label="리걸 소프트웨어의 크기는 지출이 아니라 대신하는 노동과 결과로 재야 한다"><defs><marker id="d5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">그림자 노동시장</text><rect class="bx3" x="10" y="42" width="260" height="92" rx="10"/><text class="tb" x="140" y="70" text-anchor="middle">VC가 본 시장</text><text class="tm" x="140" y="96" text-anchor="middle">소프트웨어 지출</text><text class="tm" x="140" y="122" text-anchor="middle">연 수백억 달러</text><rect class="bx2" x="10" y="146" width="260" height="92" rx="10"/><text class="tb" x="140" y="174" text-anchor="middle">실제 크기</text><text class="tm" x="140" y="200" text-anchor="middle">로펌이 내는 결과</text><text class="tm" x="140" y="226" text-anchor="middle">연 수천억 달러</text></svg><figcaption>소프트웨어가 대신하거나 증폭하는 인건비 전체가 시장이 된다.</figcaption></figure></details>
+        <p>원고 측 로펌에는 역사적으로 휴대전화와 이메일 주소 외에 필요한 것이 거의 없었다. 일부 1인 로펌은 Word조차 사지 않았다. 리걸 소프트웨어의 자원은 Harvey를 포함해 예산이 있는 방어 측과 기관으로 갔다. 원고 측 로펌은 매달 지갑을 지켜보는 소기업이라 첫날부터 결과가 없으면 재계약하지 않는다.</p>
+        <p>무엇이 달라졌나. 사람이 한 번 손으로 한 일과 새 데이터를 변환하는 일까지 이제 프로세스로 코드화할 수 있다. 예전에는 사건마다 달라 표준화가 되지 않았지만, 이제 한 사람이 사실관계가 다른 500건을 다룰 수 있다는 것이 마데스와란의 주장이다.</p>
+        <div class="terms"><span class="term">그림자 노동시장</span><span class="term">TAM</span><span class="term">Harvey</span><span class="term">방어 측</span></div>
+      </section>
+
+      <section class="sec" id="s6">
+        <div class="sec-head"><span class="sec-num">6</span><div><h2>비공개 맥락과 해자</h2><p class="sub">로펌에 떨어진 아인슈타인</p></div></div>
+        <p>애플리케이션 기업은 대형 연구소에 깔려 죽는 로드킬이 되지 않을까. 마데스와란은 모델이 계속 좋아지는 데 베팅한다면서도, 오늘 아인슈타인을 로펌에 떨어뜨려 놓아도 한동안은 생산적이지 않을 것이라고 말한다.</p>
+        <details class="viz"><summary>그림으로 보기: 날것의 지능보다 나은 이유</summary><figure><svg viewBox="0 0 280 430" role="img" aria-label="Eve의 해자는 공개되지 않은 합의 데이터와 실무, 지역 맥락, 반복되는 질문이다"><defs><marker id="d6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="24" text-anchor="middle">긁어 올 수 없는 맥락</text><rect class="bx2" x="10" y="40" width="260" height="86" rx="10"/><text class="tb" x="140.0" y="74" text-anchor="middle">비공개 합의</text><text class="tm" x="140.0" y="102" text-anchor="middle">판결문 1% 미만</text><rect class="bx2" x="10" y="136" width="260" height="86" rx="10"/><text class="tb" x="140.0" y="170" text-anchor="middle">실무 지식</text><text class="tm" x="140.0" y="198" text-anchor="middle">검색해도 없다</text><rect class="bx2" x="10" y="232" width="260" height="86" rx="10"/><text class="tb" x="140.0" y="266" text-anchor="middle">지역 맥락</text><text class="tm" x="140.0" y="294" text-anchor="middle">관할·상대 변호인</text><rect class="bx2" x="10" y="328" width="260" height="86" rx="10"/><text class="tb" x="140.0" y="362" text-anchor="middle">반복 질문</text><text class="tm" x="140.0" y="390" text-anchor="middle">사건마다 수천 번</text></svg><figcaption>가장 먼저 가치가 나는 곳은 누구를 맡을지 정하는 접수다.</figcaption></figure></details>
+        <p>람펠은 보험사의 규칙 1번도 2번도 거절이라고 과장한다. GEICO가 실제로 2만 9,000달러 <span class="chk">확인 필요</span> 를 지급했다는 정보는 아주 유용하다. 보험사는 10만 개 <span class="chk">확인 필요</span> 로펌을 상대하니 전체 사건을 알지만, 정보는 지역 로펌들에 쪼개져 있다. 보험사는 부러진 엄지손가락의 값을 매기는 콜로서스 같은 소프트웨어도 쓴다.</p>
+        <p>고객 데이터는 어떻게 다루나. 마데스와란은 각자의 사건은 비공개로 지키고 <b>변호사-의뢰인 비밀유지특권</b>이 걸린 데이터로는 학습하지 않는다고 답한다. 변호사들은 이미 CLE에서 "State Farm의 방어를 어떻게 이겼는지"를 나누고, Eve는 자체 변호사를 고용해 플랫폼 사건의 성공률을 추적한다. 제품 <b>Auditor</b>는 밤새 모든 사건의 모든 페이지를 분석해 놓친 정보를 찾는다.</p>
+        <div class="terms"><span class="term">로드킬</span><span class="term">비공개 데이터</span><span class="term">콜로서스</span><span class="term">비밀유지특권</span><span class="term">Auditor</span></div>
+      </section>
+
+      <section class="sec" id="s7">
+        <div class="sec-head"><span class="sec-num">7</span><div><h2>양측 모두 AI를 가질 때</h2><p class="sub">에이전트끼리의 대화</p></div></div>
+        <p>상대도 똑똑해질 것이다. 소비자 에이전트로 식당에 전화를 몰아 걸면 식당도 결국 막는다. 예전에는 보험사가 2,500달러 손해를 2,000달러로 깎아도 소비자가 다툴 방법이 없었지만, 이제 다윗들이 반격할 수 있다.</p>
+        <details class="viz"><summary>그림으로 보기: AI와 사람의 몫</summary><figure><svg viewBox="0 0 280 294" role="img" aria-label="일상적 주고받기는 에이전트가 맡고 변호사는 결정과 변론에 집중한다"><defs><marker id="d7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="92" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">AI가 맡는 일</text><text class="tm" x="140.0" y="62" text-anchor="middle">일상적 주고받기 99%</text><text class="tm" x="140.0" y="88" text-anchor="middle">에이전트 대 에이전트</text><line class="ln" x1="140.0" y1="100" x2="140.0" y2="112" marker-end="url(#d7)"/><rect class="bx2" x="10" y="114" width="260" height="92" rx="10"/><text class="tb" x="140.0" y="142" text-anchor="middle">변호사가 아는 것</text><text class="tm" x="140.0" y="168" text-anchor="middle">의뢰인 · 사실관계</text><text class="tm" x="140.0" y="194" text-anchor="middle">지역의 방어 측 로펌</text><line class="ln" x1="140.0" y1="206" x2="140.0" y2="218" marker-end="url(#d7)"/><rect class="bx2" x="10" y="220" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="248" text-anchor="middle">남는 일</text><text class="tm" x="140.0" y="274" text-anchor="middle">결정 · 재판 · 진짜 변론</text></svg><figcaption>대리 업무의 99%, 어쩌면 99.9%는 AI가 한다.</figcaption></figure></details>
+        <p>마데스와란은 일상적인 주고받기가 에이전트끼리 대화하며 처리되는 "미친 미래"로 가고 있다고 본다. 차이를 만드는 것은 변호사가 의뢰인, 사실관계, 지역의 방어 측 로펌을 얼마나 이해하느냐다. Eve 고객 다수는 재판 업무에 더 많은 시간을 쓰기로 하고 있다. 방향은 <b>진짜 변론</b>이다.</p>
+        <div class="terms"><span class="term">에이전트 간 협상</span><span class="term">진짜 변론</span><span class="term">재판</span></div>
+      </section>
+
+      <section class="sec" id="s8">
+        <div class="sec-head"><span class="sec-num">8</span><div><h2>변호사에게 남는 것</h2><p class="sub">데이터 과학과 최종 판단</p></div></div>
+        <p>합의금을 모아 둔 공동 저장소는 없었다. 사건 비용을 대 주는 <b>소송 금융</b> 회사들은 판사 등에 관한 데이터를 활용하며 데이터 과학에 앞서 있었다. 이제 일반 로펌도 플랫폼으로 그런 데이터에 접근한다.</p>
+        <p>GEICO가 1만 2,000달러를 제시했을 때 1만 5,000달러로 밀어붙일지, 재판으로 가 10만 달러를 노릴지를 더 나은 근거로 판단할 수 있다. Eve는 최선의 결정에 도달했는지 알도록 돕지만 <b>결정은 여전히 변호사의 몫</b>이다.</p>
+        <div class="terms"><span class="term">소송 금융</span><span class="term">합의 전략</span><span class="term">최종 판단</span></div>
+      </section>
+
+      <section class="sec" id="s9">
+        <div class="sec-head"><span class="sec-num">9</span><div><h2>법 체계의 방향</h2><p class="sub">모든 것이 법원으로 가지 않는다</p></div></div>
+        <p>람펠은 웰스파고 <span class="chk">확인 필요</span> 와의 문제로 4시간을 씨름한 끝에 ChatGPT(자막 오인식 "Chad G.B.D.", <span class="chk">확인 필요</span>)에 "웰스파고를 고소해 줘"라고 맡겼다. 4시간 뒤 실제로 소송이 제기되고 송달인까지 찾았으며 기일은 2월이라고 한다. 특허도 출원은 쉬워졌지만 USPTO가 병목이다.</p>
+        <p>마데스와란은 모든 것이 법원으로 가지 않는 체계가 불가피하다고 본다. 보훈 사건의 별도 위원회, 노동·고용 사건의 EEOC, 고용주의 조정과 중재처럼 이미 그런 틀이 있다. 일부 영역은 그가 말한 "자동화된 분쟁 해결(automated dispute resolution, <span class="chk">확인 필요</span>)"로 갈 것이다. 전통적인 ADR(대체적 분쟁 해결)을 의도적으로 바꿔 말한 것인지 말실수인지는 영상만으로 알 수 없다(<span class="chk">확인 필요</span>).</p>
+        <p>다만 <b>판단 자체는 대체되지 않는다.</b> 판단하는 사람은 과거 사례를 받고, 그 안의 편향을 걸러 내는 것은 그들의 몫이다.</p>
+        <div class="terms"><span class="term">ADR</span><span class="term">EEOC</span><span class="term">중재</span><span class="term">판단</span></div>
+      </section>
+
+      <section class="sec" id="s10">
+        <div class="sec-head"><span class="sec-num">10</span><div><h2>10억 달러 로펌</h2><p class="sub">소프트웨어 회사로의 진화</p></div></div>
+        <p>변호사 1명이 100건에서 500건, 언젠가 5,000건을 다룬다면 왜 뉴저지의 작은 사무실에 머물러야 하나. 람펠은 로펌이 지금은 상장할 수 없지만 애리조나 같은 곳에서는 가능할지 모른다고 덧붙인다. 마데스와란은 "많은 로펌이 소프트웨어 회사처럼 바뀌고, 비켜나 있던 소프트웨어 혁명에 마침내 참여할 것"이라고 답한다.</p>
+        <details class="viz"><summary>그림으로 보기: 사건당 단위 경제</summary><figure><svg viewBox="0 0 280 310" role="img" aria-label="2만 5,000달러 합의금에서 변호사 몫 약 8,000달러의 절반은 인건비, 30퍼센트는 마케팅이다"><defs><marker id="d8" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">합의금 2만 5,000달러</text><text class="tm" x="140.0" y="62" text-anchor="middle">변호사 몫 약 8,000달러</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="82" marker-end="url(#d8)"/><rect class="bx3" x="10" y="84" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="112" text-anchor="middle">인건비 약 50%</text><text class="tm" x="140.0" y="138" text-anchor="middle">약 4,000달러</text><line class="ln" x1="140.0" y1="150" x2="140.0" y2="158" marker-end="url(#d8)"/><rect class="bx3" x="10" y="160" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="188" text-anchor="middle">마케팅 약 30%</text><text class="tm" x="140.0" y="214" text-anchor="middle">약 2,400달러</text><line class="ln" x1="140.0" y1="226" x2="140.0" y2="234" marker-end="url(#d8)"/><rect class="bx2" x="10" y="236" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="264" text-anchor="middle">이익</text><text class="tm" x="140.0" y="290" text-anchor="middle">나머지 약 1,600달러</text></svg><figcaption>Jay가 제시한 2만 5,000달러 합의금 예시 <span class="chk">확인 필요</span></figcaption></figure></details>
+        <p>변호사 몫은 단순화해 약 8,000달러 <span class="chk">확인 필요</span> 이고, 그 절반이 인건비, 약 30%가 마케팅, 나머지가 이익이다. 이 구조에서는 다음 의뢰인을 더 잘 섬기도록 재투자하기 어렵고, 유일한 방법은 더 나은 변호사를 뽑는 것이었다. 이제 로펌은 자기만의 데이터 세트를 쌓아 특정 분야에서 경쟁자보다 나은 결과를 낼 수 있다.</p>
+        <details class="viz"><summary>그림으로 보기: 전문화와 통합</summary><figure><svg viewBox="0 0 280 250" role="img" aria-label="로펌은 더 좁게 전문화하거나 인수로 통합하는 두 방향으로 간다"><defs><marker id="d9" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">로펌이 가는 두 방향</text><rect class="bx" x="10" y="42" width="260" height="92" rx="10"/><text class="tb" x="140" y="70" text-anchor="middle">전문화</text><text class="tm" x="140" y="96" text-anchor="middle">특정 사실 패턴에 특화</text><text class="tm" x="140" y="122" text-anchor="middle">지역에서 전국으로</text><rect class="bx2" x="10" y="146" width="260" height="92" rx="10"/><text class="tb" x="140" y="174" text-anchor="middle">통합</text><text class="tm" x="140" y="200" text-anchor="middle">큰 로펌의 인수</text><text class="tm" x="140" y="226" text-anchor="middle">Eve로 빠른 통합</text></svg><figcaption>특정 사건 광고는 광고판을 어디에나 거는 것보다 효율이 높을 수 있다.</figcaption></figure></details>
+        <p>Eve가 함께 일하는 모건 앤 모건 규모의 로펌 일부 <span class="chk">확인 필요</span> 는 다른 로펌을 인수하고 있고, 고통스럽던 통합 과정을 Eve로 빠르게 한다.</p>
+        <div class="terms"><span class="term">단위 경제</span><span class="term">전문화</span><span class="term">통합</span><span class="term">라이프스타일 비즈니스</span></div>
+      </section>
+
+      <section class="sec" id="s11">
+        <div class="sec-head"><span class="sec-num">11</span><div><h2>결과 기반 가격</h2><p class="sub">톨·그란데·벤티의 퇴조</p></div></div>
+        <p>예전 SaaS는 좌석당 월 과금이었다. 람펠은 월 79·99·129달러처럼 어디나 똑같던 이 모델을 "톨·그란데·벤티"라 부른다. 젠데스크는 마지막 상장 때 ARR 20억 달러 <span class="chk">확인 필요</span> 였고 퍼미라와 헬먼 앤 프리드먼이 비상장화했다. 이제 "좌석이 몇 개 필요하냐? 0개일 수도 있다"는 상황이고, 업계 전반이 결과에 과금하는 쪽으로 간다.</p>
+        <details class="viz"><summary>그림으로 보기: 과금 모델의 진화</summary><figure><svg viewBox="0 0 280 242" role="img" aria-label="과금은 시간에서 좌석으로, 다시 결과로 옮겨 간다"><defs><marker id="d10" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx3" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">시간 단위 청구</text><text class="tm" x="140.0" y="62" text-anchor="middle">투입 시간에 비례</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="86" marker-end="url(#d10)"/><rect class="bx3" x="10" y="88" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="116" text-anchor="middle">좌석 기반 SaaS</text><text class="tm" x="140.0" y="142" text-anchor="middle">톨·그란데·벤티</text><line class="ln" x1="140.0" y1="154" x2="140.0" y2="166" marker-end="url(#d10)"/><rect class="bx2" x="10" y="168" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="196" text-anchor="middle">결과 기반 과금</text><text class="tm" x="140.0" y="222" text-anchor="middle">성공 결과에 연동</text></svg><figcaption>원고 측 법률은 처음부터 결과 기반이었다.</figcaption></figure></details>
+        <p>신탁·상속이나 이민법에서 시간 단위 청구가 지배적이던 데는 이유가 있다. 고객이 원하는 것과 표현하는 것의 비대칭, 수시로 바뀌는 범위, 작업량을 가늠할 데이터의 부재다. 일이 단순하게 끝날 수도, 4,000시간이 넘게 걸릴 수도 있다. 대형 로펌은 초기 자문을 손실 유도 상품으로 싸게 주고 M&amp;A나 IPO에서 만회한다.</p>
+        <p>법률의 민주화를 위해서는 사실관계에서 결과까지 연산이 얼마나 드는지 알아야 한다. Eve도 처음에는 톨·그란데·벤티로 시작했지만 약 1년 반 전부터 결과 기반으로 바꿨다. 인건비를 아낀 돈을 더 많은 토큰과 일에 써서 로펌이 더 버는 순환이 생긴다. 마데스와란은 시간 단위 청구가 완전히 사라지지는 않고 좌석 과금처럼 퇴조할 것이라 본다.</p>
+        <div class="terms"><span class="term">결과 기반 가격</span><span class="term">좌석 기반 SaaS</span><span class="term">손실 유도</span><span class="term">분할상환</span></div>
+      </section>
+
+      <section class="sec" id="s12">
+        <div class="sec-head"><span class="sec-num">12</span><div><h2>1만 번의 손길</h2><p class="sub">긴 호흡 에이전트</p></div></div>
+        <p>연구소들의 리걸 벤치마크는 대개 과제 하나를 잘했는지를 본다. Eve에게 중요한 것은 처음부터 에이전트형 최종 결과였다. 사건 유형마다 해결법을 과학처럼 배워 <b>작은 변호사 두뇌</b>를 만드는 것이 어려운 문제이고, 그래서 지금은 주로 엔지니어가 제약이다.</p>
+        <p>차량 사고 사건 하나만 끝까지 처리해도 풀리는 가치가 수천억 달러(Jay 발언, <span class="chk">확인 필요</span>)이고 그것도 한 하위 유형일 뿐이다. 완전 자율로 끝난 사건이 있느냐는 질문에는 "아직은 아니지만 가깝다"고 답했다.</p>
+        <p>그는 사건 하나에 약 1만 번의 주고받기가 있다고 말한다. 앞부분의 "약 1,000번"이 실제로 "a thousand"였는지는 확인되지 않았고(<span class="chk">확인 필요</span>), 무엇을 한 번으로 세는지는 설명하지 않는다.</p>
+        <details class="viz"><summary>그림으로 보기: 사건 생애주기</summary><figure><svg viewBox="0 0 280 386" role="img" aria-label="접수에서 의료 기록, 청구서, 협상까지 AI가 맡고 최종 판단과 변론은 변호사가 한다"><defs><marker id="d11" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">① 접수 · 자격 심사</text><text class="tm" x="140.0" y="62" text-anchor="middle">Eve가 전화를 받는다</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="82" marker-end="url(#d11)"/><rect class="bx" x="10" y="84" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="112" text-anchor="middle">② 의료 기록 수집</text><text class="tm" x="140.0" y="138" text-anchor="middle">음성 아웃바운드 에이전트</text><line class="ln" x1="140.0" y1="150" x2="140.0" y2="158" marker-end="url(#d11)"/><rect class="bx" x="10" y="160" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="188" text-anchor="middle">③ 청구서 · 감사</text><text class="tm" x="140.0" y="214" text-anchor="middle">Auditor 야간 전수 검토</text><line class="ln" x1="140.0" y1="226" x2="140.0" y2="234" marker-end="url(#d11)"/><rect class="bx" x="10" y="236" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="264" text-anchor="middle">④ 협상 교환</text><text class="tm" x="140.0" y="290" text-anchor="middle">에이전트 대 에이전트</text><line class="ln" x1="140.0" y1="302" x2="140.0" y2="310" marker-end="url(#d11)"/><rect class="bx2" x="10" y="312" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="340" text-anchor="middle">⑤ 최종 판단 · 변론</text><text class="tm" x="140.0" y="366" text-anchor="middle">인간 변호사</text></svg><figcaption>의료 기록을 받는 데 지금은 2주가 걸린다.</figcaption></figure></details>
+        <p>Eve의 음성 아웃바운드 에이전트는 보험사와 의료기관에 전화를 걸고, 이미 에이전트가 다른 에이전트와 대화하며 서로를 통과하는 법을 배우는 모습이 보인다.</p>
+        <div class="terms"><span class="term">긴 호흡 에이전트</span><span class="term">단일 과제 벤치마크</span><span class="term">작은 변호사 두뇌</span><span class="term">음성 에이전트</span></div>
+      </section>
+
+      <section class="sec" id="s13">
+        <div class="sec-head"><span class="sec-num">13</span><div><h2>추수감사절 서류</h2><p class="sub">가격 비대칭</p></div></div>
+        <p>방어 측은 여전히 시간 단위로 일해 Eve를 쓰는 변호사들의 속도를 따라오지 못한다. 한 방어 측은 <b>증거개시</b> 요청을 추수감사절 같은 큰 휴일 전날까지 미뤘다 보내곤 했다. 상대가 휴가 중에 서두르게 만들려는 것이었다.</p>
+        <details class="viz"><summary>그림으로 보기: 연휴 전 기습</summary><figure><svg viewBox="0 0 280 250" role="img" aria-label="연휴 직전 증거개시 요청에 같은 날 응답하는 에이전트로 맞섰다"><defs><marker id="d12" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">추수감사절 서류</text><rect class="bx3" x="10" y="42" width="260" height="92" rx="10"/><text class="tb" x="140" y="70" text-anchor="middle">방어 측의 수법</text><text class="tm" x="140" y="96" text-anchor="middle">연휴 전날</text><text class="tm" x="140" y="122" text-anchor="middle">증거개시 요청 발송</text><rect class="bx2" x="10" y="146" width="260" height="92" rx="10"/><text class="tb" x="140" y="174" text-anchor="middle">Eve 로펌의 대응</text><text class="tm" x="140" y="200" text-anchor="middle">같은 날 응답하는</text><text class="tm" x="140" y="226" text-anchor="middle">에이전트</text></svg><figcaption>방어 측은 "도대체 무슨 일이냐"는 반응이었다.</figcaption></figure></details>
+        <p>그 로펌은 Eve에서 같은 날 응답하는 에이전트를 만들었고, 전술은 더는 통하지 않았다. 마데스와란은 방어 측이 "상대가 자원을 가지면 이렇게 되는구나"를 깨닫고 있다고 해석한다. 그는 지금까지 수십만 명의 의뢰인을 도왔다고 말한다.</p>
+        <div class="terms"><span class="term">증거개시</span><span class="term">가격 비대칭</span><span class="term">같은 날 응답</span></div>
+      </section>
+
+      <section class="sec" id="s14">
+        <div class="sec-head"><span class="sec-num">14</span><div><h2>비교 정리</h2><p class="sub">기존 로펌과 Eve 활용 로펌</p></div></div>
+        <ul class="pc">
+          <li><b>접수.</b> 기존: 30~45분 상담 후 약 10시간 수작업 조사 <span class="chk">확인 필요</span> Eve: 전화를 받아 즉시 판단, 청구서와 예비 작업 준비.</li>
+          <li><b>수임료 하한.</b> 기존: 최소 5,000달러 미만 거절 <span class="chk">확인 필요</span> 노동·고용 사건 96% 거절 <span class="chk">확인 필요</span> Eve: 대리받지 못하던 사람이 대리받게 된다는 주장.</li>
+          <li><b>변호사 1인당 의뢰인.</b> 기존 약 100명, Eve 도입 후 약 500명(LA 한 로펌 사례, Jay 발언, <span class="chk">확인 필요</span>).</li>
+          <li><b>변호사 시간.</b> 기존: 접수 통화, 자격 심사, 인계. Eve: 의뢰인과의 대화, 결정, 재판과 변론.</li>
+          <li><b>핵심 병목.</b> 기존: 법률 인력. Eve 측: 엔지니어.</li>
+          <li><b>원고 측 대 방어 측.</b> 개인 의뢰인과 성공보수, 빠듯한 예산 대 기관과 시간 단위 청구, 풍부한 예산과 전체 사건 정보.</li>
+        </ul>
+        <p>두 사람이 그리는 원고 측 시장은 노동이 제약인 시장이다. 수임료 하한 아래의 사건은 버려지고, 마데스와란의 말로는 노동·고용 사건의 96%가 거절된다(<span class="chk">확인 필요</span>). AI로 처리 비용이 내려가면 버려지던 사건 일부가 시장으로 들어오고, AI는 비용 절감보다 매출 확대의 도구가 된다. 다만 완전 자율로 끝난 사건은 아직 없고, 100명에서 500명이라는 수치와 추수감사절 사례는 회사 대표가 전한 사례다.</p>
+        <div class="terms"><span class="term">매출 확대</span><span class="term">노동 제약</span><span class="term">법률의 소프트웨어화</span></div>
+      </section>
+      <section class="sec" id="rv">
+        <div class="sec-head"><span class="sec-num">✔</span><div><h2>복습</h2><p class="sub">용어 카드 · 빈칸 · 5문항 퀴즈</p></div></div>
+        <h3 class="rv-h">핵심 용어 카드</h3>
+        <div class="flips">
+          <button type="button" class="flip" aria-expanded="false"><b>원고 측 법률</b><span class="hint">뜻 보기</span><span class="m">보험사나 대기업에 맞서 개인을 대리하는 법률 시장. 성공보수로 운영된다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>성공보수</b><span class="hint">뜻 보기</span><span class="m">이겨서 배상을 받았을 때만 결과의 일정 비율(약 3분의 1)을 보수로 받는 방식.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>수임료 하한</b><span class="hint">뜻 보기</span><span class="m">사건 하나로 수임료가 최소 약 5,000달러 나오지 않으면 변호사가 맡지 않는 선.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>시장 실패</b><span class="hint">뜻 보기</span><span class="m">고정 노동 비용 때문에 작은 사건은 원해도 거래가 성립하지 않는 상태.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>노동 제약</b><span class="hint">뜻 보기</span><span class="m">원고 측 로펌에서 제약은 수요가 아니라 법률 노동의 공급이라는 진단.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>그림자 노동시장</b><span class="hint">뜻 보기</span><span class="m">리걸 소프트웨어의 크기를 지출이 아니라 대신하는 노동과 결과로 재야 한다는 관점.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>비공개 맥락 데이터</b><span class="hint">뜻 보기</span><span class="m">판결문으로 남지 않는 합의, 실무 지식, 지역 맥락. 공개 웹 학습으로 얻기 어렵다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>Auditor</b><span class="hint">뜻 보기</span><span class="m">밤새 모든 사건의 모든 페이지를 분석해 놓친 정보를 찾는 Eve의 제품.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>결과 기반 가격</b><span class="hint">뜻 보기</span><span class="m">좌석이나 시간이 아니라 소프트웨어가 낸 결과에 연동해 과금하는 방식.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>가격 비대칭</b><span class="hint">뜻 보기</span><span class="m">시간 단위로 일하는 방어 측이 AI를 쓰는 원고 측 속도를 따라오지 못하는 상황.</span></button>
+        </div>
+        <h3 class="rv-h">빈칸 채우기</h3>
+        <ol class="cloze">
+          <li>로펌 입장에서 수요는 제약이 아니고 <button type="button" class="blank" data-a="노동 공급">빈칸</button>이 제약이다.</li>
+          <li>람펠은 작은 사건이 버려지는 구조를 <button type="button" class="blank" data-a="시장 실패">빈칸</button>라 부른다.</li>
+          <li>노동·고용 분야 문의의 <button type="button" class="blank" data-a="96%">빈칸</button>가 거절된다고 한다.</li>
+          <li>LA의 한 로펌은 변호사 1인당 의뢰인을 100명에서 <button type="button" class="blank" data-a="500명">빈칸</button>으로 늘렸다.</li>
+          <li>리걸 소프트웨어 시장은 사실 <button type="button" class="blank" data-a="그림자 노동시장">빈칸</button>이다.</li>
+          <li>비밀유지특권이 걸린 데이터로는 절대 <button type="button" class="blank" data-a="학습">빈칸</button>하지 않는다.</li>
+          <li>Eve는 약 1년 반 전부터 <button type="button" class="blank" data-a="결과 기반">빈칸</button>으로 과금한다.</li>
+          <li>방어 측의 연휴 전 요청에 <button type="button" class="blank" data-a="같은 날">빈칸</button> 응답하는 에이전트로 맞섰다.</li>
+        </ol>
+        <h3 class="rv-h">5문항 퀴즈</h3>
+        <div id="quiz">
+          <div class="q" data-a="1"><fieldset><legend class="qt">1. 원고 측 로펌의 진짜 제약은?</legend>
+            <button type="button">의뢰인 수요</button>
+            <button type="button">법률 노동의 공급</button>
+            <button type="button">광고 규제</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="더 많이 대리할수록 대개 더 많이 법니다."></p></div>
+          <div class="q" data-a="1"><fieldset><legend class="qt">2. 작은 사건이 버려지는 이유는?</legend>
+            <button type="button">법이 금지해서</button>
+            <button type="button">고정 노동 비용이 기대 수임료를 넘어서</button>
+            <button type="button">의뢰인이 원하지 않아서</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="5,000달러짜리 사건도 손해를 보곤 합니다."></p></div>
+          <div class="q" data-a="1"><fieldset><legend class="qt">3. 람펠이 본 리걸 소프트웨어 시장의 크기 기준은?</legend>
+            <button type="button">소프트웨어 지출</button>
+            <button type="button">로펌이 내는 결과</button>
+            <button type="button">변호사 수</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="그림자 노동시장 관점입니다."></p></div>
+          <div class="q" data-a="1"><fieldset><legend class="qt">4. 일상적 주고받기가 에이전트끼리 처리되면 변호사가 집중할 일은?</legend>
+            <button type="button">서류 정리</button>
+            <button type="button">결정과 재판, 진짜 변론</button>
+            <button type="button">광고</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="의뢰인과 사실관계, 지역 상대를 아는 일입니다."></p></div>
+          <div class="q" data-a="1"><fieldset><legend class="qt">5. 시간 단위 청구의 미래에 대한 Jay의 전망은?</legend>
+            <button type="button">즉시 소멸</button>
+            <button type="button">완전히 사라지진 않지만 퇴조</button>
+            <button type="button">더 확대</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="좌석 기반 과금처럼 퇴조한다고 봅니다."></p></div>
+          <p class="score" id="score" aria-live="polite">점수: 0 / 5</p>
+          <div class="rv-tools"><button type="button" id="qreset">다시 풀기</button></div>
+        </div>
+      </section>
+
+      <section class="sources">
+        <h3>출처</h3>
+        <ul>
+          <li><a href="https://yghnsim.github.io/Pages/articles/ai-plaintiff-law-small-firms-billion-dollar.html">Pages — AI는 로펌의 비용이 아니라 매출을 늘린다</a></li>
+          <li><a href="https://youtu.be/iRMmPjunm3Q">YouTube — a16z, Why AI Could Turn Small Law Firms Into Billion-Dollar Businesses (알렉스 람펠, 제이 마데스와란)</a></li>
+        </ul>
+      </section>
+    </main>
+
+  </div>
+</div>
+<script>(function(){
+function $$(q){return [].slice.call(document.querySelectorAll(q))}
+$$('.flip').forEach(function(b){b.onclick=function(){b.setAttribute('aria-expanded',b.getAttribute('aria-expanded')==='true'?'false':'true')}});
+function show(b){b.textContent=b.dataset.a;b.classList.add('shown');b.setAttribute('aria-label','답: '+b.dataset.a)}
+function hide(b){b.textContent='?';b.classList.remove('shown');b.setAttribute('aria-label','빈칸, 눌러서 답 보기')}
+$$('.blank').forEach(function(b){b.onclick=function(){show(b)}});
+$$('[data-all]').forEach(function(t){t.onclick=function(){if(t.dataset.all==='flip')$$('.flip').forEach(function(b){b.setAttribute('aria-expanded','true')});else $$('.blank').forEach(show)}});
+$$('[data-reset]').forEach(function(t){t.onclick=function(){if(t.dataset.reset==='flip')$$('.flip').forEach(function(b){b.setAttribute('aria-expanded','false')});else $$('.blank').forEach(hide)}});
+var sc=0,done=0,qs=$$('#quiz .q'),tot=qs.length||5;
+function upd(){var el=document.getElementById('score');if(el)el.textContent='점수: '+sc+' / '+tot+(done===tot?' (끝)':'')}
+qs.forEach(function(q){var bs=[].slice.call(q.querySelectorAll('fieldset button')),ex=q.querySelector('.ex');
+bs.forEach(function(b,i){b.onclick=function(){var a=+q.dataset.a,ok=i===a;bs.forEach(function(x){x.disabled=true});if(bs[a])bs[a].classList.add('right');if(!ok)b.classList.add('wrong');
+if(ex){ex.hidden=false;ex.textContent=(ok?'맞았습니다. ':'아쉽습니다. ')+ex.dataset.e;}if(ok)sc++;done++;upd();}})});
+var qr=document.getElementById('qreset');
+if(qr)qr.onclick=function(){sc=0;done=0;qs.forEach(function(q){q.querySelectorAll('fieldset button').forEach(function(x){x.disabled=false;x.className=''});var ex=q.querySelector('.ex');if(ex){ex.hidden=true;ex.textContent=''}});upd()};
+})();</script>
+
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">아카이브</div><div class="arc-foot-title">AI는 로펌의 비용이 아니라 매출을 늘린다 — 버려지던 작은 사건의 경제학</div><div class="arc-foot-meta"><time datetime="2026-10-31">2026년 10월 31일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=%EB%B2%95%ED%95%99">#법학</a><a class="arc-tag" href="../index.html#tags=%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8">#에이전트</a><a class="arc-tag" href="../index.html#tags=%EC%9D%B8%ED%84%B0%EB%B7%B0">#인터뷰</a> · <a href="https://youtu.be/iRMmPjunm3Q" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body>
+</html>
