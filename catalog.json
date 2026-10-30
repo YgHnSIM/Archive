@@ -1,5 +1,24 @@
 [
   {
+    "id": "20261030-04",
+    "title": "AGI에서 ASI로 — 초지능으로 가는 4대 경로와 6대 마찰",
+    "summary": "구글 딥마인드 'From AGI to ASI' 해설. 유효 연산 연 10배, 레그-후터 연속체, 디지털 지능의 6대 우위와 한계, AIXI, 4대 경로와 6대 마찰, 추상화 장벽, 창의성과 지식 탐구.",
+    "tags": [
+      "AI",
+      "AGI",
+      "AI안전",
+      "머신러닝",
+      "논문리뷰"
+    ],
+    "date": "2026-10-30",
+    "file": "pages/2026-10-30-AGI에서ASI로.html",
+    "added": "2026-10-30T21:09:24+09:00",
+    "source_name": "src.html",
+    "source_sha256": "062e7c1887051b43d9b3a106cf4029ece912cedfa354ddc032ab2564435d2ae0",
+    "source_path_sha256": "a0071bf3ccdd201273abaa832032b12d60b3b6d193aecd0f412011692da1dff7",
+    "source_url": "https://yghnsim.github.io/Pages/articles/agi-to-asi-pathways-bottlenecks-deepmind.html"
+  },
+  {
     "id": "20261030-03",
     "title": "권력의 해부학 — 로버트 모지스와 린든 존슨",
     "summary": "로버트 카로의 모지스·존슨 전기에서 추린 권력의 메커니즘: 공공기관과 채권의 영구 존속, 계약 조항의 방패, 12개 겸직과 찬성 연합, 케네스 잭슨의 반론, 권력은 드러낸다, 존슨의 세 전술과 1957년 민권법.",

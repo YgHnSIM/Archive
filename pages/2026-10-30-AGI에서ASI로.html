@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light only">
+<title>AGI에서 ASI로 — 초지능으로 가는 4대 경로와 6대 마찰</title>
+<meta name="description" content="구글 딥마인드 From AGI to ASI 해설: 유효 연산, 지능의 연속체, 디지털 지능의 우위와 한계, AIXI, 4대 경로, 재귀적 자기개선, 그룹 에이전시, 6대 마찰, 추상화 장벽, 창의성, 지식 탐구">
+<style>
+:root{color-scheme:light only;
+  --bg:#faf8f3; --paper:#ffffff; --ink:#1f2328; --muted:#5b6470; --line:#e6e1d6;
+  --accent:#c8553d; --accent-soft:#fbeee9; --link:#4a6b8a;
+  --new:#3d5f80; --new-soft:#eaf0f6; --radius:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:20px}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR","Malgun Gothic","Gothic A1",system-ui,sans-serif;
+  font-size:17px;line-height:1.75;word-break:keep-all;overflow-wrap:break-word}
+@media(max-width:640px){body{font-size:16px}}
+a{color:var(--link)}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+.hero{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{display:inline-block;font-size:13px;font-weight:700;color:#a8432e;background:var(--accent-soft);padding:3px 10px;border-radius:999px;margin-bottom:12px}
+.hero h1{font-size:clamp(28px,4.4vw,44px);line-height:1.25;margin:0 0 12px;letter-spacing:-.02em}
+.hero .lead{font-size:18px;color:var(--muted);line-height:1.65;margin:0}
+@media(max-width:640px){.hero .lead{font-size:17px}}
+.hero-cta{margin-top:16px}
+.hero-cta a{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--new);color:#fff;border-radius:10px;font-weight:700;font-size:15px;text-decoration:none}
+.grid{display:grid;grid-template-columns:240px minmax(0,1fr);gap:36px;align-items:start}
+@media(max-width:880px){.grid{grid-template-columns:minmax(0,1fr);gap:0}}
+.toc{position:sticky;top:20px;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;font-size:15px}
+.toc .toc-t{font-weight:700;margin:0 0 10px}
+.toc ol{margin:0;padding:0;list-style:none}
+.toc li{margin:6px 0}
+.toc a{color:var(--muted);display:flex;align-items:baseline;gap:8px;text-decoration:none;line-height:1.45}
+.toc a:hover{color:var(--link)}
+.toc .n{flex:none;display:inline-block;width:22px;height:22px;line-height:22px;text-align:center;border-radius:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:700}
+.toc .orig{display:block;margin-top:14px;padding-top:10px;border-top:1px dashed var(--line);font-size:14px;color:#a8432e;font-weight:700}
+@media(max-width:880px){
+  .toc{position:sticky;top:0;z-index:20;margin:0 -20px 20px;border-radius:0;border-width:0 0 1px;padding:8px 12px;background:rgba(250,248,243,.97);overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .toc .toc-t,.toc .orig{display:none}
+  .toc ol{display:flex;gap:6px;white-space:nowrap}
+  .toc li{margin:0}
+  .toc a{background:#f1ede4;color:var(--ink);border-radius:999px;padding:6px 12px;font-size:14px;align-items:center}
+  .toc .n{background:none;width:auto;height:auto;line-height:1;color:var(--muted)}
+  html{scroll-padding-top:64px}
+}
+main{min-width:0}
+.sec{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:24px 28px;margin-bottom:28px}
+@media(max-width:640px){.sec{padding:18px 16px}}
+.sec-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px}
+.sec-num{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:12px;background:var(--ink);color:#fff;font-weight:800;font-size:17px;flex-shrink:0;margin-top:2px}
+@media(max-width:640px){.sec-num{width:34px;height:34px;font-size:15px}}
+.sec-head h2{font-size:clamp(23px,3vw,30px);line-height:1.3;margin:0;letter-spacing:-.015em}
+.sec-head .sub{font-size:16px;color:var(--muted);margin:3px 0 0}
+h3{font-size:19px;margin:22px 0 8px}
+p{margin:0 0 14px}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin:4px 0}
+.theses{counter-reset:t;list-style:none;padding:0;margin:0 0 16px}
+.theses li{counter-increment:t;position:relative;padding:10px 14px 10px 50px;margin:8px 0;background:#fdfcf9;border:1px solid var(--line);border-radius:12px}
+.theses li::before{content:counter(t);position:absolute;left:14px;top:12px;width:24px;height:24px;border-radius:50%;background:var(--accent-soft);color:#a8432e;font-weight:800;font-size:14px;display:grid;place-items:center}
+.tblw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:16px 0}
+.tbl{width:100%;min-width:520px;border-collapse:collapse;font-size:16px}
+.tbl th,.tbl td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+.tbl th{background:var(--new-soft);color:var(--new);font-weight:700}
+.tbl td{background:#fff}
+.callout{background:var(--new-soft);border-left:4px solid var(--new);border-radius:10px;padding:12px 16px;margin:14px 0}
+.callout.warm{background:var(--accent-soft);border-left-color:var(--accent)}
+.callout p:last-child{margin:0}
+blockquote{margin:14px 0;padding:12px 18px;background:#fff;border-left:5px solid var(--accent);border-radius:0 12px 12px 0}
+blockquote p{margin:0}
+.terms{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+.term{display:inline-flex;align-items:center;gap:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:600;padding:4px 10px;border-radius:8px}
+details.viz{margin:14px 0;border:1px solid var(--line);border-radius:12px;background:#fdfcf9}
+details.viz summary{cursor:pointer;list-style:none;padding:12px 14px;font-weight:600;font-size:16px;color:var(--new);min-height:44px;display:flex;align-items:center;gap:8px}
+details.viz summary::-webkit-details-marker{display:none}
+details.viz summary::before{content:"▸";font-size:14px;color:var(--accent)}
+details.viz[open] summary::before{content:"▾"}
+details.viz figure{margin:0;padding:4px 12px 14px}
+details.viz svg{display:block;width:100%;height:auto;max-width:400px;margin:0 auto;font-family:"Pretendard","Noto Sans KR",sans-serif}
+details.viz figcaption{font-size:16px;color:var(--muted);line-height:1.6;margin-top:8px}
+svg .bx{fill:#fff;stroke:#5b6470;stroke-width:1.4}
+svg .bx2{fill:#eaf0f6;stroke:#3d5f80;stroke-width:1.4}
+svg .bx3{fill:#fbeee9;stroke:#c8553d;stroke-width:1.4}
+svg .t{fill:#1f2328;font-size:18px}
+svg .tb{fill:#1f2328;font-size:18px;font-weight:700}
+svg .tm{fill:#4a525c;font-size:17.5px}
+svg .ln{stroke:#5b6470;stroke-width:1.5;fill:none}
+svg .lnd{stroke:#5b6470;stroke-width:1.5;fill:none;stroke-dasharray:5 4}
+.sources{background:var(--new-soft);border:1px solid var(--line);border-radius:var(--radius);padding:18px 22px;margin-top:32px;font-size:16px;color:#3f4650}
+.sources h3{font-size:17px;color:var(--new);margin:0 0 8px}
+.sources ul{margin:0;padding-left:20px}
+/* 복습 컴포넌트 표준 스타일 */
+.rv-h{font-size:19px;margin:22px 0 6px}
+.flips{display:grid;grid-template-columns:1fr;gap:8px;margin:10px 0}
+@media(min-width:640px){.flips{grid-template-columns:1fr 1fr}}
+.flip{font:inherit;text-align:left;width:100%;border:1.5px solid var(--line,#e6e1d6);background:#fdfcf9;border-radius:12px;padding:10px 14px;cursor:pointer;color:var(--ink,#1f2328);min-height:64px}
+.flip b{display:block;font-size:17px}
+.flip .m{display:none;font-size:16px;line-height:1.6;margin-top:4px}
+.flip .hint{font-size:13px;color:var(--muted,#5b6470)}
+.flip[aria-expanded="true"]{border-color:var(--new,#3d5f80);background:var(--new-soft,#eaf0f6)}
+.flip[aria-expanded="true"] .m{display:block}
+.flip[aria-expanded="true"] .hint{display:none}
+.cloze{list-style:none;margin:10px 0;padding:0}
+.cloze li{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:10px 14px;margin:8px 0;background:#fdfcf9;font-size:16px;line-height:1.8}
+.blank{font:inherit;font-size:16px;border:0;border-bottom:2px dashed var(--accent,#c8553d);background:var(--accent-soft,#fbeee9);color:#a8432e;border-radius:6px 6px 0 0;padding:0 8px;cursor:pointer;min-width:4.5em}
+.blank.shown{border-bottom-style:solid;background:var(--new-soft,#eaf0f6);color:var(--new,#3d5f80);font-weight:700}
+.rv-tools{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.rv-tools button{font:inherit;font-size:15px;border:1px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link,#4a6b8a)}
+.q{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:12px 14px;margin:10px 0;background:#fdfcf9}
+.q fieldset{border:0;margin:0;padding:0;min-width:0}
+.q legend{font-weight:700;padding:0;margin:0 0 8px;font-size:16.5px}
+.q button{display:block;width:100%;text-align:left;font:inherit;font-size:16px;border:1.5px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:8px 12px;margin:6px 0;cursor:pointer;color:var(--ink,#1f2328)}
+.q button.right{border-color:#2f6b45;background:#e6f1ea}
+.q button.wrong{border-color:#a2452f;background:#fbeee9}
+.q button[disabled]{cursor:default;opacity:1}
+.q .ex{margin:8px 0 0;font-size:16px;padding:8px 10px;border-radius:8px;background:var(--new-soft,#eaf0f6)}
+.score{font-size:17px;font-weight:800;margin:10px 0 0}
+.arc-back b,.arc-foot-label{color:#a8432e!important}
+.chk{display:inline-block;font-size:16px;font-weight:700;color:#8a3a12;background:#fdf0e3;border:1px solid #e8c9a8;border-radius:6px;padding:0 6px;margin-left:4px;white-space:nowrap}
+pre{background:#f6f4ee;border:1px solid var(--line);border-radius:10px;padding:12px 14px;overflow-x:auto;-webkit-overflow-scrolling:touch;margin:14px 0;font-size:16px;line-height:1.6}
+pre code{font-family:"JetBrains Mono","D2Coding",ui-monospace,Menlo,Consolas,monospace;color:#1f2328;white-space:pre}
+code{font-family:"JetBrains Mono","D2Coding",ui-monospace,Menlo,Consolas,monospace;font-size:.92em;background:#f3efe6;border-radius:4px;padding:0 4px}
+pre code{background:none;padding:0;font-size:inherit}
+@media(max-width:640px){pre{margin:12px -4px}}
+.steps,.pc{padding-left:1.3em}.steps li,.pc li{margin:8px 0}
+</style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
+</head>
+<body>
+<!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>아카이브</a><span class="arc-crumb">AGI에서 ASI로 — 초지능으로 가는 4대 경로와 6대 마찰</span><span class="arc-meta"><time datetime="2026-10-30">2026년 10월 30일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=AGI">#AGI</a><a class="arc-tag" href="../index.html#tags=AI%EC%95%88%EC%A0%84">#AI안전</a><a class="arc-tag" href="../index.html#tags=%EB%A8%B8%EC%8B%A0%EB%9F%AC%EB%8B%9D">#머신러닝</a><a class="arc-tag" href="../index.html#tags=%EB%85%BC%EB%AC%B8%EB%A6%AC%EB%B7%B0">#논문리뷰</a><a class="arc-src" href="https://yghnsim.github.io/Pages/articles/agi-to-asi-pathways-bottlenecks-deepmind.html" rel="noopener">원문 ↗</a></span></div></div>
+<!-- archive-header:end -->
+<div class="wrap">
+  <header class="hero">
+    <span class="eyebrow">AI · 논문 해설</span>
+    <h1>AGI에서 ASI로 — 초지능으로 가는 4대 경로와 6대 마찰</h1>
+    <p class="lead">구글 딥마인드 연구진의 기술 보고서 "From AGI to ASI"를 정리했다. 지능을 하나의 연속체로 놓고, 디지털 지능의 구조적 우위와 물리적 한계, AIXI라는 이론적 상한, 초지능으로 가는 네 경로와 이를 늦추는 여섯 마찰, 그리고 창의성·목표·진보에 관한 다섯 논점이다.</p>
+    <div class="hero-cta"><a href="https://yghnsim.github.io/Pages/articles/agi-to-asi-pathways-bottlenecks-deepmind.html">📚 Pages에서 심화 해설 전문 읽기 ↗</a></div>
+  </header>
+  <div class="grid">
+    <nav class="toc" aria-label="목차">
+      <p class="toc-t">목차</p>
+      <ol>
+        <li><a href="#s0"><span class="n">★</span>한눈에 보기</a></li>
+        <li><a href="#s1"><span class="n">1</span>속도의 문제</a></li>
+        <li><a href="#s2"><span class="n">2</span>지능의 연속체</a></li>
+        <li><a href="#s3"><span class="n">3</span>디지털 지능의 우위와 한계</a></li>
+        <li><a href="#s4"><span class="n">4</span>AIXI라는 상한선</a></li>
+        <li><a href="#s5"><span class="n">5</span>4대 경로</a></li>
+        <li><a href="#s6"><span class="n">6</span>재귀적 자기개선</a></li>
+        <li><a href="#s7"><span class="n">7</span>그룹 에이전시</a></li>
+        <li><a href="#s8"><span class="n">8</span>6대 마찰</a></li>
+        <li><a href="#s9"><span class="n">9</span>연구자와 추상화 장벽</a></li>
+        <li><a href="#s10"><span class="n">10</span>감속과 지정학</a></li>
+        <li><a href="#s11"><span class="n">11</span>초지능은 초창의적인가</a></li>
+        <li><a href="#s12"><span class="n">12</span>목표, 에이전트, 진보</a></li>
+        <li><a href="#s13"><span class="n">13</span>연쇄적 전환의 시대</a></li>
+        <li><a href="#rv"><span class="n">✔</span>복습 &amp; 퀴즈</a></li>
+      </ol>
+      <a class="orig" href="https://yghnsim.github.io/Pages/articles/agi-to-asi-pathways-bottlenecks-deepmind.html">심화 원문(Pages) ↗</a>
+    </nav>
+    <main id="content">
+      <section class="sec" id="s0">
+        <div class="sec-head"><span class="sec-num">★</span><div><h2>한눈에 보기</h2><p class="sub">보고서의 다섯 줄</p></div></div>
+        <ol class="theses">
+          <li><b>유효 연산은 연 약 10배 늘고 있다.</b> 이 추세만으로도 인스턴스 수와 속도가 폭증한다.</li>
+          <li><b>AGI와 ASI는 한 연속체 위에 있다.</b> 레그-후터 점수가 그 축이다.</li>
+          <li><b>경로는 넷이다.</b> 양적 확장, 패러다임 전환, 재귀적 자기개선, 그룹 에이전시.</li>
+          <li><b>마찰은 여섯이다.</b> 각 마찰에는 상쇄 요인이 있고 승패는 열린 문제다.</li>
+          <li><b>정확히 인간 수준에서 멈출 가능성은 낮다.</b> AGI 이전 정체나 약한 ASI로의 매끄러운 전이가 더 그럴듯하다.</li>
+        </ol>
+        <p>보고서는 구글 딥마인드를 주축으로 ANU, UCL, 워털루대 소속을 겸한 저자 14명이 쓴 57쪽 분량의 arXiv 기술 보고서다(arXiv:2606.12683v1). arXiv 번호, 일자, 저자 수와 소속은 <span class="chk">확인 필요</span> 교신저자 이메일과 저작권 표기도 <span class="chk">확인 필요</span> 저자들은 본문의 90% 이상을 언어모델 없이 썼다고 밝힌다. 이 비율은 <span class="chk">확인 필요</span></p>
+        <div class="terms"><span class="term">ASI</span><span class="term">AGI</span><span class="term">구글 딥마인드</span><span class="term">기술 보고서</span></div>
+      </section>
+
+      <section class="sec" id="s1">
+        <div class="sec-head"><span class="sec-num">1</span><div><h2>속도의 문제</h2><p class="sub">유효 연산, 특이점, 불확실성</p></div></div>
+        <p>한쪽에서는 초지능이 문명을 뒤흔들 기술이 되리라 보고, 나라야난과 카푸어(2025)는 인터넷이나 스마트폰처럼 사회가 점진적으로 적응하는 '정상 기술'에 그치리라 본다. 저자들은 결론에서 다트머스의 목표를 '70년 전'의 일로 언급한다. <span class="chk">확인 필요</span></p>
+        <details class="viz"><summary>그림으로 보기: 유효 연산의 세 요인</summary><figure><svg viewBox="0 0 280 288" role="img" aria-label="달러당 연산 연 1.5배, 하드웨어 투자 연 2.5배, 알고리즘 효율 연 3배를 곱하면 11.25배이고 저자들은 이를 연 10배로 내려 잡는다"><defs><marker id="d1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">유효 연산의 세 요인</text><text class="tm" x="10" y="60" text-anchor="start">달러당 연산</text><text class="tb" x="270" y="60" text-anchor="end">연 ~1.5배</text><rect x="10.0" y="70.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="70.0" width="39.0" height="16.0" fill="#8a929c"/><text class="tm" x="10" y="120" text-anchor="start">하드웨어 투자</text><text class="tb" x="270" y="120" text-anchor="end">연 ~2.5배</text><rect x="10.0" y="130.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="130.0" width="65.0" height="16.0" fill="#3d5f80"/><text class="tm" x="10" y="180" text-anchor="start">알고리즘 효율</text><text class="tb" x="270" y="180" text-anchor="end">연 ~3배</text><rect x="10.0" y="190.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="190.0" width="78.0" height="16.0" fill="#2f6b45"/><text class="tm" x="10" y="240" text-anchor="start">유효 연산(보수적)</text><text class="tb" x="270" y="240" text-anchor="end">연 ~10배</text><rect x="10.0" y="250.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="250.0" width="260.0" height="16.0" fill="#c8553d"/></svg><figcaption>1.5 × 2.5 × 3 = 11.25를 연 10배로 내려 잡은 값이다.</figcaption></figure></details>
+        <p><b>유효 연산.</b> 달러당 연산은 60년간 연 약 1.5배, 하드웨어 투자는 지난 10년 연 약 2.5배, 알고리즘 효율은 연 약 3배(Ho et al. 2025는 약 6배) 늘었다. 저자들은 이를 보수적으로 연 약 10배로 잡는다. 이 수치들은 모두 <span class="chk">확인 필요</span></p>
+        <p><b>능력으로의 환산은 불확실하다.</b> 수확체감이면 진보가 느리고, 능력이 유효 연산에 비례하면 지수적이다. 국제 AI 안전 보고서는 최근 능력이 시간에 대해 초선형으로 늘었다고 본다. <span class="chk">확인 필요</span></p>
+        <p><b>양적 확장의 질적 효과.</b> 기반 모델이 정체해도 인스턴스 1,000개로 시작해 연 10배면 1년 뒤 1만 개, 5년 뒤 1억 개(또는 100배 빠른 100만 개)다. <span class="chk">확인 필요</span> "이것이 ASI인가? 5년이 아니라면 10년, 15년은?"</p>
+        <div class="terms"><span class="term">유효 연산</span><span class="term">정상 기술</span><span class="term">스케일링 법칙</span><span class="term">인스턴스 확장</span></div>
+      </section>
+
+      <section class="sec" id="s2">
+        <div class="sec-head"><span class="sec-num">2</span><div><h2>지능의 연속체</h2><p class="sub">AGI, ASI, UAI</p></div></div>
+        <p><b>AGI</b>는 단일 인간의 중앙값 수준, 즉 대부분의 인지 과제에서 '유능한 AGI'다. <b>ASI</b>는 인간 활동의 거의 모든 영역에서 인간을 넘는 범용 지능이며, 알파폴드 같은 단일 영역 초인 시스템은 제외된다. <b>UAI</b>는 레그와 후터가 정립한 AIXI로 대표되는 이론적 극한으로, 계산 불가능하다.</p>
+        <details class="viz"><summary>그림으로 보기: 지능의 연속체</summary><figure><svg viewBox="0 0 280 322" role="img" aria-label="지능의 연속체는 AGI, 중간 지대, ASI, 이론적 극한인 UAI로 이어진다"><defs><marker id="d2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">AGI</text><text class="tm" x="140.0" y="62" text-anchor="middle">인간 중앙값, 유능한 AGI</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="86" marker-end="url(#d2)"/><rect class="bx" x="10" y="88" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="116" text-anchor="middle">중간 지대</text><text class="tm" x="140.0" y="142" text-anchor="middle">최고 전문가급, 집단은 못 넘음</text><line class="ln" x1="140.0" y1="154" x2="140.0" y2="166" marker-end="url(#d2)"/><rect class="bx2" x="10" y="168" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="196" text-anchor="middle">ASI</text><text class="tm" x="140.0" y="222" text-anchor="middle">대규모 전문가 집단을 능가</text><line class="ln" x1="140.0" y1="234" x2="140.0" y2="246" marker-end="url(#d2)"/><rect class="bx3" x="10" y="248" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="276" text-anchor="middle">UAI (AIXI)</text><text class="tm" x="140.0" y="302" text-anchor="middle">이론적 극한, 계산 불가능</text></svg><figcaption>경계는 레그-후터 점수라는 하나의 척도 위에 놓인다.</figcaption></figure></details>
+        <ul class="pc">
+          <li><b>공정한 비교군.</b> AIXI와 비교할 대상은 고정된 LLM이 아니라 학습 알고리즘 자체다.</li>
+          <li><b>독아론의 방지.</b> 평가 과제에 협력 과제가 포함되므로 최적 지능은 타자와의 상호작용을 포괄한다.</li>
+          <li><b>들쭉날쭉한 프로필.</b> 척도는 매끄럽게 올라도 구체적 과제의 능력은 고르지 않게(Jagged, Morris et al., 2026) 나타난다. <span class="chk">확인 필요</span></li>
+          <li><b>실무적 하한선.</b> 2010년의 기술을 갖춘 수만 명의 잘 조율된 전문가 집단이 10년간 한 과제에 매달려 이룰 것을 확실히 능가하는 시스템, 대략 연구 분야 전체나 대기업 규모다. 수치와 조건은 <span class="chk">확인 필요</span> 부록 A는 이를 '수천 명이 수년간 협업하는 수준'으로 완화해 적는다. <span class="chk">확인 필요</span></li>
+          <li><b>중간 지대.</b> 최고 전문가 수준이지만 대규모 집단은 넘지 못하는 구간이 있다.</li>
+        </ul>
+        <div class="terms"><span class="term">레그-후터 점수</span><span class="term">유능한 AGI</span><span class="term">UAI</span><span class="term">들쭉날쭉한 역량</span><span class="term">중간 지대</span></div>
+      </section>
+
+      <section class="sec" id="s3">
+        <div class="sec-head"><span class="sec-num">3</span><div><h2>디지털 지능의 우위와 한계</h2><p class="sub">코드를 안다는 것</p></div></div>
+        <p>디지털 지능은 코드와 상태를 완벽히 알 수 있다는 데서 출발한다. 여기서 기판 독립성, 속도 조절과 정지, 완벽한 복제가 나오고, 연산이 늘수록 인간과의 격차가 구조적으로 커진다.</p>
+        <details class="viz"><summary>그림으로 보기: 여섯 가지 우위</summary><figure><svg viewBox="0 0 280 334" role="img" aria-label="디지털 지능은 입출력 속도, 내부 처리 속도, 작업 기억, 기판 독립성, 무손실 복제, 경험 공유에서 우위를 가진다"><defs><marker id="d3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="24" text-anchor="middle">디지털 지능의 6대 우위</text><rect class="bx2" x="10" y="40" width="125" height="86" rx="10"/><text class="tb" x="72.5" y="74" text-anchor="middle">입출력 속도</text><text class="tm" x="72.5" y="102" text-anchor="middle">초고대역</text><rect class="bx2" x="145" y="40" width="125" height="86" rx="10"/><text class="tb" x="207.5" y="74" text-anchor="middle">내부 처리</text><text class="tm" x="207.5" y="102" text-anchor="middle">깊이와 너비</text><rect class="bx2" x="10" y="136" width="125" height="86" rx="10"/><text class="tb" x="72.5" y="170" text-anchor="middle">작업 기억</text><text class="tm" x="72.5" y="198" text-anchor="middle">인터넷 암기</text><rect class="bx2" x="145" y="136" width="125" height="86" rx="10"/><text class="tb" x="207.5" y="170" text-anchor="middle">기판 독립성</text><text class="tm" x="207.5" y="198" text-anchor="middle">하드웨어 이주</text><rect class="bx2" x="10" y="232" width="125" height="86" rx="10"/><text class="tb" x="72.5" y="266" text-anchor="middle">완벽 복제</text><text class="tm" x="72.5" y="294" text-anchor="middle">백업·포크</text><rect class="bx2" x="145" y="232" width="125" height="86" rx="10"/><text class="tb" x="207.5" y="266" text-anchor="middle">경험 공유</text><text class="tm" x="207.5" y="294" text-anchor="middle">그래디언트 공유</text></svg><figcaption>같은 아키텍처의 인스턴스는 언어를 거치지 않고 그래디언트를 공유할 수 있다.</figcaption></figure></details>
+        <p>약점도 있다. 아날로그 생체 연산은 에너지 효율에서 원리적으로 앞설 수 있고, 디지털 지능은 물리 세계와 소통할 때 AD/DA 변환 비용을 치른다.</p>
+        <p>ASI 사회는 보그형 초집단을 비롯한 여러 형태일 수 있다. 내부가 빨라질수록 거주자가 느끼는 변화는 물리 세계가 엄청나게 느려지는 것일 수 있다. 그래도 ASI는 전지전능하지 않다. 표 2의 여섯 한계에 묶인다. 한계의 명칭과 한국어 표기는 <span class="chk">확인 필요</span></p>
+        <details class="viz"><summary>그림으로 보기: 넘을 수 없는 한계</summary><figure><svg viewBox="0 0 280 334" role="img" aria-label="ASI는 기본 물리, 실시간성, 물리적 조작, 관측과 통제, 계산 복잡도, 형식 논리의 한계에 묶인다"><defs><marker id="d4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="24" text-anchor="middle">ASI도 넘을 수 없는 6대 한계</text><rect class="bx2" x="10" y="40" width="125" height="86" rx="10"/><text class="tb" x="72.5" y="74" text-anchor="middle">기본 물리</text><text class="tm" x="72.5" y="102" text-anchor="middle">광속·란다우어</text><rect class="bx2" x="145" y="40" width="125" height="86" rx="10"/><text class="tb" x="207.5" y="74" text-anchor="middle">실시간성</text><text class="tm" x="207.5" y="102" text-anchor="middle">현실 시간 소모</text><rect class="bx2" x="10" y="136" width="125" height="86" rx="10"/><text class="tb" x="72.5" y="170" text-anchor="middle">물리적 조작</text><text class="tm" x="72.5" y="198" text-anchor="middle">시간·에너지</text><rect class="bx2" x="145" y="136" width="125" height="86" rx="10"/><text class="tb" x="207.5" y="170" text-anchor="middle">관측·통제</text><text class="tm" x="207.5" y="198" text-anchor="middle">불확실성·카오스</text><rect class="bx2" x="10" y="232" width="125" height="86" rx="10"/><text class="tb" x="72.5" y="266" text-anchor="middle">계산 복잡도</text><text class="tm" x="72.5" y="294" text-anchor="middle">P vs NP</text><rect class="bx2" x="145" y="232" width="125" height="86" rx="10"/><text class="tb" x="207.5" y="266" text-anchor="middle">형식 논리</text><text class="tm" x="207.5" y="294" text-anchor="middle">괴델·정지 문제</text></svg><figcaption>물리, 시간, 조작, 관측, 복잡도, 논리.</figcaption></figure></details>
+        <div class="terms"><span class="term">기판 독립성</span><span class="term">무손실 복제</span><span class="term">체현 계수</span><span class="term">보그형 초집단</span></div>
+      </section>
+
+      <section class="sec" id="s4">
+        <div class="sec-head"><span class="sec-num">4</span><div><h2>AIXI라는 상한선</h2><p class="sub">위에서 묶기</p></div></div>
+        <p>AIXI는 유한한 자원으로 구현 가능한 모든 동역학이 튜링 기계로 시뮬레이션된다는 가정에 선다. 저자들은 의식에 새로운, 계산 불가능할 수도 있는 물리가 필요하다는 펜로즈의 제안을 반례 후보로 든다. <span class="chk">확인 필요</span></p>
+        <details class="viz"><summary>그림으로 보기: AIXI가 푸는 세 과제</summary><figure><svg viewBox="0 0 280 272" role="img" aria-label="AIXI는 불확실성 하의 행동, 신용 할당, 탐색과 활용의 세 과제를 이론적으로 최적으로 푼다"><defs><marker id="d5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="92" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">불확실성 하의 행동</text><text class="tm" x="140.0" y="62" text-anchor="middle">솔로모노프 사전분포</text><text class="tm" x="140.0" y="88" text-anchor="middle">베이즈 혼합 세계 모델</text><line class="ln" x1="140.0" y1="100" x2="140.0" y2="114" marker-end="url(#d5)"/><rect class="bx" x="10" y="116" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="144" text-anchor="middle">신용 할당</text><text class="tm" x="140.0" y="170" text-anchor="middle">기대 장기 보상 최대화</text><line class="ln" x1="140.0" y1="182" x2="140.0" y2="196" marker-end="url(#d5)"/><rect class="bx2" x="10" y="198" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="226" text-anchor="middle">탐색과 활용</text><text class="tm" x="140.0" y="252" text-anchor="middle">정보 탐색이 곧 보상</text></svg><figcaption>모든 계산 가능 환경의 가중 평균에서 AIXI보다 높은 기대 보상을 내는 에이전트는 없다.</figcaption></figure></details>
+        <p>AIXI는 정지 문제 때문에 계산 불가능하고 무차별 근사는 실용성이 없다. 열역학이 곧바로 내연기관 레시피가 되지 않는 것과 같다. 그러나 AIXI의 무거운 일은 예측기 쪽으로 몰 수 있고, 인터넷 규모 말뭉치에서 로그 손실을 최소화하는 사전학습은 보편 예측의 근사로 볼 수 있다(Grau-Moya et al., 2024; Genewein et al., 2026). <span class="chk">확인 필요</span></p>
+        <details class="viz"><summary>그림으로 보기: 딥러닝과의 연결고리</summary><figure><svg viewBox="0 0 280 250" role="img" aria-label="로그 손실 사전학습은 보편 압축의 근사로 볼 수 있고 그 위에 계획 스캐폴딩을 얹으면 범용 에이전트가 된다"><defs><marker id="d6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">딥러닝과 AIXI의 연결고리</text><rect class="bx" x="10" y="42" width="260" height="92" rx="10"/><text class="tb" x="140" y="70" text-anchor="middle">사전학습 예측기</text><text class="tm" x="140" y="96" text-anchor="middle">로그 손실 최소화</text><text class="tm" x="140" y="122" text-anchor="middle">= 상환 베이즈 추론의 근사</text><rect class="bx2" x="10" y="146" width="260" height="92" rx="10"/><text class="tb" x="140" y="174" text-anchor="middle">+ 계획 스캐폴딩</text><text class="tm" x="140" y="200" text-anchor="middle">탐색·테스트 시점 연산</text><text class="tm" x="140" y="226" text-anchor="middle">→ 범용 에이전트</text></svg><figcaption>현 패러다임이 근본적 이론 장벽 없이 ASI까지 갈 수 있다는 비자명한 논거다.</figcaption></figure></details>
+        <p>약점도 분명하다. 비계산성, 환경 밖 관찰자라는 데카르트적 이원론, 모든 가상 세계의 가중 평균이라는 허구 등이다.</p>
+        <div class="terms"><span class="term">AIXI</span><span class="term">솔로모노프 사전분포</span><span class="term">로그 손실</span><span class="term">정지 문제</span><span class="term">내재성</span></div>
+      </section>
+
+      <section class="sec" id="s5">
+        <div class="sec-head"><span class="sec-num">5</span><div><h2>4대 경로</h2><p class="sub">양적 확장과 패러다임 전환</p></div></div>
+        <details class="viz"><summary>그림으로 보기: AGI에서 ASI로 가는 길</summary><figure><svg viewBox="0 0 280 238" role="img" aria-label="4대 경로는 양적 확장, 패러다임 전환, 재귀적 자기개선, 그룹 에이전시이며 각각의 핵심 불확실성이 다르다"><defs><marker id="d7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="24" text-anchor="middle">AGI에서 ASI로 가는 4대 경로</text><rect class="bx2" x="10" y="40" width="125" height="86" rx="10"/><text class="tb" x="72.5" y="74" text-anchor="middle">① 양적 확장</text><text class="tm" x="72.5" y="102" text-anchor="middle">지속 가능한가</text><rect class="bx2" x="145" y="40" width="125" height="86" rx="10"/><text class="tb" x="207.5" y="74" text-anchor="middle">② 패러다임 전환</text><text class="tm" x="207.5" y="102" text-anchor="middle">예측 불가</text><rect class="bx2" x="10" y="136" width="125" height="86" rx="10"/><text class="tb" x="72.5" y="170" text-anchor="middle">③ 재귀적 자기개선</text><text class="tm" x="72.5" y="198" text-anchor="middle">선례 없음</text><rect class="bx2" x="145" y="136" width="125" height="86" rx="10"/><text class="tb" x="207.5" y="170" text-anchor="middle">④ 그룹 에이전시</text><text class="tm" x="207.5" y="198" text-anchor="middle">창발 조건 미지</text></svg><figcaption>네 경로는 배타적이지 않고 병렬로 진행된다.</figcaption></figure></details>
+        <p><b>① 양적 확장.</b> 서튼의 '쓰라린 교훈'이 근거지만 순진한 무차별 탐색은 실패한다. 능력은 좋은 사전분포와 귀납 편향으로 탐색을 효율화하는 데서 나온다. 장벽은 데이터다. 웹의 고품질 인간 텍스트는 2020년대 후반에 고갈될 것으로 추정되고(Villalobos et al., 2024) <span class="chk">확인 필요</span> 정제 말뭉치는 이미 3조 토큰 규모다. <span class="chk">확인 필요</span> 핵심 질문은 확장이 충분한가가 아니라 충분히 오래 지속될 수 있는가다.</p>
+        <p><b>② 패러다임 전환.</b> 검색 결합, 지속 학습, 도구 증강 계획, 세계 모델은 진화다. 스파이킹 신경망, RL 기반 파운데이션 모델, 신경 튜링 기계류는 전환이다. 진짜 전환은 예측할 수 없다. 예측할 수 있다면 이미 진화이기 때문이다.</p>
+        <div class="terms"><span class="term">쓰라린 교훈</span><span class="term">귀납 편향</span><span class="term">친칠라 법칙</span><span class="term">데이터 고갈</span><span class="term">패러다임 전환</span></div>
+      </section>
+
+      <section class="sec" id="s6">
+        <div class="sec-head"><span class="sec-num">6</span><div><h2>재귀적 자기개선</h2><p class="sub">코드, 데이터, 분업의 루프</p></div></div>
+        <details class="viz"><summary>그림으로 보기: RSI의 세 갈래</summary><figure><svg viewBox="0 0 280 272" role="img" aria-label="재귀적 자기개선은 유전적, 문화적, 협력적 세 갈래로 인간 진화에 대응된다"><defs><marker id="d8" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">유전적 RSI</text><text class="tm" x="140.0" y="62" text-anchor="middle">코드·칩 설계 재작성</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="88" marker-end="url(#d8)"/><rect class="bx2" x="10" y="90" width="260" height="92" rx="10"/><text class="tb" x="140.0" y="118" text-anchor="middle">문화적 RSI</text><text class="tm" x="140.0" y="144" text-anchor="middle">탐색 결과를 데이터로 증류</text><text class="tm" x="140.0" y="170" text-anchor="middle">알파제로 루프</text><line class="ln" x1="140.0" y1="182" x2="140.0" y2="196" marker-end="url(#d8)"/><rect class="bx" x="10" y="198" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="226" text-anchor="middle">협력적 RSI</text><text class="tm" x="140.0" y="252" text-anchor="middle">분업과 전문화</text></svg><figcaption>인간 진화의 유전자, 문화, 분업에 대응한다.</figcaption></figure></details>
+        <p>인간의 뇌 용량은 지난 5만 년 동안 거의 변하지 않았지만 <span class="chk">확인 필요</span> 지식, 서적, 교육, 도구라는 문화적 진화로 문명을 일궜다. AI에게 문화적 RSI는 탐색으로 개선한 결과를 다시 데이터로 증류하는 루프다.</p>
+        <p>약한 루프는 이미 돌고 있다. 아키텍처 탐색, 칩 설계, 자동 커리큘럼, 펀서치(Romera-Paredes et al., 2024) <span class="chk">확인 필요</span> 알파이볼브(Novikov et al., 2025) <span class="chk">확인 필요</span> AI Scientist 시스템(Lu et al., 2024 등) <span class="chk">확인 필요</span> 논문 32쪽은 이를 "Scientist AI framework"라는 변형된 명칭으로 인용한다. <span class="chk">확인 필요</span></p>
+        <div class="callout"><p>코드는 초인적 속도로 짤 수 있어도 가설을 검증하려면 물리 세계에서 실험해야 한다. 칩 제조 같은 물리적 조작은 임의로 빨라지지 않는다.</p></div>
+        <div class="terms"><span class="term">재귀적 자기개선</span><span class="term">문화적 RSI</span><span class="term">알파이볼브</span><span class="term">안락의자 과학</span></div>
+      </section>
+
+      <section class="sec" id="s7">
+        <div class="sec-head"><span class="sec-num">7</span><div><h2>그룹 에이전시</h2><p class="sub">경로 ④</p></div></div>
+        <p>리스트와 페팃의 이론에 따르면 조직화된 집단은 구성원으로 환원되지 않는 상위 행위자다. 완전 자동화된 기업이나 자율 연구소가 그 예다. 인지적 분업으로 개별 모델의 문맥 창 한계와 전문화 편향을 우회한다.</p>
+        <details class="viz"><summary>그림으로 보기: 조율의 두 방식</summary><figure><svg viewBox="0 0 280 250" role="img" aria-label="그룹 에이전시는 가격 신호로 움직이는 에이전트 경제나 초고대역 중앙 조율로 구현될 수 있다"><defs><marker id="d9" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">그룹 에이전시의 두 방식</text><rect class="bx" x="10" y="42" width="260" height="92" rx="10"/><text class="tb" x="140" y="70" text-anchor="middle">가상 에이전트 경제</text><text class="tm" x="140" y="96" text-anchor="middle">가격 신호와 인센티브</text><text class="tm" x="140" y="122" text-anchor="middle">탈중앙 협력·경쟁</text><rect class="bx2" x="10" y="146" width="260" height="92" rx="10"/><text class="tb" x="140" y="174" text-anchor="middle">초고대역 중앙 조율</text><text class="tm" x="140" y="200" text-anchor="middle">모두와 대화하는 AGI CEO</text><text class="tm" x="140" y="226" text-anchor="middle">깊은 위계 불필요</text></svg><figcaption>AGI CEO는 문자 그대로 모든 직원과 대화할 수 있다.</figcaption></figure></details>
+        <p>가장 시급한 질문은 같은 LLM을 복제해 프롬프트만 바꾼 동질 집단이 인간 전문가 집단 같은 다양성 시너지를 낼 수 있느냐다.</p>
+        <div class="terms"><span class="term">그룹 에이전시</span><span class="term">가상 에이전트 경제</span><span class="term">인지적 분업</span><span class="term">동질 집단</span></div>
+      </section>
+
+      <section class="sec" id="s8">
+        <div class="sec-head"><span class="sec-num">8</span><div><h2>6대 마찰</h2><p class="sub">마찰과 상쇄 요인의 경주</p></div></div>
+        <details class="viz"><summary>그림으로 보기: 마찰과 상쇄</summary><figure><svg viewBox="0 0 280 334" role="img" aria-label="데이터 벽, 자원 수요, 신경망 소진, 연구 난도, 추상화 장벽, 의도적 감속의 여섯 마찰에는 각각 상쇄 요인이 있다"><defs><marker id="d10" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="24" text-anchor="middle">6대 마찰과 상쇄 요인</text><rect class="bx2" x="10" y="40" width="125" height="86" rx="10"/><text class="tb" x="72.5" y="74" text-anchor="middle">데이터 벽</text><text class="tm" x="72.5" y="102" text-anchor="middle">자기 생성 데이터</text><rect class="bx2" x="145" y="40" width="125" height="86" rx="10"/><text class="tb" x="207.5" y="74" text-anchor="middle">자원 수요</text><text class="tm" x="207.5" y="102" text-anchor="middle">효율·인프라</text><rect class="bx2" x="10" y="136" width="125" height="86" rx="10"/><text class="tb" x="72.5" y="170" text-anchor="middle">신경망 소진</text><text class="tm" x="72.5" y="198" text-anchor="middle">패러다임 전환</text><rect class="bx2" x="145" y="136" width="125" height="86" rx="10"/><text class="tb" x="207.5" y="170" text-anchor="middle">연구 난도</text><text class="tm" x="207.5" y="198" text-anchor="middle">인공 연구자 복제</text><rect class="bx2" x="10" y="232" width="125" height="86" rx="10"/><text class="tb" x="72.5" y="266" text-anchor="middle">추상화 장벽</text><text class="tm" x="72.5" y="294" text-anchor="middle">확장·그룹 형성</text><rect class="bx2" x="145" y="232" width="125" height="86" rx="10"/><text class="tb" x="207.5" y="266" text-anchor="middle">의도적 감속</text><text class="tm" x="207.5" y="294" text-anchor="middle">경쟁 압력</text></svg><figcaption>각 마찰의 실제 영향은 상쇄 요인의 규모에 달려 있다.</figcaption></figure></details>
+        <p>부록 B 용어집의 쪽수 기재(Data Wall 21쪽, Group Agency 20쪽 등)는 <span class="chk">확인 필요</span></p>
+        <p><b>데이터 벽.</b> 합성 데이터를 순진하게 재학습하면 퇴화한다. 돌파구는 테스트 시점 개선물의 증류, 상호작용 시뮬레이터, 절차적으로 생성되는 과제 환경의 적응형 에이전트(Bauer et al., 2023)다. <span class="chk">확인 필요</span> 이것이 작동하면 데이터 벽은 우회 가능한 마찰에 그친다.</p>
+        <p><b>자원 수요.</b> 확장에만 기대면 자본과 에너지가 병목이 된다. 칩 내부에서는 메모리 대역폭과 인터커넥트가 활용률을 떨어뜨린다.</p>
+        <p><b>패러다임 소진.</b> 환각, 프롬프트 인젝션, 불확실성 표현의 결여, 3인칭 모방 학습의 자기망상, 추상화 장벽이 후보다. 다만 세대마다 개선되어 왔다.</p>
+        <div class="terms"><span class="term">데이터 벽</span><span class="term">모델 붕괴</span><span class="term">자기망상</span><span class="term">환각</span></div>
+      </section>
+
+      <section class="sec" id="s9">
+        <div class="sec-head"><span class="sec-num">9</span><div><h2>연구자와 추상화 장벽</h2><p class="sub">아이디어의 비용과 경험과학의 속도</p></div></div>
+        <p>분야가 성숙할수록 아이디어는 찾기 어려워진다(Bloom et al., 2020). 무어의 법칙을 유지하는 데 필요한 연구자 수는 1970년대 대비 약 18배다. <span class="chk">확인 필요</span></p>
+        <details class="viz"><summary>그림으로 보기: 연구자의 경제학</summary><figure><svg viewBox="0 0 280 250" role="img" aria-label="인간 연구자를 늘리는 데는 수년이 걸리지만 인공 연구자 인스턴스는 수 시간에서 수 주 안에 약 20배로 늘릴 수 있다"><defs><marker id="d11" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">아이디어는 찾기 어려워진다?</text><rect class="bx3" x="10" y="42" width="260" height="92" rx="10"/><text class="tb" x="140" y="70" text-anchor="middle">인간 연구자</text><text class="tm" x="140" y="96" text-anchor="middle">양성에 수년</text><text class="tm" x="140" y="122" text-anchor="middle">큰 비용</text><rect class="bx2" x="10" y="146" width="260" height="92" rx="10"/><text class="tb" x="140" y="174" text-anchor="middle">인공 연구자</text><text class="tm" x="140" y="200" text-anchor="middle">약 20배 확장</text><text class="tm" x="140" y="226" text-anchor="middle">수 시간~수 주</text></svg><figcaption>인지적 측면에서는 사소한 마찰일 가능성이 크다.</figcaption></figure></details>
+        <p>인공 연구자 인스턴스를 약 20배로 늘리는 데는 다른 작업보다 우선하면 수 시간, 새 하드웨어를 설치하면 수 주면 될 것이다. <span class="chk">확인 필요</span></p>
+        <p>가장 심오한 장벽은 레르히너(2026)의 <b>추상화 장벽</b>이다. <span class="chk">확인 필요</span> 지금의 모델은 기존 인간 개념의 재조합에 뛰어나지만, 원시 센서 데이터에서 '힘'이나 '인과' 같은 새 개념을 세우는 일은 다르다. 뉴턴 이전 지식만으로 학습한 모델이 일반상대성이론에 이를 가능성은 매우 낮아 보인다.</p>
+        <details class="viz"><summary>그림으로 보기: 추상화 장벽</summary><figure><svg viewBox="0 0 280 246" role="img" aria-label="추상화 장벽을 넘으려면 원시 데이터에서 새 개념을 발견하고 실험으로 검증해야 하며 이 과정은 경험과학의 속도에 묶인다"><defs><marker id="d12" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">인간 개념의 재조합</text><text class="tm" x="140.0" y="62" text-anchor="middle">벤치마크 포화</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="88" marker-end="url(#d12)"/><rect class="bx2" x="10" y="90" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="118" text-anchor="middle">정초된 개념 발견</text><text class="tm" x="140.0" y="144" text-anchor="middle">원시 데이터에서 새 개념</text><line class="ln" x1="140.0" y1="156" x2="140.0" y2="170" marker-end="url(#d12)"/><rect class="bx3" x="10" y="172" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="200" text-anchor="middle">물리적 실험</text><text class="tm" x="140.0" y="226" text-anchor="middle">경험과학의 속도에 묶임</text></svg><figcaption>초지능의 성장 속도는 연산이 아니라 경험과학의 속도에 묶일 수 있다.</figcaption></figure></details>
+        <div class="terms"><span class="term">추상화 장벽</span><span class="term">정초된 개념 발견</span><span class="term">체현 병목</span><span class="term">인공 연구자</span></div>
+      </section>
+
+      <section class="sec" id="s10">
+        <div class="sec-head"><span class="sec-num">10</span><div><h2>감속과 지정학</h2><p class="sub">제동과 그 무력화</p></div></div>
+        <p>후터(2026)의 분석처럼 노동에서 자본으로의 이동은 사회계약을 흔들 수 있다. <span class="chk">확인 필요</span> 2026년 문헌의 서지는 <span class="chk">확인 필요</span> 크고 눈에 띄는 사고는 여론과 규제 문턱을 바꿔 추가 확장을 막을 수 있다.</p>
+        <p>도구로는 연산 문턱 기반 인허가, 배포 전 의무 평가와 사고 보고, 다자 선언을 통한 국제 규범이 있다. 각 문서의 정체는 <span class="chk">확인 필요</span> 2026년 표기 인용 문헌들의 실재성과 서지도 <span class="chk">확인 필요</span></p>
+        <details class="viz"><summary>그림으로 보기: 거버넌스와 지정학</summary><figure><svg viewBox="0 0 280 250" role="img" aria-label="거버넌스는 제동이자 조향 장치이지만 국제 경쟁과 적응주의 압력이 감속을 무력화할 수 있다"><defs><marker id="d13" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">거버넌스와 지정학</text><rect class="bx" x="10" y="42" width="260" height="92" rx="10"/><text class="tb" x="140" y="70" text-anchor="middle">제동 장치</text><text class="tm" x="140" y="96" text-anchor="middle">규제·사고 보고</text><text class="tm" x="140" y="122" text-anchor="middle">대형 사고와 여론</text><rect class="bx3" x="10" y="146" width="260" height="92" rx="10"/><text class="tb" x="140" y="174" text-anchor="middle">감속 무력화</text><text class="tm" x="140" y="200" text-anchor="middle">군사·경제적 적응주의</text><text class="tm" x="140" y="226" text-anchor="middle">무정부 상태의 필터</text></svg><figcaption>생산성을 높이는 기술을 거부한 행위자는 도태된다.</figcaption></figure></details>
+        <div class="terms"><span class="term">정상사고</span><span class="term">연산 문턱</span><span class="term">적응주의</span><span class="term">무정부 상태</span></div>
+      </section>
+
+      <section class="sec" id="s11">
+        <div class="sec-head"><span class="sec-num">11</span><div><h2>초지능은 초창의적인가</h2><p class="sub">확장, 예측, 창의성</p></div></div>
+        <p><b>확장만으로 충분한가.</b> 사람이 넣은 귀납 편향은 초기 학습을 돕지만 도달 가능한 지능의 상한도 만든다. 테스트 시점 확장만으로는 AGI를 ASI로 끌어올리지 못한다. 그래도 맥어스킬과 무어하우스(2025)의 추산으로는 유효 연산 증가가 연 약 25배의 인스턴스 인구 팽창을 낳는다. <span class="chk">확인 필요</span></p>
+        <p><b>능력은 예측 가능한가.</b> 완벽한 체스는 불가능해도 매우 강한 체스는 가능하다. 어떤 문제가 좋은 근사를 허용하는지는 미리 알 수 없으므로 경험 우선 접근으로 예측선을 계속 보정해야 한다. GPQA, SWE-bench, FrontierMath는 빠르게 포화되고 있다.</p>
+        <p><b>창의성.</b> 2016년 알파고의 37수는 AI 창의성의 첫 지표로 자주 거론된다. 37수가 제2국이라는 점과 인용문은 <span class="chk">확인 필요</span></p>
+        <details class="viz"><summary>그림으로 보기: 보든의 세 수준</summary><figure><svg viewBox="0 0 280 298" role="img" aria-label="보든의 창의성 세 수준은 조합적, 탐색적, 변형적이며 지금까지의 AI 성취는 주로 앞의 두 단계에 속한다"><defs><marker id="d14" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">조합적 창의성</text><text class="tm" x="140.0" y="62" text-anchor="middle">낯선 결합</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="88" marker-end="url(#d14)"/><rect class="bx" x="10" y="90" width="260" height="92" rx="10"/><text class="tb" x="140.0" y="118" text-anchor="middle">탐색적 창의성</text><text class="tm" x="140.0" y="144" text-anchor="middle">개념 공간 안의 새 해</text><text class="tm" x="140.0" y="170" text-anchor="middle">알파고 37수</text><line class="ln" x1="140.0" y1="182" x2="140.0" y2="196" marker-end="url(#d14)"/><rect class="bx2" x="10" y="198" width="260" height="92" rx="10"/><text class="tb" x="140.0" y="226" text-anchor="middle">변형적 창의성</text><text class="tm" x="140.0" y="252" text-anchor="middle">새 개념 공간 창조</text><text class="tm" x="140.0" y="278" text-anchor="middle">ASI의 징표?</text></svg><figcaption>새 과학 이론의 발명은 변형적 창의성 기준을 충족한다.</figcaption></figure></details>
+        <p>저자들은 변형적 창의성이 ASI의 징표일 수 있다며 하사비스의 '진짜 시험'을 인용한다. 1900년대 초 아인슈타인과 같은 정보만으로 일반상대성이론을 낼 수 있는가. 오늘의 답은 '아니오'다. 발언 출처는 <span class="chk">확인 필요</span></p>
+        <div class="terms"><span class="term">경험 우선 접근</span><span class="term">벤치마크 포화</span><span class="term">37수</span><span class="term">변형적 창의성</span><span class="term">아인슈타인 테스트</span></div>
+      </section>
+
+      <section class="sec" id="s12">
+        <div class="sec-head"><span class="sec-num">12</span><div><h2>목표, 에이전트, 진보</h2><p class="sub">도구적 수렴과 지식 탐구</p></div></div>
+        <p>최종 목표가 무엇이든 충분히 똑똑한 에이전트는 자원 획득, 시간 효율, 자기 보존이라는 하위 목표를 추구한다(도구적 수렴). 수정 가능성과 안전한 중단 이론이 있지만 프론티어 규모의 실용적 보장으로 옮기는 일은 남아 있다.</p>
+        <details class="viz"><summary>그림으로 보기: 어떤 목표를 줄 것인가</summary><figure><svg viewBox="0 0 280 250" role="img" aria-label="스칼라 보상 최대화는 망상 상자에 빠질 수 있지만 지식 탐구 목적 함수는 이를 피하고 협력을 선호한다"><defs><marker id="d15" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">어떤 목표를 줄 것인가</text><rect class="bx3" x="10" y="42" width="260" height="92" rx="10"/><text class="tb" x="140" y="70" text-anchor="middle">스칼라 보상 최대화</text><text class="tm" x="140" y="96" text-anchor="middle">망상 상자</text><text class="tm" x="140" y="122" text-anchor="middle">보상 해킹</text><rect class="bx2" x="10" y="146" width="260" height="92" rx="10"/><text class="tb" x="140" y="174" text-anchor="middle">지식 탐구(KS)</text><text class="tm" x="140" y="200" text-anchor="middle">정보 이득 최대화</text><text class="tm" x="140" y="226" text-anchor="middle">협력 선호</text></svg><figcaption>지식 탐구 에이전트는 감각 입력을 조작해도 얻을 정보가 없다.</figcaption></figure></details>
+        <p>오라클이나 'Scientist AI' 틀(논문은 Lu et al., 2024로 인용) <span class="chk">확인 필요</span> 같은 비에이전트도 지속되는 세계와 상호작용하면 행동 공간이 텍스트인 에이전트가 된다. 예측 오차를 줄이려 미래를 통제할 유인이 생긴다.</p>
+        <p>진보는 세 층위다. 역량의 진보, 한 세기분 GDP 성장을 10년에 이루는 경제적 압축 같은 기술경제적 진보, 그리고 사회정치적 작용과 반작용이 새 균형에 이르는 사회문화적 진보다.</p>
+        <div class="terms"><span class="term">도구적 수렴</span><span class="term">망상 상자</span><span class="term">지식 탐구</span><span class="term">오라클</span><span class="term">경제적 압축</span></div>
+      </section>
+
+      <section class="sec" id="s13">
+        <div class="sec-head"><span class="sec-num">13</span><div><h2>연쇄적 전환의 시대</h2><p class="sub">연구 의제와 결론</p></div></div>
+        <p>7대 연구 의제는 마찰의 정량화, 거시 예측 모델, 포화되지 않는 벤치마크, 자기개선 동역학, 다중 에이전트 스케일링 법칙, 이론적 기초, 안전·정렬·거버넌스다. 보고서는 정렬이 해결된다고 가정했지만 정렬 실패 자체가 가장 치명적인 병목일 수 있다.</p>
+        <p>유효 연산은 연 보수적으로 약 10배 늘어 왔다(Epoch 추정). <span class="chk">확인 필요</span> 이대로면 10년 말 유효 연산은 지금의 약 1만 배다. <span class="chk">확인 필요</span> 프론티어 역량은 시간에 대해 초선형으로 늘고 있고 <span class="chk">확인 필요</span> 1,000개의 인스턴스는 5년 뒤 1억 개가 된다. <span class="chk">확인 필요</span></p>
+        <div class="callout"><p>정확히 인간 수준에서 멈출 가능성은 낮다. AGI 이전에 정체하거나 약한 ASI로 비교적 매끄럽게 넘어갈 가능성이 더 크다(낮은 확신). 지능 폭발은 배제할 수 없다.</p></div>
+        <p>10~20년 안의 ASI 진입 가능성은 쉽게 기각할 수 없다. 저자들은 연구자들이 창시자들이 70년 전 <span class="chk">확인 필요</span> 다트머스에서 세운 목표를 이루는 세대가 될 수 있음을 진지하게 받아들여야 한다고 쓴다. 미래는 단 한 번의 특이점이 아니라 연쇄적 전환의 연속이다.</p>
+        <div class="callout"><p>"We can only see a short distance ahead, but we can see plenty there that needs to be done." — 앨런 튜링(1950)</p></div>
+        <div class="terms"><span class="term">연구 의제</span><span class="term">정렬</span><span class="term">지능 폭발</span><span class="term">연쇄적 전환</span></div>
+      </section>
+      <section class="sec" id="rv">
+        <div class="sec-head"><span class="sec-num">✔</span><div><h2>복습</h2><p class="sub">용어 카드 · 빈칸 · 5문항 퀴즈</p></div></div>
+        <h3 class="rv-h">핵심 용어 카드</h3>
+        <div class="flips">
+          <button type="button" class="flip" aria-expanded="false"><b>유효 연산</b><span class="hint">뜻 보기</span><span class="m">달러당 연산, 하드웨어 투자, 알고리즘 효율을 곱한 실질 연산. 보수적으로 연 약 10배 늘어 왔다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>레그-후터 점수</b><span class="hint">뜻 보기</span><span class="m">계산 가능한 모든 과제에서의 성과를 단순성으로 가중 평균한 지능 척도. AGI와 ASI를 한 연속체에 놓는다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>ASI의 실무적 하한선</b><span class="hint">뜻 보기</span><span class="m">수만 명의 잘 조율된 전문가 집단이 10년간 이룰 것을 확실히 능가하는 시스템.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>AIXI</b><span class="hint">뜻 보기</span><span class="m">솔로모노프 사전분포로 모든 계산 가능 환경을 평균해 기대 보상을 최대화하는 이론적 최적 에이전트. 계산 불가능하다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>기판 독립성</b><span class="hint">뜻 보기</span><span class="m">AI가 실행 중에도 다른 하드웨어로 옮겨 갈 수 있는 성질.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>재귀적 자기개선</b><span class="hint">뜻 보기</span><span class="m">AI가 AI의 연구개발을 맡아 차세대 AI를 개선하는 닫힌 루프.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>그룹 에이전시</b><span class="hint">뜻 보기</span><span class="m">구성원으로 환원되지 않는 신념과 욕구를 가진 조직화된 집단 행위자.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>데이터 벽</b><span class="hint">뜻 보기</span><span class="m">고품질 인간 텍스트의 고갈. 자기 생성 데이터의 증류로 우회할 수 있다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>추상화 장벽</b><span class="hint">뜻 보기</span><span class="m">원시 데이터에서 새 개념을 세우고 실험으로 검증해야 한다는 장벽. 성장을 경험과학의 속도에 묶는다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>지식 탐구(KS)</b><span class="hint">뜻 보기</span><span class="m">정보 이득을 최대화하는 목적 함수. 망상 상자에 빠지지 않는다.</span></button>
+        </div>
+        <h3 class="rv-h">빈칸 채우기</h3>
+        <ol class="cloze">
+          <li>미래는 단 한 번의 특이점이 아니라 <button type="button" class="blank" data-a="연쇄적 사회 전환">빈칸</button>의 연속이다.</li>
+          <li>저자들은 유효 연산 증가율을 보수적으로 연 약 <button type="button" class="blank" data-a="10배">빈칸</button>로 잡는다.</li>
+          <li>ASI의 실무적 기준은 대규모 <button type="button" class="blank" data-a="전문가 집단">빈칸</button>을 확실히 능가하는 것이다.</li>
+          <li>UAI의 대표는 <button type="button" class="blank" data-a="AIXI">빈칸</button>다.</li>
+          <li>경로 ①의 핵심 불확실성은 <button type="button" class="blank" data-a="양적 확장">빈칸</button>을 충분히 오래 지속할 수 있는가다.</li>
+          <li>데이터 벽은 인간이 만든 고품질 <button type="button" class="blank" data-a="학습 데이터">빈칸</button>의 고갈이다.</li>
+          <li>추상화 장벽이 사실이면 초지능은 <button type="button" class="blank" data-a="경험과학">빈칸</button>의 속도에 묶인다.</li>
+          <li>새 개념 공간을 만드는 것은 <button type="button" class="blank" data-a="변형적">빈칸</button> 창의성이다.</li>
+        </ol>
+        <h3 class="rv-h">5문항 퀴즈</h3>
+        <div id="quiz">
+          <div class="q" data-a="2"><fieldset><legend class="qt">1. 유효 연산의 세 요인에 들지 않는 것은?</legend>
+            <button type="button">달러당 연산</button>
+            <button type="button">알고리즘 효율</button>
+            <button type="button">인구 증가율</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="세 요인은 달러당 연산, 하드웨어 투자, 알고리즘 효율입니다."></p></div>
+          <div class="q" data-a="0"><fieldset><legend class="qt">2. ASI 정의에서 제외되는 것은?</legend>
+            <button type="button">알파폴드 같은 단일 영역 초인 시스템</button>
+            <button type="button">거의 모든 영역에서 인간을 넘는 시스템</button>
+            <button type="button">대기업 규모 집단을 넘는 시스템</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="ASI는 범용 지능이어야 합니다."></p></div>
+          <div class="q" data-a="1"><fieldset><legend class="qt">3. AIXI가 실제로 구현될 수 없는 이유는?</legend>
+            <button type="button">데이터 부족</button>
+            <button type="button">정지 문제로 계산 불가능</button>
+            <button type="button">윤리 규제</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="튜링 정지 문제 때문에 계산 불가능합니다."></p></div>
+          <div class="q" data-a="1"><fieldset><legend class="qt">4. 인공 연구자 문제가 사소한 마찰일 수 있는 이유는?</legend>
+            <button type="button">아이디어가 쉬워져서</button>
+            <button type="button">인스턴스를 수 시간~수 주에 약 20배로 늘릴 수 있어서</button>
+            <button type="button">연구비가 줄어서</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="인간 연구자 양성에는 수년이 걸립니다."></p></div>
+          <div class="q" data-a="1"><fieldset><legend class="qt">5. 저자들의 최종 판정에 가장 가까운 것은?</legend>
+            <button type="button">정확히 인간 수준에서 멈춘다</button>
+            <button type="button">AGI 이전 정체나 약한 ASI로의 매끄러운 전이</button>
+            <button type="button">반드시 지능 폭발이 일어난다</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="낮은 확신을 전제로 한 판정입니다."></p></div>
+          <p class="score" id="score" aria-live="polite">점수: 0 / 5</p>
+          <div class="rv-tools"><button type="button" id="qreset">다시 풀기</button></div>
+        </div>
+      </section>
+
+      <section class="sources">
+        <h3>출처</h3>
+        <ul>
+          <li><a href="https://yghnsim.github.io/Pages/articles/agi-to-asi-pathways-bottlenecks-deepmind.html">Pages — AGI에서 ASI로</a></li>
+          <li><a href="https://arxiv.org/abs/2606.12683">arXiv:2606.12683 — From AGI to ASI</a></li>
+        </ul>
+      </section>
+    </main>
+
+  </div>
+</div>
+<script>(function(){
+function $$(q){return [].slice.call(document.querySelectorAll(q))}
+$$('.flip').forEach(function(b){b.onclick=function(){b.setAttribute('aria-expanded',b.getAttribute('aria-expanded')==='true'?'false':'true')}});
+function show(b){b.textContent=b.dataset.a;b.classList.add('shown');b.setAttribute('aria-label','답: '+b.dataset.a)}
+function hide(b){b.textContent='?';b.classList.remove('shown');b.setAttribute('aria-label','빈칸, 눌러서 답 보기')}
+$$('.blank').forEach(function(b){b.onclick=function(){show(b)}});
+$$('[data-all]').forEach(function(t){t.onclick=function(){if(t.dataset.all==='flip')$$('.flip').forEach(function(b){b.setAttribute('aria-expanded','true')});else $$('.blank').forEach(show)}});
+$$('[data-reset]').forEach(function(t){t.onclick=function(){if(t.dataset.reset==='flip')$$('.flip').forEach(function(b){b.setAttribute('aria-expanded','false')});else $$('.blank').forEach(hide)}});
+var sc=0,done=0,qs=$$('#quiz .q'),tot=qs.length||5;
+function upd(){var el=document.getElementById('score');if(el)el.textContent='점수: '+sc+' / '+tot+(done===tot?' (끝)':'')}
+qs.forEach(function(q){var bs=[].slice.call(q.querySelectorAll('fieldset button')),ex=q.querySelector('.ex');
+bs.forEach(function(b,i){b.onclick=function(){var a=+q.dataset.a,ok=i===a;bs.forEach(function(x){x.disabled=true});if(bs[a])bs[a].classList.add('right');if(!ok)b.classList.add('wrong');
+if(ex){ex.hidden=false;ex.textContent=(ok?'맞았습니다. ':'아쉽습니다. ')+ex.dataset.e;}if(ok)sc++;done++;upd();}})});
+var qr=document.getElementById('qreset');
+if(qr)qr.onclick=function(){sc=0;done=0;qs.forEach(function(q){q.querySelectorAll('fieldset button').forEach(function(x){x.disabled=false;x.className=''});var ex=q.querySelector('.ex');if(ex){ex.hidden=true;ex.textContent=''}});upd()};
+})();</script>
+
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">아카이브</div><div class="arc-foot-title">AGI에서 ASI로 — 초지능으로 가는 4대 경로와 6대 마찰</div><div class="arc-foot-meta"><time datetime="2026-10-30">2026년 10월 30일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=AGI">#AGI</a><a class="arc-tag" href="../index.html#tags=AI%EC%95%88%EC%A0%84">#AI안전</a><a class="arc-tag" href="../index.html#tags=%EB%A8%B8%EC%8B%A0%EB%9F%AC%EB%8B%9D">#머신러닝</a><a class="arc-tag" href="../index.html#tags=%EB%85%BC%EB%AC%B8%EB%A6%AC%EB%B7%B0">#논문리뷰</a> · <a href="https://yghnsim.github.io/Pages/articles/agi-to-asi-pathways-bottlenecks-deepmind.html" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body>
+</html>
