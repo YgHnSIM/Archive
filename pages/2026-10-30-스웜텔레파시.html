@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light only">
+<title>스웜 텔레파시 — 이종 언어모델 사이의 프리필 없는 KV 캐시 전이</title>
+<meta name="description" content="SwaT(Swarm Telepathy) 논문 해설: KV 캐시 전이, 프리필 생략, 층 그룹 매퍼, 문자 구간 정렬, 보존율, 동일 예산 비교, 시각·중국어 제로샷 전이, 비용, 공유 잠재 공간">
+<style>
+:root{color-scheme:light only;
+  --bg:#faf8f3; --paper:#ffffff; --ink:#1f2328; --muted:#5b6470; --line:#e6e1d6;
+  --accent:#c8553d; --accent-soft:#fbeee9; --link:#4a6b8a;
+  --new:#3d5f80; --new-soft:#eaf0f6; --radius:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:20px}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR","Malgun Gothic","Gothic A1",system-ui,sans-serif;
+  font-size:17px;line-height:1.75;word-break:keep-all;overflow-wrap:break-word}
+@media(max-width:640px){body{font-size:16px}}
+a{color:var(--link)}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+.hero{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{display:inline-block;font-size:13px;font-weight:700;color:#a8432e;background:var(--accent-soft);padding:3px 10px;border-radius:999px;margin-bottom:12px}
+.hero h1{font-size:clamp(28px,4.4vw,44px);line-height:1.25;margin:0 0 12px;letter-spacing:-.02em}
+.hero .lead{font-size:18px;color:var(--muted);line-height:1.65;margin:0}
+@media(max-width:640px){.hero .lead{font-size:17px}}
+.hero-cta{margin-top:16px}
+.hero-cta a{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--new);color:#fff;border-radius:10px;font-weight:700;font-size:15px;text-decoration:none}
+.grid{display:grid;grid-template-columns:240px minmax(0,1fr);gap:36px;align-items:start}
+@media(max-width:880px){.grid{grid-template-columns:minmax(0,1fr);gap:0}}
+.toc{position:sticky;top:20px;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;font-size:15px}
+.toc .toc-t{font-weight:700;margin:0 0 10px}
+.toc ol{margin:0;padding:0;list-style:none}
+.toc li{margin:6px 0}
+.toc a{color:var(--muted);display:flex;align-items:baseline;gap:8px;text-decoration:none;line-height:1.45}
+.toc a:hover{color:var(--link)}
+.toc .n{flex:none;display:inline-block;width:22px;height:22px;line-height:22px;text-align:center;border-radius:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:700}
+.toc .orig{display:block;margin-top:14px;padding-top:10px;border-top:1px dashed var(--line);font-size:14px;color:#a8432e;font-weight:700}
+@media(max-width:880px){
+  .toc{position:sticky;top:0;z-index:20;margin:0 -20px 20px;border-radius:0;border-width:0 0 1px;padding:8px 12px;background:rgba(250,248,243,.97);overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .toc .toc-t,.toc .orig{display:none}
+  .toc ol{display:flex;gap:6px;white-space:nowrap}
+  .toc li{margin:0}
+  .toc a{background:#f1ede4;color:var(--ink);border-radius:999px;padding:6px 12px;font-size:14px;align-items:center}
+  .toc .n{background:none;width:auto;height:auto;line-height:1;color:var(--muted)}
+  html{scroll-padding-top:64px}
+}
+main{min-width:0}
+.sec{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:24px 28px;margin-bottom:28px}
+@media(max-width:640px){.sec{padding:18px 16px}}
+.sec-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px}
+.sec-num{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:12px;background:var(--ink);color:#fff;font-weight:800;font-size:17px;flex-shrink:0;margin-top:2px}
+@media(max-width:640px){.sec-num{width:34px;height:34px;font-size:15px}}
+.sec-head h2{font-size:clamp(23px,3vw,30px);line-height:1.3;margin:0;letter-spacing:-.015em}
+.sec-head .sub{font-size:16px;color:var(--muted);margin:3px 0 0}
+h3{font-size:19px;margin:22px 0 8px}
+p{margin:0 0 14px}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin:4px 0}
+.theses{counter-reset:t;list-style:none;padding:0;margin:0 0 16px}
+.theses li{counter-increment:t;position:relative;padding:10px 14px 10px 50px;margin:8px 0;background:#fdfcf9;border:1px solid var(--line);border-radius:12px}
+.theses li::before{content:counter(t);position:absolute;left:14px;top:12px;width:24px;height:24px;border-radius:50%;background:var(--accent-soft);color:#a8432e;font-weight:800;font-size:14px;display:grid;place-items:center}
+.tblw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:16px 0}
+.tbl{width:100%;min-width:520px;border-collapse:collapse;font-size:16px}
+.tbl th,.tbl td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+.tbl th{background:var(--new-soft);color:var(--new);font-weight:700}
+.tbl td{background:#fff}
+.callout{background:var(--new-soft);border-left:4px solid var(--new);border-radius:10px;padding:12px 16px;margin:14px 0}
+.callout.warm{background:var(--accent-soft);border-left-color:var(--accent)}
+.callout p:last-child{margin:0}
+blockquote{margin:14px 0;padding:12px 18px;background:#fff;border-left:5px solid var(--accent);border-radius:0 12px 12px 0}
+blockquote p{margin:0}
+.terms{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+.term{display:inline-flex;align-items:center;gap:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:600;padding:4px 10px;border-radius:8px}
+details.viz{margin:14px 0;border:1px solid var(--line);border-radius:12px;background:#fdfcf9}
+details.viz summary{cursor:pointer;list-style:none;padding:12px 14px;font-weight:600;font-size:16px;color:var(--new);min-height:44px;display:flex;align-items:center;gap:8px}
+details.viz summary::-webkit-details-marker{display:none}
+details.viz summary::before{content:"▸";font-size:14px;color:var(--accent)}
+details.viz[open] summary::before{content:"▾"}
+details.viz figure{margin:0;padding:4px 12px 14px}
+details.viz svg{display:block;width:100%;height:auto;max-width:400px;margin:0 auto;font-family:"Pretendard","Noto Sans KR",sans-serif}
+details.viz figcaption{font-size:16px;color:var(--muted);line-height:1.6;margin-top:8px}
+svg .bx{fill:#fff;stroke:#5b6470;stroke-width:1.4}
+svg .bx2{fill:#eaf0f6;stroke:#3d5f80;stroke-width:1.4}
+svg .bx3{fill:#fbeee9;stroke:#c8553d;stroke-width:1.4}
+svg .t{fill:#1f2328;font-size:18px}
+svg .tb{fill:#1f2328;font-size:18px;font-weight:700}
+svg .tm{fill:#4a525c;font-size:17.5px}
+svg .ln{stroke:#5b6470;stroke-width:1.5;fill:none}
+svg .lnd{stroke:#5b6470;stroke-width:1.5;fill:none;stroke-dasharray:5 4}
+.sources{background:var(--new-soft);border:1px solid var(--line);border-radius:var(--radius);padding:18px 22px;margin-top:32px;font-size:16px;color:#3f4650}
+.sources h3{font-size:17px;color:var(--new);margin:0 0 8px}
+.sources ul{margin:0;padding-left:20px}
+/* 복습 컴포넌트 표준 스타일 */
+.rv-h{font-size:19px;margin:22px 0 6px}
+.flips{display:grid;grid-template-columns:1fr;gap:8px;margin:10px 0}
+@media(min-width:640px){.flips{grid-template-columns:1fr 1fr}}
+.flip{font:inherit;text-align:left;width:100%;border:1.5px solid var(--line,#e6e1d6);background:#fdfcf9;border-radius:12px;padding:10px 14px;cursor:pointer;color:var(--ink,#1f2328);min-height:64px}
+.flip b{display:block;font-size:17px}
+.flip .m{display:none;font-size:16px;line-height:1.6;margin-top:4px}
+.flip .hint{font-size:13px;color:var(--muted,#5b6470)}
+.flip[aria-expanded="true"]{border-color:var(--new,#3d5f80);background:var(--new-soft,#eaf0f6)}
+.flip[aria-expanded="true"] .m{display:block}
+.flip[aria-expanded="true"] .hint{display:none}
+.cloze{list-style:none;margin:10px 0;padding:0}
+.cloze li{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:10px 14px;margin:8px 0;background:#fdfcf9;font-size:16px;line-height:1.8}
+.blank{font:inherit;font-size:16px;border:0;border-bottom:2px dashed var(--accent,#c8553d);background:var(--accent-soft,#fbeee9);color:#a8432e;border-radius:6px 6px 0 0;padding:0 8px;cursor:pointer;min-width:4.5em}
+.blank.shown{border-bottom-style:solid;background:var(--new-soft,#eaf0f6);color:var(--new,#3d5f80);font-weight:700}
+.rv-tools{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.rv-tools button{font:inherit;font-size:15px;border:1px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link,#4a6b8a)}
+.q{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:12px 14px;margin:10px 0;background:#fdfcf9}
+.q fieldset{border:0;margin:0;padding:0;min-width:0}
+.q legend{font-weight:700;padding:0;margin:0 0 8px;font-size:16.5px}
+.q button{display:block;width:100%;text-align:left;font:inherit;font-size:16px;border:1.5px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:8px 12px;margin:6px 0;cursor:pointer;color:var(--ink,#1f2328)}
+.q button.right{border-color:#2f6b45;background:#e6f1ea}
+.q button.wrong{border-color:#a2452f;background:#fbeee9}
+.q button[disabled]{cursor:default;opacity:1}
+.q .ex{margin:8px 0 0;font-size:16px;padding:8px 10px;border-radius:8px;background:var(--new-soft,#eaf0f6)}
+.score{font-size:17px;font-weight:800;margin:10px 0 0}
+.arc-back b,.arc-foot-label{color:#a8432e!important}
+.chk{display:inline-block;font-size:16px;font-weight:700;color:#8a3a12;background:#fdf0e3;border:1px solid #e8c9a8;border-radius:6px;padding:0 6px;margin-left:4px;white-space:nowrap}
+pre{background:#f6f4ee;border:1px solid var(--line);border-radius:10px;padding:12px 14px;overflow-x:auto;-webkit-overflow-scrolling:touch;margin:14px 0;font-size:16px;line-height:1.6}
+pre code{font-family:"JetBrains Mono","D2Coding",ui-monospace,Menlo,Consolas,monospace;color:#1f2328;white-space:pre}
+code{font-family:"JetBrains Mono","D2Coding",ui-monospace,Menlo,Consolas,monospace;font-size:.92em;background:#f3efe6;border-radius:4px;padding:0 4px}
+pre code{background:none;padding:0;font-size:inherit}
+@media(max-width:640px){pre{margin:12px -4px}}
+.steps,.pc{padding-left:1.3em}.steps li,.pc li{margin:8px 0}
+</style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
+</head>
+<body>
+<!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>아카이브</a><span class="arc-crumb">스웜 텔레파시 — 이종 언어모델 사이의 프리필 없는 KV 캐시 전이</span><span class="arc-meta"><time datetime="2026-10-30">2026년 10월 30일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=%EC%96%B8%EC%96%B4%EB%AA%A8%EB%8D%B8">#언어모델</a><a class="arc-tag" href="../index.html#tags=%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8">#에이전트</a><a class="arc-tag" href="../index.html#tags=%EB%85%BC%EB%AC%B8%EB%A6%AC%EB%B7%B0">#논문리뷰</a><a class="arc-src" href="https://yghnsim.github.io/Pages/articles/swarm-telepathy-cross-family-kv-cache-transfer.html" rel="noopener">원문 ↗</a></span></div></div>
+<!-- archive-header:end -->
+<div class="wrap">
+  <header class="hero">
+    <span class="eyebrow">AI · 논문 해설</span>
+    <h1>스웜 텔레파시 — 이종 언어모델 사이의 프리필 없는 KV 캐시 전이</h1>
+    <p class="lead">MIT CSAIL과 MIT-IBM 연구진의 SwaT(Swarm Telepathy)는 에이전트가 요약문을 주고받는 대신 KV 캐시를 번역해 건넨다. 아키텍처와 토크나이저가 다른 모델 사이에서도 수신자는 문서를 다시 읽지 않고 질문만 읽는다.</p>
+    <div class="hero-cta"><a href="https://yghnsim.github.io/Pages/articles/swarm-telepathy-cross-family-kv-cache-transfer.html">📚 Pages에서 심화 해설 전문 읽기 ↗</a></div>
+  </header>
+  <div class="grid">
+    <nav class="toc" aria-label="목차">
+      <p class="toc-t">목차</p>
+      <ol>
+        <li><a href="#s0"><span class="n">★</span>한눈에 보기</a></li>
+        <li><a href="#s1"><span class="n">1</span>왜 아직 글로 대화하는가</a></li>
+        <li><a href="#s2"><span class="n">2</span>어텐션과 KV 캐시</a></li>
+        <li><a href="#s3"><span class="n">3</span>토크나이저와 모델 계열</a></li>
+        <li><a href="#s4"><span class="n">4</span>선행 연구와 이론적 동기</a></li>
+        <li><a href="#s5"><span class="n">5</span>요약 전달 대 캐시 압축</a></li>
+        <li><a href="#s6"><span class="n">6</span>매퍼의 구조</a></li>
+        <li><a href="#s7"><span class="n">7</span>두 손실과 어블레이션</a></li>
+        <li><a href="#s8"><span class="n">8</span>문자로 정렬하기</a></li>
+        <li><a href="#s9"><span class="n">9</span>보존율</a></li>
+        <li><a href="#s10"><span class="n">10</span>동일 예산 비교</a></li>
+        <li><a href="#s11"><span class="n">11</span>가르치지 않은 능력</a></li>
+        <li><a href="#s12"><span class="n">12</span>비용과 경쟁 방법</a></li>
+        <li><a href="#s13"><span class="n">13</span>한계와 윤리</a></li>
+        <li><a href="#rv"><span class="n">✔</span>복습 &amp; 퀴즈</a></li>
+      </ol>
+      <a class="orig" href="https://yghnsim.github.io/Pages/articles/swarm-telepathy-cross-family-kv-cache-transfer.html">심화 원문(Pages) ↗</a>
+    </nav>
+    <main id="content">
+      <section class="sec" id="s0">
+        <div class="sec-head"><span class="sec-num">★</span><div><h2>한눈에 보기</h2><p class="sub">다섯 줄 요약</p></div></div>
+        <ol class="theses">
+          <li><b>말 대신 기억을 건넨다.</b> 송신자의 KV 캐시를 수신자의 캐시로 번역한다.</li>
+          <li><b>본체는 동결한다.</b> 약 300M의 경량 매퍼만 학습한다.</li>
+          <li><b>문자가 공통 좌표다.</b> 토크나이저가 달라도 토큰을 버리지 않고 정렬한다.</li>
+          <li><b>요약보다 낫다.</b> 같은 예산에서 평균 17.4점 높고 송신자 GPU 시간은 4.2배 짧다.</li>
+          <li><b>숙제도 있다.</b> 쌍마다 매퍼가 필요하고, 한 번의 전달만 다루며, 사람이 읽을 수 없는 통신이다.</li>
+        </ol>
+        <div class="terms"><span class="term">SwaT</span><span class="term">KV 캐시</span><span class="term">다중 에이전트</span><span class="term">프리필</span></div>
+      </section>
+
+      <section class="sec" id="s1">
+        <div class="sec-head"><span class="sec-num">1</span><div><h2>왜 아직 글로 대화하는가</h2><p class="sub">텍스트 통신의 세 장벽</p></div></div>
+        <p>사람은 뇌의 활성화를 직접 건넬 수 없어 언어를 만들었고, 언어는 손실 압축이다. 그런데 LLM 다중 에이전트 시스템도 거의 예외 없이 텍스트로 소통한다. 신경망의 상태는 이미 부동소수점 벡터로 존재하는데도 그렇다.</p>
+        <ul class="pc">
+          <li><b>정보 병목.</b> 요약문에는 송신자가 고른 일부만 담긴다.</li>
+          <li><b>연산 중복과 지연.</b> 송신자는 요약을 한 토큰씩 디코드하고, 수신자는 그것을 처음부터 다시 프리필한다.</li>
+          <li><b>문맥 오염.</b> 긴 중간 출력을 통째로 넘기면 무관한 내용이 섞인다.</li>
+        </ul>
+        <p>KV 캐시는 모델이 문맥을 읽으며 모든 층에서 계산한 결과로, 다음 토큰 생성에 필요한 상태 전체를 담는다. 이미 계산되어 있고 텍스트보다 밀도가 높아 자연스러운 통신 채널이 된다.</p>
+        <details class="viz"><summary>그림으로 보기: 두 통신 방식</summary><figure><svg viewBox="0 0 280 250" role="img" aria-label="텍스트 요약 통신은 송신자 디코드와 수신자 프리필이 필요하지만 SwaT는 송신자 캐시를 번역해 수신자가 질문만 읽게 한다"><defs><marker id="d1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">말 대신 기억을 건넨다</text><rect class="bx3" x="10" y="42" width="260" height="92" rx="10"/><text class="tb" x="140" y="70" text-anchor="middle">텍스트 요약(T2T)</text><text class="tm" x="140" y="96" text-anchor="middle">송신자가 요약을 디코드</text><text class="tm" x="140" y="122" text-anchor="middle">수신자가 다시 프리필</text><rect class="bx2" x="10" y="146" width="260" height="92" rx="10"/><text class="tb" x="140" y="174" text-anchor="middle">SwaT</text><text class="tm" x="140" y="200" text-anchor="middle">송신자 KV 캐시를 번역</text><text class="tm" x="140" y="226" text-anchor="middle">수신자는 질문만 프리필</text></svg><figcaption>말 대신 기억 상태를 건네는 방식을 저자들은 '텔레파시'라 부른다.</figcaption></figure></details>
+        <div class="terms"><span class="term">정보 병목</span><span class="term">문맥 오염</span><span class="term">텔레파시</span></div>
+      </section>
+
+      <section class="sec" id="s2">
+        <div class="sec-head"><span class="sec-num">2</span><div><h2>어텐션과 KV 캐시</h2><p class="sub">프리필과 디코드</p></div></div>
+        <p>어텐션은 도서관 검색과 같다. 질문(Q)과 색인(K)을 대조해 점수를 매기고, 소프트맥스로 비율화한 뒤 높은 점수의 내용(V)을 섞는다.</p>
+        <details class="viz"><summary>그림으로 보기: Q, K, V</summary><figure><svg viewBox="0 0 280 246" role="img" aria-label="어텐션은 쿼리와 키의 유사도로 값을 가중 합산한다"><defs><marker id="d2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">쿼리 Q</text><text class="tm" x="140.0" y="62" text-anchor="middle">내가 찾는 질문</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="88" marker-end="url(#d2)"/><rect class="bx" x="10" y="90" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="118" text-anchor="middle">키 K</text><text class="tm" x="140.0" y="144" text-anchor="middle">책의 색인과 표제어</text><line class="ln" x1="140.0" y1="156" x2="140.0" y2="170" marker-end="url(#d2)"/><rect class="bx2" x="10" y="172" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="200" text-anchor="middle">값 V</text><text class="tm" x="140.0" y="226" text-anchor="middle">책의 실제 내용</text></svg><figcaption>softmax(QKᵀ/√d)V.</figcaption></figure></details>
+        <p>생성 모델은 한 번에 한 토큰씩 쓴다. 과거 토큰의 K와 V는 변하지 않으므로 GPU 메모리에 쌓아 두고 새 토큰 것만 덧붙인다. 이 버퍼가 KV 캐시이고, 모델이 인지한 세계의 전부다.</p>
+        <p>추론은 입력을 병렬로 읽어 캐시를 만드는 <b>프리필</b>(연산 집약)과, 캐시 위에서 한 토큰씩 생성하는 <b>디코드</b>(메모리 대역폭 집약)로 나뉜다. SwaT는 송신자 캐시를 매퍼에 통과시켜 수신자 캐시의 근사를 만들고, 수신자는 짧은 질문만 프리필한다.</p>
+        <details class="viz"><summary>그림으로 보기: 프리필, 디코드, SwaT</summary><figure><svg viewBox="0 0 280 324" role="img" aria-label="추론은 프리필과 디코드로 나뉘며 SwaT는 수신자의 문서 프리필을 매퍼 변환으로 대신한다"><defs><marker id="d3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="92" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">프리필</text><text class="tm" x="140.0" y="62" text-anchor="middle">입력 전체를 병렬로 읽어</text><text class="tm" x="140.0" y="88" text-anchor="middle">KV 캐시 생성</text><line class="ln" x1="140.0" y1="100" x2="140.0" y2="114" marker-end="url(#d3)"/><rect class="bx" x="10" y="116" width="260" height="92" rx="10"/><text class="tb" x="140.0" y="144" text-anchor="middle">디코드</text><text class="tm" x="140.0" y="170" text-anchor="middle">캐시 위에서</text><text class="tm" x="140.0" y="196" text-anchor="middle">한 토큰씩 생성</text><line class="ln" x1="140.0" y1="208" x2="140.0" y2="222" marker-end="url(#d3)"/><rect class="bx2" x="10" y="224" width="260" height="92" rx="10"/><text class="tb" x="140.0" y="252" text-anchor="middle">SwaT</text><text class="tm" x="140.0" y="278" text-anchor="middle">송신자 캐시 → 매퍼</text><text class="tm" x="140.0" y="304" text-anchor="middle">→ 수신자 캐시 근사</text></svg><figcaption>수신자는 원문을 받지 않는다.</figcaption></figure></details>
+        <div class="terms"><span class="term">어텐션</span><span class="term">자기회귀</span><span class="term">디코드</span><span class="term">매퍼</span></div>
+      </section>
+
+      <section class="sec" id="s3">
+        <div class="sec-head"><span class="sec-num">3</span><div><h2>토크나이저와 모델 계열</h2><p class="sub">규격이 다른 부품</p></div></div>
+        <p><b>RoPE</b>는 쿼리와 키를 회전시켜 두 토큰의 상대 거리를 내적에 보존한다. <b>토크나이저</b>는 개발사마다 달라, 같은 단어가 한 모델에선 두 토큰, 다른 모델에선 한 토큰이 된다. 토큰 수와 경계가 어긋나므로 캐시를 그대로 꽂을 수 없다.</p>
+        <p>같은 <b>계열</b>(예: Qwen 3 4B~32B)은 같은 팀이 비슷한 데이터로 만들고 작은 모델은 흔히 큰 모델에서 지식 증류된다. 보통 토크나이저도 공유해 캐시 이전이 비교적 쉽다. 반면 Qwen, Llama, Gemma 사이에는 데이터, 토크나이저, 층 수와 차원, 위치 부호화가 모두 다르다.</p>
+        <p>전체 캐시를 그대로 주고받으면 부담이 크므로 캐시도 압축해야 한다. <b>어텐션 매칭(AM)</b>은 원래 캐시의 영향력을 유지하며 더 작은 키·값 집합을 만든다. 실험의 압축 배율은 약 3.3~17.2배였다.</p>
+        <div class="terms"><span class="term">RoPE</span><span class="term">토크나이저</span><span class="term">모델 계열</span><span class="term">지식 증류</span><span class="term">어텐션 매칭</span></div>
+      </section>
+
+      <section class="sec" id="s4">
+        <div class="sec-head"><span class="sec-num">4</span><div><h2>선행 연구와 이론적 동기</h2><p class="sub">SwaT가 노리는 빈자리</p></div></div>
+        <details class="viz"><summary>그림으로 보기: 선행 연구의 지형</summary><figure><svg viewBox="0 0 280 238" role="img" aria-label="선행 연구는 단일 모델, 같은 계열, 프리필이 필요한 계열 간 전이로 나뉘며 다른 크기, 계열 간, 프리필 생략을 모두 만족하는 것은 SwaT뿐이다"><defs><marker id="d4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="24" text-anchor="middle">선행 연구의 세 지형</text><rect class="bx2" x="10" y="40" width="125" height="86" rx="10"/><text class="tb" x="72.5" y="74" text-anchor="middle">단일 모델</text><text class="tm" x="72.5" y="102" text-anchor="middle">LatentMAS 등</text><rect class="bx2" x="145" y="40" width="125" height="86" rx="10"/><text class="tb" x="207.5" y="74" text-anchor="middle">같은 계열</text><text class="tm" x="207.5" y="102" text-anchor="middle">Closed Form 등</text><rect class="bx2" x="10" y="136" width="125" height="86" rx="10"/><text class="tb" x="72.5" y="170" text-anchor="middle">계열 간+프리필</text><text class="tm" x="72.5" y="198" text-anchor="middle">C2C, XKV</text><rect class="bx2" x="145" y="136" width="125" height="86" rx="10"/><text class="tb" x="207.5" y="170" text-anchor="middle">SwaT</text><text class="tm" x="207.5" y="198" text-anchor="middle">세 조건 모두</text></svg><figcaption>Cache-to-Cache와 XKV는 계열을 넘지만 수신자가 텍스트를 프리필해야 한다.</figcaption></figure></details>
+        <p>LatentMAS 같은 단일 모델 연구는 같은 모델 복제본끼리만 통한다. Closed Form, CacheBridge, KV Alignment, Dense Latent는 같은 계열 안에 머문다. LCF는 크기가 다른 모델을 잇되 프리필이 필요하고, LCF-X와 ICaRus는 프리필을 건너뛰지만 크기가 같은 모델만 지원한다. 다른 크기, 계열 간, 프리필 생략을 모두 만족하는 것은 SwaT뿐이다.</p>
+        <p>이론적 토대는 <b>플라톤적 표상 가설</b>(Huh et al., 2024)이다. 같은 세계로 학습한 모델은 같은 표상으로 수렴한다. 그렇다면 모델들은 무엇을 표상하는지는 공유하고 어떻게 배열하는지만 다르므로, 이종 통신은 두 잠재 공간 사이의 매핑을 학습하는 문제가 된다.</p>
+        <p>쓰임새는 셋이다. 자식 에이전트가 요약 대신 캐시를 부모에게 보내는 계층형 시스템, 대화 도중 모델을 바꿀 때 캐시를 물려받는 경우, 라우터가 읽은 질의 캐시를 대상 모델에 넘기는 경우다.</p>
+        <div class="terms"><span class="term">Cache-to-Cache</span><span class="term">Dense Latent</span><span class="term">플라톤적 표상 가설</span><span class="term">라우터</span></div>
+      </section>
+
+      <section class="sec" id="s5">
+        <div class="sec-head"><span class="sec-num">5</span><div><h2>요약 전달 대 캐시 압축</h2><p class="sub">T2T와 SwaT+AM</p></div></div>
+        <p><b>T2T</b>는 네 단계다. 송신자가 과제를 수행하고, 요약문을 디코드하고, 수신자가 요약을 프리필하고, 과제를 푼다. 수신자가 읽을 토큰은 줄지만 송신자에게 생성 단계가 하나 더 붙고 정보는 요약에 담긴 만큼으로 제한된다.</p>
+        <p><b>SwaT+AM</b>은 송신자 캐시를 매퍼로 번역하고 AM이 예산 U에 맞춰 압축한다. 요약 생성과 수신자 프리필 단계가 사라진다.</p>
+        <p>공정한 비교를 위해 <b>동일 예산</b>을 쓴다. 다섯 가지 요약 프롬프트로 길이가 다른 요약을 만들고, 수신자 토크나이저 기준 토큰 수를 잰 뒤 AM 예산을 그에 맞췄다.</p>
+        <div class="terms"><span class="term">T2T</span><span class="term">SwaT+AM</span><span class="term">동일 예산</span></div>
+      </section>
+
+      <section class="sec" id="s6">
+        <div class="sec-head"><span class="sec-num">6</span><div><h2>매퍼의 구조</h2><p class="sub">층 그룹, 교차주의, 출력 보정</p></div></div>
+        <p>송신자와 수신자는 <b>동결</b>하고 둘 사이의 경량 트랜스포머 매퍼만 학습한다. 큰 모델을 미세조정하는 비용과 능력 손상을 피한다.</p>
+        <details class="viz"><summary>그림으로 보기: 매퍼 규모</summary><figure><svg viewBox="0 0 280 238" role="img" aria-label="매퍼는 블록 7에서 9개, 은닉 차원 1024, 헤드 16개, 약 3억 파라미터의 경량 트랜스포머다"><defs><marker id="d6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="24" text-anchor="middle">매퍼 규모</text><rect class="bx2" x="10" y="40" width="125" height="86" rx="10"/><text class="tb" x="72.5" y="74" text-anchor="middle">블록 수</text><text class="tm" x="72.5" y="102" text-anchor="middle">B = 7~9</text><rect class="bx2" x="145" y="40" width="125" height="86" rx="10"/><text class="tb" x="207.5" y="74" text-anchor="middle">은닉 차원</text><text class="tm" x="207.5" y="102" text-anchor="middle">D = 1024</text><rect class="bx2" x="10" y="136" width="125" height="86" rx="10"/><text class="tb" x="72.5" y="170" text-anchor="middle">헤드</text><text class="tm" x="72.5" y="198" text-anchor="middle">H = 16</text><rect class="bx2" x="145" y="136" width="125" height="86" rx="10"/><text class="tb" x="207.5" y="170" text-anchor="middle">파라미터</text><text class="tm" x="207.5" y="198" text-anchor="middle">약 300M</text></svg><figcaption>FFN 중간 차원은 4096이다.</figcaption></figure></details>
+        <p><b>층 그룹.</b> 두 모델의 KV 층을 각각 B개의 연속 그룹으로 나눈다. b번째 블록은 송신자 b번째 그룹의 캐시를 모두 읽어 수신자 b번째 그룹의 캐시를 한꺼번에 예측한다.</p>
+        <details class="viz"><summary>그림으로 보기: 매퍼의 흐름</summary><figure><svg viewBox="0 0 280 246" role="img" aria-label="SwaT 매퍼는 층을 그룹으로 나누고 교차주의 블록으로 변환한 뒤 RMS와 RoPE로 보정한다"><defs><marker id="d5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">층 그룹 분할</text><text class="tm" x="140.0" y="62" text-anchor="middle">송신·수신 층을 B개로</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="88" marker-end="url(#d5)"/><rect class="bx2" x="10" y="90" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="118" text-anchor="middle">교차주의 블록</text><text class="tm" x="140.0" y="144" text-anchor="middle">자기주의 → 교차주의 → FFN</text><line class="ln" x1="140.0" y1="156" x2="140.0" y2="170" marker-end="url(#d5)"/><rect class="bx" x="10" y="172" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="200" text-anchor="middle">출력 보정</text><text class="tm" x="140.0" y="226" text-anchor="middle">RMS 리스케일 + 수신자 RoPE</text></svg><figcaption>시작과 끝은 수신자 좌표계에 맞춘다.</figcaption></figure></details>
+        <p><b>입력.</b> 문서를 수신자 토크나이저로 잘라 수신자 임베딩으로 초기 은닉 상태를 만든다. 임베딩 조회는 연산량이 0이다. 송신자 쪽은 키에서 송신자 RoPE를 역회전으로 제거하고, 그룹 내 모든 층·헤드의 키와 값을 이어 붙여 메모리로 투영한다.</p>
+        <p><b>블록.</b> 인과적 자기주의, 송신자 메모리를 키·값으로 쓰는 인과적 교차주의, GELU FFN이 차례로 이어지고 각각 LN과 잔차 연결을 갖는다.</p>
+        <p><b>출력.</b> 선형 투영으로 수신자 그룹의 키와 값을 예측하고, 층·헤드별 고정 RMS 통계로 크기를 맞춘 뒤 키에 수신자 RoPE를 입힌다. Gemma의 슬라이딩 윈도 층은 송신자 쪽에서는 모든 과거 캐시를 기록해 두고, 수신자 쪽에서는 전 위치를 예측해 넘긴 뒤 수신자가 스스로 버린다.</p>
+        <div class="terms"><span class="term">동결</span><span class="term">층 그룹</span><span class="term">교차주의</span><span class="term">RMS 보정</span><span class="term">슬라이딩 윈도</span></div>
+      </section>
+
+      <section class="sec" id="s7">
+        <div class="sec-head"><span class="sec-num">7</span><div><h2>두 손실과 어블레이션</h2><p class="sub">모양을 맞추고 쓰임을 다듬는다</p></div></div>
+        <p><b>1단계, RMS 정규화 MSE.</b> 예측 캐시가 수신자가 원문을 직접 읽었을 때의 캐시와 같아지도록 한다. 층·헤드별 RMS로 나눠 크기 편향을 없애고, 키는 RoPE 적용 전 상태로 비교한다.</p>
+        <p><b>2단계, NLL.</b> 변환한 캐시를 동결된 수신자에 넣고 정답 시퀀스의 다음 토큰 손실을 줄인다. 기울기는 수신자를 거쳐 흐르지만 갱신되는 것은 매퍼뿐이다.</p>
+        <p>6개 계열(Qwen 3, Llama 3, Gemma 2/3, Ministral 3, Granite 3, SmolLM3)의 3B~32B 모델로 10개 이종 쌍을 만들었다. 학습 데이터는 모두 영어이고 고유 토큰 4,400만 개다. 1단계는 5,000 스텝, 2단계는 24,000 스텝이다.</p>
+        <details class="viz"><summary>그림으로 보기: 어블레이션</summary><figure><svg viewBox="0 0 280 348" role="img" aria-label="한 손실만 쓰면 약 37점, Dense loss만 쓰면 55점, 헤드별 MLP는 15점, C2C 정렬은 3.2점 떨어진다"><defs><marker id="d7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">어블레이션 (%p)</text><text class="tm" x="10" y="60" text-anchor="start">1단계(MSE)만</text><text class="tb" x="270" y="60" text-anchor="end">−36.97</text><rect x="10.0" y="70.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="70.0" width="171.6" height="16.0" fill="#c8553d"/><text class="tm" x="10" y="120" text-anchor="start">2단계(NLL)만</text><text class="tb" x="270" y="120" text-anchor="end">−36.96</text><rect x="10.0" y="130.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="130.0" width="171.6" height="16.0" fill="#c8553d"/><text class="tm" x="10" y="180" text-anchor="start">Dense loss만</text><text class="tb" x="270" y="180" text-anchor="end">−55.11</text><rect x="10.0" y="190.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="190.0" width="255.9" height="16.0" fill="#c8553d"/><text class="tm" x="10" y="240" text-anchor="start">헤드별 MLP</text><text class="tb" x="270" y="240" text-anchor="end">−14.71</text><rect x="10.0" y="250.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="250.0" width="68.3" height="16.0" fill="#9a6a12"/><text class="tm" x="10" y="300" text-anchor="start">C2C 정렬</text><text class="tb" x="270" y="300" text-anchor="end">−3.20</text><rect x="10.0" y="310.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="310.0" width="14.9" height="16.0" fill="#8a929c"/></svg><figcaption>Qwen3-4B → Llama-3-8B, 13개 벤치마크 평균.</figcaption></figure></details>
+        <p>두 손실은 서로를 대신하지 못한다. 한쪽만 쓰면 약 37점이 떨어진다.</p>
+        <div class="terms"><span class="term">MSE 손실</span><span class="term">NLL 손실</span><span class="term">어블레이션</span><span class="term">이종 쌍</span></div>
+      </section>
+
+      <section class="sec" id="s8">
+        <div class="sec-head"><span class="sec-num">8</span><div><h2>문자로 정렬하기</h2><p class="sub">토크나이저 불일치의 해법</p></div></div>
+        <p>C2C의 정렬은 토크나이저가 어긋나면 남는 토큰을 버린다. SwaT에 C2C 정렬을 넣으면 3.20점이 떨어진다. SwaT는 두 모델이 읽는 <b>문자열은 같다</b>는 점을 이용한다. 각 토큰이 원문에서 차지하는 반열린 문자 구간이 공통 좌표가 된다.</p>
+        <details class="viz"><summary>그림으로 보기: 문자 구간 정렬</summary><figure><svg viewBox="0 0 280 322" role="img" aria-label="문자 구간을 공통 좌표로 써서 연속 RoPE 위치를 보간하고 엄격한 인과 마스크를 적용한다"><defs><marker id="d8" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">같은 문자열</text><text class="tm" x="140.0" y="62" text-anchor="middle">두 모델이 읽는 원문은 같다</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="86" marker-end="url(#d8)"/><rect class="bx" x="10" y="88" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="116" text-anchor="middle">문자 중심점</text><text class="tm" x="140.0" y="142" text-anchor="middle">송신자 토큰의 중심 m</text><line class="ln" x1="140.0" y1="154" x2="140.0" y2="166" marker-end="url(#d8)"/><rect class="bx2" x="10" y="168" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="196" text-anchor="middle">연속 RoPE 위치</text><text class="tm" x="140.0" y="222" text-anchor="middle">토큰을 버리지 않고 정렬</text><line class="ln" x1="140.0" y1="234" x2="140.0" y2="246" marker-end="url(#d8)"/><rect class="bx" x="10" y="248" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="276" text-anchor="middle">인과 마스크</text><text class="tm" x="140.0" y="302" text-anchor="middle">끝 지점이 앞선 것만 본다</text></svg><figcaption>토크나이저가 같으면 식은 p = i로 돌아간다.</figcaption></figure></details>
+        <p>송신자 토큰의 문자 중심점을 구하고, 그 중심이 걸친 수신자 토큰 안에서의 위치 비율로 연속 RoPE 위치를 준다. 중심이 수신자 토큰 한가운데면 정확히 그 토큰의 위치다. 인과 마스크는 수신자 토큰이 자기 문자 끝 지점보다 먼저 끝나거나 같은 송신자 토큰만 보게 한다.</p>
+        <div class="terms"><span class="term">문자 구간</span><span class="term">연속 RoPE</span><span class="term">인과 마스크</span></div>
+      </section>
+
+      <section class="sec" id="s9">
+        <div class="sec-head"><span class="sec-num">9</span><div><h2>보존율</h2><p class="sub">원문을 직접 읽은 것과 대등하거나 더 낫다</p></div></div>
+        <p>보존율은 SwaT 캐시 위에서 질문만 읽고 푼 점수를 원문과 질문을 직접 읽고 푼 점수로 나눈 값이다. 도메인 내 9개, 도메인 외 8개, 모두 17개 벤치마크에서 쟀다.</p>
+        <details class="viz"><summary>그림으로 보기: 평균 보존율</summary><figure><svg viewBox="0 0 280 408" role="img" aria-label="큰 모델에서 작은 모델로 보낼 때 보존율이 100퍼센트를 넘고 작은 모델에서 큰 모델로 보낼 때 최저는 92.2퍼센트다"><defs><marker id="d9" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">평균 보존율 (일부 쌍)</text><text class="tm" x="10" y="60" text-anchor="start">Granite→SmolLM3</text><text class="tb" x="270" y="60" text-anchor="end">143.2%</text><rect x="10.0" y="70.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="70.0" width="248.2" height="16.0" fill="#2f6b45"/><text class="tm" x="10" y="120" text-anchor="start">Gemma12B→Qwen4B</text><text class="tb" x="270" y="120" text-anchor="end">104.6%</text><rect x="10.0" y="130.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="130.0" width="181.3" height="16.0" fill="#2f6b45"/><text class="tm" x="10" y="180" text-anchor="start">Qwen32B→Llama8B</text><text class="tb" x="270" y="180" text-anchor="end">103.0%</text><rect x="10.0" y="190.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="190.0" width="178.5" height="16.0" fill="#2f6b45"/><text class="tm" x="10" y="240" text-anchor="start">Gemma9B→Ministral</text><text class="tb" x="270" y="240" text-anchor="end">102.8%</text><rect x="10.0" y="250.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="250.0" width="178.2" height="16.0" fill="#3d5f80"/><text class="tm" x="10" y="300" text-anchor="start">Qwen4B→Llama8B</text><text class="tb" x="270" y="300" text-anchor="end">98.5%</text><rect x="10.0" y="310.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="310.0" width="170.7" height="16.0" fill="#3d5f80"/><text class="tm" x="10" y="360" text-anchor="start">Gemma4B→Llama8B</text><text class="tb" x="270" y="360" text-anchor="end">92.2%</text><rect x="10.0" y="370.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="370.0" width="159.8" height="16.0" fill="#3d5f80"/></svg><figcaption>작은 모델 → 큰 모델 7쌍과 큰 모델 → 작은 모델 3쌍 중 일부.</figcaption></figure></details>
+        <p>작은 모델에서 큰 모델로 보낼 때 최저 평균 보존율은 92.2%였다. 큰 모델에서 작은 모델로 보낼 때는 세 쌍 모두 100%를 넘었다(103.0~143.2%). 작은 수신자가 큰 송신자의 읽기 결과를 빌린 셈이다.</p>
+        <p>다만 비율은 분모가 작으면 부푼다. Granite 3.3 8B → SmolLM3 3B의 MuSiQue 보존율 377.8%는 SmolLM3 단독 F1이 11.5점뿐이었기 때문이다. 약점은 MATH-500으로, 쌍에 따라 56.3~122.5%이고 대부분 70% 안팎이다. 답을 LaTeX로 써야 하는 반면 학습 데이터 GSM8K의 답은 숫자다.</p>
+        <div class="terms"><span class="term">보존율</span><span class="term">기저 효과</span><span class="term">분포 외</span><span class="term">MATH-500</span></div>
+      </section>
+
+      <section class="sec" id="s10">
+        <div class="sec-head"><span class="sec-num">10</span><div><h2>동일 예산 비교</h2><p class="sub">더 적게 보내고 더 정확하다</p></div></div>
+        <p>3개 쌍, 5개 예산, 7개 장문 데이터셋에서 비교했다.</p>
+        <details class="viz"><summary>그림으로 보기: 요약 대 캐시</summary><figure><svg viewBox="0 0 280 288" role="img" aria-label="같은 통신 예산에서 SwaT와 어텐션 매칭은 텍스트 요약보다 평균 17.4점 높고 예산이 작을수록 격차가 크다"><defs><marker id="d10" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">같은 예산의 과제 점수</text><text class="tm" x="10" y="60" text-anchor="start">T2T 최저 예산</text><text class="tb" x="270" y="60" text-anchor="end">29.8~37.2</text><rect x="10.0" y="70.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="70.0" width="138.2" height="16.0" fill="#8a929c"/><text class="tm" x="10" y="120" text-anchor="start">SwaT 최저 예산</text><text class="tb" x="270" y="120" text-anchor="end">49.0~58.6</text><rect x="10.0" y="130.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="130.0" width="217.7" height="16.0" fill="#2f6b45"/><text class="tm" x="10" y="180" text-anchor="start">T2T 전체 평균</text><text class="tb" x="270" y="180" text-anchor="end">41.3</text><rect x="10.0" y="190.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="190.0" width="153.4" height="16.0" fill="#8a929c"/><text class="tm" x="10" y="240" text-anchor="start">SwaT 전체 평균</text><text class="tb" x="270" y="240" text-anchor="end">58.6</text><rect x="10.0" y="250.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="250.0" width="217.7" height="16.0" fill="#2f6b45"/></svg><figcaption>전체 쌍의 산술평균 점수는 41.3에서 58.6으로 올랐다.</figcaption></figure></details>
+        <ul class="pc">
+          <li><b>점수.</b> 전체 평균 +17.4점, 기하평균 비로는 +48.8%다.</li>
+          <li><b>속도.</b> 송신자 GPU 시간은 4.2배, 수신자 첫 토큰까지 시간(TTFT)은 4.3배 줄었다.</li>
+          <li><b>통신량.</b> 예산을 맞췄는데도 실제로 보낸 토큰이 12.0% 적었다.</li>
+          <li><b>예산이 작을수록.</b> 최저 예산에서 격차는 +18.9~+21.4점, 가장 큰 예산에서는 +10.7~+18.3점이다.</li>
+          <li><b>송신자 시간.</b> Gemma 3 12B 송신자는 T2T에서 7,329ms가 48,709ms로 늘었지만 SwaT+AM은 2,094ms에서 4,155ms로 완만했다.</li>
+        </ul>
+        <div class="terms"><span class="term">TTFT</span><span class="term">기하평균</span><span class="term">압축 배율</span></div>
+      </section>
+
+      <section class="sec" id="s11">
+        <div class="sec-head"><span class="sec-num">11</span><div><h2>가르치지 않은 능력</h2><p class="sub">시각, 중국어, 긴 문맥</p></div></div>
+        <p><b>시각.</b> 송신자 Gemma 3 VLM이 이미지와 캡션을 함께 프리필하면 캡션 토큰의 캐시가 시각 특징으로 물든다. 이 캐시를 텍스트 전용 모델로 옮겼다.</p>
+        <details class="viz"><summary>그림으로 보기: 시각 능력의 전이</summary><figure><svg viewBox="0 0 280 228" role="img" aria-label="텍스트 전용 Granite 8B는 SwaT로 41.6점을 얻어 캡션 전달 21.1점과 송신자 VLM 34.2점을 넘었다"><defs><marker id="d11" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">Gemma 3 4B → Granite 8B VQA</text><text class="tm" x="10" y="60" text-anchor="start">T2T 캡션</text><text class="tb" x="270" y="60" text-anchor="end">21.1</text><rect x="10.0" y="70.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="70.0" width="109.7" height="16.0" fill="#8a929c"/><text class="tm" x="10" y="120" text-anchor="start">VLM 단독</text><text class="tb" x="270" y="120" text-anchor="end">34.2</text><rect x="10.0" y="130.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="130.0" width="177.8" height="16.0" fill="#3d5f80"/><text class="tm" x="10" y="180" text-anchor="start">SwaT</text><text class="tb" x="270" y="180" text-anchor="end">41.6</text><rect x="10.0" y="190.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="190.0" width="216.3" height="16.0" fill="#2f6b45"/></svg><figcaption>5개 VQA 벤치마크 평균.</figcaption></figure></details>
+        <p>Granite 8B는 캡션 전달의 약 2배였고 이미지를 직접 본 VLM보다 7.4점 높았다. 그러나 DocVQA와 InfoVQA처럼 세밀한 시각 처리가 필요한 과제에서는 VLM 단독(57.4~62.2점)이 SwaT(29.0~37.5점)보다 훨씬 높았고, Gemma 3 12B → Qwen 3 4B에서는 캡션 전달보다도 낮았다.</p>
+        <p><b>중국어.</b> 중국어 토큰은 학습 데이터에 없었다.</p>
+        <details class="viz"><summary>그림으로 보기: CMMLU 67개 과목</summary><figure><svg viewBox="0 0 280 228" role="img" aria-label="영어로만 학습한 매퍼로 Llama 3 8B의 중국어 점수가 51.2에서 65.1로 올라 격차의 약 4분의 3을 메웠다"><defs><marker id="d12" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">CMMLU 중국어 평균</text><text class="tm" x="10" y="60" text-anchor="start">Llama 3 8B 단독</text><text class="tb" x="270" y="60" text-anchor="end">51.2</text><rect x="10.0" y="70.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="70.0" width="166.4" height="16.0" fill="#8a929c"/><text class="tm" x="10" y="120" text-anchor="start">SwaT 전이</text><text class="tb" x="270" y="120" text-anchor="end">65.1</text><rect x="10.0" y="130.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="130.0" width="211.6" height="16.0" fill="#2f6b45"/><text class="tm" x="10" y="180" text-anchor="start">Qwen 3 4B</text><text class="tb" x="270" y="180" text-anchor="end">69.7</text><rect x="10.0" y="190.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="190.0" width="226.5" height="16.0" fill="#3d5f80"/></svg><figcaption>18.5점 격차 중 13.9점을 메웠다.</figcaption></figure></details>
+        <p><b>긴 문맥.</b> Qwen 3 4B가 28K 토큰 HotpotQA 문서를 읽고, 캐시를 8K 청크로 나눠 AM으로 압축해 8K 문맥의 Llama 3 8B에 건넸다.</p>
+        <details class="viz"><summary>그림으로 보기: 문맥 창보다 긴 문서</summary><figure><svg viewBox="0 0 280 288" role="img" aria-label="8K 문맥의 Llama 3 8B가 SwaT로 28K 문서를 받아 F1 41.87을 기록했다"><defs><marker id="d13" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">28K 문서, 8K 수신자</text><text class="tm" x="10" y="60" text-anchor="start">8K로 절단</text><text class="tb" x="270" y="60" text-anchor="end">F1 13.3</text><rect x="10.0" y="70.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="70.0" width="69.3" height="16.0" fill="#8a929c"/><text class="tm" x="10" y="120" text-anchor="start">Llama AM20</text><text class="tb" x="270" y="120" text-anchor="end">F1 35.0</text><rect x="10.0" y="130.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="130.0" width="181.7" height="16.0" fill="#3d5f80"/><text class="tm" x="10" y="180" text-anchor="start">Qwen 단독 28K</text><text class="tb" x="270" y="180" text-anchor="end">F1 36.8</text><rect x="10.0" y="190.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="190.0" width="191.1" height="16.0" fill="#3d5f80"/><text class="tm" x="10" y="240" text-anchor="start">SwaT+AM</text><text class="tb" x="270" y="240" text-anchor="end">F1 41.9</text><rect x="10.0" y="250.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="250.0" width="217.7" height="16.0" fill="#2f6b45"/></svg><figcaption>송신자가 전체를 먼저 프리필해 청크 사이의 의존 관계가 담긴다.</figcaption></figure></details>
+        <div class="terms"><span class="term">VLM</span><span class="term">제로샷 전이</span><span class="term">CMMLU</span><span class="term">청크</span></div>
+      </section>
+
+      <section class="sec" id="s12">
+        <div class="sec-head"><span class="sec-num">12</span><div><h2>비용과 경쟁 방법</h2><p class="sub">이질성에서 빛난다</p></div></div>
+        <p>64토큰부터 64K토큰까지 재-프리필과 매퍼 비용을 쟀다. 가장 불리한 64K에서도 FLOPs는 두 쌍에서 각각 8.2배, 14.0배 적고 지연은 6.1배, 10.2배 짧다.</p>
+        <details class="viz"><summary>그림으로 보기: 비용의 비대칭</summary><figure><svg viewBox="0 0 280 288" role="img" aria-label="64K 토큰에서 재프리필 비용은 수신자가 커지면 늘지만 SwaT 비용은 약 249 TFLOPs로 거의 같다"><defs><marker id="d14" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">64K 토큰 TFLOPs</text><text class="tm" x="10" y="60" text-anchor="start">재-프리필 (Llama 8B)</text><text class="tb" x="270" y="60" text-anchor="end">2,041</text><rect x="10.0" y="70.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="70.0" width="147.4" height="16.0" fill="#8a929c"/><text class="tm" x="10" y="120" text-anchor="start">재-프리필 (Qwen 14B)</text><text class="tb" x="270" y="120" text-anchor="end">3,491</text><rect x="10.0" y="130.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="130.0" width="252.1" height="16.0" fill="#c8553d"/><text class="tm" x="10" y="180" text-anchor="start">SwaT (→Llama)</text><text class="tb" x="270" y="180" text-anchor="end">248</text><rect x="10.0" y="190.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="190.0" width="17.9" height="16.0" fill="#2f6b45"/><text class="tm" x="10" y="240" text-anchor="start">SwaT (→Qwen)</text><text class="tb" x="270" y="240" text-anchor="end">249</text><rect x="10.0" y="250.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="250.0" width="18.0" height="16.0" fill="#2f6b45"/></svg><figcaption>지연은 7.9초에서 13.5초로 늘지만 SwaT는 약 1.3초로 같다.</figcaption></figure></details>
+        <p>Closed Form과 Dense Latent에 토크나이저 정렬을 덧붙여 17개 벤치마크에서 비교했다. 같은 계열(Qwen 3 4B → 8B)에서는 Dense Latent 73.5점, SwaT 72.3점으로 대등했다. 세대를 넘으면(→ Qwen 2 7B) SwaT 68.1점 대 47.3점, 계열을 넘으면(→ Llama 3 8B) 63.5점 대 43.5점으로 20점 이상 앞섰다.</p>
+        <div class="terms"><span class="term">재-프리필</span><span class="term">TFLOPs</span><span class="term">Closed Form</span><span class="term">세대 간 전이</span></div>
+      </section>
+
+      <section class="sec" id="s13">
+        <div class="sec-head"><span class="sec-num">13</span><div><h2>한계와 윤리</h2><p class="sub">확장성, 합성, 감사 가능성</p></div></div>
+        <details class="viz"><summary>그림으로 보기: 조합 폭발</summary><figure><svg viewBox="0 0 280 250" role="img" aria-label="쌍마다 매퍼를 두면 n(n−1)개가 필요하지만 공유 잠재 공간을 쓰면 2n개면 된다"><defs><marker id="d15" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">확장성의 벽</text><rect class="bx3" x="10" y="42" width="260" height="92" rx="10"/><text class="tb" x="140" y="70" text-anchor="middle">쌍별 매퍼</text><text class="tm" x="140" y="96" text-anchor="middle">n(n−1)개</text><text class="tm" x="140" y="122" text-anchor="middle">6개 모델이면 30개</text><rect class="bx2" x="10" y="146" width="260" height="92" rx="10"/><text class="tb" x="140" y="174" text-anchor="middle">공유 잠재 공간</text><text class="tm" x="140" y="200" text-anchor="middle">2n개</text><text class="tm" x="140" y="226" text-anchor="middle">6개 모델이면 12개</text></svg><figcaption>20개 모델이면 쌍별 매퍼는 380개다.</figcaption></figure></details>
+        <p><b>확장성.</b> 방향이 있는 쌍마다 매퍼가 필요해 n개 계열이면 n(n−1)개다. 다음 과제는 각 모델이 들어가고 나오는 매퍼 하나씩만 두는 공유 잠재 공간이다.</p>
+        <p><b>합성.</b> 한 번의 메시지 전달만 다룬다. 캐시는 열화되고 텍스트만큼 합치기 쉽지 않다. KVLink 같은 캐시 합성 기법과의 결합이 과제다.</p>
+        <p><b>감사 가능성.</b> 지금 구현은 송신자의 텍스트가 있어 텍스트 감시가 가능하지만, 캐시에는 텍스트 이상의 정보가 실릴 수 있다. 시각 전이에서 캡션에 없던 정보가 건너간 것이 그 예다. 저자들은 캐시 전달의 감사 가능성과 안전성 연구를 강조한다.</p>
+        <div class="callout"><p>사람은 뇌를 이을 수 없어 언어를 만들었다. 언어모델의 상태는 이미 숫자로 존재하므로 번역해 건넬 수 있다.</p></div>
+        <p>논문은 arXiv:2610.15095v1이고 코드는 github.com/Ar-Kareem/SwaT에 공개되어 있다.</p>
+        <div class="terms"><span class="term">공유 잠재 공간</span><span class="term">캐시 합성</span><span class="term">감사 가능성</span><span class="term">AI 안전</span></div>
+      </section>
+      <section class="sec" id="rv">
+        <div class="sec-head"><span class="sec-num">✔</span><div><h2>복습</h2><p class="sub">용어 카드 · 빈칸 · 5문항 퀴즈</p></div></div>
+        <h3 class="rv-h">핵심 용어 카드</h3>
+        <div class="flips">
+          <button type="button" class="flip" aria-expanded="false"><b>KV 캐시</b><span class="hint">뜻 보기</span><span class="m">모델이 문맥을 읽으며 모든 층에서 계산해 둔 키와 값. 다음 토큰 생성에 필요한 상태 전체다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>프리필</b><span class="hint">뜻 보기</span><span class="m">입력 전체를 병렬로 읽어 KV 캐시를 만드는 연산 집약적 단계.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>SwaT</b><span class="hint">뜻 보기</span><span class="m">송신자의 KV 캐시를 이종 수신자의 캐시로 번역하는 프레임워크. 수신자는 질문만 프리필한다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>매퍼</b><span class="hint">뜻 보기</span><span class="m">두 동결 모델 사이에 끼우는 약 300M 파라미터의 경량 트랜스포머.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>층 그룹</b><span class="hint">뜻 보기</span><span class="m">송신자와 수신자의 KV 층을 각각 B개의 연속 구간으로 나눈 것. 블록 하나가 그룹 하나를 맡는다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>문자 구간 정렬</b><span class="hint">뜻 보기</span><span class="m">두 모델이 같은 문자열을 읽는다는 점을 이용해 토큰을 버리지 않고 위치를 맞추는 방법.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>어텐션 매칭(AM)</b><span class="hint">뜻 보기</span><span class="m">원래 캐시의 어텐션 영향력을 유지하며 더 작은 키·값 집합을 만드는 압축법.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>보존율</b><span class="hint">뜻 보기</span><span class="m">SwaT 캐시로 푼 점수를 원문을 직접 읽고 푼 점수로 나눈 비율.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>플라톤적 표상 가설</b><span class="hint">뜻 보기</span><span class="m">같은 세계로 학습한 모델은 같은 표상으로 수렴한다는 가설.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>공유 잠재 공간</b><span class="hint">뜻 보기</span><span class="m">n(n−1)개의 쌍별 매퍼 대신 2n개의 매퍼로 충분하게 할 공통 표현 공간.</span></button>
+        </div>
+        <h3 class="rv-h">빈칸 채우기</h3>
+        <ol class="cloze">
+          <li>SwaT에서 수신자는 문서 대신 <button type="button" class="blank" data-a="질문">빈칸</button>만 프리필한다.</li>
+          <li>매퍼의 학습 파라미터는 약 <button type="button" class="blank" data-a="300M">빈칸</button>이다.</li>
+          <li>토크나이저가 달라도 <button type="button" class="blank" data-a="문자 구간">빈칸</button>을 공통 좌표로 쓴다.</li>
+          <li>학습 데이터는 모두 <button type="button" class="blank" data-a="영어">빈칸</button> 텍스트였다.</li>
+          <li>같은 예산에서 SwaT+AM은 T2T보다 평균 <button type="button" class="blank" data-a="17.4점">빈칸</button> 높았다.</li>
+          <li>큰 모델에서 작은 모델로 보낼 때 보존율은 <button type="button" class="blank" data-a="100%">빈칸</button>를 넘었다.</li>
+          <li>n개 계열에는 쌍별 매퍼가 <button type="button" class="blank" data-a="n(n−1)">빈칸</button>개 필요하다.</li>
+          <li>같은 계열에서는 SwaT와 <button type="button" class="blank" data-a="Dense Latent">빈칸</button>가 대등했다.</li>
+        </ol>
+        <h3 class="rv-h">5문항 퀴즈</h3>
+        <div id="quiz">
+          <div class="q" data-a="2"><fieldset><legend class="qt">1. 텍스트 요약 통신(T2T)의 문제가 아닌 것은?</legend>
+            <button type="button">정보 병목</button>
+            <button type="button">연산 중복과 지연</button>
+            <button type="button">모델 동결</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="동결은 SwaT의 설계 원칙입니다."></p></div>
+          <div class="q" data-a="1"><fieldset><legend class="qt">2. SwaT가 토크나이저 불일치를 푸는 방법은?</legend>
+            <button type="button">남는 토큰을 버린다</button>
+            <button type="button">문자 구간으로 연속 위치를 보간한다</button>
+            <button type="button">토크나이저를 재학습한다</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="C2C식 정렬은 토큰을 버려 3.20점이 떨어집니다."></p></div>
+          <div class="q" data-a="1"><fieldset><legend class="qt">3. 어블레이션에서 한 손실만 쓰면?</legend>
+            <button type="button">약 3점 하락</button>
+            <button type="button">약 37점 하락</button>
+            <button type="button">변화 없음</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="두 손실은 서로를 대신하지 못합니다."></p></div>
+          <div class="q" data-a="0"><fieldset><legend class="qt">4. MuSiQue 보존율 377.8%의 주된 이유는?</legend>
+            <button type="button">수신자 단독 기준선이 매우 낮아서</button>
+            <button type="button">매퍼가 정답을 외워서</button>
+            <button type="button">측정 오류</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="SmolLM3 단독 F1이 11.5점이었습니다."></p></div>
+          <div class="q" data-a="1"><fieldset><legend class="qt">5. SwaT의 우위가 가장 크게 나타나는 경우는?</legend>
+            <button type="button">같은 계열 안</button>
+            <button type="button">세대나 계열을 넘을 때</button>
+            <button type="button">64토큰 단문만</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="세대·계열을 넘으면 20점 이상 앞섭니다."></p></div>
+          <p class="score" id="score" aria-live="polite">점수: 0 / 5</p>
+          <div class="rv-tools"><button type="button" id="qreset">다시 풀기</button></div>
+        </div>
+      </section>
+
+      <section class="sources">
+        <h3>출처</h3>
+        <ul>
+          <li><a href="https://yghnsim.github.io/Pages/articles/swarm-telepathy-cross-family-kv-cache-transfer.html">Pages — 글을 쓰지 않고 생각을 건네는 법</a></li>
+          <li><a href="https://arxiv.org/abs/2610.15095">arXiv:2610.15095 — Swarm Telepathy</a></li>
+          <li><a href="https://github.com/Ar-Kareem/SwaT">github.com/Ar-Kareem/SwaT</a></li>
+        </ul>
+      </section>
+    </main>
+
+  </div>
+</div>
+<script>(function(){
+function $$(q){return [].slice.call(document.querySelectorAll(q))}
+$$('.flip').forEach(function(b){b.onclick=function(){b.setAttribute('aria-expanded',b.getAttribute('aria-expanded')==='true'?'false':'true')}});
+function show(b){b.textContent=b.dataset.a;b.classList.add('shown');b.setAttribute('aria-label','답: '+b.dataset.a)}
+function hide(b){b.textContent='?';b.classList.remove('shown');b.setAttribute('aria-label','빈칸, 눌러서 답 보기')}
+$$('.blank').forEach(function(b){b.onclick=function(){show(b)}});
+$$('[data-all]').forEach(function(t){t.onclick=function(){if(t.dataset.all==='flip')$$('.flip').forEach(function(b){b.setAttribute('aria-expanded','true')});else $$('.blank').forEach(show)}});
+$$('[data-reset]').forEach(function(t){t.onclick=function(){if(t.dataset.reset==='flip')$$('.flip').forEach(function(b){b.setAttribute('aria-expanded','false')});else $$('.blank').forEach(hide)}});
+var sc=0,done=0,qs=$$('#quiz .q'),tot=qs.length||5;
+function upd(){var el=document.getElementById('score');if(el)el.textContent='점수: '+sc+' / '+tot+(done===tot?' (끝)':'')}
+qs.forEach(function(q){var bs=[].slice.call(q.querySelectorAll('fieldset button')),ex=q.querySelector('.ex');
+bs.forEach(function(b,i){b.onclick=function(){var a=+q.dataset.a,ok=i===a;bs.forEach(function(x){x.disabled=true});if(bs[a])bs[a].classList.add('right');if(!ok)b.classList.add('wrong');
+if(ex){ex.hidden=false;ex.textContent=(ok?'맞았습니다. ':'아쉽습니다. ')+ex.dataset.e;}if(ok)sc++;done++;upd();}})});
+var qr=document.getElementById('qreset');
+if(qr)qr.onclick=function(){sc=0;done=0;qs.forEach(function(q){q.querySelectorAll('fieldset button').forEach(function(x){x.disabled=false;x.className=''});var ex=q.querySelector('.ex');if(ex){ex.hidden=true;ex.textContent=''}});upd()};
+})();</script>
+
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">아카이브</div><div class="arc-foot-title">스웜 텔레파시 — 이종 언어모델 사이의 프리필 없는 KV 캐시 전이</div><div class="arc-foot-meta"><time datetime="2026-10-30">2026년 10월 30일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=%EC%96%B8%EC%96%B4%EB%AA%A8%EB%8D%B8">#언어모델</a><a class="arc-tag" href="../index.html#tags=%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8">#에이전트</a><a class="arc-tag" href="../index.html#tags=%EB%85%BC%EB%AC%B8%EB%A6%AC%EB%B7%B0">#논문리뷰</a> · <a href="https://yghnsim.github.io/Pages/articles/swarm-telepathy-cross-family-kv-cache-transfer.html" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body>
+</html>

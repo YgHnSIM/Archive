@@ -1,5 +1,23 @@
 [
   {
+    "id": "20261030-05",
+    "title": "스웜 텔레파시 — 이종 언어모델 사이의 프리필 없는 KV 캐시 전이",
+    "summary": "MIT의 SwaT 논문 해설. 송신자 KV 캐시를 300M 매퍼로 번역해 이종 수신자가 질문만 읽게 한다. 문자 구간 정렬, 보존율, 같은 예산에서 요약보다 17.4점 높은 결과, 시각·중국어 전이, 비용과 한계.",
+    "tags": [
+      "AI",
+      "언어모델",
+      "에이전트",
+      "논문리뷰"
+    ],
+    "date": "2026-10-30",
+    "file": "pages/2026-10-30-스웜텔레파시.html",
+    "added": "2026-10-30T23:05:16+09:00",
+    "source_name": "src.html",
+    "source_sha256": "6c2a522303ef10531d14ed08ff16c7b5878a0f86732024c2ed227f92231f973d",
+    "source_path_sha256": "49d24ae4fd505efe89b152a3947504647cf9ec3f0a780189527adabbeda1e0a1",
+    "source_url": "https://yghnsim.github.io/Pages/articles/swarm-telepathy-cross-family-kv-cache-transfer.html"
+  },
+  {
     "id": "20261030-04",
     "title": "AGI에서 ASI로 — 초지능으로 가는 4대 경로와 6대 마찰",
     "summary": "구글 딥마인드 'From AGI to ASI' 해설. 유효 연산 연 10배, 레그-후터 연속체, 디지털 지능의 6대 우위와 한계, AIXI, 4대 경로와 6대 마찰, 추상화 장벽, 창의성과 지식 탐구.",
