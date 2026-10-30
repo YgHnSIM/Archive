@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light only">
+<title>지능의 경제학 — 더 잘 협력하는 AI가 경제를 바꾼다</title>
+<meta name="description" content="구글 딥마인드 인스티튜트 지능의 경제학 해설: 잘못된 분석 단위, 모자이크 지능, 조정자, 복제 가능성, 코스 천장, 조직 스케일링 법칙, 초협력 임계점, 네 체제, 관계 부문">
+<style>
+:root{color-scheme:light only;
+  --bg:#faf8f3; --paper:#ffffff; --ink:#1f2328; --muted:#5b6470; --line:#e6e1d6;
+  --accent:#c8553d; --accent-soft:#fbeee9; --link:#4a6b8a;
+  --new:#3d5f80; --new-soft:#eaf0f6; --radius:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:20px}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR","Malgun Gothic","Gothic A1",system-ui,sans-serif;
+  font-size:17px;line-height:1.75;word-break:keep-all;overflow-wrap:break-word}
+@media(max-width:640px){body{font-size:16px}}
+a{color:var(--link)}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+.hero{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{display:inline-block;font-size:13px;font-weight:700;color:#a8432e;background:var(--accent-soft);padding:3px 10px;border-radius:999px;margin-bottom:12px}
+.hero h1{font-size:clamp(28px,4.4vw,44px);line-height:1.25;margin:0 0 12px;letter-spacing:-.02em}
+.hero .lead{font-size:18px;color:var(--muted);line-height:1.65;margin:0}
+@media(max-width:640px){.hero .lead{font-size:17px}}
+.hero-cta{margin-top:16px}
+.hero-cta a{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--new);color:#fff;border-radius:10px;font-weight:700;font-size:15px;text-decoration:none}
+.grid{display:grid;grid-template-columns:240px minmax(0,1fr);gap:36px;align-items:start}
+@media(max-width:880px){.grid{grid-template-columns:minmax(0,1fr);gap:0}}
+.toc{position:sticky;top:20px;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;font-size:15px}
+.toc .toc-t{font-weight:700;margin:0 0 10px}
+.toc ol{margin:0;padding:0;list-style:none}
+.toc li{margin:6px 0}
+.toc a{color:var(--muted);display:flex;align-items:baseline;gap:8px;text-decoration:none;line-height:1.45}
+.toc a:hover{color:var(--link)}
+.toc .n{flex:none;display:inline-block;width:22px;height:22px;line-height:22px;text-align:center;border-radius:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:700}
+.toc .orig{display:block;margin-top:14px;padding-top:10px;border-top:1px dashed var(--line);font-size:14px;color:#a8432e;font-weight:700}
+@media(max-width:880px){
+  .toc{position:sticky;top:0;z-index:20;margin:0 -20px 20px;border-radius:0;border-width:0 0 1px;padding:8px 12px;background:rgba(250,248,243,.97);overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .toc .toc-t,.toc .orig{display:none}
+  .toc ol{display:flex;gap:6px;white-space:nowrap}
+  .toc li{margin:0}
+  .toc a{background:#f1ede4;color:var(--ink);border-radius:999px;padding:6px 12px;font-size:14px;align-items:center}
+  .toc .n{background:none;width:auto;height:auto;line-height:1;color:var(--muted)}
+  html{scroll-padding-top:64px}
+}
+main{min-width:0}
+.sec{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:24px 28px;margin-bottom:28px}
+@media(max-width:640px){.sec{padding:18px 16px}}
+.sec-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px}
+.sec-num{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:12px;background:var(--ink);color:#fff;font-weight:800;font-size:17px;flex-shrink:0;margin-top:2px}
+@media(max-width:640px){.sec-num{width:34px;height:34px;font-size:15px}}
+.sec-head h2{font-size:clamp(23px,3vw,30px);line-height:1.3;margin:0;letter-spacing:-.015em}
+.sec-head .sub{font-size:16px;color:var(--muted);margin:3px 0 0}
+h3{font-size:19px;margin:22px 0 8px}
+p{margin:0 0 14px}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin:4px 0}
+.theses{counter-reset:t;list-style:none;padding:0;margin:0 0 16px}
+.theses li{counter-increment:t;position:relative;padding:10px 14px 10px 50px;margin:8px 0;background:#fdfcf9;border:1px solid var(--line);border-radius:12px}
+.theses li::before{content:counter(t);position:absolute;left:14px;top:12px;width:24px;height:24px;border-radius:50%;background:var(--accent-soft);color:#a8432e;font-weight:800;font-size:14px;display:grid;place-items:center}
+.tblw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:16px 0}
+.tbl{width:100%;min-width:520px;border-collapse:collapse;font-size:16px}
+.tbl th,.tbl td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+.tbl th{background:var(--new-soft);color:var(--new);font-weight:700}
+.tbl td{background:#fff}
+.callout{background:var(--new-soft);border-left:4px solid var(--new);border-radius:10px;padding:12px 16px;margin:14px 0}
+.callout.warm{background:var(--accent-soft);border-left-color:var(--accent)}
+.callout p:last-child{margin:0}
+blockquote{margin:14px 0;padding:12px 18px;background:#fff;border-left:5px solid var(--accent);border-radius:0 12px 12px 0}
+blockquote p{margin:0}
+.terms{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+.term{display:inline-flex;align-items:center;gap:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:600;padding:4px 10px;border-radius:8px}
+details.viz{margin:14px 0;border:1px solid var(--line);border-radius:12px;background:#fdfcf9}
+details.viz summary{cursor:pointer;list-style:none;padding:12px 14px;font-weight:600;font-size:16px;color:var(--new);min-height:44px;display:flex;align-items:center;gap:8px}
+details.viz summary::-webkit-details-marker{display:none}
+details.viz summary::before{content:"▸";font-size:14px;color:var(--accent)}
+details.viz[open] summary::before{content:"▾"}
+details.viz figure{margin:0;padding:4px 12px 14px}
+details.viz svg{display:block;width:100%;height:auto;max-width:400px;margin:0 auto;font-family:"Pretendard","Noto Sans KR",sans-serif}
+details.viz figcaption{font-size:16px;color:var(--muted);line-height:1.6;margin-top:8px}
+svg .bx{fill:#fff;stroke:#5b6470;stroke-width:1.4}
+svg .bx2{fill:#eaf0f6;stroke:#3d5f80;stroke-width:1.4}
+svg .bx3{fill:#fbeee9;stroke:#c8553d;stroke-width:1.4}
+svg .t{fill:#1f2328;font-size:18px}
+svg .tb{fill:#1f2328;font-size:18px;font-weight:700}
+svg .tm{fill:#4a525c;font-size:17.5px}
+svg .ln{stroke:#5b6470;stroke-width:1.5;fill:none}
+svg .lnd{stroke:#5b6470;stroke-width:1.5;fill:none;stroke-dasharray:5 4}
+.sources{background:var(--new-soft);border:1px solid var(--line);border-radius:var(--radius);padding:18px 22px;margin-top:32px;font-size:16px;color:#3f4650}
+.sources h3{font-size:17px;color:var(--new);margin:0 0 8px}
+.sources ul{margin:0;padding-left:20px}
+/* 복습 컴포넌트 표준 스타일 */
+.rv-h{font-size:19px;margin:22px 0 6px}
+.flips{display:grid;grid-template-columns:1fr;gap:8px;margin:10px 0}
+@media(min-width:640px){.flips{grid-template-columns:1fr 1fr}}
+.flip{font:inherit;text-align:left;width:100%;border:1.5px solid var(--line,#e6e1d6);background:#fdfcf9;border-radius:12px;padding:10px 14px;cursor:pointer;color:var(--ink,#1f2328);min-height:64px}
+.flip b{display:block;font-size:17px}
+.flip .m{display:none;font-size:16px;line-height:1.6;margin-top:4px}
+.flip .hint{font-size:13px;color:var(--muted,#5b6470)}
+.flip[aria-expanded="true"]{border-color:var(--new,#3d5f80);background:var(--new-soft,#eaf0f6)}
+.flip[aria-expanded="true"] .m{display:block}
+.flip[aria-expanded="true"] .hint{display:none}
+.cloze{list-style:none;margin:10px 0;padding:0}
+.cloze li{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:10px 14px;margin:8px 0;background:#fdfcf9;font-size:16px;line-height:1.8}
+.blank{font:inherit;font-size:16px;border:0;border-bottom:2px dashed var(--accent,#c8553d);background:var(--accent-soft,#fbeee9);color:#a8432e;border-radius:6px 6px 0 0;padding:0 8px;cursor:pointer;min-width:4.5em}
+.blank.shown{border-bottom-style:solid;background:var(--new-soft,#eaf0f6);color:var(--new,#3d5f80);font-weight:700}
+.rv-tools{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.rv-tools button{font:inherit;font-size:15px;border:1px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link,#4a6b8a)}
+.q{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:12px 14px;margin:10px 0;background:#fdfcf9}
+.q fieldset{border:0;margin:0;padding:0;min-width:0}
+.q legend{font-weight:700;padding:0;margin:0 0 8px;font-size:16.5px}
+.q button{display:block;width:100%;text-align:left;font:inherit;font-size:16px;border:1.5px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:8px 12px;margin:6px 0;cursor:pointer;color:var(--ink,#1f2328)}
+.q button.right{border-color:#2f6b45;background:#e6f1ea}
+.q button.wrong{border-color:#a2452f;background:#fbeee9}
+.q button[disabled]{cursor:default;opacity:1}
+.q .ex{margin:8px 0 0;font-size:16px;padding:8px 10px;border-radius:8px;background:var(--new-soft,#eaf0f6)}
+.score{font-size:17px;font-weight:800;margin:10px 0 0}
+.arc-back b,.arc-foot-label{color:#a8432e!important}
+.chk{display:inline-block;font-size:16px;font-weight:700;color:#8a3a12;background:#fdf0e3;border:1px solid #e8c9a8;border-radius:6px;padding:0 6px;margin-left:4px;white-space:nowrap}
+pre{background:#f6f4ee;border:1px solid var(--line);border-radius:10px;padding:12px 14px;overflow-x:auto;-webkit-overflow-scrolling:touch;margin:14px 0;font-size:16px;line-height:1.6}
+pre code{font-family:"JetBrains Mono","D2Coding",ui-monospace,Menlo,Consolas,monospace;color:#1f2328;white-space:pre}
+code{font-family:"JetBrains Mono","D2Coding",ui-monospace,Menlo,Consolas,monospace;font-size:.92em;background:#f3efe6;border-radius:4px;padding:0 4px}
+pre code{background:none;padding:0;font-size:inherit}
+@media(max-width:640px){pre{margin:12px -4px}}
+.steps,.pc{padding-left:1.3em}.steps li,.pc li{margin:8px 0}
+</style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
+</head>
+<body>
+<!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>아카이브</a><span class="arc-crumb">지능의 경제학 — 더 잘 협력하는 AI가 경제를 바꾼다</span><span class="arc-meta"><time datetime="2026-10-30">2026년 10월 30일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=%EA%B2%BD%EC%A0%9C%EA%B2%BD%EC%98%81">#경제경영</a><a class="arc-tag" href="../index.html#tags=AGI">#AGI</a><a class="arc-tag" href="../index.html#tags=%EC%A1%B0%EC%A7%81%EC%84%A4%EA%B3%84">#조직설계</a><a class="arc-tag" href="../index.html#tags=%ED%95%B4%EC%84%A4">#해설</a><a class="arc-src" href="https://yghnsim.github.io/Pages/articles/economics-of-intelligence-coordination-threshold.html" rel="noopener">원문 ↗</a></span></div></div>
+<!-- archive-header:end -->
+<div class="wrap">
+  <header class="hero">
+    <span class="eyebrow">AI · 경제 해설</span>
+    <h1>지능의 경제학 — 더 똑똑한 AI가 아니라 더 잘 협력하는 AI가 경제를 바꾼다</h1>
+    <p class="lead">AI 벤치마크 점수는 빠르게 오르는데 경제는 거의 그대로다. 구글 딥마인드 인스티튜트의 알렉스 이마스, 앤드루 고, 셰인 레그는 분석 단위를 개별 에이전트에서 조직으로 옮긴다. 역량은 생산성의 수준을 서서히 바꾸고, 협력이 임계점을 넘으면 시장 구조와 고용과 임금이 급변한다.</p>
+    <div class="hero-cta"><a href="https://yghnsim.github.io/Pages/articles/economics-of-intelligence-coordination-threshold.html">📚 Pages에서 심화 해설 전문 읽기 ↗</a></div>
+  </header>
+  <div class="grid">
+    <nav class="toc" aria-label="목차">
+      <p class="toc-t">목차</p>
+      <ol>
+        <li><a href="#s0"><span class="n">★</span>한눈에 보기</a></li>
+        <li><a href="#s1"><span class="n">1</span>잘못된 분석 단위</a></li>
+        <li><a href="#s2"><span class="n">2</span>모자이크 조직</a></li>
+        <li><a href="#s3"><span class="n">3</span>조정자의 역설</a></li>
+        <li><a href="#s4"><span class="n">4</span>같은 방향의 들쭉날쭉함</a></li>
+        <li><a href="#s5"><span class="n">5</span>복제 가능성</a></li>
+        <li><a href="#s6"><span class="n">6</span>코스의 천장</a></li>
+        <li><a href="#s7"><span class="n">7</span>조직 스케일링 법칙</a></li>
+        <li><a href="#s8"><span class="n">8</span>세 부문과 네 체제</a></li>
+        <li><a href="#s9"><span class="n">9</span>최소 AGI와 초역량 AI</a></li>
+        <li><a href="#s10"><span class="n">10</span>초협력 AI</a></li>
+        <li><a href="#s11"><span class="n">11</span>ASI와 관계 부문</a></li>
+        <li><a href="#s12"><span class="n">12</span>신호와 측정 도구</a></li>
+        <li><a href="#rv"><span class="n">✔</span>복습 &amp; 퀴즈</a></li>
+      </ol>
+      <a class="orig" href="https://yghnsim.github.io/Pages/articles/economics-of-intelligence-coordination-threshold.html">심화 원문(Pages) ↗</a>
+    </nav>
+    <main id="content">
+      <section class="sec" id="s0">
+        <div class="sec-head"><span class="sec-num">★</span><div><h2>한눈에 보기</h2><p class="sub">다섯 줄 요약</p></div></div>
+        <ol class="theses">
+          <li><b>분석 단위는 조직이다.</b> 경제 변혁은 개인의 시험 성적이 아니라 시장 균형의 결과다.</li>
+          <li><b>인간은 다른 방향으로, AI는 같은 방향으로 들쭉날쭉하다.</b> AI 복사본은 용량만 늘린다.</li>
+          <li><b>역량은 수준을, 협력은 규모를 정한다.</b> 역량은 점진적으로, 협력은 급격하게 경제를 바꾼다.</li>
+          <li><b>네 체제.</b> 최소 AGI, 초역량 AI, 초협력 AI, ASI.</li>
+          <li><b>조기 신호는 임금과 직무다.</b> GDP나 산업 집중도보다 먼저 움직인다.</li>
+        </ol>
+        <div class="terms"><span class="term">지능의 경제학</span><span class="term">협력 임계점</span><span class="term">구글 딥마인드 인스티튜트</span></div>
+      </section>
+
+      <section class="sec" id="s1">
+        <div class="sec-head"><span class="sec-num">1</span><div><h2>잘못된 분석 단위</h2><p class="sub">빠른 능력, 그대로인 경제</p></div></div>
+        <p>프론티어 모델은 몇 달 간격으로 프로덕션 소프트웨어를 쓰고 분야 전문가를 넘으며, 저자들의 표현으로는 밀레니엄 난제를 푸는 데까지 이르렀다. 그런데 사람들은 같은 직업으로 출근하고, 기업의 고용 인원은 비슷하며, 총생산성은 거의 움직이지 않았다.</p>
+        <p>저자들이 꼽는 이유 하나는 <b>개별 AI 에이전트가 경제학적으로 잘못된 분석 단위</b>라는 점이다. 벤치마크는 고립된 에이전트를 재지만 경제 변혁은 수많은 조직이 경쟁한 끝의 <b>균형</b>이다. 한 모델이 1대1로는 모든 인간을 이겨도 잘 짜인 인간 팀에는 질 수 있다.</p>
+        <p>범용 기계지능은 과거의 도구와도 다르다. 연산비를 내면 필요한 만큼 늘릴 수 있고, 통제 범위, 정보 마찰, 어긋난 유인 같은 인간 팀의 한계가 꼭 적용되지 않는다.</p>
+        <details class="viz"><summary>그림으로 보기: 두 개의 임계점</summary><figure><svg viewBox="0 0 280 250" role="img" aria-label="역량의 향상은 임금과 가격을 연속적으로 움직이고 협력이 임계점을 넘으면 시장 구조와 고용과 임금이 급변한다"><defs><marker id="d1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">두 개의 임계점</text><rect class="bx" x="10" y="42" width="260" height="92" rx="10"/><text class="tb" x="140" y="70" text-anchor="middle">역량의 임계점</text><text class="tm" x="140" y="96" text-anchor="middle">임금·가격·배합이</text><text class="tm" x="140" y="122" text-anchor="middle">연속적으로 이동</text><rect class="bx2" x="10" y="146" width="260" height="92" rx="10"/><text class="tb" x="140" y="174" text-anchor="middle">협력의 임계점</text><text class="tm" x="140" y="200" text-anchor="middle">시장 집중·고용·임금이</text><text class="tm" x="140" y="226" text-anchor="middle">급격히 변화</text></svg><figcaption>눈에 보이는 변혁은 벤치마크가 아직 재지 못하는 협력의 임계점에서 올 수 있다.</figcaption></figure></details>
+        <div class="terms"><span class="term">균형</span><span class="term">분석 단위</span><span class="term">총생산성</span><span class="term">역량</span><span class="term">협력</span></div>
+      </section>
+
+      <section class="sec" id="s2">
+        <div class="sec-head"><span class="sec-num">2</span><div><h2>모자이크 조직</h2><p class="sub">들쭉날쭉한 개인과 비교우위</p></div></div>
+        <p>저자들은 100명에게 수학, 언어 추론, 과학, 패턴, 문화, 경제의 6개 영역 퀴즈를 풀게 했다. 한 영역의 성적은 다른 영역을 잘 예측하지 못했다. 사람들은 서로 다른 방향으로 들쭉날쭉했다.</p>
+        <p>조직은 이 들쭉날쭉함을 활용한다. 상호 보완적인 전문가를 묶어 누구도 혼자 닿지 못하는 영역을 팀이 덮게 하고, 각자의 비교우위에 맞게 역할을 짠다. 기업 안의 <b>리카도식 비교우위</b>이고, 그 결과가 <b>모자이크 지능</b>이다.</p>
+        <details class="viz"><summary>그림으로 보기: 상호 보완의 효과</summary><figure><svg viewBox="0 0 280 168" role="img" aria-label="상호 보완적으로 짝지은 참가자는 무작위로 짝지은 경우보다 성과가 32퍼센트 높았다"><defs><marker id="d3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">짝짓기 방식과 성과</text><text class="tm" x="10" y="60" text-anchor="start">무작위 짝</text><text class="tb" x="270" y="60" text-anchor="end">기준</text><rect x="10.0" y="70.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="70.0" width="185.7" height="16.0" fill="#8a929c"/><text class="tm" x="10" y="120" text-anchor="start">상호 보완적 짝</text><text class="tb" x="270" y="120" text-anchor="end">+32%</text><rect x="10.0" y="130.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="130.0" width="245.1" height="16.0" fill="#2f6b45"/></svg><figcaption>32%는 단독 성과 대비가 아니라 상호 보완적 짝과 무작위 짝의 비교다.</figcaption></figure></details>
+        <p>코더와 작가를 한 팀으로 묶으면 약점이 서로 메워져, 둘 다 회사 밖에서 혼자 일할 때보다 더 많이 번다. 더 똑똑해져서가 아니라 서로의 비교우위를 강화해서다.</p>
+        <div class="terms"><span class="term">리카도 비교우위</span><span class="term">기회비용</span><span class="term">모자이크 지능</span><span class="term">들쭉날쭉한 프로필</span></div>
+      </section>
+
+      <section class="sec" id="s3">
+        <div class="sec-head"><span class="sec-num">3</span><div><h2>조정자의 역설</h2><p class="sub">가장 약해 보이는 노동자의 고임금</p></div></div>
+        <p>단독 벤치마크로 보면 순수한 <b>조정자</b>(관리자)는 코딩도 글쓰기도 평균인, 가장 약한 노동자다. 그러나 팀 안에서 조정자는 인수인계 마찰을 줄이고, 규모가 커져도 초점이 흐려지지 않게 하며, 모든 코더와 작가의 생산성을 끌어올린다.</p>
+        <details class="viz"><summary>그림으로 보기: 모자이크 팀의 구성</summary><figure><svg viewBox="0 0 280 268" role="img" aria-label="코더와 작가가 팀을 이루고 조정자가 인수인계 마찰을 줄여 모자이크 지능의 총산출을 키운다"><defs><marker id="d4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">코더</text><text class="tm" x="140.0" y="62" text-anchor="middle">코딩에 강함</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="86" marker-end="url(#d4)"/><rect class="bx" x="10" y="88" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="116" text-anchor="middle">작가</text><text class="tm" x="140.0" y="142" text-anchor="middle">글쓰기에 강함</text><line class="ln" x1="140.0" y1="154" x2="140.0" y2="166" marker-end="url(#d4)"/><rect class="bx2" x="10" y="168" width="260" height="92" rx="10"/><text class="tb" x="140.0" y="196" text-anchor="middle">조정자</text><text class="tm" x="140.0" y="222" text-anchor="middle">혼자선 평범</text><text class="tm" x="140.0" y="248" text-anchor="middle">팀 전체 산출을 키움</text></svg><figcaption>조정자는 팀의 개별 강점을 조직 전체의 산출로 바꾼다.</figcaption></figure></details>
+        <p>그래서 경쟁 균형에서 조정자는 특정 과업을 가장 잘해서가 아니라 모자이크 지능의 총산출을 키운다는 이유로 가장 높은 축의 임금을 받는다. 단독 점수가 경제적 가치를 잘못 잴 수 있다는 사례다.</p>
+        <div class="terms"><span class="term">조정자</span><span class="term">관리자</span><span class="term">인수인계</span></div>
+      </section>
+
+      <section class="sec" id="s4">
+        <div class="sec-head"><span class="sec-num">4</span><div><h2>같은 방향의 들쭉날쭉함</h2><p class="sub">AI 복사본의 한계</p></div></div>
+        <p>AI도 고급 수학을 풀면서 쉬운 문제에서 넘어진다. 차이는 방향이다. 인간은 서로 다른 방향으로 들쭉날쭉하지만 최신 AI 모델들은 서로 매우 비슷하게 들쭉날쭉하다. 여러 회사의 상위 모델이 같은 시나리오에서 함께 오르내리고 같은 오답에 몰린다는 보고도 있다.</p>
+        <details class="viz"><summary>그림으로 보기: 빈틈을 메울 수 있는가</summary><figure><svg viewBox="0 0 280 250" role="img" aria-label="인간은 서로 다른 방향으로 들쭉날쭉해 팀이 빈틈을 메우지만 AI 복사본은 같은 약점을 공유해 용량만 늘어난다"><defs><marker id="d2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">들쭉날쭉함의 방향</text><rect class="bx2" x="10" y="42" width="260" height="92" rx="10"/><text class="tb" x="140" y="70" text-anchor="middle">인간 팀</text><text class="tm" x="140" y="96" text-anchor="middle">서로 다른 방향으로</text><text class="tm" x="140" y="122" text-anchor="middle">들쭉날쭉 → 빈틈 보완</text><rect class="bx3" x="10" y="146" width="260" height="92" rx="10"/><text class="tb" x="140" y="174" text-anchor="middle">AI 복사본</text><text class="tm" x="140" y="200" text-anchor="middle">같은 방향으로</text><text class="tm" x="140" y="226" text-anchor="middle">들쭉날쭉 → 용량만 증가</text></svg><figcaption>복사본은 같은 약점을 공유한다.</figcaption></figure></details>
+        <p>그래서 모든 개인의 평균을 넘는 AI도, 단독으로는 누구도 그 AI를 이기지 못하는 인간 팀에 질 수 있다. 올바른 질문은 "AI가 인간보다 뛰어난가"가 아니라 "AI 에이전트 조직이 인간 조직이나 혼합 조직을 이길 수 있는가"다.</p>
+        <div class="terms"><span class="term">처리 용량</span><span class="term">역량의 폭</span><span class="term">혼합 조직</span></div>
+      </section>
+
+      <section class="sec" id="s5">
+        <div class="sec-head"><span class="sec-num">5</span><div><h2>복제 가능성</h2><p class="sub">희소성의 해소와 연산비에 묶이는 임금</p></div></div>
+        <p>인간의 전문성은 공급이 고정되어 있다. 산업이 커지려면 인재 분포의 더 위쪽까지 채용해야 하고 임금이 오른다. 가장 높은 수익은 복제할 수 없는 기술을 가진 사람에게 돌아간다.</p>
+        <p>AI는 이 희소성을 없앤다. 일정 역량에 이르면 연산 대여료만 내고 얼마든지 복제할 수 있다. 그래서 AI가 인간 능력에 맞먹는 순간 그 직무의 인간 임금은 <b>연산 비용에 묶인다</b>. 더 높은 임금을 요구하면 기업은 같은 역량의 복사본을 빌리면 된다.</p>
+        <details class="viz"><summary>그림으로 보기: 두 가지 차이</summary><figure><svg viewBox="0 0 280 250" role="img" aria-label="AI는 연산비로 복제할 수 있어 임금을 연산비에 묶고 완전한 작업 상태를 공유할 수 있어 협력 잠재력이 크다"><defs><marker id="d5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">AI가 인간과 다른 두 점</text><rect class="bx" x="10" y="42" width="260" height="92" rx="10"/><text class="tb" x="140" y="70" text-anchor="middle">복제 가능성</text><text class="tm" x="140" y="96" text-anchor="middle">연산비만 내면 복제</text><text class="tm" x="140" y="122" text-anchor="middle">같은 직무 임금 → 연산비</text><rect class="bx2" x="10" y="146" width="260" height="92" rx="10"/><text class="tb" x="140" y="174" text-anchor="middle">협력</text><text class="tm" x="140" y="200" text-anchor="middle">완전한 작업 상태 공유</text><text class="tm" x="140" y="226" text-anchor="middle">경력 유인 충돌 없음</text></svg><figcaption>복제 가능성과 협력.</figcaption></figure></details>
+        <div class="terms"><span class="term">복제 가능성</span><span class="term">연산 대여료</span><span class="term">희소성</span></div>
+      </section>
+
+      <section class="sec" id="s6">
+        <div class="sec-head"><span class="sec-num">6</span><div><h2>코스의 천장</h2><p class="sub">기업 규모는 왜 제한되어 왔는가</p></div></div>
+        <p>로널드 코스는 물었다. 회사 안에서 일을 조직하는 것이 비용을 줄인다면 왜 모든 생산을 하나의 거대 기업이 하지 않는가. 한 세기의 조직경제학이 내놓은 답은 <b>인간의 한계</b>다.</p>
+        <details class="viz"><summary>그림으로 보기: 코스 천장</summary><figure><svg viewBox="0 0 280 268" role="img" aria-label="기업은 시장 거래 비용을 줄이려고 생기지만 커질수록 관리 비용이 늘어 코스 천장이라는 규모의 상한에 부딪힌다"><defs><marker id="d6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">시장 거래 비용</text><text class="tm" x="140.0" y="62" text-anchor="middle">탐색·계약·감시</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="86" marker-end="url(#d6)"/><rect class="bx" x="10" y="88" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="116" text-anchor="middle">기업의 탄생</text><text class="tm" x="140.0" y="142" text-anchor="middle">위계로 거래 비용 절감</text><line class="ln" x1="140.0" y1="154" x2="140.0" y2="166" marker-end="url(#d6)"/><rect class="bx3" x="10" y="168" width="260" height="92" rx="10"/><text class="tb" x="140.0" y="196" text-anchor="middle">코스 천장</text><text class="tm" x="140.0" y="222" text-anchor="middle">커질수록 관리 비용 증가</text><text class="tm" x="140.0" y="248" text-anchor="middle">→ 규모의 상한</text></svg><figcaption>거래 비용과 관리 비용이 같아지는 지점에서 기업 규모가 멈춘다.</figcaption></figure></details>
+        <p>두 동료는 설계 전체를 머릿속에 두고 어긋남을 바로 푼다. 팀이 20명, 200명으로 커지면 주의가 얇아지고 인수인계에서 암묵적 가정이 빠지며 경력 유인이 목표를 어긋나게 한다. 지식의 상당 부분은 암묵지이고("우리는 말할 수 있는 것보다 더 많이 안다"), 인수인계에서 풍부한 맥락은 손실 요약으로 압축된다. 이 대목에서 원문이 링크한 하버드 경영대학원 논문의 제목과 저자는 <span class="chk">확인 필요</span></p>
+        <p>마샤크와 래드너는 이해 충돌이 없는 팀에서도 소통에서 사라지는 정보를 중심으로 팀 이론을 세웠다. 19세기 전신과 철도는 개별 노동자를 낫게 하지 않았다. 인수인계의 속도와 충실도를 높였고, 그것만으로 생산을 재편했다.</p>
+        <p>지금의 AI는 협력 작업을 잘 못한다. 에이전트 팀 협력 벤치마크 CooperBench는 두 에이전트가 협력하면 한 에이전트가 두 과업을 맡을 때보다 성공률이 약 50% 낮다고 보고한다. 그러나 복사본들은 같은 가중치와 표상을 공유하고, 코드베이스와 중간 추론과 컨텍스트 전체, 곧 <b>완전한 작업 상태</b>를 넘길 수 있으며, 경력상의 이해 충돌이 없다.</p>
+        <div class="terms"><span class="term">코스 천장</span><span class="term">거래 비용</span><span class="term">암묵지</span><span class="term">폴라니의 역설</span><span class="term">팀 이론</span></div>
+      </section>
+
+      <section class="sec" id="s7">
+        <div class="sec-head"><span class="sec-num">7</span><div><h2>조직 스케일링 법칙</h2><p class="sub">역량은 수준을, 협력은 규모를</p></div></div>
+        <p>기업이 희소한 인간을 시장 임금으로 고용하거나 AI 복사본을 연산 대여료로 빌릴 수 있는 시장을 생각하자. <b>역량</b>은 규모가 고정될 때 1인당 산출의 수준을 정하고, <b>협력</b>은 구성원을 더할 때 1인당 산출이 어떻게 변하는지를 정한다.</p>
+        <details class="viz"><summary>그림으로 보기: 세 단계</summary><figure><svg viewBox="0 0 280 320" role="img" aria-label="조직 스케일링 법칙은 단독 작업, 유한 규모, 무한 규모의 세 단계로 전개된다"><defs><marker id="d7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="92" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">① 단독 작업</text><text class="tm" x="140.0" y="62" text-anchor="middle">협력이 하한 아래</text><text class="tm" x="140.0" y="88" text-anchor="middle">혼자 일하는 쪽이 이김</text><line class="ln" x1="140.0" y1="100" x2="140.0" y2="112" marker-end="url(#d7)"/><rect class="bx" x="10" y="114" width="260" height="92" rx="10"/><text class="tb" x="140.0" y="142" text-anchor="middle">② 유한 규모</text><text class="tm" x="140.0" y="168" text-anchor="middle">인류가 살아온 세계</text><text class="tm" x="140.0" y="194" text-anchor="middle">커지면 1인당 산출 감소</text><line class="ln" x1="140.0" y1="206" x2="140.0" y2="218" marker-end="url(#d7)"/><rect class="bx2" x="10" y="220" width="260" height="92" rx="10"/><text class="tb" x="140.0" y="248" text-anchor="middle">③ 무한 규모</text><text class="tm" x="140.0" y="274" text-anchor="middle">초협력 임계점 돌파</text><text class="tm" x="140.0" y="300" text-anchor="middle">클수록 더 생산적</text></svg><figcaption>개별 역량을 높이면 곡선이 위로 평행 이동할 뿐 최적 규모는 그대로다.</figcaption></figure></details>
+        <details class="viz"><summary>그림으로 보기: 오목에서 볼록으로</summary><figure><svg viewBox="0 0 280 250" role="img" aria-label="유한 규모에서는 1인당 산출이 오목하게 꺾이지만 초협력에서는 볼록하게 계속 늘어나는 상전이가 일어난다"><defs><marker id="d8" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">1인당 산출과 조직 규모</text><line class="ln" x1="20" y1="180" x2="270" y2="180"/><line class="ln" x1="20" y1="40" x2="20" y2="180"/><polyline points="20,172.0 32,156.8 44,143.2 56,131.2 68,120.8 80,112.0 92,104.8 104,99.2 116,95.2 128,92.8 140,92.0 152,92.8 164,95.2 176,99.2 188,104.8 200,112.0 212,120.8 224,131.2 236,143.2 248,156.8 260,172.0" fill="none" stroke="#3d5f80" stroke-width="3"/><polyline points="20,172.0 32,171.7 44,170.8 56,169.3 68,167.2 80,164.5 92,161.2 104,157.3 116,152.8 128,147.7 140,142.0 152,135.7 164,128.8 176,121.3 188,113.2 200,104.5 212,95.2 224,85.3 236,74.8 248,63.7 260,52.0" fill="none" stroke="#c8553d" stroke-width="3"/><text class="tm" x="140" y="206" text-anchor="middle">조직 규모 →</text><text class="tm" x="84" y="236" text-anchor="middle" fill="#3d5f80">오목(유한 규모)</text><text class="tm" x="206" y="236" text-anchor="middle" fill="#c8553d">볼록(초협력)</text></svg><figcaption>규모에 대한 수익이 뒤집히는 상전이다.</figcaption></figure></details>
+        <p>무한 규모에서는 새로 들어온 구성원이 기존 구성원보다 더 생산적이다. 코스 천장을 넘어 모든 규모에서 클수록 좋고, 기업 크기는 시장 수요로만 제한된다. 역량 향상은 가격, 임금, 인간·AI 배합을 부드럽게 옮기고 기업은 작게 남는다. 협력이 초협력 임계점을 넘으면 집중도, 고용, 임금이 급격히 뛴다.</p>
+        <div class="terms"><span class="term">조직 스케일링 법칙</span><span class="term">초협력 임계점</span><span class="term">수확체감</span><span class="term">수확체증</span><span class="term">상전이</span></div>
+      </section>
+
+      <section class="sec" id="s8">
+        <div class="sec-head"><span class="sec-num">8</span><div><h2>세 부문과 네 체제</h2><p class="sub">두 축으로 본 AGI</p></div></div>
+        <details class="viz"><summary>그림으로 보기: 경제의 세 부문</summary><figure><svg viewBox="0 0 280 334" role="img" aria-label="경제는 깊은 확장형 시장, 틈새 시장, 사람의 관여가 가치인 관계 부문의 세 부문으로 나뉜다"><defs><marker id="d9" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="24" text-anchor="middle">경제의 세 부문</text><rect class="bx2" x="10" y="40" width="260" height="86" rx="10"/><text class="tb" x="140.0" y="74" text-anchor="middle">깊은 확장형</text><text class="tm" x="140.0" y="102" text-anchor="middle">소프트웨어·물류</text><rect class="bx2" x="10" y="136" width="260" height="86" rx="10"/><text class="tb" x="140.0" y="170" text-anchor="middle">틈새 시장</text><text class="tm" x="140.0" y="198" text-anchor="middle">수요가 한정</text><rect class="bx2" x="10" y="232" width="260" height="86" rx="10"/><text class="tb" x="140.0" y="266" text-anchor="middle">관계 부문</text><text class="tm" x="140.0" y="294" text-anchor="middle">사람이 곧 가치</text></svg><figcaption>관계 부문은 의료, 교육, 서비스, 공예처럼 인간의 관여가 가치의 일부인 영역이다.</figcaption></figure></details>
+        <details class="viz"><summary>그림으로 보기: 네 체제</summary><figure><svg viewBox="0 0 280 238" role="img" aria-label="역량과 협력의 두 축으로 최소 AGI, 초역량 AI, 초협력 AI, ASI의 네 체제가 나온다"><defs><marker id="d10" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="24" text-anchor="middle">역량 × 협력의 네 체제</text><rect class="bx2" x="10" y="40" width="125" height="86" rx="10"/><text class="tb" x="72.5" y="74" text-anchor="middle">최소 AGI</text><text class="tm" x="72.5" y="102" text-anchor="middle">역량↑ 협력↓</text><rect class="bx2" x="145" y="40" width="125" height="86" rx="10"/><text class="tb" x="207.5" y="74" text-anchor="middle">초역량 AI</text><text class="tm" x="207.5" y="102" text-anchor="middle">역량↑↑ 협력↓</text><rect class="bx2" x="10" y="136" width="125" height="86" rx="10"/><text class="tb" x="72.5" y="170" text-anchor="middle">초협력 AI</text><text class="tm" x="72.5" y="198" text-anchor="middle">역량↑ 협력↑↑</text><rect class="bx2" x="145" y="136" width="125" height="86" rx="10"/><text class="tb" x="207.5" y="170" text-anchor="middle">ASI</text><text class="tm" x="207.5" y="198" text-anchor="middle">역량↑↑ 협력↑↑</text></svg><figcaption>AI의 진보를 1차원 슬라이더가 아니라 두 독립 축으로 본다.</figcaption></figure></details>
+        <details class="viz"><summary>그림으로 보기: 체제별 효과</summary><figure><svg viewBox="0 0 280 342" role="img" aria-label="최소 AGI는 임금이 먼저 움직이고 초역량 AI는 집중 없는 풍요를 낳고 초협력 AI는 대형 AI 기업으로 재편되며 ASI에서는 부가 관계 부문으로 이동할 수 있다"><defs><marker id="d11" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">최소 AGI</text><text class="tm" x="140.0" y="62" text-anchor="middle">구조 유지, 임금 먼저</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="84" marker-end="url(#d11)"/><rect class="bx" x="10" y="86" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="114" text-anchor="middle">초역량 AI</text><text class="tm" x="140.0" y="140" text-anchor="middle">집중 없는 풍요</text><line class="ln" x1="140.0" y1="152" x2="140.0" y2="162" marker-end="url(#d11)"/><rect class="bx3" x="10" y="164" width="260" height="92" rx="10"/><text class="tb" x="140.0" y="192" text-anchor="middle">초협력 AI</text><text class="tm" x="140.0" y="218" text-anchor="middle">소수 대형 AI 기업</text><text class="tm" x="140.0" y="244" text-anchor="middle">임금 급락</text><line class="ln" x1="140.0" y1="256" x2="140.0" y2="266" marker-end="url(#d11)"/><rect class="bx2" x="10" y="268" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="296" text-anchor="middle">ASI</text><text class="tm" x="140.0" y="322" text-anchor="middle">상품화, 관계 부문으로</text></svg><figcaption>세 부문과 노동 시장에 미치는 영향.</figcaption></figure></details>
+        <div class="terms"><span class="term">깊은 확장형 시장</span><span class="term">틈새 시장</span><span class="term">관계 부문</span><span class="term">역량 체제</span></div>
+      </section>
+
+      <section class="sec" id="s9">
+        <div class="sec-head"><span class="sec-num">9</span><div><h2>최소 AGI와 초역량 AI</h2><p class="sub">구조는 그대로, 임금과 역할이 움직인다</p></div></div>
+        <p><b>최소 AGI.</b> 복제 가능한 AI가 인간 평균 역량에 이른 상태다. 깊은 시장에서는 균형 잡힌 인간 모자이크 팀이 평균 능력의 AI 회사를 여전히 이겨, 고용 인원도 중소기업 분산 구조도 유지된다. 변화는 임금에서 일어난다. AI가 따라잡은 기술의 임금은 연산비 쪽으로 내려가고, 전문가와 조정자는 더 높은 임금을 받는다. 작은 AI 회사들이 틈새 시장에 들어와 가격을 끌어내린다.</p>
+        <div class="callout"><p>임금 효과는 조직 재편보다 먼저 온다. 고용률 같은 거시 통계는 "AI가 경제에 영향이 없다"는 주장의 근거로 약하다.</p></div>
+        <p><b>초역량 AI.</b> 협력을 뺀 모든 단독 역량에서 모든 인간 전문가를 넘는 상태다. 협력이 그대로면 코스 천장도 그대로여서, 기업은 훨씬 생산적이 되지만 커지지 않고 오히려 작아질 수 있다. 많은 군살 없는 기업이 경쟁하고 재화는 싸고 풍부해진다. <b>집중 없는 풍요</b>다. 일상 전문 업무의 급여는 내려가지만, 방향을 정하고 노력을 정렬하는 인간 조정자는 AI 팀의 산출을 몇 배로 키운다. 사람의 비교우위는 판단, 오케스트레이션, 협력 아키텍처 설계로 옮겨 간다.</p>
+        <div class="terms"><span class="term">최소 AGI</span><span class="term">초역량 AI</span><span class="term">집중 없는 풍요</span><span class="term">오케스트레이션</span></div>
+      </section>
+
+      <section class="sec" id="s10">
+        <div class="sec-head"><span class="sec-num">10</span><div><h2>초협력 AI</h2><p class="sub">볼록한 규모 수익과 상전이</p></div></div>
+        <p>단독 역량은 최소 AGI 수준에 묶어 두고 협력만 초협력 임계점 위로 올리는 사고실험이다. 경제는 갑작스러운 상전이를 겪는다. 에이전트를 더할 때마다 마찰이 아니라 생산성이 늘어, 규모 수익이 오목에서 볼록으로 뒤집힌다.</p>
+        <p>깊은 시장에서는 고도로 동기화된 AI 조직이 커진 뒤 작은 회사들을 갑자기 이긴다. 개별 에이전트가 벤치마크에서 인상적이지 않아도 그렇다. 임계점 바로 왼쪽의 경제는 친숙한 분산 구조이고, 오른쪽의 경제는 소수의 대형 AI 기업으로 빠르게 재편되며 임금이 급락한다.</p>
+        <p>틈새 시장은 수요가 한정되어 AI 조직이 규모로 회수하기 어렵고, 작은 인간 팀이 버틴다. 그러나 노동자가 틈새와 관계 부문으로 몰리면서 그곳의 임금마저 내려간다.</p>
+        <div class="terms"><span class="term">초협력 AI</span><span class="term">규모에 대한 수익</span><span class="term">시장 집중</span></div>
+      </section>
+
+      <section class="sec" id="s11">
+        <div class="sec-head"><span class="sec-num">11</span><div><h2>ASI와 관계 부문</h2><p class="sub">상품화된 세계의 구조변화</p></div></div>
+        <p>역량과 협력이 모두 임계점을 넘은 <b>ASI</b>에서는 깊은 시장의 생산이 대형 AI 회사에 집중된 채 남고, 군살 없는 AI 기업이 특화 수요까지 채워 틈새 시장도 피난처가 아니다.</p>
+        <details class="viz"><summary>그림으로 보기: 구조변화의 반복</summary><figure><svg viewBox="0 0 280 242" role="img" aria-label="자동화로 싸진 부문에서 남은 소득이 자동화되지 않은 부문으로 옮겨 가는 구조변화가 반복되었다"><defs><marker id="d12" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">농업 자동화</text><text class="tm" x="140.0" y="62" text-anchor="middle">남은 소득 → 제조업</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="86" marker-end="url(#d12)"/><rect class="bx" x="10" y="88" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="116" text-anchor="middle">제조업 자동화</text><text class="tm" x="140.0" y="142" text-anchor="middle">남은 소득 → 서비스</text><line class="ln" x1="140.0" y1="154" x2="140.0" y2="166" marker-end="url(#d12)"/><rect class="bx2" x="10" y="168" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="196" text-anchor="middle">AI 자동화</text><text class="tm" x="140.0" y="222" text-anchor="middle">남은 소득 → 관계 부문?</text></svg><figcaption>과거의 자동화는 일자리 수를 줄이지 않았다.</figcaption></figure></details>
+        <p>AI의 자동화 물결은 훨씬 넓어 대부분의 재화와 서비스가 상품화되고 사회는 훨씬 부유해질 수 있다. 한 가지 가능성은 그 부가 여전히 가치 있지만 본질적으로 희소한 <b>관계 부문</b>, 곧 사람이 직접 전달하는 것이 가치를 높이는 의료와 교육 같은 분야로 흐르는 것이다. 1950년에 소프트웨어 엔지니어링을 상상하기 어려웠듯 새 직업도 생길 것이다.</p>
+        <p>완전 자동화된 상품 부문의 임금은 연산비에 묶이더라도(레스트레포, "We Won't be Missed", 2025), 관계 부문이 커져 노동력의 상당 부분을 높은 실질 임금으로 고용할 가능성이 있다. 저자들은 이를 예언이 아니라 가능성으로 제시한다.</p>
+        <div class="terms"><span class="term">인공초지능</span><span class="term">구조변화</span><span class="term">상품화</span><span class="term">보몰의 비용병</span><span class="term">실질 임금</span></div>
+      </section>
+
+      <section class="sec" id="s12">
+        <div class="sec-head"><span class="sec-num">12</span><div><h2>신호와 측정 도구</h2><p class="sub">협력의 임계점을 재는 법</p></div></div>
+        <p>지금의 완만한 변화는 이 틀로 자연스럽다. 프론티어 AI는 역량에서 기하급수적으로 좋아지지만 협력에서는 뒤처져 있다. 에이전트 무리를 투입하면 산출은 곧 수확체감에 부딪힌다.</p>
+        <div class="callout"><p>"이 에이전트들이 생산적인 방식으로 협력하게 만드는 것은 실제로 매우 어렵다." — 노암 브라운(OpenAI), 드와르케시 파텔과의 대담</p></div>
+        <p>브라운은 에이전트 무리가 노동을 나누지 않고 각자 같은 문제를 푸는 쪽으로 무너진다며, 단일 에이전트 대비 다중 에이전트 역량에 "공로의 10%도 돌리지 않겠다"고 했다. 노동시장은 대량 실업이나 AI 독점이 아니라 더 군살 없는 스타트업, 더 평평한 조직도, 벤치마크 과업에 가까운 신입 채용의 둔화, 여러 팀을 이끄는 경력자 수요의 유지 또는 증가로 나타난다. 이는 저자들의 이론적 해석이다.</p>
+        <details class="viz"><summary>그림으로 보기: 에이전트 조직 벤치마크</summary><figure><svg viewBox="0 0 280 334" role="img" aria-label="에이전트 조직 벤치마크는 문제 분할, 맥락 공유, 장기간의 오류 포착 능력을 재야 한다"><defs><marker id="d13" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="24" text-anchor="middle">에이전트 조직 벤치마크</text><rect class="bx2" x="10" y="40" width="260" height="86" rx="10"/><text class="tb" x="140.0" y="74" text-anchor="middle">문제 분할</text><text class="tm" x="140.0" y="102" text-anchor="middle">중복 없이 나누기</text><rect class="bx2" x="10" y="136" width="260" height="86" rx="10"/><text class="tb" x="140.0" y="170" text-anchor="middle">인수인계</text><text class="tm" x="140.0" y="198" text-anchor="middle">맥락 깔끔히 공유</text><rect class="bx2" x="10" y="232" width="260" height="86" rx="10"/><text class="tb" x="140.0" y="266" text-anchor="middle">오류 포착</text><text class="tm" x="140.0" y="294" text-anchor="middle">실수를 키우지 않기</text></svg><figcaption>개별 리더보드는 인간 팀 대비 AI 경쟁력을 과대평가하고 협력의 티핑 포인트는 경고하지 못한다.</figcaption></figure></details>
+        <p>경제 통계는 급여 지출과 연산 지출을 함께 추적해야 한다. 기업 경계가 재편되기 전에 가장 먼저 움직이는 신호는 GDP 성장률이나 산업 집중도가 아니라 <b>임금과 직무 역할</b>이다. 경제학적으로 중요한 것은 들쭉날쭉한 역량을 엮어 부분의 합보다 큰 것을 만드는 조직 그 자체다.</p>
+        <div class="terms"><span class="term">에이전트 무리</span><span class="term">조직 벤치마크</span><span class="term">연산 지출</span><span class="term">조기 신호</span></div>
+      </section>
+      <section class="sec" id="rv">
+        <div class="sec-head"><span class="sec-num">✔</span><div><h2>복습</h2><p class="sub">용어 카드 · 빈칸 · 5문항 퀴즈</p></div></div>
+        <h3 class="rv-h">핵심 용어 카드</h3>
+        <div class="flips">
+          <button type="button" class="flip" aria-expanded="false"><b>잘못된 분석 단위</b><span class="hint">뜻 보기</span><span class="m">경제 변혁은 개별 에이전트의 점수가 아니라 조직들이 경쟁한 끝의 균형에서 나온다는 지적.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>모자이크 지능</b><span class="hint">뜻 보기</span><span class="m">들쭉날쭉한 전문가들의 강점을 엮고 빈틈을 메워 어떤 개인보다 뛰어난 집단 역량을 만드는 것.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>리카도 비교우위</b><span class="hint">뜻 보기</span><span class="m">기회비용이 상대적으로 낮은 과업에 특화할 때 전체 산출이 극대화된다는 원리.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>조정자</b><span class="hint">뜻 보기</span><span class="m">혼자서는 평범하지만 팀의 인수인계 마찰을 줄여 총산출을 키우는 노동자. 높은 임금을 받는다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>복제 가능성</b><span class="hint">뜻 보기</span><span class="m">AI는 연산 대여료만 내면 복제할 수 있어, 같은 직무의 인간 임금을 연산비에 묶는다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>코스 천장</b><span class="hint">뜻 보기</span><span class="m">시장 거래 비용과 내부 관리 비용이 같아지는 지점에서 정해지는 기업 규모의 상한.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>암묵지</b><span class="hint">뜻 보기</span><span class="m">말로 명문화할 수 없는 지식. 인수인계에서 손실 요약으로 빠져나간다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>초협력 임계점</b><span class="hint">뜻 보기</span><span class="m">이를 넘으면 규모 수익이 오목에서 볼록으로 뒤집혀 클수록 더 생산적이 되는 협력 수준.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>집중 없는 풍요</b><span class="hint">뜻 보기</span><span class="m">초역량 AI에서 협력이 그대로일 때, 많은 군살 없는 기업이 경쟁하며 재화가 싸고 풍부해지는 상태.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>관계 부문</b><span class="hint">뜻 보기</span><span class="m">의료, 교육처럼 사람이 직접 전달하는 것이 가치를 높이는 부문.</span></button>
+        </div>
+        <h3 class="rv-h">빈칸 채우기</h3>
+        <ol class="cloze">
+          <li>경제 변혁은 개별 점수가 아니라 시장 <button type="button" class="blank" data-a="균형">빈칸</button>의 결과다.</li>
+          <li>상호 보완적 짝은 무작위 짝보다 성과가 <button type="button" class="blank" data-a="32%">빈칸</button> 높았다.</li>
+          <li>AI 모델들은 서로 <button type="button" class="blank" data-a="같은 방향">빈칸</button>으로 들쭉날쭉하다.</li>
+          <li>AI가 인간 능력에 맞먹으면 그 직무 임금은 <button type="button" class="blank" data-a="연산 비용">빈칸</button>에 묶인다.</li>
+          <li>역량은 수준을, 협력은 <button type="button" class="blank" data-a="규모">빈칸</button>를 정한다.</li>
+          <li>초협력 임계점을 넘으면 규모 수익이 오목에서 <button type="button" class="blank" data-a="볼록">빈칸</button>으로 뒤집힌다.</li>
+          <li>최소 AGI에서는 <button type="button" class="blank" data-a="임금">빈칸</button> 효과가 조직 재편보다 먼저 온다.</li>
+          <li>초역량 AI의 결과는 집중 없는 <button type="button" class="blank" data-a="풍요">빈칸</button>다.</li>
+        </ol>
+        <h3 class="rv-h">5문항 퀴즈</h3>
+        <div id="quiz">
+          <div class="q" data-a="1"><fieldset><legend class="qt">1. 저자들이 개별 AI 에이전트를 잘못된 분석 단위라고 보는 이유는?</legend>
+            <button type="button">벤치마크가 너무 쉬워서</button>
+            <button type="button">경제 변혁은 조직 간 경쟁의 균형이라서</button>
+            <button type="button">AI가 아직 약해서</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="1대1로 이겨도 잘 짜인 인간 팀에 질 수 있습니다."></p></div>
+          <div class="q" data-a="1"><fieldset><legend class="qt">2. AI 복사본을 하나 더 띄우면 늘어나는 것은?</legend>
+            <button type="button">역량의 폭</button>
+            <button type="button">처리 용량</button>
+            <button type="button">비교우위</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="복사본은 같은 약점을 공유합니다."></p></div>
+          <div class="q" data-a="1"><fieldset><legend class="qt">3. 조정자가 높은 임금을 받는 이유는?</legend>
+            <button type="button">코딩을 가장 잘해서</button>
+            <button type="button">모자이크 지능의 총산출을 키워서</button>
+            <button type="button">근속 연수가 길어서</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="단독 점수로는 드러나지 않는 가치입니다."></p></div>
+          <div class="q" data-a="1"><fieldset><legend class="qt">4. 초역량 AI 체제에서 협력이 그대로라면?</legend>
+            <button type="button">소수 거대 기업이 독점</button>
+            <button type="button">군살 없는 기업이 경쟁하는 집중 없는 풍요</button>
+            <button type="button">대량 실업</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="코스 천장이 여전히 작동합니다."></p></div>
+          <div class="q" data-a="2"><fieldset><legend class="qt">5. 가장 먼저 움직이는 조기 신호는?</legend>
+            <button type="button">GDP 성장률</button>
+            <button type="button">산업 집중도</button>
+            <button type="button">임금과 직무 역할</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="기업 경계 재편보다 먼저 움직입니다."></p></div>
+          <p class="score" id="score" aria-live="polite">점수: 0 / 5</p>
+          <div class="rv-tools"><button type="button" id="qreset">다시 풀기</button></div>
+        </div>
+      </section>
+
+      <section class="sources">
+        <h3>출처</h3>
+        <ul>
+          <li><a href="https://yghnsim.github.io/Pages/articles/economics-of-intelligence-coordination-threshold.html">Pages — 더 잘 협력하는 AI가 경제를 바꾼다</a></li>
+          <li><a href="https://www.nber.org/papers/w34423">NBER w34423 — Restrepo, We Won't be Missed</a></li>
+          <li><a href="https://cooperbench.com">CooperBench</a></li>
+          <li><a href="https://arxiv.org/abs/2512.15567">arXiv:2512.15567 — Evaluating LLMs in Scientific Discovery</a></li>
+          <li><a href="https://aleximas.substack.com">Alex Imas — What will be scarce</a></li>
+        </ul>
+      </section>
+    </main>
+
+  </div>
+</div>
+<script>(function(){
+function $$(q){return [].slice.call(document.querySelectorAll(q))}
+$$('.flip').forEach(function(b){b.onclick=function(){b.setAttribute('aria-expanded',b.getAttribute('aria-expanded')==='true'?'false':'true')}});
+function show(b){b.textContent=b.dataset.a;b.classList.add('shown');b.setAttribute('aria-label','답: '+b.dataset.a)}
+function hide(b){b.textContent='?';b.classList.remove('shown');b.setAttribute('aria-label','빈칸, 눌러서 답 보기')}
+$$('.blank').forEach(function(b){b.onclick=function(){show(b)}});
+$$('[data-all]').forEach(function(t){t.onclick=function(){if(t.dataset.all==='flip')$$('.flip').forEach(function(b){b.setAttribute('aria-expanded','true')});else $$('.blank').forEach(show)}});
+$$('[data-reset]').forEach(function(t){t.onclick=function(){if(t.dataset.reset==='flip')$$('.flip').forEach(function(b){b.setAttribute('aria-expanded','false')});else $$('.blank').forEach(hide)}});
+var sc=0,done=0,qs=$$('#quiz .q'),tot=qs.length||5;
+function upd(){var el=document.getElementById('score');if(el)el.textContent='점수: '+sc+' / '+tot+(done===tot?' (끝)':'')}
+qs.forEach(function(q){var bs=[].slice.call(q.querySelectorAll('fieldset button')),ex=q.querySelector('.ex');
+bs.forEach(function(b,i){b.onclick=function(){var a=+q.dataset.a,ok=i===a;bs.forEach(function(x){x.disabled=true});if(bs[a])bs[a].classList.add('right');if(!ok)b.classList.add('wrong');
+if(ex){ex.hidden=false;ex.textContent=(ok?'맞았습니다. ':'아쉽습니다. ')+ex.dataset.e;}if(ok)sc++;done++;upd();}})});
+var qr=document.getElementById('qreset');
+if(qr)qr.onclick=function(){sc=0;done=0;qs.forEach(function(q){q.querySelectorAll('fieldset button').forEach(function(x){x.disabled=false;x.className=''});var ex=q.querySelector('.ex');if(ex){ex.hidden=true;ex.textContent=''}});upd()};
+})();</script>
+
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">아카이브</div><div class="arc-foot-title">지능의 경제학 — 더 잘 협력하는 AI가 경제를 바꾼다</div><div class="arc-foot-meta"><time datetime="2026-10-30">2026년 10월 30일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=%EA%B2%BD%EC%A0%9C%EA%B2%BD%EC%98%81">#경제경영</a><a class="arc-tag" href="../index.html#tags=AGI">#AGI</a><a class="arc-tag" href="../index.html#tags=%EC%A1%B0%EC%A7%81%EC%84%A4%EA%B3%84">#조직설계</a><a class="arc-tag" href="../index.html#tags=%ED%95%B4%EC%84%A4">#해설</a> · <a href="https://yghnsim.github.io/Pages/articles/economics-of-intelligence-coordination-threshold.html" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body>
+</html>

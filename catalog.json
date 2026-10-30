@@ -1,5 +1,24 @@
 [
   {
+    "id": "20261030-06",
+    "title": "지능의 경제학 — 더 잘 협력하는 AI가 경제를 바꾼다",
+    "summary": "구글 딥마인드 인스티튜트 에세이 해설. 분석 단위는 조직이다. 인간과 AI의 들쭉날쭉함, 조정자, 복제 가능성과 코스 천장, 조직 스케일링 법칙과 초협력 임계점, 최소 AGI·초역량 AI·초협력 AI·ASI의 네 체제와 관계 부문.",
+    "tags": [
+      "AI",
+      "경제경영",
+      "AGI",
+      "조직설계",
+      "해설"
+    ],
+    "date": "2026-10-30",
+    "file": "pages/2026-10-30-지능의경제학.html",
+    "added": "2026-10-31T00:28:29+09:00",
+    "source_name": "src.html",
+    "source_sha256": "381aeab9c3dc3d926dccf68d731d9c401ad7d4cb3b491d7868abd323c2ecf6d4",
+    "source_path_sha256": "13844c9fe3b180d6654993f261058ce06c6e1883ef9374057707396600fc64c4",
+    "source_url": "https://yghnsim.github.io/Pages/articles/economics-of-intelligence-coordination-threshold.html"
+  },
+  {
     "id": "20261030-05",
     "title": "스웜 텔레파시 — 이종 언어모델 사이의 프리필 없는 KV 캐시 전이",
     "summary": "MIT의 SwaT 논문 해설. 송신자 KV 캐시를 300M 매퍼로 번역해 이종 수신자가 질문만 읽게 한다. 문자 구간 정렬, 보존율, 같은 예산에서 요약보다 17.4점 높은 결과, 시각·중국어 전이, 비용과 한계.",
