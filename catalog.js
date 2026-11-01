@@ -2,6 +2,25 @@
    `python3 add_page.py --rebuild` 를 실행하면 다시 만들어집니다. */
 window.ARCHIVE_CATALOG = [
   {
+    "id": "20261101-01",
+    "title": "Patrick Boyle \"What Anthropic's IPO Filing Actually Says\" 해설",
+    "summary": "앤트로픽 S-1 해설. 멸종을 같은 어조로 적은 리스크 요인, 807억 달러 순손실 중 720억 달러 이상의 비현금 평가손실, 토큰 맥싱 이후 3분기 성장률 급감, 공익법인·장기이익신탁·창업자 LLC·직원 투표의 지배구조, 주석의 8,000억 달러 컴퓨트 약정, 정부 위험, 그리고 가격은 추측이라는 결론을 정리한다.",
+    "tags": [
+      "경제경영",
+      "AI",
+      "가치평가",
+      "앤트로픽",
+      "해설"
+    ],
+    "date": "2026-11-01",
+    "file": "pages/2026-11-01-앤트로픽S1.html",
+    "added": "2026-11-01T09:09:56+09:00",
+    "source_name": "src.html",
+    "source_sha256": "c55fb91a09ca2184c3f1f7b0fa04c09f140ee546b8adbcfb58759ebde5f8cbf3",
+    "source_path_sha256": "78fe7edd2051b2cd45acc8bb66f54c9cbe4f91b1ae428faf12060e9c708371cc",
+    "source_url": "https://youtu.be/Ic1Jf7VlXRM"
+  },
+  {
     "id": "20261031-02",
     "title": "AI는 로펌의 비용이 아니라 매출을 늘린다 — 버려지던 작은 사건의 경제학",
     "summary": "a16z 알렉스 람펠과 Eve CEO 제이 마데스와란의 대담. 노동이 제약인 원고 측 법률 시장에서 수임료 하한 아래 버려지던 사건, 그림자 노동시장으로서의 리걸 소프트웨어, 에이전트끼리의 협상, 결과 기반 가격과 로펌의 소프트웨어 회사화를 정리한다.",
