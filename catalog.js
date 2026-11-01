@@ -6,19 +6,20 @@ window.ARCHIVE_CATALOG = [
     "title": "Patrick Boyle \"What Anthropic's IPO Filing Actually Says\" 해설",
     "summary": "앤트로픽 S-1 해설. 멸종을 같은 어조로 적은 리스크 요인, 807억 달러 순손실 중 720억 달러 이상의 비현금 평가손실, 토큰 맥싱 이후 3분기 성장률 급감, 공익법인·장기이익신탁·창업자 LLC·직원 투표의 지배구조, 주석의 8,000억 달러 컴퓨트 약정, 정부 위험, 그리고 가격은 추측이라는 결론을 정리한다.",
     "tags": [
-      "경제경영",
-      "AI",
-      "가치평가",
       "앤트로픽",
+      "AI",
+      "기업재무",
+      "가치평가",
       "해설"
     ],
     "date": "2026-11-01",
     "file": "pages/2026-11-01-앤트로픽S1.html",
     "added": "2026-11-01T09:09:56+09:00",
     "source_name": "src.html",
-    "source_sha256": "c55fb91a09ca2184c3f1f7b0fa04c09f140ee546b8adbcfb58759ebde5f8cbf3",
+    "source_sha256": "fdb9c32faf6eeb792ab7943c93cd4f8d54c342295e9277c62f4edfe49de60d3e",
     "source_path_sha256": "78fe7edd2051b2cd45acc8bb66f54c9cbe4f91b1ae428faf12060e9c708371cc",
-    "source_url": "https://youtu.be/Ic1Jf7VlXRM"
+    "source_url": "https://youtu.be/Ic1Jf7VlXRM",
+    "updated": "2026-11-01T09:17:41+09:00"
   },
   {
     "id": "20261031-02",
