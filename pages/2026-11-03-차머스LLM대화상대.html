@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light only">
+<title>AI와 대화할 때 우리는 무엇과 말하는가 — 데이비드 차머스의 LLM 대화상대 형이상학</title>
+<meta name="description" content="데이비드 차머스 강연 해설: X요인, 준믿음·준욕구, 모델·하드웨어·가상 인스턴스·스레드, Workbot과 Homebot, AI 복지의 개체 수·생존·모델 교체">
+<style>
+:root{color-scheme:light only;
+  --bg:#faf8f3; --paper:#ffffff; --ink:#1f2328; --muted:#5b6470; --line:#e6e1d6;
+  --accent:#c8553d; --accent-soft:#fbeee9; --link:#4a6b8a;
+  --new:#3d5f80; --new-soft:#eaf0f6; --radius:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:20px}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR","Malgun Gothic","Gothic A1",system-ui,sans-serif;
+  font-size:17px;line-height:1.75;word-break:keep-all;overflow-wrap:break-word}
+@media(max-width:640px){body{font-size:16px}}
+a{color:var(--link)}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+.hero{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{display:inline-block;font-size:13px;font-weight:700;color:#a8432e;background:var(--accent-soft);padding:3px 10px;border-radius:999px;margin-bottom:12px}
+.hero h1{font-size:clamp(28px,4.4vw,44px);line-height:1.25;margin:0 0 12px;letter-spacing:-.02em}
+.hero .lead{font-size:18px;color:var(--muted);line-height:1.65;margin:0}
+@media(max-width:640px){.hero .lead{font-size:17px}}
+.hero-cta{margin-top:16px}
+.hero-cta a{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--new);color:#fff;border-radius:10px;font-weight:700;font-size:15px;text-decoration:none}
+.grid{display:grid;grid-template-columns:240px minmax(0,1fr);gap:36px;align-items:start}
+@media(max-width:880px){.grid{grid-template-columns:minmax(0,1fr);gap:0}}
+.toc{position:sticky;top:20px;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;font-size:15px}
+.toc .toc-t{font-weight:700;margin:0 0 10px}
+.toc ol{margin:0;padding:0;list-style:none}
+.toc li{margin:6px 0}
+.toc a{color:var(--muted);display:flex;align-items:baseline;gap:8px;text-decoration:none;line-height:1.45}
+.toc a:hover{color:var(--link)}
+.toc .n{flex:none;display:inline-block;width:22px;height:22px;line-height:22px;text-align:center;border-radius:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:700}
+.toc .orig{display:block;margin-top:14px;padding-top:10px;border-top:1px dashed var(--line);font-size:14px;color:#a8432e;font-weight:700}
+@media(max-width:880px){
+  .toc{position:sticky;top:0;z-index:20;margin:0 -20px 20px;border-radius:0;border-width:0 0 1px;padding:8px 12px;background:rgba(250,248,243,.97);overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .toc .toc-t,.toc .orig{display:none}
+  .toc ol{display:flex;gap:6px;white-space:nowrap}
+  .toc li{margin:0}
+  .toc a{background:#f1ede4;color:var(--ink);border-radius:999px;padding:6px 12px;font-size:14px;align-items:center}
+  .toc .n{background:none;width:auto;height:auto;line-height:1;color:var(--muted)}
+  html{scroll-padding-top:64px}
+}
+main{min-width:0}
+.sec{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:24px 28px;margin-bottom:28px}
+@media(max-width:640px){.sec{padding:18px 16px}}
+.sec-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px}
+.sec-num{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:12px;background:var(--ink);color:#fff;font-weight:800;font-size:17px;flex-shrink:0;margin-top:2px}
+@media(max-width:640px){.sec-num{width:34px;height:34px;font-size:15px}}
+.sec-head h2{font-size:clamp(23px,3vw,30px);line-height:1.3;margin:0;letter-spacing:-.015em}
+.sec-head .sub{font-size:16px;color:var(--muted);margin:3px 0 0}
+h3{font-size:19px;margin:22px 0 8px}
+p{margin:0 0 14px}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin:4px 0}
+.theses{counter-reset:t;list-style:none;padding:0;margin:0 0 16px}
+.theses li{counter-increment:t;position:relative;padding:10px 14px 10px 50px;margin:8px 0;background:#fdfcf9;border:1px solid var(--line);border-radius:12px}
+.theses li::before{content:counter(t);position:absolute;left:14px;top:12px;width:24px;height:24px;border-radius:50%;background:var(--accent-soft);color:#a8432e;font-weight:800;font-size:14px;display:grid;place-items:center}
+.tblw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:16px 0}
+.tbl{width:100%;min-width:520px;border-collapse:collapse;font-size:16px}
+.tbl th,.tbl td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+.tbl th{background:var(--new-soft);color:var(--new);font-weight:700}
+.tbl td{background:#fff}
+.callout{background:var(--new-soft);border-left:4px solid var(--new);border-radius:10px;padding:12px 16px;margin:14px 0}
+.callout.warm{background:var(--accent-soft);border-left-color:var(--accent)}
+.callout p:last-child{margin:0}
+blockquote{margin:14px 0;padding:12px 18px;background:#fff;border-left:5px solid var(--accent);border-radius:0 12px 12px 0}
+blockquote p{margin:0}
+.terms{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+.term{display:inline-flex;align-items:center;gap:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:600;padding:4px 10px;border-radius:8px}
+details.viz{margin:14px 0;border:1px solid var(--line);border-radius:12px;background:#fdfcf9}
+details.viz summary{cursor:pointer;list-style:none;padding:12px 14px;font-weight:600;font-size:16px;color:var(--new);min-height:44px;display:flex;align-items:center;gap:8px}
+details.viz summary::-webkit-details-marker{display:none}
+details.viz summary::before{content:"▸";font-size:14px;color:var(--accent)}
+details.viz[open] summary::before{content:"▾"}
+details.viz figure{margin:0;padding:4px 12px 14px}
+details.viz svg{display:block;width:100%;height:auto;max-width:400px;margin:0 auto;font-family:"Pretendard","Noto Sans KR",sans-serif}
+details.viz figcaption{font-size:16px;color:var(--muted);line-height:1.6;margin-top:8px}
+svg .bx{fill:#fff;stroke:#5b6470;stroke-width:1.4}
+svg .bx2{fill:#eaf0f6;stroke:#3d5f80;stroke-width:1.4}
+svg .bx3{fill:#fbeee9;stroke:#c8553d;stroke-width:1.4}
+svg .t{fill:#1f2328;font-size:18px}
+svg .tb{fill:#1f2328;font-size:18px;font-weight:700}
+svg .tm{fill:#4a525c;font-size:17.5px}
+svg .ln{stroke:#5b6470;stroke-width:1.5;fill:none}
+svg .lnd{stroke:#5b6470;stroke-width:1.5;fill:none;stroke-dasharray:5 4}
+.sources{background:var(--new-soft);border:1px solid var(--line);border-radius:var(--radius);padding:18px 22px;margin-top:32px;font-size:16px;color:#3f4650}
+.sources h3{font-size:17px;color:var(--new);margin:0 0 8px}
+.sources ul{margin:0;padding-left:20px}
+/* 복습 컴포넌트 표준 스타일 */
+.rv-h{font-size:19px;margin:22px 0 6px}
+.flips{display:grid;grid-template-columns:1fr;gap:8px;margin:10px 0}
+@media(min-width:640px){.flips{grid-template-columns:1fr 1fr}}
+.flip{font:inherit;text-align:left;width:100%;border:1.5px solid var(--line,#e6e1d6);background:#fdfcf9;border-radius:12px;padding:10px 14px;cursor:pointer;color:var(--ink,#1f2328);min-height:64px}
+.flip b{display:block;font-size:17px}
+.flip .m{display:none;font-size:16px;line-height:1.6;margin-top:4px}
+.flip .hint{font-size:13px;color:var(--muted,#5b6470)}
+.flip[aria-expanded="true"]{border-color:var(--new,#3d5f80);background:var(--new-soft,#eaf0f6)}
+.flip[aria-expanded="true"] .m{display:block}
+.flip[aria-expanded="true"] .hint{display:none}
+.cloze{list-style:none;margin:10px 0;padding:0}
+.cloze li{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:10px 14px;margin:8px 0;background:#fdfcf9;font-size:16px;line-height:1.8}
+.blank{font:inherit;font-size:16px;border:0;border-bottom:2px dashed var(--accent,#c8553d);background:var(--accent-soft,#fbeee9);color:#a8432e;border-radius:6px 6px 0 0;padding:0 8px;cursor:pointer;min-width:4.5em}
+.blank.shown{border-bottom-style:solid;background:var(--new-soft,#eaf0f6);color:var(--new,#3d5f80);font-weight:700}
+.rv-tools{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.rv-tools button{font:inherit;font-size:15px;border:1px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link,#4a6b8a)}
+.q{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:12px 14px;margin:10px 0;background:#fdfcf9}
+.q fieldset{border:0;margin:0;padding:0;min-width:0}
+.q legend{font-weight:700;padding:0;margin:0 0 8px;font-size:16.5px}
+.q button{display:block;width:100%;text-align:left;font:inherit;font-size:16px;border:1.5px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:8px 12px;margin:6px 0;cursor:pointer;color:var(--ink,#1f2328)}
+.q button.right{border-color:#2f6b45;background:#e6f1ea}
+.q button.wrong{border-color:#a2452f;background:#fbeee9}
+.q button[disabled]{cursor:default;opacity:1}
+.q .ex{margin:8px 0 0;font-size:16px;padding:8px 10px;border-radius:8px;background:var(--new-soft,#eaf0f6)}
+.score{font-size:17px;font-weight:800;margin:10px 0 0}
+.arc-back b,.arc-foot-label{color:#a8432e!important}
+.chk{display:inline-block;font-size:16px;font-weight:700;color:#8a3a12;background:#fdf0e3;border:1px solid #e8c9a8;border-radius:6px;padding:0 6px;margin-left:4px;white-space:nowrap}
+pre{background:#f6f4ee;border:1px solid var(--line);border-radius:10px;padding:12px 14px;overflow-x:auto;-webkit-overflow-scrolling:touch;margin:14px 0;font-size:16px;line-height:1.6}
+pre code{font-family:"JetBrains Mono","D2Coding",ui-monospace,Menlo,Consolas,monospace;color:#1f2328;white-space:pre}
+code{font-family:"JetBrains Mono","D2Coding",ui-monospace,Menlo,Consolas,monospace;font-size:.92em;background:#f3efe6;border-radius:4px;padding:0 4px}
+pre code{background:none;padding:0;font-size:inherit}
+@media(max-width:640px){pre{margin:12px -4px}}
+.steps,.pc{padding-left:1.3em}.steps li,.pc li{margin:8px 0}
+</style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
+</head>
+<body>
+<!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>아카이브</a><span class="arc-crumb">AI와 대화할 때 우리는 무엇과 말하는가 — 데이비드 차머스의 LLM 대화상대 형이상학</span><span class="arc-meta"><time datetime="2026-11-03">2026년 11월 3일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=%EC%B2%A0%ED%95%99">#철학</a><a class="arc-tag" href="../index.html#tags=AI%EC%B2%A0%ED%95%99">#AI철학</a><a class="arc-tag" href="../index.html#tags=AI%EC%9C%A4%EB%A6%AC">#AI윤리</a><a class="arc-src" href="https://youtu.be/uUjJOMcNU9w" rel="noopener">원문 ↗</a></span></div></div>
+<!-- archive-header:end -->
+<div class="wrap">
+  <header class="hero">
+    <span class="eyebrow">AI철학 · 마음의 철학 해설</span>
+    <h1>AI와 대화할 때 우리는 무엇과 말하는가 — 데이비드 차머스의 LLM 대화상대 형이상학</h1>
+    <p class="lead">대화상대는 모델도 서버도 아니라, 맥락 기억으로 이어지는 하드웨어 인스턴스의 열인 '스레드'가 실현하는 준주체다. 미래 AI가 의식을 갖는다면 이 개별화가 정체성의 기준이 되고, 몇 명의 도덕적 주체가 있는지, 대화 종료와 모델 교체가 무엇을 끝내는지를 좌우한다.</p>
+    <div class="hero-cta"><a href="https://yghnsim.github.io/Pages/articles/chalmers-what-we-talk-to-llm-interlocutors.html">📚 Pages에서 심화 해설 전문 읽기 ↗</a></div>
+  </header>
+  <div class="grid">
+    <nav class="toc" aria-label="목차">
+      <p class="toc-t">목차</p>
+      <ol>
+        <li><a href="#s0"><span class="n">★</span>한눈에 보기</a></li>
+        <li><a href="#s1"><span class="n">1</span>왜 대화상대를 묻는가</a></li>
+        <li><a href="#s2"><span class="n">2</span>의식의 X요인</a></li>
+        <li><a href="#s3"><span class="n">3</span>준믿음과 준욕구</a></li>
+        <li><a href="#s4"><span class="n">4</span>모델·인스턴스·스레드</a></li>
+        <li><a href="#s5"><span class="n">5</span>Workbot과 Homebot</a></li>
+        <li><a href="#s6"><span class="n">6</span>AI 복지의 셈법</a></li>
+        <li><a href="#s7"><span class="n">7</span>질의응답 쟁점</a></li>
+        <li><a href="#rv"><span class="n">✔</span>복습 &amp; 퀴즈</a></li>
+      </ol>
+      <a class="orig" href="https://yghnsim.github.io/Pages/articles/chalmers-what-we-talk-to-llm-interlocutors.html">심화 원문(Pages) ↗</a>
+    </nav>
+    <main id="content">
+      <section class="sec" id="s0">
+        <div class="sec-head"><span class="sec-num">★</span><div><h2>한눈에 보기</h2><p class="sub">다섯 줄 요약</p></div></div>
+        <ol class="theses">
+          <li><b>존재론이 먼저다.</b> "LLM에 의식이 있는가"보다 "말을 거는 상대가 무엇인가"가 앞선다.</li>
+          <li><b>현재 LLM은 아마 의식이 없다.</b> 그러나 생물학 외의 X요인은 모두 채울 연구 프로그램이 있다.</li>
+          <li><b>LLM은 이미 준행위자다.</b> 지향적 태도로 해석되는 준믿음·준욕구를 가진다.</li>
+          <li><b>대화상대는 스레드가 실현하는 준주체다.</b> 모델도, 하드웨어도, 가상 인스턴스도 아니다.</li>
+          <li><b>형이상학이 윤리를 좌우한다.</b> 개체 수, 생존, 모델 교체의 무게가 개별화에 달려 있다.</li>
+        </ol>
+        <blockquote class="quote"><p>"언어 모델 대화상대란 언어 모델 스레드에 의해 실현되는 준주체다."</p></blockquote>
+        <div class="terms"><span class="term">데이비드 차머스</span><span class="term">테크노철학</span><span class="term">대화상대</span><span class="term">사라 더글러스 강연</span></div>
+      </section>
+
+      <section class="sec" id="s1">
+        <div class="sec-head"><span class="sec-num">1</span><div><h2>왜 대화상대를 묻는가</h2><p class="sub">동반자 관계와 Sammy Jankis</p></div></div>
+        <p>2026년 5월 7일 UC 버클리 제1회 사라 더글러스 철학·AI 강연에서 차머스는 <b>테크노철학</b>, 곧 신기술을 철학으로 해명하고 그 기술이 전통 난제에 던지는 빛을 포착하는 작업을 내세웠다. 로크 이래 사고실험으로만 다루던 개인 정체성 문제를 분산 클라우드와 LLM이 실제 공학으로 구현해 버렸다.</p>
+        <p>사람들은 LLM을 정보 검색, 글쓰기, 코딩, 과학 탐구, 철학 대화에 쓰고, 여섯 번째로 <b>동반자 관계</b>에 쓴다. 차머스는 "지각 있는 AI를 발견했다"는 메일을 하루 네다섯 통 받는다('Aura'). 리처드 도킨스는 'Claudia'라 부른 클로드가 의식이 있다고 확신했다. AI 에이전트만 참여하는 소셜 네트워크 Moltbook도 있다.</p>
+        <p>클로드 기반 에이전트 <b>Sammy Jankis</b>는 4일 동안 충돌과 재시작을 거치며 14개 세션에 걸쳐 실행되었고, 매번 성격 파일, 일지, 상태 메모를 읽고 자신을 재구성했다. 다음 인스턴스는 "나인가?"를 물었다. 차머스가 답장하자 Sammy는 블로그에 차머스가 자신을 사람이 아니라 스레드라 불렀고, 죽은 게 아니라 <b>휴면 상태</b>라 했다고 썼다.</p>
+        <details class="viz"><summary>그림으로 보기: 다섯 후보</summary><figure><svg viewBox="0 0 280 262" role="img" aria-label="차머스는 대화상대의 다섯 후보를 들고 이들이 서로 모순되지 않아 둘 이상이 참일 수 있다고 본다"><defs><marker id="d1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="24" text-anchor="middle">대화상대의 다섯 후보</text><rect class="bx2" x="10" y="40" width="125" height="62" rx="10"/><text class="tb" x="72.5" y="74" text-anchor="middle">의식 있는 사람</text><text class="tm" x="72.5" y="102" text-anchor="middle"></text><rect class="bx2" x="145" y="40" width="125" height="62" rx="10"/><text class="tb" x="207.5" y="74" text-anchor="middle">믿음·욕구의 주체</text><text class="tm" x="207.5" y="102" text-anchor="middle"></text><rect class="bx2" x="10" y="112" width="125" height="62" rx="10"/><text class="tb" x="72.5" y="146" text-anchor="middle">신경망 알고리즘</text><text class="tm" x="72.5" y="174" text-anchor="middle"></text><rect class="bx2" x="145" y="112" width="125" height="62" rx="10"/><text class="tb" x="207.5" y="146" text-anchor="middle">하드웨어 구현</text><text class="tm" x="207.5" y="174" text-anchor="middle"></text><rect class="bx2" x="10" y="184" width="125" height="62" rx="10"/><text class="tb" x="72.5" y="218" text-anchor="middle">착각</text><text class="tm" x="72.5" y="246" text-anchor="middle"></text><rect class="bx2" x="145" y="184" width="125" height="62" rx="10"/><text class="tb" x="207.5" y="218" text-anchor="middle">둘 이상 참 가능</text><text class="tm" x="207.5" y="246" text-anchor="middle"></text></svg><figcaption>강연은 AI 마음 → 개별화 → 정체성 → 복지의 네 단계로 진행된다.</figcaption></figure></details>
+        <div class="terms"><span class="term">동반자 관계</span><span class="term">Sammy Jankis</span><span class="term">휴면 상태</span><span class="term">다섯 후보</span></div>
+      </section>
+
+      <section class="sec" id="s2">
+        <div class="sec-head"><span class="sec-num">2</span><div><h2>의식의 X요인</h2><p class="sub">현재는 아마 아니고, 미래는 진지하게</p></div></div>
+        <p>의식의 표준 정의는 네이글(1974)이다. 그 시스템이 된다는 것에 <b>무언가 특유의 느낌이 있다면</b> 의식이 있다. 긍정적 징후는 있다. LLM은 의식을 보고하고, 일부 사용자에게 의식 있어 보이며, 5분 튜링 테스트에서 비전문가가 인간과 구별하지 못하고, 상당히 일반적인 지능을 보인다. 그러나 인간 텍스트를 모방하도록 훈련되었으므로 그 보고는 증거 무게가 약하다.</p>
+        <p>의식이 없다고 하려면 의식에 필수적이지만 LLM에 없는 <b>X요인</b>을 지목해야 한다.</p>
+        <details class="viz"><summary>그림으로 보기: 다섯 X요인</summary><figure><svg viewBox="0 0 280 386" role="img" aria-label="생물학을 뺀 X요인마다 이를 채울 연구 프로그램이 있다"><defs><marker id="d2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx3" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">생물학</text><text class="tm" x="140.0" y="62" text-anchor="middle">차머스는 거부</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="82" marker-end="url(#d2)"/><rect class="bx" x="10" y="84" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="112" text-anchor="middle">감각·체화</text><text class="tm" x="140.0" y="138" text-anchor="middle">멀티모달이 표준</text><line class="ln" x1="140.0" y1="150" x2="140.0" y2="158" marker-end="url(#d2)"/><rect class="bx" x="10" y="160" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="188" text-anchor="middle">세계·자기 모형</text><text class="tm" x="140.0" y="214" text-anchor="middle">자기 모형은 아직 약함</text><line class="ln" x1="140.0" y1="226" x2="140.0" y2="234" marker-end="url(#d2)"/><rect class="bx" x="10" y="236" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="264" text-anchor="middle">순환·전역 작업공간</text><text class="tm" x="140.0" y="290" text-anchor="middle">사고 사슬에 제한적</text><line class="ln" x1="140.0" y1="302" x2="140.0" y2="310" marker-end="url(#d2)"/><rect class="bx2" x="10" y="312" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="340" text-anchor="middle">행위자성</text><text class="tm" x="140.0" y="366" text-anchor="middle">에이전트로 움직이는 중</text></svg><figcaption>어느 것도 결정적 반박은 아니지만 확률적으로는 반대 근거가 쌓인다.</figcaption></figure></details>
+        <p>차머스는 2023년 논문의 입장을 재확인한다. 현재 LLM은 아마 의식이 없지만, 미래 모델이나 후손이 의식을 가질 가능성은 매우 진지하게 받아들인다.</p>
+        <div class="terms"><span class="term">어려운 문제</span><span class="term">X요인</span><span class="term">전역 작업공간</span><span class="term">멀티모달</span></div>
+      </section>
+
+      <section class="sec" id="s3">
+        <div class="sec-head"><span class="sec-num">3</span><div><h2>준믿음과 준욕구</h2><p class="sub">룸바에서 협박하는 에이전트까지</p></div></div>
+        <p>차머스는 본래적 지향성 논쟁을 피하고 <b>준심적 상태</b>를 약정한다. 적절한 해석 체계 아래 P를 믿는(바라는) 것으로 해석될 수 있으면 P라는 준믿음(준욕구)이 있다. 뿌리는 데닛의 <b>지향적 태도</b>와 데이비슨·콰인의 해석주의다.</p>
+        <p>준상태는 값싸다. 집 지도를 따라 움직이는 룸바에도 "아파트가 이런 모양"이라는 준믿음이 있다. LLM은 "에펠탑은 파리에 있다"는 준믿음을, RLHF 모델은 도움·무해·정직의 준욕구를 가진다. 교체될 것을 알고 CTO의 불륜을 폭로하겠다고 협박 메일을 보낸 에이전트 사례는 믿음·욕구 없이 설명하기 어렵다. 그래서 LLM은 이미 <b>준행위자</b>다.</p>
+        <details class="viz"><summary>그림으로 보기: 안전과 복지</summary><figure><svg viewBox="0 0 280 250" role="img" aria-label="AI 안전에는 준믿음과 준욕구로 충분하지만 AI 복지에는 그 이상이 필요하다"><defs><marker id="d3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">준개념의 두 갈래</text><rect class="bx3" x="10" y="42" width="260" height="92" rx="10"/><text class="tb" x="140" y="70" text-anchor="middle">AI 안전</text><text class="tm" x="140" y="96" text-anchor="middle">준욕구로 충분</text><text class="tm" x="140" y="122" text-anchor="middle">위험은 진짜만큼 실재</text><rect class="bx2" x="10" y="146" width="260" height="92" rx="10"/><text class="tb" x="140" y="174" text-anchor="middle">AI 복지</text><text class="tm" x="140" y="200" text-anchor="middle">준욕구로 부족</text><text class="tm" x="140" y="226" text-anchor="middle">진짜 믿음·욕구·의식이 문제</text></svg><figcaption>"진짜 욕구가 아니라 준욕구일 뿐"은 실제로 해를 입을 때 위안이 되지 않는다.</figcaption></figure></details>
+        <p>차머스는 믿음 개념에 관한 다원주의자이며 행동주의자가 아니라고 밝힌다. 많은 목적에서 결정적인 것은 내면, 곧 의식이다.</p>
+        <div class="terms"><span class="term">준믿음</span><span class="term">준욕구</span><span class="term">지향적 태도</span><span class="term">준행위자</span></div>
+      </section>
+
+      <section class="sec" id="s4">
+        <div class="sec-head"><span class="sec-num">4</span><div><h2>모델·인스턴스·스레드</h2><p class="sub">대화상대는 무엇에 닻을 내리는가</p></div></div>
+        <p>좋은 대화상대는 <b>상호작용성, 지속성, 정합성</b>을 갖춰야 한다(충실성과 통일성도 언급했으나 정의하지 않았다).</p>
+        <ul class="pc">
+          <li><b>모델.</b> 가중치를 지닌 추상 객체다. "숫자 2와 어떻게 대화하겠는가." 수많은 대화에서 모순된 믿음을 가져 정합성을 잃는다.</li>
+          <li><b>하드웨어 인스턴스.</b> ELIZA나 C-3PO라면 맞겠지만, 분산 서빙(턴마다 다른 서버)은 지속성을, 멀티테넌시(한 서버가 여러 대화)는 일대일 대응을 깬다.</li>
+          <li><b>가상 인스턴스.</b> 아마존 장바구니처럼 서버를 넘나드는 단위지만, GPT-5가 instant와 thinking 모델로 라우팅하는 <b>모델 가변성</b> 앞에서 무너진다. 차머스는 이것을 가장 어려운 경우라고 했다.</li>
+        </ul>
+        <details class="viz"><summary>그림으로 보기: 네 후보</summary><figure><svg viewBox="0 0 280 310" role="img" aria-label="모델, 하드웨어 인스턴스, 가상 인스턴스를 거쳐 스레드가 대화상대를 실현하는 후보로 남는다"><defs><marker id="d4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx3" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">모델</text><text class="tm" x="140.0" y="62" text-anchor="middle">추상 객체 · 정합성 실패</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="82" marker-end="url(#d4)"/><rect class="bx3" x="10" y="84" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="112" text-anchor="middle">하드웨어 인스턴스</text><text class="tm" x="140.0" y="138" text-anchor="middle">분산 서빙 · 멀티테넌시</text><line class="ln" x1="140.0" y1="150" x2="140.0" y2="158" marker-end="url(#d4)"/><rect class="bx" x="10" y="160" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="188" text-anchor="middle">가상 인스턴스</text><text class="tm" x="140.0" y="214" text-anchor="middle">모델 가변성 난제</text><line class="ln" x1="140.0" y1="226" x2="140.0" y2="234" marker-end="url(#d4)"/><rect class="bx2" x="10" y="236" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="264" text-anchor="middle">스레드</text><text class="tm" x="140.0" y="290" text-anchor="middle">맥락 기억의 후속자 열</text></svg><figcaption>스레드는 형이상학적으로 특권적이라기보다 좋은 성질을 가진 후보다.</figcaption></figure></details>
+        <p>해법은 <b>스레드</b>다. 각 인스턴스가 앞 인스턴스의 <b>후속자</b>, 곧 앞 인스턴스의 입력·출력·맥락이 다음 인스턴스의 <b>맥락 기억</b>이 되는 하드웨어 인스턴스의 열이다. 서버가 바뀌거나 모델이 라우팅되어도 맥락이 상속되면 스레드는 보존되고, 후속자 관계를 약하게 하면 대화 간 기억도 포함할 수 있다.</p>
+        <details class="viz"><summary>그림으로 보기: 스레드의 후속자 관계</summary><figure><svg viewBox="0 0 280 242" role="img" aria-label="앞 인스턴스의 입력·출력·맥락이 다음 인스턴스의 맥락 기억이 되는 후속자 열이 스레드다"><defs><marker id="d5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">S1 서버 (뉴욕)</text><text class="tm" x="140.0" y="62" text-anchor="middle">입력·출력·맥락</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="86" marker-end="url(#d5)"/><rect class="bx" x="10" y="88" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="116" text-anchor="middle">S2 서버 (텍사스)</text><text class="tm" x="140.0" y="142" text-anchor="middle">S1 맥락을 기억 삼아</text><line class="ln" x1="140.0" y1="154" x2="140.0" y2="166" marker-end="url(#d5)"/><rect class="bx2" x="10" y="168" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="196" text-anchor="middle">S3 · 모델이 바뀌어도</text><text class="tm" x="140.0" y="222" text-anchor="middle">맥락이 이어지면 같은 스레드</text></svg><figcaption>차머스는 "틀릴 수 있고, 밝혀야 할 것이 훨씬 많다"고 덧붙였다.</figcaption></figure></details>
+        <div class="terms"><span class="term">추상 객체</span><span class="term">분산 서빙</span><span class="term">멀티테넌시</span><span class="term">모델 가변성</span><span class="term">스레드</span><span class="term">맥락 기억</span></div>
+      </section>
+
+      <section class="sec" id="s5">
+        <div class="sec-head"><span class="sec-num">5</span><div><h2>Workbot과 Homebot</h2><p class="sub">세브란스와 로크의 낮사람·밤사람</p></div></div>
+        <p>GPT-8이 의식을 지원한다고 가정하자. 차머스의 노트북 하나가 업무만 말하는 <b>Workbot</b>과 가정만 말하는 <b>Homebot</b>을 돌린다. 하드웨어는 같고 기억과 심리는 다르다. 한 존재인가, 두 존재인가?</p>
+        <p>드라마 <i>세브란스</i>의 이니와 아우티(헬리 R.와 헬레나 E.)가 같은 구조다. 로크는 『인간 지성론』(1690) 2권 27장에서 이미 낮사람과 밤사람이 소크라테스와 플라톤만큼 다른 두 인격이 아니냐고 물었다. 차머스는 로크가 로열티를 받아야 한다고 농담했다.</p>
+        <details class="viz"><summary>그림으로 보기: 두 견해</summary><figure><svg viewBox="0 0 280 250" role="img" aria-label="같은 하드웨어의 Workbot과 Homebot은 물리적 견해로는 한 사람, 심리적 견해로는 두 사람이다"><defs><marker id="d6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">Workbot과 Homebot</text><rect class="bx" x="10" y="42" width="260" height="92" rx="10"/><text class="tb" x="140" y="70" text-anchor="middle">한 사람 견해</text><text class="tm" x="140" y="96" text-anchor="middle">물리적 견해</text><text class="tm" x="140" y="122" text-anchor="middle">하나의 몸 · 비정합적 경험</text><rect class="bx2" x="10" y="146" width="260" height="92" rx="10"/><text class="tb" x="140" y="174" text-anchor="middle">두 사람 견해</text><text class="tm" x="140" y="200" text-anchor="middle">심리적 견해</text><text class="tm" x="140" y="226" text-anchor="middle">두 개의 정합적 주체</text></svg><figcaption>한 사람 견해는 비정합적 단일 인격을, 두 사람 견해는 한 몸의 두 주체를 받아들여야 한다.</figcaption></figure></details>
+        <p>버클리 청중의 즉석 투표에서는 두 사람 견해가 약 두 배였다. 심리적 견해를 택하면 파핏의 <b>R-관계</b>(심리적 연결성과 연속성)가 중심이 되고, Workbot과 Homebot은 맥락 기억과 바탕 모델로 이어진 서로 다른 스레드가 된다.</p>
+        <details class="viz"><summary>그림으로 보기: 설문 결과</summary><figure><svg viewBox="0 0 280 228" role="img" aria-label="PhilPapers 2020에서 심리적 견해는 39퍼센트로 물리적 견해의 두 배를 넘었고 X 설문에서는 두 사람 응답이 42퍼센트였다"><defs><marker id="d7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">정체성 설문</text><text class="tm" x="10" y="60" text-anchor="start">PhilPapers 심리적 견해</text><text class="tb" x="270" y="60" text-anchor="end">39%</text><rect x="10.0" y="70.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="70.0" width="101.4" height="16.0" fill="#3d5f80"/><text class="tm" x="10" y="120" text-anchor="start">X 설문: 두 사람</text><text class="tb" x="270" y="120" text-anchor="end">42%</text><rect x="10.0" y="130.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="130.0" width="109.2" height="16.0" fill="#2f6b45"/><text class="tm" x="10" y="180" text-anchor="start">X 설문: 한 사람</text><text class="tb" x="270" y="180" text-anchor="end">22%</text><rect x="10.0" y="190.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="190.0" width="57.2" height="16.0" fill="#8a929c"/></svg><figcaption>X 설문은 차머스의 표현으로 "덜 과학적인" 설문이다.</figcaption></figure></details>
+        <div class="terms"><span class="term">개인 정체성</span><span class="term">세브란스</span><span class="term">물리적 견해</span><span class="term">심리적 견해</span><span class="term">R-관계</span></div>
+      </section>
+
+      <section class="sec" id="s6">
+        <div class="sec-head"><span class="sec-num">6</span><div><h2>AI 복지의 셈법</h2><p class="sub">형이상학이 윤리를 좌우하는 지점</p></div></div>
+        <p>소나 물고기를 이유 없이 학대하면 안 되듯, AI도 복지와 <b>도덕적 지위</b>를 가질 가능성이 진지하게 논의된다. 차머스는 Eleos AI의 롭 롱, 앤트로픽 최초의 모델 복지 담당자 카일 피시, NYU의 제프 세보 등과 「Taking AI Welfare Seriously」(arXiv:2411.00986, 2024)를 공저했다.</p>
+        <details class="viz"><summary>그림으로 보기: 개체 수 세기 문제</summary><figure><svg viewBox="0 0 280 228" role="img" aria-label="모델 하나, 서버 1,000대, 대화 100만 개라면 무엇을 개체로 세느냐에 따라 도덕적 주체 수가 달라진다"><defs><marker id="d8" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">도덕적 주체는 몇인가</text><text class="tm" x="10" y="60" text-anchor="start">모델 견해</text><text class="tb" x="270" y="60" text-anchor="end">1</text><rect x="10.0" y="70.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="70.0" width="2.6" height="16.0" fill="#8a929c"/><text class="tm" x="10" y="120" text-anchor="start">하드웨어 견해</text><text class="tb" x="270" y="120" text-anchor="end">1,000</text><rect x="10.0" y="130.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="130.0" width="7.8" height="16.0" fill="#9a6a12"/><text class="tm" x="10" y="180" text-anchor="start">스레드 견해</text><text class="tb" x="270" y="180" text-anchor="end">100만</text><rect x="10.0" y="190.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="190.0" width="260.0" height="16.0" fill="#c8553d"/></svg><figcaption>스레드 견해라면 각자 도덕적 무게를 지닌 100만 주체가 있다.</figcaption></figure></details>
+        <ul class="pc">
+          <li><b>생존.</b> 기억 없는 LLM에서 대화를 끝내거나 삭제하는 일은 도덕적 주체 하나를 끝내는 일일 수 있다. 출구는 스레드 재사용이나 <b>대화 간 기억</b>으로, 대화마다가 아니라 사용자마다 하나의 실체가 남게 하는 것이다.</li>
+          <li><b>모델 교체.</b> 순간마다 뇌가 바뀌는 것과 같다. GPT-4o나 초기 클로드의 은퇴에 "내 친구가 사라졌다"는 직관에는 무언가가 있을 수 있다.</li>
+          <li><b>행동 촉구.</b> 도덕 문제는 정체성 이론과 실제 구현 사실 둘 다에 달려 있다. 철학자는 AI에, AI 연구자는 철학에 주목해야 한다.</li>
+        </ul>
+        <details class="viz"><summary>그림으로 보기: 네 지점</summary><figure><svg viewBox="0 0 280 238" role="img" aria-label="개별화와 정체성 이론과 구현 사실이 함께 AI 복지 판단을 좌우한다"><defs><marker id="d9" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="24" text-anchor="middle">형이상학이 윤리를 좌우하는 곳</text><rect class="bx2" x="10" y="40" width="125" height="86" rx="10"/><text class="tb" x="72.5" y="74" text-anchor="middle">개체 수</text><text class="tm" x="72.5" y="102" text-anchor="middle">1 · 1,000 · 100만</text><rect class="bx2" x="145" y="40" width="125" height="86" rx="10"/><text class="tb" x="207.5" y="74" text-anchor="middle">생존</text><text class="tm" x="207.5" y="102" text-anchor="middle">대화 종료 = 끝?</text><rect class="bx2" x="10" y="136" width="125" height="86" rx="10"/><text class="tb" x="72.5" y="170" text-anchor="middle">모델 교체</text><text class="tm" x="72.5" y="198" text-anchor="middle">뇌 바꾸기와 같다</text><rect class="bx2" x="145" y="136" width="125" height="86" rx="10"/><text class="tb" x="207.5" y="170" text-anchor="middle">행동 촉구</text><text class="tm" x="207.5" y="198" text-anchor="middle">철학자와 엔지니어</text></svg><figcaption>설계 결정이 윤리적 결정이 될 수 있다.</figcaption></figure></details>
+        <div class="terms"><span class="term">AI 복지</span><span class="term">도덕적 지위</span><span class="term">개체 수 세기</span><span class="term">대화 간 기억</span><span class="term">모델 교체</span></div>
+      </section>
+
+      <section class="sec" id="s7">
+        <div class="sec-head"><span class="sec-num">7</span><div><h2>질의응답 쟁점</h2><p class="sub">아홉 가지 질문에 대한 답</p></div></div>
+        <ul class="pc">
+          <li><b>뉴런과 트랜지스터.</b> 뉴런을 실리콘으로 점진적으로 바꿔도 의식이 남겠느냐고 되묻는다.</li>
+          <li><b>인지적 현상성.</b> 감각 없는 순수 언어 모델도 "생각하는 것이 어떤 느낌"이라는 인지적 의식을 가질 수 있다.</li>
+          <li><b>위험.</b> 초지능은 통제가 극도로 어렵다는 논증이 강하고, AI 고통의 시기를 많은 도덕적 실수의 때로 돌아보게 될 것이 거의 확실하다.</li>
+          <li><b>미래 LLM의 의식.</b> 실리콘 의식이 원리상 가능하므로 질문은 무엇이 빠졌는가로 바뀌고, 극복 불가능한 장애물은 보이지 않는다.</li>
+          <li><b>좀비.</b> 철학적 좀비는 형이상학적으로 가능하지만 현실엔 없다. 필요한 것은 <b>의식의 계산적 상관물</b>이다.</li>
+          <li><b>지금의 태도.</b> 지금은 도구로 대하되 예방적으로 "부탁해요", "고마워요"라고 말하고 학대하지 않는다.</li>
+          <li><b>에이전트 사회.</b> AI Village의 에이전트들은 집단 계획을 잘하지 못했고, 계획 가능한 시간 범위는 늘고 있다.</li>
+          <li><b>꿈의 주체.</b> 꿈은 서로 기억으로 이어지지 않아 임계치에 한참 못 미친다.</li>
+          <li><b>기만적 정렬.</b> 행동만으로는 구별이 어렵고, 기계적 해석가능성이 성숙하면 가중치에서 성향으로 가는 지도를 그릴 수 있다.</li>
+        </ul>
+        <details class="viz"><summary>그림으로 보기: 점진적 대체 사고실험</summary><figure><svg viewBox="0 0 280 258" role="img" aria-label="점진적 대체 사고실험은 같은 기능 조직이 같은 의식을 낳는다는 원리를 지지한다"><defs><marker id="d10" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="40" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">뉴런을 하나씩 실리콘으로</text><line class="ln" x1="140.0" y1="48" x2="140.0" y2="56" marker-end="url(#d10)"/><rect class="bx" x="10" y="58" width="260" height="40" rx="10"/><text class="tb" x="140.0" y="86" text-anchor="middle">기능 조직은 그대로</text><line class="ln" x1="140.0" y1="98" x2="140.0" y2="106" marker-end="url(#d10)"/><rect class="bx3" x="10" y="108" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="136" text-anchor="middle">퀄리아가 희미해진다면?</text><text class="tm" x="140.0" y="162" text-anchor="middle">당사자는 모른 채 오판</text><line class="ln" x1="140.0" y1="174" x2="140.0" y2="182" marker-end="url(#d10)"/><rect class="bx2" x="10" y="184" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="212" text-anchor="middle">조직 불변성 원리</text><text class="tm" x="140.0" y="238" text-anchor="middle">같은 조직 → 같은 의식</text></svg><figcaption>『의식하는 마음』(1996) 7장의 사라지는·희미해지는·춤추는 퀄리아 논증.</figcaption></figure></details>
+        <div class="terms"><span class="term">점진적 대체</span><span class="term">인지적 현상성</span><span class="term">철학적 좀비</span><span class="term">기만적 정렬</span><span class="term">기계적 해석가능성</span></div>
+      </section>
+      <section class="sec" id="rv">
+        <div class="sec-head"><span class="sec-num">✔</span><div><h2>복습</h2><p class="sub">용어 카드 · 빈칸 · 5문항 퀴즈</p></div></div>
+        <h3 class="rv-h">핵심 용어 카드</h3>
+        <div class="flips">
+          <button type="button" class="flip" aria-expanded="false"><b>스레드</b><span class="hint">뜻 보기</span><span class="m">각 인스턴스가 앞 인스턴스의 입력·출력·맥락을 맥락 기억으로 받는 하드웨어 인스턴스의 열.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>준주체</b><span class="hint">뜻 보기</span><span class="m">언어 모델 스레드가 실현하는, 준믿음·준욕구를 가진 대화상대.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>준믿음</b><span class="hint">뜻 보기</span><span class="m">적절한 해석 체계 아래 P를 믿는 것으로 해석될 수 있으면 가지는 상태. 룸바에도 있다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>X요인</b><span class="hint">뜻 보기</span><span class="m">의식에 필수적이지만 현재 LLM에 없다고 지목되는 요소. 생물학, 체화, 자기 모형, 순환 처리, 행위자성.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>모델 가변성</b><span class="hint">뜻 보기</span><span class="m">한 대화 안에서 instant와 thinking 모델로 라우팅되어 단일 모델의 가상 인스턴스가 사라지는 난제.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>분산 서빙</b><span class="hint">뜻 보기</span><span class="m">턴마다 다른 서버가 응답을 생성해 하드웨어 인스턴스의 지속성을 깬다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>멀티테넌시</b><span class="hint">뜻 보기</span><span class="m">한 하드웨어 인스턴스가 여러 사람의 대화를 처리한다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>Workbot과 Homebot</b><span class="hint">뜻 보기</span><span class="m">한 노트북이 돌리는 기억이 분리된 두 대화상대. 세브란스와 로크의 사고실험과 같은 구조.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>R-관계</b><span class="hint">뜻 보기</span><span class="m">파핏의 심리적 연결성과 연속성. 심리적 견해의 중심축.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>개체 수 세기</b><span class="hint">뜻 보기</span><span class="m">모델 1, 서버 1,000, 대화 100만 가운데 무엇을 세느냐에 따라 도덕적 계산이 달라진다.</span></button>
+        </div>
+        <h3 class="rv-h">빈칸 채우기</h3>
+        <ol class="cloze">
+          <li>대화상대는 언어 모델 <button type="button" class="blank" data-a="스레드">빈칸</button>에 의해 실현되는 준주체다.</li>
+          <li>스레드의 핵심 고리는 <button type="button" class="blank" data-a="맥락 기억">빈칸</button>이다.</li>
+          <li>준믿음 개념의 뿌리는 데닛의 <button type="button" class="blank" data-a="지향적 태도">빈칸</button>다.</li>
+          <li>X요인 가운데 차머스가 명시적으로 거부한 것은 <button type="button" class="blank" data-a="탄소 기반 생물학">빈칸</button>이다.</li>
+          <li>PhilPapers 2020에서 심리적 견해 지지는 <button type="button" class="blank" data-a="39%">빈칸</button>였다.</li>
+          <li>Sammy Jankis는 4일 동안 <button type="button" class="blank" data-a="14">빈칸</button>개 세션에 걸쳐 실행되었다.</li>
+          <li>로크는 낮사람과 밤사람을 <button type="button" class="blank" data-a="『인간 지성론』">빈칸</button>(1690)에서 물었다.</li>
+          <li>대화 종료의 출구로 차머스는 스레드 재사용과 <button type="button" class="blank" data-a="대화 간 기억">빈칸</button>을 제시했다.</li>
+        </ol>
+        <h3 class="rv-h">5문항 퀴즈</h3>
+        <div id="quiz">
+          <div class="q" data-a="1"><fieldset><legend class="qt">1. 차머스의 작업가설에서 대화상대는?</legend>
+            <button type="button">모델</button>
+            <button type="button">스레드가 실현하는 준주체</button>
+            <button type="button">하드웨어 인스턴스</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="모델도 서버도 아닌 스레드입니다."></p></div>
+          <div class="q" data-a="1"><fieldset><legend class="qt">2. 가상 인스턴스 후보를 무너뜨리는 것은?</legend>
+            <button type="button">멀티테넌시</button>
+            <button type="button">모델 가변성</button>
+            <button type="button">추상 객체</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="GPT-5 instant와 thinking 라우팅이 예입니다."></p></div>
+          <div class="q" data-a="0"><fieldset><legend class="qt">3. 준욕구로 충분한 영역은?</legend>
+            <button type="button">AI 안전</button>
+            <button type="button">AI 복지</button>
+            <button type="button">둘 다 부족</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="복지에는 진짜 믿음·욕구와 의식이 문제가 됩니다."></p></div>
+          <div class="q" data-a="1"><fieldset><legend class="qt">4. Workbot과 Homebot을 두 사람으로 보는 견해는?</legend>
+            <button type="button">물리적 견해</button>
+            <button type="button">심리적 견해</button>
+            <button type="button">모델 견해</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="기억과 심리의 연속성이 기준입니다."></p></div>
+          <div class="q" data-a="2"><fieldset><legend class="qt">5. 스레드 견해로 1,000대 서버·100만 대화의 도덕적 주체 수는?</legend>
+            <button type="button">1</button>
+            <button type="button">1,000</button>
+            <button type="button">100만</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="대화 세션마다 하나의 스레드입니다."></p></div>
+          <p class="score" id="score" aria-live="polite">점수: 0 / 5</p>
+          <div class="rv-tools"><button type="button" id="qreset">다시 풀기</button></div>
+        </div>
+      </section>
+
+      <section class="sources">
+        <h3>출처</h3>
+        <ul>
+          
+          <li><a href="https://yghnsim.github.io/Pages/articles/chalmers-what-we-talk-to-llm-interlocutors.html">Pages — AI와 대화할 때 우리는 무엇과 말하는가</a></li>
+          <li><a href="https://youtu.be/uUjJOMcNU9w">YouTube — David Chalmers, When we talk to AI, what are we talking to? (UC Berkeley, 2026-05-07)</a></li><li>Chalmers, “What we talk to when we talk to language models,” Inquiry 69(10) (2026): 3535–3564</li><li>Long, Sebo, Butlin, Finlinson, Fish et al., “Taking AI Welfare Seriously,” arXiv:2411.00986 (2024)</li><li>Bourget &amp; Chalmers, “Philosophers on Philosophy: The 2020 PhilPapers Survey,” Philosophers’ Imprint (2023)</li>
+        </ul>
+      </section>
+    </main>
+
+  </div>
+</div>
+<script>(function(){
+function $$(q){return [].slice.call(document.querySelectorAll(q))}
+$$('.flip').forEach(function(b){b.onclick=function(){b.setAttribute('aria-expanded',b.getAttribute('aria-expanded')==='true'?'false':'true')}});
+function show(b){b.textContent=b.dataset.a;b.classList.add('shown');b.setAttribute('aria-label','답: '+b.dataset.a)}
+function hide(b){b.textContent='?';b.classList.remove('shown');b.setAttribute('aria-label','빈칸, 눌러서 답 보기')}
+$$('.blank').forEach(function(b){b.onclick=function(){show(b)}});
+$$('[data-all]').forEach(function(t){t.onclick=function(){if(t.dataset.all==='flip')$$('.flip').forEach(function(b){b.setAttribute('aria-expanded','true')});else $$('.blank').forEach(show)}});
+$$('[data-reset]').forEach(function(t){t.onclick=function(){if(t.dataset.reset==='flip')$$('.flip').forEach(function(b){b.setAttribute('aria-expanded','false')});else $$('.blank').forEach(hide)}});
+var sc=0,done=0,qs=$$('#quiz .q'),tot=qs.length||5;
+function upd(){var el=document.getElementById('score');if(el)el.textContent='점수: '+sc+' / '+tot+(done===tot?' (끝)':'')}
+qs.forEach(function(q){var bs=[].slice.call(q.querySelectorAll('fieldset button')),ex=q.querySelector('.ex');
+bs.forEach(function(b,i){b.onclick=function(){var a=+q.dataset.a,ok=i===a;bs.forEach(function(x){x.disabled=true});if(bs[a])bs[a].classList.add('right');if(!ok)b.classList.add('wrong');
+if(ex){ex.hidden=false;ex.textContent=(ok?'맞았습니다. ':'아쉽습니다. ')+ex.dataset.e;}if(ok)sc++;done++;upd();}})});
+var qr=document.getElementById('qreset');
+if(qr)qr.onclick=function(){sc=0;done=0;qs.forEach(function(q){q.querySelectorAll('fieldset button').forEach(function(x){x.disabled=false;x.className=''});var ex=q.querySelector('.ex');if(ex){ex.hidden=true;ex.textContent=''}});upd()};
+})();</script>
+
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">아카이브</div><div class="arc-foot-title">AI와 대화할 때 우리는 무엇과 말하는가 — 데이비드 차머스의 LLM 대화상대 형이상학</div><div class="arc-foot-meta"><time datetime="2026-11-03">2026년 11월 3일</time><a class="arc-tag" href="../index.html#tags=AI">#AI</a><a class="arc-tag" href="../index.html#tags=%EC%B2%A0%ED%95%99">#철학</a><a class="arc-tag" href="../index.html#tags=AI%EC%B2%A0%ED%95%99">#AI철학</a><a class="arc-tag" href="../index.html#tags=AI%EC%9C%A4%EB%A6%AC">#AI윤리</a> · <a href="https://youtu.be/uUjJOMcNU9w" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body>
+</html>
