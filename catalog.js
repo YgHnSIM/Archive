@@ -9,7 +9,8 @@ window.ARCHIVE_CATALOG = [
       "AI",
       "철학",
       "AI철학",
-      "AI윤리"
+      "AI윤리",
+      "해설"
     ],
     "date": "2026-11-03",
     "file": "pages/2026-11-03-차머스LLM대화상대.html",
