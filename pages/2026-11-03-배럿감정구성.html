@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light only">
+<title>감정은 읽히는 것이 아니라 만들어진다 — 리사 펠드먼 배럿의 예측하는 뇌와 몸 예산</title>
+<meta name="description" content="리사 펠드먼 배럿 대담 해설: 보편 표정 반박, 범주 구성, 압축 기울기, 원심성 사본, 감정 입자도, 정동과 몸 예산, 감정 독감, 관계는 저축 아니면 세금">
+<style>
+:root{color-scheme:light only;
+  --bg:#faf8f3; --paper:#ffffff; --ink:#1f2328; --muted:#5b6470; --line:#e6e1d6;
+  --accent:#c8553d; --accent-soft:#fbeee9; --link:#4a6b8a;
+  --new:#3d5f80; --new-soft:#eaf0f6; --radius:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:20px}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR","Malgun Gothic","Gothic A1",system-ui,sans-serif;
+  font-size:17px;line-height:1.75;word-break:keep-all;overflow-wrap:break-word}
+@media(max-width:640px){body{font-size:16px}}
+a{color:var(--link)}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+.hero{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{display:inline-block;font-size:13px;font-weight:700;color:#a8432e;background:var(--accent-soft);padding:3px 10px;border-radius:999px;margin-bottom:12px}
+.hero h1{font-size:clamp(28px,4.4vw,44px);line-height:1.25;margin:0 0 12px;letter-spacing:-.02em}
+.hero .lead{font-size:18px;color:var(--muted);line-height:1.65;margin:0}
+@media(max-width:640px){.hero .lead{font-size:17px}}
+.hero-cta{margin-top:16px}
+.hero-cta a{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--new);color:#fff;border-radius:10px;font-weight:700;font-size:15px;text-decoration:none}
+.grid{display:grid;grid-template-columns:240px minmax(0,1fr);gap:36px;align-items:start}
+@media(max-width:880px){.grid{grid-template-columns:minmax(0,1fr);gap:0}}
+.toc{position:sticky;top:20px;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;font-size:15px}
+.toc .toc-t{font-weight:700;margin:0 0 10px}
+.toc ol{margin:0;padding:0;list-style:none}
+.toc li{margin:6px 0}
+.toc a{color:var(--muted);display:flex;align-items:baseline;gap:8px;text-decoration:none;line-height:1.45}
+.toc a:hover{color:var(--link)}
+.toc .n{flex:none;display:inline-block;width:22px;height:22px;line-height:22px;text-align:center;border-radius:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:700}
+.toc .orig{display:block;margin-top:14px;padding-top:10px;border-top:1px dashed var(--line);font-size:14px;color:#a8432e;font-weight:700}
+@media(max-width:880px){
+  .toc{position:sticky;top:0;z-index:20;margin:0 -20px 20px;border-radius:0;border-width:0 0 1px;padding:8px 12px;background:rgba(250,248,243,.97);overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .toc .toc-t,.toc .orig{display:none}
+  .toc ol{display:flex;gap:6px;white-space:nowrap}
+  .toc li{margin:0}
+  .toc a{background:#f1ede4;color:var(--ink);border-radius:999px;padding:6px 12px;font-size:14px;align-items:center}
+  .toc .n{background:none;width:auto;height:auto;line-height:1;color:var(--muted)}
+  html{scroll-padding-top:64px}
+}
+main{min-width:0}
+.sec{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:24px 28px;margin-bottom:28px}
+@media(max-width:640px){.sec{padding:18px 16px}}
+.sec-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px}
+.sec-num{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:12px;background:var(--ink);color:#fff;font-weight:800;font-size:17px;flex-shrink:0;margin-top:2px}
+@media(max-width:640px){.sec-num{width:34px;height:34px;font-size:15px}}
+.sec-head h2{font-size:clamp(23px,3vw,30px);line-height:1.3;margin:0;letter-spacing:-.015em}
+.sec-head .sub{font-size:16px;color:var(--muted);margin:3px 0 0}
+h3{font-size:19px;margin:22px 0 8px}
+p{margin:0 0 14px}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin:4px 0}
+.theses{counter-reset:t;list-style:none;padding:0;margin:0 0 16px}
+.theses li{counter-increment:t;position:relative;padding:10px 14px 10px 50px;margin:8px 0;background:#fdfcf9;border:1px solid var(--line);border-radius:12px}
+.theses li::before{content:counter(t);position:absolute;left:14px;top:12px;width:24px;height:24px;border-radius:50%;background:var(--accent-soft);color:#a8432e;font-weight:800;font-size:14px;display:grid;place-items:center}
+.tblw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:16px 0}
+.tbl{width:100%;min-width:520px;border-collapse:collapse;font-size:16px}
+.tbl th,.tbl td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+.tbl th{background:var(--new-soft);color:var(--new);font-weight:700}
+.tbl td{background:#fff}
+.callout{background:var(--new-soft);border-left:4px solid var(--new);border-radius:10px;padding:12px 16px;margin:14px 0}
+.callout.warm{background:var(--accent-soft);border-left-color:var(--accent)}
+.callout p:last-child{margin:0}
+blockquote{margin:14px 0;padding:12px 18px;background:#fff;border-left:5px solid var(--accent);border-radius:0 12px 12px 0}
+blockquote p{margin:0}
+.terms{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+.term{display:inline-flex;align-items:center;gap:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:600;padding:4px 10px;border-radius:8px}
+details.viz{margin:14px 0;border:1px solid var(--line);border-radius:12px;background:#fdfcf9}
+details.viz summary{cursor:pointer;list-style:none;padding:12px 14px;font-weight:600;font-size:16px;color:var(--new);min-height:44px;display:flex;align-items:center;gap:8px}
+details.viz summary::-webkit-details-marker{display:none}
+details.viz summary::before{content:"▸";font-size:14px;color:var(--accent)}
+details.viz[open] summary::before{content:"▾"}
+details.viz figure{margin:0;padding:4px 12px 14px}
+details.viz svg{display:block;width:100%;height:auto;max-width:400px;margin:0 auto;font-family:"Pretendard","Noto Sans KR",sans-serif}
+details.viz figcaption{font-size:16px;color:var(--muted);line-height:1.6;margin-top:8px}
+svg .bx{fill:#fff;stroke:#5b6470;stroke-width:1.4}
+svg .bx2{fill:#eaf0f6;stroke:#3d5f80;stroke-width:1.4}
+svg .bx3{fill:#fbeee9;stroke:#c8553d;stroke-width:1.4}
+svg .t{fill:#1f2328;font-size:18px}
+svg .tb{fill:#1f2328;font-size:18px;font-weight:700}
+svg .tm{fill:#4a525c;font-size:17.5px}
+svg .ln{stroke:#5b6470;stroke-width:1.5;fill:none}
+svg .lnd{stroke:#5b6470;stroke-width:1.5;fill:none;stroke-dasharray:5 4}
+.sources{background:var(--new-soft);border:1px solid var(--line);border-radius:var(--radius);padding:18px 22px;margin-top:32px;font-size:16px;color:#3f4650}
+.sources h3{font-size:17px;color:var(--new);margin:0 0 8px}
+.sources ul{margin:0;padding-left:20px}
+/* 복습 컴포넌트 표준 스타일 */
+.rv-h{font-size:19px;margin:22px 0 6px}
+.flips{display:grid;grid-template-columns:1fr;gap:8px;margin:10px 0}
+@media(min-width:640px){.flips{grid-template-columns:1fr 1fr}}
+.flip{font:inherit;text-align:left;width:100%;border:1.5px solid var(--line,#e6e1d6);background:#fdfcf9;border-radius:12px;padding:10px 14px;cursor:pointer;color:var(--ink,#1f2328);min-height:64px}
+.flip b{display:block;font-size:17px}
+.flip .m{display:none;font-size:16px;line-height:1.6;margin-top:4px}
+.flip .hint{font-size:13px;color:var(--muted,#5b6470)}
+.flip[aria-expanded="true"]{border-color:var(--new,#3d5f80);background:var(--new-soft,#eaf0f6)}
+.flip[aria-expanded="true"] .m{display:block}
+.flip[aria-expanded="true"] .hint{display:none}
+.cloze{list-style:none;margin:10px 0;padding:0}
+.cloze li{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:10px 14px;margin:8px 0;background:#fdfcf9;font-size:16px;line-height:1.8}
+.blank{font:inherit;font-size:16px;border:0;border-bottom:2px dashed var(--accent,#c8553d);background:var(--accent-soft,#fbeee9);color:#a8432e;border-radius:6px 6px 0 0;padding:0 8px;cursor:pointer;min-width:4.5em}
+.blank.shown{border-bottom-style:solid;background:var(--new-soft,#eaf0f6);color:var(--new,#3d5f80);font-weight:700}
+.rv-tools{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.rv-tools button{font:inherit;font-size:15px;border:1px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link,#4a6b8a)}
+.q{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:12px 14px;margin:10px 0;background:#fdfcf9}
+.q fieldset{border:0;margin:0;padding:0;min-width:0}
+.q legend{font-weight:700;padding:0;margin:0 0 8px;font-size:16.5px}
+.q button{display:block;width:100%;text-align:left;font:inherit;font-size:16px;border:1.5px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:8px 12px;margin:6px 0;cursor:pointer;color:var(--ink,#1f2328)}
+.q button.right{border-color:#2f6b45;background:#e6f1ea}
+.q button.wrong{border-color:#a2452f;background:#fbeee9}
+.q button[disabled]{cursor:default;opacity:1}
+.q .ex{margin:8px 0 0;font-size:16px;padding:8px 10px;border-radius:8px;background:var(--new-soft,#eaf0f6)}
+.score{font-size:17px;font-weight:800;margin:10px 0 0}
+.arc-back b,.arc-foot-label{color:#a8432e!important}
+.chk{display:inline-block;font-size:16px;font-weight:700;color:#8a3a12;background:#fdf0e3;border:1px solid #e8c9a8;border-radius:6px;padding:0 6px;margin-left:4px;white-space:nowrap}
+pre{background:#f6f4ee;border:1px solid var(--line);border-radius:10px;padding:12px 14px;overflow-x:auto;-webkit-overflow-scrolling:touch;margin:14px 0;font-size:16px;line-height:1.6}
+pre code{font-family:"JetBrains Mono","D2Coding",ui-monospace,Menlo,Consolas,monospace;color:#1f2328;white-space:pre}
+code{font-family:"JetBrains Mono","D2Coding",ui-monospace,Menlo,Consolas,monospace;font-size:.92em;background:#f3efe6;border-radius:4px;padding:0 4px}
+pre code{background:none;padding:0;font-size:inherit}
+@media(max-width:640px){pre{margin:12px -4px}}
+.steps,.pc{padding-left:1.3em}.steps li,.pc li{margin:8px 0}
+</style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
+</head>
+<body>
+<!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>아카이브</a><span class="arc-crumb">감정은 읽히는 것이 아니라 만들어진다 — 리사 펠드먼 배럿의 예측하는 뇌와 몸 예산</span><span class="arc-meta"><time datetime="2026-11-03">2026년 11월 3일</time><a class="arc-tag" href="../index.html#tags=%EC%82%AC%ED%9A%8C%EA%B3%BC%ED%95%99">#사회과학</a><a class="arc-tag" href="../index.html#tags=%EC%83%9D%EB%AC%BC%ED%95%99">#생물학</a><a class="arc-tag" href="../index.html#tags=%EC%8B%A0%EA%B2%BD%EA%B3%BC%ED%95%99">#신경과학</a><a class="arc-tag" href="../index.html#tags=%EC%9D%B8%EC%A7%80%EC%8B%AC%EB%A6%AC%ED%95%99">#인지심리학</a><a class="arc-tag" href="../index.html#tags=%ED%95%B4%EC%84%A4">#해설</a><a class="arc-src" href="https://www.youtube.com/watch?v=FeRgqJVALMQ" rel="noopener">원문 ↗</a></span></div></div>
+<!-- archive-header:end -->
+<div class="wrap">
+  <header class="hero">
+    <span class="eyebrow">신경과학 · 인지심리학 해설</span>
+    <h1>감정은 읽히는 것이 아니라 만들어진다 — 리사 펠드먼 배럿의 예측하는 뇌와 몸 예산</h1>
+    <p class="lead">얼굴 움직임은 표정이 아니라 해석의 대상이고, 감정은 변이가 큰 사례들의 범주다. 감각 표면만 아는 뇌는 과거를 재조합해 미래를 추측하고, 그 추측은 먼저 운동 계획으로 나타난다. 정동은 몸 예산의 잔고 요약이며, 다른 사람은 그 예산의 저축이 되기도 세금이 되기도 한다.</p>
+    <div class="hero-cta"><a href="https://yghnsim.github.io/Pages/articles/barrett-how-emotions-are-made-body-budget.html">📚 Pages에서 심화 해설 전문 읽기 ↗</a></div>
+  </header>
+  <div class="grid">
+    <nav class="toc" aria-label="목차">
+      <p class="toc-t">목차</p>
+      <ol>
+        <li><a href="#s0"><span class="n">★</span>한눈에 보기</a></li>
+        <li><a href="#s1"><span class="n">1</span>움직임은 표현이 아니다</a></li>
+        <li><a href="#s2"><span class="n">2</span>보편 표정은 없다</a></li>
+        <li><a href="#s3"><span class="n">3</span>상자 속의 추측 기계</a></li>
+        <li><a href="#s4"><span class="n">4</span>요약의 요약</a></li>
+        <li><a href="#s5"><span class="n">5</span>행동이 먼저</a></li>
+        <li><a href="#s6"><span class="n">6</span>감정 입자도</a></li>
+        <li><a href="#s7"><span class="n">7</span>정동과 몸 예산</a></li>
+        <li><a href="#s8"><span class="n">8</span>우울과 감정 독감</a></li>
+        <li><a href="#s9"><span class="n">9</span>서로의 신경계</a></li>
+        <li><a href="#s10"><span class="n">10</span>실천</a></li>
+        <li><a href="#rv"><span class="n">✔</span>복습 &amp; 퀴즈</a></li>
+      </ol>
+      <a class="orig" href="https://yghnsim.github.io/Pages/articles/barrett-how-emotions-are-made-body-budget.html">심화 원문(Pages) ↗</a>
+    </nav>
+    <main id="content">
+      <section class="sec" id="s0">
+        <div class="sec-head"><span class="sec-num">★</span><div><h2>한눈에 보기</h2><p class="sub">다섯 줄 요약</p></div></div>
+        <ol class="theses">
+          <li><b>얼굴에서 감정을 읽지 않는다.</b> 맥락 속에서 얼굴 움직임의 의미를 추론한다.</li>
+          <li><b>감정은 사물이 아니라 범주다.</b> 분노는 변이가 큰 사례들의 묶음이다.</li>
+          <li><b>행동이 먼저, 경험은 나중.</b> 경험은 운동 계획의 사본에서 나온다.</li>
+          <li><b>정동은 몸 예산의 잔고 요약이다.</b> 감정은 그 원인과 대처에 대한 이야기다.</li>
+          <li><b>다른 사람은 저축이거나 세금이다.</b> 우리는 서로의 신경계를 돌본다.</li>
+        </ol>
+        <details class="viz"><summary>그림으로 보기: 두 관점</summary><figure><svg viewBox="0 0 280 250" role="img" aria-label="고전적 관점은 자극이 감정 회로를 촉발한다고 보고, 배럿은 뇌가 과거로 범주를 구성해 먼저 운동을 계획한다고 본다"><defs><marker id="d1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">감정을 보는 두 관점</text><rect class="bx3" x="10" y="42" width="260" height="92" rx="10"/><text class="tb" x="140" y="70" text-anchor="middle">고전적 관점</text><text class="tm" x="140" y="96" text-anchor="middle">자극 → 감정 회로 촉발</text><text class="tm" x="140" y="122" text-anchor="middle">고유 표정 → 나중에 이름</text><rect class="bx2" x="10" y="146" width="260" height="92" rx="10"/><text class="tb" x="140" y="174" text-anchor="middle">배럿의 관점</text><text class="tm" x="140" y="200" text-anchor="middle">범주 구성 → 운동 계획</text><text class="tm" x="140" y="226" text-anchor="middle">사본 = 예측 → 확인·오차</text></svg><figcaption>"뇌 안에 감정 체계라는 것은 없다."</figcaption></figure></details>
+        <div class="terms"><span class="term">리사 펠드먼 배럿</span><span class="term">구성된 감정 이론</span><span class="term">예측 처리</span><span class="term">몸 예산</span></div>
+      </section>
+
+      <section class="sec" id="s1">
+        <div class="sec-head"><span class="sec-num">1</span><div><h2>움직임은 표현이 아니다</h2><p class="sub">감정마다 고유한 지문은 없다</p></div></div>
+        <p>감정을 뇌·생리·얼굴의 '조율된 반응'으로 정의하면 삶의 모든 순간이 해당된다. 얼굴은 늘 움직이고, 그 움직임은 늘 생리 변화와 조율된다. 공포에는 고유한 <b>진단 패턴</b>이 있다는 오랜 주장도 경험적 증거가 뒷받침하지 않는다. 서구 과학자가 공포의 표정이라 여긴 '눈 크게 뜨고 숨 들이켜는 얼굴'은 멜라네시아에서는 공격하겠다는 위협, '전쟁의 얼굴'이다.</p>
+        <p><b>움직임은 표정이 아니다.</b> 표정은 움직임의 의미에 대한 해석이다. 뇌는 얼굴만이 아니라 소리, 냄새, 자기 몸 상태까지 포함한 신호의 앙상블 속에서 의미를 만든다. 맥락 없이 우는 소녀는 슬퍼 보이지만, 화면을 넓히면 이라크에서 돌아온 아빠를 맞는 장면일 수 있다. 미소 하나, 파워 포즈 하나로 전체를 바꾼다는 단순한 기계론은 맞지 않는다.</p>
+        <div class="callout"><p>요점은 "감정이 없다"가 아니라 "감정마다 고유한 지문이 있다는 가정이 틀렸다"는 것이다.</p></div>
+        <div class="terms"><span class="term">진단 패턴</span><span class="term">표정과 움직임</span><span class="term">신호의 앙상블</span><span class="term">맥락</span></div>
+      </section>
+
+      <section class="sec" id="s2">
+        <div class="sec-head"><span class="sec-num">2</span><div><h2>보편 표정은 없다</h2><p class="sub">천 편의 논문, 다섯 명의 과학자</p></div></div>
+        <p>배럿은 보편 표정론을 "과학적 사실로 모셔진 서구의 고정관념"이라 부른다. 심리과학협회가 맡긴 합의 논문(Barrett, Adolphs, Marsella, Martinez &amp; Pollak, 2019, <i>Psychological Science in the Public Interest</i>)을 위해 다섯 원로 과학자가 2년 반 동안 천 편이 넘는 논문을 읽었다. 출발점에서 배럿만이 일대일 대응이 없다는 가설이었지만, 적대하지 않고 데이터에 대한 합의만 찾기로 했고 "모두가 무언가에 대해 틀렸다." 결론은 <b>보편 표정의 증거는 없고, 얼굴 움직임은 변이가 매우 크다</b>는 것이었다.</p>
+        <details class="viz"><summary>그림으로 보기: 35%라는 숫자</summary><figure><svg viewBox="0 0 280 168" role="img" aria-label="서구에서도 화났을 때 찡그리는 경우는 약 35퍼센트뿐이다"><defs><marker id="d2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">신뢰도: 분노와 찡그림</text><text class="tm" x="10" y="60" text-anchor="start">화났을 때 찡그림</text><text class="tb" x="270" y="60" text-anchor="end">약 35%</text><rect x="10.0" y="70.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="70.0" width="91.0" height="16.0" fill="#3d5f80"/><text class="tm" x="10" y="120" text-anchor="start">찡그리지 않음</text><text class="tb" x="270" y="120" text-anchor="end">약 65%</text><rect x="10.0" y="130.0" width="260.0" height="16.0" fill="#eef0f2"/><rect x="10.0" y="130.0" width="169.0" height="16.0" fill="#8a929c"/></svg><figcaption>우연보다는 높지만, 65%는 다른 의미 있는 방식으로 얼굴을 움직인다.</figcaption></figure></details>
+        <p>메타분석에 따르면 서구에서도 화났을 때 찡그리는 경우는 약 35%다(신뢰도). 찡그린 얼굴의 절반가량은 분노와 무관하다(특이도). 집단 평균에서 유의한 것과 한 사람의 마음을 읽는 것은 다른 문제다. 탄자니아의 하드자 수렵채집민은 대부분 얼굴 움직임을 감정과 관련된 것으로 경험하지조차 않았다. 아기는 얼굴 같은 배치에 대한 선호를 가지고 태어나 첫 석 달 동안 얼굴을 배운다. 유전자는 설계도가 아니다.</p>
+        <p>이것이 심각한 이유는 법정이다. 배심원과 경찰이 얼굴에서 뉘우침을 읽을 수 있다고 믿어 사람이 사형수가 된다. 이노센스 프로젝트가 개입한 텍사스의 멜리사 루시오 사건은 2022년 집행이 중지됐다. 오래 본 사람의 '말'은 배울 수 있지만, 낯선 이의 얼굴을 읽는 보편 사전은 없다.</p>
+        <div class="terms"><span class="term">합의 논문</span><span class="term">신뢰도</span><span class="term">특이도</span><span class="term">하드자</span><span class="term">문화적 유전</span></div>
+      </section>
+
+      <section class="sec" id="s3">
+        <div class="sec-head"><span class="sec-num">3</span><div><h2>상자 속의 추측 기계</h2><p class="sub">범주를 짓는 뇌</p></div></div>
+        <p>배럿은 '화가 난다' 같은 민속 범주가 아니라 신경계의 구조에서 출발한다. 세로토닌은 '행복 물질'이 아니라 대사 조절자이고, 코르티솔은 '스트레스 호르몬'이 아니라 뇌가 큰 대사 지출이 필요하다고 믿을 때 더 나오는 호르몬이다.</p>
+        <p>뇌가 아는 것은 몸의 <b>감각 표면</b>뿐이고, 두개골이라는 어둡고 조용한 상자 속에서 신호의 원인을 추측해야 한다(<b>역문제</b>). 그 추측은 지적 판단이 아니라 <b>운동 계획</b>이다.</p>
+        <details class="viz"><summary>그림으로 보기: 쾅 소리의 원인</summary><figure><svg viewBox="0 0 280 242" role="img" aria-label="뇌는 감각 신호의 원인을 모르므로 과거 사례의 범주로 추측하고 그 추측은 운동 계획이다"><defs><marker id="d3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">쾅! 소리</text><text class="tm" x="140.0" y="62" text-anchor="middle">원인은 모른다</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="86" marker-end="url(#d3)"/><rect class="bx" x="10" y="88" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="116" text-anchor="middle">과거 경험 재구현</text><text class="tm" x="140.0" y="142" text-anchor="middle">비슷한 사례의 범주</text><line class="ln" x1="140.0" y1="154" x2="140.0" y2="166" marker-end="url(#d3)"/><rect class="bx2" x="10" y="168" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="196" text-anchor="middle">운동 계획</text><text class="tm" x="140.0" y="222" text-anchor="middle">뛸까, 창문을 닫을까</text></svg><figcaption>차 문, 천둥, 역화, 총성 가운데 무엇인가.</figcaption></figure></details>
+        <p>뇌는 현재와 비슷한 과거 경험의 조각을 재구현한다. 비슷한 것들의 묶음이 <b>범주</b>이므로 뇌는 연속적인 범주 구성자다. 불확실성은 대사적으로 매우 비싸고, 유사성 판단은 시간에 따라 동역학적으로 일어난다. 사람은 시선으로 서로에게 무엇이 신호이고 무엇이 잡음인지 가르친다.</p>
+        <div class="terms"><span class="term">감각 표면</span><span class="term">역문제</span><span class="term">범주 구성</span><span class="term">불확실성</span></div>
+      </section>
+
+      <section class="sec" id="s4">
+        <div class="sec-head"><span class="sec-num">4</span><div><h2>요약의 요약</h2><p class="sub">피질의 압축 기울기와 단어</p></div></div>
+        <p>피질을 냅킨처럼 펼치면 <b>압축 기울기</b>가 보인다. 1차 감각 영역의 작은 뉴런 다수가 더 큰 뉴런으로 수렴하고, 앞쪽 정중선에는 크고 연결이 많은 소수의 뉴런이 있다. 선·모서리에서 모양, 얼굴로 가는 "요약의 요약의 요약"이다.</p>
+        <details class="viz"><summary>그림으로 보기: 압축 기울기</summary><figure><svg viewBox="0 0 280 242" role="img" aria-label="피질은 고차원 세부에서 저차원 다중감각 요약으로 압축되며 세부는 버려진다"><defs><marker id="d4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">1차 감각 영역</text><text class="tm" x="140.0" y="62" text-anchor="middle">작은 뉴런 다수 · 선·모서리·음</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="86" marker-end="url(#d4)"/><rect class="bx" x="10" y="88" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="116" text-anchor="middle">모양 → 얼굴·대상</text><text class="tm" x="140.0" y="142" text-anchor="middle">더 큰 뉴런으로 수렴</text><line class="ln" x1="140.0" y1="154" x2="140.0" y2="166" marker-end="url(#d4)"/><rect class="bx2" x="10" y="168" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="196" text-anchor="middle">앞쪽 정중선</text><text class="tm" x="140.0" y="222" text-anchor="middle">위협·보상·분노 · 다중감각 요약</text></svg><figcaption>손실 압축: 세부는 버려진다.</figcaption></figure></details>
+        <p>앞쪽 정중선의 특징은 위협, 보상, 쾌 같은 <b>다중감각 요약</b>이다. '추상적'이란 서로 다른 많은 패턴을 등가로 취급한다는 뜻이다. '분노'라는 소리 몇 개는 감각·운동 특징이 서로 매우 다른 수천 개 사례의 요약이다. "피자" 두 음절이 50가지 특징을 대신하듯, 단어는 세밀한 특징을 대신하는 저차원 특징이다.</p>
+        <p>생후 3~4개월 아기도 "이건 블링이야"라는 단어로 모양과 촉감이 다른 물건들을 같은 기능(삑 소리)의 범주로 묶는다. 단어는 범주를 만드는 도구다.</p>
+        <div class="terms"><span class="term">압축 기울기</span><span class="term">차원 축소</span><span class="term">다중감각 요약</span><span class="term">기능적 범주</span></div>
+      </section>
+
+      <section class="sec" id="s5">
+        <div class="sec-head"><span class="sec-num">5</span><div><h2>행동이 먼저</h2><p class="sub">운동 계획과 원심성 사본</p></div></div>
+        <p>압축은 손실이 있다. 뇌는 추측할 때 저차원 요약(분노, 위협)에서 출발해 시냅스마다 다음 수준의 세부를 추측하며 구체로 내려간다(<b>구체화</b>). 정말 기분이 나쁠 때 무엇을 해야 할지 모르는 것은 '나쁘다'라는 요약이 아직 세부로 풀리지 않았기 때문이다.</p>
+        <p>가장 먼저 세워지는 계획은 심장, 혈압, 호흡을 바꾸는 <b>내장 운동</b> 계획이고, 수 밀리초 뒤 골격 운동 계획이 따른다. 운동 신호를 내려보내는 축삭의 곁가지가 같은 신호의 <b>원심성 사본</b>을 감각 영역으로 보내고, 그 사본이 감각 예측이 된다.</p>
+        <details class="viz"><summary>그림으로 보기: 예측 처리 순환</summary><figure><svg viewBox="0 0 280 258" role="img" aria-label="운동 계획의 사본이 감각 예측이 되고 실제 신호와 비교해 오차만 전파된다"><defs><marker id="d5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx" x="10" y="8" width="260" height="40" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">과거 경험 → 범주</text><line class="ln" x1="140.0" y1="48" x2="140.0" y2="56" marker-end="url(#d5)"/><rect class="bx" x="10" y="58" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="86" text-anchor="middle">내장·골격 운동 계획</text><text class="tm" x="140.0" y="112" text-anchor="middle">심장·폐가 먼저</text><line class="ln" x1="140.0" y1="124" x2="140.0" y2="132" marker-end="url(#d5)"/><rect class="bx2" x="10" y="134" width="260" height="40" rx="10"/><text class="tb" x="140.0" y="162" text-anchor="middle">원심성 사본 = 감각 예측</text><line class="ln" x1="140.0" y1="174" x2="140.0" y2="182" marker-end="url(#d5)"/><rect class="bx3" x="10" y="184" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="212" text-anchor="middle">실제 신호와 비교</text><text class="tm" x="140.0" y="238" text-anchor="middle">맞으면 확인 · 틀리면 오차 = 학습</text></svg><figcaption>앤디 클라크의 표현으로 일상 경험은 "통제된 환각"이다.</figcaption></figure></details>
+        <p>순서가 뒤집힌다. 뇌가 행동을 먼저 준비하고 경험은 그 준비에서 나온다. 실제 신호가 예측과 맞으면 거기서 끝나고, <b>예측 오차</b>만 전파되어 학습이 된다.</p>
+        <div class="terms"><span class="term">구체화</span><span class="term">내장 운동</span><span class="term">원심성 사본</span><span class="term">예측 오차</span></div>
+      </section>
+
+      <section class="sec" id="s6">
+        <div class="sec-head"><span class="sec-num">6</span><div><h2>감정 입자도</h2><p class="sub">다른 문화의 단어들</p></div></div>
+        <p>정점의 기분에는 단어가 있지만 그 사이의 넓은 영역에는 없다. 언어 하나로는 부족하다.</p>
+        <ul class="pc">
+          <li><b>das Backpfeifengesicht (독일어).</b> 얼굴이 "한 대 맞을 만하게" 느껴지는 경험.</li>
+          <li><b>리겟 (liget).</b> 집단 속의 들뜬 공격성. 배럿은 폴리네시아라 했지만 실제로는 필리핀 북부 루손 일롱곳족의 개념이다. 이 단어가 있었다면 파병 중 그런 강렬함을 겪은 퇴역 군인들은 그것이 인간 변이의 정상 범위 안에 있다고 이해했을 것이다.</li>
+          <li><b>기길 (gigil, 타갈로그어).</b> 너무 귀여운 아기를 꽉 쥐고 싶어지는 느낌.</li>
+          <li><b>age-otori (고전 일본어).</b> 머리를 올린 뒤 이전보다 못나 보이는 상태.</li>
+          <li><b>터키어 단어.</b> 상실과 분노의 결합. 자막상 hüzün일 가능성이 크지만 분노 성분이 뚜렷하지 않아 정확한 단어인지는 확인되지 않았다.</li>
+        </ul>
+        <p>배럿이 30년 전 만든 <b>감정 입자도</b>는 사물이 아니라 과정, 곧 범주가 얼마나 세밀하고 정확한가의 문제다. '위협'만큼 크면 쓸 패턴을 고르기 어렵고, 지금과 똑같은 과거만 찾으면 비효율적이다.</p>
+        <details class="viz"><summary>그림으로 보기: 도서관 비유</summary><figure><svg viewBox="0 0 280 238" role="img" aria-label="범주가 세밀할수록 다음 행동 계획이 구체적이 된다"><defs><marker id="d6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><rect class="bx3" x="10" y="8" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="36" text-anchor="middle">'기분 나쁘다'</text><text class="tm" x="140.0" y="62" text-anchor="middle">도서관 한 동</text><line class="ln" x1="140.0" y1="74" x2="140.0" y2="84" marker-end="url(#d6)"/><rect class="bx" x="10" y="86" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="114" text-anchor="middle">'화났다'</text><text class="tm" x="140.0" y="140" text-anchor="middle">책장 하나</text><line class="ln" x1="140.0" y1="152" x2="140.0" y2="162" marker-end="url(#d6)"/><rect class="bx2" x="10" y="164" width="260" height="66" rx="10"/><text class="tb" x="140.0" y="192" text-anchor="middle">'좌절했다'</text><text class="tm" x="140.0" y="218" text-anchor="middle">선반 하나</text></svg><figcaption>뇌는 서로 다른 일반화 규모의 범주를 만드는 법을 배울 수 있다.</figcaption></figure></details>
+        <p>뇌는 감정을 만든 뒤 이름 붙이지 않는다. 다음에 무엇을 할지에 대한 가능한 미래의 범주를 만들고, 단어는 그 표집의 특징 가운데 하나다. 배럿은 권위주의적 사고를 복잡성을 흑백 판단으로 줄이는 회피라고 보지만, 이는 스스로 매우 사변적이라고 못 박은 생각이다.</p>
+        <div class="terms"><span class="term">감정 입자도</span><span class="term">리겟</span><span class="term">기길</span><span class="term">범주의 크기</span></div>
+      </section>
+
+      <section class="sec" id="s7">
+        <div class="sec-head"><span class="sec-num">7</span><div><h2>정동과 몸 예산</h2><p class="sub">느낌과 감정은 같지 않다</p></div></div>
+        <p>몸 안의 드라마를 다 느낀다면 아무것도 들리지 않을 것이다. 뇌는 대신 기압계 같은 저차원 요약을 만든다. 유쾌–불쾌, 각성–차분의 <b>정동</b>이다. 정동은 감정이 아니라 의식의 특징으로 늘 있다. 끼어든 운전자가 "재수 없다"고 느끼는 강렬한 부정적 정동도 그 사람의 속성이 아니라 내 안에서 온 것이다. <b>감정은 정동을 만드는 감각 신호의 원인과 대처에 대해 뇌가 들려주는 이야기</b>다.</p>
+        <details class="viz"><summary>그림으로 보기: 정동과 감정</summary><figure><svg viewBox="0 0 280 250" role="img" aria-label="정동은 몸 상태의 요약이고 감정은 그 원인과 대처에 대해 뇌가 짓는 이야기다"><defs><marker id="d7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">정동과 감정</text><rect class="bx" x="10" y="42" width="260" height="92" rx="10"/><text class="tb" x="140" y="70" text-anchor="middle">정동</text><text class="tm" x="140" y="96" text-anchor="middle">몸 상태의 저차원 요약</text><text class="tm" x="140" y="122" text-anchor="middle">늘 있다 · 몸 상태로 바꾼다</text><rect class="bx2" x="10" y="146" width="260" height="92" rx="10"/><text class="tb" x="140" y="174" text-anchor="middle">감정</text><text class="tm" x="140" y="200" text-anchor="middle">원인과 대처의 이야기</text><text class="tm" x="140" y="226" text-anchor="middle">특정 순간 구성 · 범주로 바꾼다</text></svg><figcaption>이부프로펜, 걷기, 잠은 몸 상태를 바꿔 정동을 바꾼다.</figcaption></figure></details>
+        <p>감정 지능의 일부는 감정을 구성하지 않아야 할 때를 아는 것이다. 배럿은 "몸은 기억한다"가 아니라 "<b>뇌가 점수를 기록하고, 몸은 점수판이다</b>"라고 말한다. 수술 뒤 그는 불편함을 일부러 조금씩 느꼈다. 통증이 줄어드는 변화, 곧 예측 오차가 가르치는 신호이기 때문이다.</p>
+        <details class="viz"><summary>그림으로 보기: 뉴질랜드에서의 결정</summary><figure><svg viewBox="0 0 280 250" role="img" aria-label="같은 높은 각성도 불안으로 범주화하면 도망치고 불확실성으로 범주화하면 정보를 찾는다"><defs><marker id="d10" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">같은 각성, 다른 범주</text><rect class="bx3" x="10" y="42" width="260" height="92" rx="10"/><text class="tb" x="140" y="70" text-anchor="middle">불안·공포</text><text class="tm" x="140" y="96" text-anchor="middle">얼어붙거나</text><text class="tm" x="140" y="122" text-anchor="middle">도망친다</text><rect class="bx2" x="10" y="146" width="260" height="92" rx="10"/><text class="tb" x="140" y="174" text-anchor="middle">불확실성</text><text class="tm" x="140" y="200" text-anchor="middle">불편함을 견디며</text><text class="tm" x="140" y="226" text-anchor="middle">정보를 찾아 나선다</text></svg><figcaption>배럿은 불안한 것이 아니라 불확실했고, 정보를 모아 국경이 닫히기 이틀 전 귀국했다.</figcaption></figure></details>
+        <p>가라테 사범은 "두려워하지 마"가 아니라 "나비들을 대형으로 날게 하라"고 말했다. 두근거림을 결의로 경험하도록 훈련할 수 있다. 화가가 컵을 빛의 조각으로 쪼개 그리듯, 주의를 옮기는 것만으로 경험의 차원을 바꿀 수 있다.</p>
+        <p>몸의 예측적 조절이 <b>알로스타시스</b>이고, 배럿의 은유로 뇌는 포도당, 염분, 산소, 물의 <b>몸 예산</b>을 운용한다.</p>
+        <details class="viz"><summary>그림으로 보기: 입금 · 인출 · 저축 · 세금</summary><figure><svg viewBox="0 0 280 238" role="img" aria-label="뇌는 포도당, 염분, 산소, 물의 몸 예산을 운용하고 정동은 그 잔고 요약이다"><defs><marker id="d8" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="24" text-anchor="middle">몸 예산</text><rect class="bx2" x="10" y="40" width="125" height="86" rx="10"/><text class="tb" x="72.5" y="74" text-anchor="middle">입금</text><text class="tm" x="72.5" y="102" text-anchor="middle">잠, 먹기</text><rect class="bx2" x="145" y="40" width="125" height="86" rx="10"/><text class="tb" x="207.5" y="74" text-anchor="middle">인출</text><text class="tm" x="207.5" y="102" text-anchor="middle">포도당·산소 소모</text><rect class="bx2" x="10" y="136" width="125" height="86" rx="10"/><text class="tb" x="72.5" y="170" text-anchor="middle">저축</text><text class="tm" x="72.5" y="198" text-anchor="middle">믿는 사람과 함께</text><rect class="bx2" x="145" y="136" width="125" height="86" rx="10"/><text class="tb" x="207.5" y="170" text-anchor="middle">세금</text><text class="tm" x="207.5" y="198" text-anchor="middle">사회적 스트레스</text></svg><figcaption>"사람이 피곤하게 한다(taxing)"는 말은 문자 그대로 참이다.</figcaption></figure></details>
+        <p>스트레스를 받으면 같은 식사가 약 104칼로리를 더 먹은 것과 같은 비용이 들고, 1년이면 약 11파운드(약 5kg)에 해당한다. 원 연구는 '전날 스트레스'를 겪은 여성이 고지방 식사 후 7시간 동안 평균 104kcal를 덜 연소했다는 결과다(Kiecolt-Glaser et al., 2015). 정동은 몸 예산 상태의 대충의 요약이고, 감정 조절은 정동의 의미보다 정동 자체를 바꾸는 일인 경우가 많다. 내수용감각은 몸에 대한 자각이 아니라 뇌가 몸의 대사 상태에 대해 믿는 것이다.</p>
+        <div class="terms"><span class="term">정동</span><span class="term">알로스타시스</span><span class="term">몸 예산</span><span class="term">내수용감각</span><span class="term">불확실성</span></div>
+      </section>
+
+      <section class="sec" id="s8">
+        <div class="sec-head"><span class="sec-num">8</span><div><h2>우울과 감정 독감</h2><p class="sub">파산한 몸 예산</p></div></div>
+        <p>배럿은 <b>우울을 파산한 몸 예산</b>, 곧 대사의 문제로 본다. 불쾌하면 유쾌한 것을 예측하지 않고, 예측하지 못한 것에서 배우는 일은 비싸서 자원이 없으면 하지 못한다.</p>
+        <p>회복 중이던 딸과 스톡홀름에 갔을 때, 시차 피로 다음 날 딸은 또 한 번의 우울 삽화가 시작되는 듯했다. 배럿은 밥을 먹이고 이부프로펜을 준 뒤 다시 재웠고, 다섯 시간 뒤 딸은 괜찮았다. 항우울제로 먹으라는 말이 아니라 딸이 피로하고 온몸이 아팠다는 것이다. 딸은 여기서 <b>'감정 독감'</b>이라는 개념을 만들었다. 잠이 부족하거나 떨칠 수 없는 스트레스로 몸 예산이 나쁜 날이다.</p>
+        <details class="viz"><summary>그림으로 보기: 감정 독감</summary><figure><svg viewBox="0 0 280 250" role="img" aria-label="감정 독감은 기분 나쁨을 세상의 문제가 아니라 일시적인 몸 예산 적자로 귀인한다"><defs><marker id="d9" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">귀인 바꾸기</text><rect class="bx3" x="10" y="42" width="260" height="92" rx="10"/><text class="tb" x="140" y="70" text-anchor="middle">세상에 대한 이야기</text><text class="tm" x="140" y="96" text-anchor="middle">내 삶이 엉망이다</text><text class="tm" x="140" y="122" text-anchor="middle">레시피: 절망</text><rect class="bx2" x="10" y="146" width="260" height="92" rx="10"/><text class="tb" x="140" y="174" text-anchor="middle">'감정 독감'</text><text class="tm" x="140" y="200" text-anchor="middle">오늘 몸 예산이 적자다</text><text class="tm" x="140" y="226" text-anchor="middle">레시피: 자고, 먹고, 걷기</text></svg><figcaption>세상에는 아무 문제가 없고 잠이나 단백질, 스트레칭이 필요한 것일 수 있다.</figcaption></figure></details>
+        <p>각성제와 알코올은 이미 과세된 몸 예산에 더 과세해 기준선을 낮춘다. 배럿은 SSRI도 일부 사람에게는 장기적으로 비슷할 수 있다고 조심스레 말하지만, 이는 출처를 밝히지 않은 전언과 이론적 해석이 섞인 부분으로 임상 지침이 아니다. 약물 복용이나 중단은 반드시 의료진과 상의해야 한다.</p>
+        <div class="terms"><span class="term">감정 독감</span><span class="term">귀인</span><span class="term">대사</span><span class="term">SSRI</span></div>
+      </section>
+
+      <section class="sec" id="s9">
+        <div class="sec-head"><span class="sec-num">9</span><div><h2>서로의 신경계</h2><p class="sub">저축이 될 것인가, 세금이 될 것인가</p></div></div>
+        <p><b>인간 신경계에 가장 좋은 것은 다른 인간이고, 가장 나쁜 것도 다른 인간이다.</b> 우리는 서로의 신경계를 돌보도록 진화했다. 선택은 각자의 몫이다.</p>
+        <details class="viz"><summary>그림으로 보기: 관계는 저축 아니면 세금</summary><figure><svg viewBox="0 0 280 250" role="img" aria-label="인간 신경계에 가장 좋은 것도 가장 나쁜 것도 다른 인간이다"><defs><marker id="d11" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#5b6470"/></marker></defs><text class="tb" x="140" y="26" text-anchor="middle">저축인가 세금인가</text><rect class="bx2" x="10" y="42" width="260" height="92" rx="10"/><text class="tb" x="140" y="70" text-anchor="middle">저축이 되는 사람</text><text class="tm" x="140" y="96" text-anchor="middle">신뢰 · 친절</text><text class="tm" x="140" y="122" text-anchor="middle">이끌기와 따르기를 번갈아</text><rect class="bx3" x="10" y="146" width="260" height="92" rx="10"/><text class="tb" x="140" y="174" text-anchor="middle">세금이 되는 사람</text><text class="tm" x="140" y="200" text-anchor="middle">사회적 스트레스</text><text class="tm" x="140" y="226" text-anchor="middle">지치고 혼란스럽게</text></svg><figcaption>저축이 되기로 한 사람에게 사람들이 끌린다.</figcaption></figure></details>
+        <p>호감과 신뢰를 느끼면 몇 분 만에 심박, 움직임, 호흡이 동기화되고, 생산적인 상호작용에서는 누가 이끄는지가 계속 바뀐다. 창의·혁신 부문에서 잠과 식사를 고려한 뒤 직무 성과를 가장 잘 예측하는 것은 팀과 관리자에 대한 신뢰다. 친절은 행하는 사람에게도 몸 예산상의 이득을 준다. <b>친절은 매우 저평가되어 있다.</b></p>
+        <div class="terms"><span class="term">동기화</span><span class="term">신뢰</span><span class="term">친절</span><span class="term">저축과 세금</span></div>
+      </section>
+
+      <section class="sec" id="s10">
+        <div class="sec-head"><span class="sec-num">10</span><div><h2>실천</h2><p class="sub">지식 자체가 도구</p></div></div>
+        <ul class="pc">
+          <li><b>기초.</b> 규칙적인 좋은 잠, 건강하게 먹기, 운동(배럿). 여기에 햇빛과 사회적 연결(휴버먼).</li>
+          <li><b>정동 먼저 점검.</b> 잠은? 먹었나? 움직였나? 통증은? 불확실한 일이 있나? 감정 독감일 수 있다.</li>
+          <li><b>범주 늘리기.</b> 다른 언어의 개념을 배우고, 같은 각성을 불안이 아니라 불확실성이나 결의로 범주화해 본다.</li>
+          <li><b>주의로 차원 조절.</b> 심장, 호흡, 근육 긴장에 주의를 두거나 주의를 바깥으로 돌린다.</li>
+          <li><b>불편함과 머물기.</b> 불편함의 변화가 학습 신호가 될 때가 있다.</li>
+          <li><b>얼굴을 읽지 말고 묻기.</b> 맥락과 함께 추론하고 있고 그 추론이 자주 틀린다는 점을 기억한다.</li>
+          <li><b>저축이 되기.</b> 신뢰를 쌓고, 이끌기와 따르기를 번갈아 하고, 작은 친절을 건넨다.</li>
+        </ul>
+        <div class="callout"><p>"이 감정을 없애려면?"이 "이 정동은 무엇을 알려 주고, 나는 어떤 범주로 어떤 행동을 준비할 것인가?"로 바뀌는 순간, 느낌은 지혜의 원천이 된다.</p></div>
+        <div class="terms"><span class="term">수면</span><span class="term">행동의 레시피</span><span class="term">유연성</span></div>
+      </section>
+      <section class="sec" id="rv">
+        <div class="sec-head"><span class="sec-num">✔</span><div><h2>복습</h2><p class="sub">용어 카드 · 빈칸 · 5문항 퀴즈</p></div></div>
+        <h3 class="rv-h">핵심 용어 카드</h3>
+        <div class="flips">
+          <button type="button" class="flip" aria-expanded="false"><b>보편 표정 반박</b><span class="hint">뜻 보기</span><span class="m">다섯 과학자가 천 편 넘는 논문을 검토한 합의 논문(2019)은 감정의 얼굴 표정이 보편적이라는 증거를 찾지 못했다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>35%</b><span class="hint">뜻 보기</span><span class="m">서구에서도 화났을 때 찡그리는 비율. 우연보다 높지만 65%는 다른 방식으로 얼굴을 움직인다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>범주 구성</b><span class="hint">뜻 보기</span><span class="m">뇌는 현재와 비슷한 과거 경험을 재구현해 가능한 미래와 행동의 범주를 계속 만든다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>압축 기울기</b><span class="hint">뜻 보기</span><span class="m">감각 영역의 고차원 세부가 앞쪽 정중선의 저차원 다중감각 요약으로 수렴하는 피질 구조.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>원심성 사본</b><span class="hint">뜻 보기</span><span class="m">운동 신호의 사본이 감각 영역으로 가서 감각 예측이 된다. 경험은 이 사본에서 나온다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>감정 입자도</b><span class="hint">뜻 보기</span><span class="m">범주가 얼마나 세밀하고 정확한가의 과정. 세밀할수록 행동 레시피가 구체적이 된다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>정동</b><span class="hint">뜻 보기</span><span class="m">유쾌–불쾌, 각성–차분 같은 몸 상태의 저차원 요약. 감정이 아니며 늘 있다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>몸 예산</b><span class="hint">뜻 보기</span><span class="m">뇌가 운용하는 포도당·염분·산소·물의 예산. 입금, 인출, 저축, 세금이 있다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>감정 독감</b><span class="hint">뜻 보기</span><span class="m">몸 예산이 나쁜 날. 기분 나쁨을 세상의 문제가 아니라 일시적 신체 상태로 귀인한다.</span></button>
+          <button type="button" class="flip" aria-expanded="false"><b>저축 아니면 세금</b><span class="hint">뜻 보기</span><span class="m">인간 신경계에 가장 좋은 것도 가장 나쁜 것도 다른 인간이다.</span></button>
+        </div>
+        <h3 class="rv-h">빈칸 채우기</h3>
+        <ol class="cloze">
+          <li>화났을 때 찡그리는 비율은 약 <button type="button" class="blank" data-a="35%">빈칸</button>다.</li>
+          <li>뇌는 과거 경험으로 가능한 미래의 <button type="button" class="blank" data-a="범주">빈칸</button>를 구성한다.</li>
+          <li>운동 신호의 <button type="button" class="blank" data-a="원심성 사본">빈칸</button>이 감각 예측이 된다.</li>
+          <li>정동은 <button type="button" class="blank" data-a="몸 예산">빈칸</button> 상태의 대충의 요약이다.</li>
+          <li>잠과 식사는 몸 예산의 <button type="button" class="blank" data-a="입금">빈칸</button>이다.</li>
+          <li>사회적 스트레스는 몸 예산의 <button type="button" class="blank" data-a="세금">빈칸</button>이다.</li>
+          <li>배럿의 딸은 몸 예산이 나쁜 날을 &#x27;<button type="button" class="blank" data-a="감정 독감">빈칸</button>&#x27;이라 불렀다.</li>
+          <li>뇌가 점수를 기록하고, 몸은 <button type="button" class="blank" data-a="점수판">빈칸</button>이다.</li>
+        </ol>
+        <h3 class="rv-h">5문항 퀴즈</h3>
+        <div id="quiz">
+          <div class="q" data-a="1"><fieldset><legend class="qt">1. 합의 논문의 결론은?</legend>
+            <button type="button">보편 표정이 확인됐다</button>
+            <button type="button">보편 표정의 증거는 없고 얼굴 움직임은 변이가 크다</button>
+            <button type="button">동아시아만 예외다</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="다섯 명이 천 편 넘는 논문을 읽고 합의했습니다."></p></div>
+          <div class="q" data-a="1"><fieldset><legend class="qt">2. 배럿에 따르면 경험은 어디에서 나오는가?</legend>
+            <button type="button">감각 신호의 처리</button>
+            <button type="button">운동 계획의 원심성 사본</button>
+            <button type="button">감정 회로</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="행동이 먼저, 경험은 나중입니다."></p></div>
+          <div class="q" data-a="1"><fieldset><legend class="qt">3. 정동과 감정의 관계로 옳은 것은?</legend>
+            <button type="button">같은 것이다</button>
+            <button type="button">정동은 몸 상태 요약, 감정은 그 원인과 대처의 이야기</button>
+            <button type="button">감정이 정동의 요약이다</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="정동은 늘 있고 감정은 특정 순간 구성됩니다."></p></div>
+          <div class="q" data-a="2"><fieldset><legend class="qt">4. 믿는 친구와 함께 있는 것은 몸 예산의 무엇인가?</legend>
+            <button type="button">인출</button>
+            <button type="button">세금</button>
+            <button type="button">저축</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="모든 일이 대사적으로 조금 덜 비쌉니다."></p></div>
+          <div class="q" data-a="0"><fieldset><legend class="qt">5. 감정 입자도가 높으면?</legend>
+            <button type="button">범주가 세밀해 행동 레시피가 구체적</button>
+            <button type="button">감정을 덜 느낀다</button>
+            <button type="button">표정이 커진다</button>
+          </fieldset><p class="ex" hidden aria-live="polite" data-e="&quot;좌절했다&quot;는 선반 하나 분량의 선택지입니다."></p></div>
+          <p class="score" id="score" aria-live="polite">점수: 0 / 5</p>
+          <div class="rv-tools"><button type="button" id="qreset">다시 풀기</button></div>
+        </div>
+      </section>
+
+      <section class="sources">
+        <h3>출처</h3>
+        <ul>
+          
+          <li><a href="https://yghnsim.github.io/Pages/articles/barrett-how-emotions-are-made-body-budget.html">Pages — 감정은 읽히는 것이 아니라 만들어진다</a></li>
+          <li><a href="https://www.youtube.com/watch?v=FeRgqJVALMQ">YouTube — Huberman Lab, 리사 펠드먼 배럿 대담</a></li><li>Barrett, Adolphs, Marsella, Martinez &amp; Pollak (2019), Emotional Expressions Reconsidered, Psychological Science in the Public Interest 20(1)</li><li>Kiecolt-Glaser et al. (2015), Daily Stressors, Past Depression, and Metabolic Responses to High-Fat Meals, Biological Psychiatry 77(7)</li>
+        </ul>
+      </section>
+    </main>
+
+  </div>
+</div>
+<script>(function(){
+function $$(q){return [].slice.call(document.querySelectorAll(q))}
+$$('.flip').forEach(function(b){b.onclick=function(){b.setAttribute('aria-expanded',b.getAttribute('aria-expanded')==='true'?'false':'true')}});
+function show(b){b.textContent=b.dataset.a;b.classList.add('shown');b.setAttribute('aria-label','답: '+b.dataset.a)}
+function hide(b){b.textContent='?';b.classList.remove('shown');b.setAttribute('aria-label','빈칸, 눌러서 답 보기')}
+$$('.blank').forEach(function(b){b.onclick=function(){show(b)}});
+$$('[data-all]').forEach(function(t){t.onclick=function(){if(t.dataset.all==='flip')$$('.flip').forEach(function(b){b.setAttribute('aria-expanded','true')});else $$('.blank').forEach(show)}});
+$$('[data-reset]').forEach(function(t){t.onclick=function(){if(t.dataset.reset==='flip')$$('.flip').forEach(function(b){b.setAttribute('aria-expanded','false')});else $$('.blank').forEach(hide)}});
+var sc=0,done=0,qs=$$('#quiz .q'),tot=qs.length||5;
+function upd(){var el=document.getElementById('score');if(el)el.textContent='점수: '+sc+' / '+tot+(done===tot?' (끝)':'')}
+qs.forEach(function(q){var bs=[].slice.call(q.querySelectorAll('fieldset button')),ex=q.querySelector('.ex');
+bs.forEach(function(b,i){b.onclick=function(){var a=+q.dataset.a,ok=i===a;bs.forEach(function(x){x.disabled=true});if(bs[a])bs[a].classList.add('right');if(!ok)b.classList.add('wrong');
+if(ex){ex.hidden=false;ex.textContent=(ok?'맞았습니다. ':'아쉽습니다. ')+ex.dataset.e;}if(ok)sc++;done++;upd();}})});
+var qr=document.getElementById('qreset');
+if(qr)qr.onclick=function(){sc=0;done=0;qs.forEach(function(q){q.querySelectorAll('fieldset button').forEach(function(x){x.disabled=false;x.className=''});var ex=q.querySelector('.ex');if(ex){ex.hidden=true;ex.textContent=''}});upd()};
+})();</script>
+
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">아카이브</div><div class="arc-foot-title">감정은 읽히는 것이 아니라 만들어진다 — 리사 펠드먼 배럿의 예측하는 뇌와 몸 예산</div><div class="arc-foot-meta"><time datetime="2026-11-03">2026년 11월 3일</time><a class="arc-tag" href="../index.html#tags=%EC%82%AC%ED%9A%8C%EA%B3%BC%ED%95%99">#사회과학</a><a class="arc-tag" href="../index.html#tags=%EC%83%9D%EB%AC%BC%ED%95%99">#생물학</a><a class="arc-tag" href="../index.html#tags=%EC%8B%A0%EA%B2%BD%EA%B3%BC%ED%95%99">#신경과학</a><a class="arc-tag" href="../index.html#tags=%EC%9D%B8%EC%A7%80%EC%8B%AC%EB%A6%AC%ED%95%99">#인지심리학</a><a class="arc-tag" href="../index.html#tags=%ED%95%B4%EC%84%A4">#해설</a> · <a href="https://www.youtube.com/watch?v=FeRgqJVALMQ" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body>
+</html>
