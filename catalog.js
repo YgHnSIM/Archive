@@ -2,6 +2,23 @@
    `python3 add_page.py --rebuild` 를 실행하면 다시 만들어집니다. */
 window.ARCHIVE_CATALOG = [
   {
+    "id": "20261106-01",
+    "title": "문맥은 인프라다: 검색 하네스 시대를 위한 지식 컴파일과 에이전트 네이티브 데이터베이스",
+    "summary": "검색 하네스 위에 검증된 증거를 공급하는 지식 컴파일. 증거 치환의 토큰 경제학, 결정 게이트, 캐리어와 페이로드, 예산화 루프와 오수락 감사를 정리한다.",
+    "tags": [
+      "AI",
+      "에이전트",
+      "논문리뷰"
+    ],
+    "date": "2026-11-06",
+    "file": "pages/2026-11-06-문맥인프라RAGFlow.html",
+    "added": "2026-11-06T05:00:55+09:00",
+    "source_name": "src.html",
+    "source_sha256": "183b32448431518eed993ec8d7d2075d1b9ab88edeb7fa14e21a342d7e85ee40",
+    "source_path_sha256": "24f3d79b03f645b330b2a30c5764dd3f2a5918518ae2baff02d2186fb481ec5c",
+    "source_url": "https://arxiv.org/abs/2610.41172v1"
+  },
+  {
     "id": "20261103-02",
     "title": "AI와 대화할 때 우리는 무엇과 말하는가 — 데이비드 차머스의 LLM 대화상대 형이상학",
     "summary": "LLM 대화상대는 모델도 서버도 아니라 맥락 기억으로 이어지는 스레드가 실현하는 준주체다. X요인, 준믿음·준욕구, 스레드, Workbot과 Homebot, AI 복지의 개체 수·생존·모델 교체를 정리한다.",
