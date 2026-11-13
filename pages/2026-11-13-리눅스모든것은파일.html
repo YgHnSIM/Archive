@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light only">
+<title>모든 것은 파일이다 — 리눅스의 /dev, /proc, /sys가 가리키는 보편 인터페이스</title>
+<meta name="description" content="유닉스·리눅스의 '모든 것은 파일이다' 설계: /dev, /proc, /sys, 파일 디스크립터와 파이프, 그리고 그 철학이 멈추는 지점">
+<style>
+:root{color-scheme:light only;
+  --bg:#faf8f3; --paper:#ffffff; --ink:#1f2328; --muted:#5b6470; --line:#e6e1d6;
+  --accent:#c8553d; --accent-soft:#fbeee9; --link:#4a6b8a;
+  --new:#3d5f80; --new-soft:#eaf0f6; --radius:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:20px}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR","Malgun Gothic","Gothic A1",system-ui,sans-serif;
+  font-size:17px;line-height:1.75;word-break:keep-all;overflow-wrap:break-word}
+@media(max-width:640px){body{font-size:16px}}
+a{color:var(--link)}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+.hero{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{display:inline-block;font-size:13px;font-weight:700;color:#a8432e;background:var(--accent-soft);padding:3px 10px;border-radius:999px;margin-bottom:12px}
+.hero h1{font-size:clamp(28px,4.4vw,44px);line-height:1.25;margin:0 0 12px;letter-spacing:-.02em}
+.hero .lead{font-size:18px;color:var(--muted);line-height:1.65;margin:0}
+@media(max-width:640px){.hero .lead{font-size:17px}}
+.hero-cta{margin-top:16px}
+.hero-cta a{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--new);color:#fff;border-radius:10px;font-weight:700;font-size:15px;text-decoration:none}
+.grid{display:grid;grid-template-columns:240px minmax(0,1fr);gap:36px;align-items:start}
+@media(max-width:880px){.grid{grid-template-columns:minmax(0,1fr);gap:0}}
+.toc{position:sticky;top:20px;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;font-size:15px}
+.toc .toc-t{font-weight:700;margin:0 0 10px}
+.toc ol{margin:0;padding:0;list-style:none}
+.toc li{margin:6px 0}
+.toc a{color:var(--muted);display:flex;align-items:baseline;gap:8px;text-decoration:none;line-height:1.45}
+.toc a:hover{color:var(--link)}
+.toc .n{flex:none;display:inline-block;width:22px;height:22px;line-height:22px;text-align:center;border-radius:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:700}
+.toc .orig{display:block;margin-top:14px;padding-top:10px;border-top:1px dashed var(--line);font-size:14px;color:#a8432e;font-weight:700}
+@media(max-width:880px){
+  .toc{position:sticky;top:0;z-index:20;margin:0 -20px 20px;border-radius:0;border-width:0 0 1px;padding:8px 12px;background:rgba(250,248,243,.97);overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .toc .toc-t,.toc .orig{display:none}
+  .toc ol{display:flex;gap:6px;white-space:nowrap}
+  .toc li{margin:0}
+  .toc a{background:#f1ede4;color:var(--ink);border-radius:999px;padding:6px 12px;font-size:14px;align-items:center}
+  .toc .n{background:none;width:auto;height:auto;line-height:1;color:var(--muted)}
+  html{scroll-padding-top:64px}
+}
+main{min-width:0}
+.sec{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:24px 28px;margin-bottom:28px}
+@media(max-width:640px){.sec{padding:18px 16px}}
+.sec-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px}
+.sec-num{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:12px;background:var(--ink);color:#fff;font-weight:800;font-size:17px;flex-shrink:0;margin-top:2px}
+@media(max-width:640px){.sec-num{width:34px;height:34px;font-size:15px}}
+.sec-head h2{font-size:clamp(23px,3vw,30px);line-height:1.3;margin:0;letter-spacing:-.015em}
+.sec-head .sub{font-size:16px;color:var(--muted);margin:3px 0 0}
+h3{font-size:19px;margin:22px 0 8px}
+p{margin:0 0 14px}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin:4px 0}
+.theses{counter-reset:t;list-style:none;padding:0;margin:0 0 16px}
+.theses li{counter-increment:t;position:relative;padding:10px 14px 10px 50px;margin:8px 0;background:#fdfcf9;border:1px solid var(--line);border-radius:12px}
+.theses li::before{content:counter(t);position:absolute;left:14px;top:12px;width:24px;height:24px;border-radius:50%;background:var(--accent-soft);color:#a8432e;font-weight:800;font-size:14px;display:grid;place-items:center}
+.tblw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:16px 0}
+.tbl{width:100%;min-width:520px;border-collapse:collapse;font-size:16px}
+.tbl th,.tbl td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+.tbl th{background:var(--new-soft);color:var(--new);font-weight:700}
+.tbl td{background:#fff}
+.callout{background:var(--new-soft);border-left:4px solid var(--new);border-radius:10px;padding:12px 16px;margin:14px 0}
+.callout.warm{background:var(--accent-soft);border-left-color:var(--accent)}
+.callout p:last-child{margin:0}
+blockquote{margin:14px 0;padding:12px 18px;background:#fff;border-left:5px solid var(--accent);border-radius:0 12px 12px 0}
+blockquote p{margin:0}
+.terms{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+.term{display:inline-flex;align-items:center;gap:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:600;padding:4px 10px;border-radius:8px}
+details.viz{margin:14px 0;border:1px solid var(--line);border-radius:12px;background:#fdfcf9}
+details.viz summary{cursor:pointer;list-style:none;padding:12px 14px;font-weight:600;font-size:16px;color:var(--new);min-height:44px;display:flex;align-items:center;gap:8px}
+details.viz summary::-webkit-details-marker{display:none}
+details.viz summary::before{content:"▸";font-size:14px;color:var(--accent)}
+details.viz[open] summary::before{content:"▾"}
+details.viz figure{margin:0;padding:4px 12px 14px}
+details.viz svg{display:block;width:100%;height:auto;max-width:440px;margin:0 auto;font-family:"Pretendard","Noto Sans KR",sans-serif}
+details.viz figcaption{font-size:16px;color:var(--muted);line-height:1.6;margin-top:8px}
+svg .bx{fill:#fff;stroke:#5b6470;stroke-width:1.4}
+svg .bx2{fill:#eaf0f6;stroke:#3d5f80;stroke-width:1.4}
+svg .bx3{fill:#fbeee9;stroke:#c8553d;stroke-width:1.4}
+svg .t{fill:#1f2328;font-size:18px}
+svg .tb{fill:#1f2328;font-size:18px;font-weight:700}
+svg .tm{fill:#4a525c;font-size:17.5px}
+svg .ln{stroke:#5b6470;stroke-width:1.5;fill:none}
+.sources{background:var(--new-soft);border:1px solid var(--line);border-radius:var(--radius);padding:18px 22px;margin-top:32px;font-size:16px;color:#3f4650}
+.sources h3{font-size:17px;color:var(--new);margin:0 0 8px}
+.sources ul{margin:0;padding-left:20px}
+.rv-h{font-size:19px;margin:22px 0 6px}
+.flips{display:grid;grid-template-columns:1fr;gap:8px;margin:10px 0}
+@media(min-width:640px){.flips{grid-template-columns:1fr 1fr}}
+.flip{font:inherit;text-align:left;width:100%;border:1.5px solid var(--line,#e6e1d6);background:#fdfcf9;border-radius:12px;padding:10px 14px;cursor:pointer;color:var(--ink,#1f2328);min-height:64px}
+.flip b{display:block;font-size:17px}
+.flip .m{display:none;font-size:16px;line-height:1.6;margin-top:4px}
+.flip .hint{font-size:13px;color:var(--muted,#5b6470)}
+.flip[aria-expanded="true"]{border-color:var(--new,#3d5f80);background:var(--new-soft,#eaf0f6)}
+.flip[aria-expanded="true"] .m{display:block}
+.flip[aria-expanded="true"] .hint{display:none}
+.cloze{list-style:none;margin:10px 0;padding:0}
+.cloze li{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:10px 14px;margin:8px 0;background:#fdfcf9;font-size:16px;line-height:1.8}
+.blank{font:inherit;font-size:16px;border:0;border-bottom:2px dashed var(--accent,#c8553d);background:var(--accent-soft,#fbeee9);color:#a8432e;border-radius:6px 6px 0 0;padding:0 8px;cursor:pointer;min-width:4.5em}
+.blank.shown{border-bottom-style:solid;background:var(--new-soft,#eaf0f6);color:var(--new,#3d5f80);font-weight:700}
+.rv-tools{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.rv-tools button{font:inherit;font-size:15px;border:1px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link,#4a6b8a)}
+.q{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:12px 14px;margin:10px 0;background:#fdfcf9}
+.q fieldset{border:0;margin:0;padding:0;min-width:0}
+.q legend{font-weight:700;padding:0;margin:0 0 8px;font-size:16.5px}
+.q button{display:block;width:100%;text-align:left;font:inherit;font-size:16px;border:1.5px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:8px 12px;margin:6px 0;cursor:pointer;color:var(--ink,#1f2328)}
+.q button.right{border-color:#2f6b45;background:#e6f1ea}
+.q button.wrong{border-color:#a2452f;background:#fbeee9}
+.q button[disabled]{cursor:default;opacity:1}
+.q .ex{margin:8px 0 0;font-size:16px;padding:8px 10px;border-radius:8px;background:var(--new-soft,#eaf0f6)}
+.score{font-size:17px;font-weight:800;margin:10px 0 0}
+pre{background:#f6f4ee;border:1px solid var(--line);border-radius:10px;padding:12px 14px;overflow-x:auto;-webkit-overflow-scrolling:touch;margin:14px 0;font-size:16px;line-height:1.6}
+pre code{font-family:"JetBrains Mono","D2Coding",ui-monospace,Menlo,Consolas,monospace;color:#1f2328;white-space:pre;background:none;padding:0;font-size:inherit}
+code{font-family:"JetBrains Mono","D2Coding",ui-monospace,Menlo,Consolas,monospace;font-size:.92em;background:#f3efe6;border-radius:4px;padding:0 4px}
+.steps{padding-left:1.3em}.steps li{margin:8px 0}
+</style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
+</head>
+<body>
+<!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>아카이브</a><span class="arc-crumb">모든 것은 파일이다 — 리눅스의 /dev, /proc, /sys가 가리키는 보편 인터페이스</span><span class="arc-meta"><time datetime="2026-11-13">2026년 11월 13일</time><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99">#컴퓨터과학</a><a class="arc-tag" href="../index.html#tags=%EC%8B%9C%EC%8A%A4%ED%85%9C%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D">#시스템프로그래밍</a><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99%EC%82%AC">#컴퓨터과학사</a><a class="arc-tag" href="../index.html#tags=%ED%95%B4%EC%84%A4">#해설</a><a class="arc-src" href="https://yghnsim.github.io/Pages/articles/linux-everything-is-a-file.html" rel="noopener">원문 ↗</a></span></div></div>
+<!-- archive-header:end -->
+<div class="wrap">
+<header class="hero">
+<span class="eyebrow">컴퓨터과학 · 시스템프로그래밍</span>
+<h1>모든 것은 파일이다 — 리눅스의 /dev, /proc, /sys가 가리키는 보편 인터페이스</h1>
+<p class="lead">열기·읽기·쓰기·닫기라는 네 동작이 장치와 프로세스와 커널 설정까지 같은 도구로 다루게 만든 유닉스 설계, 그리고 그 철학이 파일 디스크립터에서 멈추는 지점.</p>
+<div class="hero-cta"><a href="https://yghnsim.github.io/Pages/articles/linux-everything-is-a-file.html">📚 Pages에서 심화 해설 전문 읽기 ↗</a></div>
+</header>
+<div class="grid">
+<nav class="toc" aria-label="목차">
+<p class="toc-t">목차</p>
+<ol>
+<li><a href="#s0"><span class="n">★</span>한눈에 보기</a></li>
+<li><a href="#s1"><span class="n">1</span>만능 리모컨</a></li>
+<li><a href="#s2"><span class="n">2</span>일곱 가지 이름표</a></li>
+<li><a href="#s3"><span class="n">3</span>/dev 장치와 특수 파일</a></li>
+<li><a href="#s4"><span class="n">4</span>/proc 커널의 창</a></li>
+<li><a href="#s5"><span class="n">5</span>/sys와 cgroup</a></li>
+<li><a href="#s6"><span class="n">6</span>파일 디스크립터</a></li>
+<li><a href="#s7"><span class="n">7</span>한계와 더 정확한 말</a></li>
+<li><a href="#s8"><span class="n">8</span>실무의 쓰임</a></li>
+<li><a href="#s9"><span class="n">9</span>세 가지 실험</a></li>
+<li><a href="#rv"><span class="n">✔</span>복습</a></li>
+</ol>
+<a class="orig" href="https://yghnsim.github.io/Pages/articles/linux-everything-is-a-file.html">심화 원문(Pages) ↗</a>
+</nav>
+<main id="content">
+
+<section class="sec" id="s0">
+<div class="sec-head"><span class="sec-num">★</span><div><h2>한눈에 보기</h2><p class="sub">일곱 가지 핵심 명제</p></div></div>
+<ol class="theses">
+<li><b>보편 인터페이스는 네 동작이다.</b> 유닉스·리눅스의 “모든 것은 파일이다”는 디스크 위 텍스트 문서를 뜻하지 않는다. 자원이 경로를 갖고, <code>open</code>·<code>read</code>·<code>write</code>·<code>close</code>로 다루어진다는 설계다.</li>
+<li><b><code>ls -l</code>의 첫 글자가 정체다.</b> 일반 파일(<code>-</code>), 디렉터리(<code>d</code>), 링크(<code>l</code>), 문자·블록 장치(<code>c</code>/<code>b</code>), 파이프(<code>p</code>), 소켓(<code>s</code>)이 한 파일시스템에 나란히 놓인다. 폴더 역시 이름 목록을 담은 특수 파일이다.</li>
+<li><b><code>/dev</code>는 하드웨어와 가상 특수 파일의 집이다.</b> 디스크는 <code>sda</code>·<code>nvme0n1</code> 같은 경로로 나타나고, <code>/dev/null</code>·<code>zero</code>·<code>random</code>·<code>full</code>은 하드웨어 없이 동작한다.</li>
+<li><b><code>/proc</code>은 디스크에 없는 커널의 창이다.</b> 읽는 순간 커널이 내용을 채운다. <code>ps</code>·<code>top</code>·<code>free</code>·<code>sysctl</code>도 결국 이 파일들을 읽거나 쓴다. <code>/proc/sys</code>는 재부팅 없이 커널을 바꿀 수 있다.</li>
+<li><b><code>/sys</code>는 더 정돈된 하드웨어·자원 트리이다.</b> 배터리, 백라이트(<code>/sys/class/backlight</code>), 컨테이너 제한(<code>/sys/fs/cgroup</code>, v2의 <code>memory.max</code>)이 파일로 드러난다.</li>
+<li><b>열린 뒤의 열쇠는 파일 디스크립터다.</b> 커널이 건네는 작은 정수(외투 보관소 번호표). 모든 프로세스는 0(stdin)·1(stdout)·2(stderr)를 쥐고 시작한다. 셸 파이프는 이 번호를 바꿔 끼운다.</li>
+<li><b>안내 원칙이지 물리 법칙이 아니다.</b> 네트워크 연결과 일부 하드웨어 제어는 경로 <code>open</code>만으로 환원되지 않는다. 더 정확한 말은 “모든 것은 파일 디스크립터다.”</li>
+</ol>
+</section>
+
+<section class="sec" id="s1">
+<div class="sec-head"><span class="sec-num">1</span><div><h2>만능 리모컨의 탄생</h2><p class="sub">왜 모든 것을 파일로 만들었을까</p></div></div>
+<p>1970년대 초 벨 연구소에서 켄 톰슨과 데니스 리치가 유닉스를 만들고 있을 때, 테이프·프린터·터미널은 제각각 ‘개인 언어’를 요구했다. 설계자들은 거의 게으른 발상을 택했다. <b>열기, 읽기, 쓰기, 닫기</b> 네 동작만으로 모든 대상을 다루면, 파일을 다룰 줄 아는 프로그램은 나머지 장치도 다룰 수 있다.</p>
+<p>이는 기기마다 리모컨을 두지 않고, 같은 버튼 네 개짜리 만능 리모컨 하나만 쥐는 일과 같다. 리눅스는 이 철학을 물려받았다. 장치 고유 규칙은 커널의 장치 드라이버가 번역하고, 사용자 공간 프로그램은 파일 인터페이스만 보면 된다.</p>
+<details class="viz"><summary>그림으로 보기: 네 가지 공통 동작</summary>
+<figure>
+<svg viewBox="0 0 320 300" role="img" aria-label="프로그램이 open, read, write, close 네 동작으로 여러 자원에 접근한다">
+<rect class="bx2" x="20" y="12" width="280" height="56" rx="10"/>
+<text class="tb" x="160" y="36" text-anchor="middle">사용자 프로그램</text>
+<text class="tm" x="160" y="56" text-anchor="middle">파일을 다룰 줄만 알면 된다</text>
+<line class="ln" x1="160" y1="68" x2="160" y2="86"/>
+<rect class="bx3" x="50" y="86" width="220" height="100" rx="10"/>
+<text class="tb" x="160" y="114" text-anchor="middle">만능 리모컨</text>
+<text class="tm" x="160" y="140" text-anchor="middle">open · read</text>
+<text class="tm" x="160" y="164" text-anchor="middle">write · close</text>
+<line class="ln" x1="160" y1="186" x2="160" y2="204"/>
+<rect class="bx" x="8" y="204" width="92" height="80" rx="10"/>
+<text class="tb" x="54" y="240" text-anchor="middle">장치</text>
+<text class="tm" x="54" y="264" text-anchor="middle">/dev</text>
+<rect class="bx" x="114" y="204" width="92" height="80" rx="10"/>
+<text class="tb" x="160" y="240" text-anchor="middle">프로세스</text>
+<text class="tm" x="160" y="264" text-anchor="middle">/proc</text>
+<rect class="bx" x="220" y="204" width="92" height="80" rx="10"/>
+<text class="tb" x="266" y="240" text-anchor="middle">하드웨어</text>
+<text class="tm" x="266" y="264" text-anchor="middle">/sys</text>
+</svg>
+<figcaption>같은 네 버튼으로 장치·프로세스·커널 설정에 도달한다.</figcaption>
+</figure>
+</details>
+<div class="terms"><span class="term">open</span><span class="term">read</span><span class="term">write</span><span class="term">close</span><span class="term">장치 드라이버</span></div>
+</section>
+
+<section class="sec" id="s2">
+<div class="sec-head"><span class="sec-num">2</span><div><h2>오해 바로잡기와 일곱 가지 이름표</h2><p class="sub">모든 것이 디스크 위 텍스트는 아니다</p></div></div>
+<p>흔한 오해는 키보드나 하드디스크가 폴더 안의 텍스트처럼 디스크 공간을 차지한다고 읽는 것이다. 정확한 뜻은, <b>시스템 자원이 파일시스템을 통해 도달할 수 있고, 경로를 가지며, 같은 기본 도구로 열고 읽고 쓸 수 있다</b>는 것이다.</p>
+<p>아무 폴더에서 <code>ls -l</code>을 치면, 각 줄의 <b>맨 앞 한 글자</b>가 그 항목의 정체를 알려 준다. 일곱 가지 유형이 한 파일시스템·한 도구 집합 안에 놓인다.</p>
+<div class="tblw"><table class="tbl">
+<thead><tr><th>첫 글자</th><th>명칭</th><th>성격</th><th>예</th></tr></thead>
+<tbody>
+<tr><td><code>-</code></td><td>일반 파일</td><td>데이터를 담는 보통 파일</td><td>문서, 사진, 스크립트</td></tr>
+<tr><td><code>d</code></td><td>디렉터리</td><td>다른 파일의 <b>이름 목록</b>을 담은 특수 파일</td><td><code>/home</code>, <code>/dev</code></td></tr>
+<tr><td><code>l</code></td><td>심볼릭 링크</td><td>다른 경로를 가리키는 바로가기</td><td><code>/proc/self/fd/0</code></td></tr>
+<tr><td><code>c</code></td><td>문자 장치</td><td>한 글자 단위로 순차 전송</td><td>키보드, 터미널</td></tr>
+<tr><td><code>b</code></td><td>블록 장치</td><td>큰 덩어리(블록) 단위 입출력</td><td>디스크, USB</td></tr>
+<tr><td><code>p</code></td><td>네임드 파이프</td><td>프로세스 사이 데이터 터널</td><td>파이프 파일</td></tr>
+<tr><td><code>s</code></td><td>소켓</td><td>프로그램끼리 대화하는 문</td><td>로컬·네트워크 소켓</td></tr>
+</tbody>
+</table></div>
+<div class="terms"><span class="term">경로</span><span class="term">ls -l</span><span class="term">디렉터리도 파일</span></div>
+</section>
+
+<section class="sec" id="s3">
+<div class="sec-head"><span class="sec-num">3</span><div><h2>/dev: 물리 장치와 특수 파일</h2><p class="sub">하드웨어와, 하드웨어 없는 마법</p></div></div>
+<p><code>/dev</code>는 장치(devices)를 모아 두는 곳이다. 저장장치는 <code>sda</code>, <code>nvme0n1</code> 같은 이름으로, 파티션은 <code>sda1</code>처럼 나타난다. <code>dd</code>는 이런 장치 파일을 바이트 단위로 읽고 쓴다. 이름은 IBM JCL의 DD(Data Definition)에서 왔다는 설명이 문헌으로 뒷받침되며, 실수하면 디스크를 날릴 수 있어 ‘Disk Destroyer’라는 별명으로도 불린다.</p>
+<p>물리 하드웨어와 연결되지 않은 가상 특수 파일도 중요하다.</p>
+<div class="tblw"><table class="tbl">
+<thead><tr><th>파일</th><th>비유</th><th>읽기</th><th>쓰기</th><th>쓰임</th></tr></thead>
+<tbody>
+<tr><td><code>/dev/null</code></td><td>블랙홀</td><td>아무것도 안 나옴</td><td>쓴 것이 사라짐</td><td>불필요 출력 침묵</td></tr>
+<tr><td><code>/dev/zero</code></td><td>0의 샘</td><td>널 바이트를 끝없이</td><td>—</td><td>빈 파일, 공간 지우기</td></tr>
+<tr><td><code>/dev/random</code><br><code>/dev/urandom</code></td><td>난수 생성기</td><td>무작위 바이트</td><td>—</td><td>암호 키, 보안 연결</td></tr>
+<tr><td><code>/dev/full</code></td><td>가득 찬 디스크</td><td>—</td><td>항상 “디스크 가득 참”</td><td>용량 부족 테스트</td></tr>
+</tbody>
+</table></div>
+<div class="callout"><p>커널은 키보드 간격, 하드웨어 인터럽트 타이밍 등 환경 노이즈를 엔트로피 풀에 모아 CSPRNG(주로 ChaCha20)를 시드하고, 그 출력으로 난수 파일을 채운다. 전통적으로 <code>/dev/random</code>은 엔트로피가 부족하면 대기하고 <code>/dev/urandom</code>은 대기하지 않았다. <b>Linux 5.6(2020) 이후</b>에는 초기화가 끝나면 둘이 거의 같아지고, 조기 부팅에서만 <code>/dev/random</code>이 대기할 수 있다. 오늘날 대부분의 용도에서는 구별할 필요가 거의 없다.</p></div>
+<h3>작은 실험: 다른 터미널에 글 쓰기</h3>
+<p>터미널에서 <code>tty</code>를 치면 <code>/dev/pts/0</code> 같은 경로가 나온다. 창을 두 개 열고, 한쪽의 그 경로로 <code>echo hello &gt; /dev/pts/…</code>를 보내면 다른 창에 <code>hello</code>가 나타난다. 메신저가 아니라, 파일에 글을 쓴 것이다.</p>
+<div class="terms"><span class="term">/dev/null</span><span class="term">/dev/zero</span><span class="term">/dev/urandom</span><span class="term">/dev/full</span><span class="term">dd</span><span class="term">tty</span></div>
+</section>
+
+<section class="sec" id="s4">
+<div class="sec-head"><span class="sec-num">4</span><div><h2>/proc: 커널의 뇌로 난 창</h2><p class="sub">디스크에 없는 가상 파일시스템</p></div></div>
+<p><code>/proc</code>은 디스크 위에 실제로 있지 않다. 파일을 읽는 바로 그 순간 커널이 내용을 채워 넣는다. 실행 중인 각 프로세스는 <code>/proc/&lt;PID&gt;</code> 폴더를 갖고, 명령줄·환경 변수·메모리·열린 파일 목록이 그 안에 파일로 보인다.</p>
+<p><code>/proc/self</code>는 지금 그 경로를 들여다보는 프로세스 자신을 가리킨다. <code>cat /proc/self/status</code>는 <code>cat</code>이 거울을 보는 일과 같다.</p>
+<p>시스템 전역 파일도 있다. <code>/proc/cpuinfo</code>, <code>/proc/meminfo</code>, <code>/proc/uptime</code>. <code>ps</code>, <code>top</code>, <code>free</code>는 전용 비밀 통로가 아니라 이 파일들을 읽어 보기 좋게 단장한 도구다. <code>cat</code>만으로도 같은 날것 데이터를 볼 수 있다.</p>
+<div class="callout warm"><p><code>/proc</code>을 읽기 전용, <code>/sys</code>를 쓰기 전용으로 나누는 도식은 틀리다. <code>/proc</code> 역시 양방향이다. 특히 <code>/proc/sys</code> 아래 파일에 root로 값을 쓰면, 재부팅 없이 커널 동작을 바꿀 수 있다. 네트워크 포워딩을 켜고 끄는 일이 그 예이고, 도커·쿠버네티스 네트워킹도 이런 설정에 의존한다. <code>sysctl</code>은 그 파일들을 편하게 감싼 도구일 뿐이다.</p></div>
+<div class="terms"><span class="term">가상 파일시스템</span><span class="term">/proc/self</span><span class="term">/proc/sys</span><span class="term">sysctl</span></div>
+</section>
+
+<section class="sec" id="s5">
+<div class="sec-head"><span class="sec-num">5</span><div><h2>/sys: 하드웨어 계층과 컨테이너</h2><p class="sub">정돈된 동생, 그리고 cgroup</p></div></div>
+<p><code>/sys</code>(sysfs)도 디스크에 없는 가상 파일시스템이다. 2.5 개발 주기에서 만들어져 Linux 2.6.0에 포함되었다. <code>/proc</code>보다 구조가 정돈되어 있고, 장치·드라이버·하드웨어 계층을 주로 다룬다.</p>
+<ul>
+<li>배터리 잔량은 흔히 <code>/sys/class/power_supply</code> 아래 <code>capacity</code>로 읽는다.</li>
+<li>화면 밝기는 흔히 <code>/sys/class/backlight/&lt;장치&gt;/brightness</code>에 있으며, root 쓰기로 조절할 수 있다.</li>
+<li>도커·쿠버네티스가 컨테이너 메모리 상한을 정할 때, 밑바닥에서는 보통 <code>/sys/fs/cgroup</code> 아래 파일에 숫자를 쓴다. cgroup v2의 표준 이름은 <code>memory.max</code>이고, v1의 대응은 <code>memory.limit_in_bytes</code>다.</li>
+</ul>
+<div class="tblw"><table class="tbl">
+<thead><tr><th></th><th><code>/proc</code></th><th><code>/sys</code></th></tr></thead>
+<tbody>
+<tr><td><b>성격</b></td><td>커널의 창, 가상 파일시스템</td><td>더 정돈된 가상 파일시스템</td></tr>
+<tr><td><b>주된 대상</b></td><td>프로세스, CPU·메모리, 커널 매개변수</td><td>장치, 드라이버, cgroup</td></tr>
+<tr><td><b>읽기 예</b></td><td><code>cpuinfo</code>, <code>meminfo</code>, <code>self/status</code></td><td>배터리 <code>capacity</code></td></tr>
+<tr><td><b>쓰기 예</b></td><td><code>/proc/sys</code> (예: IP 포워딩)</td><td>백라이트, <code>memory.max</code></td></tr>
+</tbody>
+</table></div>
+<div class="terms"><span class="term">sysfs</span><span class="term">brightness</span><span class="term">cgroup</span><span class="term">memory.max</span></div>
+</section>
+
+<section class="sec" id="s6">
+<div class="sec-head"><span class="sec-num">6</span><div><h2>파일 디스크립터와 셸 파이프</h2><p class="sub">경로 아래의 진짜 열쇠</p></div></div>
+<p>프로그램을 파일을 열면 커널은 작은 정수를 돌려준다. 이것이 <b>파일 디스크립터(FD)</b>다. 외투 보관소 번호표와 같다. 이후의 읽기·쓰기는 그 번호만으로 이뤄진다. 열린 목록은 <code>/proc/self/fd</code>에서 볼 수 있다.</p>
+<p>모든 프로그램은 태어날 때부터 세 장의 표를 쥐고 있다.</p>
+<ul>
+<li><b>0 — 표준 입력(stdin)</b>: 보통 키보드.</li>
+<li><b>1 — 표준 출력(stdout)</b>: 정상적인 결과. 보통 화면.</li>
+<li><b>2 — 표준 에러(stderr)</b>: 오류 메시지.</li>
+</ul>
+<p>그래서 <code>2&gt;/dev/null</code>은 “2번 표(표준 에러)를 블랙홀로 보내라”는 뜻이다.</p>
+<details class="viz"><summary>그림으로 보기: 번호표 0·1·2</summary>
+<figure>
+<svg viewBox="0 0 320 280" role="img" aria-label="프로세스가 파일 디스크립터 0, 1, 2를 통해 키보드, 화면, 에러로 연결된다">
+<rect class="bx2" x="16" y="10" width="288" height="50" rx="10"/>
+<text class="tb" x="160" y="42" text-anchor="middle">실행 중인 프로세스</text>
+<rect class="bx3" x="16" y="78" width="88" height="70" rx="10"/>
+<text class="tb" x="60" y="108" text-anchor="middle">0</text>
+<text class="tm" x="60" y="132" text-anchor="middle">stdin</text>
+<rect class="bx3" x="116" y="78" width="88" height="70" rx="10"/>
+<text class="tb" x="160" y="108" text-anchor="middle">1</text>
+<text class="tm" x="160" y="132" text-anchor="middle">stdout</text>
+<rect class="bx3" x="216" y="78" width="88" height="70" rx="10"/>
+<text class="tb" x="260" y="108" text-anchor="middle">2</text>
+<text class="tm" x="260" y="132" text-anchor="middle">stderr</text>
+<rect class="bx" x="16" y="168" width="88" height="96" rx="10"/>
+<text class="tm" x="60" y="204" text-anchor="middle">키보드</text>
+<text class="tm" x="60" y="228" text-anchor="middle">또는 파이프</text>
+<rect class="bx" x="116" y="168" width="88" height="96" rx="10"/>
+<text class="tm" x="160" y="204" text-anchor="middle">화면·파일</text>
+<text class="tm" x="160" y="228" text-anchor="middle">파이프·소켓</text>
+<rect class="bx" x="216" y="168" width="88" height="96" rx="10"/>
+<text class="tm" x="260" y="204" text-anchor="middle">에러 화면</text>
+<text class="tm" x="260" y="228" text-anchor="middle">또는 /dev/null</text>
+</svg>
+<figcaption>프로그램은 표 뒤에 무엇이 있는지 모른 채 번호로만 읽고 쓴다.</figcaption>
+</figure>
+</details>
+<h3>파이프의 우아함</h3>
+<p>셸이 <code>|</code>를 해석하면, <code>pipe</code>(또는 <code>pipe2</code>)로 터널을 만들고 <code>fork</code>한 뒤 <code>dup2</code>로 표준 입출력을 재배선한다. 실제 데이터 버퍼와 전송은 커널이 맡는다. 앞 프로그램은 화면이 아니라 파이프에 쓰고, 뒤 프로그램은 키보드가 아니라 파이프에서 읽는다. 양쪽 모두 평소처럼 1번·0번 표를 쓸 뿐이다.</p>
+<div class="terms"><span class="term">파일 디스크립터</span><span class="term">stdin</span><span class="term">stdout</span><span class="term">stderr</span><span class="term">pipe</span><span class="term">dup2</span></div>
+</section>
+
+<section class="sec" id="s7">
+<div class="sec-head"><span class="sec-num">7</span><div><h2>한계와 더 정확한 말</h2><p class="sub">모든 것은 파일 디스크립터다</p></div></div>
+<p>“모든 것은 파일이다”는 강력하지만 완벽한 규칙은 아니다. 철학이자 안내 원칙이다.</p>
+<ol>
+<li><b>네트워크 연결</b>은 <code>/net/google</code>을 <code>open</code>하는 식이 아니라, 주로 소켓과 전용 시스템 콜로 만든다.</li>
+<li><b>네트워크 카드</b>는 보통 <code>/dev</code> 아래에 파일로 나타나지 않는다.</li>
+<li><b>단순 읽기·쓰기를 넘는 제어</b>에는 <code>ioctl</code>이 쓰인다. 광학 드라이브 트레이를 열거나, 직렬 포트 통신 속도(baud rate)를 바꾸는 일이 그 예다. 통신 속도는 POSIX <code>termios</code>/<code>tcsetattr</code>로 설정하는 경우가 많고, 구현이 내부적으로 ioctl을 호출하는 것이 보통이다.</li>
+</ol>
+<p>유닉스 창시자들은 나중에 벨 연구소에서 연구용 OS <b>Plan 9</b>을 만들며 이 생각을 더 밀었다. Plan 9에서는 네트워크 연결은 물론 화면의 창(window)까지 파일(파일시스템)로 나타냈다. 리눅스는 그 아이디어를 대체로, 그리고 성공적으로 따르되 실용적 균형을 택한다.</p>
+<div class="callout"><p>그래서 더 정확한 표현은 <b>“모든 것은 파일 디스크립터다(Everything is a file descriptor)”</b>다. 문을 여는 방식이 경로 <code>open</code>이든 소켓 시스템 콜이든, 한 번 열리면 — 디스크든 파이프든 소켓이든 터미널이든 — 프로그램은 같은 번호표로 거의 똑같이 읽고 쓴다.</p></div>
+<div class="terms"><span class="term">ioctl</span><span class="term">소켓</span><span class="term">Plan 9</span><span class="term">안내 원칙</span></div>
+</section>
+
+<section class="sec" id="s8">
+<div class="sec-head"><span class="sec-num">8</span><div><h2>왜 엔지니어에게 중요한가</h2><p class="sub">하나의 마음 모형, 끝없는 쓰임</p></div></div>
+<p>이 설계가 50년도 더 지난 지금도 힘을 주는 이유는 단순하다. <code>cat</code>, <code>echo</code>, <code>grep</code>, 리다이렉션(<code>&gt;</code>, <code>2&gt;</code>) 같은 단순한 도구가 텍스트뿐 아니라 하드웨어, 실행 중 프로세스, 커널 설정, 컨테이너에까지 통하기 때문이다.</p>
+<ul>
+<li><b>서버 디버깅</b>: <code>/proc</code>만으로도 프로세스가 무슨 일을 하고, 어떤 파일을 열어 두었으며, 어떤 환경 변수로 시작됐는지 볼 수 있다.</li>
+<li><b>원인 모를 디스크 고갈</b>: 이미 삭제됐지만 프로세스가 디스크립터로 붙잡고 있는 파일을 찾아낼 수 있다.</li>
+<li><b>커널 튜닝</b>: 재부팅 없이 <code>/proc/sys</code> 등에 숫자를 쓴다.</li>
+<li><b>스크립트 소음 제거</b>: 불필요 출력은 <code>/dev/null</code>로 보낸다.</li>
+</ul>
+</section>
+
+<section class="sec" id="s9">
+<div class="sec-head"><span class="sec-num">9</span><div><h2>정리와 세 가지 작은 실험</h2><p class="sub">손끝으로 확인해 보기</p></div></div>
+<p>일반 파일과 폴더, <code>/dev</code>의 디스크와 블랙홀과 난수 생성기, 터미널 세션, <code>/proc</code>의 프로세스와 <code>/proc/sys</code>의 커널 설정, <code>/sys</code>의 하드웨어와 cgroup 제한까지, 바닥에 깔린 약속은 같다. <b>열기, 읽기, 쓰기, 닫기.</b> 1969년경 벨 연구소에서 시작된 이 지름길이 리눅스를 일관되고 스크립트하기 쉬운 운영체제로 만든다.</p>
+<ol class="steps">
+<li><code>cat /proc/cpuinfo</code>로 프로세서 정보가 파일처럼 읽히는지 본다.</li>
+<li>터미널 창 두 개에서 <code>tty</code>로 경로를 확인한 뒤, 다른 창의 장치 파일로 글을 보낸다.</li>
+<li><code>/proc/self</code> 안을 열어, 프로그램이 거울 속에서 자기 무엇을 보는지 확인한다.</li>
+</ol>
+</section>
+
+<section class="sec" id="rv">
+<div class="sec-head"><span class="sec-num">✔</span><div><h2>복습</h2><p class="sub">핵심을 다시 꺼내 보기</p></div></div>
+
+<h3 class="rv-h">플래시카드</h3>
+<div class="rv-tools"><button type="button" data-all="flip">모두 열기</button><button type="button" data-reset="flip">모두 접기</button></div>
+<div class="flips">
+<button type="button" class="flip" aria-expanded="false"><b>만능 리모컨의 네 동작</b><span class="m">open, read, write, close. 대상의 개인 언어 대신 같은 인터페이스로 장치와 자원을 다룬다.</span></button>
+<button type="button" class="flip" aria-expanded="false"><b>‘모든 것은 파일’의 정확한 뜻</b><span class="m">디스크 위 텍스트가 아니라, 자원이 경로를 갖고 같은 기본 도구로 열고 읽고 쓸 수 있다는 것.</span></button>
+<button type="button" class="flip" aria-expanded="false"><b>ls -l 첫 글자 일곱 가지</b><span class="m">- 일반, d 디렉터리, l 링크, c 문자 장치, b 블록 장치, p 파이프, s 소켓.</span></button>
+<button type="button" class="flip" aria-expanded="false"><b>/dev/null과 /dev/full</b><span class="m">null은 쓴 것이 사라지고 읽으면 비어 있다. full에 쓰면 항상 ‘디스크 가득 참’ 오류가 난다.</span></button>
+<button type="button" class="flip" aria-expanded="false"><b>random과 urandom</b><span class="m">전통적으로 random만 엔트로피 부족 시 대기. Linux 5.6 이후 초기화가 끝나면 거의 동일하다.</span></button>
+<button type="button" class="flip" aria-expanded="false"><b>/proc의 성격</b><span class="m">디스크에 없는 가상 파일시스템. 읽는 순간 커널이 내용을 채운다. /proc/self는 자기 자신.</span></button>
+<button type="button" class="flip" aria-expanded="false"><b>/proc/sys</b><span class="m">읽기만이 아니다. 파일에 값을 쓰면 재부팅 없이 커널 동작을 바꿀 수 있다. sysctl의 실체.</span></button>
+<button type="button" class="flip" aria-expanded="false"><b>/sys와 memory.max</b><span class="m">sysfs는 2.6.0에서 본격 도입. cgroup v2 메모리 상한 파일은 memory.max (v1은 memory.limit_in_bytes).</span></button>
+<button type="button" class="flip" aria-expanded="false"><b>파일 디스크립터 0·1·2</b><span class="m">stdin, stdout, stderr. 2&gt;/dev/null은 표준 에러를 블랙홀로 보낸다는 뜻.</span></button>
+<button type="button" class="flip" aria-expanded="false"><b>더 정확한 명제</b><span class="m">모든 것은 파일 디스크립터다. 여는 방법은 달라도, 열린 뒤에는 같은 번호표로 읽고 쓴다.</span></button>
+</div>
+
+<h3 class="rv-h">빈칸 채우기</h3>
+<div class="rv-tools"><button type="button" data-all="blank">답 모두 보기</button><button type="button" data-reset="blank">다시 가리기</button></div>
+<ul class="cloze">
+<li>보편 인터페이스의 네 동작은 <button type="button" class="blank" data-a="open" aria-label="빈칸, 눌러서 답 보기">?</button>, read, write, close다.</li>
+<li><code>ls -l</code>에서 문자 장치의 첫 글자는 <button type="button" class="blank" data-a="c" aria-label="빈칸, 눌러서 답 보기">?</button>, 블록 장치는 <button type="button" class="blank" data-a="b" aria-label="빈칸, 눌러서 답 보기">?</button>다.</li>
+<li>불필요 출력을 버릴 때 쓰는 블랙홀 파일은 <button type="button" class="blank" data-a="/dev/null" aria-label="빈칸, 눌러서 답 보기">?</button>이다.</li>
+<li>지금 실행 중인 프로세스 자신을 가리키는 경로는 <button type="button" class="blank" data-a="/proc/self" aria-label="빈칸, 눌러서 답 보기">?</button>이다.</li>
+<li>표준 에러의 파일 디스크립터 번호는 <button type="button" class="blank" data-a="2" aria-label="빈칸, 눌러서 답 보기">?</button>이다.</li>
+<li>cgroup v2에서 메모리 상한 파일의 표준 이름은 <button type="button" class="blank" data-a="memory.max" aria-label="빈칸, 눌러서 답 보기">?</button>이다.</li>
+</ul>
+
+<h3 class="rv-h">퀴즈</h3>
+<div id="quiz">
+<div class="q" data-a="1"><fieldset><legend class="qt">1. “모든 것은 파일이다”의 정확한 뜻은?</legend>
+<button type="button">모든 자원이 디스크에 텍스트로 저장된다</button>
+<button type="button">자원이 경로를 갖고 같은 기본 동작으로 다루어진다</button>
+<button type="button">디렉터리만 파일이고 장치는 예외다</button>
+</fieldset><p class="ex" hidden aria-live="polite" data-e="디스크 점유가 아니라, 파일시스템을 통한 도달과 공통 도구가 핵심이다."></p></div>
+<div class="q" data-a="2"><fieldset><legend class="qt">2. /proc을 읽기 전용으로만 이해하면 안 되는 이유는?</legend>
+<button type="button">/proc은 실제로 디스크에 있기 때문이다</button>
+<button type="button">/proc에는 장치 드라이버만 있기 때문이다</button>
+<button type="button">/proc/sys에 값을 쓰면 재부팅 없이 커널을 바꿀 수 있기 때문이다</button>
+</fieldset><p class="ex" hidden aria-live="polite" data-e="sysctl도 결국 /proc/sys 파일을 감싼 도구다."></p></div>
+<div class="q" data-a="0"><fieldset><legend class="qt">3. Linux 5.6 이후 /dev/random과 /dev/urandom은?</legend>
+<button type="button">초기화 이후에는 거의 동일하게 동작한다</button>
+<button type="button">random만 계속 블로킹한다</button>
+<button type="button">urandom이 사라졌다</button>
+</fieldset><p class="ex" hidden aria-live="polite" data-e="블로킹 풀이 제거되어, 조기 부팅을 제외하면 구별할 필요가 거의 없다."></p></div>
+<div class="q" data-a="1"><fieldset><legend class="qt">4. 셸 파이프(|)에서 셸의 역할은?</legend>
+<button type="button">데이터 버퍼와 전송을 직접 복사한다</button>
+<button type="button">pipe·fork·dup2로 표준 입출력을 재배선하고, 전송은 커널이 맡는다</button>
+<button type="button">두 프로그램에 소켓 경로만 알려 준다</button>
+</fieldset><p class="ex" hidden aria-live="polite" data-e="프로그램은 평소처럼 0·1번 표를 쓸 뿐, 표 뒤에 파이프가 있을 수 있다."></p></div>
+<div class="q" data-a="2"><fieldset><legend class="qt">5. “모든 것은 파일 디스크립터다”라고 더 정확히 말하는 이유는?</legend>
+<button type="button">리눅스에는 파일이 없기 때문이다</button>
+<button type="button">Plan 9만 파일을 쓰기 때문이다</button>
+<button type="button">소켓처럼 경로 open이 아니어도, 열린 뒤에는 같은 번호표로 읽고 쓰기 때문이다</button>
+</fieldset><p class="ex" hidden aria-live="polite" data-e="안내 원칙의 한계를 인정하면서도, 열린 이후의 공통 인터페이스를 가리킨다."></p></div>
+<p class="score" id="score" aria-live="polite">점수: 0 / 5</p>
+<div class="rv-tools"><button type="button" id="qreset">다시 풀기</button></div>
+</div>
+</section>
+
+<section class="sources">
+<h3>출처</h3>
+<ul>
+<li>Bit Byte Talks, “Why Everything Is a File in Linux: /dev, /proc &amp; /sys Explained” — <a href="https://youtu.be/uUR6NKDY2QM">https://youtu.be/uUR6NKDY2QM</a></li>
+<li><a href="https://yghnsim.github.io/Pages/articles/linux-everything-is-a-file.html">Pages — 모든 것은 파일이다 (심화 해설, 게시 준비 중일 수 있음)</a></li>
+</ul>
+<p>이 페이지는 위 영상을 바탕으로 한 심화 초안의 예습·복습용 요약이다. 원문에 없는 주장을 발표자의 말로 적지 않았고, 외부 사실(난수 인터페이스의 커널 5.6 이후 수렴, sysfs·cgroup 파일명 등)은 확인된 범위에서 해설로 정리했다.</p>
+</section>
+</main>
+</div>
+</div>
+<script>(function(){
+function $$(q){return [].slice.call(document.querySelectorAll(q))}
+$$('.flip').forEach(function(b){b.onclick=function(){b.setAttribute('aria-expanded',b.getAttribute('aria-expanded')==='true'?'false':'true')}});
+function show(b){b.textContent=b.dataset.a;b.classList.add('shown');b.setAttribute('aria-label','답: '+b.dataset.a)}
+function hide(b){b.textContent='?';b.classList.remove('shown');b.setAttribute('aria-label','빈칸, 눌러서 답 보기')}
+$$('.blank').forEach(function(b){b.onclick=function(){show(b)}});
+$$('[data-all]').forEach(function(t){t.onclick=function(){if(t.dataset.all==='flip')$$('.flip').forEach(function(b){b.setAttribute('aria-expanded','true')});else $$('.blank').forEach(show)}});
+$$('[data-reset]').forEach(function(t){t.onclick=function(){if(t.dataset.reset==='flip')$$('.flip').forEach(function(b){b.setAttribute('aria-expanded','false')});else $$('.blank').forEach(hide)}});
+var sc=0,done=0,qs=$$('#quiz .q'),tot=qs.length||5;
+function upd(){var el=document.getElementById('score');if(el)el.textContent='점수: '+sc+' / '+tot+(done===tot?' (끝)':'')}
+qs.forEach(function(q){var bs=[].slice.call(q.querySelectorAll('fieldset button')),ex=q.querySelector('.ex');
+bs.forEach(function(b,i){b.onclick=function(){var a=+q.dataset.a,ok=i===a;bs.forEach(function(x){x.disabled=true});if(bs[a])bs[a].classList.add('right');if(!ok)b.classList.add('wrong');
+if(ex){ex.hidden=false;ex.textContent=(ok?'맞았습니다. ':'아쉽습니다. ')+ex.dataset.e;}if(ok)sc++;done++;upd();}})});
+var qr=document.getElementById('qreset');
+if(qr)qr.onclick=function(){sc=0;done=0;qs.forEach(function(q){q.querySelectorAll('fieldset button').forEach(function(x){x.disabled=false;x.className=''});var ex=q.querySelector('.ex');if(ex){ex.hidden=true;ex.textContent=''}});upd()};
+})();</script>
+
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">아카이브</div><div class="arc-foot-title">모든 것은 파일이다 — 리눅스의 /dev, /proc, /sys가 가리키는 보편 인터페이스</div><div class="arc-foot-meta"><time datetime="2026-11-13">2026년 11월 13일</time><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99">#컴퓨터과학</a><a class="arc-tag" href="../index.html#tags=%EC%8B%9C%EC%8A%A4%ED%85%9C%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D">#시스템프로그래밍</a><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99%EC%82%AC">#컴퓨터과학사</a><a class="arc-tag" href="../index.html#tags=%ED%95%B4%EC%84%A4">#해설</a> · <a href="https://yghnsim.github.io/Pages/articles/linux-everything-is-a-file.html" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body>
+</html>

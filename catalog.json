@@ -1,5 +1,23 @@
 [
   {
+    "id": "20261113-01",
+    "title": "모든 것은 파일이다 — 리눅스의 /dev, /proc, /sys가 가리키는 보편 인터페이스",
+    "summary": "유닉스·리눅스의 '모든 것은 파일이다' 설계: /dev, /proc, /sys, 파일 디스크립터와 파이프, 그리고 그 철학이 멈추는 지점",
+    "tags": [
+      "컴퓨터과학",
+      "시스템프로그래밍",
+      "컴퓨터과학사",
+      "해설"
+    ],
+    "date": "2026-11-13",
+    "file": "pages/2026-11-13-리눅스모든것은파일.html",
+    "added": "2026-11-13T15:47:11+09:00",
+    "source_name": "linux-archive-src.html",
+    "source_sha256": "671da46a916d7e48b7b89d611a58d17c58d7260fcef29d414ccb9ffe2bef2a54",
+    "source_path_sha256": "6095b92e77f3c6f678a4546719a9cd0ec493671a15c8921fa8e6229c4548e0ec",
+    "source_url": "https://yghnsim.github.io/Pages/articles/linux-everything-is-a-file.html"
+  },
+  {
     "id": "20261106-01",
     "title": "문맥은 인프라다: 검색 하네스 시대를 위한 지식 컴파일과 에이전트 네이티브 데이터베이스",
     "summary": "검색 하네스 위에 검증된 증거를 공급하는 지식 컴파일. 증거 치환의 토큰 경제학, 결정 게이트, 캐리어와 페이로드, 예산화 루프와 오수락 감사를 정리한다.",
