@@ -2,6 +2,24 @@
    `python3 add_page.py --rebuild` 를 실행하면 다시 만들어집니다. */
 window.ARCHIVE_CATALOG = [
   {
+    "id": "20261119-03",
+    "title": "무엇을 만들고 무엇을 만들지 않을 것인가 — CMU 소프트웨어 아키텍처 2강",
+    "summary": "CMU 17-635 소프트웨어 아키텍처 2강 예습·복습. 컨텍스트 다이어그램(UML·C4 표기), 앱이 아닌 플랫폼 관점, 행위자 너머의 사업 가치, 지도·외부 API·DB·분석·관리자 범위 질문, '얼마나 많이·자주·크게'로 끌어내는 품질 속성과 제약, 이벤트 세 분류와 V-모델 검증.",
+    "tags": [
+      "컴퓨터과학",
+      "소프트웨어공학",
+      "아키텍처",
+      "해설"
+    ],
+    "date": "2026-11-19",
+    "file": "pages/2026-11-19-CMU소프트웨어아키텍처2강.html",
+    "added": "2026-11-19T15:16:01+09:00",
+    "source_name": "c2-src.html",
+    "source_sha256": "b2d02e6adad44a1311c12321c10f9fc31295b0344aeb51463cb597beaba61f8b",
+    "source_path_sha256": "3743ebe8761140c11618e9a13593e5044c39e35bff03eb53c361d914039dbe2f",
+    "source_url": "https://yghnsim.github.io/Pages/articles/cmu-software-architecture-lec02-setting-the-context.html"
+  },
+  {
     "id": "20261119-02",
     "title": "디지털 봉신국의 시대 — 유발 하라리가 본 AI, 민주주의, 그리고 작은 나라들의 선택지",
     "summary": "유발 하라리의 AI와 민주주의 진단 예습·복습: 배우는 빗자루와 통제의 역설, AI 금융과 '국민' 기본소득, 정보 처리와 권력(감시·독재의 취약성·신뢰의 붕괴), 대량 친밀성과 생각의 외주화, 살아난 텍스트, 인쇄술 200년과 AI 법인격 금지, 보르티게른의 용병과 자율 무기, 디지털 봉신국과 중소국의 네 가지 선택지",
