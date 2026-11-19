@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light only">
+<title>코딩 전에 무엇을 정해야 하는가 — CMU 소프트웨어 아키텍처 1강</title>
+<meta name="description" content="CMU 17-635 소프트웨어 아키텍처 1강 예습·복습: 사업 요구, 품질 속성, 트레이드오프, 세 가지 뷰, 두 법칙, 아키텍트의 여섯 활동">
+<style>
+:root{color-scheme:light only;
+  --bg:#faf8f3; --paper:#ffffff; --ink:#1f2328; --muted:#5b6470; --line:#e6e1d6;
+  --accent:#c8553d; --accent-soft:#fbeee9; --link:#4a6b8a;
+  --new:#3d5f80; --new-soft:#eaf0f6; --radius:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:20px}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans CJK KR","Malgun Gothic","Gothic A1",system-ui,sans-serif;
+  font-size:17px;line-height:1.75;word-break:keep-all;overflow-wrap:break-word}
+@media(max-width:640px){body{font-size:16px}}
+a{color:var(--link)}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+.hero{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{display:inline-block;font-size:13px;font-weight:700;color:#a8432e;background:var(--accent-soft);padding:3px 10px;border-radius:999px;margin-bottom:12px}
+.hero h1{font-size:clamp(28px,4.4vw,44px);line-height:1.25;margin:0 0 12px;letter-spacing:-.02em}
+.hero .lead{font-size:18px;color:var(--muted);line-height:1.65;margin:0}
+@media(max-width:640px){.hero .lead{font-size:17px}}
+.hero-cta{margin-top:16px}
+.hero-cta a{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--new);color:#fff;border-radius:10px;font-weight:700;font-size:15px;text-decoration:none}
+.grid{display:grid;grid-template-columns:240px minmax(0,1fr);gap:36px;align-items:start}
+@media(max-width:880px){.grid{grid-template-columns:minmax(0,1fr);gap:0}}
+.toc{position:sticky;top:20px;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;font-size:15px}
+.toc .toc-t{font-weight:700;margin:0 0 10px}
+.toc ol{margin:0;padding:0;list-style:none}
+.toc li{margin:6px 0}
+.toc a{color:var(--muted);display:flex;align-items:baseline;gap:8px;text-decoration:none;line-height:1.45}
+.toc a:hover{color:var(--link)}
+.toc .n{flex:none;display:inline-block;width:22px;height:22px;line-height:22px;text-align:center;border-radius:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:700}
+.toc .orig{display:block;margin-top:14px;padding-top:10px;border-top:1px dashed var(--line);font-size:14px;color:#a8432e;font-weight:700}
+@media(max-width:880px){
+  .toc{position:sticky;top:0;z-index:20;margin:0 -20px 20px;border-radius:0;border-width:0 0 1px;padding:8px 12px;background:rgba(250,248,243,.97);overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .toc .toc-t,.toc .orig{display:none}
+  .toc ol{display:flex;gap:6px;white-space:nowrap}
+  .toc li{margin:0}
+  .toc a{background:#f1ede4;color:var(--ink);border-radius:999px;padding:6px 12px;font-size:14px;align-items:center}
+  .toc .n{background:none;width:auto;height:auto;line-height:1;color:var(--muted)}
+  html{scroll-padding-top:64px}
+}
+main{min-width:0}
+.sec{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:24px 28px;margin-bottom:28px}
+@media(max-width:640px){.sec{padding:18px 16px}}
+.sec-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px}
+.sec-num{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:12px;background:var(--ink);color:#fff;font-weight:800;font-size:17px;flex-shrink:0;margin-top:2px}
+@media(max-width:640px){.sec-num{width:34px;height:34px;font-size:15px}}
+.sec-head h2{font-size:clamp(23px,3vw,30px);line-height:1.3;margin:0;letter-spacing:-.015em}
+.sec-head .sub{font-size:16px;color:var(--muted);margin:3px 0 0}
+h3{font-size:19px;margin:22px 0 8px}
+p{margin:0 0 14px}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin:4px 0}
+.theses{counter-reset:t;list-style:none;padding:0;margin:0 0 16px}
+.theses li{counter-increment:t;position:relative;padding:10px 14px 10px 50px;margin:8px 0;background:#fdfcf9;border:1px solid var(--line);border-radius:12px}
+.theses li::before{content:counter(t);position:absolute;left:14px;top:12px;width:24px;height:24px;border-radius:50%;background:var(--accent-soft);color:#a8432e;font-weight:800;font-size:14px;display:grid;place-items:center}
+.tblw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:16px 0}
+.tbl{width:100%;min-width:520px;border-collapse:collapse;font-size:16px}
+.tbl th,.tbl td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+.tbl th{background:var(--new-soft);color:var(--new);font-weight:700}
+.tbl td{background:#fff}
+.callout{background:var(--new-soft);border-left:4px solid var(--new);border-radius:10px;padding:12px 16px;margin:14px 0}
+.callout.warm{background:var(--accent-soft);border-left-color:var(--accent)}
+.callout p:last-child{margin:0}
+blockquote{margin:14px 0;padding:12px 18px;background:#fff;border-left:5px solid var(--accent);border-radius:0 12px 12px 0}
+blockquote p{margin:0}
+.terms{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+.term{display:inline-flex;align-items:center;gap:6px;background:var(--new-soft);color:var(--new);font-size:13px;font-weight:600;padding:4px 10px;border-radius:8px}
+details.viz{margin:14px 0;border:1px solid var(--line);border-radius:12px;background:#fdfcf9}
+details.viz summary{cursor:pointer;list-style:none;padding:12px 14px;font-weight:600;font-size:16px;color:var(--new);min-height:44px;display:flex;align-items:center;gap:8px}
+details.viz summary::-webkit-details-marker{display:none}
+details.viz summary::before{content:"▸";font-size:14px;color:var(--accent)}
+details.viz[open] summary::before{content:"▾"}
+details.viz figure{margin:0;padding:4px 12px 14px}
+details.viz svg{display:block;width:100%;height:auto;max-width:440px;margin:0 auto;font-family:"Pretendard","Noto Sans KR",sans-serif}
+details.viz figcaption{font-size:16px;color:var(--muted);line-height:1.6;margin-top:8px}
+svg .bx{fill:#fff;stroke:#5b6470;stroke-width:1.4}
+svg .bx2{fill:#eaf0f6;stroke:#3d5f80;stroke-width:1.4}
+svg .bx3{fill:#fbeee9;stroke:#c8553d;stroke-width:1.4}
+svg .t{fill:#1f2328;font-size:18px}
+svg .tb{fill:#1f2328;font-size:18px;font-weight:700}
+svg .tm{fill:#4a525c;font-size:17.5px}
+svg .ln{stroke:#5b6470;stroke-width:1.5;fill:none}
+.sources{background:var(--new-soft);border:1px solid var(--line);border-radius:var(--radius);padding:18px 22px;margin-top:32px;font-size:16px;color:#3f4650}
+.sources h3{font-size:17px;color:var(--new);margin:0 0 8px}
+.sources ul{margin:0;padding-left:20px}
+.rv-h{font-size:19px;margin:22px 0 6px}
+.flips{display:grid;grid-template-columns:1fr;gap:8px;margin:10px 0}
+@media(min-width:640px){.flips{grid-template-columns:1fr 1fr}}
+.flip{font:inherit;text-align:left;width:100%;border:1.5px solid var(--line,#e6e1d6);background:#fdfcf9;border-radius:12px;padding:10px 14px;cursor:pointer;color:var(--ink,#1f2328);min-height:64px}
+.flip b{display:block;font-size:17px}
+.flip .m{display:none;font-size:16px;line-height:1.6;margin-top:4px}
+.flip .hint{font-size:13px;color:var(--muted,#5b6470)}
+.flip[aria-expanded="true"]{border-color:var(--new,#3d5f80);background:var(--new-soft,#eaf0f6)}
+.flip[aria-expanded="true"] .m{display:block}
+.flip[aria-expanded="true"] .hint{display:none}
+.cloze{list-style:none;margin:10px 0;padding:0}
+.cloze li{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:10px 14px;margin:8px 0;background:#fdfcf9;font-size:16px;line-height:1.8}
+.blank{font:inherit;font-size:16px;border:0;border-bottom:2px dashed var(--accent,#c8553d);background:var(--accent-soft,#fbeee9);color:#a8432e;border-radius:6px 6px 0 0;padding:0 8px;cursor:pointer;min-width:4.5em}
+.blank.shown{border-bottom-style:solid;background:var(--new-soft,#eaf0f6);color:var(--new,#3d5f80);font-weight:700}
+.rv-tools{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.rv-tools button{font:inherit;font-size:15px;border:1px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--link,#4a6b8a)}
+.q{border:1px solid var(--line,#e6e1d6);border-radius:12px;padding:12px 14px;margin:10px 0;background:#fdfcf9}
+.q fieldset{border:0;margin:0;padding:0;min-width:0}
+.q legend{font-weight:700;padding:0;margin:0 0 8px;font-size:16.5px}
+.q button{display:block;width:100%;text-align:left;font:inherit;font-size:16px;border:1.5px solid var(--line,#e6e1d6);background:#fff;border-radius:10px;padding:8px 12px;margin:6px 0;cursor:pointer;color:var(--ink,#1f2328)}
+.q button.right{border-color:#2f6b45;background:#e6f1ea}
+.q button.wrong{border-color:#a2452f;background:#fbeee9}
+.q button[disabled]{cursor:default;opacity:1}
+.q .ex{margin:8px 0 0;font-size:16px;padding:8px 10px;border-radius:8px;background:var(--new-soft,#eaf0f6)}
+.score{font-size:17px;font-weight:800;margin:10px 0 0}
+pre{background:#f6f4ee;border:1px solid var(--line);border-radius:10px;padding:12px 14px;overflow-x:auto;-webkit-overflow-scrolling:touch;margin:14px 0;font-size:16px;line-height:1.6}
+pre code{font-family:"JetBrains Mono","D2Coding",ui-monospace,Menlo,Consolas,monospace;color:#1f2328;white-space:pre;background:none;padding:0;font-size:inherit}
+code{font-family:"JetBrains Mono","D2Coding",ui-monospace,Menlo,Consolas,monospace;font-size:.92em;background:#f3efe6;border-radius:4px;padding:0 4px}
+.steps{padding-left:1.3em}.steps li{margin:8px 0}
+</style>
+<!-- archive-mobile-css v1: 아카이브가 자동 추가한 모바일 보정 (본문 내용은 바꾸지 않음) -->
+<style id="archive-mobile-css">
+:where(html){-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(img,video,canvas,iframe,embed,object,svg){max-width:100%}
+:where(img,video){height:auto}
+@media (max-width:640px){
+  :where(body){overflow-wrap:break-word}
+  :where(pre){max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(table){display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  :where(code,kbd,samp){overflow-wrap:anywhere}
+  :where(input,select,textarea){font-size:16px}
+}
+</style>
+<!-- archive-head:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<link rel="stylesheet" href="../assets/archive-page.css">
+<link rel="stylesheet" href="../assets/archive-tokens.css">
+<!-- archive-head:end -->
+</head>
+<body>
+<!-- archive-header:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-band" role="navigation" aria-label="아카이브"><div class="arc-inner"><a class="arc-back" href="../index.html"><b>←</b>아카이브</a><span class="arc-crumb">코딩 전에 무엇을 정해야 하는가 — CMU 소프트웨어 아키텍처 1강</span><span class="arc-meta"><time datetime="2026-11-19">2026년 11월 19일</time><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99">#컴퓨터과학</a><a class="arc-tag" href="../index.html#tags=%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4%EA%B3%B5%ED%95%99">#소프트웨어공학</a><a class="arc-tag" href="../index.html#tags=%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98">#아키텍처</a><a class="arc-tag" href="../index.html#tags=%ED%95%B4%EC%84%A4">#해설</a><a class="arc-src" href="https://yghnsim.github.io/Pages/articles/cmu-software-architecture-lec01-why-architecture.html" rel="noopener">원문 ↗</a></span></div></div>
+<!-- archive-header:end -->
+<div class="wrap">
+<header class="hero">
+<span class="eyebrow">소프트웨어 아키텍처 · 강의 해설</span>
+<h1>코딩 전에 무엇을 정해야 하는가 — CMU 소프트웨어 아키텍처 1강</h1>
+<p class="lead">기능이 같아도 사업 요구가 다르면 구조가 달라진다. 품질 속성, 트레이드오프, 정적·동적·배치 구조, 그리고 “어떻게보다 왜”.</p>
+<div class="hero-cta"><a href="https://yghnsim.github.io/Pages/articles/cmu-software-architecture-lec01-why-architecture.html">📚 Pages에서 심화 해설 전문 읽기 ↗</a></div>
+</header>
+<div class="grid">
+<nav class="toc" aria-label="목차">
+<p class="toc-t">목차</p>
+<ol>
+<li><a href="#s0"><span class="n">★</span>한눈에 보기</a></li>
+<li><a href="#s1"><span class="n">1</span>과목의 지도</a></li>
+<li><a href="#s2"><span class="n">2</span>차량 호출 앱</a></li>
+<li><a href="#s3"><span class="n">3</span>LLM·아마존·노키아</a></li>
+<li><a href="#s4"><span class="n">4</span>입국 심사 줄</a></li>
+<li><a href="#s5"><span class="n">5</span>장바구니와 상태</a></li>
+<li><a href="#s6"><span class="n">6</span>정의와 세 가지 뷰</a></li>
+<li><a href="#s7"><span class="n">7</span>패턴과 두 법칙</a></li>
+<li><a href="#s8"><span class="n">8</span>아키텍트의 여섯 활동</a></li>
+<li><a href="#rv"><span class="n">✔</span>복습</a></li>
+</ol>
+<a class="orig" href="https://yghnsim.github.io/Pages/articles/cmu-software-architecture-lec01-why-architecture.html">심화 원문(Pages) ↗</a>
+</nav>
+<main id="content">
+
+<section class="sec" id="s0">
+<div class="sec-head"><span class="sec-num">★</span><div><h2>한눈에 보기</h2><p class="sub">일곱 가지 핵심 명제</p></div></div>
+<ol class="theses">
+<li><b>기능이 같아도 사업 요구가 다르면 구조가 달라진다.</b> 기능 목록만 채운 코드는 강의 표현대로 “쓸모가 있을지 없을지 모르는 코드 덩어리”다. 동시 사용자 수, 서비스 지역, 확장 계획 같은 사업 질문이 구조를 가른다.</li>
+<li><b>품질 속성은 “무엇을”이 아니라 “얼마나 잘”이다.</b> 성능·가용성·수정 용이성·확장성 같은 ‘-ilities’는 QA(품질 보증)와 다른 개념이다. 6부분 시나리오로 측정 가능한 문장으로 바꾼다.</li>
+<li><b>큰 구조가 시스템의 성질을 좌우한다.</b> 모듈 분해, 복제, 통신 방식, 주고받는 데이터량이 처리량과 지연 시간을 결정한다.</li>
+<li><b>공짜 품질 속성은 없다.</b> 입국 심사 줄을 늘리면 심사관 비용이 들고, 장바구니를 서버에 두면 지속성을 얻는 대신 지연 시간이 길어진다.</li>
+<li><b>아키텍처는 시스템에 대해 추론하는 데 필요한 구조들의 집합이다.</b> 같은 시스템을 정적(코드 분할)·동적(실행 중 인스턴스)·배치(폰·서버·클라우드) 세 뷰로 본다.</li>
+<li><b>바퀴를 다시 발명하지 않는다.</b> 패턴과 프레임워크를 빌려 쓰고, 모르는 것은 끝에서 끝까지 이어지는 얇은 뼈대 프로토타입으로 검증한다.</li>
+<li><b>모든 것은 트레이드오프이고, ‘왜’가 ‘어떻게’보다 중요하다.</b> 아키텍트는 코딩 전에 요구 도출부터 결정 문서화까지 여섯 가지 활동을 한다.</li>
+</ol>
+</section>
+
+<section class="sec" id="s1">
+<div class="sec-head"><span class="sec-num">1</span><div><h2>이 과목이 겨냥하는 지도</h2><p class="sub">여섯 가지 목표, 품질 속성, 전체 여정</p></div></div>
+<p>CMU 17-635 「소프트웨어 아키텍처」 1강(강사 Swarnalatha Ashok, Scott Pavetti)은 이렇게 묻는다. 아키텍처를 왜 배우고, 정식 정의는 무엇이며, 아키텍트는 무엇을 하는가. 출발점은 분명하다. <b>아키텍처는 상자와 화살표를 그리는 일이 아니다.</b> 작은 단독 계산기라면 바로 코딩해도 되지만, 강의는 “오늘날엔 계산기조차 단독 프로그램이 아니다”라고 덧붙인다.</p>
+<h3>여섯 가지 학습 목표</h3>
+<ol>
+<li>소프트웨어 아키텍처를 명확한 언어로 정의한다.</li>
+<li>시스템 맥락 안에서 아키텍처 요구사항과 우선순위를 정한다.</li>
+<li>시스템 전체 성질이 사업 요구와 어떻게 이어지는지 이해한다.</li>
+<li>모든 아키텍처 동인(architectural drivers)을 만족하는 시스템을 설계한다.</li>
+<li>검증된 패턴과 전술(tactics)을 재사용한다.</li>
+<li>아키텍처와 결정의 이유(rationale)를 문서로 남긴다. 다음 작업자와 미래의 나를 위해서다.</li>
+</ol>
+<h3>품질 속성과 6부분 시나리오</h3>
+<p>품질 속성(quality attributes)은 시스템이 본래 갖춰야 할 작동 성질이다. 버그를 찾는 활동·조직인 QA와 다르다. 이 미니 학기는 <b>모듈성·성능·가용성·확장성</b> 네 가지에 집중한다.</p>
+<p>“빨라야 한다”만으로는 설계할 수 없다. 강의는 6부분 시나리오를 “무엇이 자극하고, 결과가 무엇이며, 어떻게 측정하는가” 수준으로 소개했다. 교재의 표준 어휘로는 다음 여섯 요소다.</p>
+<div class="tblw"><table class="tbl">
+<thead><tr><th>요소</th><th>뜻</th><th>차량 호출 앱 예</th></tr></thead>
+<tbody>
+<tr><td>① 자극의 근원</td><td>누가·무엇이 일으키나</td><td>승객</td></tr>
+<tr><td>② 자극</td><td>무슨 일이 일어나나</td><td>호출 버튼을 누름</td></tr>
+<tr><td>③ 대상</td><td>시스템의 어느 부분</td><td>배차 서비스</td></tr>
+<tr><td>④ 환경</td><td>어떤 상황에서</td><td>출퇴근 피크 타임</td></tr>
+<tr><td>⑤ 응답</td><td>시스템이 어떻게 반응하나</td><td>기사를 매칭해 알림</td></tr>
+<tr><td>⑥ 응답 측정</td><td>어떻게 재나</td><td>2초 이내</td></tr>
+</tbody>
+</table></div>
+<p>이후 여정은 컨텍스트 다이어그램으로 범위 잡기, 아키텍처 동인, 세 가지 뷰, 패턴·전술과 속성 주도 설계(ADD), 독자별 문서화와 아키텍처 결정 기록(ADR), LLM 기반 시스템과 애자일로 이어진다. 교재는 Bass 외 『Software Architecture in Practice』 4판과 『Documenting Software Architectures: Views and Beyond』 2판이다.</p>
+<div class="terms"><span class="term">품질 속성</span><span class="term">QA와 구별</span><span class="term">6부분 시나리오</span><span class="term">아키텍처 동인</span><span class="term">ADD</span><span class="term">ADR</span></div>
+</section>
+
+<section class="sec" id="s2">
+<div class="sec-head"><span class="sec-num">2</span><div><h2>기능만으로는 부족하다</h2><p class="sub">차량 호출 앱으로 보는 사업 요구와 설계의 분화</p></div></div>
+<p>우버 같은 차량 호출 앱을 만든다고 하자. 승객은 차종을 고르고 출발지·목적지를 정하고 경로를 추적해 결제한다. 운전자는 자신과 차량(렌터카 포함)을 등록하고, 운행을 켜고 끄며, 호출을 수락·취소한다. 유스케이스, 도메인 모델, 드라이버·라이드 컨트롤러, 시퀀스 다이어그램까지 그리면 “이제 코딩하자”는 말이 나온다.</p>
+<p>실제로 아키텍처 없이도 기능은 돌아간다. 폰끼리 직접 통신하는 단독 앱이든, 백엔드 하나짜리 웹앱이든 된다. 강의의 질문은 하나다. <b>그 프로그램이 사업 요구와 맞는가?</b> 기능에 더해 다음을 물어야 한다.</p>
+<ul>
+<li>전체 사용자는 몇 명이고, <b>동시 접속자</b>는 몇 명인가?</li>
+<li>피츠버그 지역용인가, 전 세계용인가?</li>
+<li>나중에 <b>택배·음식 배달</b>까지 얹을 계획인가?</li>
+</ul>
+<p>확장 계획이 있으면 수정 용이성·확장 가능성이, 동시 1만 명 이상이면 확장성과 피크에 따른 scale up/down이 필요하다. 그러면 단독 앱은 선택지에서 빠지고, 분석 설계를 “뜯어내야(rip apart)” 한다. 화면은 폰에, 배차·매칭은 백엔드에, 탄력 확장은 클라우드에 둔다. 결제도 직접 만들지 외부 서비스에 위임할지에 따라 구조가 갈린다.</p>
+<details class="viz"><summary>그림으로 보기: 같은 기능, 다른 구조</summary>
+<figure>
+<svg viewBox="0 0 320 330" role="img" aria-label="같은 기능 목록이 사업 요구에 따라 단독 앱 또는 클라우드 분산 구조로 갈라진다">
+<rect class="bx2" x="40" y="10" width="240" height="56" rx="10"/>
+<text class="tb" x="160" y="35" text-anchor="middle">같은 기능 목록</text>
+<text class="tm" x="160" y="57" text-anchor="middle">호출·수락·결제</text>
+<line class="ln" x1="160" y1="66" x2="160" y2="88"/>
+<rect class="bx3" x="30" y="88" width="260" height="56" rx="10"/>
+<text class="tb" x="160" y="113" text-anchor="middle">사업 질문</text>
+<text class="tm" x="160" y="135" text-anchor="middle">동시 사용자 · 지역 · 확장</text>
+<line class="ln" x1="160" y1="144" x2="82" y2="176"/>
+<line class="ln" x1="160" y1="144" x2="238" y2="176"/>
+<rect class="bx" x="8" y="176" width="146" height="140" rx="10"/>
+<text class="tb" x="81" y="206" text-anchor="middle">동시 10명</text>
+<text class="tm" x="81" y="236" text-anchor="middle">단순 구조로</text>
+<text class="tm" x="81" y="260" text-anchor="middle">버틸 수 있음</text>
+<text class="tm" x="81" y="290" text-anchor="middle">단독 앱·웹앱</text>
+<rect class="bx" x="166" y="176" width="146" height="140" rx="10"/>
+<text class="tb" x="239" y="206" text-anchor="middle">동시 1만+</text>
+<text class="tm" x="239" y="236" text-anchor="middle">폰=화면</text>
+<text class="tm" x="239" y="260" text-anchor="middle">백엔드=배차</text>
+<text class="tm" x="239" y="290" text-anchor="middle">클라우드 확장</text>
+</svg>
+<figcaption>기능은 같아도 사업의 답에 따라 설계 모델이 달라진다.</figcaption>
+</figure>
+</details>
+<div class="callout"><p><b>분석 모델</b>은 무엇이 필요한지 파악한 출발점이고, <b>설계 모델</b>은 그것을 사업 요구에서 나온 아키텍처 요구에 맞게 다듬은 판(refinement)이다. 강의의 결론: “아키텍처는 사업 요구에 맞춰져야 한다.”</p></div>
+<div class="terms"><span class="term">사업 요구</span><span class="term">동시 사용자</span><span class="term">확장성</span><span class="term">수정 용이성</span><span class="term">분석 모델</span><span class="term">설계 모델</span></div>
+</section>
+
+<section class="sec" id="s3">
+<div class="sec-head"><span class="sec-num">3</span><div><h2>현실은 어떻게 구조를 갈랐는가</h2><p class="sub">LLM, 아마존, 노키아, 그리고 ‘-ilities’</p></div></div>
+<h3>LLM 서비스들</h3>
+<p>모두 같은 생성형 AI를 쓰지만 초점이 다르다. 정확도, 텍스트 입출력, 멀티모달, 코딩(Copilot). 사업 모델과 대상 사용자가 다르니 아키텍처와 제품 구성이 갈린다.</p>
+<h3>아마존: 서점이 아니라 플랫폼</h3>
+<p>반스앤노블·보더스 같은 서점의 중심이 자체 재고 DB였다면, 아마존은 모든 상품으로 넓히고 여러 판매자를 잇는 <b>통합(integration)</b>을 중심에 두었다. 같은 ‘온라인 판매’라도 사업 모델이 아키텍처의 중심축을 바꾼다.</p>
+<div class="callout warm"><p><b>강의 발언과 사실 확인</b></p>
+<ul>
+<li><b>재고·창고:</b> 강의는 아마존에 “재고도 창고도 없다”고 했지만 사실과 다르다. 창업 직후에는 도매상(Ingram 등)을 활용해 재고를 최소화했으나, 1995년 시애틀 첫 창고, 1997년 델라웨어 등 유통센터를 열었고, 지금은 수백 개의 물류센터에서 직매입(1P)과 제3자 판매(3P)를 함께 운영한다. 요점(판매자 통합 중심의 사업 모델)은 유효하다.</li>
+<li><b>100ms와 매출 1%:</b> 강의는 “응답을 100ms 줄일 때마다 매출 1% 증가”라고 소개했다. 원 출처(Greg Linden, 2006)의 실험은 반대 방향이다. <b>페이지를 100ms 늦추자 매출이 약 1% 줄었다.</b> 공식 보고서나 논문은 아니다.</li>
+<li><b>대형 장애:</b> 강의는 몇 년 전 백업 실패와 네트워크 오류 처리 미흡으로 큰 장애가 있었다고 했다. 어느 사건인지는 확인되지 않았다. 시기상 가장 가까운 2021년 12월 AWS us-east-1 장애의 공식 원인은 <b>백업 실패가 아니라</b> 내부 네트워크 자동 확장이 일으킨 연결 폭주·혼잡이었다.</li>
+</ul></div>
+<p>어느 쪽이든 요점은 같다. “99.999% 가용”이나 응답 속도는 기능 목록에 없지만 매출과 신뢰를 좌우하는 사업 요구다.</p>
+<h3>노키아: 고칠 수 없는 구조</h3>
+<p>노키아 폰도 전화는 걸렸다. 강의가 꼽은 실패 원인은 기능 밖에 있다. <b>사용성</b> 부족, 제한된 OS에 강하게 묶인 구조로 인한 <b>수정 용이성</b> 결여, 그리고 1등에 대한 <b>안일함</b>. 강의는 OS 이름을 말하지 않았지만, 당시 주력은 심비안이었다.</p>
+<div class="tblw"><table class="tbl">
+<thead><tr><th>사례</th><th>핵심 품질 속성</th><th>구조의 차이</th></tr></thead>
+<tbody>
+<tr><td>LLM 서비스들</td><td>정확도, 응답 속도, 처리 형태</td><td>서빙·입출력·도구 연동 구조가 갈림</td></tr>
+<tr><td>아마존 vs 서점</td><td>통합, 확장 가능성, 성능, 가용성</td><td>자체 재고 DB 중심 ↔ 판매자 통합·장애 복구 중심</td></tr>
+<tr><td>노키아 vs 애플</td><td>사용성, 수정 용이성</td><td>OS에 강결합된 경직 구조 ↔ 빠르게 바꾸는 유연한 구조</td></tr>
+</tbody>
+</table></div>
+<div class="terms"><span class="term">-ilities</span><span class="term">통합</span><span class="term">가용성</span><span class="term">사용성</span><span class="term">강결합</span></div>
+</section>
+
+<section class="sec" id="s4">
+<div class="sec-head"><span class="sec-num">4</span><div><h2>구조가 품질을 만든다</h2><p class="sub">입국 심사 줄로 이해하는 처리량, 지연 시간, 비용</p></div></div>
+<p>알고리즘과 CPU도 중요하지만, 강의의 핵심은 <b>큰 구조(gross structure)가 시스템 성질을 좌우한다</b>는 것이다. 어떤 모듈로 나누고, 무엇을 복제하며, 어떻게 통신하고, 얼마나 많은 데이터를 어떤 방식으로 주고받는가.</p>
+<p>심사관이 한 명뿐인 입국 심사 줄을 떠올려 보자.</p>
+<ul>
+<li><b>처리량(throughput)</b>: 정해진 시간에 통과시키는 사람 수. 심사관과 줄을 여러 개로 <b>병렬화</b>하면 늘어나고 대기도 줄어든다.</li>
+<li><b>지연 시간(latency)</b>: 한 사람을 처리하는 데 걸리는 시간. 창구를 늘려도 한 건당 시간은 그대로일 수 있다. 강의의 해법은 두 가지다. <b>자원을 더 투입</b>하거나, 자국민 줄·방문객 줄처럼 <b>종류별로 줄을 나눠 전문화</b>하는 것.</li>
+</ul>
+<details class="viz"><summary>그림으로 보기: 병렬화와 전문화</summary>
+<figure>
+<svg viewBox="0 0 320 320" role="img" aria-label="한 줄 한 심사관, 병렬 줄, 종류별 전문화 줄 비교">
+<rect class="bx" x="10" y="10" width="300" height="80" rx="10"/>
+<text class="tb" x="160" y="38" text-anchor="middle">한 줄 · 심사관 1명</text>
+<text class="tm" x="160" y="68" text-anchor="middle">처리량 낮음, 대기 김</text>
+<rect class="bx2" x="10" y="110" width="300" height="90" rx="10"/>
+<text class="tb" x="160" y="138" text-anchor="middle">병렬화 · 줄과 심사관 여럿</text>
+<text class="tm" x="160" y="164" text-anchor="middle">처리량↑ 대기↓</text>
+<text class="tm" x="160" y="188" text-anchor="middle">대가: 심사관 비용</text>
+<rect class="bx3" x="10" y="220" width="300" height="90" rx="10"/>
+<text class="tb" x="160" y="248" text-anchor="middle">전문화 · 자국민/방문객</text>
+<text class="tm" x="160" y="274" text-anchor="middle">한 건당 지연 시간↓</text>
+<text class="tm" x="160" y="298" text-anchor="middle">대가: 줄마다 자원 투입</text>
+</svg>
+<figcaption>처리량과 지연 시간은 다른 지표이고, 둘 다 비용을 치르고 얻는다.</figcaption>
+</figure>
+</details>
+<blockquote><p>“트레이드오프를 잊지 마세요. 줄을 하나 더 만들려면, 처리 자원도 하나 더 투입해야 합니다.” — Scott Pavetti</p></blockquote>
+<p><b>공짜는 없다.</b> 소프트웨어로 옮기면 쏟아지는 요청을 어떻게 큐에 세울지, 인스턴스를 몇 개 띄울지(처리량 대 CPU·전력 비용), 요청 종류별로 큐를 나눌지가 같은 문제다. 차량 호출 앱이라면 배차 인스턴스를 늘려 피크를 받되 클라우드 요금을 따지고, 운전자의 주기적 위치 보고와 승객의 급한 호출을 다른 큐로 분리할 수 있다.</p>
+<div class="terms"><span class="term">처리량</span><span class="term">지연 시간</span><span class="term">병렬화</span><span class="term">전문화</span><span class="term">큐</span><span class="term">비용</span></div>
+</section>
+
+<section class="sec" id="s5">
+<div class="sec-head"><span class="sec-num">5</span><div><h2>상태는 어디에 두어야 하는가</h2><p class="sub">장바구니와 트레이드오프의 기술</p></div></div>
+<p>강의가 꼽은 대표적 구조 결정은 넷이다. 병렬·동시 실행 단위가 필요한가, 기능을 어떤 프로세스에 맡길까, 어떤 코드 모듈에 배정할까, 그리고 <b>상태 관리</b>.</p>
+<p>장바구니는 나에게만 묶여 계속 바뀌는 데이터, 곧 애플리케이션 상태다. 어디에 둘까?</p>
+<div class="tblw"><table class="tbl">
+<thead><tr><th>위치</th><th>얻는 것</th><th>잃는 것</th></tr></thead>
+<tbody>
+<tr><td><b>브라우저(클라이언트)</b></td><td>빠른 반응(성능), 로컬 캐시로 가용성↑</td><td>브라우저가 꺼지거나 기기를 바꾸면 상태를 잃음(지속성↓)</td></tr>
+<tr><td><b>서버(백엔드)</b></td><td>기기를 바꿔도 남는 지속성</td><td>담고 뺄 때마다 왕복, 지연 시간↑</td></tr>
+</tbody>
+</table></div>
+<p>어느 쪽이 정답인가? <b>사업 요구에 달렸다.</b> 다음 날 돌아와 결제하는 것이 매출에 중요한 쇼핑몰이면 서버, 불안정한 네트워크에서도 즉시 반응이 중요한 앱이면 클라이언트다. 차량 호출 앱 안에서도 지도에서 핀을 옮기는 임시 상태는 폰에, “배차 확정, 탑승 중, 누적 요금” 같은 운행 상태는 서버에 둔다.</p>
+<div class="callout"><p>교훈: <b>품질 속성은 설계의 결과물이 아니라 입력값이다.</b> 그 입력은 고객에게서 나오므로, 기능 요구를 모을 때 품질 속성(얼마나 빨라야, 끊겨도 보존해야, 동시 몇 명)을 함께 모아야 한다.</p></div>
+<div class="terms"><span class="term">상태 관리</span><span class="term">지속성</span><span class="term">클라이언트</span><span class="term">서버</span><span class="term">입력값</span></div>
+</section>
+
+<section class="sec" id="s6">
+<div class="sec-head"><span class="sec-num">6</span><div><h2>아키텍처의 정의와 세 가지 눈</h2><p class="sub">정적·동적·배치 구조, 통신과 횡단 관심사</p></div></div>
+<p>강의식 정의: <b>소프트웨어 아키텍처란 품질 속성에 영향을 주는 설계 결정이며, 그렇게 시스템을 구조화하는 것이다.</b></p>
+<blockquote><p>“The software architecture of a system is the set of structures needed to reason about the system.” — 시스템에 대해 추론하는 데 필요한 구조들의 집합.</p></blockquote>
+<p>‘추론한다’는 실행해 보기 전에도 구조를 보고 성능·보안·확장성을 따질 수 있다는 뜻이다. 이 정의는 교재 『Software Architecture in Practice』의 문장이며, 원문에는 “이 구조들은 요소, 요소 간 관계, 그 둘의 속성으로 이루어진다”가 이어진다. 구조가 <b>복수</b>라는 점이 중요하다.</p>
+<details class="viz"><summary>그림으로 보기: 세 가지 뷰</summary>
+<figure>
+<svg viewBox="0 0 320 330" role="img" aria-label="정적 뷰, 동적 뷰, 배치 뷰">
+<rect class="bx2" x="10" y="10" width="300" height="96" rx="10"/>
+<text class="tb" x="160" y="38" text-anchor="middle">정적 뷰</text>
+<text class="tm" x="160" y="64" text-anchor="middle">코드를 어떻게 나눴나</text>
+<text class="tm" x="160" y="90" text-anchor="middle">모듈 · 계층 · 도메인</text>
+<rect class="bx3" x="10" y="118" width="300" height="96" rx="10"/>
+<text class="tb" x="160" y="146" text-anchor="middle">동적 뷰</text>
+<text class="tm" x="160" y="172" text-anchor="middle">실행 중 몇 개가 도나</text>
+<text class="tm" x="160" y="198" text-anchor="middle">인스턴스 · 병렬 · 동시</text>
+<rect class="bx" x="10" y="226" width="300" height="96" rx="10"/>
+<text class="tb" x="160" y="254" text-anchor="middle">배치 뷰</text>
+<text class="tm" x="160" y="280" text-anchor="middle">물리적으로 어디에 놓이나</text>
+<text class="tm" x="160" y="306" text-anchor="middle">폰 · 웨어러블 · 서버 · 클라우드</text>
+</svg>
+<figcaption>같은 시스템을 세 시선으로 따로 봐야 전체를 따질 수 있다.</figcaption>
+</figure>
+</details>
+<ul>
+<li><b>정적</b>: 가로(데이터 접근·업무 처리·사용자 상호작용 계층)로 나누거나, 세로(재무·재고·고객관리 같은 도메인)로 자른다. 기준은 사업 요구에서 나온 품질 속성이다.</li>
+<li><b>동적</b>: 실행 중 무엇이 병렬·동시로 일어나는지, 인스턴스를 하나만 띄울지 여럿 띄울지.</li>
+<li><b>배치</b>: 강의는 슬라이드에 빠진 이 관점을 덧붙였다. “내 주머니(스마트폰)? 내 몸(웨어러블)? 백엔드? 클라우드?”</li>
+</ul>
+<h3>쪼개면 따라오는 두 숙제</h3>
+<p>첫째, <b>통신</b>: 동기 호출, 비동기 호출, 공유 메모리 중 무엇으로. 둘째, <b>횡단 관심사</b>: 감사 로그처럼 모든 계층을 가로지르는 기능을 계층마다 심을지, 독립 모듈로 떼어 필요할 때 호출할지.</p>
+<div class="terms"><span class="term">구조들의 집합</span><span class="term">정적 뷰</span><span class="term">동적 뷰</span><span class="term">배치 뷰</span><span class="term">동기·비동기</span><span class="term">횡단 관심사</span></div>
+</section>
+
+<section class="sec" id="s7">
+<div class="sec-head"><span class="sec-num">7</span><div><h2>바퀴를 다시 발명하지 않는 법</h2><p class="sub">패턴, 프레임워크, 프로토타입, 두 가지 법칙</p></div></div>
+<p><b>아키텍처 패턴</b>은 특정 요구와 품질 속성에 잘 맞는다고 오래 증명된 구조다. <b>참조 아키텍처와 프레임워크</b>는 반복되는 배관 작업(plumbing)을 대신해 준다. 학생이 라라벨을 예로 들자 강의는 이렇게 정리했다.</p>
+<blockquote><p>“프레임워크는 아키텍처를 제공한다. 정해진 자리에 애플리케이션 고유 코드만 끼워 넣음으로써 그 아키텍처를 따르게 된다.”</p></blockquote>
+<p>그래도 위험과 미지수는 남는다. 어느 LLM이 내 앱에 맞는가, 계층형과 마이크로서비스 중 무엇이 나은가. 이럴 때는 감으로 찍지 말고 <b>끝에서 끝까지 이어지는 얇은 뼈대(end-to-end skeleton)</b>를 프로토타입으로 만들어 돌리고 측정한다. 이것이 <b>아키텍처 검증</b>이다.</p>
+<div class="tblw"><table class="tbl">
+<thead><tr><th>법칙</th><th>내용</th></tr></thead>
+<tbody>
+<tr><td><b>제1법칙</b></td><td>소프트웨어 아키텍처의 모든 것은 트레이드오프다. 한 품질 속성을 올리면 다른 속성이나 비용을 내준다.</td></tr>
+<tr><td><b>제2법칙</b></td><td>‘어떻게’보다 ‘왜’가 더 중요하다. 같은 기능도 여러 구조로 구현되므로, 왜 이 구조를 골랐는지 설명할 수 있어야 한다.</td></tr>
+</tbody>
+</table></div>
+<p>강의는 출처를 말하지 않았지만, 두 법칙은 Richards·Ford의 『Fundamentals of Software Architecture』(2020)가 제시한 명제다.</p>
+<div class="terms"><span class="term">아키텍처 패턴</span><span class="term">프레임워크</span><span class="term">프로토타입</span><span class="term">끝에서 끝까지 뼈대</span><span class="term">트레이드오프</span><span class="term">왜 vs 어떻게</span></div>
+</section>
+
+<section class="sec" id="s8">
+<div class="sec-head"><span class="sec-num">8</span><div><h2>아키텍트는 코딩 전에 무엇을 하는가</h2><p class="sub">여섯 가지 핵심 활동과 총정리</p></div></div>
+<div class="tblw"><table class="tbl">
+<thead><tr><th>활동</th><th>무엇을 하는가</th><th>차량 호출 앱의 질문</th></tr></thead>
+<tbody>
+<tr><td><b>1. 요구사항 도출 참여</b></td><td>품질 속성과 제약(예: .NET만, Azure만)을 처음부터 수집</td><td>동시 1만 명 기준 배차 응답은 몇 초 안인가?</td></tr>
+<tr><td><b>2. 우선순위 파악</b></td><td>충돌하는 품질 속성 중 사업상 무엇이 먼저인지</td><td>배차 속도와 운행 기록 보존 중 무엇이 먼저인가?</td></tr>
+<tr><td><b>3. 범위 파악</b></td><td>직접 만들 안쪽과 연동할 외부의 경계, 상호작용 방식</td><td>지도·인증·결제 중 무엇을 외부에 맡기나?</td></tr>
+<tr><td><b>4. 세 관점 개발</b></td><td>정적·동적·배치 뷰와 통신 방식 설계</td><td>배차 컨트롤러를 클라우드에서 병렬로 돌릴까?</td></tr>
+<tr><td><b>5. 기술 위험 완화</b></td><td>선택지 평가, 타당성 조사, 실험, 프로토타입</td><td>계층형과 마이크로서비스 중 피크를 버티는 쪽은?</td></tr>
+<tr><td><b>6. 결정 문서화</b></td><td>왜 골랐나, 다른 대안, 분석·검증, 세 뷰</td><td>왜 결제를 외부에 위임했고 무엇을 포기했나(ADR)</td></tr>
+</tbody>
+</table></div>
+<div class="callout"><p>강의의 맺음말: “실제로 코딩을 시작하기 전에 해야 할 일이 이렇게나 많다.” <b>사업 맥락과 시스템 성질(품질 속성)은 서로 맞물려야 하며, 이 둘이 구조를 만드는 근본적인 아키텍처 결정이다.</b> LLM이 코드를 써 주는 시대일수록 코드 이전의 결정이 소프트웨어의 운명을 가른다.</p></div>
+<div class="terms"><span class="term">요구사항 도출</span><span class="term">제약</span><span class="term">우선순위</span><span class="term">범위</span><span class="term">기술 위험 완화</span><span class="term">결정 문서화</span></div>
+</section>
+
+<section class="sec" id="rv">
+<div class="sec-head"><span class="sec-num">✔</span><div><h2>복습</h2><p class="sub">본문 내용만으로 만든 암기·이해 점검</p></div></div>
+
+<h3 class="rv-h">플래시카드</h3>
+<div class="rv-tools"><button type="button" data-all="flip">모두 열기</button><button type="button" data-reset="flip">모두 접기</button></div>
+<div class="flips">
+<button type="button" class="flip" aria-expanded="false"><b>사업 요구와 구조</b><span class="m">기능 목록이 같아도 동시 사용자·지역·확장 계획이 다르면 알맞은 구조가 달라진다. 맞추지 않은 코드는 쓸모를 모르는 코드 덩어리다.</span></button>
+<button type="button" class="flip" aria-expanded="false"><b>품질 속성 vs QA</b><span class="m">품질 속성은 시스템이 갖춰야 할 작동 성질(얼마나 잘). QA는 버그를 찾는 시험 활동·조직이다.</span></button>
+<button type="button" class="flip" aria-expanded="false"><b>6부분 시나리오</b><span class="m">자극의 근원, 자극, 대상, 환경, 응답, 응답 측정. “빨라야 한다”를 측정 가능한 요구로 바꾼다.</span></button>
+<button type="button" class="flip" aria-expanded="false"><b>처리량과 지연 시간</b><span class="m">처리량은 정해진 시간의 처리 건수(병렬화로↑), 지연 시간은 한 건당 시간(자원 투입·전문화로↓). 둘 다 비용이 든다.</span></button>
+<button type="button" class="flip" aria-expanded="false"><b>장바구니 상태</b><span class="m">클라이언트: 빠르고 가용성↑, 지속성↓. 서버: 지속성↑, 지연 시간↑. 정답은 사업 요구에 달렸다.</span></button>
+<button type="button" class="flip" aria-expanded="false"><b>세 가지 뷰</b><span class="m">정적(코드를 어떻게 나눴나), 동적(실행 중 몇 개가 도나), 배치(폰·서버·클라우드 중 어디에 놓이나).</span></button>
+<button type="button" class="flip" aria-expanded="false"><b>패턴·프레임워크·프로토타입</b><span class="m">검증된 패턴과 프레임워크를 빌려 쓰고, 불확실하면 끝에서 끝까지 얇은 뼈대를 만들어 측정해 검증한다.</span></button>
+<button type="button" class="flip" aria-expanded="false"><b>아키텍처의 두 법칙</b><span class="m">1) 모든 것은 트레이드오프다. 2) ‘어떻게’보다 ‘왜’가 더 중요하다.</span></button>
+<button type="button" class="flip" aria-expanded="false"><b>아키텍트의 여섯 활동</b><span class="m">요구사항 도출 참여, 우선순위 파악, 범위 파악, 세 관점 개발, 기술 위험 완화, 결정 문서화.</span></button>
+<button type="button" class="flip" aria-expanded="false"><b>아마존 100ms 실험</b><span class="m">원 출처(Greg Linden)의 결과는 페이지를 100ms 늦추자 매출이 약 1% 줄었다는 것. 요점은 응답 속도가 매출을 움직인다는 것.</span></button>
+</div>
+
+<h3 class="rv-h">빈칸 채우기</h3>
+<div class="rv-tools"><button type="button" data-all="blank">답 모두 보기</button><button type="button" data-reset="blank">다시 가리기</button></div>
+<ul class="cloze">
+<li>기능은 시스템이 “무엇을” 하느냐이고, 품질 속성은 그것을 “<button type="button" class="blank" data-a="얼마나 잘" aria-label="빈칸, 눌러서 답 보기">?</button>” 하느냐이다.</li>
+<li>6부분 시나리오의 마지막 요소는 응답을 어떻게 잴지 정하는 <button type="button" class="blank" data-a="응답 측정" aria-label="빈칸, 눌러서 답 보기">?</button>이다.</li>
+<li>입국 심사에서 자국민 줄과 방문객 줄을 나누는 것은 한 건당 지연 시간을 줄이는 <button type="button" class="blank" data-a="전문화" aria-label="빈칸, 눌러서 답 보기">?</button>다.</li>
+<li>장바구니를 서버에 두면 <button type="button" class="blank" data-a="지속성" aria-label="빈칸, 눌러서 답 보기">?</button>을 얻는 대신 지연 시간이 길어진다.</li>
+<li>코드 모듈이 폰·서버·클라우드 중 어디에 놓이는지 보는 관점은 <button type="button" class="blank" data-a="배치 뷰" aria-label="빈칸, 눌러서 답 보기">?</button>다.</li>
+<li>불확실한 구조 후보는 끝에서 끝까지 이어지는 얇은 <button type="button" class="blank" data-a="뼈대" aria-label="빈칸, 눌러서 답 보기">?</button> 프로토타입으로 검증한다.</li>
+<li>아키텍처 제2법칙: ‘어떻게’보다 ‘<button type="button" class="blank" data-a="왜" aria-label="빈칸, 눌러서 답 보기">?</button>’가 더 중요하다.</li>
+<li>아키텍트의 다섯째 활동은 타당성 조사·실험·프로토타입으로 하는 <button type="button" class="blank" data-a="기술 위험 완화" aria-label="빈칸, 눌러서 답 보기">?</button>다.</li>
+</ul>
+
+<h3 class="rv-h">퀴즈</h3>
+<div id="quiz">
+<div class="q" data-a="1"><fieldset><legend class="qt">1. 차량 호출 앱의 동시 사용자가 1만 명 이상이고 피크가 요동친다면?</legend>
+<button type="button">폰끼리 직접 통신하는 단독 앱으로 충분하다</button>
+<button type="button">화면은 폰, 배차는 백엔드, 탄력 확장은 클라우드로 설계를 다시 나눈다</button>
+<button type="button">기능 목록이 같으니 분석 모델을 그대로 코딩한다</button>
+</fieldset><p class="ex" hidden aria-live="polite" data-e="사업 요구(확장성, scale up/down)가 분석 설계를 뜯어고치게 만든다."></p></div>
+<div class="q" data-a="2"><fieldset><legend class="qt">2. “피크 타임에 승객 호출에 2초 이내로 응답”을 품질 속성 요구로 다듬는 틀은?</legend>
+<button type="button">QA 테스트 계획</button>
+<button type="button">시퀀스 다이어그램</button>
+<button type="button">6부분 시나리오</button>
+</fieldset><p class="ex" hidden aria-live="polite" data-e="자극의 근원·자극·대상·환경·응답·응답 측정으로 측정 가능한 요구가 된다."></p></div>
+<div class="q" data-a="0"><fieldset><legend class="qt">3. 입국 심사 줄을 하나 더 열 때 Scott Pavetti가 짚은 점은?</legend>
+<button type="button">처리 자원도 하나 더 투입해야 한다는 트레이드오프</button>
+<button type="button">줄을 늘리면 한 건당 시간이 반드시 줄어든다</button>
+<button type="button">병렬화에는 비용이 들지 않는다</button>
+</fieldset><p class="ex" hidden aria-live="polite" data-e="공짜 품질 속성은 없다. 처리량을 얻으려면 비용을 치른다."></p></div>
+<div class="q" data-a="1"><fieldset><legend class="qt">4. 장바구니 상태를 브라우저에 둘 때의 대가는?</legend>
+<button type="button">모든 동작마다 서버 왕복이 생긴다</button>
+<button type="button">브라우저가 꺼지거나 기기를 바꾸면 상태를 잃는다</button>
+<button type="button">가용성이 낮아진다</button>
+</fieldset><p class="ex" hidden aria-live="polite" data-e="클라이언트 쪽은 빠르고 가용성이 높지만 지속성을 잃는다."></p></div>
+<div class="q" data-a="2"><fieldset><legend class="qt">5. 배차 서비스 인스턴스를 실행 중 몇 개 띄울지 정하는 것은 어느 뷰인가?</legend>
+<button type="button">정적 뷰</button>
+<button type="button">배치 뷰</button>
+<button type="button">동적 뷰</button>
+</fieldset><p class="ex" hidden aria-live="polite" data-e="실행 중 병렬·동시성과 인스턴스 수는 동적 뷰가 다룬다."></p></div>
+<div class="q" data-a="0"><fieldset><legend class="qt">6. 계층형과 마이크로서비스 중 무엇이 피크를 버틸지 불확실할 때 할 일은?</legend>
+<button type="button">끝에서 끝까지 이어지는 얇은 뼈대를 두 방식으로 프로토타입해 측정한다</button>
+<button type="button">문서만 비교해 감으로 고른다</button>
+<button type="button">전체 기능을 다 만든 뒤 결정한다</button>
+</fieldset><p class="ex" hidden aria-live="polite" data-e="프로토타입과 실험으로 아키텍처를 검증한다."></p></div>
+<div class="q" data-a="1"><fieldset><legend class="qt">7. 강의가 소개한 아마존 ‘100ms와 매출 1%’ 수치의 원 출처 실험 결과는?</legend>
+<button type="button">아마존 공식 보고서에서 100ms 단축 시 매출 1% 증가</button>
+<button type="button">페이지를 100ms 늦추자 매출이 약 1% 줄었다는 A/B 테스트 경험담</button>
+<button type="button">응답 속도는 매출과 무관했다</button>
+</fieldset><p class="ex" hidden aria-live="polite" data-e="Greg Linden(2006)의 경험담으로, 공식 보고서는 아니다. 요점은 속도가 매출을 움직인다는 것."></p></div>
+<div class="q" data-a="2"><fieldset><legend class="qt">8. ADR에 남겨야 할 핵심은? (제2법칙과 여섯째 활동)</legend>
+<button type="button">구현 코드의 줄 수</button>
+<button type="button">선택한 프레임워크의 이름만</button>
+<button type="button">왜 이 대안을 골랐는지, 검토한 대안, 분석, 포기한 것</button>
+</fieldset><p class="ex" hidden aria-live="polite" data-e="코드는 ‘어떻게’를 보여 주지만, 나중에 필요한 것은 ‘왜’의 맥락이다."></p></div>
+<p class="score" id="score" aria-live="polite">점수: 0 / 8</p>
+<div class="rv-tools"><button type="button" id="qreset">다시 풀기</button></div>
+</div>
+</section>
+
+<section class="sources">
+<h3>출처</h3>
+<ul>
+<li>CMU 17-635 Software Architectures, Lecture 1 (Swarnalatha Ashok, Scott Pavetti) — <a href="https://www.youtube.com/watch?v=1DvaPZ_4sh0">https://www.youtube.com/watch?v=1DvaPZ_4sh0</a></li>
+<li><a href="https://yghnsim.github.io/Pages/articles/cmu-software-architecture-lec01-why-architecture.html">Pages — 코딩 전에 무엇을 정해야 하는가 (심화 해설)</a></li>
+</ul>
+<p>이 페이지는 위 강의를 바탕으로 한 심화 해설의 예습·복습용 요약이다. 강의에 없는 주장은 넣지 않았고, 강의 발언이 외부 사실과 다른 대목(아마존 창고·100ms 실험·장애 원인)은 심화 해설의 확인 결과에 따라 바로잡아 적었다.</p>
+</section>
+</main>
+</div>
+
+</div>
+<script>(function(){
+function $$(q){return [].slice.call(document.querySelectorAll(q))}
+$$('.flip').forEach(function(b){b.onclick=function(){b.setAttribute('aria-expanded',b.getAttribute('aria-expanded')==='true'?'false':'true')}});
+function show(b){b.textContent=b.dataset.a;b.classList.add('shown');b.setAttribute('aria-label','답: '+b.dataset.a)}
+function hide(b){b.textContent='?';b.classList.remove('shown');b.setAttribute('aria-label','빈칸, 눌러서 답 보기')}
+$$('.blank').forEach(function(b){b.onclick=function(){show(b)}});
+$$('[data-all]').forEach(function(t){t.onclick=function(){if(t.dataset.all==='flip')$$('.flip').forEach(function(b){b.setAttribute('aria-expanded','true')});else $$('.blank').forEach(show)}});
+$$('[data-reset]').forEach(function(t){t.onclick=function(){if(t.dataset.reset==='flip')$$('.flip').forEach(function(b){b.setAttribute('aria-expanded','false')});else $$('.blank').forEach(hide)}});
+var sc=0,done=0,qs=$$('#quiz .q'),tot=qs.length||5;
+function upd(){var el=document.getElementById('score');if(el)el.textContent='점수: '+sc+' / '+tot+(done===tot?' (끝)':'')}
+qs.forEach(function(q){var bs=[].slice.call(q.querySelectorAll('fieldset button')),ex=q.querySelector('.ex');
+bs.forEach(function(b,i){b.onclick=function(){var a=+q.dataset.a,ok=i===a;bs.forEach(function(x){x.disabled=true});if(bs[a])bs[a].classList.add('right');if(!ok)b.classList.add('wrong');
+if(ex){ex.hidden=false;ex.textContent=(ok?'맞았습니다. ':'아쉽습니다. ')+ex.dataset.e;}if(ok)sc++;done++;upd();}})});
+var qr=document.getElementById('qreset');
+if(qr)qr.onclick=function(){sc=0;done=0;qs.forEach(function(q){q.querySelectorAll('fieldset button').forEach(function(x){x.disabled=false;x.className=''});var ex=q.querySelector('.ex');if(ex){ex.hidden=true;ex.textContent=''}});upd()};
+})();</script>
+
+<!-- archive-footer:start (자동 생성: add_page.py --restyle, 직접 고치지 마세요) -->
+<div class="arc-foot" aria-label="아카이브 정보"><div class="arc-inner"><div class="arc-foot-label">아카이브</div><div class="arc-foot-title">코딩 전에 무엇을 정해야 하는가 — CMU 소프트웨어 아키텍처 1강</div><div class="arc-foot-meta"><time datetime="2026-11-19">2026년 11월 19일</time><a class="arc-tag" href="../index.html#tags=%EC%BB%B4%ED%93%A8%ED%84%B0%EA%B3%BC%ED%95%99">#컴퓨터과학</a><a class="arc-tag" href="../index.html#tags=%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4%EA%B3%B5%ED%95%99">#소프트웨어공학</a><a class="arc-tag" href="../index.html#tags=%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98">#아키텍처</a><a class="arc-tag" href="../index.html#tags=%ED%95%B4%EC%84%A4">#해설</a> · <a href="https://yghnsim.github.io/Pages/articles/cmu-software-architecture-lec01-why-architecture.html" rel="noopener">원문 ↗</a></div><div class="arc-foot-nav"><a href="../index.html">← 목록으로</a><a href="#">↑ 맨 위로</a></div></div></div>
+<!-- archive-footer:end -->
+</body>
+</html>

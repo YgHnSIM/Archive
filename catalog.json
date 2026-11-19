@@ -1,5 +1,23 @@
 [
   {
+    "id": "20261119-01",
+    "title": "코딩 전에 무엇을 정해야 하는가 — CMU 소프트웨어 아키텍처 1강",
+    "summary": "CMU 17-635 소프트웨어 아키텍처 1강: 기능이 같아도 사업 요구가 다르면 구조가 달라진다. 품질 속성과 6부분 시나리오, 처리량·지연·지속성 트레이드오프, 정적·동적·배치 뷰, 두 법칙, 아키텍트의 여섯 활동",
+    "tags": [
+      "컴퓨터과학",
+      "소프트웨어공학",
+      "아키텍처",
+      "해설"
+    ],
+    "date": "2026-11-19",
+    "file": "pages/2026-11-19-CMU소프트웨어아키텍처1강.html",
+    "added": "2026-11-19T14:31:37+09:00",
+    "source_name": "cmu-archive-src.html",
+    "source_sha256": "8f25a3129cf830f34af41714987d031abed878e7680996d4f54ee244699e5bd2",
+    "source_path_sha256": "ee126bd7490c4b7e4a818a0a1308efed3f21fad8db1b810f7d2279c017c9cb6a",
+    "source_url": "https://yghnsim.github.io/Pages/articles/cmu-software-architecture-lec01-why-architecture.html"
+  },
+  {
     "id": "20261113-01",
     "title": "모든 것은 파일이다 — 리눅스의 /dev, /proc, /sys가 가리키는 보편 인터페이스",
     "summary": "유닉스·리눅스의 '모든 것은 파일이다' 설계: /dev, /proc, /sys, 파일 디스크립터와 파이프, 그리고 그 철학이 멈추는 지점",
