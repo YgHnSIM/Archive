@@ -2,6 +2,24 @@
    `python3 add_page.py --rebuild` 를 실행하면 다시 만들어집니다. */
 window.ARCHIVE_CATALOG = [
   {
+    "id": "20261119-04",
+    "title": "'얼마나 잘'을 어떻게 받아 적는가 — CMU 소프트웨어 아키텍처 3강",
+    "summary": "CMU 17-635 소프트웨어 아키텍처 3강 예습·복습. 기능 요구·제약·품질 속성의 세 동인, 쇼핑 웹 앱의 모놀리스 대 3계층 트레이드오프, 비기능 요구와 품질 속성의 구분과 사용성, 우버 DISCO 사례, 제약의 네 종류와 문서화 네 항목, 보안·성능·수정 용이성 6부분 품질 속성 시나리오.",
+    "tags": [
+      "컴퓨터과학",
+      "소프트웨어공학",
+      "아키텍처",
+      "해설"
+    ],
+    "date": "2026-11-19",
+    "file": "pages/2026-11-19-CMU소프트웨어아키텍처3강.html",
+    "added": "2026-11-19T15:41:07+09:00",
+    "source_name": "c3-src.html",
+    "source_sha256": "1009559d3e1582befe0986b38ecf0c58f87ae4881f64a95222b5b2f0e182980a",
+    "source_path_sha256": "8522ee854774bcfadc2b611db117c67438b1a5fd2d42b7273529ece40152a941",
+    "source_url": "https://yghnsim.github.io/Pages/articles/cmu-software-architecture-lec03-architectural-drivers.html"
+  },
+  {
     "id": "20261119-03",
     "title": "무엇을 만들고 무엇을 만들지 않을 것인가 — CMU 소프트웨어 아키텍처 2강",
     "summary": "CMU 17-635 소프트웨어 아키텍처 2강 예습·복습. 컨텍스트 다이어그램(UML·C4 표기), 앱이 아닌 플랫폼 관점, 행위자 너머의 사업 가치, 지도·외부 API·DB·분석·관리자 범위 질문, '얼마나 많이·자주·크게'로 끌어내는 품질 속성과 제약, 이벤트 세 분류와 V-모델 검증.",
